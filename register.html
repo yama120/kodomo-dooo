@@ -216,6 +216,24 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-title">🔐 ログイン情報（情報編集に使います）</div>
+        <div class="form-hint" style="margin-bottom:14px;">承認後、マイページで情報を編集するためのアカウントです。</div>
+        <div class="form-group">
+          <label>メールアドレス<span class="required">*</span></label>
+          <input type="email" id="authEmail" placeholder="team@example.com" required />
+          <div class="form-hint">連絡先メールと同じでも構いません。</div>
+        </div>
+        <div class="form-group">
+          <label>パスワード<span class="required">*</span></label>
+          <input type="password" id="authPassword" placeholder="8文字以上" minlength="8" required />
+        </div>
+        <div class="form-group">
+          <label>パスワード（確認）<span class="required">*</span></label>
+          <input type="password" id="authPasswordConfirm" placeholder="もう一度入力" minlength="8" required />
+        </div>
+      </div>
+
       <button type="submit" class="submit-btn" id="submitBtn">申請する（無料）</button>
     </form>
   </div>
@@ -250,6 +268,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
   const email = document.getElementById('email').value.trim();
   const feeNum = parseInt(document.getElementById('feeNum').value);
+  const authEmail = document.getElementById('authEmail').value.trim();
+  const authPassword = document.getElementById('authPassword').value;
+  const authPasswordConfirm = document.getElementById('authPasswordConfirm').value;
 
   const errorEl = document.getElementById('errorMsg');
   errorEl.style.display = 'none';
@@ -258,16 +279,32 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
   if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
   if (!instagram && !email) { showError('Instagramまたはメールアドレスのどちらかをご入力ください。'); return; }
+  if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
+  if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = '送信中...';
 
+  // Supabaseアカウント作成
+  const { data: authData, error: authError } = await db.auth.signUp({
+    email: authEmail,
+    password: authPassword,
+  });
+  if (authError) {
+    showError('アカウント作成に失敗しました：' + authError.message);
+    btn.disabled = false;
+    btn.textContent = '申請する（無料）';
+    return;
+  }
+
+  const userId = authData.user?.id;
+
   const { error } = await db.from('teams').insert({
     name: document.getElementById('name').value.trim(),
     sport: document.getElementById('sport').value,
     pref: document.getElementById('pref').value,
-    city: document.getElementById('city').value.trim(),
+    city: document.getElementById('city').value,
     age_groups: ages,
     days: days,
     fee_num: feeNum,
@@ -276,7 +313,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     instagram: instagram || null,
     email: email || null,
     description: document.getElementById('description').value.trim() || null,
-    status: 'pending'
+    status: 'pending',
+    user_id: userId || null,
   });
 
   if (error) {
