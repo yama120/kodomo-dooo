@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理画面 | コドモDooo</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
+      --border: #e2e8f0; --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ===== LOGIN ===== */
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .login-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; width: 100%; max-width: 380px; }
+    .login-card h1 { font-size: 1.2rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .login-card p { font-size: .85rem; color: var(--muted); text-align: center; margin-bottom: 28px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; transition: border-color .15s; }
+    .form-group input:focus { border-color: var(--primary); }
+    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity .15s; }
+    .login-btn:hover { opacity: .9; }
+    .login-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .login-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: .85rem; margin-bottom: 16px; display: none; }
+
+    /* ===== DASHBOARD ===== */
+    #dashboard { display: none; }
+    header { background: var(--primary); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-right a { color: #fff; font-size: .85rem; opacity: .85; text-decoration: none; }
+    .header-right a:hover { opacity: 1; }
+    .logout-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: .85rem; cursor: pointer; }
+    .logout-btn:hover { background: rgba(255,255,255,.3); }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; text-align: center; }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+    .stat-label { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-size: .88rem; cursor: pointer; color: var(--muted); font-weight: 600; transition: all .15s; }
+    .tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* Team list */
+    .team-list { display: flex; flex-direction: column; gap: 12px; }
+    .team-item { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .team-info { flex: 1; min-width: 0; }
+    .team-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .team-meta { font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
+    .team-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+    .badge { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+    .badge-pending  { background: #fef3c7; color: #d97706; }
+    .badge-approved { background: #dcfce7; color: #16a34a; }
+    .badge-rejected { background: #fee2e2; color: #dc2626; }
+
+    .btn { padding: 7px 14px; border-radius: 7px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; white-space: nowrap; }
+    .btn:hover { opacity: .85; }
+    .btn-approve  { background: #22c55e; color: #fff; }
+    .btn-reject   { background: #ef4444; color: #fff; }
+    .btn-edit     { background: var(--primary); color: #fff; }
+    .btn-delete   { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+
+    .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .9rem; }
+
+    /* Loading */
+    .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Edit Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
+    @keyframes modalIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
+    .modal-close { background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: .9rem; }
+    .modal-close:hover { background: var(--border); }
+    .modal-body { padding: 20px 24px 24px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal .form-group { margin-bottom: 14px; }
+    .modal .form-group label { font-size: .82rem; }
+    .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: .9rem; padding: 8px 12px; }
+    .modal .form-group textarea { min-height: 80px; }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .checkbox-item { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; font-size: .82rem; transition: all .15s; }
+    .checkbox-item input { width: auto; padding: 0; border: none; }
+    .checkbox-item:has(input:checked) { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+    .modal-footer { padding: 0 24px 20px; display: flex; gap: 10px; }
+    .modal-footer .btn { flex: 1; padding: 10px; font-size: .9rem; }
+    .btn-save { background: var(--primary); color: #fff; }
+    .btn-cancel { background: #f1f5f9; color: var(--text); }
+
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .team-item { flex-direction: column; }
+      .team-actions { width: 100%; }
+      .modal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <h1>🔐 管理者ログイン</h1>
+    <p>スポーツクラブ検索 管理画面</p>
+    <div class="login-error" id="loginError"></div>
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="loginEmail" placeholder="admin@example.com" />
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" />
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="login()">ログイン</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <h1>コドモDooo 管理画面</h1>
+    <div class="header-right">
+      <a href="index.html" target="_blank">サイトを見る →</a>
+      <button class="logout-btn" onclick="logout()">ログアウト</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statPending">-</div><div class="stat-label">承認待ち</div></div>
+      <div class="stat-card"><div class="stat-num" id="statApproved">-</div><div class="stat-label">公開中</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRejected">-</div><div class="stat-label">却下</div></div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="setTab('pending')">承認待ち</button>
+      <button class="tab-btn" onclick="setTab('approved')">公開中</button>
+      <button class="tab-btn" onclick="setTab('rejected')">却下</button>
+    </div>
+
+    <div id="teamList"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>チーム情報を編集</h2>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId" />
+      <div class="modal-grid">
+        <div class="form-group">
+          <label>チーム名</label>
+          <input type="text" id="editName" />
+        </div>
+        <div class="form-group">
+          <label>種目</label>
+          <select id="editSport">
+            <option>野球</option><option>サッカー</option><option>バスケットボール</option>
+            <option>水泳</option><option>テニス</option><option>バレーボール</option>
+            <option>バドミントン</option><option>柔道</option><option>剣道</option>
+            <option>空手</option><option>合気道</option><option>レスリング</option>
+            <option>ダンス</option><option>新体操</option><option>チアリーディング</option>
+            <option>陸上</option><option>マラソン</option><option>トライアスロン</option>
+            <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
+            <option>ゴルフ</option><option>乗馬</option><option>その他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>都道府県</label>
+          <select id="editPref">
+            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
+            <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
+            <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+            <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
+            <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+            <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+            <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
+            <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
+            <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
+            <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>市区町村</label>
+          <input type="text" id="editCity" />
+        </div>
+        <div class="form-group">
+          <label>月謝（数字のみ）</label>
+          <input type="number" id="editFeeNum" min="0" />
+        </div>
+        <div class="form-group">
+          <label>体験入会</label>
+          <select id="editTrial">
+            <option value="true">体験OK</option>
+            <option value="false">要相談</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>対象年齢</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="未就学" />未就学</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="小学生" />小学生</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="中学生" />中学生</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>活動曜日</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="月" />月</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="火" />火</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="水" />水</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="木" />木</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="金" />金</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="土" />土</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="日" />日</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Instagram</label>
+        <input type="text" id="editInstagram" placeholder="@なし" />
+      </div>
+      <div class="form-group">
+        <label>メール</label>
+        <input type="email" id="editEmail" />
+      </div>
+      <div class="form-group">
+        <label>紹介文</label>
+        <textarea id="editDescription"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn btn-save" onclick="saveEdit()">保存する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentTab = 'pending';
+let allTeams = [];
+
+// ===== AUTH =====
+async function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+  const errorEl = document.getElementById('loginError');
+  errorEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'ログイン中...';
+
+  const { error } = await db.auth.signInWithPassword({ email, password });
+  if (error) {
+    errorEl.textContent = 'メールアドレスまたはパスワードが正しくありません。';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+    return;
+  }
+  showDashboard();
+}
+
+async function logout() {
+  await db.auth.signOut();
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
+}
+
+db.auth.onAuthStateChange((event, session) => {
+  if (session) { showDashboard(); }
+});
+
+function showDashboard() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadTeams();
+}
+
+// ===== DATA =====
+async function loadTeams() {
+  const { data, error } = await db.from('teams').select('*').order('created_at', { ascending: false });
+  if (error) { document.getElementById('teamList').innerHTML = '<div class="empty">データの読み込みに失敗しました。</div>'; return; }
+  allTeams = data;
+  updateStats();
+  renderTab();
+}
+
+function updateStats() {
+  document.getElementById('statPending').textContent  = allTeams.filter(t => t.status === 'pending').length;
+  document.getElementById('statApproved').textContent = allTeams.filter(t => t.status === 'approved').length;
+  document.getElementById('statRejected').textContent = allTeams.filter(t => t.status === 'rejected').length;
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['pending','approved','rejected'][i] === tab);
+  });
+  renderTab();
+}
+
+function renderTab() {
+  const list = allTeams.filter(t => t.status === currentTab);
+  const el = document.getElementById('teamList');
+  if (list.length === 0) { el.innerHTML = '<div class="empty">該当するチームはありません。</div>'; return; }
+
+  el.innerHTML = '<div class="team-list">' + list.map(t => `
+    <div class="team-item">
+      <div class="team-info">
+        <div class="team-name">${t.name} <span class="badge badge-${t.status}">${statusLabel(t.status)}</span></div>
+        <div class="team-meta">
+          <span>📍 ${t.pref} ${t.city}</span>
+          <span>${t.sport}</span>
+          <span>${(t.age_groups||[]).join('・')}</span>
+          <span>${t.fee}</span>
+          <span>申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}</span>
+        </div>
+      </div>
+      <div class="team-actions">
+        ${t.status !== 'approved' ? `<button class="btn btn-approve" onclick="updateStatus('${t.id}','approved')">承認</button>` : ''}
+        ${t.status !== 'rejected' ? `<button class="btn btn-reject" onclick="updateStatus('${t.id}','rejected')">却下</button>` : ''}
+        <button class="btn btn-edit" onclick="openEditModal('${t.id}')">編集</button>
+        <button class="btn btn-delete" onclick="deleteTeam('${t.id}','${t.name}')">削除</button>
+      </div>
+    </div>`).join('') + '</div>';
+}
+
+function statusLabel(s) {
+  return s === 'pending' ? '承認待ち' : s === 'approved' ? '公開中' : '却下';
+}
+
+async function updateStatus(id, status) {
+  const { error } = await db.from('teams').update({ status }).eq('id', id);
+  if (error) { alert('更新に失敗しました。'); return; }
+  allTeams = allTeams.map(t => t.id === id ? { ...t, status } : t);
+  updateStats();
+  renderTab();
+}
+
+async function deleteTeam(id, name) {
+  if (!confirm(`「${name}」を削除しますか？この操作は元に戻せません。`)) return;
+  const { error } = await db.from('teams').delete().eq('id', id);
+  if (error) { alert('削除に失敗しました。'); return; }
+  allTeams = allTeams.filter(t => t.id !== id);
+  updateStats();
+  renderTab();
+}
+
+// ===== EDIT MODAL =====
+function openEditModal(id) {
+  const t = allTeams.find(t => t.id === id);
+  if (!t) return;
+  document.getElementById('editId').value = t.id;
+  document.getElementById('editName').value = t.name;
+  document.getElementById('editSport').value = t.sport;
+  document.getElementById('editPref').value = t.pref;
+  document.getElementById('editCity').value = t.city;
+  document.getElementById('editFeeNum').value = t.fee_num;
+  document.getElementById('editTrial').value = String(t.trial);
+  document.getElementById('editInstagram').value = t.instagram || '';
+  document.getElementById('editEmail').value = t.email || '';
+  document.getElementById('editDescription').value = t.description || '';
+
+  document.querySelectorAll('input[name="editAge"]').forEach(cb => {
+    cb.checked = (t.age_groups || []).includes(cb.value);
+  });
+  document.querySelectorAll('input[name="editDay"]').forEach(cb => {
+    cb.checked = (t.days || []).includes(cb.value);
+  });
+
+  document.getElementById('editModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function saveEdit() {
+  const id = document.getElementById('editId').value;
+  const feeNum = parseInt(document.getElementById('editFeeNum').value) || 0;
+  const ages = [...document.querySelectorAll('input[name="editAge"]:checked')].map(el => el.value);
+  const days = [...document.querySelectorAll('input[name="editDay"]:checked')].map(el => el.value);
+
+  const updates = {
+    name: document.getElementById('editName').value.trim(),
+    sport: document.getElementById('editSport').value,
+    pref: document.getElementById('editPref').value,
+    city: document.getElementById('editCity').value.trim(),
+    fee_num: feeNum,
+    fee: `月${feeNum.toLocaleString()}円`,
+    trial: document.getElementById('editTrial').value === 'true',
+    age_groups: ages,
+    days: days,
+    instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
+    email: document.getElementById('editEmail').value.trim() || null,
+    description: document.getElementById('editDescription').value.trim() || null,
+  };
+
+  const { error } = await db.from('teams').update(updates).eq('id', id);
+  if (error) { alert('保存に失敗しました。'); return; }
+
+  allTeams = allTeams.map(t => t.id === id ? { ...t, ...updates } : t);
+  closeEditModal();
+  renderTab();
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('editModal')) closeEditModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEditModal(); });
+
+// Enter key for login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginWrap').style.display !== 'none') login();
+});
+</script>
+</body>
+</html>

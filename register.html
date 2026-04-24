@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>チーム登録 | コドモDooo</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2563eb; --accent: #f59e0b; --bg: #f8fafc;
+      --text: #1e293b; --muted: #64748b; --border: #e2e8f0; --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header { background: var(--primary); color: #fff; padding: 16px; }
+    .header-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+    .back-link { color: #fff; text-decoration: none; font-size: .9rem; opacity: .85; }
+    .back-link:hover { opacity: 1; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+
+    .container { max-width: 640px; margin: 32px auto; padding: 0 16px 60px; }
+
+    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
+    .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: .88rem; font-weight: 600; margin-bottom: 6px; }
+    .form-group .required { color: #ef4444; margin-left: 2px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .95rem; outline: none; transition: border-color .15s; font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-hint { font-size: .78rem; color: var(--muted); margin-top: 4px; }
+
+    .checkbox-group, .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .checkbox-item, .radio-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+      cursor: pointer; font-size: .88rem; transition: all .15s;
+    }
+    .checkbox-item input, .radio-item input { width: auto; padding: 0; border: none; }
+    .checkbox-item:has(input:checked), .radio-item:has(input:checked) {
+      border-color: var(--primary); background: #eff6ff; color: var(--primary);
+    }
+
+    .fee-row { display: flex; align-items: center; gap: 8px; }
+    .fee-row input { flex: 1; }
+    .fee-unit { font-size: .9rem; color: var(--muted); white-space: nowrap; }
+
+    .submit-btn {
+      width: 100%; padding: 14px; background: var(--primary); color: #fff;
+      border: none; border-radius: 10px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .submit-btn:hover { opacity: .9; }
+    .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* Success / Error */
+    .alert { padding: 14px 16px; border-radius: 10px; font-size: .9rem; margin-bottom: 20px; }
+    .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .alert-error   { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .success-screen { text-align: center; padding: 40px 20px; }
+    .success-screen .icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .success-screen h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+    .success-screen p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .back-btn { display: inline-block; margin-top: 24px; padding: 12px 28px; background: var(--primary); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; }
+
+    @media (max-width: 480px) {
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="back-link">← 検索に戻る</a>
+    <h1>チーム登録</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div id="successScreen" style="display:none;" class="card">
+    <div class="success-screen">
+      <div class="icon">🎉</div>
+      <h2>登録申請を受け付けました</h2>
+      <p>内容を確認後、掲載します。<br>承認まで数日お待ちください。</p>
+      <a href="index.html" class="back-btn">検索ページに戻る</a>
+    </div>
+  </div>
+
+  <div id="formArea">
+    <div id="errorMsg" style="display:none;" class="alert alert-error"></div>
+
+    <form id="registerForm">
+      <div class="card">
+        <div class="card-title">📋 基本情報</div>
+
+        <div class="form-group">
+          <label>チーム名<span class="required">*</span></label>
+          <input type="text" id="name" placeholder="例：城東ジュニアベースボールクラブ" required />
+        </div>
+
+        <div class="form-group">
+          <label>種目<span class="required">*</span></label>
+          <select id="sport" required>
+            <option value="">選択してください</option>
+            <option>野球</option><option>サッカー</option><option>バスケットボール</option>
+            <option>水泳</option><option>テニス</option><option>バレーボール</option>
+            <option>バドミントン</option><option>柔道</option><option>剣道</option>
+            <option>空手</option><option>合気道</option><option>レスリング</option>
+            <option>ダンス</option><option>新体操</option><option>チアリーディング</option>
+            <option>陸上</option><option>マラソン</option><option>トライアスロン</option>
+            <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
+            <option>ゴルフ</option><option>乗馬</option><option>その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>都道府県<span class="required">*</span></label>
+          <select id="pref" required>
+            <option value="">選択してください</option>
+            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
+            <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
+            <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+            <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
+            <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+            <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+            <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
+            <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
+            <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
+            <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>市区町村<span class="required">*</span></label>
+          <input type="text" id="city" placeholder="例：江東区" required />
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👦 対象・活動情報</div>
+
+        <div class="form-group">
+          <label>対象年齢<span class="required">*</span>（複数選択可）</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" />未就学（〜6歳）</label>
+            <label class="checkbox-item"><input type="checkbox" name="age" value="小学生" />小学生（7〜12歳）</label>
+            <label class="checkbox-item"><input type="checkbox" name="age" value="中学生" />中学生（13〜15歳）</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>活動曜日<span class="required">*</span>（複数選択可）</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="day" value="月" />月</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="火" />火</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="水" />水</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="木" />木</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="金" />金</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="土" />土</label>
+            <label class="checkbox-item"><input type="checkbox" name="day" value="日" />日</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>月謝<span class="required">*</span></label>
+          <div class="fee-row">
+            <input type="number" id="feeNum" placeholder="3000" min="0" max="100000" required />
+            <span class="fee-unit">円 / 月</span>
+          </div>
+          <div class="form-hint">数字のみ入力。無料の場合は 0 を入力してください。</div>
+        </div>
+
+        <div class="form-group">
+          <label>体験入会<span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="trial" value="true" required />体験OK</label>
+            <label class="radio-item"><input type="radio" name="trial" value="false" />要相談</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📞 連絡先</div>
+        <div class="form-hint" style="margin-bottom:14px;">Instagramまたはメールのどちらかひとつはご入力ください。</div>
+
+        <div class="form-group">
+          <label>Instagram アカウント</label>
+          <input type="text" id="instagram" placeholder="@なしで入力（例：team_name）" />
+        </div>
+
+        <div class="form-group">
+          <label>メールアドレス</label>
+          <input type="email" id="email" placeholder="team@example.com" />
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💬 チームの紹介文</div>
+        <div class="form-group">
+          <textarea id="description" placeholder="チームの特徴、雰囲気、指導方針などを自由に書いてください。"></textarea>
+          <div class="form-hint">100〜200文字程度が目安です。</div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">申請する（無料）</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const ages = [...document.querySelectorAll('input[name="age"]:checked')].map(el => el.value);
+  const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
+  const trialVal = document.querySelector('input[name="trial"]:checked')?.value;
+  const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
+  const email = document.getElementById('email').value.trim();
+  const feeNum = parseInt(document.getElementById('feeNum').value);
+
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.style.display = 'none';
+
+  if (ages.length === 0) { showError('対象年齢を1つ以上選択してください。'); return; }
+  if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
+  if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
+  if (!instagram && !email) { showError('Instagramまたはメールアドレスのどちらかをご入力ください。'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  const { error } = await db.from('teams').insert({
+    name: document.getElementById('name').value.trim(),
+    sport: document.getElementById('sport').value,
+    pref: document.getElementById('pref').value,
+    city: document.getElementById('city').value.trim(),
+    age_groups: ages,
+    days: days,
+    fee_num: feeNum,
+    fee: `月${feeNum.toLocaleString()}円`,
+    trial: trialVal === 'true',
+    instagram: instagram || null,
+    email: email || null,
+    description: document.getElementById('description').value.trim() || null,
+    status: 'pending'
+  });
+
+  if (error) {
+    showError('送信に失敗しました。もう一度お試しください。');
+    btn.disabled = false;
+    btn.textContent = '申請する（無料）';
+    return;
+  }
+
+  document.getElementById('formArea').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+});
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
