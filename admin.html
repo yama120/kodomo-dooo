@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>管理画面 | コドモDooo</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -262,6 +263,11 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const EMAILJS_SERVICE_ID       = 'service_iygtf0x';
+const EMAILJS_TEMPLATE_APPROVE = 'template_w2hbxrp';
+const EMAILJS_PUBLIC_KEY       = '_3ihuQJR4hTieK4h_';
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
 let currentTab = 'pending';
 let allTeams = [];
 
@@ -359,6 +365,18 @@ function statusLabel(s) {
 async function updateStatus(id, status) {
   const { error } = await db.from('teams').update({ status }).eq('id', id);
   if (error) { alert('更新に失敗しました。'); return; }
+
+  // 承認時にチームへメール通知
+  if (status === 'approved') {
+    const team = allTeams.find(t => t.id === id);
+    if (team && team.email) {
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_APPROVE, {
+        to_email: team.email,
+        team_name: team.name,
+      }).catch(() => {});
+    }
+  }
+
   allTeams = allTeams.map(t => t.id === id ? { ...t, status } : t);
   updateStats();
   renderTab();
