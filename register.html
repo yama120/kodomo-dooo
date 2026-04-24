@@ -6,6 +6,7 @@
   <title>チーム登録 | コドモDooo</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="cities.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -143,7 +144,9 @@
 
         <div class="form-group">
           <label>市区町村<span class="required">*</span></label>
-          <input type="text" id="city" placeholder="例：江東区" required />
+          <select id="city" required>
+            <option value="">都道府県を先に選択してください</option>
+          </select>
         </div>
       </div>
 
@@ -223,6 +226,15 @@ const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// 都道府県→市区町村連動
+document.getElementById('pref').addEventListener('change', function() {
+  const citySelect = document.getElementById('city');
+  const cities = CITIES[this.value] || [];
+  citySelect.innerHTML = cities.length
+    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
+    : '<option value="">都道府県を先に選択してください</option>';
+});
 
 const EMAILJS_SERVICE_ID  = 'service_iygtf0x';
 const EMAILJS_TEMPLATE_ID = 'template_kqggwf6';

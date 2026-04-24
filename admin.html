@@ -6,6 +6,7 @@
   <title>管理画面 | コドモDooo</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="cities.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -203,7 +204,9 @@
         </div>
         <div class="form-group">
           <label>市区町村</label>
-          <input type="text" id="editCity" />
+          <select id="editCity">
+            <option value="">都道府県を先に選択</option>
+          </select>
         </div>
         <div class="form-group">
           <label>月謝（数字のみ）</label>
@@ -399,7 +402,14 @@ function openEditModal(id) {
   document.getElementById('editName').value = t.name;
   document.getElementById('editSport').value = t.sport;
   document.getElementById('editPref').value = t.pref;
-  document.getElementById('editCity').value = t.city;
+
+  // 市区町村を都道府県に合わせて初期化
+  const citySelect = document.getElementById('editCity');
+  const cities = CITIES[t.pref] || [];
+  citySelect.innerHTML = cities.length
+    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
+    : '<option value="">選択してください</option>';
+  citySelect.value = t.city;
   document.getElementById('editFeeNum').value = t.fee_num;
   document.getElementById('editTrial').value = String(t.trial);
   document.getElementById('editInstagram').value = t.instagram || '';
@@ -454,6 +464,15 @@ function closeModalOnOverlay(e) {
   if (e.target === document.getElementById('editModal')) closeEditModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEditModal(); });
+
+// 編集モーダル内の都道府県→市区町村連動
+document.getElementById('editPref').addEventListener('change', function() {
+  const citySelect = document.getElementById('editCity');
+  const cities = CITIES[this.value] || [];
+  citySelect.innerHTML = cities.length
+    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
+    : '<option value="">選択してください</option>';
+});
 
 // Enter key for login
 document.addEventListener('keydown', e => {
