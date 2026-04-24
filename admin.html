@@ -382,6 +382,7 @@ async function updateStatus(id, status) {
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_APPROVE, {
         to_email: team.email,
         team_name: team.name,
+        mypage_url: 'https://yama120.github.io/kodomo-dooo/mypage.html',
       }).catch(() => {});
     }
   }
