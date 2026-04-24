@@ -302,8 +302,14 @@ async function logout() {
   document.getElementById('loginPassword').value = '';
 }
 
-db.auth.onAuthStateChange((event, session) => {
+// 初期セッションチェック（リロード時の競合を防ぐ）
+db.auth.getSession().then(({ data: { session } }) => {
   if (session) { showDashboard(); }
+});
+
+db.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN') { showDashboard(); }
+  if (event === 'SIGNED_OUT') { logout(); }
 });
 
 function showDashboard() {

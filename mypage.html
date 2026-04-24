@@ -340,12 +340,25 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   btn.textContent = '保存する';
 });
 
-db.auth.onAuthStateChange(async (event, session) => {
+// 初期セッションチェック（リロード時の競合を防ぐ）
+db.auth.getSession().then(async ({ data: { session } }) => {
   if (session) {
     document.getElementById('loginArea').style.display = 'none';
     document.getElementById('logoutBtn').style.display = 'block';
     await loadMyTeam(session.user.id);
   } else {
+    document.getElementById('loadingArea').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+  }
+});
+
+db.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN') {
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'block';
+    await loadMyTeam(session.user.id);
+  }
+  if (event === 'SIGNED_OUT') {
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('dashboardArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
