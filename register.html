@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>チーム登録 | コドモDooo</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -223,6 +224,11 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const EMAILJS_SERVICE_ID  = 'service_iygtf0x';
+const EMAILJS_TEMPLATE_ID = 'template_kqggwf6';
+const EMAILJS_PUBLIC_KEY  = '_3ihuQJR4hTieK4h_';
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -267,6 +273,15 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     btn.textContent = '申請する（無料）';
     return;
   }
+
+  // 管理者にメール通知
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    team_name: document.getElementById('name').value.trim(),
+    sport: document.getElementById('sport').value,
+    pref: document.getElementById('pref').value,
+    city: document.getElementById('city').value.trim(),
+    applicant_email: email || instagram ? `Instagram: @${instagram}` : '未入力',
+  }).catch(() => {}); // メール失敗しても申請は通す
 
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
