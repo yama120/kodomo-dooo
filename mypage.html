@@ -73,6 +73,17 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .pending-note { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 10px; padding: 14px 16px; font-size: .88rem; color: #92400e; margin-bottom: 20px; }
+
+    .photo-upload-area { border: 2px dashed var(--border); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: border-color .15s; }
+    .photo-upload-area:hover { border-color: var(--primary); }
+    .photo-upload-area input[type="file"] { display: none; }
+    .photo-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; display: none; }
+    .photo-preview.show { display: block; }
+    .upload-btn { display: inline-block; padding: 8px 20px; background: var(--primary); color: #fff; border-radius: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
+    .upload-btn:hover { opacity: .85; }
+    .upload-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .remove-photo-btn { display: inline-block; padding: 8px 16px; background: #f1f5f9; color: #64748b; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); margin-left: 8px; transition: opacity .15s; }
+    .remove-photo-btn:hover { opacity: .85; }
   </style>
 </head>
 <body>
@@ -215,6 +226,21 @@
       </div>
 
       <div class="card">
+        <div class="card-title">📷 チーム写真</div>
+        <img id="photoPreview" class="photo-preview" alt="チーム写真" />
+        <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
+          <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
+          <label class="upload-btn" for="photoInput">写真を選ぶ</label>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="upload-btn" id="uploadPhotoBtn" onclick="uploadPhoto()" style="display:none;">アップロード</button>
+          <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display:none;">写真を削除</button>
+        </div>
+        <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
+      </div>
+
+      <div class="card">
         <div class="card-title">💬 チームの紹介文</div>
         <div class="form-group">
           <textarea id="description"></textarea>
@@ -307,6 +333,90 @@ function fillForm(t) {
   document.getElementById('website_url').value = t.website_url || '';
   document.getElementById('email').value = t.email || '';
   document.getElementById('description').value = t.description || '';
+
+  // 写真表示
+  if (t.photo_url) {
+    const preview = document.getElementById('photoPreview');
+    preview.src = t.photo_url;
+    preview.classList.add('show');
+    document.getElementById('removePhotoBtn').style.display = 'inline-block';
+  }
+}
+
+let selectedPhotoFile = null;
+
+function previewPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    document.getElementById('photoMsg').textContent = '5MB以下の画像を選択してください。';
+    document.getElementById('photoMsg').style.color = '#dc2626';
+    return;
+  }
+  selectedPhotoFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('photoPreview');
+    preview.src = e.target.result;
+    preview.classList.add('show');
+    document.getElementById('uploadPhotoBtn').style.display = 'inline-block';
+    document.getElementById('photoMsg').textContent = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function uploadPhoto() {
+  if (!selectedPhotoFile || !myTeam) return;
+  const btn = document.getElementById('uploadPhotoBtn');
+  btn.disabled = true;
+  btn.textContent = 'アップロード中...';
+
+  const ext = selectedPhotoFile.name.split('.').pop();
+  const path = `${myTeam.user_id}/${myTeam.id}.${ext}`;
+
+  const { error: uploadError } = await db.storage
+    .from('team-photos')
+    .upload(path, selectedPhotoFile, { upsert: true });
+
+  if (uploadError) {
+    document.getElementById('photoMsg').textContent = 'アップロードに失敗しました。';
+    document.getElementById('photoMsg').style.color = '#dc2626';
+    btn.disabled = false;
+    btn.textContent = 'アップロード';
+    return;
+  }
+
+  const { data } = db.storage.from('team-photos').getPublicUrl(path);
+  const photoUrl = data.publicUrl;
+
+  await db.from('teams').update({ photo_url: photoUrl }).eq('id', myTeam.id);
+  myTeam.photo_url = photoUrl;
+
+  document.getElementById('photoMsg').textContent = '写真をアップロードしました。';
+  document.getElementById('photoMsg').style.color = '#16a34a';
+  document.getElementById('removePhotoBtn').style.display = 'inline-block';
+  btn.disabled = false;
+  btn.textContent = 'アップロード';
+  selectedPhotoFile = null;
+}
+
+async function removePhoto() {
+  if (!myTeam || !myTeam.photo_url) return;
+  if (!confirm('写真を削除しますか？')) return;
+
+  const ext = myTeam.photo_url.split('.').pop().split('?')[0];
+  const path = `${myTeam.user_id}/${myTeam.id}.${ext}`;
+  await db.storage.from('team-photos').remove([path]);
+  await db.from('teams').update({ photo_url: null }).eq('id', myTeam.id);
+  myTeam.photo_url = null;
+
+  const preview = document.getElementById('photoPreview');
+  preview.src = '';
+  preview.classList.remove('show');
+  document.getElementById('removePhotoBtn').style.display = 'none';
+  document.getElementById('uploadPhotoBtn').style.display = 'none';
+  document.getElementById('photoMsg').textContent = '写真を削除しました。';
+  document.getElementById('photoMsg').style.color = '#64748b';
 }
 
 document.getElementById('editForm').addEventListener('submit', async (e) => {
