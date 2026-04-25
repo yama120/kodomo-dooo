@@ -386,7 +386,7 @@ function openModal(id) {
     ${team.contact.instagram ? `<a class="btn btn-outline" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">Instagram</a>` : ''}
     ${team.contact.twitter ? `<a class="btn btn-outline" href="https://x.com/${team.contact.twitter}" target="_blank">X（Twitter）</a>` : ''}
     ${team.contact.website_url ? `<a class="btn btn-outline" href="${team.contact.website_url}" target="_blank">ウェブサイト</a>` : ''}
-    ${team.contact.email ? `<a class="btn btn-primary" href="mailto:${team.contact.email}">メールで問い合わせ</a>` : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DMで問い合わせ</a>` : '')}
+    ${team.contact.email ? `<a class="btn btn-primary" href="${makeMailto(team)}">メールで問い合わせ</a>` : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DMで問い合わせ</a>` : '')}
     <button class="btn btn-outline" onclick="toggleFavModal('${team.id}')" id="modalFavBtn">${isFav(team.id) ? '⭐ お気に入り済み' : '☆ お気に入り'}</button>`;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -417,6 +417,23 @@ document.getElementById('filterPref').addEventListener('change', function() {
   applyFilters();
 });
 document.getElementById('filterCity').addEventListener('change', applyFilters);
+
+function makeMailto(team) {
+  const subject = encodeURIComponent(`【コドモDooo】${team.name}へのお問い合わせ`);
+  const body = encodeURIComponent(
+`${team.name} 担当者様
+
+コドモDoooを見てご連絡しました。
+
+【お名前】
+【お子さんの年齢】
+【ご質問・ご要望】
+
+
+よろしくお願いいたします。`
+  );
+  return `mailto:${team.contact.email}?subject=${subject}&body=${body}`;
+}
 
 // URLパラメータでお気に入りタブを直接開く
 if (new URLSearchParams(location.search).get('tab') === 'fav') setTab('fav');
