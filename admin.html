@@ -310,12 +310,15 @@ async function logout() {
   document.getElementById('loginPassword').value = '';
 }
 
-// 初期セッションチェック（リロード時の競合を防ぐ）
+// 初期セッションチェック
+let initialized = false;
 db.auth.getSession().then(({ data: { session } }) => {
+  initialized = true;
   if (session) { showDashboard(); }
 });
 
 db.auth.onAuthStateChange((event, session) => {
+  if (!initialized) return;
   if (event === 'SIGNED_IN') { showDashboard(); }
   if (event === 'SIGNED_OUT') { logout(); }
 });

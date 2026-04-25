@@ -462,8 +462,10 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   btn.textContent = '保存する';
 });
 
-// 初期セッションチェック（リロード時の競合を防ぐ）
+// 初期セッションチェック
+let initialized = false;
 db.auth.getSession().then(async ({ data: { session } }) => {
+  initialized = true;
   if (session) {
     document.getElementById('loginArea').style.display = 'none';
     document.getElementById('logoutBtn').style.display = 'block';
@@ -475,6 +477,7 @@ db.auth.getSession().then(async ({ data: { session } }) => {
 });
 
 db.auth.onAuthStateChange(async (event, session) => {
+  if (!initialized) return; // getSession完了前は無視
   if (event === 'SIGNED_IN') {
     document.getElementById('loginArea').style.display = 'none';
     document.getElementById('logoutBtn').style.display = 'block';
