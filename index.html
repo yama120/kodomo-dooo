@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>コドモDooo | 体を動かすクラブ・チームを探そう</title>
+  <title>チビスポ | 体を動かすクラブ・チームを探そう</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="cities.js"></script>
   <style>
@@ -115,7 +115,7 @@
 <body>
 
 <header>
-  <h1>🏃 コドモDooo</h1>
+  <h1>🏃 チビスポ</h1>
   <p>体を動かすクラブ・チームをかんたんに探せる</p>
   <div class="header-links">
     <a href="register.html">＋ チームを登録する</a>
@@ -394,7 +394,7 @@ function openModal(id) {
     <button class="btn btn-outline" onclick="toggleFavModal('${team.id}')" id="modalFavBtn">${isFav(team.id) ? '⭐ お気に入り済み' : '☆ お気に入り'}</button>`;
   // SNS共有ボタン
   const shareUrl = encodeURIComponent(location.href.split('?')[0]);
-  const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをコドモDoooで見つけました！`);
+  const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをチビスポで見つけました！`);
   document.getElementById('modalShare').innerHTML = `
     <a href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank"
        style="background:#06C755;color:#fff;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:6px;text-decoration:none;">LINE</a>
@@ -432,11 +432,11 @@ document.getElementById('filterPref').addEventListener('change', function() {
 document.getElementById('filterCity').addEventListener('change', applyFilters);
 
 function makeMailto(team) {
-  const subject = encodeURIComponent(`【コドモDooo】${team.name}へのお問い合わせ`);
+  const subject = encodeURIComponent(`【チビスポ】${team.name}へのお問い合わせ`);
   const body = encodeURIComponent(
 `${team.name} 担当者様
 
-コドモDoooを見てご連絡しました。
+チビスポを見てご連絡しました。
 
 【お名前】
 【お子さんの年齢】
@@ -455,7 +455,7 @@ loadTeams();
 </script>
 
 <footer style="background:#1e293b;color:#94a3b8;text-align:center;padding:24px 16px;font-size:.82rem;margin-top:40px;">
-  © 2026 コドモDooo｜運営：MOYORI｜<a href="index.html?tab=fav" style="color:#94a3b8;">⭐ お気に入り</a>｜<a href="legal.html" style="color:#94a3b8;">プライバシーポリシー・利用規約</a>｜<a href="contact.html" style="color:#94a3b8;">お問い合わせ</a>
+  © 2026 チビスポ｜運営：MOYORI｜<a href="index.html?tab=fav" style="color:#94a3b8;">⭐ お気に入り</a>｜<a href="legal.html" style="color:#94a3b8;">プライバシーポリシー・利用規約</a>｜<a href="contact.html" style="color:#94a3b8;">お問い合わせ</a>
 </footer>
 </body>
 </html>
