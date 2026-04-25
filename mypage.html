@@ -114,6 +114,10 @@
         <input type="password" id="loginPassword" placeholder="••••••••" />
       </div>
       <button class="login-btn" id="loginBtn" onclick="login()">ログイン</button>
+      <div id="resetMsg" class="alert" style="display:none;margin-top:12px;"></div>
+      <p style="text-align:center;margin-top:16px;font-size:.85rem;">
+        <a href="#" onclick="sendResetEmail(); return false;" style="color:var(--primary);">パスワードをお忘れの方はこちら</a>
+      </p>
     </div>
   </div>
 
@@ -285,6 +289,28 @@ async function login() {
     btn.disabled = false;
     btn.textContent = 'ログイン';
   }
+}
+
+async function sendResetEmail() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const msgEl = document.getElementById('resetMsg');
+  if (!email) {
+    msgEl.textContent = 'メールアドレスを入力してからクリックしてください。';
+    msgEl.className = 'alert alert-error';
+    msgEl.style.display = 'block';
+    return;
+  }
+  const { error } = await db.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://yama120.github.io/kodomo-dooo/reset-password.html',
+  });
+  if (error) {
+    msgEl.textContent = '送信に失敗しました。もう一度お試しください。';
+    msgEl.className = 'alert alert-error';
+  } else {
+    msgEl.textContent = 'パスワードリセットのメールを送信しました。メールをご確認ください。';
+    msgEl.className = 'alert alert-success';
+  }
+  msgEl.style.display = 'block';
 }
 
 async function logout() {
