@@ -231,9 +231,9 @@
         <div class="modal-desc" id="modalDesc"></div>
       </div>
       <div class="modal-actions" id="modalActions"></div>
-      <div class="modal-section" style="margin-top:16px;">
-        <div class="modal-section-title">このチームをシェア</div>
-        <div id="modalShare" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      <div style="border-top:1px solid var(--border);margin-top:20px;padding-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap;">シェア：</span>
+        <div id="modalShare" style="display:flex;gap:8px;"></div>
       </div>
     </div>
   </div>
@@ -396,10 +396,10 @@ function openModal(id) {
   const shareUrl = encodeURIComponent(location.href.split('?')[0]);
   const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをコドモDoooで見つけました！`);
   document.getElementById('modalShare').innerHTML = `
-    <a class="btn" href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank"
-       style="background:#06C755;color:#fff;font-size:.82rem;padding:8px 16px;">LINE</a>
-    <a class="btn" href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank"
-       style="background:#000;color:#fff;font-size:.82rem;padding:8px 16px;">X（Twitter）</a>`;
+    <a href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank"
+       style="background:#06C755;color:#fff;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:6px;text-decoration:none;">LINE</a>
+    <a href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank"
+       style="background:#000;color:#fff;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:6px;text-decoration:none;">X</a>`;
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
