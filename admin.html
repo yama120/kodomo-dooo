@@ -245,6 +245,14 @@
         <input type="text" id="editInstagram" placeholder="@なし" />
       </div>
       <div class="form-group">
+        <label>X（Twitter）</label>
+        <input type="text" id="editTwitter" placeholder="@なし" />
+      </div>
+      <div class="form-group">
+        <label>ウェブサイト URL</label>
+        <input type="url" id="editWebsiteUrl" placeholder="https://example.com" />
+      </div>
+      <div class="form-group">
         <label>メール</label>
         <input type="email" id="editEmail" />
       </div>
@@ -420,6 +428,8 @@ function openEditModal(id) {
   document.getElementById('editFeeNum').value = t.fee_num;
   document.getElementById('editTrial').value = String(t.trial);
   document.getElementById('editInstagram').value = t.instagram || '';
+  document.getElementById('editTwitter').value = t.twitter || '';
+  document.getElementById('editWebsiteUrl').value = t.website_url || '';
   document.getElementById('editEmail').value = t.email || '';
   document.getElementById('editDescription').value = t.description || '';
 
@@ -451,6 +461,8 @@ async function saveEdit() {
     age_groups: ages,
     days: days,
     instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
+    twitter: document.getElementById('editTwitter').value.trim().replace(/^@/, '') || null,
+    website_url: document.getElementById('editWebsiteUrl').value.trim() || null,
     email: document.getElementById('editEmail').value.trim() || null,
     description: document.getElementById('editDescription').value.trim() || null,
   };

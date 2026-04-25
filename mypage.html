@@ -201,6 +201,14 @@
           <input type="text" id="instagram" placeholder="@なしで入力" />
         </div>
         <div class="form-group">
+          <label>X（Twitter）アカウント <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="text" id="twitter" placeholder="@なしで入力" />
+        </div>
+        <div class="form-group">
+          <label>ウェブサイト URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="url" id="website_url" placeholder="https://example.com" />
+        </div>
+        <div class="form-group">
           <label>メールアドレス</label>
           <input type="email" id="email" />
         </div>
@@ -295,6 +303,8 @@ function fillForm(t) {
   document.getElementById('feeNum').value = t.fee_num;
   document.getElementById('trial').value = String(t.trial);
   document.getElementById('instagram').value = t.instagram || '';
+  document.getElementById('twitter').value = t.twitter || '';
+  document.getElementById('website_url').value = t.website_url || '';
   document.getElementById('email').value = t.email || '';
   document.getElementById('description').value = t.description || '';
 }
@@ -320,6 +330,8 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     fee: `月${feeNum.toLocaleString()}円`,
     trial: document.getElementById('trial').value === 'true',
     instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
+    twitter: document.getElementById('twitter').value.trim().replace(/^@/, '') || null,
+    website_url: document.getElementById('website_url').value.trim() || null,
     email: document.getElementById('email').value.trim() || null,
     description: document.getElementById('description').value.trim() || null,
   };

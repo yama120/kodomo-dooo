@@ -271,7 +271,7 @@ async function loadTeams() {
   teams = data.map(t => ({
     id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city,
     ageGroups: t.age_groups, days: t.days, feeNum: t.fee_num, fee: t.fee,
-    trial: t.trial, contact: { instagram: t.instagram, email: t.email },
+    trial: t.trial, contact: { instagram: t.instagram, email: t.email, twitter: t.twitter, website_url: t.website_url },
     description: t.description
   }));
   applyFilters();
@@ -379,6 +379,8 @@ function openModal(id) {
   document.getElementById('modalDesc').textContent = team.description || '説明はありません。';
   document.getElementById('modalActions').innerHTML = `
     ${team.contact.instagram ? `<a class="btn btn-outline" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">Instagram</a>` : ''}
+    ${team.contact.twitter ? `<a class="btn btn-outline" href="https://x.com/${team.contact.twitter}" target="_blank">X（Twitter）</a>` : ''}
+    ${team.contact.website_url ? `<a class="btn btn-outline" href="${team.contact.website_url}" target="_blank">ウェブサイト</a>` : ''}
     ${team.contact.email ? `<a class="btn btn-primary" href="mailto:${team.contact.email}">メールで問い合わせ</a>` : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DMで問い合わせ</a>` : '')}
     <button class="btn btn-outline" onclick="toggleFavModal('${team.id}')" id="modalFavBtn">${isFav(team.id) ? '⭐ お気に入り済み' : '☆ お気に入り'}</button>`;
   document.getElementById('modalOverlay').classList.add('open');

@@ -206,6 +206,16 @@
           <label>メールアドレス</label>
           <input type="email" id="email" placeholder="team@example.com" />
         </div>
+
+        <div class="form-group">
+          <label>X（Twitter）アカウント <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="text" id="twitter" placeholder="@なしで入力（例：team_name）" />
+        </div>
+
+        <div class="form-group">
+          <label>ウェブサイト URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="url" id="website_url" placeholder="https://example.com" />
+        </div>
       </div>
 
       <div class="card">
@@ -267,6 +277,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   const trialVal = document.querySelector('input[name="trial"]:checked')?.value;
   const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
   const email = document.getElementById('email').value.trim();
+  const twitter = document.getElementById('twitter').value.trim().replace(/^@/, '');
+  const websiteUrl = document.getElementById('website_url').value.trim();
   const feeNum = parseInt(document.getElementById('feeNum').value);
   const authEmail = document.getElementById('authEmail').value.trim();
   const authPassword = document.getElementById('authPassword').value;
@@ -312,6 +324,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     trial: trialVal === 'true',
     instagram: instagram || null,
     email: email || null,
+    twitter: twitter || null,
+    website_url: websiteUrl || null,
     description: document.getElementById('description').value.trim() || null,
     status: 'pending',
     user_id: userId || null,
