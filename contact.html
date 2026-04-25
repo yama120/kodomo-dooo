@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お問い合わせ | コドモDooo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --muted: #64748b; --border: #e2e8f0; --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    header { background: var(--primary); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 16px; }
+    header a { color: #fff; text-decoration: none; font-size: .9rem; opacity: .85; }
+    header a:hover { opacity: 1; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+    .container { max-width: 600px; margin: 48px auto; padding: 0 16px 80px; }
+    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; }
+    h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; }
+    p { color: #475569; line-height: 1.8; margin-bottom: 16px; font-size: .95rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .contact-item:last-of-type { border-bottom: none; }
+    .contact-label { font-size: .82rem; font-weight: 700; color: var(--muted); min-width: 80px; margin-top: 2px; }
+    .contact-value { font-size: .95rem; }
+    .btn-mail { display: inline-block; margin-top: 28px; padding: 14px 32px; background: var(--primary); color: #fff; border-radius: 10px; font-size: 1rem; font-weight: 700; text-decoration: none; transition: opacity .15s; }
+    .btn-mail:hover { opacity: .88; }
+    .note { font-size: .82rem; color: var(--muted); margin-top: 12px; }
+    footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 24px 16px; font-size: .82rem; margin-top: 40px; }
+    footer a { color: #94a3b8; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html">← トップへ戻る</a>
+  <h1>お問い合わせ</h1>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>運営へのお問い合わせ</h2>
+    <p>コドモDoooに関するご意見・ご要望・掲載内容に関するご連絡はこちらからお送りください。</p>
+
+    <div class="contact-item">
+      <span class="contact-label">運営</span>
+      <span class="contact-value">MOYORI</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">対応内容</span>
+      <span class="contact-value">掲載内容の修正依頼 / サービスへのご意見 / チーム登録に関するご相談</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">返信目安</span>
+      <span class="contact-value">3営業日以内</span>
+    </div>
+
+    <a class="btn-mail" href="mailto:moyori.info@gmail.com?subject=【コドモDooo】お問い合わせ&body=お名前：%0aお問い合わせ内容：%0a%0a">メールを作成する</a>
+    <p class="note">ボタンを押すとメールアプリが開きます。</p>
+  </div>
+</div>
+
+<footer>
+  © 2026 コドモDooo｜運営：MOYORI｜<a href="legal.html">プライバシーポリシー・利用規約</a>
+</footer>
+
+</body>
+</html>
