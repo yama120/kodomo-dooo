@@ -231,6 +231,10 @@
         <div class="modal-desc" id="modalDesc"></div>
       </div>
       <div class="modal-actions" id="modalActions"></div>
+      <div class="modal-section" style="margin-top:16px;">
+        <div class="modal-section-title">このチームをシェア</div>
+        <div id="modalShare" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -388,6 +392,15 @@ function openModal(id) {
     ${team.contact.website_url ? `<a class="btn btn-outline" href="${team.contact.website_url}" target="_blank">ウェブサイト</a>` : ''}
     ${team.contact.email ? `<a class="btn btn-primary" href="${makeMailto(team)}">メールで問い合わせ</a>` : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DMで問い合わせ</a>` : '')}
     <button class="btn btn-outline" onclick="toggleFavModal('${team.id}')" id="modalFavBtn">${isFav(team.id) ? '⭐ お気に入り済み' : '☆ お気に入り'}</button>`;
+  // SNS共有ボタン
+  const shareUrl = encodeURIComponent(location.href.split('?')[0]);
+  const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをコドモDoooで見つけました！`);
+  document.getElementById('modalShare').innerHTML = `
+    <a class="btn" href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank"
+       style="background:#06C755;color:#fff;font-size:.82rem;padding:8px 16px;">LINE</a>
+    <a class="btn" href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank"
+       style="background:#000;color:#fff;font-size:.82rem;padding:8px 16px;">X（Twitter）</a>`;
+
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
