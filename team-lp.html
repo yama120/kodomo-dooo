@@ -193,16 +193,13 @@
   .hero-trust span{display:inline-flex;align-items:center;gap:6px}
   .hero-trust svg{width:14px;height:14px;color:var(--blue)}
 
-  /* HERO RIGHT — athlete collage */
+  /* HERO RIGHT */
   .hero-collage{
     position:relative;
     aspect-ratio: 1/0.95;
     min-height:560px;
   }
   .hero-collage > *{position:relative;z-index:1}
-  .hero-collage .bg-brush{
-    position:absolute;z-index:0;pointer-events:none;
-  }
   .hero-collage .bg-hero{
     position:absolute;z-index:0;pointer-events:none;
     top:50%;left:50%;
@@ -210,40 +207,6 @@
     width:100%;height:100%;
     object-fit:contain;
   }
-  .hero-collage .athlete{
-    position:absolute;
-    filter:drop-shadow(0 8px 14px rgba(0,40,80,.12));
-  }
-  .hero-collage .label{
-    position:absolute;
-    font-family:"Zen Maru Gothic",sans-serif;
-    font-weight:900;
-    font-size:14px;
-    padding:6px 16px;
-    border-radius:999px;
-    color:#fff;
-    transform:rotate(-6deg);
-    box-shadow:0 4px 10px rgba(0,0,0,.15);
-    letter-spacing:.06em;
-  }
-  /* placements — match reference image */
-  .a-soccer{top:2%;left:10%;width:38%}
-  .a-basket{top:0%;right:2%;width:36%}
-  .a-volley{top:34%;left:0%;width:36%}
-  .a-baseball{top:30%;right:8%;width:36%}
-  .a-gym{bottom:2%;right:2%;width:38%}
-
-  .l-soccer{top:10%;left:6%;background:var(--blue);transform:rotate(-8deg)}
-  .l-basket{top:8%;right:6%;background:#ff8a3d;transform:rotate(7deg)}
-  .l-volley{top:48%;left:4%;background:#ff6fa3;transform:rotate(-6deg)}
-  .l-baseball{top:44%;right:4%;background:#3fbf7f;transform:rotate(5deg)}
-  .l-and-more{
-    bottom:2%;right:14%;
-    background:transparent;color:var(--ink);
-    font-size:20px;font-style:italic;font-weight:700;
-    box-shadow:none;transform:rotate(-4deg);
-  }
-  .l-and-more::before{content:"…"}
 
   /* hero deco shapes */
   .deco{position:absolute;pointer-events:none;z-index:0}
