@@ -202,10 +202,47 @@
   .hero-collage > *{position:relative;z-index:1}
   .hero-collage .bg-hero{
     position:absolute;z-index:0;pointer-events:none;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
+    top:0;left:0;
     width:100%;height:100%;
     object-fit:contain;
+  }
+  .hero-collage .athlete{
+    position:absolute;
+    filter:drop-shadow(0 8px 14px rgba(0,40,80,.10));
+    z-index:2;
+  }
+  .hero-collage .label{
+    position:absolute;
+    font-family:"Zen Maru Gothic",sans-serif;
+    font-weight:900;
+    font-size:13px;
+    padding:5px 14px;
+    border-radius:999px;
+    color:#fff;
+    box-shadow:0 3px 8px rgba(0,0,0,.18);
+    letter-spacing:.06em;
+    z-index:3;
+  }
+  /* athlete positions */
+  .a-soccer{top:0%;left:14%;width:36%}
+  .a-basket{top:0%;right:0%;width:34%}
+  .a-volley{top:32%;left:0%;width:34%}
+  .a-baseball{top:30%;right:10%;width:32%}
+  .a-swim{top:56%;left:10%;width:38%}
+  .a-gym{top:52%;right:2%;width:34%}
+
+  .l-soccer{top:6%;left:10%;background:var(--blue);transform:rotate(-6deg)}
+  .l-basket{top:4%;right:2%;background:var(--orange);transform:rotate(5deg)}
+  .l-volley{top:44%;left:14%;background:var(--pink);transform:rotate(-5deg)}
+  .l-baseball{top:42%;right:6%;background:var(--green);transform:rotate(4deg)}
+  .l-swim{bottom:16%;left:10%;background:var(--teal);transform:rotate(-4deg)}
+  .l-gym{bottom:18%;right:14%;background:var(--purple);transform:rotate(3deg)}
+  .l-and-more{
+    bottom:2%;right:4%;
+    background:transparent;color:var(--ink);
+    font-size:20px;font-style:italic;font-weight:800;
+    box-shadow:none;transform:rotate(-3deg);
+    padding:0;
   }
 
   /* hero deco shapes */
@@ -648,6 +685,18 @@
 
     <div class="hero-collage">
       <img class="bg-hero" src="assets/hero_back.png" alt="" />
+      <img class="athlete a-soccer" src="assets/athlete_soccer.png" alt="" />
+      <span class="label l-soccer">SOCCER</span>
+      <img class="athlete a-basket" src="assets/athlete_basketball.png" alt="" />
+      <span class="label l-basket">BASKETBALL</span>
+      <img class="athlete a-volley" src="assets/athlete_volleyball.png" alt="" />
+      <span class="label l-volley">VOLLEYBALL</span>
+      <img class="athlete a-baseball" src="assets/athlete_baseball.png" alt="" />
+      <span class="label l-baseball">BASEBALL</span>
+      <img class="athlete a-swim" src="assets/athlete_soccer.png" alt="" style="display:none" />
+      <img class="athlete a-gym" src="assets/athlete_gymnastics.png" alt="" />
+      <span class="label l-gym">GYMNASTICS</span>
+      <span class="label l-and-more">and more!</span>
     </div>
   </div>
 </section>
