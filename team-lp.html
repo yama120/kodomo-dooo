@@ -80,7 +80,7 @@
     position:relative;
     background:#ffffff;
     overflow:hidden;
-    padding:48px 0 72px;
+    padding:24px 0 48px;
   }
   .hero-inner{
     max-width:1180px;margin:0 auto;
@@ -151,9 +151,13 @@
   .hero-feature .icon{
     width:80px;height:80px;margin:0 auto 8px;
     display:flex;align-items:center;justify-content:center;
+    overflow:visible;
   }
   .hero-feature .icon img{
     width:80px;height:80px;object-fit:contain;display:block;
+  }
+  .hero-feature:nth-child(3) .icon img{
+    width:96px;height:96px;
   }
   .hero-feature h4{
     font-size:14px;margin:0 0 4px;font-weight:900;color:var(--pink);
@@ -192,13 +196,14 @@
   /* HERO RIGHT */
   .hero-collage{
     position:relative;
-    min-height:480px;
     display:flex;align-items:center;justify-content:center;
   }
   .hero-collage .hero-main{
-    width:100%;height:auto;
+    width:110%;
+    height:auto;
     display:block;
     object-fit:contain;
+    margin-left:-5%;
   }
 
   /* hero deco images */
