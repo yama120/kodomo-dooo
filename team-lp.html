@@ -55,7 +55,7 @@
   }
   .brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex-shrink:0;line-height:1}
   .brand .tagline{font-size:11px;color:var(--muted);letter-spacing:.04em;font-weight:700;white-space:nowrap}
-  .brand img{height:72px;width:auto;display:block}
+  .brand img{height:64px;width:auto;display:block}
   nav.primary{margin-left:auto;display:flex;align-items:center;gap:28px}
   nav.primary a{
     font-size:14px;font-weight:700;color:var(--ink-soft);
@@ -80,13 +80,13 @@
     position:relative;
     background:#ffffff;
     overflow:hidden;
-    padding:48px 0 72px;
+    padding:30px 0 70px;
   }
   .hero-inner{
     max-width:1180px;margin:0 auto;
-    display:grid;grid-template-columns: 1fr 1fr;
-    gap:40px;align-items:center;
-    padding:0 40px;
+    display:grid;grid-template-columns: 1.05fr 1fr;
+    gap:32px;align-items:center;
+    padding:0 24px;
     position:relative;
   }
   /* HERO LEFT */
@@ -135,15 +135,11 @@
     display:flex;align-items:flex-end;gap:14px;
     margin-bottom:24px;
   }
-  .hero-logo-row img{height:100px;width:auto}
-  .hero-logo-row .moyori{
-    font-size:11px;color:var(--muted);
-    line-height:1.4;font-weight:600;
-  }
+  .hero-logo-row img{height:88px;width:auto}
 
   .hero-features{
     display:grid;grid-template-columns:repeat(3,1fr);
-    gap:14px;margin:24px 0 28px;
+    gap:14px;margin:18px 0 26px;
   }
   .hero-feature{
     text-align:center;
@@ -187,12 +183,11 @@
     font-size:12px;color:var(--muted);font-weight:700;
   }
   .hero-trust span{display:inline-flex;align-items:center;gap:6px}
-  .hero-trust svg{width:14px;height:14px;color:var(--blue)}
 
   /* HERO RIGHT */
   .hero-collage{
     position:relative;
-    min-height:480px;
+    min-height:560px;
     display:flex;align-items:center;justify-content:center;
   }
   .hero-collage .hero-main{
@@ -201,8 +196,48 @@
     object-fit:contain;
   }
 
-  /* hero deco images */
-  .deco{position:absolute;pointer-events:none;z-index:0;display:block}
+  /* hero deco shapes */
+  .deco{position:absolute;pointer-events:none;z-index:0}
+  .deco.dot-y{
+    width:80px;height:80px;
+    background-image:radial-gradient(circle, var(--yellow) 30%, transparent 32%);
+    background-size:14px 14px;
+  }
+  .deco.dot-b{
+    width:70px;height:70px;
+    background-image:radial-gradient(circle, var(--blue) 30%, transparent 32%);
+    background-size:12px 12px;
+    opacity:.5;
+  }
+  .deco.dot-p{
+    width:60px;height:60px;
+    background-image:radial-gradient(circle, var(--pink) 30%, transparent 32%);
+    background-size:11px 11px;opacity:.6;
+  }
+  .deco.dot-g{
+    width:60px;height:60px;
+    background-image:radial-gradient(circle, var(--green) 30%, transparent 32%);
+    background-size:11px 11px;opacity:.55;
+  }
+  .deco.brush-yellow{
+    width:160px;height:28px;
+    background:var(--yellow);
+    border-radius:16px;
+    transform:rotate(-14deg);
+    opacity:.7;
+  }
+  .deco.brush-pink{
+    width:120px;height:20px;background:var(--pink);
+    border-radius:12px;transform:rotate(8deg);opacity:.55;
+  }
+  .deco.brush-green{
+    width:140px;height:22px;background:var(--green);
+    border-radius:12px;transform:rotate(-6deg);opacity:.55;
+  }
+  .deco.brush-blue{
+    width:120px;height:20px;background:var(--blue);
+    border-radius:12px;transform:rotate(10deg);opacity:.5;
+  }
 
   /* ==================== SECTIONS ==================== */
   .section{padding:80px 24px;position:relative;border-top:1.5px solid #e8edf2;}
@@ -494,10 +529,11 @@
   .trust-cell + .trust-cell{border-left:1px solid var(--line)}
   .trust-cell .icon{
     width:48px;height:48px;border-radius:8px;
-    background:#f3f8fc;color:var(--blue);
+    background:#f3f8fc;
     display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;font-size:22px;
+    flex-shrink:0;
   }
+  .trust-cell .icon img{width:30px;height:30px;object-fit:contain}
   .trust-cell h6{font-size:14px;font-weight:900;margin:0 0 4px;color:var(--ink)}
   .trust-cell p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
 
@@ -509,16 +545,9 @@
   }
   footer a{color:#cfe1f1}
 
-  /* divider arches at section bottoms */
-  .arc-divider{
-    height:60px;
-    background:radial-gradient(ellipse at 50% 0, var(--blue) 50%, transparent 50%) repeat-x;
-    background-size:80px 60px;
-  }
-
   @media (max-width:980px){
-    .hero-inner{grid-template-columns:1fr;padding:0 24px}
-    .hero-collage{min-height:320px}
+    .hero-inner{grid-template-columns:1fr}
+    .hero-collage{min-height:420px}
     .hero-title{font-size:44px}
     .features-grid,.coming-grid{grid-template-columns:1fr 1fr;}
     .feature-aside,.coming-aside{grid-column:1/-1}
@@ -550,13 +579,12 @@
 
 <!-- ============== HERO ============== -->
 <section class="hero">
-  <img class="deco" src="assets/deco_dots_diagonal.png" style="width:80px;top:8%;left:1.5%" alt="" />
-  <img class="deco" src="assets/deco_dots_color.png" style="width:70px;bottom:14%;left:1%" alt="" />
-  <img class="deco" src="assets/deco_sparkle_pink.png" style="width:50px;top:20%;left:40%" alt="" />
-  <img class="deco" src="assets/deco_sparkle_yellow.png" style="width:45px;bottom:12%;left:35%" alt="" />
-  <img class="deco" src="assets/deco_lines_pastel.png" style="width:80px;top:60%;left:41%" alt="" />
-  <img class="deco" src="assets/deco_circle_blue.png" style="width:30px;top:5%;right:4%" alt="" />
-  <img class="deco" src="assets/deco_circle_pink.png" style="width:22px;bottom:8%;right:6%" alt="" />
+  <span class="deco dot-y" style="top:14%;left:2%"></span>
+  <span class="deco dot-b" style="bottom:18%;left:1%"></span>
+  <span class="deco dot-p" style="top:48%;left:42%"></span>
+  <span class="deco dot-g" style="bottom:6%;left:36%"></span>
+  <span class="deco brush-pink" style="top:22%;left:40%"></span>
+  <span class="deco brush-green" style="bottom:30%;right:1%"></span>
 
   <div class="hero-inner">
     <div class="hero-left">
@@ -566,6 +594,10 @@
         <span class="underline">見つけてもらえる</span><span class="bang">!</span>
       </h1>
       <p class="hero-sub">子どもスポーツ・習い事クラブのための情報掲載プラットフォーム</p>
+
+      <div class="hero-logo-row">
+        <img src="assets/logo.png" alt="チビスポ" />
+      </div>
 
       <div class="hero-features">
         <div class="hero-feature">
@@ -597,7 +629,7 @@
     </div>
 
     <div class="hero-collage">
-      <img class="hero-main" src="assets/hero_main.png" alt="チビスポ アスリートイメージ" />
+      <img class="hero-main" src="assets/hero_main.png" alt="チビスポ スポーツキッズ" />
     </div>
   </div>
 </section>
@@ -738,21 +770,21 @@
   <h5>安心してご利用いただけます</h5>
   <div class="trust-row">
     <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_shield.png" alt="審査" style="width:36px;height:36px;object-fit:contain;" /></div>
+      <div class="icon"><img src="assets/icon_shield.png" alt="審査" /></div>
       <div>
         <h6>審査ありで安心掲載</h6>
         <p>運営による審査を行い、<br/>安心・安全な情報のみ掲載します。</p>
       </div>
     </div>
     <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_trash.png" alt="削除" style="width:36px;height:36px;object-fit:contain;" /></div>
+      <div class="icon"><img src="assets/icon_trash.png" alt="削除" /></div>
       <div>
         <h6>いつでも削除できます</h6>
         <p>掲載後もいつでも削除可能。<br/>安心してご利用いただけます。</p>
       </div>
     </div>
     <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_lock.png" alt="セキュリティ" style="width:36px;height:36px;object-fit:contain;" /></div>
+      <div class="icon"><img src="assets/icon_lock.png" alt="セキュリティ" /></div>
       <div>
         <h6>個人情報は適切に管理</h6>
         <p>ご登録いただいた情報は、<br/>適切に管理・保護します。</p>
