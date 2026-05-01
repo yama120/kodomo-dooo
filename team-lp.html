@@ -2,773 +2,864 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>チビスポ | 子どもスポーツ・習い事クラブのための情報掲載プラットフォーム</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@500;700;800;900&display=swap" rel="stylesheet" />
 <style>
-  :root{
-    --blue:#1d8fe5;
-    --blue-deep:#1075c4;
-    --blue-soft:#e9f5fe;
-    --blue-pale:#f4faff;
-    --yellow:#ffd535;
-    --yellow-deep:#ffc107;
-    --orange:#ff8a3d;
-    --pink:#ff6fa3;
-    --green:#3fbf7f;
-    --teal:#4cc9c0;
-    --purple:#8b7cd1;
-    --red:#ff5454;
-    --ink:#1d2c3a;
-    --ink-soft:#3b4a5a;
-    --muted:#6b7a89;
-    --line:#e3eaf0;
-    --bg:#ffffff;
-    --bg-soft:#f3f8fc;
+  :root {
+    --blue: #1a8fff;
+    --blue-dark: #0a6fd6;
+    --blue-deep: #0a4f9f;
+    --yellow: #ffd400;
+    --yellow-soft: #fff7d1;
+    --orange: #ff8a1f;
+    --orange-dark: #c75e08;
+    --green: #2dbf5e;
+    --pink: #ff4d8a;
+    --red: #ff3b3b;
+    --ink: #1d2536;
+    --ink-soft: #43526a;
+    --muted: #8a93a3;
+    --line: #e5ebf3;
+    --bg-soft: #f4f8fd;
+    --bg-cream: #fffaf0;
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    font-family: "M PLUS Rounded 1c","Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic","Meiryo",system-ui,sans-serif;
-    color:var(--ink);
-    background:#fff;
-    font-weight:500;
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    font-feature-settings: "palt";
+    -webkit-font-smoothing: antialiased;
   }
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer;border:0;background:none}
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, h4 { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; }
 
-  /* ==================== HEADER ==================== */
-  .site-header{
-    position:sticky;top:0;z-index:50;
-    background:#fff;
-    border-bottom:1px solid var(--line);
+  /* ===== Header ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
   }
-  .header-inner{
-    max-width:1180px;margin:0 auto;
-    display:flex;align-items:center;gap:24px;
-    padding:10px 24px;
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 16px 60px;
+    display: flex; align-items: center; gap: 36px;
   }
-  .brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex-shrink:0;line-height:1}
-  .brand .tagline{font-size:12px;color:var(--muted);letter-spacing:.04em;font-weight:700;white-space:nowrap}
-  .brand img{height:52px;width:auto;display:block}
-  nav.primary{margin-left:auto;display:flex;align-items:center;gap:28px}
-  nav.primary a{
-    font-size:16px;font-weight:700;color:var(--ink-soft);
-    padding:6px 0;
-    border-bottom:2px solid transparent;
-    transition:.15s;
+  .nav-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .nav-brand .top-tag { font-size: 12px; color: var(--ink-soft); font-weight: 600; line-height: 1; }
+  .nav-brand .logo-row { display: flex; align-items: baseline; gap: 10px; }
+  .nav-brand img { height: 40px; width: auto; }
+  .nav-brand .moyori-text { font-size: 12px; color: var(--ink-soft); font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 32px; margin-left: auto; }
+  .nav-links a {
+    font-size: 16px; font-weight: 700; color: var(--ink);
+    transition: color .15s;
+    white-space: nowrap;
   }
-  nav.primary a:hover{color:var(--blue);border-bottom-color:var(--blue)}
-  .header-cta{
-    background:var(--orange);
-    color:#fff;font-weight:800;font-size:16px;
-    padding:14px 26px;border-radius:999px;
-    box-shadow:0 4px 0 #d96a22;
-    display:inline-flex;align-items:center;gap:8px;
-    transition:.12s;
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--orange);
+    color: #fff !important; font-weight: 800; font-size: 15px;
+    padding: 14px 26px; border-radius: 999px;
+    box-shadow: 0 3px 0 var(--orange-dark), 0 6px 14px rgba(255,138,31,0.3);
+    transition: transform .1s, box-shadow .1s;
+    white-space: nowrap;
   }
-  .header-cta:hover{transform:translateY(1px);box-shadow:0 3px 0 #d96a22}
-  .header-cta::after{content:"›";font-size:18px;font-weight:900;line-height:1}
+  .nav-cta:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--orange-dark), 0 3px 8px rgba(255,138,31,0.3); }
 
-  /* ==================== HERO ==================== */
-  .hero{
-    position:relative;
-    background:#ffffff;
-    overflow:hidden;
-    padding:24px 0 48px;
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    background: #ffffff;
+    overflow: visible;
+    padding: 30px 0 60px;
   }
-  .hero-inner{
-    max-width:1180px;margin:0 auto;
-    display:grid;grid-template-columns: 1fr 1fr;
-    gap:40px;align-items:center;
-    padding:0 40px;
-    position:relative;
+  .hero-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 60px;
+    display: grid; grid-template-columns: 1fr 1.05fr;
+    gap: 48px;
+    align-items: center; position: relative;
   }
-  /* HERO LEFT */
-  .hero-badge{
-    display:inline-block;
-    background:var(--blue);color:#fff;
-    font-weight:800;font-size:20px;
-    padding:12px 32px;border-radius:999px;
-    position:relative;
-    margin-bottom:18px;
-    box-shadow:0 4px 0 var(--blue-deep);
+  .hero-left {
+    padding: 0;
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center;
   }
-  .hero-badge::after{
-    content:"";position:absolute;bottom:-12px;left:36px;
-    width:18px;height:18px;background:var(--blue);
-    border-radius:50%;
-    box-shadow:0 4px 0 var(--blue-deep);
-  }
-  .hero-badge::before{
-    content:"";position:absolute;bottom:-22px;left:30px;
-    width:8px;height:8px;background:var(--blue);
-    border-radius:50%;
-    z-index:1;
-  }
-  .hero-title{
-    font-family:"Zen Maru Gothic","M PLUS Rounded 1c",sans-serif;
-    font-weight:900;
-    font-size:62px;line-height:1.18;
-    letter-spacing:.01em;
-    margin:0 0 16px;
-    color:var(--ink);
-  }
-  .hero-title .accent{color:var(--ink)}
-  .hero-title .underline{
-    color:var(--pink);
-    background-image:linear-gradient(transparent 65%, #ffe886 65%, #ffe886 92%, transparent 92%);
-    background-size:100% 100%;background-repeat:no-repeat;
-    padding:0 .08em;
-  }
-  .hero-title .bang{color:var(--pink)}
-  .hero-sub{
-    font-size:15px;color:var(--ink-soft);
-    margin:0 0 12px;font-weight:600;
-  }
-  .hero-logo-row{
-    display:flex;align-items:flex-end;gap:14px;
-    margin-bottom:24px;
-  }
-  .hero-logo-row img{height:100px;width:auto}
-  .hero-logo-row .moyori{
-    font-size:11px;color:var(--muted);
-    line-height:1.4;font-weight:600;
-  }
+  .hero-left > * { max-width: 760px; }
+  .hero-left > h1 { max-width: none; }
+  .hero-deco-1 { position: absolute; top: 20px; left: 8px; width: 90px; opacity: .85; pointer-events: none; }
+  .hero-deco-2 { position: absolute; top: 0; left: 38%; width: 100px; opacity: .85; pointer-events: none; }
+  .hero-deco-3 { position: absolute; bottom: 30px; left: 30%; width: 60px; opacity: .8; pointer-events: none; }
 
-  .hero-features{
-    display:grid;grid-template-columns:repeat(3,1fr);
-    gap:14px;margin:24px 0 28px;
+  .hero-catch-bubble {
+    display: inline-block;
+    background: linear-gradient(180deg, #2da0ff 0%, #1577e0 100%);
+    color: #fff;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    padding: 14px 40px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    position: relative;
+    box-shadow: 0 4px 0 #0a5cb8, 0 8px 18px rgba(21,119,224,0.3);
   }
-  .hero-feature{
-    text-align:center;
+  .hero-catch-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -14px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 16px solid #1577e0;
   }
-  .hero-feature .icon{
-    width:80px;height:80px;margin:0 auto 8px;
-    display:flex;align-items:center;justify-content:center;
-    overflow:visible;
+  .hero h1 {
+    font-weight: 900;
+    font-size: 72px; line-height: 1.18; letter-spacing: 0.005em;
+    margin: 0 0 28px;
+    color: var(--ink);
   }
-  .hero-feature .icon img{
-    width:80px;height:80px;object-fit:contain;display:block;
+  .hero h1 .pink-line { color: #ff4d8a; }
+  .hero-sub {
+    font-size: 17px; color: var(--ink-soft); margin: 0 0 8px;
+    font-weight: 700; line-height: 1.6;
   }
-  .hero-feature:nth-child(3) .icon img{
-    width:96px;height:96px;
+  .hero-logo-line {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
   }
-  .hero-feature h4{
-    font-size:14px;margin:0 0 4px;font-weight:900;color:var(--pink);
+  .hero-logo-line img.brand-logo { height: 80px; }
+  .hero-features {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    margin: 8px 0 32px; max-width: 640px; width: 100%;
   }
-  .hero-feature p{
-    font-size:11px;color:var(--muted);margin:0;line-height:1.5;font-weight:600;
+  .hf { text-align: center; }
+  .hf-icon-circle {
+    width: 92px; height: 92px; margin: 0 auto 12px;
+    border-radius: 50%;
+    background: #e9f3ff;
+    display: grid; place-items: center;
+    border: 2px solid #c8def8;
   }
+  .hf-icon-circle img { width: 52px; height: 52px; object-fit: contain; }
+  .hf-title { font-weight: 800; font-size: 16px; color: #ff4d8a; margin-bottom: 4px; line-height: 1.4; }
+  .hf-sub { font-size: 12px; color: var(--ink-soft); line-height: 1.5; font-weight: 600; }
 
-  .hero-cta{
-    display:inline-flex;align-items:center;justify-content:space-between;
-    gap:16px;
-    background:var(--orange);
-    color:#fff;font-weight:900;
-    font-size:22px;
-    padding:18px 30px;
-    border-radius:999px;
-    box-shadow:0 6px 0 #d96a22, 0 14px 28px rgba(255,138,61,.3);
-    width:min(440px,100%);
-    transition:.15s;
+  .cta-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 14px; padding: 26px 44px;
+    background: linear-gradient(180deg, #ffae5c 0%, #ff8a1f 100%);
+    color: #fff; font-weight: 800; font-size: 26px;
+    border-radius: 999px;
+    box-shadow: 0 5px 0 var(--orange-dark), 0 10px 24px rgba(255,138,31,0.35);
+    border: 3px solid #fff;
+    width: 540px; max-width: 100%;
+    transition: transform .1s, box-shadow .1s;
   }
-  .hero-cta:hover{transform:translateY(2px);box-shadow:0 4px 0 #d96a22, 0 10px 22px rgba(255,138,61,.3)}
-  .hero-cta .arrow{
-    width:34px;height:34px;border-radius:50%;
-    background:#fff;color:var(--orange);
-    display:flex;align-items:center;justify-content:center;
-    font-size:18px;font-weight:900;
+  .cta-primary:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--orange-dark), 0 6px 18px rgba(255,138,31,0.35); }
+  .cta-primary .arrow {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #fff; color: var(--orange);
+    display: grid; place-items: center; font-weight: 900; font-size: 18px;
   }
-
-  .hero-trust{
-    display:flex;gap:22px;margin-top:14px;
-    font-size:12px;color:var(--muted);font-weight:700;
+  .hero-trust {
+    display: flex; gap: 24px; margin-top: 16px;
+    font-size: 14px; color: var(--ink-soft); font-weight: 700;
   }
-  .hero-trust span{display:inline-flex;align-items:center;gap:6px}
-  .hero-trust svg{width:14px;height:14px;color:var(--blue)}
-
-  /* HERO RIGHT */
-  .hero-collage{
-    position:relative;
-    display:flex;align-items:center;justify-content:center;
+  .hero-trust span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-trust .dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: inline-grid; place-items: center; font-size: 11px; font-weight: 800;
   }
-  .hero-collage .hero-main{
-    width:110%;
-    height:auto;
-    display:block;
-    object-fit:contain;
-    margin-left:-5%;
+  .hero-img-wrap {
+    position: relative;
+    justify-self: end;
+    width: 100%;
+  }
+  .hero-img-wrap img.main {
+    width: 100%; height: auto;
+    display: block;
   }
 
-  /* hero deco images */
-  .deco{position:absolute;pointer-events:none;z-index:0;display:block}
+  /* ===== Section header ===== */
+  .sec-head {
+    text-align: center; padding: 70px 0 24px; position: relative;
+  }
+  .sec-head h2 {
+    display: inline-flex; align-items: center; gap: 18px;
+    font-weight: 800; font-size: 30px; color: var(--ink);
+    margin: 0;
+  }
+  .sec-head h2::before, .sec-head h2::after {
+    content: ""; width: 30px; height: 3px; background: var(--ink);
+    border-radius: 2px;
+    transform: rotate(70deg);
+  }
+  .sec-head h2::after { transform: rotate(-70deg); }
+  .sec-head .lead { color: var(--ink-soft); font-size: 14px; margin-top: 8px; }
+  .sec-head .blue { color: var(--blue); }
 
-  /* ==================== SECTIONS ==================== */
-  .section{padding:80px 24px;position:relative;border-top:1.5px solid #e8edf2;}
-  .container{max-width:1180px;margin:0 auto}
-  .section-title{
-    text-align:center;
-    font-family:"Zen Maru Gothic",sans-serif;
-    font-weight:900;
-    font-size:32px;
-    margin:0 0 44px;
-    position:relative;
-    color:var(--ink);
-    letter-spacing:.02em;
-    display:flex;align-items:center;justify-content:center;gap:20px;
+  /* ===== Features (3 cards) ===== */
+  .features { background: #f6faff; padding: 0 0 80px; }
+  .features-grid {
+    max-width: 1280px; margin: 0 auto; padding: 0 60px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    align-items: start;
   }
-  .section-title::before, .section-title::after{
-    content:"";display:inline-block;
-    width:4px;height:36px;background:var(--ink);
-    border-radius:2px;
+  .feature-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 32px 24px;
+    box-shadow: 0 10px 30px rgba(20,40,80,0.06);
+    transition: transform .15s, box-shadow .15s;
+    position: relative;
+    display: flex; flex-direction: column;
   }
-  .section-title::before{transform:rotate(-20deg)}
-  .section-title::after{transform:rotate(20deg)}
-  .section-title small{
-    display:block;font-size:13px;font-weight:700;
-    color:var(--muted);margin-top:6px;
+  .feature-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(20,40,80,0.12); }
+  .fc-num {
+    position: absolute; top: -22px; left: 32px;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: grid; place-items: center;
+    color: #fff; font-weight: 900; font-size: 22px;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    border: 5px solid #f6faff;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1);
   }
+  .fc-num.blue { background: var(--blue); }
+  .fc-num.green { background: var(--green); }
+  .fc-num.pink { background: var(--pink); }
+  .fc-title {
+    font-weight: 800; font-size: 24px; color: var(--ink); line-height: 1.4;
+    margin: 18px 0 12px;
+  }
+  .fc-title .accent { color: var(--blue); }
+  .fc-title.green .accent { color: var(--green); }
+  .fc-title.pink .accent { color: var(--pink); }
+  .fc-body { font-size: 15px; color: var(--ink-soft); line-height: 1.85; margin: 0 0 8px; font-weight: 500; }
+  .fc-phone {
+    margin-top: 0;
+    display: flex; justify-content: center; align-items: flex-end;
+    overflow: hidden;
+  }
+  .fc-phone img { width: 100%; max-width: 360px; height: auto; display: block; }
 
-  /* === FEATURES (3 cards) === */
-  .features-section{background:#fff;position:relative;overflow:hidden}
-  .features-grid{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr) 0.9fr;
-    gap:18px;
-    align-items:stretch;
+  /* ===== Coming soon ===== */
+  .coming { background: #fff8e0; padding: 0 0 80px; position: relative; }
+  .coming::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 100px; background: #f6faff;
+    clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
   }
-  .feature-card{
-    background:#fff;
-    border:none;
-    border-radius:18px;
-    padding:24px 18px 0;
-    text-align:center;
-    position:relative;
-    box-shadow:0 4px 16px rgba(0,40,80,.06);
-    display:flex;flex-direction:column;
+  .coming-grid {
+    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: repeat(3, 1fr) 220px; gap: 18px;
+    align-items: stretch; position: relative;
   }
-  .feature-card .head{
-    display:flex;align-items:center;justify-content:flex-start;
-    gap:10px;margin-bottom:8px;
+  .coming-card {
+    background: #fff; border-radius: 20px;
+    border: 3px solid;
+    padding: 22px 20px 14px;
+    box-shadow: 0 8px 20px rgba(20,40,80,0.06);
+    text-align: center;
+    display: flex; flex-direction: column;
   }
-  .feature-card .head .ico{
-    width:38px;height:38px;border-radius:50%;
-    color:#fff;font-weight:900;
-    display:flex;align-items:center;justify-content:center;
-    font-size:14px;flex-shrink:0;
+  .coming-card.pink { border-color: #ffd0e0; }
+  .coming-card.orange { border-color: #ffe2bf; }
+  .coming-card.green { border-color: #c6efd2; }
+  .coming-card h3 {
+    font-weight: 800; font-size: 22px;
+    margin: 6px 0 14px; line-height: 1.35;
   }
-  .feature-card.blue .head .ico{background:var(--blue)}
-  .feature-card.green .head .ico{background:var(--green)}
-  .feature-card.orange .head .ico{background:var(--orange)}
-  .feature-card .head h3{
-    font-size:18px;font-weight:900;margin:0;
-    text-align:left;
+  .coming-card.pink h3 { color: #ff4d8a; }
+  .coming-card.orange h3 { color: #ff8a1f; }
+  .coming-card.green h3 { color: #2dbf5e; }
+  .coming-card p {
+    font-size: 15px; color: var(--ink-soft); line-height: 1.85;
+    margin: 0 0 16px; font-weight: 500; min-height: 52px;
   }
-  .feature-card.blue .head h3{color:var(--blue)}
-  .feature-card.green .head h3{color:var(--green)}
-  .feature-card.orange .head h3{color:var(--orange)}
-  .feature-card p{
-    font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;
-    text-align:center;line-height:1.75;font-weight:600;
+  .coming-illust {
+    margin-top: auto; height: 200px;
+    display: flex; align-items: flex-end; justify-content: center;
   }
-  .feature-card .phone{
-    margin-top:auto;
-    display:flex;align-items:flex-end;justify-content:center;
-    overflow:hidden;
-    padding:0 6px;
+  .coming-illust img { max-height: 200px; max-width: 100%; width: auto; object-fit: contain; }
+  .coming-benefit {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
   }
-  .feature-card .phone img{
-    width:100%;height:auto;
-    display:block;
-    margin-bottom:-2px;
+  .coming-benefit-splash {
+    background: #ffe838;
+    width: 100%; aspect-ratio: 1;
+    clip-path: polygon(50% 0%, 61% 12%, 75% 4%, 78% 22%, 95% 22%, 88% 38%, 100% 50%, 88% 62%, 95% 78%, 78% 78%, 75% 96%, 61% 88%, 50% 100%, 39% 88%, 25% 96%, 22% 78%, 5% 78%, 12% 62%, 0% 50%, 12% 38%, 5% 22%, 22% 22%, 25% 4%, 39% 12%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px 12px;
+    transform: rotate(-6deg);
   }
-  .feature-aside{
-    background:#fff;
-    border-radius:22px;padding:24px 22px 18px;
-    text-align:center;
-    position:relative;
-    box-shadow:0 4px 16px rgba(0,40,80,.06);
-    display:flex;flex-direction:column;
-  }
-  .feature-aside::before{
-    content:"";position:absolute;left:-12px;top:40px;
-    width:0;height:0;
-    border:12px solid transparent;
-    border-right-color:#fff;
-    filter:drop-shadow(-2px 0 4px rgba(0,40,80,.04));
-  }
-  .feature-aside h4{
-    font-size:16px;font-weight:900;margin:0 0 14px;
-    line-height:1.55;
-  }
-  .feature-aside ul{
-    list-style:none;padding:0;margin:0 0 16px;
-    text-align:left;font-size:13px;font-weight:700;
-    color:var(--ink-soft);
-  }
-  .feature-aside li{
-    display:flex;align-items:center;gap:10px;
-    padding:7px 0;
-  }
-  .feature-aside li::before{
-    content:"";
-    width:18px;height:18px;border-radius:50%;
-    background:var(--blue);
-    background-image:linear-gradient(45deg, transparent 45%, #fff 45%, #fff 55%, transparent 55%),
-                     linear-gradient(-45deg, transparent 55%, #fff 55%, #fff 65%, transparent 65%);
-    flex-shrink:0;
-    position:relative;
-  }
-  .feature-aside .illust{
-    margin-top:auto;width:88%;align-self:center;
-    position:relative;
-  }
+  .coming-benefit-splash .small { font-size: 13px; font-weight: 800; color: var(--ink); margin-bottom: 4px; white-space: nowrap; }
+  .coming-benefit-splash .big { font-family: "M PLUS Rounded 1c", sans-serif; font-weight: 900; font-size: 26px; color: var(--ink); line-height: 1.1; margin-bottom: 8px; white-space: nowrap; }
+  .coming-benefit-splash .desc { font-size: 11px; font-weight: 700; color: var(--ink-soft); line-height: 1.5; }
 
-  /* === SECTION 2 — Coming Soon === */
-  .coming-section{
-    background:#fff;
-    position:relative;
+  /* ===== More features (4 cols) ===== */
+  .more-features { background: #fff; padding: 0 0 80px; }
+  .more-grid {
+    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+    align-items: stretch;
   }
-  .coming-grid{
-    display:grid;grid-template-columns: repeat(3,1fr) 0.9fr;
-    gap:18px;align-items:stretch;
+  .mf {
+    background: #fff; border-radius: 20px; padding: 22px 18px 18px;
+    text-align: center; border: 3px solid var(--line);
+    transition: transform .15s, border-color .15s;
+    display: flex; flex-direction: column;
   }
-  .coming-card{
-    background:#fff;
-    border-radius:18px;
-    padding:22px 18px 0;text-align:center;
-    display:flex;flex-direction:column;align-items:center;
-    box-shadow:0 4px 16px rgba(0,40,80,.06);
-    position:relative;
+  .mf:hover { transform: translateY(-4px); }
+  .mf.blue { border-color: #c8e0ff; }
+  .mf.pink { border-color: #ffd0e0; }
+  .mf.orange { border-color: #ffe2bf; }
+  .mf.green { border-color: #c6efd2; }
+  .mf-tag {
+    background: var(--blue); color: #fff;
+    font-weight: 800; font-size: 16px;
+    padding: 10px 20px; border-radius: 999px;
+    align-self: center; margin-bottom: 16px; white-space: nowrap;
   }
-  .coming-card.pink{background:#fff5f8}
-  .coming-card.orange{background:#fff8f0}
-  .coming-card.green{background:#f3fbf6}
-  .coming-card h3{
-    font-size:18px;font-weight:900;margin:0 0 12px;
-  }
-  .coming-card.pink h3{color:var(--pink)}
-  .coming-card.orange h3{color:var(--orange)}
-  .coming-card.green h3{color:var(--green)}
-  .coming-card p{
-    font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;
-    text-align:center;line-height:1.75;font-weight:600;
-  }
-  .coming-card .visual{
-    width:100%;
-    margin-top:auto;
-    display:flex;align-items:flex-end;justify-content:center;
-    padding:0 8px;
-  }
-  .coming-card .visual img{
-    width:100%;max-width:240px;height:auto;display:block;margin-bottom:-2px;
-  }
+  .mf.pink .mf-tag { background: var(--pink); }
+  .mf.orange .mf-tag { background: var(--orange); }
+  .mf.green .mf-tag { background: var(--green); }
+  .mf p { font-size: 15px; color: var(--ink-soft); line-height: 1.85; margin: 0 0 18px; font-weight: 500; min-height: 52px; }
+  .mf-illust { margin-top: auto; height: 160px; display: flex; align-items: flex-end; justify-content: center; }
+  .mf-illust img { max-height: 160px; max-width: 100%; width: auto; object-fit: contain; }
 
-  .coming-aside{
-    background:var(--yellow);
-    border-radius:22px;
-    padding:24px 20px 20px;
-    text-align:center;
-    position:relative;
-    color:var(--ink);
-    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-    box-shadow:0 4px 16px rgba(0,40,80,.06);
-    overflow:hidden;
+  /* ===== Mid CTA ===== */
+  .mid-cta {
+    background: linear-gradient(180deg, #1a8fff 0%, #0a6fd6 100%);
+    padding: 0; position: relative; overflow: hidden;
   }
-  .coming-aside .burst{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;opacity:.6;pointer-events:none;
+  .mid-cta-inner {
+    max-width: 1280px; margin: 0 auto; padding: 36px 60px;
+    display: grid; grid-template-columns: 180px 1fr 320px; gap: 28px;
+    align-items: center; position: relative;
   }
-  .coming-aside h4{
-    font-family:"Zen Maru Gothic",sans-serif;
-    font-size:18px;font-weight:900;margin:0 0 4px;
-    line-height:1.3;color:var(--pink);
-    position:relative;
+  .mid-cta-bubble {
+    background: #fff; color: var(--ink);
+    width: 150px; height: 150px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 800; font-size: 14px; line-height: 1.4;
+    position: relative; margin: 0 auto;
   }
-  .coming-aside .big{
-    font-size:34px;color:var(--pink);
-    display:block;line-height:1.2;
+  .mid-cta-bubble::after {
+    content: ""; position: absolute;
+    right: -10px; top: 60%;
+    border: 14px solid transparent;
+    border-left-color: #fff;
+    transform: rotate(-10deg);
   }
-  .coming-aside p{font-size:12.5px;font-weight:700;margin:8px 0 0;color:var(--ink);position:relative;line-height:1.6}
-  .coming-aside .trophy{width:120px;margin-top:auto;position:relative;align-self:center}
+  .mid-cta-bubble strong { font-size: 22px; color: var(--blue); display: block; margin-top: 2px; }
+  .mid-cta-content { color: #fff; text-align: center; }
+  .mid-cta-content h3 {
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 800; font-size: 28px; margin: 0 0 16px; line-height: 1.3;
+  }
+  .mid-cta-content h3 .yellow { color: var(--yellow); }
+  .mid-cta-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 14px; padding: 20px 36px;
+    background: var(--yellow); color: var(--ink) !important;
+    font-weight: 900; font-size: 22px; border-radius: 999px;
+    box-shadow: 0 4px 0 #d9b300, 0 8px 18px rgba(0,0,0,0.15);
+    width: 480px; max-width: 100%;
+    transition: transform .1s;
+  }
+  .mid-cta-btn:hover { transform: translateY(2px); }
+  .mid-cta-btn .arrow {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--ink); color: var(--yellow);
+    display: grid; place-items: center; font-weight: 900;
+  }
+  .mid-cta-device img { max-width: 100%; height: auto; }
 
-  /* === SECTION 3 — More Features === */
-  .more-section{background:#fff}
-  .more-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    gap:16px;
+  /* ===== Steps ===== */
+  .steps { background: #fff; padding: 30px 0 80px; }
+  .steps-grid {
+    max-width: 1180px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; gap: 0;
+    align-items: stretch;
   }
-  .more-card{
-    background:#eaf5fd;
-    border-radius:18px;padding:22px 16px 0;
-    text-align:center;
-    box-shadow:0 4px 16px rgba(0,40,80,.06);
-    display:flex;flex-direction:column;
+  .step-arrow { align-self: center; color: var(--blue); font-size: 32px; text-align: center; font-weight: 900; opacity: .55; }
+  .step {
+    background: #fff; border: 2px solid var(--line); border-radius: 22px;
+    padding: 56px 26px 32px; text-align: center; position: relative;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
   }
-  .more-card h4{
-    font-size:17px;font-weight:900;margin:0 0 10px;
-    color:var(--blue);
+  .step:hover { transform: translateY(-4px); border-color: var(--blue); box-shadow: 0 14px 30px rgba(26,143,255,0.12); }
+  .step-num {
+    position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(180deg, #43a3ff 0%, var(--blue) 100%);
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border: 5px solid #fff;
+    box-shadow: 0 6px 14px rgba(26,143,255,0.4);
+    font-family: "M PLUS Rounded 1c", sans-serif;
   }
-  .more-card p{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;line-height:1.75;text-align:center;font-weight:600}
-  .more-card .img{
-    margin-top:auto;
-    display:flex;align-items:flex-end;justify-content:center;
-    padding:0 6px;
-    min-height:140px;
+  .step-num .num-label { font-size: 12px; font-weight: 700; line-height: 1; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .step-num .num-big { font-size: 32px; font-weight: 900; line-height: 1; }
+  .step-tag {
+    display: inline-block; background: #e8f3ff; color: var(--blue);
+    font-weight: 800; font-size: 16px; padding: 7px 22px; border-radius: 999px;
+    margin-bottom: 16px; letter-spacing: 0.08em;
   }
-  .more-card .img img{width:100%;max-width:200px;height:auto;display:block;margin-bottom:-2px}
+  .step h4 { font-weight: 800; font-size: 24px; margin: 0 0 16px; color: var(--ink); line-height: 1.4; }
+  .step p { font-size: 15px; color: var(--ink-soft); line-height: 1.85; margin: 0 0 26px; }
+  .step-img { height: 110px; display: flex; align-items: center; justify-content: center; }
+  .step-img-circle { width: 110px; height: 110px; border-radius: 50%; background: var(--bg-soft); display: grid; place-items: center; }
+  .step-img-circle img { width: 56px; height: 56px; object-fit: contain; }
 
-  /* === BOTTOM CTA === */
-  .bottom-cta{
-    background:var(--blue);
-    padding:50px 24px 50px;
-    position:relative;
-    overflow:hidden;
+  /* ===== Trust ===== */
+  .trust { background: var(--bg-soft); padding: 50px 0; }
+  .trust-grid {
+    max-width: 1100px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
   }
-  .bottom-cta::before{
-    content:"";position:absolute;top:-1px;left:0;right:0;height:30px;
-    background:#fff;
-    border-radius:0 0 50% 50% / 0 0 100% 100%;
-    transform:scaleX(1.2);
+  .trust-card {
+    background: #fff; border-radius: 14px; padding: 22px 20px;
+    border: 1px solid var(--line);
+    display: flex; gap: 14px; align-items: flex-start;
   }
-  .bottom-cta-inner{
-    max-width:1080px;margin:0 auto;
-    color:#fff;
-    position:relative;
-  }
-  .bottom-cta-row{
-    display:grid;grid-template-columns: auto 1fr auto;
-    gap:24px;align-items:center;
-  }
-  .three-min{
-    width:130px;flex-shrink:0;
-  }
-  .three-min img{width:100%;height:auto;display:block}
+  .trust-card img { width: 56px; height: 56px; flex-shrink: 0; object-fit: contain; }
+  .trust-card h4 { font-weight: 800; font-size: 20px; margin: 0 0 8px; }
+  .trust-card p { font-size: 15px; color: var(--ink-soft); line-height: 1.85; margin: 0; }
 
-  .bottom-cta h2{
-    font-family:"Zen Maru Gothic",sans-serif;
-    font-size:28px;font-weight:900;margin:0 0 14px;
-    color:#fff;text-align:center;
+  /* ===== FAQ ===== */
+  .faq { padding: 0 0 80px; background: #fff; }
+  .faq-list { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+  .faq-item {
+    border: 2px solid var(--line); border-radius: 14px;
+    margin-bottom: 12px; background: #fff; overflow: hidden;
   }
-  .bottom-cta h2 .em{color:var(--yellow)}
-  .bottom-cta-btn{
-    background:var(--yellow);color:var(--ink);
-    font-weight:900;font-size:22px;
-    padding:18px 30px;border-radius:999px;
-    display:flex;align-items:center;justify-content:center;gap:18px;
-    box-shadow:0 5px 0 #d6a800;
-    width:100%;max-width:520px;margin:0 auto;
-    position:relative;
+  .faq-q {
+    display: flex; gap: 18px; align-items: center;
+    padding: 24px 28px; cursor: pointer;
+    font-weight: 700; font-size: 18px; color: var(--ink); list-style: none;
   }
-  .bottom-cta-btn .arrow{
-    position:absolute;right:20px;
-    width:32px;height:32px;border-radius:50%;
-    background:var(--ink);color:var(--yellow);
-    display:flex;align-items:center;justify-content:center;font-size:18px;
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q .qmark {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: grid; place-items: center;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-weight: 900; flex-shrink: 0; font-size: 18px;
   }
-  .bottom-cta .devices{
-    width:240px;flex-shrink:0;
-  }
+  .faq-q .chev { margin-left: auto; color: var(--blue); transition: transform .2s; font-size: 22px; }
+  details[open] .faq-q .chev { transform: rotate(180deg); }
+  .faq-a { padding: 0 28px 24px 86px; font-size: 16px; color: var(--ink-soft); line-height: 1.95; }
 
-  .trust-section{
-    background:#fff;
-    padding:40px 24px 50px;
+  /* ===== Final CTA ===== */
+  .final-cta {
+    background:
+      radial-gradient(800px 400px at 20% 0%, #ffe9c1 0%, transparent 60%),
+      radial-gradient(800px 500px at 90% 100%, #d6ebff 0%, transparent 60%),
+      linear-gradient(180deg, #fff7e0 0%, #fff 100%);
+    padding: 80px 0; text-align: center; position: relative; overflow: hidden;
   }
-  .trust-section h5{
-    text-align:center;color:var(--ink);
-    font-size:18px;font-weight:900;margin:0 auto 24px;
-    max-width:1080px;
-    padding-bottom:14px;
-    border-bottom:1px solid var(--line);
-  }
-  .trust-row{
-    max-width:1080px;margin:0 auto;
-    display:grid;grid-template-columns:repeat(3,1fr);
-    gap:0;
-  }
-  .trust-cell{
-    display:flex;gap:14px;align-items:flex-start;
-    padding:0 24px;
-  }
-  .trust-cell + .trust-cell{border-left:1px solid var(--line)}
-  .trust-cell .icon{
-    width:48px;height:48px;border-radius:8px;
-    background:#f3f8fc;color:var(--blue);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;font-size:22px;
-  }
-  .trust-cell h6{font-size:14px;font-weight:900;margin:0 0 4px;color:var(--ink)}
-  .trust-cell p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+  .final-cta h2 { font-weight: 900; font-size: 48px; margin: 0 0 20px; color: var(--ink); }
+  .final-cta h2 .blue { color: var(--blue); }
+  .final-cta p { font-size: 18px; color: var(--ink-soft); margin: 0 0 36px; line-height: 1.8; }
 
-  /* === FOOTER === */
-  footer{
-    background:#0f4c80;color:#cfe1f1;
-    text-align:center;padding:24px;font-size:12px;font-weight:700;
-    letter-spacing:.06em;
+  /* ===== Footer ===== */
+  footer { background: var(--ink); color: #c1c9d6; padding: 50px 0 30px; }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px;
   }
-  footer a{color:#cfe1f1}
-
-  /* divider arches at section bottoms */
-  .arc-divider{
-    height:60px;
-    background:radial-gradient(ellipse at 50% 0, var(--blue) 50%, transparent 50%) repeat-x;
-    background-size:80px 60px;
+  footer h5 { color: #fff; font-size: 14px; margin: 0 0 14px; font-weight: 800; }
+  footer ul { list-style: none; padding: 0; margin: 0; }
+  footer li { font-size: 13px; line-height: 2.1; }
+  footer li a:hover { color: var(--blue); }
+  footer .brand img { height: 36px; filter: brightness(0) invert(1); margin-bottom: 14px; }
+  footer .brand p { font-size: 12px; line-height: 1.8; color: #8a93a3; }
+  footer .copy {
+    text-align: center; font-size: 11px; color: #6b7589;
+    margin-top: 36px; padding-top: 20px; border-top: 1px solid #2c3445;
   }
 
-  @media (max-width:980px){
-    .hero-inner{grid-template-columns:1fr;padding:0 24px}
-    .hero-collage{min-height:320px}
-    .hero-title{font-size:44px}
-    .features-grid,.coming-grid{grid-template-columns:1fr 1fr;}
-    .feature-aside,.coming-aside{grid-column:1/-1}
-    .more-grid{grid-template-columns:1fr 1fr}
-    .bottom-cta-row{grid-template-columns:1fr;text-align:center}
-    .three-min,.bottom-cta .devices{margin:0 auto}
-    nav.primary{display:none}
+  /* ===== Floating CTA ===== */
+  .floating-cta {
+    position: fixed; right: 24px; bottom: 24px; z-index: 80;
+    background: var(--orange); color: #fff;
+    padding: 14px 22px 14px 18px; border-radius: 999px;
+    font-weight: 800; font-size: 14px;
+    box-shadow: 0 6px 20px rgba(255,138,31,0.45), 0 3px 0 var(--orange-dark);
+    display: flex; align-items: center; gap: 10px;
+    transition: transform .15s; border: 3px solid #fff;
+  }
+  .floating-cta:hover { transform: translateY(-3px); }
+  .floating-cta .ar {
+    width: 24px; height: 24px; border-radius: 50%; background: #fff;
+    color: var(--orange); display: grid; place-items: center; font-weight: 900;
+  }
+
+  @media (max-width: 980px) {
+    .nav-inner { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; padding: 0 24px; }
+    .hero h1 { font-size: 44px; }
+    .features-grid, .trust-grid { grid-template-columns: 1fr; padding: 0 24px; }
+    .coming-grid, .more-grid { grid-template-columns: 1fr 1fr; padding: 0 24px; }
+    .coming-benefit { grid-column: 1/-1; }
+    .steps-grid { grid-template-columns: 1fr; padding: 0 24px; }
+    .step-arrow { display: none; }
+    .mid-cta-inner { grid-template-columns: 1fr; padding: 36px 24px; text-align: center; }
+    .mid-cta-bubble { margin-bottom: 16px; }
+    .footer-inner { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- ============== HEADER ============== -->
-<header class="site-header">
-  <div class="header-inner">
-    <a class="brand" href="index.html">
-      <span class="tagline">子どもスポーツ・習い事情報プラットフォーム</span>
-      <img src="assets/logo.png" alt="チビスポ" />
+<!-- ===== Nav ===== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="top-tag">子どもスポーツ・習い事クラブ情報プラットフォーム</span>
+      <span class="logo-row">
+        <img src="assets/logo.png" alt="チビスポ" />
+        <span class="moyori-text">運営：MOYORI</span>
+      </span>
     </a>
-    <nav class="primary">
+    <nav class="nav-links">
       <a href="#features">掲載のメリット</a>
       <a href="#coming">近日公開機能</a>
-      <a href="#more">追加機能</a>
+      <a href="#flow">掲載の流れ</a>
+      <a href="#faq">よくある質問</a>
       <a href="index.html">チームを探す</a>
+      <a href="register.html" class="nav-cta">無料でチーム登録する</a>
     </nav>
-    <a class="header-cta" href="register.html">無料でチーム登録する</a>
   </div>
 </header>
 
-<!-- ============== HERO ============== -->
+<!-- ===== Hero ===== -->
 <section class="hero">
-  <img class="deco" src="assets/deco_dots_diagonal.png" style="width:80px;top:8%;left:1.5%" alt="" />
-  <img class="deco" src="assets/deco_dots_color.png" style="width:70px;bottom:14%;left:1%" alt="" />
-  <img class="deco" src="assets/deco_sparkle_pink.png" style="width:50px;top:20%;left:40%" alt="" />
-  <img class="deco" src="assets/deco_sparkle_yellow.png" style="width:45px;bottom:12%;left:35%" alt="" />
-  <img class="deco" src="assets/deco_lines_pastel.png" style="width:80px;top:60%;left:41%" alt="" />
-  <img class="deco" src="assets/deco_circle_blue.png" style="width:30px;top:5%;right:4%" alt="" />
-  <img class="deco" src="assets/deco_circle_pink.png" style="width:22px;bottom:8%;right:6%" alt="" />
+  <img class="hero-deco-1" src="assets/deco_dots_yellow.png" alt="" />
+  <img class="hero-deco-2" src="assets/deco_sparkle_yellow.png" alt="" />
+  <img class="hero-deco-3" src="assets/deco_circle_pink.png" alt="" />
 
   <div class="hero-inner">
     <div class="hero-left">
-      <span class="hero-badge">無料で掲載するだけで</span>
-      <h1 class="hero-title">
-        <span class="accent">地域の保護者に</span><br/>
-        <span class="underline">見つけてもらえる</span><span class="bang">!</span>
+      <span class="hero-catch-bubble">無料で掲載するだけで</span>
+      <h1>
+        地域の保護者に<br />
+        <span class="pink-line">見つけてもらえる！</span>
       </h1>
       <p class="hero-sub">子どもスポーツ・習い事クラブのための情報掲載プラットフォーム</p>
 
+      <div class="hero-logo-line">
+        <img class="brand-logo" src="assets/logo.png" alt="チビスポ" />
+      </div>
+
       <div class="hero-features">
-        <div class="hero-feature">
-          <div class="icon"><img src="assets/icon_free.png" alt="完全無料" /></div>
-          <h4>完全無料で掲載</h4>
-          <p>写真・紹介・SNSなど<br/>すべて無料で掲載</p>
+        <div class="hf">
+          <div class="hf-icon-circle"><img src="assets/icon_free_circle.png" alt="完全無料" /></div>
+          <div class="hf-title">完全無料で掲載</div>
+          <div class="hf-sub">写真・SNSリンク・紹介文も無料</div>
         </div>
-        <div class="hero-feature">
-          <div class="icon"><img src="assets/icon_location.png" alt="地域の保護者に届く" /></div>
-          <h4>地域の保護者に届く</h4>
-          <p>都道府県・市区町村で<br/>近くの保護者に届く</p>
+        <div class="hf">
+          <div class="hf-icon-circle"><img src="assets/icon_location_circle.png" alt="地域に届く" /></div>
+          <div class="hf-title">地域の保護者に届く</div>
+          <div class="hf-sub">地域・種目で絞り込み検索</div>
         </div>
-        <div class="hero-feature">
-          <div class="icon"><img src="assets/icon_edit.png" alt="いつでも編集" /></div>
-          <h4>いつでも情報を編集</h4>
-          <p>マイページから自分で<br/>いつでも更新</p>
+        <div class="hf">
+          <div class="hf-icon-circle"><img src="assets/icon_edit_circle.png" alt="いつでも編集" /></div>
+          <div class="hf-title">いつでも情報を編集</div>
+          <div class="hf-sub">マイページから自由に更新</div>
         </div>
       </div>
 
-      <a class="hero-cta" href="register.html">
+      <a href="register.html" class="cta-primary">
         無料でチーム登録する
         <span class="arrow">›</span>
       </a>
 
       <div class="hero-trust">
-        <span>🛡 審査ありで安心掲載</span>
-        <span>🗑 いつでも削除できます</span>
+        <span><span class="dot">✓</span>審査ありで安心掲載</span>
+        <span><span class="dot">↻</span>いつでも削除できます</span>
       </div>
     </div>
 
-    <div class="hero-collage">
-      <img class="hero-main" src="assets/hero_main.png" alt="チビスポ アスリートイメージ" />
-    </div>
-  </div>
-</section>
-
-<!-- ============== FEATURES (CURRENT) ============== -->
-<section class="section features-section" id="features">
-  <div class="container">
-    <h2 class="section-title">チームにうれしい機能（現在）</h2>
-
-    <div class="features-grid">
-      <div class="feature-card blue">
-        <div class="head">
-          <span class="ico">¥0</span>
-          <h3>完全無料で掲載</h3>
-        </div>
-        <p>登録・掲載はすべて無料！<br/>写真、SNSリンク、紹介文なども<br/>自由に掲載できます。</p>
-        <div class="phone"><img src="assets/screen_team.png" alt="" /></div>
-      </div>
-
-      <div class="feature-card green">
-        <div class="head">
-          <span class="ico">📍</span>
-          <h3>地域の保護者に届く</h3>
-        </div>
-        <p>都道府県・市区町村・種目で<br/>絞り込み検索ができ、<br/>近くの保護者に見つけてもらえます。</p>
-        <div class="phone"><img src="assets/screen_search.png" alt="" /></div>
-      </div>
-
-      <div class="feature-card orange">
-        <div class="head">
-          <span class="ico">✎</span>
-          <h3>いつでも情報を編集</h3>
-        </div>
-        <p>マイページからログインして、<br/>いつでも自由に情報を更新。<br/>最新情報をすぐに届けられます。</p>
-        <div class="phone"><img src="assets/screen_mypage.png" alt="" /></div>
-      </div>
-
-      <div class="feature-aside">
-        <h4>保護者は<br/>こんなふうに探しています！</h4>
-        <ul>
-          <li>近くのスクールを探したい</li>
-          <li>信頼できるチームを知りたい</li>
-          <li>体験・見学の情報がほしい</li>
-        </ul>
-        <img class="illust" src="assets/illust_couple.png" alt="" />
-      </div>
+    <div class="hero-img-wrap">
+      <img class="main" src="assets/hero_main.png" alt="チビスポを使う子どもたち" />
     </div>
   </div>
 </section>
 
-<!-- ============== COMING SOON ============== -->
-<section class="section coming-section" id="coming">
-  <div class="container">
-    <h2 class="section-title">近日公開！さらに広がるチームの可能性</h2>
+<!-- ===== Features ===== -->
+<section class="features" id="features">
+  <div class="sec-head">
+    <h2><span class="blue">チビスポ</span>でできる３つのこと</h2>
+    <div class="lead">クラブの「伝える」「集める」「育てる」を、もっとシンプルに。</div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="fc-num blue">01</div>
+      <div class="fc-title">エリア・種目から<br /><span class="accent">すぐに見つかる</span></div>
+      <p class="fc-body">保護者はエリアや習い事のジャンルから検索。都道府県・市区町村で絞り込めるので、近くの保護者に確実に届きます。</p>
+      <div class="fc-phone"><img src="assets/screen_search.png" alt="検索画面" /></div>
+    </div>
+    <div class="feature-card">
+      <div class="fc-num green">02</div>
+      <div class="fc-title green">かんたん3分で<br /><span class="accent">クラブページ作成</span></div>
+      <p class="fc-body">写真・紹介文・体験会情報を入れるだけ。専門知識ゼロでも見映えのするクラブページが完成します。スマホからでもOK。</p>
+      <div class="fc-phone"><img src="assets/screen_team.png" alt="クラブページ" /></div>
+    </div>
+    <div class="feature-card">
+      <div class="fc-num pink">03</div>
+      <div class="fc-title pink">SNSライクな発信で<br /><span class="accent">ファンを育てる</span></div>
+      <p class="fc-body">活動の様子を発信して保護者に届けましょう。マイページからいつでも情報を更新でき、最新状態を維持できます。</p>
+      <div class="fc-phone"><img src="assets/feature_megaphone.png" alt="SNS発信" /></div>
+    </div>
+  </div>
+</section>
 
-    <div class="coming-grid">
-      <div class="coming-card pink">
-        <h3>SNSで拡散サポート</h3>
-        <p>運営がSNSでチーム情報を拡散！<br/>より多くの保護者にアプローチします。</p>
-        <div class="visual"><img src="assets/screen_sns.png" alt="" /></div>
-      </div>
-
-      <div class="coming-card orange">
-        <h3>スポーツニュース配信</h3>
-        <p>地域スポーツ情報を配信し、<br/>チビスポへのアクセスを増加！</p>
-        <div class="visual"><img src="assets/screen_news.png" alt="" /></div>
-      </div>
-
-      <div class="coming-card green">
-        <h3>体験申込みオンライン受付</h3>
-        <p>保護者がその場で体験申込みを送信！<br/>申込み機会を逸しません。</p>
-        <div class="visual"><img src="assets/screen_form.png" alt="" /></div>
-      </div>
-
-      <div class="coming-aside">
-        <img class="burst" src="assets/burst_yellow.png" alt="" />
-        <h4>早く登録するほど<br/><span class="big">お得です！</span></h4>
-        <p>新機能リリース時に<br/>優先的にご案内！</p>
-        <img class="trophy" src="assets/illust_trophy.png" alt="" />
+<!-- ===== Coming soon ===== -->
+<section class="coming" id="coming">
+  <div class="sec-head">
+    <h2><span class="blue">近日公開！</span>さらに広がるチームの可能性</h2>
+    <div class="lead">続々アップデート予定の機能をご紹介。</div>
+  </div>
+  <div class="coming-grid">
+    <div class="coming-card pink">
+      <h3>SNSで拡散サポート</h3>
+      <p>運営がSNSでチーム情報を発信！<br />より多くの保護者にアプローチします。</p>
+      <div class="coming-illust"><img src="assets/feature_megaphone.png" alt="" /></div>
+    </div>
+    <div class="coming-card orange">
+      <h3>スポーツニュース配信</h3>
+      <p>地域スポーツ情報を配信し、<br />チビスポへのアクセスを増加！</p>
+      <div class="coming-illust"><img src="assets/illust_news_phone.png" alt="" /></div>
+    </div>
+    <div class="coming-card green">
+      <h3>体験申込みオンライン受付</h3>
+      <p>保護者がその場で体験申込みを送信！<br />申込み機会を逃しません。</p>
+      <div class="coming-illust"><img src="assets/illust_form_phone.png" alt="" /></div>
+    </div>
+    <div class="coming-benefit">
+      <div class="coming-benefit-splash">
+        <div class="small">早く登録するほど</div>
+        <div class="big">お得です！</div>
+        <div class="desc">新機能リリース時に<br />優先的にご案内！</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============== MORE FEATURES ============== -->
-<section class="section more-section" id="more">
-  <div class="container">
-    <h2 class="section-title">更に広がる！近日公開の追加機能</h2>
-
-    <div class="more-grid">
-      <div class="more-card">
-        <h4>チーム同士の対戦相談</h4>
-        <p>練習試合・交流戦の相手を<br/>募集できる掲示板機能。</p>
-        <div class="img"><img src="assets/illust_handshake.png" alt="" /></div>
-      </div>
-
-      <div class="more-card">
-        <h4>保護者の口コミ・レビュー</h4>
-        <p>体験者の生の声が見られるから、<br/>信頼感が上がり入会につながる！</p>
-        <div class="img"><img src="assets/illust_review.png" alt="" /></div>
-      </div>
-
-      <div class="more-card">
-        <h4>大会・イベント情報掲載</h4>
-        <p>主催イベントを告知して、<br/>参加者を集められます。</p>
-        <div class="img"><img src="assets/illust_trophy.png" alt="" /></div>
-      </div>
-
-      <div class="more-card">
-        <h4>メンバー・選手募集</h4>
-        <p>参加希望者を募集できる<br/>専用ページで仲間を増やせる！</p>
-        <div class="img"><img src="assets/illust_soccer_kids.png" alt="" /></div>
-      </div>
+<!-- ===== More features ===== -->
+<section class="more-features">
+  <div class="sec-head">
+    <h2>更に広がる！<span class="blue">近日公開の追加機能</span></h2>
+  </div>
+  <div class="more-grid">
+    <div class="mf blue">
+      <div class="mf-tag">チーム同士の対戦相談</div>
+      <p>練習試合・交流戦の相手を<br />募集できる掲示板機能。</p>
+      <div class="mf-illust"><img src="assets/illust_handshake.png" alt="" /></div>
+    </div>
+    <div class="mf pink">
+      <div class="mf-tag">保護者の口コミ・レビュー</div>
+      <p>体験者の声が見られるから、<br />信頼感が上がり入会につながる！</p>
+      <div class="mf-illust"><img src="assets/illust_review.png" alt="" /></div>
+    </div>
+    <div class="mf orange">
+      <div class="mf-tag">大会・イベント情報掲載</div>
+      <p>主催イベントを告知して、<br />参加者を集められます。</p>
+      <div class="mf-illust"><img src="assets/illust_trophy.png" alt="" /></div>
+    </div>
+    <div class="mf green">
+      <div class="mf-tag">メンバー・選手募集</div>
+      <p>参加希望者を募集できる<br />専用ページで仲間を増やせる！</p>
+      <div class="mf-illust"><img src="assets/illust_soccer_kids.png" alt="" /></div>
     </div>
   </div>
 </section>
 
-<!-- ============== BOTTOM CTA + TRUST ============== -->
-<section class="bottom-cta" id="cta">
-  <div class="bottom-cta-inner">
-    <div class="bottom-cta-row">
-      <div class="three-min">
-        <img src="assets/badge_3min_new.png" alt="登録は3分で完了！" />
-      </div>
+<!-- ===== Mid CTA ===== -->
+<section class="mid-cta">
+  <div class="mid-cta-inner">
+    <div class="mid-cta-bubble">
+      登録は<br /><strong>3分で完了！</strong>
+    </div>
+    <div class="mid-cta-content">
+      <h3>今がチャンス！<span class="yellow">無料でかんたん登録</span></h3>
+      <a href="register.html" class="mid-cta-btn">無料でチーム登録する <span class="arrow">›</span></a>
+    </div>
+    <div class="mid-cta-device">
+      <img src="assets/screenshot_website.png" alt="チビスポ画面" />
+    </div>
+  </div>
+</section>
+
+<!-- ===== Steps ===== -->
+<section class="steps" id="flow">
+  <div class="sec-head">
+    <h2>掲載までは<span class="blue">3ステップ</span></h2>
+    <div class="lead">最短当日、3分で完了します。</div>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num"><span class="num-label">STEP</span><span class="num-big">1</span></div>
+      <span class="step-tag">登録</span>
+      <h4>無料アカウント作成</h4>
+      <p>メールアドレスで登録。クレジットカードや初期費用は不要です。</p>
+      <div class="step-img"><div class="step-img-circle"><img src="assets/icon_edit_circle.png" alt="" /></div></div>
+    </div>
+    <div class="step-arrow">›</div>
+    <div class="step">
+      <div class="step-num"><span class="num-label">STEP</span><span class="num-big">2</span></div>
+      <span class="step-tag">入力</span>
+      <h4>クラブ情報を入力</h4>
+      <p>クラブ名・写真・活動エリア・紹介文を入力。テンプレで迷わない。</p>
+      <div class="step-img"><div class="step-img-circle"><img src="assets/icon_location_circle.png" alt="" /></div></div>
+    </div>
+    <div class="step-arrow">›</div>
+    <div class="step">
+      <div class="step-num"><span class="num-label">STEP</span><span class="num-big">3</span></div>
+      <span class="step-tag">公開</span>
+      <h4>審査後に掲載開始</h4>
+      <p>運営が審査後に公開。あとは情報を更新するだけです。</p>
+      <div class="step-img"><div class="step-img-circle"><img src="assets/icon_check.png" alt="" /></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Trust ===== -->
+<section class="trust">
+  <div class="sec-head">
+    <h2><span class="blue">安心</span>してご利用ください</h2>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <img src="assets/icon_shield.png" alt="" />
       <div>
-        <h2>今がチャンス！<span class="em">無料でかんたん登録</span></h2>
-        <a class="bottom-cta-btn" href="register.html">
-          無料でチーム登録する
-          <span class="arrow">›</span>
-        </a>
-      </div>
-      <img class="devices" src="assets/screenshot_website.png" alt="" />
-    </div>
-  </div>
-</section>
-
-<section class="trust-section">
-  <h5>安心してご利用いただけます</h5>
-  <div class="trust-row">
-    <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_shield.png" alt="審査" style="width:36px;height:36px;object-fit:contain;" /></div>
-      <div>
-        <h6>審査ありで安心掲載</h6>
-        <p>運営による審査を行い、<br/>安心・安全な情報のみ掲載します。</p>
+        <h4>クラブ情報は事前審査</h4>
+        <p>掲載前に運営側で内容を確認。不適切な情報は掲載できません。</p>
       </div>
     </div>
-    <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_trash.png" alt="削除" style="width:36px;height:36px;object-fit:contain;" /></div>
+    <div class="trust-card">
+      <img src="assets/icon_lock.png" alt="" />
       <div>
-        <h6>いつでも削除できます</h6>
-        <p>掲載後もいつでも削除可能。<br/>安心してご利用いただけます。</p>
+        <h4>個人情報を厳重に管理</h4>
+        <p>SSL通信で安全に管理。ご登録情報は適切に保護します。</p>
       </div>
     </div>
-    <div class="trust-cell">
-      <div class="icon"><img src="assets/icon_lock.png" alt="セキュリティ" style="width:36px;height:36px;object-fit:contain;" /></div>
+    <div class="trust-card">
+      <img src="assets/icon_trash.png" alt="" />
       <div>
-        <h6>個人情報は適切に管理</h6>
-        <p>ご登録いただいた情報は、<br/>適切に管理・保護します。</p>
+        <h4>いつでも削除OK</h4>
+        <p>登録後の削除・編集も自由自在。義務や違約金はありません。</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <div class="sec-head">
+    <h2>よくある<span class="blue">ご質問</span></h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item" open>
+      <summary class="faq-q">
+        <span class="qmark">Q</span>
+        本当に完全無料で使えますか？
+        <span class="chev">▾</span>
+      </summary>
+      <div class="faq-a">はい。初期費用・月額費用・成果報酬すべて無料です。今後、有料の追加機能を提供する場合も、現在ご提供している機能はずっと無料でご利用いただけます。</div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="qmark">Q</span>
+        どんなジャンルのクラブが掲載できますか？
+        <span class="chev">▾</span>
+      </summary>
+      <div class="faq-a">サッカー・野球・体操などのスポーツ、ダンス・武道・水泳など、子ども向けのスポーツ・運動系クラブが対象です。</div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="qmark">Q</span>
+        スマホからでも掲載できますか？
+        <span class="chev">▾</span>
+      </summary>
+      <div class="faq-a">はい。スマートフォンのブラウザから登録・編集のすべてが可能です。専用アプリのインストールも不要です。</div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="qmark">Q</span>
+        掲載開始までどれくらいかかりますか？
+        <span class="chev">▾</span>
+      </summary>
+      <div class="faq-a">情報入力から審査完了まで数日いただく場合があります。審査通過後すぐに公開されます。</div>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">
+        <span class="qmark">Q</span>
+        途中でやめることはできますか？
+        <span class="chev">▾</span>
+      </summary>
+      <div class="faq-a">いつでも掲載停止・削除が可能です。違約金や手数料は一切いただきません。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ===== Final CTA ===== -->
+<section class="final-cta">
+  <h2>さあ、<span class="blue">チビスポ</span>でクラブを伝えよう。</h2>
+  <p>登録は3分。クラブの活動が、もっと多くの子どもたちと家族に届きます。</p>
+  <a href="register.html" class="cta-primary">
+    無料で掲載をはじめる
+    <span class="arrow">›</span>
+  </a>
+</section>
+
+<!-- ===== Footer ===== -->
 <footer>
-  © 2026 チビスポ｜運営：MOYORI｜<a href="legal.html">プライバシーポリシー・利用規約</a>｜<a href="contact.html">お問い合わせ</a>
+  <div class="footer-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="チビスポ" />
+      <p>子どものスポーツ・習い事クラブのための<br />情報掲載プラットフォーム。<br />全国のクラブと保護者をつなぎます。</p>
+    </div>
+    <div>
+      <h5>サービス</h5>
+      <ul>
+        <li><a href="#features">掲載のメリット</a></li>
+        <li><a href="#flow">ご利用の流れ</a></li>
+        <li><a href="#faq">よくあるご質問</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>チームを探す</h5>
+      <ul>
+        <li><a href="index.html">クラブ一覧</a></li>
+        <li><a href="register.html">チーム登録</a></li>
+        <li><a href="contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>規約・ポリシー</h5>
+      <ul>
+        <li><a href="legal.html">利用規約</a></li>
+        <li><a href="legal.html">プライバシーポリシー</a></li>
+        <li><a href="legal.html">運営者情報</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© 2026 チビスポ｜運営：MOYORI</div>
 </footer>
+
+<a class="floating-cta" href="register.html">無料で掲載する <span class="ar">›</span></a>
 
 </body>
 </html>
