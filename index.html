@@ -71,6 +71,16 @@
     .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
     .empty-state p { font-size: .95rem; }
 
+    /* Placeholder card */
+    .card-placeholder { background: #f8fafc; border-radius: var(--radius); border: 2px dashed var(--border); overflow: hidden; opacity: .75; }
+    .card-placeholder .card-body { padding: 16px; }
+    .card-placeholder .ph-badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; background: #f1f5f9; color: var(--muted); }
+    .card-placeholder h3 { font-size: 1rem; font-weight: 800; color: #cbd5e1; margin-bottom: 4px; }
+    .card-placeholder .ph-loc { font-size: .82rem; color: #cbd5e1; margin-bottom: 10px; }
+    .card-placeholder .ph-meta { font-size: .82rem; color: #cbd5e1; margin-bottom: 14px; line-height: 1.8; }
+    .card-placeholder .ph-cta { display: block; text-align: center; padding: 8px; border-radius: 8px; font-size: .82rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--primary); text-decoration: none; transition: all .15s; }
+    .card-placeholder .ph-cta:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
     .register-cta { max-width: 900px; margin: 0 auto 40px; padding: 0 16px; }
     .register-cta a { display: block; background: var(--accent); color: #fff; text-align: center; padding: 14px; border-radius: var(--radius); font-weight: 700; text-decoration: none; font-size: .95rem; }
     .register-cta a:hover { opacity: .9; }
@@ -118,6 +128,8 @@
   <h1>🏃 チビスポ</h1>
   <p>体を動かすクラブ・チームをかんたんに探せる</p>
   <div class="header-links">
+    <a href="team-lp.html">無料掲載について</a>
+    ／
     <a href="register.html">＋ チームを登録する</a>
     ／
     <a href="mypage.html">チームの方はこちら</a>
@@ -207,7 +219,7 @@
 </div>
 
 <div class="register-cta">
-  <a href="register.html">＋ チームを無料で登録する</a>
+  <a href="team-lp.html">チームを無料で掲載しませんか？ 詳しくはこちら →</a>
 </div>
 
 <!-- Modal -->
@@ -324,6 +336,34 @@ function resetFilters() {
   applyFilters();
 }
 
+const PLACEHOLDER_SPORTS = [
+  { emoji:'⚾', sport:'野球',     label:'掲載準備中', cls:'baseball' },
+  { emoji:'⚽', sport:'サッカー', label:'掲載準備中', cls:'soccer' },
+  { emoji:'🏀', sport:'バスケ',   label:'掲載準備中', cls:'basketball' },
+  { emoji:'🎾', sport:'テニス',   label:'掲載準備中', cls:'tennis' },
+  { emoji:'🏊', sport:'水泳',     label:'掲載準備中', cls:'swim' },
+  { emoji:'🏸', sport:'バドミントン', label:'掲載準備中', cls:'badminton' },
+];
+
+function renderPlaceholders(count) {
+  const grid = document.getElementById('cardGrid');
+  for (let i = 0; i < count; i++) {
+    const p = PLACEHOLDER_SPORTS[i % PLACEHOLDER_SPORTS.length];
+    const el = document.createElement('div');
+    el.className = 'card-placeholder';
+    el.innerHTML = `
+      <div class="card-sport-bar sport-${p.cls}" style="opacity:.3;"></div>
+      <div class="card-body">
+        <div class="ph-badge">${p.emoji} ${p.sport}</div>
+        <h3>掲載準備中のチーム</h3>
+        <div class="ph-loc">📍 あなたの地域</div>
+        <div class="ph-meta">このスポーツのチームが間もなく掲載されます</div>
+        <a class="ph-cta" href="team-lp.html">チームを無料掲載する →</a>
+      </div>`;
+    grid.appendChild(el);
+  }
+}
+
 function renderCards(list) {
   const grid = document.getElementById('cardGrid');
   document.getElementById('resultCount').textContent = `${list.length} 件`;
@@ -333,6 +373,7 @@ function renderCards(list) {
       ? 'お気に入りにチームがありません。<br>カードの ⭐ を押して追加してください。'
       : '条件に合うチームが見つかりませんでした。';
     grid.innerHTML = `<div class="empty-state"><div class="icon">${currentTab === 'fav' ? '⭐' : '🔍'}</div><p>${msg}</p></div>`;
+    if (currentTab !== 'fav') renderPlaceholders(6);
     return;
   }
   list.forEach(team => {
@@ -367,6 +408,10 @@ function renderCards(list) {
       </div>`;
     grid.appendChild(card);
   });
+  // 実チームが6件未満のとき、プレースホルダーで補完
+  if (currentTab !== 'fav' && list.length < 6) {
+    renderPlaceholders(6 - list.length);
+  }
 }
 
 function openModal(id) {
