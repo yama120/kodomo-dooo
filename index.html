@@ -47,6 +47,11 @@
     .card-body { padding: 16px; position: relative; }
     .fav-btn { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.2rem; cursor: pointer; line-height: 1; transition: transform .15s; }
     .fav-btn:hover { transform: scale(1.2); }
+    .like-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .like-btn { background: none; border: 1.5px solid var(--border); border-radius: 20px; padding: 3px 10px; font-size: .8rem; cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--muted); font-weight: 600; transition: all .15s; }
+    .like-btn:hover { border-color: #f43f5e; color: #f43f5e; }
+    .like-btn.liked { border-color: #f43f5e; color: #f43f5e; background: #fff1f2; }
+    .like-btn .heart { font-size: .95rem; }
     .card-sport-badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
     .card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; line-height: 1.3; padding-right: 28px; }
     .card-location { font-size: .82rem; color: var(--muted); margin-bottom: 10px; text-decoration: none; display: block; }
@@ -271,6 +276,27 @@ let teams = [];
 let currentTab = 'all';
 let favorites = JSON.parse(localStorage.getItem('sf_favorites') || '[]');
 
+// セッションID（ブラウザごとに一意）
+let sessionId = localStorage.getItem('sf_session_id');
+if (!sessionId) {
+  sessionId = crypto.randomUUID();
+  localStorage.setItem('sf_session_id', sessionId);
+}
+
+let likeCounts = {};   // { team_id: count }
+let likedByMe = new Set(); // 自分がいいねしたteam_id
+
+async function loadLikes() {
+  const { data } = await db.from('likes').select('team_id, session_id');
+  if (!data) return;
+  likeCounts = {};
+  likedByMe = new Set();
+  data.forEach(row => {
+    likeCounts[row.team_id] = (likeCounts[row.team_id] || 0) + 1;
+    if (row.session_id === sessionId) likedByMe.add(row.team_id);
+  });
+}
+
 function isFav(id) { return favorites.includes(id); }
 function toggleFav(id, e) {
   e.stopPropagation();
@@ -280,18 +306,42 @@ function toggleFav(id, e) {
 }
 
 async function loadTeams() {
-  const { data, error } = await db.from('teams').select('*').eq('status', 'approved').order('created_at', { ascending: false });
-  if (error) {
+  const [teamsRes] = await Promise.all([
+    db.from('teams').select('*').eq('status', 'approved').order('created_at', { ascending: false }),
+    loadLikes()
+  ]);
+  if (teamsRes.error) {
     document.getElementById('cardGrid').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>データの読み込みに失敗しました。<br>再度読み込んでください。</p></div>`;
     return;
   }
-  teams = data.map(t => ({
+  teams = teamsRes.data.map(t => ({
     id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city,
     ageGroups: t.age_groups, days: t.days, feeNum: t.fee_num, fee: t.fee,
     trial: t.trial, contact: { instagram: t.instagram, email: t.email, twitter: t.twitter, website_url: t.website_url },
     description: t.description, photoUrl: t.photo_url
   }));
   applyFilters();
+}
+
+async function toggleLike(teamId, e) {
+  e.stopPropagation();
+  const already = likedByMe.has(teamId);
+  if (already) {
+    likedByMe.delete(teamId);
+    likeCounts[teamId] = Math.max(0, (likeCounts[teamId] || 1) - 1);
+    await db.from('likes').delete().eq('team_id', teamId).eq('session_id', sessionId);
+  } else {
+    likedByMe.add(teamId);
+    likeCounts[teamId] = (likeCounts[teamId] || 0) + 1;
+    await db.from('likes').insert({ team_id: teamId, session_id: sessionId });
+  }
+  // ボタンだけ更新
+  const btn = document.querySelector(`.like-btn[data-id="${teamId}"]`);
+  if (btn) {
+    btn.classList.toggle('liked', likedByMe.has(teamId));
+    btn.querySelector('.like-count').textContent = likeCounts[teamId] || 0;
+    btn.querySelector('.heart').textContent = likedByMe.has(teamId) ? '❤️' : '🤍';
+  }
 }
 
 function setTab(tab) {
@@ -394,6 +444,12 @@ function renderCards(list) {
         <div class="card-sport-badge badge-${sc.cls}">${sc.emoji} ${team.sport}</div>
         <h3>${team.name}</h3>
         <a class="card-location" href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank" onclick="event.stopPropagation()">📍 ${team.pref} ${team.city} <span style="font-size:.75rem;color:var(--primary);">地図▶</span></a>
+        <div class="like-row" onclick="event.stopPropagation()">
+          <button class="like-btn ${likedByMe.has(team.id) ? 'liked' : ''}" data-id="${team.id}" onclick="toggleLike('${team.id}', event)">
+            <span class="heart">${likedByMe.has(team.id) ? '❤️' : '🤍'}</span>
+            <span class="like-count">${likeCounts[team.id] || 0}</span>
+          </button>
+        </div>
         <div class="card-meta">
           <div class="card-meta-item"><span class="icon">👦</span>${team.ageGroups.join(' · ')}</div>
           <div class="card-meta-item"><span class="icon">💴</span>${team.fee}</div>
