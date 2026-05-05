@@ -1118,15 +1118,19 @@ footer {
       <div class="upcoming-card">
         <div class="upcoming-icon">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- 吹き出し -->
-            <rect x="6" y="8" width="52" height="36" rx="8" fill="#fff7ed" stroke="#f59e0b" stroke-width="2.5"/>
-            <path d="M18 44 L14 54 L26 48" fill="#fff7ed" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/>
-            <!-- 星 -->
-            <text x="8" y="32" font-size="14" fill="#f59e0b" font-family="sans-serif">★★★★</text>
-            <!-- プロフィール円 -->
-            <circle cx="50" cy="22" r="8" fill="#fca5a5" stroke="#fff" stroke-width="2"/>
-            <circle cx="50" cy="19" r="3" fill="#fff"/>
-            <path d="M44 28 C44 24 56 24 56 28" fill="#fff"/>
+            <!-- カード背景 -->
+            <rect x="6" y="8" width="52" height="48" rx="7" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+            <!-- 人物アイコン -->
+            <circle cx="18" cy="22" r="7" fill="#fca5a5"/>
+            <circle cx="18" cy="19.5" r="3" fill="#fff"/>
+            <path d="M11 28 C11 24 25 24 25 28" fill="#fca5a5"/>
+            <!-- テキスト行 -->
+            <rect x="29" y="17" width="22" height="3" rx="1.5" fill="#cbd5e1"/>
+            <rect x="29" y="23" width="15" height="3" rx="1.5" fill="#e2e8f0"/>
+            <!-- 区切り線 -->
+            <line x1="12" y1="36" x2="52" y2="36" stroke="#f1f5f9" stroke-width="1.5"/>
+            <!-- 星5つ -->
+            <text x="11" y="50" font-size="13" fill="#f59e0b" letter-spacing="1">★★★★★</text>
           </svg>
         </div>
         <div class="upcoming-title">口コミ・レビュー</div>
@@ -1136,15 +1140,14 @@ footer {
       <div class="upcoming-card">
         <div class="upcoming-icon">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- 地図背景 -->
-            <rect x="6" y="10" width="52" height="42" rx="6" fill="#d1fae5" stroke="#059669" stroke-width="2.5"/>
-            <!-- 道路 -->
-            <path d="M6 36 Q20 30 32 36 Q44 42 58 36" stroke="#a7f3d0" stroke-width="4" fill="none"/>
-            <path d="M20 10 L20 52" stroke="#a7f3d0" stroke-width="3"/>
+            <!-- 地図本体（折りたたみ） -->
+            <path d="M8 14 L22 10 L42 16 L56 12 L56 50 L42 54 L22 48 L8 52 Z" fill="#d1fae5" stroke="#059669" stroke-width="2" stroke-linejoin="round"/>
+            <!-- 折り目線 -->
+            <line x1="22" y1="10" x2="22" y2="48" stroke="#6ee7b7" stroke-width="1.5"/>
+            <line x1="42" y1="16" x2="42" y2="54" stroke="#6ee7b7" stroke-width="1.5"/>
             <!-- ピン -->
-            <ellipse cx="38" cy="52" rx="6" ry="2.5" fill="rgba(0,0,0,0.15)"/>
-            <path d="M38 48 C38 48 28 37 28 30 C28 24.5 32.5 20 38 20 C43.5 20 48 24.5 48 30 C48 37 38 48 38 48Z" fill="#ef4444"/>
-            <circle cx="38" cy="30" r="5" fill="#fff"/>
+            <path d="M32 42 C32 42 22 32 22 25 C22 19.5 26.5 15 32 15 C37.5 15 42 19.5 42 25 C42 32 32 42 32 42Z" fill="#ef4444"/>
+            <circle cx="32" cy="25" r="5" fill="#fff"/>
           </svg>
         </div>
         <div class="upcoming-title">地図から探す</div>
@@ -1154,19 +1157,18 @@ footer {
       <div class="upcoming-card">
         <div class="upcoming-icon">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- 左手 -->
-            <path d="M8 34 C8 28 16 24 22 28 L30 32" stroke="#2563eb" stroke-width="3" stroke-linecap="round" fill="none"/>
-            <!-- 右手 -->
-            <path d="M56 34 C56 28 48 24 42 28 L34 32" stroke="#ec4899" stroke-width="3" stroke-linecap="round" fill="none"/>
-            <!-- 握手部分 -->
-            <ellipse cx="32" cy="33" rx="9" ry="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-            <path d="M24 33 C24 29 40 29 40 33" fill="#fef3c7"/>
             <!-- 人物左 -->
-            <circle cx="14" cy="16" r="7" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-            <path d="M7 50 C7 40 21 38 21 46" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="16" cy="14" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <circle cx="16" cy="11" r="3.5" fill="#2563eb"/>
+            <path d="M7 34 C7 26 25 26 25 34" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
             <!-- 人物右 -->
-            <circle cx="50" cy="16" r="7" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
-            <path d="M57 50 C57 40 43 38 43 46" stroke="#ec4899" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="48" cy="14" r="8" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <circle cx="48" cy="11" r="3.5" fill="#ec4899"/>
+            <path d="M39 34 C39 26 57 26 57 34" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <!-- 握手 -->
+            <path d="M19 44 L26 40 L32 43 L38 40 L45 44" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="32" cy="43" r="5" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <path d="M29 43 L31 45 L35 40" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="upcoming-title">チーム同士の交流機能</div>
