@@ -50,13 +50,7 @@ img { max-width: 100%; display: block; }
   height: 64px;
   display: flex; align-items: center; gap: 32px;
 }
-.logo {
-  font-size: 22px; font-weight: 900;
-  color: var(--orange);
-  white-space: nowrap;
-  letter-spacing: -.02em;
-}
-.logo span { color: var(--blue); }
+.logo img { height: 36px; display: block; }
 .nav-links {
   display: flex; gap: 28px; margin-left: 8px;
 }
@@ -603,8 +597,8 @@ footer {
   max-width: 1200px; margin: 0 auto; padding: 0 24px;
   display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
 }
-.footer-logo { font-size: 18px; font-weight: 900; color: #fff; }
-.footer-logo span { font-size: 11px; font-weight: 500; color: #64748b; display: block; margin-top: 2px; }
+.footer-logo img { height: 28px; display: block; filter: brightness(0) invert(1); }
+.footer-logo span { font-size: 11px; font-weight: 500; color: #64748b; display: block; margin-top: 4px; }
 .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
 .footer-links a { font-size: 13px; color: #94a3b8; transition: color .15s; }
 .footer-links a:hover { color: #fff; }
@@ -806,7 +800,7 @@ footer {
 <!-- HEADER -->
 <header class="header">
   <div class="header-inner">
-    <div class="logo">チビスポ</div>
+    <div class="logo"><a href="index.html"><img src="assets/logo.png" alt="チビスポ" /></a></div>
     <nav class="nav-links">
       <a href="#teams-section">チームを探す</a>
       <a href="team-lp.html">掲載のメリット</a>
@@ -1064,7 +1058,7 @@ footer {
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">
-      チビスポ
+      <img src="assets/logo.png" alt="チビスポ" />
       <span>子どもたちに、やりたい運動を。</span>
     </div>
     <div class="footer-links">
