@@ -282,11 +282,19 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 let currentTab = 'pending';
 let allTeams = [];
 let currentUser = null;
+let authFlowRunning = false;
 
 function showLoginError(message) {
   const errorEl = document.getElementById('loginError');
   errorEl.textContent = message;
   errorEl.style.display = 'block';
+}
+
+function showLogin(message = '') {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
+  if (message) showLoginError(message);
 }
 
 function normalizeWebsiteUrl(value) {
@@ -310,10 +318,12 @@ function normalizeTwitter(value) {
 
 // ===== AUTH =====
 async function login() {
+  if (authFlowRunning) return;
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const btn = document.getElementById('loginBtn');
   const errorEl = document.getElementById('loginError');
+  authFlowRunning = true;
   errorEl.style.display = 'none';
   btn.disabled = true;
   btn.textContent = 'ログイン中...';
@@ -323,19 +333,19 @@ async function login() {
     showLoginError('メールアドレスまたはパスワードが正しくありません。');
     btn.disabled = false;
     btn.textContent = 'ログイン';
+    authFlowRunning = false;
     return;
   }
   currentUser = data.user;
   await showDashboard();
   btn.disabled = false;
   btn.textContent = 'ログイン';
+  authFlowRunning = false;
 }
 
 async function logout() {
   await db.auth.signOut();
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('loginPassword').value = '';
+  showLogin();
 }
 
 // 初期セッションチェック
@@ -350,11 +360,15 @@ db.auth.getSession().then(async ({ data: { session } }) => {
 
 db.auth.onAuthStateChange(async (event, session) => {
   if (!initialized) return;
+  if (authFlowRunning && event === 'SIGNED_IN') return;
   if (event === 'SIGNED_IN') {
     currentUser = session.user;
     await showDashboard();
   }
-  if (event === 'SIGNED_OUT') { logout(); }
+  if (event === 'SIGNED_OUT') {
+    currentUser = null;
+    showLogin();
+  }
 });
 
 async function isAdminUser(user) {
@@ -364,27 +378,39 @@ async function isAdminUser(user) {
     .select('user_id')
     .eq('user_id', user.id)
     .maybeSingle();
-  return !error && !!data;
+  if (error) {
+    console.error('Admin check failed:', error);
+    showLoginError('管理者確認に失敗しました。Supabaseのadminsテーブル/RLS設定を確認してください。');
+    return false;
+  }
+  return !!data;
 }
 
 async function showDashboard() {
   const allowed = await isAdminUser(currentUser);
   if (!allowed) {
     await db.auth.signOut();
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('loginWrap').style.display = 'flex';
-    showLoginError('管理者権限がありません。');
+    showLogin('管理者権限がありません。');
     return;
   }
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
-  loadTeams();
+  await loadTeams();
 }
 
 // ===== DATA =====
 async function loadTeams() {
   const { data, error } = await db.from('teams').select('*').order('created_at', { ascending: false });
-  if (error) { document.getElementById('teamList').innerHTML = '<div class="empty">データの読み込みに失敗しました。</div>'; return; }
+  if (error) {
+    console.error('Team load failed:', error);
+    const teamList = document.getElementById('teamList');
+    teamList.textContent = '';
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'データの読み込みに失敗しました。Supabaseのteams RLS設定を確認してください。';
+    teamList.appendChild(empty);
+    return;
+  }
   allTeams = data;
   updateStats();
   renderTab();
