@@ -1301,6 +1301,33 @@ let sortMode       = 'default';
 const WEEKDAY = ['月','火','水','木','金'];
 const WEEKEND = ['土','日'];
 
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+}
+
+function safeUrl(value) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function safeHandle(value, service) {
+  const raw = String(value || '').trim().replace(/^@/, '');
+  if (service === 'instagram') return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
+  if (service === 'twitter') return /^[A-Za-z0-9_]{1,15}$/.test(raw) ? raw : '';
+  return '';
+}
+
+function safeEmail(value) {
+  const raw = String(value || '').trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw) ? raw : '';
+}
+
 function isFav(id) { return favorites.includes(id); }
 
 function toggleFav(id, e) {
@@ -1377,6 +1404,19 @@ function renderCards(list) {
     const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
     const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
     const fav = isFav(team.id);
+    const teamId = escapeHTML(team.id);
+    const name = escapeHTML(team.name);
+    const sport = escapeHTML(team.sport);
+    const pref = escapeHTML(team.pref);
+    const city = escapeHTML(team.city);
+    const ageGroups = (team.ageGroups || []).map(escapeHTML).join(' · ');
+    const ageMin = team.ageMin ? `（${escapeHTML(team.ageMin)}）` : '';
+    const fee = escapeHTML(team.fee || '要確認');
+    const description = escapeHTML(team.description);
+    const websiteUrl = safeUrl(team.contact.website_url);
+    const instagram = safeHandle(team.contact.instagram, 'instagram');
+    const twitter = safeHandle(team.contact.twitter, 'twitter');
+    const photoUrl = safeUrl(team.photoUrl);
 
     const tags = [
       team.trial ? '<span class="ctag trial">体験OK</span>' : '',
@@ -1384,34 +1424,34 @@ function renderCards(list) {
     ].filter(Boolean).join('');
 
     const snsBtns = [
-      team.contact.website_url ? `<a class="card-sns-btn" href="${team.contact.website_url}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
-      team.contact.instagram   ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
-      team.contact.twitter     ? `<a class="card-sns-btn tw" href="https://x.com/${team.contact.twitter}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
+      websiteUrl ? `<a class="card-sns-btn" href="${escapeHTML(websiteUrl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
+      instagram  ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
+      twitter    ? `<a class="card-sns-btn tw" href="https://x.com/${escapeHTML(twitter)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
     ].filter(Boolean).join('');
 
-    const photoHTML = team.photoUrl
-      ? `<img src="${team.photoUrl}" alt="${team.name}" />`
+    const photoHTML = photoUrl
+      ? `<img src="${escapeHTML(photoUrl)}" alt="${name}" />`
       : `<div class="card-img-placeholder">${sc.emoji}</div>`;
 
     const card = document.createElement('div');
     card.className = 'team-card';
     card.innerHTML = `
       <div class="card-img-wrap" style="background:${bg};">
-        <span class="card-sport-badge badge-${sc.cls}">${team.sport}</span>
-        <button class="card-heart-btn" data-id="${team.id}" onclick="toggleFav('${team.id}', event)">${fav ? '❤️' : '🤍'}</button>
+        <span class="card-sport-badge badge-${sc.cls}">${sport}</span>
+        <button class="card-heart-btn" data-id="${teamId}" onclick="toggleFav('${teamId}', event)">${fav ? '❤️' : '🤍'}</button>
         ${photoHTML}
       </div>
       <div class="card-body">
-        <div class="card-name">${team.name}</div>
+        <div class="card-name">${name}</div>
         <div class="card-meta-grid">
-          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${team.pref}${team.city}</div>
-          <div class="card-meta-row">👦 ${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div>
-          <div class="card-meta-row">💴 ${team.fee || '要確認'}</div>
+          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${pref}${city}</div>
+          <div class="card-meta-row">👦 ${ageGroups}${ageMin}</div>
+          <div class="card-meta-row">💴 ${fee}</div>
         </div>
         ${tags ? `<div class="card-tags">${tags}</div>` : ''}
         ${snsBtns ? `<div class="card-sns-row">${snsBtns}</div>` : ''}
-        ${team.description ? `<div class="card-desc">${team.description}</div>` : ''}
-        <button class="detail-btn" onclick="event.stopPropagation();openModal('${team.id}')">詳細を見る</button>
+        ${description ? `<div class="card-desc">${description}</div>` : ''}
+        <button class="detail-btn" onclick="event.stopPropagation();openModal('${teamId}')">詳細を見る</button>
       </div>`;
     grid.appendChild(card);
   });
@@ -1449,12 +1489,27 @@ function openModal(id) {
   if (!team) return;
   const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
   const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
+  const teamId = escapeHTML(team.id);
+  const name = escapeHTML(team.name);
+  const sport = escapeHTML(team.sport);
+  const pref = escapeHTML(team.pref);
+  const city = escapeHTML(team.city);
+  const ageGroups = (team.ageGroups || []).map(escapeHTML).join(' · ');
+  const ageMin = team.ageMin ? `（${escapeHTML(team.ageMin)}）` : '';
+  const fee = escapeHTML(team.fee || '要確認');
+  const daysText = (team.days && team.days.length) ? team.days.map(escapeHTML).join('・') : '要確認';
+  const description = escapeHTML(team.description);
+  const websiteUrl = safeUrl(team.contact.website_url);
+  const instagram = safeHandle(team.contact.instagram, 'instagram');
+  const twitter = safeHandle(team.contact.twitter, 'twitter');
+  const email = safeEmail(team.contact.email);
+  const photoUrl = safeUrl(team.photoUrl);
 
   // 写真エリア
   const wrap = document.getElementById('modalPhotoWrap');
   wrap.style.background = bg;
-  const photoHTML = team.photoUrl
-    ? `<img src="${team.photoUrl}" alt="${team.name}" />`
+  const photoHTML = photoUrl
+    ? `<img src="${escapeHTML(photoUrl)}" alt="${name}" />`
     : `<div class="modal-photo-placeholder">${sc.emoji}</div>`;
   wrap.innerHTML = photoHTML;
 
@@ -1462,22 +1517,19 @@ function openModal(id) {
   const shareUrl  = encodeURIComponent(location.href.split('?')[0]);
   const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをチビスポで見つけました！`);
 
-  // 活動日
-  const daysText = (team.days && team.days.length) ? team.days.join('・') : '要確認';
-
   // SNSリンク
   const snsLinks = [
-    team.contact.instagram   ? `<a class="modal-sns-link" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon sns-ico"></i> Instagram<span class="ext">↗</span></a>` : '',
-    team.contact.twitter     ? `<a class="modal-sns-link" href="https://x.com/${team.contact.twitter}" target="_blank"><span class="sns-ico">𝕏</span> X (Twitter)<span class="ext">↗</span></a>` : '',
-    team.contact.website_url ? `<a class="modal-sns-link" href="${team.contact.website_url}" target="_blank"><span class="sns-ico">🌐</span> ウェブサイト<span class="ext">↗</span></a>` : '',
+    instagram  ? `<a class="modal-sns-link" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram ig-icon sns-ico"></i> Instagram<span class="ext">↗</span></a>` : '',
+    twitter    ? `<a class="modal-sns-link" href="https://x.com/${escapeHTML(twitter)}" target="_blank" rel="noopener noreferrer"><span class="sns-ico">𝕏</span> X (Twitter)<span class="ext">↗</span></a>` : '',
+    websiteUrl ? `<a class="modal-sns-link" href="${escapeHTML(websiteUrl)}" target="_blank" rel="noopener noreferrer"><span class="sns-ico">🌐</span> ウェブサイト<span class="ext">↗</span></a>` : '',
   ].filter(Boolean).join('');
 
   // 問い合わせボタン
-  const igBtn = team.contact.instagram
-    ? `<a class="modal-contact-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon"></i> Instagramで問い合わせ</a>` : '';
-  const mailBtn = team.contact.email
+  const igBtn = instagram
+    ? `<a class="modal-contact-btn ig" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram ig-icon"></i> Instagramで問い合わせ</a>` : '';
+  const mailBtn = email
     ? `<a class="modal-contact-btn mail" href="${makeMailto(team)}">✉️ メールで問い合わせ</a>` : '';
-  const contactTypes = [team.contact.instagram && 'Instagram', team.contact.email && 'メール'].filter(Boolean).join('または');
+  const contactTypes = [instagram && 'Instagram', email && 'メール'].filter(Boolean).join('または');
   const contactNote = contactTypes ? `<p class="modal-contact-note">✨ お問い合わせは${contactTypes}で受付中</p>` : '';
 
   const fav = isFav(team.id);
@@ -1485,24 +1537,24 @@ function openModal(id) {
   document.getElementById('modalContent').innerHTML = `
     <div class="modal-title-row">
       <div>
-        <h2 class="modal-team-name">${team.name}</h2>
-        <span class="modal-sport-pill sport-${sc.cls}">${sc.emoji} ${team.sport}</span>
+        <h2 class="modal-team-name">${name}</h2>
+        <span class="modal-sport-pill sport-${sc.cls}">${sc.emoji} ${sport}</span>
       </div>
     </div>
     <div class="modal-location">
-      📍 <strong>${team.pref} ${team.city}</strong>
-      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank">地図で見る ▶</a>
+      📍 <strong>${pref} ${city}</strong>
+      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank" rel="noopener noreferrer">地図で見る ▶</a>
     </div>
 
     <div class="modal-section-heading">基本情報</div>
     <div class="modal-info-grid">
       <div class="modal-info-card">
         <div class="modal-icon-wrap blue">👥</div>
-        <div><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div></div>
+        <div><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${ageGroups}${ageMin}</div></div>
       </div>
       <div class="modal-info-card">
         <div class="modal-icon-wrap pink"><span style="font-size:17px;font-weight:900;color:#ec4899;">¥</span></div>
-        <div><div class="modal-info-label">月謝</div><div class="modal-info-value">${team.fee || '要確認'}</div></div>
+        <div><div class="modal-info-label">月謝</div><div class="modal-info-value">${fee}</div></div>
       </div>
       <div class="modal-info-card">
         <div class="modal-icon-wrap green">📅</div>
@@ -1514,9 +1566,9 @@ function openModal(id) {
       </div>
     </div>
 
-    ${team.description ? `
+    ${description ? `
     <div class="modal-section-heading">チームについて</div>
-    <div class="modal-desc-box">${team.description}</div>` : ''}
+    <div class="modal-desc-box">${description}</div>` : ''}
 
     ${snsLinks ? `
     <div class="modal-section-heading">SNSリンク</div>
@@ -1527,7 +1579,7 @@ function openModal(id) {
     <div class="modal-contact-row">${igBtn}${mailBtn}</div>
     ${contactNote}` : ''}
 
-    <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${team.id}')">
+    <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${teamId}')">
       ${fav ? '❤️ お気に入り済み' : '🤍 お気に入りに追加'}
     </button>
 
@@ -1564,7 +1616,8 @@ function makeMailto(team) {
   const body = encodeURIComponent(
 `${team.name} 担当者様\n\nチビスポを見てご連絡しました。\n\n【お名前】\n【お子さんの年齢】\n【ご質問・ご要望】\n\nよろしくお願いいたします。`
   );
-  return `mailto:${team.contact.email}?subject=${subject}&body=${body}`;
+  const email = safeEmail(team.contact.email);
+  return `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 // ===== SEARCH UI WIRING =====

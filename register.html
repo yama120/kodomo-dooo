@@ -320,6 +320,25 @@ const EMAILJS_TEMPLATE_ID = 'template_kqggwf6';
 const EMAILJS_PUBLIC_KEY  = '_3ihuQJR4hTieK4h_';
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
+function normalizeWebsiteUrl(value) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function normalizeInstagram(value) {
+  const raw = String(value || '').trim().replace(/^@/, '');
+  return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
+}
+
+function normalizeTwitter(value) {
+  const raw = String(value || '').trim().replace(/^@/, '');
+  return /^[A-Za-z0-9_]{1,15}$/.test(raw) ? raw : '';
+}
+
 document.getElementById('agePreschool').addEventListener('change', function() {
   const wrap = document.getElementById('ageMinWrap');
   wrap.style.display = this.checked ? 'block' : 'none';
@@ -336,10 +355,10 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
   const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
   const trialVal = document.querySelector('input[name="trial"]:checked')?.value;
-  const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
+  const instagram = normalizeInstagram(document.getElementById('instagram').value);
   const email = document.getElementById('email').value.trim();
-  const twitter = document.getElementById('twitter').value.trim().replace(/^@/, '');
-  const websiteUrl = document.getElementById('website_url').value.trim();
+  const twitter = normalizeTwitter(document.getElementById('twitter').value);
+  const websiteUrl = normalizeWebsiteUrl(document.getElementById('website_url').value);
   const feeNum = parseInt(document.getElementById('feeNum').value);
   const authEmail = document.getElementById('authEmail').value.trim();
   const authPassword = document.getElementById('authPassword').value;
@@ -352,6 +371,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
   if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
   if (!instagram && !email) { showError('Instagramまたはメールアドレスのどちらかをご入力ください。'); return; }
+  if (document.getElementById('instagram').value.trim() && !instagram) { showError('Instagramアカウント名の形式を確認してください。'); return; }
+  if (document.getElementById('twitter').value.trim() && !twitter) { showError('Xアカウント名の形式を確認してください。'); return; }
+  if (document.getElementById('website_url').value.trim() && !websiteUrl) { showError('ウェブサイトURLは http:// または https:// から始まるURLを入力してください。'); return; }
   if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
   if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
 
@@ -408,7 +430,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     sport: getSportValue(),
     pref: document.getElementById('pref').value,
     city: document.getElementById('city').value.trim(),
-    applicant_email: email || instagram ? `Instagram: @${instagram}` : '未入力',
+    applicant_email: email ? email : (instagram ? `Instagram: @${instagram}` : '未入力'),
   }).catch(() => {}); // メール失敗しても申請は通す
 
   document.getElementById('formArea').style.display = 'none';

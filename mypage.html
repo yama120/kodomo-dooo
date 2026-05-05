@@ -376,6 +376,25 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let myTeam = null;
 
+function normalizeWebsiteUrl(value) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function normalizeInstagram(value) {
+  const raw = String(value || '').trim().replace(/^@/, '');
+  return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
+}
+
+function normalizeTwitter(value) {
+  const raw = String(value || '').trim().replace(/^@/, '');
+  return /^[A-Za-z0-9_]{1,15}$/.test(raw) ? raw : '';
+}
+
 function toggleSportOther(sel) {
   const other = document.getElementById('sportOther');
   if (sel.value === 'その他') {
@@ -696,7 +715,7 @@ async function uploadPhoto() {
   const { data } = db.storage.from('team-photos').getPublicUrl(path);
   const photoUrl = data.publicUrl;
 
-  await db.from('teams').update({ photo_url: photoUrl }).eq('id', myTeam.id);
+  await db.from('teams').update({ photo_url: photoUrl }).eq('id', myTeam.id).eq('user_id', myTeam.user_id);
   myTeam.photo_url = photoUrl;
 
   document.getElementById('photoMsg').textContent = '写真をアップロードしました。';
@@ -715,7 +734,7 @@ async function removePhoto() {
   const ext = myTeam.photo_url.split('.').pop().split('?')[0];
   const path = `${myTeam.user_id}/${myTeam.id}.${ext}`;
   await db.storage.from('team-photos').remove([path]);
-  await db.from('teams').update({ photo_url: null }).eq('id', myTeam.id);
+  await db.from('teams').update({ photo_url: null }).eq('id', myTeam.id).eq('user_id', myTeam.user_id);
   myTeam.photo_url = null;
 
   const preview = document.getElementById('photoPreview');
@@ -740,6 +759,28 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
   const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
   const feeNum = parseInt(document.getElementById('feeNum').value) || 0;
+  const instagram = normalizeInstagram(document.getElementById('instagram').value);
+  const twitter = normalizeTwitter(document.getElementById('twitter').value);
+  const websiteUrl = normalizeWebsiteUrl(document.getElementById('website_url').value);
+
+  if (document.getElementById('instagram').value.trim() && !instagram) {
+    alert('Instagramアカウント名の形式を確認してください。');
+    btn.disabled = false;
+    btn.textContent = '保存する';
+    return;
+  }
+  if (document.getElementById('twitter').value.trim() && !twitter) {
+    alert('Xアカウント名の形式を確認してください。');
+    btn.disabled = false;
+    btn.textContent = '保存する';
+    return;
+  }
+  if (document.getElementById('website_url').value.trim() && !websiteUrl) {
+    alert('ウェブサイトURLは http:// または https:// から始まるURLを入力してください。');
+    btn.disabled = false;
+    btn.textContent = '保存する';
+    return;
+  }
 
   const updates = {
     name: document.getElementById('name').value.trim(),
@@ -754,14 +795,14 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     fee_num: feeNum,
     fee: `月${feeNum.toLocaleString()}円`,
     trial: document.getElementById('trial').value === 'true',
-    instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
-    twitter: document.getElementById('twitter').value.trim().replace(/^@/, '') || null,
-    website_url: document.getElementById('website_url').value.trim() || null,
+    instagram: instagram || null,
+    twitter: twitter || null,
+    website_url: websiteUrl || null,
     email: document.getElementById('email').value.trim() || null,
     description: document.getElementById('description').value.trim() || null,
   };
 
-  const { error } = await db.from('teams').update(updates).eq('id', myTeam.id);
+  const { error } = await db.from('teams').update(updates).eq('id', myTeam.id).eq('user_id', myTeam.user_id);
   const alertEl = document.getElementById('alertMsg');
 
   if (error) {
