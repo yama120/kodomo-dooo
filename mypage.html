@@ -6,6 +6,8 @@
   <title>マイページ | チビスポ</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="cities.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -22,6 +24,18 @@
     header h1 { font-size: 1.1rem; font-weight: 800; }
     .logout-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: .85rem; cursor: pointer; }
     .logout-btn:hover { background: rgba(255,255,255,.3); }
+
+    .or-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--muted); font-size: .82rem; }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .google-btn {
+      width: 100%; padding: 11px; border: 1.5px solid var(--border);
+      border-radius: 8px; background: #fff; font-size: .92rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: 10px; transition: border-color .15s, box-shadow .15s; color: var(--text);
+    }
+    .google-btn:hover { border-color: #4285f4; box-shadow: 0 0 0 3px rgba(66,133,244,.1); }
+    .google-btn svg { flex-shrink: 0; }
 
     .container { max-width: 640px; margin: 32px auto; padding: 0 16px 60px; }
 
@@ -84,6 +98,42 @@
     .upload-btn:disabled { opacity: .5; cursor: not-allowed; }
     .remove-photo-btn { display: inline-block; padding: 8px 16px; background: #f1f5f9; color: #64748b; border-radius: 8px; font-size: .85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); margin-left: 8px; transition: opacity .15s; }
     .remove-photo-btn:hover { opacity: .85; }
+
+    /* Cropper modal */
+    .crop-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.7); z-index: 500;
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    .crop-modal-overlay.open { display: flex; }
+    .crop-modal {
+      background: #fff; border-radius: 16px; width: 100%;
+      max-width: 600px; padding: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+    }
+    .crop-modal-title {
+      font-size: 16px; font-weight: 800; margin-bottom: 6px;
+    }
+    .crop-modal-hint {
+      font-size: 12px; color: #64748b; margin-bottom: 16px;
+    }
+    .crop-container {
+      width: 100%; max-height: 400px; overflow: hidden;
+      background: #000; border-radius: 8px;
+    }
+    .crop-container img { max-width: 100%; display: block; }
+    .crop-actions {
+      display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end;
+    }
+    .crop-btn-cancel {
+      padding: 10px 20px; border-radius: 8px; border: 1.5px solid #e2e8f0;
+      background: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+    }
+    .crop-btn-ok {
+      padding: 10px 24px; border-radius: 8px; border: none;
+      background: #ff8c1a; color: #fff; font-size: 14px; font-weight: 800; cursor: pointer;
+    }
+    .crop-btn-ok:hover { opacity: .9; }
   </style>
 </head>
 <body>
@@ -103,8 +153,16 @@
   <div id="loginArea" style="display:none;">
     <div class="login-card">
       <h2>チームログイン</h2>
-      <p>登録時に設定したメールアドレスとパスワードでログインしてください。</p>
+      <p>Googleアカウントまたはメールアドレスでログインしてください。</p>
       <div id="loginError" class="alert alert-error" style="display:none;"></div>
+
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+        Googleでログイン
+      </button>
+
+      <div class="or-divider">または</div>
+
       <div class="form-group">
         <label>メールアドレス</label>
         <input type="email" id="loginEmail" placeholder="team@example.com" />
@@ -137,7 +195,7 @@
         </div>
         <div class="form-group">
           <label>種目</label>
-          <select id="sport">
+          <select id="sport" onchange="toggleSportOther(this)">
             <option>野球</option><option>サッカー</option><option>バスケットボール</option>
             <option>水泳</option><option>テニス</option><option>バレーボール</option>
             <option>バドミントン</option><option>柔道</option><option>剣道</option>
@@ -147,6 +205,7 @@
             <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
             <option>ゴルフ</option><option>乗馬</option><option>その他</option>
           </select>
+          <input type="text" id="sportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
         </div>
         <div class="form-group">
           <label>都道府県</label>
@@ -176,9 +235,18 @@
         <div class="form-group">
           <label>対象年齢（複数選択可）</label>
           <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" />未就学</label>
+            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" id="agePreschool" />未就学</label>
             <label class="checkbox-item"><input type="checkbox" name="age" value="小学生" />小学生</label>
             <label class="checkbox-item"><input type="checkbox" name="age" value="中学生" />中学生</label>
+          </div>
+          <div id="ageMinWrap" style="display:none;margin-top:12px;padding:12px 14px;background:#fff7ed;border-radius:10px;border:1.5px solid #fed7aa;">
+            <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:8px;">未就学の受け入れ開始年齢</div>
+            <div class="checkbox-group" style="flex-wrap:wrap;gap:8px;">
+              <label class="checkbox-item"><input type="radio" name="age_min" value="3歳〜" />3歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="4歳〜" />4歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="5歳〜" />5歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="6歳〜" />6歳〜</label>
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -191,6 +259,13 @@
             <label class="checkbox-item"><input type="checkbox" name="day" value="金" />金</label>
             <label class="checkbox-item"><input type="checkbox" name="day" value="土" />土</label>
             <label class="checkbox-item"><input type="checkbox" name="day" value="日" />日</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>チームの特徴（複数選択可）</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="feature" value="female_instructor" />女性指導者がいる</label>
+            <label class="checkbox-item"><input type="checkbox" name="feature" value="girls_welcome" />女の子歓迎</label>
           </div>
         </div>
         <div class="form-group">
@@ -232,16 +307,32 @@
       <div class="card">
         <div class="card-title">📷 チーム写真</div>
         <img id="photoPreview" class="photo-preview" alt="チーム写真" />
-        <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
+        <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
           <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
           <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
           <label class="upload-btn" for="photoInput">写真を選ぶ</label>
         </div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="upload-btn" id="changePhotoBtn" onclick="document.getElementById('photoInput').click()" style="display:none;">写真を変更する</button>
           <button type="button" class="upload-btn" id="uploadPhotoBtn" onclick="uploadPhoto()" style="display:none;">アップロード</button>
           <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display:none;">写真を削除</button>
         </div>
         <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
+      </div>
+
+      <!-- Crop Modal -->
+      <div id="cropModalOverlay" class="crop-modal-overlay">
+        <div class="crop-modal">
+          <div class="crop-modal-title">トリミング</div>
+          <div class="crop-modal-hint">ドラッグで範囲を移動・リサイズできます</div>
+          <div class="crop-container">
+            <img id="cropImage" src="" alt="crop" />
+          </div>
+          <div class="crop-actions">
+            <button type="button" class="crop-btn-cancel" onclick="closeCropModal()">キャンセル</button>
+            <button type="button" class="crop-btn-ok" onclick="cropAndConfirm()">この範囲でOK</button>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -264,6 +355,33 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let myTeam = null;
 
+function toggleSportOther(sel) {
+  const other = document.getElementById('sportOther');
+  if (sel.value === 'その他') {
+    other.style.display = 'block';
+  } else {
+    other.style.display = 'none';
+    other.value = '';
+  }
+}
+
+function getSportValue() {
+  const sel = document.getElementById('sport').value;
+  if (sel === 'その他') {
+    return document.getElementById('sportOther').value.trim() || 'その他';
+  }
+  return sel;
+}
+
+// 未就学サブ選択トグル
+document.getElementById('agePreschool').addEventListener('change', function() {
+  const wrap = document.getElementById('ageMinWrap');
+  wrap.style.display = this.checked ? 'block' : 'none';
+  if (!this.checked) {
+    document.querySelectorAll('input[name="age_min"]').forEach(r => r.checked = false);
+  }
+});
+
 // 都道府県→市区町村連動
 document.getElementById('pref').addEventListener('change', function() {
   const citySelect = document.getElementById('city');
@@ -272,6 +390,20 @@ document.getElementById('pref').addEventListener('change', function() {
     ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
     : '<option value="">選択してください</option>';
 });
+
+async function loginWithGoogle() {
+  const { error } = await db.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'https://yama120.github.io/kodomo-dooo/mypage.html',
+    },
+  });
+  if (error) {
+    const errorEl = document.getElementById('loginError');
+    errorEl.textContent = 'Googleログインに失敗しました。もう一度お試しください。';
+    errorEl.style.display = 'block';
+  }
+}
 
 async function login() {
   const email = document.getElementById('loginEmail').value.trim();
@@ -336,7 +468,17 @@ async function loadMyTeam(userId) {
 
 function fillForm(t) {
   document.getElementById('name').value = t.name;
-  document.getElementById('sport').value = t.sport;
+  const sportSel = document.getElementById('sport');
+  const sportOther = document.getElementById('sportOther');
+  const knownSports = [...sportSel.options].map(o => o.value);
+  if (knownSports.includes(t.sport)) {
+    sportSel.value = t.sport;
+    sportOther.style.display = 'none';
+  } else {
+    sportSel.value = 'その他';
+    sportOther.value = t.sport;
+    sportOther.style.display = 'block';
+  }
   document.getElementById('pref').value = t.pref;
 
   const citySelect = document.getElementById('city');
@@ -349,6 +491,18 @@ function fillForm(t) {
   document.querySelectorAll('input[name="age"]').forEach(cb => {
     cb.checked = (t.age_groups || []).includes(cb.value);
   });
+  // 特徴チェックボックスを復元
+  document.querySelector('input[name="feature"][value="female_instructor"]').checked = !!t.female_instructor;
+  document.querySelector('input[name="feature"][value="girls_welcome"]').checked = !!t.girls_welcome;
+
+  // 未就学サブ選択を復元
+  if ((t.age_groups || []).includes('未就学')) {
+    document.getElementById('ageMinWrap').style.display = 'block';
+    if (t.age_min) {
+      const r = document.querySelector(`input[name="age_min"][value="${t.age_min}"]`);
+      if (r) r.checked = true;
+    }
+  }
   document.querySelectorAll('input[name="day"]').forEach(cb => {
     cb.checked = (t.days || []).includes(cb.value);
   });
@@ -365,11 +519,15 @@ function fillForm(t) {
     const preview = document.getElementById('photoPreview');
     preview.src = t.photo_url;
     preview.classList.add('show');
+    document.getElementById('photoUploadArea').style.display = 'none';
+    document.getElementById('changePhotoBtn').style.display = 'inline-block';
     document.getElementById('removePhotoBtn').style.display = 'inline-block';
   }
 }
 
 let selectedPhotoFile = null;
+let croppedBlob = null;
+let cropper = null;
 
 function previewPhoto(event) {
   const file = event.target.files[0];
@@ -382,27 +540,63 @@ function previewPhoto(event) {
   selectedPhotoFile = file;
   const reader = new FileReader();
   reader.onload = e => {
-    const preview = document.getElementById('photoPreview');
-    preview.src = e.target.result;
-    preview.classList.add('show');
-    document.getElementById('uploadPhotoBtn').style.display = 'inline-block';
-    document.getElementById('photoMsg').textContent = '';
+    const cropImg = document.getElementById('cropImage');
+    // Cropperを初期化（前のインスタンスがあれば先に破棄）
+    if (cropper) { cropper.destroy(); cropper = null; }
+    // onloadをsrc設定より先にセット（データURLは即時ロードされる場合があるため）
+    cropImg.onload = () => {
+      document.getElementById('cropModalOverlay').classList.add('open');
+      cropper = new Cropper(cropImg, {
+        aspectRatio: 4 / 3,
+        viewMode: 1,
+        movable: true,
+        zoomable: true,
+        scalable: false,
+        autoCropArea: 0.9,
+      });
+    };
+    cropImg.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
+function closeCropModal() {
+  document.getElementById('cropModalOverlay').classList.remove('open');
+  if (cropper) { cropper.destroy(); cropper = null; }
+  // ファイル入力をリセット（同じファイルを再選択できるように）
+  document.getElementById('photoInput').value = '';
+  selectedPhotoFile = null;
+}
+
+function cropAndConfirm() {
+  if (!cropper) return;
+  const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 });
+  canvas.toBlob(blob => {
+    croppedBlob = blob;
+    // プレビューを更新
+    const preview = document.getElementById('photoPreview');
+    preview.src = canvas.toDataURL('image/jpeg');
+    preview.classList.add('show');
+    document.getElementById('uploadPhotoBtn').style.display = 'inline-block';
+    document.getElementById('photoMsg').textContent = 'トリミング済み。アップロードボタンで保存してください。';
+    document.getElementById('photoMsg').style.color = '#2563eb';
+    // モーダルを閉じる
+    document.getElementById('cropModalOverlay').classList.remove('open');
+    if (cropper) { cropper.destroy(); cropper = null; }
+  }, 'image/jpeg', 0.9);
+}
+
 async function uploadPhoto() {
-  if (!selectedPhotoFile || !myTeam) return;
+  if (!croppedBlob || !myTeam) return;
   const btn = document.getElementById('uploadPhotoBtn');
   btn.disabled = true;
   btn.textContent = 'アップロード中...';
 
-  const ext = selectedPhotoFile.name.split('.').pop();
-  const path = `${myTeam.user_id}/${myTeam.id}.${ext}`;
+  const path = `${myTeam.user_id}/${myTeam.id}.jpg`;
 
   const { error: uploadError } = await db.storage
     .from('team-photos')
-    .upload(path, selectedPhotoFile, { upsert: true });
+    .upload(path, croppedBlob, { upsert: true, contentType: 'image/jpeg' });
 
   if (uploadError) {
     document.getElementById('photoMsg').textContent = 'アップロードに失敗しました。';
@@ -424,6 +618,7 @@ async function uploadPhoto() {
   btn.disabled = false;
   btn.textContent = 'アップロード';
   selectedPhotoFile = null;
+  croppedBlob = null;
 }
 
 async function removePhoto() {
@@ -441,6 +636,8 @@ async function removePhoto() {
   preview.classList.remove('show');
   document.getElementById('removePhotoBtn').style.display = 'none';
   document.getElementById('uploadPhotoBtn').style.display = 'none';
+  document.getElementById('changePhotoBtn').style.display = 'none';
+  document.getElementById('photoUploadArea').style.display = 'block';
   document.getElementById('photoMsg').textContent = '写真を削除しました。';
   document.getElementById('photoMsg').style.color = '#64748b';
 }
@@ -452,15 +649,20 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   btn.textContent = '保存中...';
 
   const ages = [...document.querySelectorAll('input[name="age"]:checked')].map(el => el.value);
+  const ageMin = document.querySelector('input[name="age_min"]:checked')?.value || null;
   const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
+  const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
   const feeNum = parseInt(document.getElementById('feeNum').value) || 0;
 
   const updates = {
     name: document.getElementById('name').value.trim(),
-    sport: document.getElementById('sport').value,
+    sport: getSportValue(),
     pref: document.getElementById('pref').value,
     city: document.getElementById('city').value,
     age_groups: ages,
+    age_min: ageMin,
+    female_instructor: features.includes('female_instructor'),
+    girls_welcome: features.includes('girls_welcome'),
     days: days,
     fee_num: feeNum,
     fee: `月${feeNum.toLocaleString()}円`,
