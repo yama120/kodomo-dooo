@@ -470,6 +470,7 @@ img { max-width: 100%; display: block; }
   transition: all .15s;
 }
 .detail-btn:hover { background: var(--blue); color: #fff; }
+.detail-btn.orange:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
 
 /* sport badge colors */
 .badge-soccer     { background: #22c55e; }
@@ -1336,7 +1337,7 @@ function renderPlaceholders(count) {
           <div class="card-meta-row" style="grid-column:1/-1;">📍 あなたの地域</div>
         </div>
         <div class="card-desc">このスポーツのチームが間もなく掲載されます。</div>
-        <a class="detail-btn" href="team-lp.html" style="border-style:dashed;color:var(--orange);border-color:var(--orange);" onclick="event.stopPropagation()">チームを無料掲載する →</a>
+        <a class="detail-btn orange" href="team-lp.html" style="border-style:dashed;color:var(--orange);border-color:var(--orange);" onclick="event.stopPropagation()">チームを無料掲載する →</a>
       </div>`;
     grid.appendChild(el);
   }
