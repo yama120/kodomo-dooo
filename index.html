@@ -399,7 +399,9 @@ img { max-width: 100%; display: block; }
 }
 .team-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
 .card-img-wrap {
-  position: relative; height: 170px; overflow: hidden;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
   border-radius: var(--radius) var(--radius) 0 0;
   background: linear-gradient(135deg, #e0f2fe, #bae6fd);
 }
@@ -686,7 +688,9 @@ footer {
 .modal-close-btn:hover { background: rgba(0,0,0,.8); }
 
 .modal-photo-wrap {
-  position: relative; height: 220px; overflow: hidden;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
   background: linear-gradient(135deg,#dcfce7,#bbf7d0);
 }
 .modal-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
