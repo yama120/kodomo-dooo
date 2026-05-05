@@ -1,258 +1,1090 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>チビスポ | 体を動かすクラブ・チームを探そう</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="cities.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #2563eb; --primary-dark: #1d4ed8; --accent: #f59e0b;
-      --bg: #f8fafc; --card-bg: #ffffff; --text: #1e293b; --muted: #64748b;
-      --border: #e2e8f0; --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
-    }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>チビスポ | 近くの子どもスポーツクラブがすぐ見つかる</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="cities.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #ff8c1a;
+  --orange-dark: #e6720a;
+  --orange-light: #fff4e6;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --yellow: #fbbf24;
+  --yellow-light: #fefce8;
+  --pink: #ec4899;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --radius: 14px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
+}
+body {
+  font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
 
-    header { background: var(--primary); color: #fff; padding: 20px 16px 28px; text-align: center; }
-    header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; }
-    header p { margin-top: 6px; font-size: .9rem; opacity: .85; }
-    .header-links { margin-top: 12px; }
-    .header-links a { color: #fff; font-size: .85rem; opacity: .85; text-decoration: underline; }
-    .header-links a:hover { opacity: 1; }
+/* ===== HEADER ===== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; gap: 32px;
+}
+.logo {
+  font-size: 22px; font-weight: 900;
+  color: var(--orange);
+  white-space: nowrap;
+  letter-spacing: -.02em;
+}
+.logo span { color: var(--blue); }
+.nav-links {
+  display: flex; gap: 28px; margin-left: 8px;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  white-space: nowrap;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--orange); }
+.header-ctas { display: flex; gap: 10px; margin-left: auto; align-items: center; }
+.btn-header-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--orange); color: #fff;
+  font-weight: 800; font-size: 14px;
+  padding: 10px 20px; border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(255,140,26,.3);
+  transition: opacity .15s;
+}
+.btn-header-primary:hover { opacity: .9; }
+.btn-header-primary .arr {
+  width: 22px; height: 22px; background: #fff; border-radius: 50%;
+  color: var(--orange); display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900; flex-shrink: 0;
+}
+.btn-header-outline {
+  display: inline-flex; align-items: center;
+  border: 2px solid var(--border); color: var(--ink);
+  font-weight: 700; font-size: 14px;
+  padding: 9px 18px; border-radius: 999px;
+  white-space: nowrap;
+  transition: border-color .15s;
+}
+.btn-header-outline:hover { border-color: var(--orange); color: var(--orange); }
 
-    .search-panel { background: #fff; border-bottom: 1px solid var(--border); padding: 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-    .search-row { display: flex; gap: 8px; max-width: 900px; margin: 0 auto 10px; }
-    .search-row input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; transition: border-color .15s; }
-    .search-row input:focus { border-color: var(--primary); }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; max-width: 900px; margin: 0 auto; }
-    .filters select { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .88rem; background: #fff; cursor: pointer; outline: none; transition: border-color .15s; }
-    .filters select:focus { border-color: var(--primary); }
-    .filter-reset { padding: 8px 14px; background: none; border: 1.5px solid var(--border); border-radius: 8px; font-size: .88rem; cursor: pointer; color: var(--muted); transition: all .15s; }
-    .filter-reset:hover { border-color: var(--primary); color: var(--primary); }
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background: #fffaf6;
+}
+.hero-bg-img {
+  position: absolute;
+  top: 0; right: 16%;
+  height: 100%; width: auto;
+  display: block;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,252,240,1) 0%,
+    rgba(255,252,240,0.95) 25%,
+    rgba(255,252,240,0.5) 45%,
+    rgba(255,252,240,0) 65%
+  );
+}
+.hero-deco {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1000px; margin: 0 auto; padding: 80px 40px;
+  min-height: 520px;
+  display: flex; align-items: center;
+}
+.hero-left { max-width: 460px; }
+.hero-right { display: none; }
+.hero-tag {
+  display: inline-block;
+  background: rgba(255,140,26,.12); color: var(--orange);
+  font-weight: 800; font-size: 13px;
+  padding: 5px 14px; border-radius: 999px;
+  margin-bottom: 20px; border: 1.5px solid rgba(255,140,26,.25);
+}
+.hero h1 {
+  font-size: 48px; font-weight: 900; line-height: 1.2;
+  letter-spacing: -.02em; margin-bottom: 18px;
+  color: var(--ink);
+}
+.hero h1 .accent { color: var(--orange); }
+.hero-sub {
+  font-size: 15px; color: #475569; line-height: 1.8;
+  margin-bottom: 32px; font-weight: 600;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-hero-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--blue); color: #fff;
+  font-weight: 800; font-size: 16px;
+  padding: 14px 28px; border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(37,99,235,.35);
+  transition: opacity .15s;
+}
+.btn-hero-primary:hover { opacity: .9; }
+.btn-hero-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 2.5px solid var(--orange); color: var(--orange);
+  font-weight: 800; font-size: 16px;
+  padding: 13px 28px; border-radius: 999px;
+  background: rgba(255,255,255,.85);
+  transition: all .15s;
+}
+.btn-hero-outline:hover { background: var(--orange); color: #fff; }
 
-    .result-bar { max-width: 900px; margin: 16px auto 8px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; font-size: .88rem; color: var(--muted); }
-    .result-bar select { padding: 6px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .85rem; background: #fff; cursor: pointer; outline: none; }
+/* ===== SEARCH PANEL ===== */
+.search-section {
+  background: #fff;
+  padding: 40px 0 48px;
+  border-bottom: 1px solid var(--border);
+}
+.search-section-title {
+  text-align: center; font-size: 20px; font-weight: 800;
+  margin-bottom: 28px; color: var(--ink);
+}
+.search-section-title .spark { color: var(--yellow); }
+.search-box {
+  max-width: 900px; margin: 0 auto; padding: 0 20px;
+}
+.search-row {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 0; border: 2px solid var(--border); border-radius: 12px;
+  margin-bottom: 20px; overflow: hidden; background: #fff;
+}
+.search-label {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px; background: var(--bg);
+  border-right: 1px solid var(--border);
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  white-space: nowrap;
+}
+.search-label .icon { font-size: 16px; }
+.search-inner { padding: 12px 16px; }
 
-    .tab-bar { max-width: 900px; margin: 0 auto 4px; padding: 0 16px; display: flex; gap: 4px; }
-    .tab-btn { padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-size: .85rem; cursor: pointer; color: var(--muted); font-weight: 600; transition: all .15s; }
-    .tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+/* Area row */
+.area-selects { display: flex; gap: 12px; align-items: center; }
+.area-selects select {
+  padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-weight: 600; color: var(--ink);
+  background: #fff; cursor: pointer; outline: none;
+  font-family: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
 
-    .card-grid { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-    .card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: transform .15s, box-shadow .15s; }
-    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,.12); }
-    .card-sport-bar { height: 6px; }
-    .card-body { padding: 16px; position: relative; }
-    .fav-btn { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 1.2rem; cursor: pointer; line-height: 1; transition: transform .15s; }
-    .fav-btn:hover { transform: scale(1.2); }
-    .like-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-    .like-btn { background: none; border: 1.5px solid var(--border); border-radius: 20px; padding: 3px 10px; font-size: .8rem; cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--muted); font-weight: 600; transition: all .15s; }
-    .like-btn:hover { border-color: #f43f5e; color: #f43f5e; }
-    .like-btn.liked { border-color: #f43f5e; color: #f43f5e; background: #fff1f2; }
-    .like-btn .heart { font-size: .95rem; }
-    .card-sport-badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
-    .card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; line-height: 1.3; padding-right: 28px; }
-    .card-location { font-size: .82rem; color: var(--muted); margin-bottom: 10px; text-decoration: none; display: block; }
-    .card-location:hover { color: var(--primary); }
-    .card-meta { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-    .card-meta-item { font-size: .82rem; color: var(--text); display: flex; gap: 6px; align-items: flex-start; }
-    .card-meta-item .icon { font-size: .95rem; flex-shrink: 0; }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 14px; }
-    .tag { font-size: .75rem; padding: 2px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; color: var(--muted); }
-    .tag.trial-ok { background: #dcfce7; border-color: #86efac; color: #16a34a; }
-    .card-actions { display: flex; gap: 8px; }
-    .btn { flex: 1; text-align: center; padding: 8px; border-radius: 8px; font-size: .82rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; display: inline-block; transition: opacity .15s; }
-    .btn:hover { opacity: .85; }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-outline { background: none; border: 1.5px solid var(--border); color: var(--text); }
+/* Sport row */
+.sport-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sport-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1.5px solid var(--border);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  background: #fff; color: var(--ink);
+  transition: all .15s;
+}
+.sport-chip:hover, .sport-chip.active {
+  border-color: var(--orange); background: var(--orange-light); color: var(--orange);
+}
+.sport-chip .em { font-size: 15px; }
+.more-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer;
+  border: none; background: none; font-family: inherit;
+}
 
-    /* Loading / Empty */
-    .loading { text-align: center; padding: 60px 16px; color: var(--muted); grid-column: 1/-1; }
-    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 12px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .empty-state { text-align: center; padding: 60px 16px; color: var(--muted); grid-column: 1/-1; }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-    .empty-state p { font-size: .95rem; }
+/* Age row */
+.age-chips { display: flex; gap: 8px; }
+.age-chip {
+  padding: 7px 20px; border-radius: 999px; border: 2px solid;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  transition: all .15s;
+}
+.age-chip.preschool { border-color: #86efac; color: var(--green); background: var(--green-light); }
+.age-chip.elementary { border-color: #fdba74; color: var(--orange); background: var(--orange-light); }
+.age-chip.junior { border-color: #93c5fd; color: var(--blue); background: var(--blue-light); }
+.age-chip.active.preschool { background: var(--green); color: #fff; }
+.age-chip.active.elementary { background: var(--orange); color: #fff; }
+.age-chip.active.junior { background: var(--blue); color: #fff; }
 
-    /* Placeholder card */
-    .card-placeholder { background: #f8fafc; border-radius: var(--radius); border: 2px dashed var(--border); overflow: hidden; opacity: .75; }
-    .card-placeholder .card-body { padding: 16px; }
-    .card-placeholder .ph-badge { display: inline-block; font-size: .75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; background: #f1f5f9; color: var(--muted); }
-    .card-placeholder h3 { font-size: 1rem; font-weight: 800; color: #cbd5e1; margin-bottom: 4px; }
-    .card-placeholder .ph-loc { font-size: .82rem; color: #cbd5e1; margin-bottom: 10px; }
-    .card-placeholder .ph-meta { font-size: .82rem; color: #cbd5e1; margin-bottom: 14px; line-height: 1.8; }
-    .card-placeholder .ph-cta { display: block; text-align: center; padding: 8px; border-radius: 8px; font-size: .82rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--primary); text-decoration: none; transition: all .15s; }
-    .card-placeholder .ph-cta:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+/* Preference row */
+.pref-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pref-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1.5px solid var(--green-light);
+  background: var(--green-light); color: var(--green);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all .15s;
+}
+.pref-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
+.pref-chip .check { font-size: 12px; }
 
-    .register-cta { max-width: 900px; margin: 0 auto 40px; padding: 0 16px; }
-    .register-cta a { display: block; background: var(--accent); color: #fff; text-align: center; padding: 14px; border-radius: var(--radius); font-weight: 700; text-decoration: none; font-size: .95rem; }
-    .register-cta a:hover { opacity: .9; }
+/* Freeword row */
+.freeword-row { display: flex; gap: 10px; align-items: center; }
+.freeword-row input {
+  flex: 1; padding: 10px 16px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .15s;
+}
+.freeword-row input:focus { border-color: var(--blue); }
+.freeword-row input::placeholder { color: #cbd5e1; }
+.btn-search {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue); color: #fff;
+  font-weight: 800; font-size: 15px;
+  padding: 11px 28px; border-radius: 10px;
+  border: none; cursor: pointer; font-family: inherit;
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.btn-search:hover { opacity: .9; }
 
-    /* Modal */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
-    @keyframes modalIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .modal-sport-bar { height: 8px; border-radius: 16px 16px 0 0; }
-    .modal-body { padding: 24px; }
-    .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-    .modal-header h2 { font-size: 1.2rem; font-weight: 800; line-height: 1.3; flex: 1; padding-right: 12px; }
-    .modal-close { background: var(--bg); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-    .modal-close:hover { background: var(--border); }
-    .modal-section { margin-bottom: 20px; }
-    .modal-section-title { font-size: .78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .modal-info-item { background: var(--bg); border-radius: 8px; padding: 10px 12px; }
-    .modal-info-label { font-size: .75rem; color: var(--muted); margin-bottom: 2px; }
-    .modal-info-value { font-size: .9rem; font-weight: 600; }
-    .modal-desc { background: var(--bg); border-radius: 8px; padding: 12px; font-size: .88rem; line-height: 1.7; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-    .modal-actions .btn { flex: 1; padding: 12px; font-size: .9rem; min-width: 120px; }
+/* ===== CATEGORIES ===== */
+.categories-section { padding: 48px 0 32px; background: #fff; }
+.section-title {
+  text-align: center; font-size: 20px; font-weight: 800;
+  margin-bottom: 24px;
+}
+.section-title .spark { color: var(--yellow); }
+.categories-wrap {
+  position: relative; max-width: 1100px; margin: 0 auto; padding: 0 48px;
+}
+.categories-scroll {
+  display: flex; gap: 16px; overflow-x: auto;
+  scrollbar-width: none; padding: 8px 0;
+}
+.categories-scroll::-webkit-scrollbar { display: none; }
+.cat-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  flex-shrink: 0; cursor: pointer;
+  transition: transform .15s;
+}
+.cat-item:hover { transform: translateY(-3px); }
+.cat-icon {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: #fff; border: 2.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  transition: border-color .15s, box-shadow .15s;
+}
+.cat-item:hover .cat-icon, .cat-item.active .cat-icon {
+  border-color: var(--orange);
+  box-shadow: 0 4px 16px rgba(255,140,26,.2);
+}
+.cat-label { font-size: 12px; font-weight: 800; color: var(--ink); }
+.scroll-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--muted);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  transition: all .15s;
+}
+.scroll-arrow:hover { border-color: var(--orange); color: var(--orange); }
+.scroll-arrow.left { left: 0; }
+.scroll-arrow.right { right: 0; }
 
-    /* Sport colors */
-    .sport-baseball{background:#ef4444}.sport-soccer{background:#22c55e}.sport-basketball{background:#f97316}
-    .sport-swim{background:#06b6d4}.sport-tennis{background:#a855f7}.sport-volleyball{background:#ec4899}
-    .sport-badminton{background:#84cc16}.sport-other{background:#94a3b8}
-    .badge-baseball{background:#fee2e2;color:#ef4444}.badge-soccer{background:#dcfce7;color:#16a34a}
-    .badge-basketball{background:#ffedd5;color:#ea580c}.badge-swim{background:#cffafe;color:#0891b2}
-    .badge-tennis{background:#f3e8ff;color:#9333ea}.badge-volleyball{background:#fce7f3;color:#db2777}
-    .badge-badminton{background:#f7fee7;color:#65a30d}.badge-other{background:#f1f5f9;color:#64748b}
+/* ===== TEAMS SECTION ===== */
+.teams-section { padding: 32px 0 60px; background: var(--bg); }
+.teams-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.teams-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.teams-title {
+  font-size: 20px; font-weight: 900; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+.teams-title::before { content: '✦'; color: var(--yellow); font-size: 14px; }
+.teams-title::after  { content: '✦'; color: var(--yellow); font-size: 14px; }
+.teams-filters { display: flex; gap: 10px; align-items: center; }
+.result-count { font-size: 13px; color: var(--muted); font-weight: 600; }
+.fav-filter-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--border); border-radius: 999px;
+  padding: 7px 16px; font-size: 13px; font-weight: 700;
+  background: #fff; cursor: pointer; font-family: inherit;
+  color: var(--muted); transition: all .15s;
+}
+.fav-filter-btn:hover, .fav-filter-btn.active { border-color: var(--pink); color: var(--pink); background: #fdf2f8; }
+.sort-select {
+  padding: 8px 32px 8px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-weight: 700; font-family: inherit;
+  background: #fff; cursor: pointer; outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
 
-    @media (max-width: 480px) {
-      header h1 { font-size: 1.25rem; }
-      .card-grid { grid-template-columns: 1fr; }
-      .modal-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* Team Cards */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.team-card {
+  background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
+  display: flex; flex-direction: column;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+.card-img-wrap {
+  position: relative; height: 170px; overflow: hidden; border-radius: 12px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  margin: 10px 10px 0;
+}
+.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; font-size: 60px;
+}
+.card-sport-badge {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px; color: #fff;
+}
+.card-heart-btn {
+  position: absolute; top: 10px; right: 10px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  transition: transform .15s;
+}
+.card-heart-btn:hover { transform: scale(1.15); }
+.card-body { padding: 12px 14px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.card-name { font-size: 15px; font-weight: 800; line-height: 1.3; }
+.card-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.card-meta-row { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.ctag {
+  font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  border: 1.5px solid;
+}
+.ctag.trial   { background: #f0fdf4; border-color: #86efac; color: #16a34a; }
+.ctag.beginner{ background: #fefce8; border-color: #fde047; color: #ca8a04; }
+.ctag.weekend { background: #f5f3ff; border-color: #c4b5fd; color: #7c3aed; }
+.ctag.female  { background: #fdf2f8; border-color: #f9a8d4; color: #db2777; }
+.card-sns-row {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 8px 0; border-top: 1px solid var(--border);
+}
+.card-sns-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: 1.5px solid var(--border); border-radius: 999px;
+  padding: 5px 11px; font-size: 11px; font-weight: 700; color: var(--ink);
+  cursor: pointer; background: #fff; font-family: inherit;
+  transition: all .15s; text-decoration: none;
+}
+.card-sns-btn:hover    { border-color: var(--blue); color: var(--blue); }
+.card-sns-btn .btn-icon{ font-size: 13px; line-height: 1; }
+.card-sns-btn.ig:hover { border-color: #e1306c; color: #e1306c; }
+.ig-icon {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.15em; line-height: 1;
+}
+.card-sns-btn.tw:hover { border-color: #000; color: #000; }
+.card-sns-btn.line:hover{ border-color: #06c755; color: #06c755; }
+.card-desc {
+  font-size: 12px; color: var(--muted); line-height: 1.7;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.detail-btn {
+  display: block; text-align: center; width: 100%;
+  padding: 10px; border-radius: 10px;
+  background: #fff; color: var(--blue);
+  font-weight: 800; font-size: 13px;
+  border: 1.5px solid var(--blue);
+  cursor: pointer; font-family: inherit; margin-top: auto;
+  transition: all .15s;
+}
+.detail-btn:hover { background: var(--blue); color: #fff; }
+
+/* sport badge colors */
+.badge-soccer     { background: #22c55e; }
+.badge-baseball   { background: #ef4444; }
+.badge-basketball { background: #f97316; }
+.badge-swim       { background: #06b6d4; }
+.badge-dance      { background: #a855f7; }
+.badge-karate     { background: #64748b; }
+.badge-tennis     { background: #84cc16; }
+.badge-volleyball { background: #8b5cf6; }
+.badge-badminton  { background: #ec4899; }
+.badge-other      { background: #94a3b8; }
+
+/* sport bar colors (modal) */
+.sport-soccer     { background: linear-gradient(90deg,#22c55e,#16a34a); }
+.sport-baseball   { background: linear-gradient(90deg,#ef4444,#dc2626); }
+.sport-basketball { background: linear-gradient(90deg,#f97316,#ea580c); }
+.sport-swim       { background: linear-gradient(90deg,#06b6d4,#0891b2); }
+.sport-dance      { background: linear-gradient(90deg,#a855f7,#9333ea); }
+.sport-karate     { background: linear-gradient(90deg,#64748b,#475569); }
+.sport-tennis     { background: linear-gradient(90deg,#84cc16,#65a30d); }
+.sport-volleyball { background: linear-gradient(90deg,#8b5cf6,#7c3aed); }
+.sport-badminton  { background: linear-gradient(90deg,#ec4899,#db2777); }
+.sport-other      { background: linear-gradient(90deg,#94a3b8,#64748b); }
+
+/* placeholder card */
+.card-placeholder {
+  background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column;
+  opacity: .55;
+}
+.card-placeholder .ph-sport-bar { height: 6px; }
+.card-placeholder .ph-body { padding: 16px 14px; }
+.card-placeholder .ph-badge {
+  display: inline-block; font-size: .75rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; margin-bottom: 8px; background: #f1f5f9; color: var(--muted);
+}
+.card-placeholder h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--muted); }
+.card-placeholder .ph-meta { font-size: 12px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.6; }
+.card-placeholder .ph-cta {
+  display: inline-block; font-size: 12px; font-weight: 700;
+  color: var(--orange); border: 1.5px dashed var(--orange);
+  padding: 6px 14px; border-radius: 8px; text-decoration: none;
+}
+
+/* empty state */
+.empty-state {
+  grid-column: 1 / -1; text-align: center;
+  padding: 60px 20px; color: var(--muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; font-weight: 600; line-height: 1.8; }
+
+/* spinner */
+.spinner-wrap { grid-column: 1 / -1; text-align: center; padding: 60px 0; }
+.spinner {
+  width: 36px; height: 36px; border: 3px solid var(--border);
+  border-top-color: var(--orange); border-radius: 50%;
+  animation: spin .7s linear infinite; margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== REGISTRATION CTA ===== */
+.reg-cta {
+  background: #fef7ec;
+  border: 2.5px solid #fde68a;
+  border-radius: 24px;
+  max-width: 1100px; margin: 0 auto 60px;
+  padding: 0;
+  display: grid; grid-template-columns: 1fr 400px;
+  gap: 0; align-items: center;
+  overflow: hidden;
+  position: relative;
+  min-height: 180px;
+}
+.reg-cta-text {
+  padding: 28px 24px 28px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 1;
+}
+.reg-cta-label {
+  display: inline-block;
+  background: rgba(255,140,26,.12); color: var(--orange);
+  font-size: 12px; font-weight: 800;
+  padding: 4px 12px; border-radius: 999px;
+  border: 1.5px solid rgba(255,140,26,.3);
+  margin-bottom: 8px; align-self: flex-start;
+}
+.reg-cta-text h3 {
+  font-size: 24px; font-weight: 900; margin-bottom: 6px; line-height: 1.3;
+  color: var(--ink);
+}
+.reg-cta-text h3 .accent { color: var(--orange); }
+.reg-cta-text p {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 14px;
+}
+.reg-cta-features {
+  display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.reg-cta-feature {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--ink);
+}
+.reg-cta-feature .check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+}
+.btn-reg-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: #fff;
+  font-weight: 900; font-size: 16px;
+  padding: 14px 28px; border-radius: 999px;
+  white-space: nowrap; align-self: flex-start;
+  box-shadow: 0 4px 0 var(--orange-dark, #c75e08), 0 8px 20px rgba(255,140,26,.3);
+  transition: transform .1s, box-shadow .1s;
+}
+.btn-reg-cta:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--orange-dark, #c75e08), 0 4px 12px rgba(255,140,26,.3); }
+.btn-reg-cta .arr {
+  width: 26px; height: 26px; background: rgba(255,255,255,.25); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.reg-cta-device {
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  padding: 16px 60px 0 0;
+  overflow: hidden; position: relative; z-index: 1;
+}
+.reg-cta-device img {
+  width: 100%; max-width: 340px; height: auto; object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,.12));
+}
+
+/* ===== UPCOMING FEATURES ===== */
+.upcoming-section {
+  padding: 48px 0 60px; background: #fff;
+  border-top: 1px solid var(--border);
+}
+.upcoming-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.upcoming-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+  margin-top: 28px;
+}
+.upcoming-card {
+  background: var(--bg); border-radius: 14px; padding: 20px 16px;
+  text-align: center; border: 1.5px solid var(--border);
+  transition: transform .15s, box-shadow .15s;
+}
+.upcoming-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.upcoming-icon { font-size: 36px; margin-bottom: 10px; }
+.upcoming-title { font-size: 13px; font-weight: 800; color: var(--ink); line-height: 1.4; }
+.upcoming-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--ink); color: #94a3b8;
+  padding: 24px 0;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.footer-logo { font-size: 18px; font-weight: 900; color: #fff; }
+.footer-logo span { font-size: 11px; font-weight: 500; color: #64748b; display: block; margin-top: 2px; }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: #94a3b8; transition: color .15s; }
+.footer-links a:hover { color: #fff; }
+.footer-cta-btn {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: #fff;
+  font-weight: 800; font-size: 14px;
+  padding: 12px 22px; border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(255,140,26,.3);
+  transition: opacity .15s;
+}
+.footer-cta-btn:hover { opacity: .9; }
+.footer-cta-btn .arr {
+  width: 22px; height: 22px; background: rgba(255,255,255,.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 200;
+  align-items: flex-start; justify-content: center;
+  padding: 20px 16px; overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff; border-radius: 20px; width: 100%;
+  max-width: 500px; margin: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,.3);
+  animation: modalIn .2s ease;
+  position: relative; overflow: hidden; flex-shrink: 0;
+}
+@keyframes modalIn { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-close-btn {
+  position: absolute; top: 14px; right: 14px; z-index: 10;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,.55); color: #fff;
+  border: none; font-size: 15px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.modal-close-btn:hover { background: rgba(0,0,0,.8); }
+
+.modal-photo-wrap {
+  position: relative; height: 220px; overflow: hidden;
+  background: linear-gradient(135deg,#dcfce7,#bbf7d0);
+}
+.modal-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.modal-photo-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; font-size: 90px;
+}
+.modal-photo-deco {
+  position: absolute; top: 0; right: 0; width: 110px; height: 90px;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #93c5fd 2.5px, transparent 2.5px);
+  background-size: 14px 14px; opacity: .65;
+}
+
+.modal-content { padding: 20px 22px 24px; }
+
+.modal-title-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.modal-team-name {
+  font-size: 22px; font-weight: 900; line-height: 1.25; color: var(--ink);
+  flex: 1; padding-right: 10px; margin-bottom: 8px;
+}
+.modal-sport-icon-big { font-size: 42px; flex-shrink: 0; line-height: 1; }
+
+.modal-sport-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px;
+  color: #fff; margin-bottom: 10px;
+}
+
+.modal-location {
+  font-size: 13px; color: var(--muted); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.modal-location a { color: var(--blue); font-size: 12px; text-decoration: none; }
+
+.modal-section-heading {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 900; color: var(--ink);
+  margin-bottom: 12px; margin-top: 20px;
+}
+.modal-section-heading::before {
+  content: ''; display: block; width: 4px; height: 16px;
+  background: var(--orange); border-radius: 2px; flex-shrink: 0;
+}
+
+.modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-info-card {
+  background: #f8fafc; border-radius: 12px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  border: 1px solid var(--border);
+}
+.modal-icon-wrap {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.modal-icon-wrap.blue   { background: #dbeafe; }
+.modal-icon-wrap.pink   { background: #fce7f3; }
+.modal-icon-wrap.green  { background: #dcfce7; }
+.modal-icon-wrap.orange { background: #fff7ed; }
+.modal-info-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.modal-info-value { font-size: 14px; font-weight: 800; color: var(--ink); }
+.modal-info-value.ok { color: var(--orange); }
+
+.modal-desc-box {
+  background: #fafafa; border-radius: 12px; padding: 14px 16px;
+  font-size: 13px; line-height: 1.85; color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.modal-sns-row { display: flex; flex-direction: column; gap: 8px; }
+.modal-sns-link {
+  display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 11px 14px; font-size: 13px; font-weight: 700; color: var(--ink);
+  background: #fff; text-decoration: none; transition: all .15s;
+}
+.modal-sns-link:hover { border-color: var(--blue); color: var(--blue); }
+.modal-sns-link .sns-ico { font-size: 20px; }
+.modal-sns-link .ext { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+.modal-contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-contact-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 13px 10px; border-radius: 10px;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  font-family: inherit; text-decoration: none; transition: opacity .15s;
+  border: none;
+}
+.modal-contact-btn:hover { opacity: .85; }
+.modal-contact-btn.ig { background: #fff; border: 2px solid #e1306c; color: #e1306c; }
+.modal-contact-btn.mail { background: var(--orange); color: #fff; }
+.modal-contact-note {
+  text-align: center; font-size: 11px; color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.modal-fav-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px; margin-top: 18px;
+  border: 2px solid var(--orange); border-radius: 10px;
+  background: #fff; color: var(--orange);
+  font-size: 14px; font-weight: 800; cursor: pointer; font-family: inherit;
+  transition: all .15s;
+}
+.modal-fav-btn:hover { background: var(--orange-light); }
+.modal-fav-btn.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+.modal-share-row {
+  display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap;
+}
+.modal-share-label { font-size: 12px; color: var(--muted); font-weight: 700; }
+.modal-share-line {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #06C755; color: #fff;
+  font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 6px;
+  text-decoration: none;
+}
+.modal-share-x {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #000; color: #fff;
+  font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 6px;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .header-inner { gap: 16px; }
+  .nav-links { display: none; }
+  .btn-register-header { display: none; }
+  .hero-inner { padding: 40px 24px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .upcoming-grid { grid-template-columns: repeat(3, 1fr); }
+  .reg-cta { grid-template-columns: 1fr; text-align: center; }
+  .reg-cta-text { padding: 28px 24px; align-items: center; }
+}
+@media (max-width: 600px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .upcoming-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 32px; }
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-cta-btn { margin: 0 auto; }
+  .modal-info-grid { grid-template-columns: 1fr; }
+  .modal-contact-row { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
-<header>
-  <h1>🏃 チビスポ</h1>
-  <p>体を動かすクラブ・チームをかんたんに探せる</p>
-  <div class="header-links">
-    <a href="team-lp.html">無料掲載について</a>
-    ／
-    <a href="register.html">＋ チームを登録する</a>
-    ／
-    <a href="mypage.html">チームの方はこちら</a>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">チビスポ</div>
+    <nav class="nav-links">
+      <a href="#teams-section">チームを探す</a>
+      <a href="team-lp.html">掲載のメリット</a>
+    </nav>
+    <div class="header-ctas">
+      <a href="register.html" class="btn-header-outline btn-register-header">チームを掲載する</a>
+      <a href="mypage.html" class="btn-header-outline">チームの方はこちら</a>
+      <a href="#teams-section" class="btn-header-primary">
+        無料でチームを探す
+        <span class="arr">›</span>
+      </a>
+    </div>
   </div>
 </header>
 
-<div class="search-panel">
-  <div class="search-row">
-    <input type="text" id="searchInput" placeholder="チーム名・地域で検索..." />
-  </div>
-  <div class="filters">
-    <select id="filterSport">
-      <option value="">すべての種目</option>
-      <option value="野球">⚾ 野球</option>
-      <option value="サッカー">⚽ サッカー</option>
-      <option value="バスケットボール">🏀 バスケ</option>
-      <option value="水泳">🏊 水泳</option>
-      <option value="テニス">🎾 テニス</option>
-      <option value="バレーボール">🏐 バレー</option>
-      <option value="バドミントン">🏸 バドミントン</option>
-      <option value="柔道">🥋 柔道</option>
-      <option value="剣道">⚔️ 剣道</option>
-      <option value="空手">🥊 空手</option>
-      <option value="合気道">🤼 合気道</option>
-      <option value="レスリング">🤼 レスリング</option>
-      <option value="ダンス">💃 ダンス</option>
-      <option value="新体操">🎀 新体操</option>
-      <option value="チアリーディング">📣 チア</option>
-      <option value="陸上">🏃 陸上</option>
-      <option value="マラソン">🏅 マラソン</option>
-      <option value="トライアスロン">🚴 トライアスロン</option>
-      <option value="ラグビー">🏉 ラグビー</option>
-      <option value="アメフト">🏈 アメフト</option>
-      <option value="ホッケー">🏑 ホッケー</option>
-      <option value="ゴルフ">⛳ ゴルフ</option>
-      <option value="乗馬">🐴 乗馬</option>
-    </select>
-    <select id="filterPref">
-      <option value="">すべての都道府県</option>
-      <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
-      <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
-      <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
-      <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
-      <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
-      <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
-      <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
-      <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
-      <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
-      <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
-      <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
-      <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
-    </select>
-    <select id="filterCity">
-      <option value="">すべての市区町村</option>
-    </select>
-    <select id="filterAge">
-      <option value="">すべての年齢</option>
-      <option value="未就学">未就学（〜6歳）</option>
-      <option value="小学生">小学生（7〜12歳）</option>
-      <option value="中学生">中学生（13〜15歳）</option>
-    </select>
-    <select id="filterTrial">
-      <option value="">体験の有無</option>
-      <option value="true">体験OK</option>
-    </select>
-    <button class="filter-reset" onclick="resetFilters()">リセット</button>
-  </div>
-</div>
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
+  <div class="hero-overlay"></div>
 
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="setTab('all')">すべて</button>
-  <button class="tab-btn" onclick="setTab('fav')">⭐ お気に入り</button>
-</div>
+  <!-- 装飾SVG -->
+  <svg class="hero-deco" viewBox="0 0 1440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <circle cx="60" cy="60" r="54" fill="#fde68a" opacity=".7"/>
+    <circle cx="180" cy="30" r="22" fill="none" stroke="#fde68a" stroke-width="3" opacity=".7"/>
+    <circle cx="250" cy="90" r="12" fill="none" stroke="#fde68a" stroke-width="2.5" opacity=".6"/>
+    <circle cx="30" cy="400" r="48" fill="#bbf7d0" opacity=".6"/>
+    <circle cx="110" cy="470" r="30" fill="#86efac" opacity=".5"/>
+    <circle cx="160" cy="430" r="18" fill="#fde68a" opacity=".6"/>
+    <circle cx="20" cy="240" r="14" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <path d="M 80 180 Q 160 280 100 380" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 6" opacity=".5"/>
+    <circle cx="200" cy="200" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="215" cy="215" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="230" cy="200" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="215" cy="185" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="1390" cy="50" r="46" fill="#fde68a" opacity=".7"/>
+    <circle cx="1280" cy="30" r="28" fill="#bae6fd" opacity=".6"/>
+    <circle cx="1350" cy="110" r="16" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <circle cx="1420" cy="420" r="38" fill="#bae6fd" opacity=".5"/>
+    <circle cx="1340" cy="480" r="20" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <path d="M 1360 160 Q 1420 260 1380 370" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="6 6" opacity=".5"/>
+    <circle cx="1200" cy="440" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1215" cy="455" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1230" cy="440" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1215" cy="425" r="5" fill="#86efac" opacity=".5"/>
+    <text x="290" y="150" font-size="18" opacity=".6">✦</text>
+    <text x="60" y="320" font-size="14" opacity=".5">✦</text>
+    <text x="1380" y="300" font-size="18" opacity=".5">✦</text>
+  </svg>
 
-<div class="result-bar">
-  <span id="resultCount"></span>
-  <select id="sortSelect" onchange="applyFilters()">
-    <option value="default">並び順：デフォルト</option>
-    <option value="fee_asc">月謝が安い順</option>
-    <option value="fee_desc">月謝が高い順</option>
-    <option value="name">名前順</option>
-  </select>
-</div>
-
-<div class="card-grid" id="cardGrid">
-  <div class="loading"><div class="spinner"></div><p>読み込み中...</p></div>
-</div>
-
-<div class="register-cta">
-  <a href="team-lp.html">チームを無料で掲載しませんか？ 詳しくはこちら →</a>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
-  <div class="modal" id="modal">
-    <div class="modal-sport-bar" id="modalSportBar"></div>
-    <img id="modalPhoto" src="" alt="" style="width:100%;max-height:200px;object-fit:cover;display:none;" />
-    <div class="modal-body">
-      <div class="modal-header">
-        <h2 id="modalTitle"></h2>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div id="modalBadge"></div>
-      <div id="modalLocation" style="font-size:.85rem;color:var(--muted);margin:6px 0 16px;"></div>
-      <div class="modal-section">
-        <div class="modal-section-title">基本情報</div>
-        <div class="modal-grid" id="modalGrid"></div>
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-title">チームについて</div>
-        <div class="modal-desc" id="modalDesc"></div>
-      </div>
-      <div class="modal-actions" id="modalActions"></div>
-      <div style="border-top:1px solid var(--border);margin-top:20px;padding-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <span style="font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap;">このチームをシェア：</span>
-        <div id="modalShare" style="display:flex;gap:8px;"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">🏃 子どもスポーツクラブ検索プラットフォーム</div>
+      <h1>近くの子ども<br>スポーツクラブが、<br><span class="accent">すぐ見つかる。</span></h1>
+      <p class="hero-sub">サッカー・野球・ダンス・水泳など、<br>希望のエリアのクラブ・習い事をかんたん検索。</p>
+      <div class="hero-btns">
+        <a href="#teams-section" class="btn-hero-primary">🔍 チームを探す</a>
+        <a href="team-lp.html" class="btn-hero-outline">📋 無料で掲載する</a>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="search-section" id="teams-section">
+  <div class="search-section-title">条件を選んで、ぴったりのチームを探そう <span class="spark">✨</span></div>
+  <div class="search-box">
+
+    <!-- エリア -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">📍</span>エリアから探す</div>
+      <div class="search-inner">
+        <div class="area-selects">
+          <select id="filterPref">
+            <option value="">都道府県を選択</option>
+            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option>
+            <option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option>
+            <option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option>
+            <option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option>
+            <option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option>
+            <option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
+            <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option>
+            <option>鹿児島県</option><option>沖縄県</option>
+          </select>
+          <select id="filterCity">
+            <option value="">市区町村を選択</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 種目 -->
+    <div class="search-row" style="margin-bottom:8px;">
+      <div class="search-label"><span class="icon">🏅</span>種目から探す</div>
+      <div class="search-inner">
+        <div class="sport-chips" id="sportChips">
+          <button class="sport-chip" data-sport="サッカー"><span class="em">⚽</span>サッカー</button>
+          <button class="sport-chip" data-sport="野球"><span class="em">⚾</span>野球</button>
+          <button class="sport-chip" data-sport="バスケットボール"><span class="em">🏀</span>バスケ</button>
+          <button class="sport-chip" data-sport="水泳"><span class="em">🏊</span>水泳</button>
+          <button class="sport-chip" data-sport="ダンス"><span class="em">💃</span>ダンス</button>
+          <button class="sport-chip" data-sport="武道"><span class="em">🥋</span>武道</button>
+          <button class="more-btn" id="moreBtn">もっと見る ▾</button>
+        </div>
+        <div id="extraSports" style="display:none;flex-wrap:wrap;gap:6px;margin-top:8px;">
+          <button class="sport-chip" data-sport="テニス" style="font-size:12px;padding:5px 12px;">🎾 テニス</button>
+          <button class="sport-chip" data-sport="バレーボール" style="font-size:12px;padding:5px 12px;">🏐 バレー</button>
+          <button class="sport-chip" data-sport="バドミントン" style="font-size:12px;padding:5px 12px;">🏸 バドミントン</button>
+          <button class="sport-chip" data-sport="卓球" style="font-size:12px;padding:5px 12px;">🏓 卓球</button>
+          <button class="sport-chip" data-sport="陸上" style="font-size:12px;padding:5px 12px;">🏃 陸上</button>
+          <button class="sport-chip" data-sport="チア" style="font-size:12px;padding:5px 12px;">📣 チア</button>
+          <button class="sport-chip" data-sport="剣道" style="font-size:12px;padding:5px 12px;">⚔️ 剣道</button>
+          <button class="sport-chip" data-sport="その他" style="font-size:12px;padding:5px 12px;">🏅 その他</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 年齢 -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">👦</span>年齢から探す</div>
+      <div class="search-inner">
+        <div class="age-chips">
+          <button class="age-chip preschool" data-age="未就学">未就学</button>
+          <button class="age-chip elementary" data-age="小学生">小学生</button>
+          <button class="age-chip junior" data-age="中学生">中学生</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- こだわり -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">💡</span>こだわり条件</div>
+      <div class="search-inner">
+        <div class="pref-chips">
+          <button class="pref-chip" data-pref="体験OK"><span class="check">✓</span>体験OK</button>
+          <button class="pref-chip" data-pref="土日開催"><span class="check">✓</span>土日開催</button>
+          <button class="pref-chip" data-pref="平日開催"><span class="check">✓</span>平日開催</button>
+          <button class="pref-chip" data-pref="女性指導者"><span class="check">✓</span>女性指導者</button>
+          <button class="pref-chip" data-pref="女の子歓迎"><span class="check">✓</span>女の子歓迎</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 月謝 -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">💴</span>月謝の上限</div>
+      <div class="search-inner">
+        <div class="pref-chips">
+          <button class="fee-chip pref-chip" data-fee="3000"><span class="check">✓</span>3,000円以下</button>
+          <button class="fee-chip pref-chip" data-fee="5000"><span class="check">✓</span>5,000円以下</button>
+          <button class="fee-chip pref-chip" data-fee="8000"><span class="check">✓</span>8,000円以下</button>
+          <button class="fee-chip pref-chip" data-fee="10000"><span class="check">✓</span>10,000円以下</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- フリーワード -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">🔎</span>フリーワード検索</div>
+      <div class="search-inner" style="flex:1;">
+        <div class="freeword-row">
+          <input type="text" id="searchInput" placeholder="チーム名・キーワードで検索（例：渋谷区 サッカー）" />
+          <button class="btn-search" onclick="applyFilters()">🔍 この条件で探す</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section">
+  <div class="section-title"><span class="spark">✦</span> 人気のカテゴリ <span class="spark">✦</span></div>
+  <div class="categories-wrap">
+    <button class="scroll-arrow left" id="catLeft">‹</button>
+    <div class="categories-scroll" id="catScroll">
+      <div class="cat-item" data-sport="サッカー"><div class="cat-icon">⚽</div><div class="cat-label">サッカー</div></div>
+      <div class="cat-item" data-sport="野球"><div class="cat-icon">⚾</div><div class="cat-label">野球</div></div>
+      <div class="cat-item" data-sport="バスケットボール"><div class="cat-icon">🏀</div><div class="cat-label">バスケ</div></div>
+      <div class="cat-item" data-sport="水泳"><div class="cat-icon">🏊</div><div class="cat-label">水泳</div></div>
+      <div class="cat-item" data-sport="テニス"><div class="cat-icon">🎾</div><div class="cat-label">テニス</div></div>
+      <div class="cat-item" data-sport="武道"><div class="cat-icon">🥋</div><div class="cat-label">武道</div></div>
+      <div class="cat-item" data-sport="ダンス"><div class="cat-icon">💃</div><div class="cat-label">ダンス</div></div>
+      <div class="cat-item" data-sport="陸上"><div class="cat-icon">🏃</div><div class="cat-label">陸上</div></div>
+      <div class="cat-item" data-sport="バレーボール"><div class="cat-icon">🏐</div><div class="cat-label">バレー</div></div>
+      <div class="cat-item" data-sport="チア"><div class="cat-icon">📣</div><div class="cat-label">チア</div></div>
+      <div class="cat-item" data-sport="バドミントン"><div class="cat-icon">🏸</div><div class="cat-label">バドミントン</div></div>
+      <div class="cat-item" data-sport="剣道"><div class="cat-icon">⚔️</div><div class="cat-label">剣道</div></div>
+    </div>
+    <button class="scroll-arrow right" id="catRight">›</button>
+  </div>
+</section>
+
+<!-- TEAMS -->
+<section class="teams-section">
+  <div class="teams-inner">
+    <div class="teams-header">
+      <div class="teams-title">おすすめのチーム</div>
+      <div class="teams-filters">
+        <span class="result-count" id="resultCount"></span>
+        <button class="fav-filter-btn" id="favFilterBtn">♡ お気に入り</button>
+        <select class="sort-select" id="sortSelect">
+          <option value="default">おすすめ順</option>
+          <option value="fee_asc">月謝が安い順</option>
+          <option value="fee_desc">月謝が高い順</option>
+          <option value="name">名前順</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="team-grid" id="cardGrid">
+      <div class="spinner-wrap"><div class="spinner"></div><p style="color:var(--muted);font-size:13px;">読み込み中...</p></div>
+    </div>
+
+    <!-- REG CTA -->
+    <div class="reg-cta" style="margin-top:48px;">
+      <div class="reg-cta-text">
+        <span class="reg-cta-label">🏃 チーム・クラブの方へ</span>
+        <h3>あなたのチームも<span class="accent">無料で</span>掲載しませんか？</h3>
+        <p>写真・紹介文・SNSリンクで、地域の保護者に見つけてもらえます。</p>
+        <div class="reg-cta-features">
+          <span class="reg-cta-feature"><span class="check">✓</span>完全無料</span>
+          <span class="reg-cta-feature"><span class="check">✓</span>登録3分</span>
+          <span class="reg-cta-feature"><span class="check">✓</span>SNS連携OK</span>
+        </div>
+        <a href="team-lp.html" class="btn-reg-cta">
+          無料でチームを掲載する
+          <span class="arr">›</span>
+        </a>
+      </div>
+      <div class="reg-cta-device">
+        <img src="assets/screenshot_website.png" alt="" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING -->
+<section class="upcoming-section">
+  <div class="upcoming-inner">
+    <div class="section-title">これから追加予定の機能</div>
+    <div class="upcoming-grid">
+      <div class="upcoming-card"><div class="upcoming-icon">📅</div><div class="upcoming-title">オンライン見学お知らせ</div><div class="upcoming-desc">ホットでかんたん見学予約！</div></div>
+      <div class="upcoming-card"><div class="upcoming-icon">⭐</div><div class="upcoming-title">口コミ・レビュー</div><div class="upcoming-desc">保護者のリアルな声で安心して選べる！</div></div>
+      <div class="upcoming-card"><div class="upcoming-icon">🗺️</div><div class="upcoming-title">地図から探す</div><div class="upcoming-desc">地図上で近くのチームをすぐにチェック</div></div>
+      <div class="upcoming-card"><div class="upcoming-icon">🤝</div><div class="upcoming-title">チーム同士の対戦機能</div><div class="upcoming-desc">地域のチームとマッチ大会を開こう！</div></div>
+      <div class="upcoming-card"><div class="upcoming-icon">📱</div><div class="upcoming-title">SNSでの活動シェア</div><div class="upcoming-desc">活動をSNSにシェアして仲間を増やそう！</div></div>
+      <div class="upcoming-card"><div class="upcoming-icon">🏆</div><div class="upcoming-title">大会・イベント情報</div><div class="upcoming-desc">近隣の大会や交流会を見逃さずチェック！</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      チビスポ
+      <span>子どもたちに、やりたい運動を。</span>
+    </div>
+    <div class="footer-links">
+      <a href="legal.html">利用規約・プライバシーポリシー</a>
+      <a href="contact.html">お問い合わせ</a>
+      <a href="index.html?fav=1">♡ お気に入り</a>
+    </div>
+    <a href="team-lp.html" class="footer-cta-btn">
+      無料で掲載はこちら
+      <span class="arr">›</span>
+    </a>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close-btn" onclick="closeModal()">✕</button>
+    <div class="modal-photo-wrap" id="modalPhotoWrap"></div>
+    <div class="modal-content" id="modalContent"></div>
   </div>
 </div>
 
@@ -263,244 +1095,305 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const sportConfig = {
-  "野球":           { cls:"baseball",   emoji:"⚾" },
-  "サッカー":       { cls:"soccer",     emoji:"⚽" },
-  "バスケットボール":{ cls:"basketball", emoji:"🏀" },
-  "水泳":           { cls:"swim",       emoji:"🏊" },
-  "テニス":         { cls:"tennis",     emoji:"🎾" },
-  "バレーボール":   { cls:"volleyball", emoji:"🏐" },
-  "バドミントン":   { cls:"badminton",  emoji:"🏸" },
+  "サッカー":        { cls: "soccer",     emoji: "⚽" },
+  "野球":            { cls: "baseball",   emoji: "⚾" },
+  "バスケットボール":{ cls: "basketball", emoji: "🏀" },
+  "水泳":            { cls: "swim",       emoji: "🏊" },
+  "テニス":          { cls: "tennis",     emoji: "🎾" },
+  "バレーボール":    { cls: "volleyball", emoji: "🏐" },
+  "バドミントン":    { cls: "badminton",  emoji: "🏸" },
+  "ダンス":          { cls: "dance",      emoji: "💃" },
+  "武道":            { cls: "karate",     emoji: "🥋" },
+  "陸上":            { cls: "other",      emoji: "🏃" },
+  "チア":            { cls: "dance",      emoji: "📣" },
+  "剣道":            { cls: "karate",     emoji: "⚔️" },
+  "卓球":            { cls: "other",      emoji: "🏓" },
 };
 
+const sportBg = {
+  "サッカー":        "linear-gradient(135deg,#dcfce7,#bbf7d0)",
+  "野球":            "linear-gradient(135deg,#fee2e2,#fecaca)",
+  "バスケットボール":"linear-gradient(135deg,#ffedd5,#fed7aa)",
+  "水泳":            "linear-gradient(135deg,#cffafe,#a5f3fc)",
+  "テニス":          "linear-gradient(135deg,#ecfccb,#d9f99d)",
+  "バレーボール":    "linear-gradient(135deg,#f3e8ff,#e9d5ff)",
+  "バドミントン":    "linear-gradient(135deg,#fce7f3,#fbcfe8)",
+  "ダンス":          "linear-gradient(135deg,#f3e8ff,#e9d5ff)",
+  "武道":            "linear-gradient(135deg,#f1f5f9,#e2e8f0)",
+};
+
+const ageKeywords = {
+  "未就学": ["未就学", "幼児", "年長", "年中", "保育", "3才", "4才", "5才", "6才", "幼"],
+  "小学生": ["小学"],
+  "中学生": ["中学"],
+};
+
+const PLACEHOLDER_SPORTS = [
+  { emoji:"⚾", sport:"野球",    cls:"baseball"   },
+  { emoji:"⚽", sport:"サッカー",cls:"soccer"     },
+  { emoji:"🏀", sport:"バスケ",  cls:"basketball" },
+  { emoji:"🎾", sport:"テニス",  cls:"tennis"     },
+  { emoji:"🏊", sport:"水泳",    cls:"swim"       },
+  { emoji:"🏸", sport:"バドミントン",cls:"badminton"},
+];
+
 let teams = [];
-let currentTab = 'all';
 let favorites = JSON.parse(localStorage.getItem('sf_favorites') || '[]');
 
-// セッションID（ブラウザごとに一意）
-let sessionId = localStorage.getItem('sf_session_id');
-if (!sessionId) {
-  sessionId = crypto.randomUUID();
-  localStorage.setItem('sf_session_id', sessionId);
-}
+// フィルター状態
+let filterSport    = null;
+let filterAges     = new Set();
+let filterPrefArea = '';
+let filterCity     = '';
+let searchText     = '';
+let trialOnly           = false;
+let weekendOnly         = false;
+let weekdayOnly         = false;
+let femaleInstructorOnly= false;
+let girlsWelcomeOnly    = false;
+let feeMax              = null;
+let showFavOnly    = false;
+let sortMode       = 'default';
 
-let likeCounts = {};   // { team_id: count }
-let likedByMe = new Set(); // 自分がいいねしたteam_id
-
-async function loadLikes() {
-  const { data } = await db.from('likes').select('team_id, session_id');
-  if (!data) return;
-  likeCounts = {};
-  likedByMe = new Set();
-  data.forEach(row => {
-    likeCounts[row.team_id] = (likeCounts[row.team_id] || 0) + 1;
-    if (row.session_id === sessionId) likedByMe.add(row.team_id);
-  });
-}
+const WEEKDAY = ['月','火','水','木','金'];
+const WEEKEND = ['土','日'];
 
 function isFav(id) { return favorites.includes(id); }
+
 function toggleFav(id, e) {
   e.stopPropagation();
   favorites = isFav(id) ? favorites.filter(f => f !== id) : [...favorites, id];
   localStorage.setItem('sf_favorites', JSON.stringify(favorites));
-  applyFilters();
+  const btn = document.querySelector(`.card-heart-btn[data-id="${id}"]`);
+  if (btn) btn.textContent = isFav(id) ? '❤️' : '🤍';
+  if (showFavOnly) applyFilters();
 }
 
 async function loadTeams() {
-  const [teamsRes] = await Promise.all([
-    db.from('teams').select('*').eq('status', 'approved').order('created_at', { ascending: false }),
-    loadLikes()
-  ]);
-  if (teamsRes.error) {
+  const { data, error } = await db.from('teams').select('*').eq('status', 'approved').order('created_at', { ascending: false });
+  if (error || !data) {
     document.getElementById('cardGrid').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>データの読み込みに失敗しました。<br>再度読み込んでください。</p></div>`;
     return;
   }
-  teams = teamsRes.data.map(t => ({
+  teams = data.map(t => ({
     id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city,
-    ageGroups: t.age_groups, days: t.days, feeNum: t.fee_num, fee: t.fee,
-    trial: t.trial, contact: { instagram: t.instagram, email: t.email, twitter: t.twitter, website_url: t.website_url },
-    description: t.description, photoUrl: t.photo_url
+    ageGroups: t.age_groups || [], days: t.days || [],
+    feeNum: t.fee_num, fee: t.fee,
+    trial: t.trial, ageMin: t.age_min || null,
+    femaleInstructor: !!t.female_instructor, girlsWelcome: !!t.girls_welcome,
+    contact: { instagram: t.instagram, email: t.email, twitter: t.twitter, website_url: t.website_url },
+    description: t.description, photoUrl: t.photo_url,
   }));
   applyFilters();
 }
 
-async function toggleLike(teamId, e) {
-  e.stopPropagation();
-  const already = likedByMe.has(teamId);
-  if (already) {
-    likedByMe.delete(teamId);
-    likeCounts[teamId] = Math.max(0, (likeCounts[teamId] || 1) - 1);
-    await db.from('likes').delete().eq('team_id', teamId).eq('session_id', sessionId);
-  } else {
-    likedByMe.add(teamId);
-    likeCounts[teamId] = (likeCounts[teamId] || 0) + 1;
-    await db.from('likes').insert({ team_id: teamId, session_id: sessionId });
-  }
-  // ボタンだけ更新
-  const btn = document.querySelector(`.like-btn[data-id="${teamId}"]`);
-  if (btn) {
-    btn.classList.toggle('liked', likedByMe.has(teamId));
-    btn.querySelector('.like-count').textContent = likeCounts[teamId] || 0;
-    btn.querySelector('.heart').textContent = likedByMe.has(teamId) ? '❤️' : '🤍';
-  }
-}
-
-function setTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', (i === 0 && tab === 'all') || (i === 1 && tab === 'fav'));
-  });
-  applyFilters();
-}
-
 function applyFilters() {
-  const q     = document.getElementById('searchInput').value.trim().toLowerCase();
-  const sport = document.getElementById('filterSport').value;
-  const pref  = document.getElementById('filterPref').value;
-  const city  = document.getElementById('filterCity').value;
-  const age   = document.getElementById('filterAge').value;
-  const trial = document.getElementById('filterTrial').value;
-  const sort  = document.getElementById('sortSelect').value;
-
+  const q = searchText.toLowerCase();
   let list = teams.filter(t => {
-    if (currentTab === 'fav' && !isFav(t.id)) return false;
-    if (q && !t.name.toLowerCase().includes(q) && !t.city.includes(q) && !t.pref.includes(q)) return false;
-    if (sport && t.sport !== sport) return false;
-    if (pref  && t.pref  !== pref)  return false;
-    if (city  && t.city  !== city)  return false;
-    if (age   && !t.ageGroups.includes(age)) return false;
-    if (trial && !t.trial) return false;
+    if (showFavOnly && !isFav(t.id)) return false;
+    if (q && !t.name.toLowerCase().includes(q) && !t.city.includes(q) && !t.pref.includes(q) && !t.sport.includes(q) && !(t.description || '').toLowerCase().includes(q)) return false;
+    if (filterSport && t.sport !== filterSport) return false;
+    if (filterPrefArea && t.pref !== filterPrefArea) return false;
+    if (filterCity && t.city !== filterCity) return false;
+    if (filterAges.size > 0) {
+      const match = [...filterAges].some(ag => {
+        const kws = ageKeywords[ag] || [ag];
+        return t.ageGroups.some(a => kws.some(k => a.includes(k)));
+      });
+      if (!match) return false;
+    }
+    if (trialOnly && !t.trial) return false;
+    if (weekendOnly && !WEEKEND.some(d => t.days.includes(d))) return false;
+    if (weekdayOnly && !WEEKDAY.some(d => t.days.includes(d))) return false;
+    if (femaleInstructorOnly && !t.femaleInstructor) return false;
+    if (girlsWelcomeOnly && !t.girlsWelcome) return false;
+    if (feeMax !== null && (t.feeNum || 0) > feeMax) return false;
     return true;
   });
-  if (sort === 'fee_asc')  list = [...list].sort((a,b) => a.feeNum - b.feeNum);
-  if (sort === 'fee_desc') list = [...list].sort((a,b) => b.feeNum - a.feeNum);
-  if (sort === 'name')     list = [...list].sort((a,b) => a.name.localeCompare(b.name, 'ja'));
+  if (sortMode === 'fee_asc')  list = [...list].sort((a, b) => (a.feeNum||0) - (b.feeNum||0));
+  if (sortMode === 'fee_desc') list = [...list].sort((a, b) => (b.feeNum||0) - (a.feeNum||0));
+  if (sortMode === 'name')     list = [...list].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
   renderCards(list);
 }
 
-function resetFilters() {
-  ['searchInput','filterSport','filterPref','filterAge','filterTrial'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('filterCity').innerHTML = '<option value="">すべての市区町村</option>';
-  document.getElementById('sortSelect').value = 'default';
-  applyFilters();
-}
+function renderCards(list) {
+  const grid = document.getElementById('cardGrid');
+  document.getElementById('resultCount').textContent = list.length > 0 ? `${list.length} 件` : '';
+  grid.innerHTML = '';
 
-const PLACEHOLDER_SPORTS = [
-  { emoji:'⚾', sport:'野球',     label:'掲載準備中', cls:'baseball' },
-  { emoji:'⚽', sport:'サッカー', label:'掲載準備中', cls:'soccer' },
-  { emoji:'🏀', sport:'バスケ',   label:'掲載準備中', cls:'basketball' },
-  { emoji:'🎾', sport:'テニス',   label:'掲載準備中', cls:'tennis' },
-  { emoji:'🏊', sport:'水泳',     label:'掲載準備中', cls:'swim' },
-  { emoji:'🏸', sport:'バドミントン', label:'掲載準備中', cls:'badminton' },
-];
+  if (list.length === 0) {
+    const msg = showFavOnly
+      ? 'お気に入りにチームがありません。<br>カードの ♡ を押して追加してください。'
+      : '条件に合うチームが見つかりませんでした。';
+    grid.innerHTML = `<div class="empty-state"><div class="icon">${showFavOnly ? '❤️' : '🔍'}</div><p>${msg}</p></div>`;
+    if (!showFavOnly) renderPlaceholders(6);
+    return;
+  }
+
+  list.forEach(team => {
+    const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
+    const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
+    const fav = isFav(team.id);
+
+    const tags = [
+      team.trial ? '<span class="ctag trial">体験OK</span>' : '',
+      (team.days && (team.days.includes('土') || team.days.includes('日'))) ? '<span class="ctag weekend">土日開催</span>' : '',
+    ].filter(Boolean).join('');
+
+    const snsBtns = [
+      team.contact.website_url ? `<a class="card-sns-btn" href="${team.contact.website_url}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
+      team.contact.instagram   ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
+      team.contact.twitter     ? `<a class="card-sns-btn tw" href="https://x.com/${team.contact.twitter}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
+    ].filter(Boolean).join('');
+
+    const photoHTML = team.photoUrl
+      ? `<img src="${team.photoUrl}" alt="${team.name}" />`
+      : `<div class="card-img-placeholder">${sc.emoji}</div>`;
+
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.innerHTML = `
+      <div class="card-img-wrap" style="background:${bg};">
+        <span class="card-sport-badge badge-${sc.cls}">${team.sport}</span>
+        <button class="card-heart-btn" data-id="${team.id}" onclick="toggleFav('${team.id}', event)">${fav ? '❤️' : '🤍'}</button>
+        ${photoHTML}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${team.name}</div>
+        <div class="card-meta-grid">
+          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${team.pref}${team.city}</div>
+          <div class="card-meta-row">👦 ${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div>
+          <div class="card-meta-row">💴 ${team.fee || '要確認'}</div>
+        </div>
+        ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+        ${snsBtns ? `<div class="card-sns-row">${snsBtns}</div>` : ''}
+        ${team.description ? `<div class="card-desc">${team.description}</div>` : ''}
+        <button class="detail-btn" onclick="event.stopPropagation();openModal('${team.id}')">詳細を見る</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  if (!showFavOnly && list.length < 6) renderPlaceholders(6 - list.length);
+}
 
 function renderPlaceholders(count) {
   const grid = document.getElementById('cardGrid');
   for (let i = 0; i < count; i++) {
     const p = PLACEHOLDER_SPORTS[i % PLACEHOLDER_SPORTS.length];
+    const bg = sportBg[p.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
     const el = document.createElement('div');
-    el.className = 'card-placeholder';
+    el.className = 'team-card card-placeholder';
     el.innerHTML = `
-      <div class="card-sport-bar sport-${p.cls}" style="opacity:.3;"></div>
+      <div class="card-img-wrap" style="background:${bg};">
+        <span class="card-sport-badge badge-${p.cls}">${p.sport}</span>
+        <div class="card-img-placeholder">${p.emoji}</div>
+      </div>
       <div class="card-body">
-        <div class="ph-badge">${p.emoji} ${p.sport}</div>
-        <h3>掲載準備中のチーム</h3>
-        <div class="ph-loc">📍 あなたの地域</div>
-        <div class="ph-meta">このスポーツのチームが間もなく掲載されます</div>
-        <a class="ph-cta" href="team-lp.html">チームを無料掲載する →</a>
+        <div class="card-name" style="color:var(--muted);">掲載準備中のチーム</div>
+        <div class="card-meta-grid">
+          <div class="card-meta-row" style="grid-column:1/-1;">📍 あなたの地域</div>
+        </div>
+        <div class="card-desc">このスポーツのチームが間もなく掲載されます。</div>
+        <a class="detail-btn" href="team-lp.html" style="border-style:dashed;color:var(--orange);border-color:var(--orange);" onclick="event.stopPropagation()">チームを無料掲載する →</a>
       </div>`;
     grid.appendChild(el);
   }
 }
 
-function renderCards(list) {
-  const grid = document.getElementById('cardGrid');
-  document.getElementById('resultCount').textContent = `${list.length} 件`;
-  grid.innerHTML = '';
-  if (list.length === 0) {
-    const msg = currentTab === 'fav'
-      ? 'お気に入りにチームがありません。<br>カードの ⭐ を押して追加してください。'
-      : '条件に合うチームが見つかりませんでした。';
-    grid.innerHTML = `<div class="empty-state"><div class="icon">${currentTab === 'fav' ? '⭐' : '🔍'}</div><p>${msg}</p></div>`;
-    if (currentTab !== 'fav') renderPlaceholders(6);
-    return;
-  }
-  list.forEach(team => {
-    const sc = sportConfig[team.sport] || { cls:"other", emoji:"🏅" };
-    const fav = isFav(team.id);
-    const tags = [
-      ...team.days.map(d => `<span class="tag">${d}曜</span>`),
-      team.trial ? '<span class="tag trial-ok">体験OK</span>' : '<span class="tag">体験要相談</span>'
-    ].join('');
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.onclick = () => openModal(team.id);
-    card.innerHTML = `
-      <div class="card-sport-bar sport-${sc.cls}"></div>
-      ${team.photoUrl ? `<img src="${team.photoUrl}" alt="${team.name}" style="width:100%;height:140px;object-fit:cover;" />` : ''}
-      <div class="card-body">
-        <button class="fav-btn" onclick="toggleFav('${team.id}', event)">${fav ? '⭐' : '☆'}</button>
-        <div class="card-sport-badge badge-${sc.cls}">${sc.emoji} ${team.sport}</div>
-        <h3>${team.name}</h3>
-        <a class="card-location" href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank" onclick="event.stopPropagation()">📍 ${team.pref} ${team.city} <span style="font-size:.75rem;color:var(--primary);">地図▶</span></a>
-        <div class="like-row" onclick="event.stopPropagation()">
-          <button class="like-btn ${likedByMe.has(team.id) ? 'liked' : ''}" data-id="${team.id}" onclick="toggleLike('${team.id}', event)">
-            <span class="heart">${likedByMe.has(team.id) ? '❤️' : '🤍'}</span>
-            <span class="like-count">${likeCounts[team.id] || 0}</span>
-          </button>
-        </div>
-        <div class="card-meta">
-          <div class="card-meta-item"><span class="icon">👦</span>${team.ageGroups.join(' · ')}</div>
-          <div class="card-meta-item"><span class="icon">💴</span>${team.fee}</div>
-        </div>
-        <div class="card-tags">${tags}</div>
-        <div class="card-actions" onclick="event.stopPropagation()">
-          ${team.contact.instagram ? `<a class="btn btn-outline" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">Instagram</a>` : ''}
-          ${team.contact.email
-            ? `<a class="btn btn-primary" href="mailto:${team.contact.email}">メール</a>`
-            : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DM</a>` : '')}
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-  // 実チームが6件未満のとき、プレースホルダーで補完
-  if (currentTab !== 'fav' && list.length < 6) {
-    renderPlaceholders(6 - list.length);
-  }
-}
-
+// ===== MODAL =====
 function openModal(id) {
   const team = teams.find(t => t.id === id);
   if (!team) return;
-  const sc = sportConfig[team.sport] || { cls:"other", emoji:"🏅" };
-  document.getElementById('modalSportBar').className = `modal-sport-bar sport-${sc.cls}`;
-  const modalPhoto = document.getElementById('modalPhoto');
-  if (team.photoUrl) { modalPhoto.src = team.photoUrl; modalPhoto.style.display = 'block'; }
-  else { modalPhoto.src = ''; modalPhoto.style.display = 'none'; }
-  document.getElementById('modalTitle').textContent = team.name;
-  document.getElementById('modalBadge').innerHTML = `<span class="card-sport-badge badge-${sc.cls}">${sc.emoji} ${team.sport}</span>`;
-  document.getElementById('modalLocation').innerHTML = `📍 ${team.pref} ${team.city} <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank" style="color:var(--primary);font-size:.82rem;text-decoration:none;">地図で見る ▶</a>`;
-  document.getElementById('modalGrid').innerHTML = `
-    <div class="modal-info-item"><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${team.ageGroups.join(' · ')}</div></div>
-    <div class="modal-info-item"><div class="modal-info-label">月謝</div><div class="modal-info-value">${team.fee}</div></div>
-    <div class="modal-info-item"><div class="modal-info-label">活動曜日</div><div class="modal-info-value">${team.days.join(' · ')}曜日</div></div>
-    <div class="modal-info-item"><div class="modal-info-label">体験入会</div><div class="modal-info-value">${team.trial ? '✅ OK' : '要相談'}</div></div>`;
-  document.getElementById('modalDesc').textContent = team.description || '説明はありません。';
-  document.getElementById('modalActions').innerHTML = `
-    ${team.contact.instagram ? `<a class="btn btn-outline" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">Instagram</a>` : ''}
-    ${team.contact.twitter ? `<a class="btn btn-outline" href="https://x.com/${team.contact.twitter}" target="_blank">X（Twitter）</a>` : ''}
-    ${team.contact.website_url ? `<a class="btn btn-outline" href="${team.contact.website_url}" target="_blank">ウェブサイト</a>` : ''}
-    ${team.contact.email ? `<a class="btn btn-primary" href="${makeMailto(team)}">メールで問い合わせ</a>` : (team.contact.instagram ? `<a class="btn btn-primary" href="https://www.instagram.com/${team.contact.instagram}" target="_blank">DMで問い合わせ</a>` : '')}
-    <button class="btn btn-outline" onclick="toggleFavModal('${team.id}')" id="modalFavBtn">${isFav(team.id) ? '⭐ お気に入り済み' : '☆ お気に入り'}</button>`;
-  // SNS共有ボタン
-  const shareUrl = encodeURIComponent(location.href.split('?')[0]);
+  const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
+  const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
+
+  // 写真エリア
+  const wrap = document.getElementById('modalPhotoWrap');
+  wrap.style.background = bg;
+  const photoHTML = team.photoUrl
+    ? `<img src="${team.photoUrl}" alt="${team.name}" />`
+    : `<div class="modal-photo-placeholder">${sc.emoji}</div>`;
+  wrap.innerHTML = photoHTML;
+
+  // シェアURL
+  const shareUrl  = encodeURIComponent(location.href.split('?')[0]);
   const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをチビスポで見つけました！`);
-  document.getElementById('modalShare').innerHTML = `
-    <a href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank"
-       style="background:#06C755;color:#fff;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:6px;text-decoration:none;">LINE</a>
-    <a href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank"
-       style="background:#000;color:#fff;font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:6px;text-decoration:none;">X</a>`;
+
+  // 活動日
+  const daysText = (team.days && team.days.length) ? team.days.join('・') : '要確認';
+
+  // SNSリンク
+  const snsLinks = [
+    team.contact.instagram   ? `<a class="modal-sns-link" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon sns-ico"></i> Instagram<span class="ext">↗</span></a>` : '',
+    team.contact.twitter     ? `<a class="modal-sns-link" href="https://x.com/${team.contact.twitter}" target="_blank"><span class="sns-ico">𝕏</span> X (Twitter)<span class="ext">↗</span></a>` : '',
+    team.contact.website_url ? `<a class="modal-sns-link" href="${team.contact.website_url}" target="_blank"><span class="sns-ico">🌐</span> ウェブサイト<span class="ext">↗</span></a>` : '',
+  ].filter(Boolean).join('');
+
+  // 問い合わせボタン
+  const igBtn = team.contact.instagram
+    ? `<a class="modal-contact-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon"></i> Instagramで問い合わせ</a>` : '';
+  const mailBtn = team.contact.email
+    ? `<a class="modal-contact-btn mail" href="${makeMailto(team)}">✉️ メールで問い合わせ</a>` : '';
+  const contactTypes = [team.contact.instagram && 'Instagram', team.contact.email && 'メール'].filter(Boolean).join('または');
+  const contactNote = contactTypes ? `<p class="modal-contact-note">✨ お問い合わせは${contactTypes}で受付中</p>` : '';
+
+  const fav = isFav(team.id);
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-title-row">
+      <div>
+        <h2 class="modal-team-name">${team.name}</h2>
+        <span class="modal-sport-pill sport-${sc.cls}">${sc.emoji} ${team.sport}</span>
+      </div>
+    </div>
+    <div class="modal-location">
+      📍 <strong>${team.pref} ${team.city}</strong>
+      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank">地図で見る ▶</a>
+    </div>
+
+    <div class="modal-section-heading">基本情報</div>
+    <div class="modal-info-grid">
+      <div class="modal-info-card">
+        <div class="modal-icon-wrap blue">👥</div>
+        <div><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div></div>
+      </div>
+      <div class="modal-info-card">
+        <div class="modal-icon-wrap pink"><span style="font-size:17px;font-weight:900;color:#ec4899;">¥</span></div>
+        <div><div class="modal-info-label">月謝</div><div class="modal-info-value">${team.fee || '要確認'}</div></div>
+      </div>
+      <div class="modal-info-card">
+        <div class="modal-icon-wrap green">📅</div>
+        <div><div class="modal-info-label">活動曜日</div><div class="modal-info-value">${daysText}</div></div>
+      </div>
+      <div class="modal-info-card">
+        <div class="modal-icon-wrap orange"><span style="font-size:17px;font-weight:900;color:#f97316;">✓</span></div>
+        <div><div class="modal-info-label">体験入会</div><div class="modal-info-value ${team.trial ? 'ok' : ''}">${team.trial ? 'OK' : '要相談'}</div></div>
+      </div>
+    </div>
+
+    ${team.description ? `
+    <div class="modal-section-heading">チームについて</div>
+    <div class="modal-desc-box">${team.description}</div>` : ''}
+
+    ${snsLinks ? `
+    <div class="modal-section-heading">SNSリンク</div>
+    <div class="modal-sns-row">${snsLinks}</div>` : ''}
+
+    ${(igBtn || mailBtn) ? `
+    <div class="modal-section-heading">お問い合わせ</div>
+    <div class="modal-contact-row">${igBtn}${mailBtn}</div>
+    ${contactNote}` : ''}
+
+    <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${team.id}')">
+      ${fav ? '❤️ お気に入り済み' : '🤍 お気に入りに追加'}
+    </button>
+
+    <div class="modal-share-row">
+      <span class="modal-share-label">このチームをシェア：</span>
+      <a class="modal-share-line" href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank">LINE</a>
+      <a class="modal-share-x" href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank">𝕏</a>
+    </div>
+  `;
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -510,53 +1403,186 @@ function toggleFavModal(id) {
   favorites = isFav(id) ? favorites.filter(f => f !== id) : [...favorites, id];
   localStorage.setItem('sf_favorites', JSON.stringify(favorites));
   const btn = document.getElementById('modalFavBtn');
-  if (btn) btn.textContent = isFav(id) ? '⭐ お気に入り済み' : '☆ お気に入り';
-  applyFilters();
+  if (btn) {
+    btn.textContent = isFav(id) ? '❤️ お気に入り済み' : '🤍 お気に入りに追加';
+    btn.classList.toggle('active', isFav(id));
+  }
+  const cardBtn = document.querySelector(`.card-heart-btn[data-id="${id}"]`);
+  if (cardBtn) cardBtn.textContent = isFav(id) ? '❤️' : '🤍';
+  if (showFavOnly) applyFilters();
 }
 
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
 function closeModalOnOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-document.getElementById('searchInput').addEventListener('input', applyFilters);
-['filterSport','filterAge','filterTrial'].forEach(id => {
-  document.getElementById(id).addEventListener('change', applyFilters);
-});
-document.getElementById('filterPref').addEventListener('change', function() {
-  const citySelect = document.getElementById('filterCity');
-  const cities = CITIES[this.value] || [];
-  citySelect.innerHTML = cities.length
-    ? '<option value="">すべての市区町村</option>' + cities.map(c => `<option>${c}</option>`).join('')
-    : '<option value="">すべての市区町村</option>';
-  applyFilters();
-});
-document.getElementById('filterCity').addEventListener('change', applyFilters);
-
 function makeMailto(team) {
   const subject = encodeURIComponent(`【チビスポ】${team.name}へのお問い合わせ`);
   const body = encodeURIComponent(
-`${team.name} 担当者様
-
-チビスポを見てご連絡しました。
-
-【お名前】
-【お子さんの年齢】
-【ご質問・ご要望】
-
-
-よろしくお願いいたします。`
+`${team.name} 担当者様\n\nチビスポを見てご連絡しました。\n\n【お名前】\n【お子さんの年齢】\n【ご質問・ご要望】\n\nよろしくお願いいたします。`
   );
   return `mailto:${team.contact.email}?subject=${subject}&body=${body}`;
 }
 
-// URLパラメータでお気に入りタブを直接開く
-if (new URLSearchParams(location.search).get('tab') === 'fav') setTab('fav');
+// ===== SEARCH UI WIRING =====
+
+// フリーワード
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchText = this.value.trim();
+  applyFilters();
+});
+
+// エリア
+document.getElementById('filterPref').addEventListener('change', function() {
+  filterPrefArea = this.value;
+  filterCity = '';
+  const cities = CITIES[this.value] || [];
+  const citySelect = document.getElementById('filterCity');
+  citySelect.innerHTML = '<option value="">市区町村を選択</option>'
+    + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+  applyFilters();
+});
+document.getElementById('filterCity').addEventListener('change', function() {
+  filterCity = this.value;
+  applyFilters();
+});
+
+// 種目チップ
+document.getElementById('sportChips').addEventListener('click', function(e) {
+  const chip = e.target.closest('[data-sport]');
+  if (!chip) return;
+  const sport = chip.dataset.sport;
+  if (filterSport === sport) {
+    filterSport = null;
+    chip.classList.remove('active');
+  } else {
+    document.querySelectorAll('[data-sport].sport-chip').forEach(c => c.classList.remove('active'));
+    filterSport = sport;
+    chip.classList.add('active');
+  }
+  syncCatActive();
+  applyFilters();
+});
+document.getElementById('extraSports').addEventListener('click', function(e) {
+  const chip = e.target.closest('[data-sport]');
+  if (!chip) return;
+  const sport = chip.dataset.sport;
+  if (filterSport === sport) {
+    filterSport = null;
+    chip.classList.remove('active');
+  } else {
+    document.querySelectorAll('[data-sport].sport-chip').forEach(c => c.classList.remove('active'));
+    filterSport = sport;
+    chip.classList.add('active');
+  }
+  syncCatActive();
+  applyFilters();
+});
+
+// もっと見る
+document.getElementById('moreBtn').addEventListener('click', function() {
+  const extra = document.getElementById('extraSports');
+  const open = extra.style.display === 'flex';
+  extra.style.display = open ? 'none' : 'flex';
+  this.textContent = open ? 'もっと見る ▾' : '閉じる ▴';
+});
+
+// 年齢チップ
+document.querySelectorAll('.age-chip').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const age = this.dataset.age;
+    if (filterAges.has(age)) {
+      filterAges.delete(age);
+      this.classList.remove('active');
+    } else {
+      filterAges.add(age);
+      this.classList.add('active');
+    }
+    applyFilters();
+  });
+});
+
+// こだわり条件
+document.querySelectorAll('.pref-chip:not(.fee-chip)').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const pref = this.dataset.pref;
+    this.classList.toggle('active');
+    const active = this.classList.contains('active');
+    if (pref === '体験OK')    trialOnly            = active;
+    if (pref === '土日開催')  weekendOnly          = active;
+    if (pref === '平日開催')  weekdayOnly          = active;
+    if (pref === '女性指導者') femaleInstructorOnly = active;
+    if (pref === '女の子歓迎') girlsWelcomeOnly    = active;
+    applyFilters();
+  });
+});
+
+// 月謝フィルター（ラジオ的に1つだけ選択）
+document.querySelectorAll('.fee-chip').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const val = parseInt(this.dataset.fee);
+    const wasActive = this.classList.contains('active');
+    document.querySelectorAll('.fee-chip').forEach(b => b.classList.remove('active'));
+    if (wasActive) {
+      feeMax = null;
+    } else {
+      this.classList.add('active');
+      feeMax = val;
+    }
+    applyFilters();
+  });
+});
+
+// お気に入りフィルター
+document.getElementById('favFilterBtn').addEventListener('click', function() {
+  showFavOnly = !showFavOnly;
+  this.classList.toggle('active', showFavOnly);
+  this.textContent = showFavOnly ? '❤️ お気に入り' : '♡ お気に入り';
+  applyFilters();
+});
+
+// ソート
+document.getElementById('sortSelect').addEventListener('change', function() {
+  sortMode = this.value;
+  applyFilters();
+});
+
+// カテゴリスクロール
+document.querySelectorAll('.cat-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const sport = this.dataset.sport;
+    if (filterSport === sport) {
+      filterSport = null;
+    } else {
+      filterSport = sport;
+      document.querySelectorAll('[data-sport].sport-chip').forEach(c => c.classList.remove('active'));
+      const matching = document.querySelector(`.sport-chip[data-sport="${sport}"]`);
+      if (matching) matching.classList.add('active');
+    }
+    syncCatActive();
+    applyFilters();
+    document.getElementById('teams-section').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+function syncCatActive() {
+  document.querySelectorAll('.cat-item').forEach(c => {
+    c.classList.toggle('active', c.dataset.sport === filterSport);
+  });
+}
+
+const catScroll = document.getElementById('catScroll');
+document.getElementById('catLeft').addEventListener('click', () => catScroll.scrollBy({ left: -200, behavior: 'smooth' }));
+document.getElementById('catRight').addEventListener('click', () => catScroll.scrollBy({ left: 200, behavior: 'smooth' }));
+
+// URLパラメータでお気に入り表示
+if (new URLSearchParams(location.search).get('fav') === '1') {
+  showFavOnly = true;
+  document.getElementById('favFilterBtn').classList.add('active');
+  document.getElementById('favFilterBtn').textContent = '❤️ お気に入り';
+}
 
 loadTeams();
 </script>
-
-<footer style="background:#1e293b;color:#94a3b8;text-align:center;padding:24px 16px;font-size:.82rem;margin-top:40px;">
-  © 2026 チビスポ｜運営：MOYORI｜<a href="index.html?tab=fav" style="color:#94a3b8;">⭐ お気に入り</a>｜<a href="legal.html" style="color:#94a3b8;">プライバシーポリシー・利用規約</a>｜<a href="contact.html" style="color:#94a3b8;">お問い合わせ</a>
-</footer>
 </body>
 </html>

@@ -110,7 +110,7 @@
 
         <div class="form-group">
           <label>種目<span class="required">*</span></label>
-          <select id="sport" required>
+          <select id="sport" required onchange="toggleSportOther(this)">
             <option value="">選択してください</option>
             <option>野球</option><option>サッカー</option><option>バスケットボール</option>
             <option>水泳</option><option>テニス</option><option>バレーボール</option>
@@ -121,6 +121,7 @@
             <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
             <option>ゴルフ</option><option>乗馬</option><option>その他</option>
           </select>
+          <input type="text" id="sportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
         </div>
 
         <div class="form-group">
@@ -156,9 +157,18 @@
         <div class="form-group">
           <label>対象年齢<span class="required">*</span>（複数選択可）</label>
           <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" />未就学（〜6歳）</label>
+            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" id="agePreschool" />未就学（〜6歳）</label>
             <label class="checkbox-item"><input type="checkbox" name="age" value="小学生" />小学生（7〜12歳）</label>
             <label class="checkbox-item"><input type="checkbox" name="age" value="中学生" />中学生（13〜15歳）</label>
+          </div>
+          <div id="ageMinWrap" style="display:none;margin-top:12px;padding:12px 14px;background:#fff7ed;border-radius:10px;border:1.5px solid #fed7aa;">
+            <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:8px;">未就学の受け入れ開始年齢</div>
+            <div class="checkbox-group" style="flex-wrap:wrap;gap:8px;">
+              <label class="checkbox-item"><input type="radio" name="age_min" value="3歳〜" />3歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="4歳〜" />4歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="5歳〜" />5歳〜</label>
+              <label class="checkbox-item"><input type="radio" name="age_min" value="6歳〜" />6歳〜</label>
+            </div>
           </div>
         </div>
 
@@ -172,6 +182,14 @@
             <label class="checkbox-item"><input type="checkbox" name="day" value="金" />金</label>
             <label class="checkbox-item"><input type="checkbox" name="day" value="土" />土</label>
             <label class="checkbox-item"><input type="checkbox" name="day" value="日" />日</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>チームの特徴（複数選択可）</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" name="feature" value="female_instructor" />女性指導者がいる</label>
+            <label class="checkbox-item"><input type="checkbox" name="feature" value="girls_welcome" />女の子歓迎</label>
           </div>
         </div>
 
@@ -269,10 +287,20 @@ const EMAILJS_TEMPLATE_ID = 'template_kqggwf6';
 const EMAILJS_PUBLIC_KEY  = '_3ihuQJR4hTieK4h_';
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
+document.getElementById('agePreschool').addEventListener('change', function() {
+  const wrap = document.getElementById('ageMinWrap');
+  wrap.style.display = this.checked ? 'block' : 'none';
+  if (!this.checked) {
+    document.querySelectorAll('input[name="age_min"]').forEach(r => r.checked = false);
+  }
+});
+
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const ages = [...document.querySelectorAll('input[name="age"]:checked')].map(el => el.value);
+  const ageMin = document.querySelector('input[name="age_min"]:checked')?.value || null;
+  const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
   const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
   const trialVal = document.querySelector('input[name="trial"]:checked')?.value;
   const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
@@ -314,10 +342,13 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
   const { error } = await db.from('teams').insert({
     name: document.getElementById('name').value.trim(),
-    sport: document.getElementById('sport').value,
+    sport: getSportValue(),
     pref: document.getElementById('pref').value,
     city: document.getElementById('city').value,
     age_groups: ages,
+    age_min: ageMin,
+    female_instructor: features.includes('female_instructor'),
+    girls_welcome: features.includes('girls_welcome'),
     days: days,
     fee_num: feeNum,
     fee: `月${feeNum.toLocaleString()}円`,
@@ -341,7 +372,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   // 管理者にメール通知
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
     team_name: document.getElementById('name').value.trim(),
-    sport: document.getElementById('sport').value,
+    sport: getSportValue(),
     pref: document.getElementById('pref').value,
     city: document.getElementById('city').value.trim(),
     applicant_email: email || instagram ? `Instagram: @${instagram}` : '未入力',
@@ -350,6 +381,26 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
 });
+
+function toggleSportOther(sel) {
+  const other = document.getElementById('sportOther');
+  if (sel.value === 'その他') {
+    other.style.display = 'block';
+    other.required = true;
+  } else {
+    other.style.display = 'none';
+    other.required = false;
+    other.value = '';
+  }
+}
+
+function getSportValue() {
+  const sel = document.getElementById('sport').value;
+  if (sel === 'その他') {
+    return document.getElementById('sportOther').value.trim() || 'その他';
+  }
+  return sel;
+}
 
 function showError(msg) {
   const el = document.getElementById('errorMsg');
