@@ -624,7 +624,8 @@ img { max-width: 100%; display: block; }
   transition: transform .15s, box-shadow .15s;
 }
 .upcoming-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
-.upcoming-icon { font-size: 36px; margin-bottom: 10px; }
+.upcoming-icon { margin-bottom: 10px; display: flex; justify-content: center; }
+.upcoming-icon svg { width: 56px; height: 56px; }
 .upcoming-title { font-size: 13px; font-weight: 800; color: var(--ink); line-height: 1.4; }
 .upcoming-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
 
@@ -1093,12 +1094,91 @@ footer {
       <span class="section-title-dots"></span>
     </div>
     <div class="upcoming-grid">
-      <div class="upcoming-card"><div class="upcoming-icon">📅</div><div class="upcoming-title">オンライン見学お知らせ</div><div class="upcoming-desc">ホットでかんたん見学予約！</div></div>
-      <div class="upcoming-card"><div class="upcoming-icon">⭐</div><div class="upcoming-title">口コミ・レビュー</div><div class="upcoming-desc">保護者のリアルな声で安心して選べる！</div></div>
-      <div class="upcoming-card"><div class="upcoming-icon">🗺️</div><div class="upcoming-title">地図から探す</div><div class="upcoming-desc">地図上で近くのチームをすぐにチェック</div></div>
-      <div class="upcoming-card"><div class="upcoming-icon">🤝</div><div class="upcoming-title">チーム同士の対戦機能</div><div class="upcoming-desc">地域のチームとマッチ大会を開こう！</div></div>
-      <div class="upcoming-card"><div class="upcoming-icon">📱</div><div class="upcoming-title">SNSでの活動シェア</div><div class="upcoming-desc">活動をSNSにシェアして仲間を増やそう！</div></div>
-      <div class="upcoming-card"><div class="upcoming-icon">🏆</div><div class="upcoming-title">大会・イベント情報</div><div class="upcoming-desc">近隣の大会や交流会を見逃さずチェック！</div></div>
+      <!-- オンライン予約 -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="10" width="40" height="36" rx="5" fill="#e0f2fe" stroke="#2563eb" stroke-width="2"/>
+            <rect x="8" y="10" width="40" height="10" rx="5" fill="#2563eb"/>
+            <rect x="14" y="5" width="4" height="10" rx="2" fill="#2563eb"/>
+            <rect x="38" y="5" width="4" height="10" rx="2" fill="#2563eb"/>
+            <circle cx="28" cy="34" r="8" fill="#fff" stroke="#2563eb" stroke-width="1.5"/>
+            <polyline points="24,34 27,37 32,31" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="upcoming-title">オンライン予約の受付</div>
+        <div class="upcoming-desc">24時間いつでも予約が可能！</div>
+      </div>
+      <!-- 口コミ -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="44" height="30" rx="6" fill="#fff7ed" stroke="#f59e0b" stroke-width="2"/>
+            <circle cx="18" cy="24" r="5" fill="#fca5a5"/>
+            <rect x="26" y="21" width="16" height="3" rx="1.5" fill="#d1d5db"/>
+            <rect x="26" y="26" width="10" height="2.5" rx="1.2" fill="#e5e7eb"/>
+            <text x="12" y="42" font-size="10" fill="#f59e0b">★★★★</text>
+          </svg>
+        </div>
+        <div class="upcoming-title">口コミ・レビュー</div>
+        <div class="upcoming-desc">実際の声が見られて安心して選べる！</div>
+      </div>
+      <!-- 地図 -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="10" width="44" height="34" rx="5" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+            <path d="M14 36 L22 20 L30 28 L38 16 L44 24" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="34" cy="26" r="6" fill="#ef4444"/>
+            <circle cx="34" cy="26" r="2.5" fill="#fff"/>
+            <path d="M34 32 L34 38" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="upcoming-title">地図から探す</div>
+        <div class="upcoming-desc">地図上で近くのチームをすぐにチェック</div>
+      </div>
+      <!-- チーム交流 -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="20" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <circle cx="38" cy="20" r="8" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+            <path d="M14 42 C14 34 22 30 28 30 C34 30 42 34 42 42" stroke="#64748b" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M24 36 L28 32 L32 36" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="upcoming-title">チーム同士の交流機能</div>
+        <div class="upcoming-desc">他のチームと情報交換や合同練習も楽しもも！</div>
+      </div>
+      <!-- SNSシェア -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="28" width="16" height="20" rx="3" fill="#e0f2fe" stroke="#2563eb" stroke-width="2"/>
+            <rect x="20" y="20" width="16" height="28" rx="3" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+            <rect x="30" y="12" width="16" height="36" rx="3" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>
+            <circle cx="44" cy="10" r="5" fill="#f59e0b"/>
+            <path d="M41 10 L47 10 M44 7 L44 13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="upcoming-title">SNSでの情報シェア</div>
+        <div class="upcoming-desc">発信力を高めてチームをもっとアピール！</div>
+      </div>
+      <!-- 大会情報 -->
+      <div class="upcoming-card">
+        <div class="upcoming-icon">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 10 L36 10 L40 24 C40 32 34 38 28 40 C22 38 16 32 16 24 Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <path d="M16 14 L8 14 C8 14 8 26 16 28" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M40 14 L48 14 C48 14 48 26 40 28" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <rect x="24" y="40" width="8" height="6" rx="1" fill="#d97706"/>
+            <rect x="18" y="46" width="20" height="3" rx="1.5" fill="#d97706"/>
+            <path d="M24 24 L26 20 L28 24 L32 24 L29 27 L30 31 L28 28 L26 31 L27 27 L24 24Z" fill="#f59e0b"/>
+          </svg>
+        </div>
+        <div class="upcoming-title">大会・イベント情報</div>
+        <div class="upcoming-desc">交流会や試合情報をまとめてチェック！</div>
+      </div>
     </div>
   </div>
 </section>
