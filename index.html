@@ -274,7 +274,33 @@ img { max-width: 100%; display: block; }
 .categories-section { padding: 48px 0 32px; background: #fff; }
 .section-title {
   text-align: center; font-size: 20px; font-weight: 800;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.section-title::before, .section-title::after {
+  content: ""; width: 22px; height: 16px; border-radius: 2px; flex-shrink: 0;
+  background: linear-gradient(to bottom,
+    #1a8fff  0px,  #1a8fff  3px,
+    transparent 3px, transparent 6px,
+    #ff8a1f  6px,  #ff8a1f  9px,
+    transparent 9px, transparent 12px,
+    #2dbf5e 12px,  #2dbf5e 15px
+  );
+}
+.section-title::before { transform: rotate(70deg); }
+.section-title::after  { transform: rotate(-70deg); }
+.section-title-wrap {
+  text-align: center; margin-bottom: 24px;
+}
+.section-title-dots {
+  display: block; margin: 10px auto 0;
+  width: 80px; height: 8px;
+  background:
+    radial-gradient(circle, #1a8fff  4px, transparent 4px)  0px 0 / 20px 8px,
+    radial-gradient(circle, #ff8a1f  4px, transparent 4px) 20px 0 / 20px 8px,
+    radial-gradient(circle, #ff4d8a  4px, transparent 4px) 40px 0 / 20px 8px,
+    radial-gradient(circle, #2dbf5e  4px, transparent 4px) 60px 0 / 20px 8px;
+  background-repeat: no-repeat;
 }
 .section-title .spark { color: var(--yellow); }
 .categories-wrap {
@@ -974,7 +1000,10 @@ footer {
 
 <!-- CATEGORIES -->
 <section class="categories-section">
-  <div class="section-title"><span class="spark">✦</span> 人気のカテゴリ <span class="spark">✦</span></div>
+  <div class="section-title-wrap">
+    <div class="section-title">人気のカテゴリ</div>
+    <span class="section-title-dots"></span>
+  </div>
   <div class="categories-wrap">
     <button class="scroll-arrow left" id="catLeft">‹</button>
     <div class="categories-scroll" id="catScroll">
@@ -1042,7 +1071,10 @@ footer {
 <!-- UPCOMING -->
 <section class="upcoming-section">
   <div class="upcoming-inner">
-    <div class="section-title">これから追加予定の機能</div>
+    <div class="section-title-wrap">
+      <div class="section-title">これから追加予定の機能</div>
+      <span class="section-title-dots"></span>
+    </div>
     <div class="upcoming-grid">
       <div class="upcoming-card"><div class="upcoming-icon">📅</div><div class="upcoming-title">オンライン見学お知らせ</div><div class="upcoming-desc">ホットでかんたん見学予約！</div></div>
       <div class="upcoming-card"><div class="upcoming-icon">⭐</div><div class="upcoming-title">口コミ・レビュー</div><div class="upcoming-desc">保護者のリアルな声で安心して選べる！</div></div>
