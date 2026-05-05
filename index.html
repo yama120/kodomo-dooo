@@ -162,7 +162,9 @@ img { max-width: 100%; display: block; }
 
 /* ===== SEARCH PANEL ===== */
 .search-section {
-  background: #fff;
+  background-color: #fff;
+  background-image: radial-gradient(rgba(37,99,235,0.07) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
   padding: 40px 0 48px;
   border-bottom: 1px solid var(--border);
 }
@@ -271,7 +273,12 @@ img { max-width: 100%; display: block; }
 .btn-search:hover { opacity: .9; }
 
 /* ===== CATEGORIES ===== */
-.categories-section { padding: 48px 0 32px; background: #fff; }
+.categories-section {
+  padding: 48px 0 32px;
+  background-color: #fff9f0;
+  background-image: radial-gradient(rgba(255,140,26,0.09) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
 .section-title {
   text-align: center; font-size: 20px; font-weight: 800;
   margin-bottom: 24px;
@@ -318,7 +325,12 @@ img { max-width: 100%; display: block; }
 .scroll-arrow.right { right: 0; }
 
 /* ===== TEAMS SECTION ===== */
-.teams-section { padding: 32px 0 60px; background: var(--bg); }
+.teams-section {
+  padding: 32px 0 60px;
+  background-color: #f8fafc;
+  background-image: radial-gradient(rgba(37,99,235,0.06) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
 .teams-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 .teams-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -507,6 +519,15 @@ img { max-width: 100%; display: block; }
   position: relative;
   min-height: 180px;
 }
+.reg-cta::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    -55deg,
+    rgba(255,140,26,0.06) 0px, rgba(255,140,26,0.06) 8px,
+    transparent 8px, transparent 22px
+  );
+}
 .reg-cta-text {
   padding: 28px 24px 28px 80px;
   display: flex; flex-direction: column; justify-content: center;
@@ -570,7 +591,10 @@ img { max-width: 100%; display: block; }
 
 /* ===== UPCOMING FEATURES ===== */
 .upcoming-section {
-  padding: 48px 0 60px; background: #fff;
+  padding: 48px 0 60px;
+  background-color: #f0f7ff;
+  background-image: radial-gradient(rgba(37,99,235,0.11) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
   border-top: 1px solid var(--border);
 }
 .upcoming-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
