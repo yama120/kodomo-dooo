@@ -95,7 +95,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-bg-img {
   position: absolute;
-  top: 0; right: -180px;
+  top: 0; right: 16%;
   height: 520px; width: auto; max-width: none;
   display: block;
 }
@@ -824,10 +824,10 @@ footer {
 }
 
 @media (max-width: 1020px) {
-  .hero-bg-img { right: -240px; }
+  .hero-bg-img { right: 0; }
 }
 @media (max-width: 940px) {
-  .hero-bg-img { right: -240px; }
+  .hero-bg-img { right: 0; }
 }
 @media (max-width: 900px) {
   .header-inner { gap: 16px; }
@@ -883,6 +883,7 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
+  <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
   <div class="hero-overlay"></div>
 
   <!-- 装飾SVG -->
@@ -924,7 +925,6 @@ footer {
         <a href="team-lp.html" class="btn-hero-outline">📋 無料で掲載する</a>
       </div>
     </div>
-    <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
   </div>
 </section>
 
