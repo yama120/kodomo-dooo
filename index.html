@@ -95,7 +95,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-bg-img {
   position: absolute;
-  top: 0; right: 20%;
+  top: 0; right: -180px;
   height: 520px; width: auto; max-width: none;
   display: block;
 }
@@ -823,15 +823,11 @@ footer {
   text-decoration: none;
 }
 
-@media (min-width: 1021px) and (max-width: 1440px) {
-  /* right%だと画面縮小と連動するためleft固定に切り替え */
-  .hero-bg-img { left: 230px; right: auto; }
-}
 @media (max-width: 1020px) {
-  .hero-bg-img { left: auto; right: 0; }
+  .hero-bg-img { right: -240px; }
 }
 @media (max-width: 940px) {
-  .hero-bg-img { right: 0; }
+  .hero-bg-img { right: -240px; }
 }
 @media (max-width: 900px) {
   .header-inner { gap: 16px; }
@@ -887,7 +883,6 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
-  <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
   <div class="hero-overlay"></div>
 
   <!-- 装飾SVG -->
@@ -929,6 +924,7 @@ footer {
         <a href="team-lp.html" class="btn-hero-outline">📋 無料で掲載する</a>
       </div>
     </div>
+    <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
   </div>
 </section>
 
