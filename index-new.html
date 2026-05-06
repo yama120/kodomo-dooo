@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>チビスポ | 近くの子どもスポーツクラブがすぐ見つかる</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --orange: #ff8c1a;
+  --orange-dark: #e6720a;
+  --orange-light: #fff4e6;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --yellow: #fbbf24;
+  --yellow-light: #fefce8;
+  --pink: #ec4899;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --radius: 14px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
+}
+body {
+  font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ===== HEADER ===== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; gap: 32px;
+}
+.logo {
+  font-size: 22px; font-weight: 900;
+  color: var(--orange);
+  white-space: nowrap;
+  letter-spacing: -.02em;
+}
+.logo span { color: var(--blue); }
+.nav-links {
+  display: flex; gap: 28px; margin-left: 8px;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  white-space: nowrap;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--orange); }
+.header-ctas { display: flex; gap: 10px; margin-left: auto; align-items: center; }
+.btn-header-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--orange); color: #fff;
+  font-weight: 800; font-size: 14px;
+  padding: 10px 20px; border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(255,140,26,.3);
+  transition: opacity .15s;
+}
+.btn-header-primary:hover { opacity: .9; }
+.btn-header-primary .arr {
+  width: 22px; height: 22px; background: #fff; border-radius: 50%;
+  color: var(--orange); display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 900; flex-shrink: 0;
+}
+.btn-header-outline {
+  display: inline-flex; align-items: center;
+  border: 2px solid var(--border); color: var(--ink);
+  font-weight: 700; font-size: 14px;
+  padding: 9px 18px; border-radius: 999px;
+  white-space: nowrap;
+  transition: border-color .15s;
+}
+.btn-header-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background: #fffaf6;
+}
+.hero-bg-img {
+  position: absolute;
+  top: 0; right: 16%;
+  height: 100%; width: auto;
+  display: block;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,252,240,1) 0%,
+    rgba(255,252,240,0.95) 25%,
+    rgba(255,252,240,0.5) 45%,
+    rgba(255,252,240,0) 65%
+  );
+}
+.hero-deco {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1000px; margin: 0 auto; padding: 80px 40px;
+  min-height: 520px;
+  display: flex; align-items: center;
+}
+.hero-left { max-width: 460px; }
+.hero-right { display: none; }
+.hero-tag {
+  display: inline-block;
+  background: rgba(255,140,26,.12); color: var(--orange);
+  font-weight: 800; font-size: 13px;
+  padding: 5px 14px; border-radius: 999px;
+  margin-bottom: 20px; border: 1.5px solid rgba(255,140,26,.25);
+}
+.hero h1 {
+  font-size: 48px; font-weight: 900; line-height: 1.2;
+  letter-spacing: -.02em; margin-bottom: 18px;
+  color: var(--ink);
+}
+.hero h1 .accent { color: var(--orange); }
+.hero-sub {
+  font-size: 15px; color: #475569; line-height: 1.8;
+  margin-bottom: 32px; font-weight: 600;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-hero-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--blue); color: #fff;
+  font-weight: 800; font-size: 16px;
+  padding: 14px 28px; border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(37,99,235,.35);
+  transition: opacity .15s;
+}
+.btn-hero-primary:hover { opacity: .9; }
+.btn-hero-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 2.5px solid var(--orange); color: var(--orange);
+  font-weight: 800; font-size: 16px;
+  padding: 13px 28px; border-radius: 999px;
+  background: rgba(255,255,255,.85);
+  transition: all .15s;
+}
+.btn-hero-outline:hover { background: var(--orange); color: #fff; }
+/* map card */
+.hero-map-card {
+  position: absolute; top: 0; right: 0;
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  padding: 14px 16px; width: 220px;
+  border: 1.5px solid var(--border);
+}
+.hero-map-card .map-title {
+  font-size: 12px; font-weight: 800; color: var(--ink); margin-bottom: 10px;
+}
+.map-placeholder {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border-radius: 8px; height: 80px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin-bottom: 10px;
+  position: relative; overflow: hidden;
+}
+.map-pins {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.map-pin {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 999px; color: #fff;
+}
+.map-pin.soccer { background: #22c55e; }
+.map-pin.baseball { background: #ef4444; }
+.map-pin.dance { background: #a855f7; }
+.hero-map-team {
+  margin-top: 8px; padding: 8px; background: var(--bg);
+  border-radius: 8px; display: flex; gap: 8px; align-items: center;
+}
+.hero-map-team-img {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.hero-map-team-info { flex: 1; }
+.hero-map-team-name { font-size: 11px; font-weight: 800; line-height: 1.3; }
+.hero-map-team-meta { font-size: 10px; color: var(--muted); }
+.hero-map-team-tags { display: flex; gap: 4px; margin-top: 3px; }
+.hero-map-team-tags span {
+  font-size: 9px; padding: 1px 5px; border-radius: 4px;
+  background: var(--green-light); color: var(--green); font-weight: 700;
+}
+
+/* deco balls */
+.deco-ball {
+  position: absolute;
+  border-radius: 50%;
+  opacity: .7;
+}
+
+/* ===== SEARCH PANEL ===== */
+.search-section {
+  background: #fff;
+  padding: 40px 0 48px;
+  border-bottom: 1px solid var(--border);
+}
+.search-section-title {
+  text-align: center; font-size: 20px; font-weight: 800;
+  margin-bottom: 28px; color: var(--ink);
+}
+.search-section-title .spark { color: var(--yellow); }
+.search-box {
+  max-width: 900px; margin: 0 auto; padding: 0 20px;
+}
+.search-row {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 0; border: 2px solid var(--border); border-radius: 12px;
+  margin-bottom: 20px; overflow: hidden; background: #fff;
+}
+.search-label {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px; background: var(--bg);
+  border-right: 1px solid var(--border);
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  white-space: nowrap;
+}
+.search-label .icon { font-size: 16px; }
+.search-inner { padding: 12px 16px; }
+
+/* Area row */
+.area-selects { display: flex; gap: 12px; align-items: center; }
+.area-selects select {
+  padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-weight: 600; color: var(--ink);
+  background: #fff; cursor: pointer; outline: none;
+  font-family: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+
+/* Sport row */
+.sport-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sport-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1.5px solid var(--border);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  background: #fff; color: var(--ink);
+  transition: all .15s;
+}
+.sport-chip:hover, .sport-chip.active {
+  border-color: var(--orange); background: var(--orange-light); color: var(--orange);
+}
+.sport-chip .em { font-size: 15px; }
+.more-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer;
+  border: none; background: none; font-family: inherit;
+}
+
+/* Age row */
+.age-chips { display: flex; gap: 8px; }
+.age-chip {
+  padding: 7px 20px; border-radius: 999px; border: 2px solid;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  transition: all .15s;
+}
+.age-chip.preschool { border-color: #86efac; color: var(--green); background: var(--green-light); }
+.age-chip.elementary { border-color: #fdba74; color: var(--orange); background: var(--orange-light); }
+.age-chip.junior { border-color: #93c5fd; color: var(--blue); background: var(--blue-light); }
+.age-chip.active.preschool { background: var(--green); color: #fff; }
+.age-chip.active.elementary { background: var(--orange); color: #fff; }
+.age-chip.active.junior { background: var(--blue); color: #fff; }
+
+/* Preference row */
+.pref-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pref-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1.5px solid var(--green-light);
+  background: var(--green-light); color: var(--green);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all .15s;
+}
+.pref-chip .check { font-size: 12px; }
+
+/* Freeword row */
+.freeword-row { display: flex; gap: 10px; align-items: center; }
+.freeword-row input {
+  flex: 1; padding: 10px 16px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .15s;
+}
+.freeword-row input:focus { border-color: var(--blue); }
+.freeword-row input::placeholder { color: #cbd5e1; }
+.btn-search {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue); color: #fff;
+  font-weight: 800; font-size: 15px;
+  padding: 11px 28px; border-radius: 10px;
+  border: none; cursor: pointer; font-family: inherit;
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.btn-search:hover { opacity: .9; }
+
+/* ===== CATEGORIES ===== */
+.categories-section { padding: 48px 0 32px; background: #fff; }
+.section-title {
+  text-align: center; font-size: 20px; font-weight: 800;
+  margin-bottom: 24px;
+}
+.section-title .spark { color: var(--yellow); }
+.categories-wrap {
+  position: relative; max-width: 1100px; margin: 0 auto; padding: 0 48px;
+}
+.categories-scroll {
+  display: flex; gap: 16px; overflow-x: auto;
+  scrollbar-width: none; padding: 8px 0;
+}
+.categories-scroll::-webkit-scrollbar { display: none; }
+.cat-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  flex-shrink: 0; cursor: pointer;
+  transition: transform .15s;
+}
+.cat-item:hover { transform: translateY(-3px); }
+.cat-icon {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: #fff; border: 2.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  transition: border-color .15s, box-shadow .15s;
+}
+.cat-item:hover .cat-icon {
+  border-color: var(--orange);
+  box-shadow: 0 4px 16px rgba(255,140,26,.2);
+}
+.cat-label { font-size: 12px; font-weight: 800; color: var(--ink); }
+.scroll-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fff; border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--muted);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  transition: all .15s;
+}
+.scroll-arrow:hover { border-color: var(--orange); color: var(--orange); }
+.scroll-arrow.left { left: 0; }
+.scroll-arrow.right { right: 0; }
+
+/* ===== TEAMS SECTION ===== */
+.teams-section { padding: 32px 0 60px; background: var(--bg); }
+.teams-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.teams-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.teams-title {
+  font-size: 20px; font-weight: 900; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+.teams-title::before {
+  content: '✦'; color: var(--yellow); font-size: 14px;
+}
+.teams-title::after {
+  content: '✦'; color: var(--yellow); font-size: 14px;
+}
+.teams-filters { display: flex; gap: 10px; align-items: center; }
+.fav-filter-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--border); border-radius: 999px;
+  padding: 7px 16px; font-size: 13px; font-weight: 700;
+  background: #fff; cursor: pointer; font-family: inherit;
+  color: var(--muted); transition: all .15s;
+}
+.fav-filter-btn:hover { border-color: var(--pink); color: var(--pink); }
+.sort-select {
+  padding: 8px 32px 8px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-weight: 700; font-family: inherit;
+  background: #fff; cursor: pointer; outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Team Cards */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.team-card {
+  background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden;
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
+  display: flex; flex-direction: column;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+.card-img-wrap {
+  position: relative; height: 170px; overflow: hidden; border-radius: 12px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  margin: 10px 10px 0;
+}
+.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; font-size: 60px;
+}
+.card-sport-badge {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px; color: #fff;
+}
+.card-heart-btn {
+  position: absolute; top: 10px; right: 10px;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  transition: transform .15s;
+}
+.card-heart-btn:hover { transform: scale(1.15); }
+
+.card-body { padding: 12px 14px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.card-name { font-size: 15px; font-weight: 800; line-height: 1.3; }
+.card-meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.card-meta-row { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.ctag {
+  font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+  border: 1.5px solid;
+}
+.ctag.trial { background: #f0fdf4; border-color: #86efac; color: #16a34a; }
+.ctag.beginner { background: #fefce8; border-color: #fde047; color: #ca8a04; }
+.ctag.weekend { background: #f5f3ff; border-color: #c4b5fd; color: #7c3aed; }
+.ctag.female { background: #fdf2f8; border-color: #f9a8d4; color: #db2777; }
+
+.card-sns-row {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 8px 0; border-top: 1px solid var(--border);
+}
+.card-sns-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: 1.5px solid var(--border); border-radius: 999px;
+  padding: 5px 11px; font-size: 11px; font-weight: 700; color: var(--ink);
+  cursor: pointer; background: #fff; font-family: inherit;
+  transition: all .15s; text-decoration: none;
+}
+.card-sns-btn:hover { border-color: var(--blue); color: var(--blue); }
+.card-sns-btn .btn-icon { font-size: 13px; line-height: 1; }
+.card-sns-btn.ig:hover { border-color: #e1306c; color: #e1306c; }
+.card-sns-btn.tw:hover { border-color: #000; color: #000; }
+.card-sns-btn.line:hover { border-color: #06c755; color: #06c755; }
+
+.card-desc {
+  font-size: 12px; color: var(--muted); line-height: 1.7;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.detail-btn {
+  display: block; text-align: center; width: 100%;
+  padding: 10px; border-radius: 10px;
+  background: #fff; color: var(--blue);
+  font-weight: 800; font-size: 13px;
+  border: 1.5px solid var(--blue);
+  cursor: pointer; font-family: inherit; margin-top: auto;
+  transition: all .15s;
+}
+.detail-btn:hover { background: var(--blue); color: #fff; }
+
+/* sport badge colors */
+.badge-soccer { background: #22c55e; }
+.badge-baseball { background: #ef4444; }
+.badge-basketball { background: #f97316; }
+.badge-swim { background: #06b6d4; }
+.badge-dance { background: #a855f7; }
+.badge-karate { background: #64748b; }
+
+/* ===== REGISTRATION CTA ===== */
+.reg-cta {
+  background: #fef7ec;
+  border: 2.5px solid #fde68a;
+  border-radius: 24px;
+  max-width: 1100px; margin: 0 auto 60px;
+  padding: 0;
+  display: grid; grid-template-columns: 1fr 400px;
+  gap: 0; align-items: center;
+  overflow: hidden;
+  position: relative;
+  min-height: 180px;
+}
+.reg-cta-illust {
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 0 0 0 8px;
+  overflow: visible; position: relative; z-index: 1;
+  align-self: stretch; height: 190px;
+}
+.reg-cta-illust img {
+  height: 190px !important; width: auto !important; max-width: none !important;
+  object-fit: contain; object-position: center bottom;
+  display: block;
+}
+.reg-cta-text {
+  padding: 28px 24px 28px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 1;
+}
+.reg-cta-label {
+  display: inline-block;
+  background: rgba(255,140,26,.12); color: var(--orange);
+  font-size: 12px; font-weight: 800;
+  padding: 4px 12px; border-radius: 999px;
+  border: 1.5px solid rgba(255,140,26,.3);
+  margin-bottom: 8px; align-self: flex-start;
+}
+.reg-cta-text h3 {
+  font-size: 24px; font-weight: 900; margin-bottom: 6px; line-height: 1.3;
+  color: var(--ink);
+}
+.reg-cta-text h3 .accent { color: var(--orange); }
+.reg-cta-text p {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 14px;
+}
+.reg-cta-features {
+  display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.reg-cta-feature {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--ink);
+}
+.reg-cta-feature .check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+}
+.btn-reg-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: #fff;
+  font-weight: 900; font-size: 16px;
+  padding: 14px 28px; border-radius: 999px;
+  white-space: nowrap; align-self: flex-start;
+  box-shadow: 0 4px 0 var(--orange-dark, #c75e08), 0 8px 20px rgba(255,140,26,.3);
+  transition: transform .1s, box-shadow .1s;
+}
+.btn-reg-cta:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--orange-dark, #c75e08), 0 4px 12px rgba(255,140,26,.3); }
+.btn-reg-cta .arr {
+  width: 26px; height: 26px; background: rgba(255,255,255,.25); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.reg-cta-device {
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  padding: 16px 60px 0 0;
+  overflow: hidden; position: relative; z-index: 1;
+}
+.reg-cta-device img {
+  width: 100%; max-width: 340px; height: auto; object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,.12));
+}
+
+/* ===== UPCOMING FEATURES ===== */
+.upcoming-section {
+  padding: 48px 0 60px; background: #fff;
+  border-top: 1px solid var(--border);
+}
+.upcoming-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.upcoming-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
+  margin-top: 28px;
+}
+.upcoming-card {
+  background: var(--bg); border-radius: 14px; padding: 20px 16px;
+  text-align: center; border: 1.5px solid var(--border);
+  transition: transform .15s, box-shadow .15s;
+}
+.upcoming-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.upcoming-icon { font-size: 36px; margin-bottom: 10px; }
+.upcoming-title { font-size: 13px; font-weight: 800; color: var(--ink); line-height: 1.4; }
+.upcoming-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--ink); color: #94a3b8;
+  padding: 24px 0;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.footer-logo { font-size: 18px; font-weight: 900; color: #fff; }
+.footer-logo span { font-size: 11px; font-weight: 500; color: #64748b; display: block; margin-top: 2px; }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: #94a3b8; transition: color .15s; }
+.footer-links a:hover { color: #fff; }
+.footer-cta-btn {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--orange); color: #fff;
+  font-weight: 800; font-size: 14px;
+  padding: 12px 22px; border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(255,140,26,.3);
+  transition: opacity .15s;
+}
+.footer-cta-btn:hover { opacity: .9; }
+.footer-cta-btn .arr {
+  width: 22px; height: 22px; background: rgba(255,255,255,.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .header-inner { gap: 16px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; padding: 40px 24px; }
+  .hero-right { display: none; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .upcoming-grid { grid-template-columns: repeat(3, 1fr); }
+  .reg-cta { grid-template-columns: 1fr; text-align: center; }
+  .reg-cta-illust { display: none; }
+}
+@media (max-width: 600px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .upcoming-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 32px; }
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-cta-btn { margin: 0 auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">チビスポ</div>
+    <nav class="nav-links">
+      <a href="#">チームを探す</a>
+      <a href="#">実感のメリット</a>
+      <a href="#">使い方</a>
+      <a href="#">よくある質問</a>
+    </nav>
+    <div class="header-ctas">
+      <a href="#" class="btn-header-primary">
+        無料でチームを探す
+        <span class="arr">›</span>
+      </a>
+      <a href="#" class="btn-header-outline">チームの方はこちら</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
+  <div class="hero-overlay"></div>
+
+  <!-- 装飾SVG -->
+  <svg class="hero-deco" viewBox="0 0 1440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <!-- 左上 大きい黄色丸 -->
+    <circle cx="60" cy="60" r="54" fill="#fde68a" opacity=".7"/>
+    <!-- 左上 黄色丸（線） -->
+    <circle cx="180" cy="30" r="22" fill="none" stroke="#fde68a" stroke-width="3" opacity=".7"/>
+    <circle cx="250" cy="90" r="12" fill="none" stroke="#fde68a" stroke-width="2.5" opacity=".6"/>
+    <!-- 左下 緑丸 -->
+    <circle cx="30" cy="400" r="48" fill="#bbf7d0" opacity=".6"/>
+    <circle cx="110" cy="470" r="30" fill="#86efac" opacity=".5"/>
+    <!-- 左下 黄色丸 -->
+    <circle cx="160" cy="430" r="18" fill="#fde68a" opacity=".6"/>
+    <!-- 左中 青丸（線） -->
+    <circle cx="20" cy="240" r="14" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <!-- 左 点線カーブ -->
+    <path d="M 80 180 Q 160 280 100 380" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 6" opacity=".5"/>
+    <!-- 左 小ドット群 -->
+    <circle cx="200" cy="200" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="215" cy="215" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="230" cy="200" r="4" fill="#fde68a" opacity=".5"/>
+    <circle cx="215" cy="185" r="4" fill="#fde68a" opacity=".5"/>
+
+    <!-- 右上 黄色丸（大） -->
+    <circle cx="1390" cy="50" r="46" fill="#fde68a" opacity=".7"/>
+    <!-- 右上 青丸 -->
+    <circle cx="1280" cy="30" r="28" fill="#bae6fd" opacity=".6"/>
+    <circle cx="1350" cy="110" r="16" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <!-- 右下 青丸 -->
+    <circle cx="1420" cy="420" r="38" fill="#bae6fd" opacity=".5"/>
+    <circle cx="1340" cy="480" r="20" fill="none" stroke="#93c5fd" stroke-width="2.5" opacity=".6"/>
+    <!-- 右 点線 -->
+    <path d="M 1360 160 Q 1420 260 1380 370" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="6 6" opacity=".5"/>
+    <!-- 右 小ドット群 -->
+    <circle cx="1200" cy="440" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1215" cy="455" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1230" cy="440" r="5" fill="#86efac" opacity=".5"/>
+    <circle cx="1215" cy="425" r="5" fill="#86efac" opacity=".5"/>
+    <!-- スパークル（左） -->
+    <text x="290" y="150" font-size="18" opacity=".6">✦</text>
+    <text x="60" y="320" font-size="14" opacity=".5">✦</text>
+    <!-- スパークル（右） -->
+    <text x="1380" y="300" font-size="18" opacity=".5">✦</text>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">🏃 子どもスポーツクラブ検索プラットフォーム</div>
+      <h1>近くの子ども<br>スポーツクラブが、<br><span class="accent">すぐ見つかる。</span></h1>
+      <p class="hero-sub">サッカー・野球・ダンス・水泳など、<br>希望のエリアのクラブ・習い事をかんたん検索。</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-hero-primary">🔍 チームを探す</a>
+        <a href="#" class="btn-hero-outline">📋 無料で掲載する</a>
+      </div>
+    </div>
+    <div style="display:none;">
+      <div class="hero-illust-area">
+        <div class="hero-kids">⚽🏀⚾🏊💃🥋</div>
+        <div class="hero-map-card">
+          <div class="map-title">近くのチームを探そう！</div>
+          <div class="map-placeholder">🗺️
+            <div style="position:absolute;top:15px;right:30px;background:#ef4444;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">野球</div>
+            <div style="position:absolute;top:30px;left:20px;background:#22c55e;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">サッカー</div>
+            <div style="position:absolute;bottom:15px;right:20px;background:#a855f7;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">ダンス</div>
+          </div>
+          <div class="hero-map-team">
+            <div class="hero-map-team-img">⚽</div>
+            <div class="hero-map-team-info">
+              <div class="hero-map-team-name">世田谷サンライズサッカークラブ</div>
+              <div class="hero-map-team-meta">登録活動地点 1.2km</div>
+              <div class="hero-map-team-tags">
+                <span>体験OK</span>
+                <span>以近週末</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="search-section">
+  <div class="search-section-title">条件を選んで、ぴったりのチームを探そう <span class="spark">✨</span></div>
+  <div class="search-box">
+
+    <!-- エリア -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">📍</span>エリアから探す</div>
+      <div class="search-inner">
+        <div class="area-selects">
+          <select><option>都道府県を選択</option><option>東京都</option><option>神奈川県</option><option>大阪府</option></select>
+          <select><option>市区町村を選択</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 種目 -->
+    <div class="search-row" style="margin-bottom:8px;">
+      <div class="search-label"><span class="icon">🏅</span>種目から探す</div>
+      <div class="search-inner">
+        <div class="sport-chips">
+          <button class="sport-chip active"><span class="em">⚽</span>サッカー</button>
+          <button class="sport-chip"><span class="em">⚾</span>野球</button>
+          <button class="sport-chip"><span class="em">🏀</span>バスケ</button>
+          <button class="sport-chip"><span class="em">🏊</span>水泳</button>
+          <button class="sport-chip"><span class="em">💃</span>ダンス</button>
+          <button class="sport-chip"><span class="em">🥋</span>武道</button>
+          <button class="more-btn">もっと見る ▾</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🎾 テニス</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🏐 バレー</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🏸 バドミントン</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🏓 卓球</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🤼 格闘</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🏃 陸上</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">📣 チア</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">⚔️ 剣道</button>
+          <button class="sport-chip" style="font-size:12px;padding:5px 12px;">🏅 その他</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 年齢 -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">👦</span>年齢から探す</div>
+      <div class="search-inner">
+        <div class="age-chips">
+          <button class="age-chip preschool active">未就学</button>
+          <button class="age-chip elementary active">小学生</button>
+          <button class="age-chip junior">中学生</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- こだわり -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">💡</span>こだわり条件</div>
+      <div class="search-inner">
+        <div class="pref-chips">
+          <button class="pref-chip"><span class="check">✓</span>体験OK</button>
+          <button class="pref-chip"><span class="check">✓</span>女性指導者</button>
+          <button class="pref-chip"><span class="check">✓</span>女の子歓迎</button>
+          <button class="pref-chip"><span class="check">✓</span>土日開催</button>
+          <button class="more-btn">もっと見る ▾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- フリーワード -->
+    <div class="search-row">
+      <div class="search-label"><span class="icon">🔎</span>フリーワード検索</div>
+      <div class="search-inner" style="flex:1;">
+        <div class="freeword-row">
+          <input type="text" placeholder="チーム名・キーワードで検索（例：渋谷区 サッカー）" />
+          <button class="btn-search">🔍 この条件で探す</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section">
+  <div class="section-title"><span class="spark">✦</span> 人気のカテゴリ <span class="spark">✦</span></div>
+  <div class="categories-wrap">
+    <button class="scroll-arrow left">‹</button>
+    <div class="categories-scroll">
+      <div class="cat-item"><div class="cat-icon">⚽</div><div class="cat-label">サッカー</div></div>
+      <div class="cat-item"><div class="cat-icon">⚾</div><div class="cat-label">野球</div></div>
+      <div class="cat-item"><div class="cat-icon">🏀</div><div class="cat-label">バスケ</div></div>
+      <div class="cat-item"><div class="cat-icon">🏊</div><div class="cat-label">水泳</div></div>
+      <div class="cat-item"><div class="cat-icon">🎾</div><div class="cat-label">テニス</div></div>
+      <div class="cat-item"><div class="cat-icon">🥋</div><div class="cat-label">武道</div></div>
+      <div class="cat-item"><div class="cat-icon">💃</div><div class="cat-label">ダンス</div></div>
+      <div class="cat-item"><div class="cat-icon">🏃</div><div class="cat-label">陸上</div></div>
+      <div class="cat-item"><div class="cat-icon">🏐</div><div class="cat-label">バレー</div></div>
+      <div class="cat-item"><div class="cat-icon">📣</div><div class="cat-label">チア</div></div>
+      <div class="cat-item"><div class="cat-icon">🏸</div><div class="cat-label">バドミントン</div></div>
+      <div class="cat-item"><div class="cat-icon">⚔️</div><div class="cat-label">剣道</div></div>
+    </div>
+    <button class="scroll-arrow right">›</button>
+  </div>
+</section>
+
+<!-- TEAMS -->
+<section class="teams-section">
+  <div class="teams-inner">
+    <div class="teams-header">
+      <div class="teams-title">おすすめのチーム</div>
+      <div class="teams-filters">
+        <button class="fav-filter-btn">♡ お気に入り</button>
+        <select class="sort-select">
+          <option>おすすめ順</option>
+          <option>月謝が安い順</option>
+          <option>新着順</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- Card 1 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">
+          <span class="card-sport-badge badge-soccer">サッカー</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">⚽</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">世田谷サンライズサッカークラブ</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都世田谷区</div>
+            <div class="card-meta-row">👦 年長〜小学6年生</div>
+            <div class="card-meta-row">💴 月会費：6,000円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag beginner">初心者歓迎</span>
+            <span class="ctag weekend">土日開催</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn line" href="#"><span class="btn-icon">💬</span> LINE</a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">初心者大歓迎！楽しく体を動かしながら、夢中になれるサッカーを一緒に楽しもう！</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#fee2e2,#fecaca);">
+          <span class="card-sport-badge badge-baseball">野球</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">⚾</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">桜丘ベースボールクラブ</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都世田谷区</div>
+            <div class="card-meta-row">👦 小学1年生〜6年生</div>
+            <div class="card-meta-row">💴 月会費：5,000円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag weekend">土日開催</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">野球の楽しさを子どもたちに伝えるクラブです。基礎からしっかり指導します。</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#ffedd5,#fed7aa);">
+          <span class="card-sport-badge badge-basketball">バスケ</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">🏀</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">池尻プレイブスミニバス</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都世田谷区</div>
+            <div class="card-meta-row">👦 小学1年生〜中学生</div>
+            <div class="card-meta-row">💴 月会費：5,500円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag female">女の子歓迎</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">男女問わず楽しめるミニバスチームです。チームワークと体力を一緒に育てましょう！</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#cffafe,#a5f3fc);">
+          <span class="card-sport-badge badge-swim">水泳</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">🏊</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">うみのスイミングクラブ</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都江東区</div>
+            <div class="card-meta-row">👦 3才〜中学生</div>
+            <div class="card-meta-row">💴 月会費：7,200円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag beginner">初心者歓迎</span>
+            <span class="ctag female">女性指導者</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">小さなお子様から中学生まで、水泳の基礎をていねいに指導する地域密着スクールです。</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff);">
+          <span class="card-sport-badge badge-dance">ダンス</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">💃</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">キラキラダンススクール上野</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都台東区</div>
+            <div class="card-meta-row">👦 4才〜中学生</div>
+            <div class="card-meta-row">💴 月会費：6,600円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag female">女の子歓迎</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">HIPHOPからバレエまで幅広いジャンルを楽しく学べます。発表会もあり！</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="team-card">
+        <div class="card-img-wrap" style="background:linear-gradient(135deg,#f1f5f9,#e2e8f0);">
+          <span class="card-sport-badge badge-karate">武道</span>
+          <button class="card-heart-btn">🤍</button>
+          <div class="card-img-placeholder">🥋</div>
+        </div>
+        <div class="card-body">
+          <div class="card-name">極上！空手道場</div>
+          <div class="card-meta-grid">
+            <div class="card-meta-row">📍 東京都荒川区</div>
+            <div class="card-meta-row">👦 小学1年生〜中学生</div>
+            <div class="card-meta-row">💴 月会費：4,500円</div>
+          </div>
+          <div class="card-tags">
+            <span class="ctag trial">体験OK</span>
+            <span class="ctag beginner">初心者歓迎</span>
+          </div>
+          <div class="card-sns-row">
+            <a class="card-sns-btn" href="#"><span class="btn-icon">🌐</span> WEB</a>
+            <a class="card-sns-btn ig" href="#"><span class="btn-icon">📸</span> Instagram</a>
+            <a class="card-sns-btn tw" href="#"><span class="btn-icon">𝕏</span></a>
+            <a class="card-sns-btn" href="#">🔗 ホームページ</a>
+          </div>
+          <div class="card-desc">礼儀・集中力・体力を空手を通じて身につけます。初心者のお子様も安心してご参加いただけます。</div>
+          <button class="detail-btn">詳細を見る</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REG CTA -->
+    <div class="reg-cta" style="margin-top:48px;">
+      <div class="reg-cta-text">
+        <span class="reg-cta-label">🏃 チーム・クラブの方へ</span>
+        <h3>あなたのチームも<span class="accent">無料で</span>掲載しませんか？</h3>
+        <p>写真・紹介文・SNSリンクで、地域の保護者に見つけてもらえます。</p>
+        <div class="reg-cta-features">
+          <span class="reg-cta-feature"><span class="check">✓</span>完全無料</span>
+          <span class="reg-cta-feature"><span class="check">✓</span>登録3分</span>
+          <span class="reg-cta-feature"><span class="check">✓</span>SNS連携OK</span>
+        </div>
+        <a href="team-lp.html" class="btn-reg-cta">
+          無料でチームを掲載する
+          <span class="arr">›</span>
+        </a>
+      </div>
+      <div class="reg-cta-device">
+        <img src="assets/screenshot_website.png" alt="" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING -->
+<section class="upcoming-section">
+  <div class="upcoming-inner">
+    <div class="section-title">これから追加予定の機能</div>
+    <div class="upcoming-grid">
+      <div class="upcoming-card">
+        <div class="upcoming-icon">📅</div>
+        <div class="upcoming-title">オンライン見学お知らせ</div>
+        <div class="upcoming-desc">ホットでかんたん見学予約！</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-icon">⭐</div>
+        <div class="upcoming-title">口コミ・レビュー</div>
+        <div class="upcoming-desc">保護者のリアルな声で安心して選べる！</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-icon">🗺️</div>
+        <div class="upcoming-title">地図から探す</div>
+        <div class="upcoming-desc">地図上で近くのチームをすぐにチェック</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-icon">🤝</div>
+        <div class="upcoming-title">チーム同士の対戦機能</div>
+        <div class="upcoming-desc">地域のチームとマッチ大会を開こう！</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-icon">📱</div>
+        <div class="upcoming-title">SNSでの活動シェア+</div>
+        <div class="upcoming-desc">活動をSNSにシェアして仲間を増やそう！</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-icon">🏆</div>
+        <div class="upcoming-title">大会・イベント情報</div>
+        <div class="upcoming-desc">近隣の大会や交流会を見逃さずチェック！</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      チビスポ
+      <span>子どもたちに、やりたい運動を。</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">利用規約</a>
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">運営会社</a>
+    </div>
+    <a href="team-lp.html" class="footer-cta-btn">
+      無料で掲載はこちら
+      <span class="arr">›</span>
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>
