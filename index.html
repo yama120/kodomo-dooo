@@ -87,32 +87,41 @@ img { max-width: 100%; display: block; }
 
 /* ===== HERO ===== */
 .hero {
-  width: 100%;
-  background: #fffaf6;
-  overflow: hidden;
-}
-.hero-top {
-  text-align: center;
-  padding: 48px 40px 32px;
-  max-width: 1000px; margin: 0 auto;
-}
-.hero-bottom {
-  text-align: center;
-  padding: 32px 40px 56px;
-  max-width: 1000px; margin: 0 auto;
-}
-.hero-img-wrap {
-  width: 100%;
-  height: 420px;
-  overflow: hidden;
   position: relative;
+  width: 100%;
+  min-height: 520px;
+  overflow: hidden;
+  background: #fffaf6;
 }
-.hero-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+.hero-bg-img {
+  position: absolute;
+  top: 0; right: 16%;
+  height: 520px; width: auto; max-width: none;
   display: block;
 }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,252,240,1) 0%,
+    rgba(255,252,240,0.95) 25%,
+    rgba(255,252,240,0.5) 45%,
+    rgba(255,252,240,0) 65%
+  );
+}
+.hero-deco {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1000px; margin: 0 auto; padding: 80px 40px;
+  min-height: 520px;
+  display: flex; align-items: center;
+}
+.hero-left { max-width: 460px; }
+.hero-right { display: none; }
 .hero-tag {
   display: inline-block;
   background: rgba(255,140,26,.12); color: var(--orange);
@@ -122,15 +131,15 @@ img { max-width: 100%; display: block; }
 }
 .hero h1 {
   font-size: 48px; font-weight: 900; line-height: 1.2;
-  letter-spacing: -.02em; margin-bottom: 0;
+  letter-spacing: -.02em; margin-bottom: 18px;
   color: var(--ink);
 }
 .hero h1 .accent { color: var(--orange); }
 .hero-sub {
   font-size: 15px; color: #475569; line-height: 1.8;
-  margin-bottom: 28px; font-weight: 600;
+  margin-bottom: 32px; font-weight: 600;
 }
-.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 .btn-hero-primary {
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--blue); color: #fff;
@@ -149,12 +158,10 @@ img { max-width: 100%; display: block; }
   transition: all .15s;
 }
 .btn-hero-outline:hover { background: var(--orange); color: #fff; }
-/* 旧hero要素（残骸を非表示） */
-.hero-bg-img { display: none; }
-.hero-overlay { display: none; }
-.hero-deco { display: none; }
-.hero-inner { display: none; }
-.hero-left { display: none; }
+/* スマホ用（600px以下）上下レイアウト要素はデフォルト非表示 */
+.hero-top { display: none; }
+.hero-img-wrap { display: none; }
+.hero-bottom { display: none; }
 
 /* ===== SEARCH PANEL ===== */
 .search-section {
@@ -842,9 +849,16 @@ footer {
   .hero h1 { font-size: 28px; }
   .hero-sub { font-size: 13px; }
   .hero-tag { font-size: 11px; padding: 4px 10px; }
-  .hero-top { padding: 32px 24px 20px; }
-  .hero-bottom { padding: 20px 24px 40px; }
-  .hero-img-wrap { height: 240px; }
+  /* デスクトップ要素を隠してスマホレイアウトに切り替え */
+  .hero { min-height: unset; }
+  .hero-bg-img { display: none; }
+  .hero-overlay { display: none; }
+  .hero-inner { display: none; }
+  .hero-top { display: block; text-align: center; padding: 32px 24px 20px; }
+  .hero-img-wrap { display: block; height: 240px; }
+  .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .hero-bottom { display: block; text-align: center; padding: 20px 24px 40px; }
+  .hero-btns { justify-content: center; }
 }
 @media (max-width: 374px) {
   .hero-img-wrap { height: 200px; }
@@ -874,6 +888,21 @@ footer {
 
 <!-- HERO -->
 <section class="hero">
+  <!-- デスクトップ用 -->
+  <img class="hero-bg-img" src="assets/hero_bg.png" alt="" />
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">🏃 子どもスポーツクラブ検索プラットフォーム</div>
+      <h1>近くの子ども<br>スポーツクラブが、<br><span class="accent">すぐ見つかる。</span></h1>
+      <p class="hero-sub">サッカー・野球・ダンス・水泳など、希望のエリアのクラブ・習い事をかんたん検索。</p>
+      <div class="hero-btns">
+        <a href="#teams-section" class="btn-hero-primary">🔍 チームを探す</a>
+        <a href="team-lp.html" class="btn-hero-outline">📋 無料で掲載する</a>
+      </div>
+    </div>
+  </div>
+  <!-- スマホ用（600px以下） -->
   <div class="hero-top">
     <div class="hero-tag">🏃 子どもスポーツクラブ検索プラットフォーム</div>
     <h1>近くの子どもスポーツクラブが、<br><span class="accent">すぐ見つかる。</span></h1>
