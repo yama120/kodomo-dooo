@@ -806,7 +806,7 @@ footer {
   display: inline-flex; align-items: center; gap: 5px;
   background: #06C755; color: #fff;
   font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 6px;
-  text-decoration: none;
+  text-decoration: none; border: none; cursor: pointer; font-family: inherit;
 }
 .modal-share-copy {
   display: inline-flex; align-items: center; gap: 5px;
@@ -1578,7 +1578,7 @@ function openModal(id) {
 
     <div class="modal-share-row">
       <span class="modal-share-label">このチームをシェア：</span>
-      <a class="modal-share-line" href="https://line.me/R/msg/text/?${shareText}%0A${shareUrl}" target="_blank">LINE</a>
+      <button class="modal-share-line" onclick="shareToLine('${decodeURIComponent(shareUrl)}', '${decodeURIComponent(shareText)}')">LINE</button>
       <a class="modal-share-x" href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank">𝕏</a>
       <button class="modal-share-copy" onclick="copyTeamUrl('${decodeURIComponent(shareUrl)}', this)">🔗 URLをコピー</button>
     </div>
@@ -1586,6 +1586,17 @@ function openModal(id) {
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+async function shareToLine(url, text) {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile && navigator.share) {
+    try {
+      await navigator.share({ title: text, url: url });
+    } catch (e) {}
+  } else {
+    window.open('https://line.me/R/msg/text/?' + encodeURIComponent(text + '\n' + url), '_blank');
+  }
 }
 
 function copyTeamUrl(url, btn) {
