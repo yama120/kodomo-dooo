@@ -6,7 +6,6 @@
 <title>チビスポ | 近くの子どもスポーツクラブがすぐ見つかる</title>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="cities.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -97,7 +96,7 @@ img { max-width: 100%; display: block; }
 .hero-bg-img {
   position: absolute;
   top: 0; right: 16%;
-  height: 100%; width: auto;
+  height: 520px; width: auto; max-width: none;
   display: block;
 }
 .hero-overlay {
@@ -594,9 +593,9 @@ img { max-width: 100%; display: block; }
 .btn-reg-cta:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--orange-dark, #c75e08), 0 4px 12px rgba(255,140,26,.3); }
 .btn-reg-cta .arr {
   width: 26px; height: 26px; background: rgba(255,255,255,.25); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
+.btn-reg-cta .arr svg { display: block; }
 .reg-cta-device {
   display: flex; align-items: flex-end; justify-content: flex-end;
   padding: 16px 60px 0 0;
@@ -655,8 +654,9 @@ footer {
 .footer-cta-btn:hover { opacity: .9; }
 .footer-cta-btn .arr {
   width: 22px; height: 22px; background: rgba(255,255,255,.2); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 11px;
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
+.footer-cta-btn .arr svg { display: block; }
 
 /* ===== MODAL ===== */
 .modal-overlay {
@@ -808,6 +808,14 @@ footer {
   font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 6px;
   text-decoration: none;
 }
+.modal-share-copy {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #f1f5f9; color: var(--ink);
+  font-size: 13px; font-weight: 800; padding: 7px 18px; border-radius: 6px;
+  border: none; cursor: pointer; font-family: inherit;
+  transition: background .15s;
+}
+.modal-share-copy:hover { background: #e2e8f0; }
 .modal-share-x {
   display: inline-flex; align-items: center; gap: 5px;
   background: #000; color: #fff;
@@ -815,6 +823,12 @@ footer {
   text-decoration: none;
 }
 
+@media (max-width: 1020px) {
+  .hero-bg-img { right: 0; }
+}
+@media (max-width: 940px) {
+  .hero-bg-img { right: 0; }
+}
 @media (max-width: 900px) {
   .header-inner { gap: 16px; }
   .nav-links { display: none; }
@@ -829,6 +843,20 @@ footer {
   .team-grid { grid-template-columns: 1fr; }
   .upcoming-grid { grid-template-columns: repeat(2, 1fr); }
   .hero h1 { font-size: 32px; }
+  .hero-tag { background: rgba(255,140,26,.9); color: #fff; border-color: transparent; }
+  .hero-bg-img { right: 0; opacity: .85; }
+  .hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(255,252,240,1) 0%,
+      rgba(255,252,240,0.85) 40%,
+      rgba(255,252,240,0.2) 100%
+    );
+  }
+}
+@media (max-width: 374px) {
+  .hero-bg-img { display: none; }
+  .hero-overlay { display: none; }
   .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
   .footer-cta-btn { margin: 0 auto; }
   .modal-info-grid { grid-template-columns: 1fr; }
@@ -842,17 +870,13 @@ footer {
 <header class="header">
   <div class="header-inner">
     <div class="logo"><a href="index.html"><img src="assets/logo.png" alt="チビスポ" /></a></div>
-    <nav class="nav-links">
-      <a href="#teams-section">チームを探す</a>
-      <a href="team-lp.html">掲載のメリット</a>
-    </nav>
     <div class="header-ctas">
-      <a href="register.html" class="btn-header-outline btn-register-header">チームを掲載する</a>
-      <a href="mypage.html" class="btn-header-outline">チームの方はこちら</a>
-      <a href="#teams-section" class="btn-header-primary">
-        無料でチームを探す
-        <span class="arr">›</span>
-      </a>
+      <nav class="nav-links">
+        <a href="#teams-section">チームを探す</a>
+        <a href="team-lp.html">掲載について</a>
+      </nav>
+      <a href="register.html" class="btn-header-outline btn-register-header" style="margin-left:4px;">チームを掲載する</a>
+      <a href="mypage.html" class="btn-header-outline">チームログイン</a>
     </div>
   </div>
 </header>
@@ -1008,7 +1032,7 @@ footer {
       <div class="search-inner" style="flex:1;">
         <div class="freeword-row">
           <input type="text" id="searchInput" placeholder="チーム名・キーワードで検索（例：渋谷区 サッカー）" />
-          <button class="btn-search" onclick="applyFilters()">🔍 この条件で探す</button>
+          <button class="btn-search" onclick="applyFilters(); document.getElementById('cardGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });">🔍 この条件で探す</button>
         </div>
       </div>
     </div>
@@ -1074,9 +1098,9 @@ footer {
           <span class="reg-cta-feature"><span class="check">✓</span>登録3分</span>
           <span class="reg-cta-feature"><span class="check">✓</span>SNS連携OK</span>
         </div>
-        <a href="team-lp.html" class="btn-reg-cta">
+        <a href="register.html" class="btn-reg-cta">
           無料でチームを掲載する
-          <span class="arr">›</span>
+          <span class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2L8 7L2 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
       </div>
       <div class="reg-cta-device">
@@ -1214,10 +1238,11 @@ footer {
       <a href="legal.html">利用規約・プライバシーポリシー</a>
       <a href="contact.html">お問い合わせ</a>
       <a href="index.html?fav=1">♡ お気に入り</a>
+      <a href="team-lp.html">掲載について</a>
     </div>
-    <a href="team-lp.html" class="footer-cta-btn">
+    <a href="register.html" class="footer-cta-btn">
       無料で掲載はこちら
-      <span class="arr">›</span>
+      <span class="arr"><svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2L8 7L2 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </a>
   </div>
 </footer>
@@ -1234,8 +1259,7 @@ footer {
 <script>
 const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const PUBLIC_SITE_URL = 'https://yama120.github.io/kodomo-dooo/index.html';
 
 const sportConfig = {
   "サッカー":        { cls: "soccer",     emoji: "⚽" },
@@ -1301,33 +1325,6 @@ let sortMode       = 'default';
 const WEEKDAY = ['月','火','水','木','金'];
 const WEEKEND = ['土','日'];
 
-function escapeHTML(value) {
-  return String(value ?? '').replace(/[&<>"']/g, ch => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[ch]));
-}
-
-function safeUrl(value) {
-  try {
-    const url = new URL(String(value || '').trim());
-    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
-  } catch (_) {
-    return '';
-  }
-}
-
-function safeHandle(value, service) {
-  const raw = String(value || '').trim().replace(/^@/, '');
-  if (service === 'instagram') return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
-  if (service === 'twitter') return /^[A-Za-z0-9_]{1,15}$/.test(raw) ? raw : '';
-  return '';
-}
-
-function safeEmail(value) {
-  const raw = String(value || '').trim();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw) ? raw : '';
-}
-
 function isFav(id) { return favorites.includes(id); }
 
 function toggleFav(id, e) {
@@ -1340,11 +1337,29 @@ function toggleFav(id, e) {
 }
 
 async function loadTeams() {
-  const { data, error } = await db.from('teams').select('*').eq('status', 'approved').order('created_at', { ascending: false });
-  if (error || !data) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+  let data;
+  try {
+    const endpoint = `${SUPABASE_URL}/rest/v1/teams?select=*&status=eq.approved&order=created_at.desc`;
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Supabase API error: ${response.status}`);
+    data = await response.json();
+  } catch (error) {
+    console.error(error);
     document.getElementById('cardGrid').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>データの読み込みに失敗しました。<br>再度読み込んでください。</p></div>`;
     return;
+  } finally {
+    clearTimeout(timeoutId);
   }
+
   teams = data.map(t => ({
     id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city,
     ageGroups: t.age_groups || [], days: t.days || [],
@@ -1404,19 +1419,6 @@ function renderCards(list) {
     const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
     const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
     const fav = isFav(team.id);
-    const teamId = escapeHTML(team.id);
-    const name = escapeHTML(team.name);
-    const sport = escapeHTML(team.sport);
-    const pref = escapeHTML(team.pref);
-    const city = escapeHTML(team.city);
-    const ageGroups = (team.ageGroups || []).map(escapeHTML).join(' · ');
-    const ageMin = team.ageMin ? `（${escapeHTML(team.ageMin)}）` : '';
-    const fee = escapeHTML(team.fee || '要確認');
-    const description = escapeHTML(team.description);
-    const websiteUrl = safeUrl(team.contact.website_url);
-    const instagram = safeHandle(team.contact.instagram, 'instagram');
-    const twitter = safeHandle(team.contact.twitter, 'twitter');
-    const photoUrl = safeUrl(team.photoUrl);
 
     const tags = [
       team.trial ? '<span class="ctag trial">体験OK</span>' : '',
@@ -1424,34 +1426,34 @@ function renderCards(list) {
     ].filter(Boolean).join('');
 
     const snsBtns = [
-      websiteUrl ? `<a class="card-sns-btn" href="${escapeHTML(websiteUrl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
-      instagram  ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
-      twitter    ? `<a class="card-sns-btn tw" href="https://x.com/${escapeHTML(twitter)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
+      team.contact.website_url ? `<a class="card-sns-btn" href="${team.contact.website_url}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
+      team.contact.instagram   ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
+      team.contact.twitter     ? `<a class="card-sns-btn tw" href="https://x.com/${team.contact.twitter}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
     ].filter(Boolean).join('');
 
-    const photoHTML = photoUrl
-      ? `<img src="${escapeHTML(photoUrl)}" alt="${name}" />`
+    const photoHTML = team.photoUrl
+      ? `<img src="${team.photoUrl}" alt="${team.name}" />`
       : `<div class="card-img-placeholder">${sc.emoji}</div>`;
 
     const card = document.createElement('div');
     card.className = 'team-card';
     card.innerHTML = `
       <div class="card-img-wrap" style="background:${bg};">
-        <span class="card-sport-badge badge-${sc.cls}">${sport}</span>
-        <button class="card-heart-btn" data-id="${teamId}" onclick="toggleFav('${teamId}', event)">${fav ? '❤️' : '🤍'}</button>
+        <span class="card-sport-badge badge-${sc.cls}">${team.sport}</span>
+        <button class="card-heart-btn" data-id="${team.id}" onclick="toggleFav('${team.id}', event)">${fav ? '❤️' : '🤍'}</button>
         ${photoHTML}
       </div>
       <div class="card-body">
-        <div class="card-name">${name}</div>
+        <div class="card-name">${team.name}</div>
         <div class="card-meta-grid">
-          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${pref}${city}</div>
-          <div class="card-meta-row">👦 ${ageGroups}${ageMin}</div>
-          <div class="card-meta-row">💴 ${fee}</div>
+          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${team.pref}${team.city}</div>
+          <div class="card-meta-row">👦 ${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div>
+          <div class="card-meta-row">💴 ${team.fee || '要確認'}</div>
         </div>
         ${tags ? `<div class="card-tags">${tags}</div>` : ''}
         ${snsBtns ? `<div class="card-sns-row">${snsBtns}</div>` : ''}
-        ${description ? `<div class="card-desc">${description}</div>` : ''}
-        <button class="detail-btn" onclick="event.stopPropagation();openModal('${teamId}')">詳細を見る</button>
+        ${team.description ? `<div class="card-desc">${team.description}</div>` : ''}
+        <button class="detail-btn" onclick="event.stopPropagation();openModal('${team.id}')">詳細を見る</button>
       </div>`;
     grid.appendChild(card);
   });
@@ -1489,47 +1491,38 @@ function openModal(id) {
   if (!team) return;
   const sc  = sportConfig[team.sport] || { cls: 'other', emoji: '🏅' };
   const bg  = sportBg[team.sport] || 'linear-gradient(135deg,#f1f5f9,#e2e8f0)';
-  const teamId = escapeHTML(team.id);
-  const name = escapeHTML(team.name);
-  const sport = escapeHTML(team.sport);
-  const pref = escapeHTML(team.pref);
-  const city = escapeHTML(team.city);
-  const ageGroups = (team.ageGroups || []).map(escapeHTML).join(' · ');
-  const ageMin = team.ageMin ? `（${escapeHTML(team.ageMin)}）` : '';
-  const fee = escapeHTML(team.fee || '要確認');
-  const daysText = (team.days && team.days.length) ? team.days.map(escapeHTML).join('・') : '要確認';
-  const description = escapeHTML(team.description);
-  const websiteUrl = safeUrl(team.contact.website_url);
-  const instagram = safeHandle(team.contact.instagram, 'instagram');
-  const twitter = safeHandle(team.contact.twitter, 'twitter');
-  const email = safeEmail(team.contact.email);
-  const photoUrl = safeUrl(team.photoUrl);
 
   // 写真エリア
   const wrap = document.getElementById('modalPhotoWrap');
   wrap.style.background = bg;
-  const photoHTML = photoUrl
-    ? `<img src="${escapeHTML(photoUrl)}" alt="${name}" />`
+  const photoHTML = team.photoUrl
+    ? `<img src="${team.photoUrl}" alt="${team.name}" />`
     : `<div class="modal-photo-placeholder">${sc.emoji}</div>`;
   wrap.innerHTML = photoHTML;
 
   // シェアURL
-  const shareUrl  = encodeURIComponent(location.href.split('?')[0]);
+  const pageUrl = location.protocol === 'http:' || location.protocol === 'https:'
+    ? location.href.split('?')[0]
+    : PUBLIC_SITE_URL;
+  const shareUrl  = encodeURIComponent(pageUrl);
   const shareText = encodeURIComponent(`【${team.name}】${team.sport}・${team.pref}${team.city} のチームをチビスポで見つけました！`);
+
+  // 活動日
+  const daysText = (team.days && team.days.length) ? team.days.join('・') : '要確認';
 
   // SNSリンク
   const snsLinks = [
-    instagram  ? `<a class="modal-sns-link" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram ig-icon sns-ico"></i> Instagram<span class="ext">↗</span></a>` : '',
-    twitter    ? `<a class="modal-sns-link" href="https://x.com/${escapeHTML(twitter)}" target="_blank" rel="noopener noreferrer"><span class="sns-ico">𝕏</span> X (Twitter)<span class="ext">↗</span></a>` : '',
-    websiteUrl ? `<a class="modal-sns-link" href="${escapeHTML(websiteUrl)}" target="_blank" rel="noopener noreferrer"><span class="sns-ico">🌐</span> ウェブサイト<span class="ext">↗</span></a>` : '',
+    team.contact.instagram   ? `<a class="modal-sns-link" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon sns-ico"></i> Instagram<span class="ext">↗</span></a>` : '',
+    team.contact.twitter     ? `<a class="modal-sns-link" href="https://x.com/${team.contact.twitter}" target="_blank"><span class="sns-ico">𝕏</span> X (Twitter)<span class="ext">↗</span></a>` : '',
+    team.contact.website_url ? `<a class="modal-sns-link" href="${team.contact.website_url}" target="_blank"><span class="sns-ico">🌐</span> ウェブサイト<span class="ext">↗</span></a>` : '',
   ].filter(Boolean).join('');
 
   // 問い合わせボタン
-  const igBtn = instagram
-    ? `<a class="modal-contact-btn ig" href="https://www.instagram.com/${escapeHTML(instagram)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram ig-icon"></i> Instagramで問い合わせ</a>` : '';
-  const mailBtn = email
+  const igBtn = team.contact.instagram
+    ? `<a class="modal-contact-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank"><i class="fa-brands fa-instagram ig-icon"></i> Instagramで問い合わせ</a>` : '';
+  const mailBtn = team.contact.email
     ? `<a class="modal-contact-btn mail" href="${makeMailto(team)}">✉️ メールで問い合わせ</a>` : '';
-  const contactTypes = [instagram && 'Instagram', email && 'メール'].filter(Boolean).join('または');
+  const contactTypes = [team.contact.instagram && 'Instagram', team.contact.email && 'メール'].filter(Boolean).join('または');
   const contactNote = contactTypes ? `<p class="modal-contact-note">✨ お問い合わせは${contactTypes}で受付中</p>` : '';
 
   const fav = isFav(team.id);
@@ -1537,24 +1530,24 @@ function openModal(id) {
   document.getElementById('modalContent').innerHTML = `
     <div class="modal-title-row">
       <div>
-        <h2 class="modal-team-name">${name}</h2>
-        <span class="modal-sport-pill sport-${sc.cls}">${sc.emoji} ${sport}</span>
+        <h2 class="modal-team-name">${team.name}</h2>
+        <span class="modal-sport-pill sport-${sc.cls}">${sc.emoji} ${team.sport}</span>
       </div>
     </div>
     <div class="modal-location">
-      📍 <strong>${pref} ${city}</strong>
-      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank" rel="noopener noreferrer">地図で見る ▶</a>
+      📍 <strong>${team.pref} ${team.city}</strong>
+      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank">地図で見る ▶</a>
     </div>
 
     <div class="modal-section-heading">基本情報</div>
     <div class="modal-info-grid">
       <div class="modal-info-card">
         <div class="modal-icon-wrap blue">👥</div>
-        <div><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${ageGroups}${ageMin}</div></div>
+        <div><div class="modal-info-label">対象年齢</div><div class="modal-info-value">${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div></div>
       </div>
       <div class="modal-info-card">
         <div class="modal-icon-wrap pink"><span style="font-size:17px;font-weight:900;color:#ec4899;">¥</span></div>
-        <div><div class="modal-info-label">月謝</div><div class="modal-info-value">${fee}</div></div>
+        <div><div class="modal-info-label">月謝</div><div class="modal-info-value">${team.fee || '要確認'}</div></div>
       </div>
       <div class="modal-info-card">
         <div class="modal-icon-wrap green">📅</div>
@@ -1566,9 +1559,9 @@ function openModal(id) {
       </div>
     </div>
 
-    ${description ? `
+    ${team.description ? `
     <div class="modal-section-heading">チームについて</div>
-    <div class="modal-desc-box">${description}</div>` : ''}
+    <div class="modal-desc-box">${team.description}</div>` : ''}
 
     ${snsLinks ? `
     <div class="modal-section-heading">SNSリンク</div>
@@ -1579,19 +1572,28 @@ function openModal(id) {
     <div class="modal-contact-row">${igBtn}${mailBtn}</div>
     ${contactNote}` : ''}
 
-    <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${teamId}')">
+    <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${team.id}')">
       ${fav ? '❤️ お気に入り済み' : '🤍 お気に入りに追加'}
     </button>
 
     <div class="modal-share-row">
       <span class="modal-share-label">このチームをシェア：</span>
-      <a class="modal-share-line" href="https://line.me/R/msg/text/?${shareText}%0a${shareUrl}" target="_blank">LINE</a>
+      <a class="modal-share-line" href="https://line.me/R/msg/text/?${shareText}%0A${shareUrl}" target="_blank">LINE</a>
       <a class="modal-share-x" href="https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank">𝕏</a>
+      <button class="modal-share-copy" onclick="copyTeamUrl('${decodeURIComponent(shareUrl)}', this)">🔗 URLをコピー</button>
     </div>
   `;
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function copyTeamUrl(url, btn) {
+  navigator.clipboard.writeText(url).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✅ コピーしました';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
 }
 
 function toggleFavModal(id) {
@@ -1616,8 +1618,7 @@ function makeMailto(team) {
   const body = encodeURIComponent(
 `${team.name} 担当者様\n\nチビスポを見てご連絡しました。\n\n【お名前】\n【お子さんの年齢】\n【ご質問・ご要望】\n\nよろしくお願いいたします。`
   );
-  const email = safeEmail(team.contact.email);
-  return `mailto:${email}?subject=${subject}&body=${body}`;
+  return `mailto:${team.contact.email}?subject=${subject}&body=${body}`;
 }
 
 // ===== SEARCH UI WIRING =====

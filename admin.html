@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>管理画面 | チビスポ</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="supabase-lite.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="cities.js"></script>
   <style>
@@ -281,136 +281,58 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 
 let currentTab = 'pending';
 let allTeams = [];
-let currentUser = null;
-let authFlowRunning = false;
-
-function showLoginError(message) {
-  const errorEl = document.getElementById('loginError');
-  errorEl.textContent = message;
-  errorEl.style.display = 'block';
-}
-
-function showLogin(message = '') {
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('loginPassword').value = '';
-  if (message) showLoginError(message);
-}
-
-function normalizeWebsiteUrl(value) {
-  try {
-    const url = new URL(String(value || '').trim());
-    return ['https:', 'http:'].includes(url.protocol) ? url.href : '';
-  } catch (_) {
-    return '';
-  }
-}
-
-function normalizeInstagram(value) {
-  const raw = String(value || '').trim().replace(/^@/, '');
-  return /^[A-Za-z0-9._]{1,30}$/.test(raw) ? raw : '';
-}
-
-function normalizeTwitter(value) {
-  const raw = String(value || '').trim().replace(/^@/, '');
-  return /^[A-Za-z0-9_]{1,15}$/.test(raw) ? raw : '';
-}
 
 // ===== AUTH =====
 async function login() {
-  if (authFlowRunning) return;
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const btn = document.getElementById('loginBtn');
   const errorEl = document.getElementById('loginError');
-  authFlowRunning = true;
   errorEl.style.display = 'none';
   btn.disabled = true;
   btn.textContent = 'ログイン中...';
 
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
+  const { error } = await db.auth.signInWithPassword({ email, password });
   if (error) {
-    showLoginError('メールアドレスまたはパスワードが正しくありません。');
+    errorEl.textContent = 'メールアドレスまたはパスワードが正しくありません。';
+    errorEl.style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'ログイン';
-    authFlowRunning = false;
     return;
   }
-  currentUser = data.user;
-  await showDashboard();
-  btn.disabled = false;
-  btn.textContent = 'ログイン';
-  authFlowRunning = false;
+  showDashboard();
 }
 
 async function logout() {
   await db.auth.signOut();
-  showLogin();
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
 }
 
 // 初期セッションチェック
 let initialized = false;
-db.auth.getSession().then(async ({ data: { session } }) => {
+db.auth.getSession().then(({ data: { session } }) => {
   initialized = true;
-  if (session) {
-    currentUser = session.user;
-    await showDashboard();
-  }
+  if (session) { showDashboard(); }
 });
 
-db.auth.onAuthStateChange(async (event, session) => {
+db.auth.onAuthStateChange((event, session) => {
   if (!initialized) return;
-  if (authFlowRunning && event === 'SIGNED_IN') return;
-  if (event === 'SIGNED_IN') {
-    currentUser = session.user;
-    await showDashboard();
-  }
-  if (event === 'SIGNED_OUT') {
-    currentUser = null;
-    showLogin();
-  }
+  if (event === 'SIGNED_IN') { showDashboard(); }
+  if (event === 'SIGNED_OUT') { logout(); }
 });
 
-async function isAdminUser(user) {
-  if (!user) return false;
-  const { data, error } = await db
-    .from('admins')
-    .select('user_id')
-    .eq('user_id', user.id)
-    .maybeSingle();
-  if (error) {
-    console.error('Admin check failed:', error);
-    showLoginError('管理者確認に失敗しました。Supabaseのadminsテーブル/RLS設定を確認してください。');
-    return false;
-  }
-  return !!data;
-}
-
-async function showDashboard() {
-  const allowed = await isAdminUser(currentUser);
-  if (!allowed) {
-    await db.auth.signOut();
-    showLogin('管理者権限がありません。');
-    return;
-  }
+function showDashboard() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
-  await loadTeams();
+  loadTeams();
 }
 
 // ===== DATA =====
 async function loadTeams() {
   const { data, error } = await db.from('teams').select('*').order('created_at', { ascending: false });
-  if (error) {
-    console.error('Team load failed:', error);
-    const teamList = document.getElementById('teamList');
-    teamList.textContent = '';
-    const empty = document.createElement('div');
-    empty.className = 'empty';
-    empty.textContent = 'データの読み込みに失敗しました。Supabaseのteams RLS設定を確認してください。';
-    teamList.appendChild(empty);
-    return;
-  }
+  if (error) { document.getElementById('teamList').innerHTML = '<div class="empty">データの読み込みに失敗しました。</div>'; return; }
   allTeams = data;
   updateStats();
   renderTab();
@@ -433,80 +355,27 @@ function setTab(tab) {
 function renderTab() {
   const list = allTeams.filter(t => t.status === currentTab);
   const el = document.getElementById('teamList');
-  el.textContent = '';
-  if (list.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'empty';
-    empty.textContent = '該当するチームはありません。';
-    el.appendChild(empty);
-    return;
-  }
+  if (list.length === 0) { el.innerHTML = '<div class="empty">該当するチームはありません。</div>'; return; }
 
-  const wrap = document.createElement('div');
-  wrap.className = 'team-list';
-  list.forEach(t => {
-    const item = document.createElement('div');
-    item.className = 'team-item';
-
-    const info = document.createElement('div');
-    info.className = 'team-info';
-
-    const name = document.createElement('div');
-    name.className = 'team-name';
-    name.append(document.createTextNode(`${t.name || ''} `));
-    const badge = document.createElement('span');
-    badge.className = `badge badge-${t.status}`;
-    badge.textContent = statusLabel(t.status);
-    name.appendChild(badge);
-
-    const meta = document.createElement('div');
-    meta.className = 'team-meta';
-    [
-      `📍 ${t.pref || ''} ${t.city || ''}`,
-      t.sport || '',
-      (t.age_groups || []).join('・'),
-      t.fee || '',
-      `申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}`,
-    ].forEach(text => {
-      const span = document.createElement('span');
-      span.textContent = text;
-      meta.appendChild(span);
-    });
-
-    info.append(name, meta);
-
-    const actions = document.createElement('div');
-    actions.className = 'team-actions';
-    if (t.status !== 'approved') {
-      const approve = document.createElement('button');
-      approve.className = 'btn btn-approve';
-      approve.textContent = '承認';
-      approve.addEventListener('click', () => updateStatus(t.id, 'approved'));
-      actions.appendChild(approve);
-    }
-    if (t.status !== 'rejected') {
-      const reject = document.createElement('button');
-      reject.className = 'btn btn-reject';
-      reject.textContent = '却下';
-      reject.addEventListener('click', () => updateStatus(t.id, 'rejected'));
-      actions.appendChild(reject);
-    }
-    const edit = document.createElement('button');
-    edit.className = 'btn btn-edit';
-    edit.textContent = '編集';
-    edit.addEventListener('click', () => openEditModal(t.id));
-    actions.appendChild(edit);
-
-    const del = document.createElement('button');
-    del.className = 'btn btn-delete';
-    del.textContent = '削除';
-    del.addEventListener('click', () => deleteTeam(t.id, t.name || ''));
-    actions.appendChild(del);
-
-    item.append(info, actions);
-    wrap.appendChild(item);
-  });
-  el.appendChild(wrap);
+  el.innerHTML = '<div class="team-list">' + list.map(t => `
+    <div class="team-item">
+      <div class="team-info">
+        <div class="team-name">${t.name} <span class="badge badge-${t.status}">${statusLabel(t.status)}</span></div>
+        <div class="team-meta">
+          <span>📍 ${t.pref} ${t.city}</span>
+          <span>${t.sport}</span>
+          <span>${(t.age_groups||[]).join('・')}</span>
+          <span>${t.fee}</span>
+          <span>申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}</span>
+        </div>
+      </div>
+      <div class="team-actions">
+        ${t.status !== 'approved' ? `<button class="btn btn-approve" onclick="updateStatus('${t.id}','approved')">承認</button>` : ''}
+        ${t.status !== 'rejected' ? `<button class="btn btn-reject" onclick="updateStatus('${t.id}','rejected')">却下</button>` : ''}
+        <button class="btn btn-edit" onclick="openEditModal('${t.id}')">編集</button>
+        <button class="btn btn-delete" onclick="deleteTeam('${t.id}','${t.name}')">削除</button>
+      </div>
+    </div>`).join('') + '</div>';
 }
 
 function statusLabel(s) {
@@ -583,22 +452,6 @@ async function saveEdit() {
   const feeNum = parseInt(document.getElementById('editFeeNum').value) || 0;
   const ages = [...document.querySelectorAll('input[name="editAge"]:checked')].map(el => el.value);
   const days = [...document.querySelectorAll('input[name="editDay"]:checked')].map(el => el.value);
-  const instagram = normalizeInstagram(document.getElementById('editInstagram').value);
-  const twitter = normalizeTwitter(document.getElementById('editTwitter').value);
-  const websiteUrl = normalizeWebsiteUrl(document.getElementById('editWebsiteUrl').value);
-
-  if (document.getElementById('editInstagram').value.trim() && !instagram) {
-    alert('Instagramアカウント名の形式を確認してください。');
-    return;
-  }
-  if (document.getElementById('editTwitter').value.trim() && !twitter) {
-    alert('Xアカウント名の形式を確認してください。');
-    return;
-  }
-  if (document.getElementById('editWebsiteUrl').value.trim() && !websiteUrl) {
-    alert('ウェブサイトURLは http:// または https:// から始まるURLを入力してください。');
-    return;
-  }
 
   const updates = {
     name: document.getElementById('editName').value.trim(),
@@ -610,9 +463,9 @@ async function saveEdit() {
     trial: document.getElementById('editTrial').value === 'true',
     age_groups: ages,
     days: days,
-    instagram: instagram || null,
-    twitter: twitter || null,
-    website_url: websiteUrl || null,
+    instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
+    twitter: document.getElementById('editTwitter').value.trim().replace(/^@/, '') || null,
+    website_url: document.getElementById('editWebsiteUrl').value.trim() || null,
     email: document.getElementById('editEmail').value.trim() || null,
     description: document.getElementById('editDescription').value.trim() || null,
   };
