@@ -212,6 +212,7 @@ img { max-width: 100%; display: block; }
 .search-section-title::before { transform: rotate(70deg); }
 .search-section-title::after  { transform: rotate(-70deg); }
 .search-section-title .accent-orange { color: var(--orange); }
+.search-section-title .sp-br { display: none; }
 .search-box {
   max-width: 900px; margin: 0 auto; padding: 0 20px;
 }
@@ -873,6 +874,8 @@ footer {
   .hamburger { display: flex; }
 }
 @media (max-width: 600px) {
+  .search-section-title { flex-direction: column; gap: 8px; }
+  .search-section-title .sp-br { display: block; }
   .team-grid { grid-template-columns: 1fr; }
   .upcoming-grid { grid-template-columns: repeat(2, 1fr); }
   .hero h1 { font-size: 28px; }
@@ -1025,7 +1028,7 @@ footer {
 <!-- SEARCH -->
 <section class="search-section" id="teams-section">
   <div class="search-section-title-wrap">
-    <div class="search-section-title">条件を選んで <span class="accent-orange">ぴったりのチームを探そう</span></div>
+    <div class="search-section-title">条件を選んで<br class="sp-br"> <span class="accent-orange">ぴったりのチームを探そう</span></div>
     <span class="section-title-dots"></span>
   </div>
   <div class="search-box">
