@@ -196,22 +196,33 @@ img { max-width: 100%; display: block; }
 }
 .search-section-title-wrap { text-align: center; margin-bottom: 28px; }
 .search-section-title {
-  font-size: 20px; font-weight: 800; color: var(--ink);
+  font-size: 22px; font-weight: 800; color: var(--ink);
   display: inline-flex; align-items: center; gap: 14px;
 }
 .search-section-title::before, .search-section-title::after {
   content: ""; width: 22px; height: 16px; border-radius: 2px; flex-shrink: 0;
   background: linear-gradient(to bottom,
-    #1a8fff  0px,  #1a8fff  3px,
-    transparent 3px, transparent 6px,
-    #ff8a1f  6px,  #ff8a1f  9px,
-    transparent 9px, transparent 12px,
-    #2dbf5e 12px,  #2dbf5e 15px
+    var(--blue)   0px,  var(--blue)   3px,
+    transparent   3px,  transparent   6px,
+    var(--orange) 6px,  var(--orange) 9px,
+    transparent   9px,  transparent  12px,
+    var(--green) 12px,  var(--green) 15px
   );
 }
 .search-section-title::before { transform: rotate(70deg); }
 .search-section-title::after  { transform: rotate(-70deg); }
-.search-section-title .spark { color: var(--yellow); }
+.search-section-title .accent-blue { color: var(--blue); }
+.search-section-title-wrap::after {
+  content: "";
+  display: block;
+  margin: 12px auto 0;
+  width: 80px; height: 8px;
+  background:
+    radial-gradient(circle, var(--blue)   4px, transparent 4px)  0px  0 / 20px 8px,
+    radial-gradient(circle, var(--orange) 4px, transparent 4px) 20px  0 / 20px 8px,
+    radial-gradient(circle, var(--green)  4px, transparent 4px) 40px  0 / 20px 8px,
+    radial-gradient(circle, #ff4d8a       4px, transparent 4px) 60px  0 / 20px 8px;
+}
 .search-box {
   max-width: 900px; margin: 0 auto; padding: 0 20px;
 }
@@ -1025,7 +1036,7 @@ footer {
 <!-- SEARCH -->
 <section class="search-section" id="teams-section">
   <div class="search-section-title-wrap">
-    <div class="search-section-title">条件を選んで、ぴったりのチームを探そう</div>
+    <div class="search-section-title">条件を選んで <span class="accent-blue">ぴったりのチーム</span> を探そう</div>
     <span class="section-title-dots"></span>
   </div>
   <div class="search-box">
