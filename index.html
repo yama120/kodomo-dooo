@@ -880,6 +880,7 @@ footer {
   .teams-header { flex-direction: column; align-items: flex-start; gap: 10px; }
   .teams-filters { width: 100%; flex-wrap: wrap; justify-content: flex-end; }
   .sort-select { flex: 1; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
   .upcoming-grid { grid-template-columns: repeat(2, 1fr); }
   .hero h1 { font-size: 28px; }
   .hero-sub { font-size: 13px; }
@@ -959,6 +960,9 @@ footer {
   .hero-sp-btns a {
     font-size: 12px; padding: 9px 16px;
   }
+}
+@media (max-width: 480px) {
+  .team-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 374px) {
   .hero-sp-text h1 { font-size: 18px; }
