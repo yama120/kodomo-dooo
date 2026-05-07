@@ -878,6 +878,20 @@ footer {
   .hero h1 { font-size: 28px; }
   .hero-sub { font-size: 13px; }
   .hero-tag { font-size: 11px; padding: 4px 10px; }
+  /* searchbox */
+  .search-row {
+    grid-template-columns: 1fr;
+  }
+  .search-label {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+  }
+  .search-inner { padding: 10px 14px; }
+  .area-selects { flex-direction: column; align-items: stretch; gap: 8px; }
+  .area-selects select { width: 100%; }
+  .age-chips { flex-wrap: wrap; }
+  .feature-chips { flex-wrap: wrap; }
 }
 @media (max-width: 425px) {
   .hero { min-height: unset; position: relative; }
