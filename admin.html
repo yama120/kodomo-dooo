@@ -292,9 +292,19 @@ async function login() {
   btn.disabled = true;
   btn.textContent = 'ログイン中...';
 
-  const { error } = await db.auth.signInWithPassword({ email, password });
+  const { data: authData, error } = await db.auth.signInWithPassword({ email, password });
   if (error) {
     errorEl.textContent = 'メールアドレスまたはパスワードが正しくありません。';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+    return;
+  }
+  // 管理者チェック
+  const { data: adminRow } = await db.from('admins').select('id').eq('user_id', authData.user.id).maybeSingle();
+  if (!adminRow) {
+    await db.auth.signOut();
+    errorEl.textContent = '管理者権限がありません。';
     errorEl.style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'ログイン';
@@ -312,9 +322,12 @@ async function logout() {
 
 // 初期セッションチェック
 let initialized = false;
-db.auth.getSession().then(({ data: { session } }) => {
+db.auth.getSession().then(async ({ data: { session } }) => {
   initialized = true;
-  if (session) { showDashboard(); }
+  if (session) {
+    const { data: adminRow } = await db.from('admins').select('id').eq('user_id', session.user.id).maybeSingle();
+    if (adminRow) { showDashboard(); } else { await db.auth.signOut(); }
+  }
 });
 
 db.auth.onAuthStateChange((event, session) => {
@@ -355,27 +368,87 @@ function setTab(tab) {
 function renderTab() {
   const list = allTeams.filter(t => t.status === currentTab);
   const el = document.getElementById('teamList');
-  if (list.length === 0) { el.innerHTML = '<div class="empty">該当するチームはありません。</div>'; return; }
+  el.innerHTML = '';
+  if (list.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = '該当するチームはありません。';
+    el.appendChild(empty);
+    return;
+  }
 
-  el.innerHTML = '<div class="team-list">' + list.map(t => `
-    <div class="team-item">
-      <div class="team-info">
-        <div class="team-name">${t.name} <span class="badge badge-${t.status}">${statusLabel(t.status)}</span></div>
-        <div class="team-meta">
-          <span>📍 ${t.pref} ${t.city}</span>
-          <span>${t.sport}</span>
-          <span>${(t.age_groups||[]).join('・')}</span>
-          <span>${t.fee}</span>
-          <span>申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}</span>
-        </div>
-      </div>
-      <div class="team-actions">
-        ${t.status !== 'approved' ? `<button class="btn btn-approve" onclick="updateStatus('${t.id}','approved')">承認</button>` : ''}
-        ${t.status !== 'rejected' ? `<button class="btn btn-reject" onclick="updateStatus('${t.id}','rejected')">却下</button>` : ''}
-        <button class="btn btn-edit" onclick="openEditModal('${t.id}')">編集</button>
-        <button class="btn btn-delete" onclick="deleteTeam('${t.id}','${t.name}')">削除</button>
-      </div>
-    </div>`).join('') + '</div>';
+  const wrap = document.createElement('div');
+  wrap.className = 'team-list';
+
+  list.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'team-item';
+
+    // info
+    const info = document.createElement('div');
+    info.className = 'team-info';
+
+    const nameRow = document.createElement('div');
+    nameRow.className = 'team-name';
+    nameRow.textContent = t.name + ' ';
+    const badge = document.createElement('span');
+    badge.className = `badge badge-${t.status}`;
+    badge.textContent = statusLabel(t.status);
+    nameRow.appendChild(badge);
+
+    const meta = document.createElement('div');
+    meta.className = 'team-meta';
+    [
+      `📍 ${t.pref} ${t.city}`,
+      t.sport,
+      (t.age_groups||[]).join('・'),
+      t.fee,
+      `申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}`
+    ].forEach(text => {
+      const span = document.createElement('span');
+      span.textContent = text;
+      meta.appendChild(span);
+    });
+
+    info.appendChild(nameRow);
+    info.appendChild(meta);
+
+    // actions
+    const actions = document.createElement('div');
+    actions.className = 'team-actions';
+
+    if (t.status !== 'approved') {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-approve';
+      btn.textContent = '承認';
+      btn.addEventListener('click', () => updateStatus(t.id, 'approved'));
+      actions.appendChild(btn);
+    }
+    if (t.status !== 'rejected') {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-reject';
+      btn.textContent = '却下';
+      btn.addEventListener('click', () => updateStatus(t.id, 'rejected'));
+      actions.appendChild(btn);
+    }
+    const editBtn = document.createElement('button');
+    editBtn.className = 'btn btn-edit';
+    editBtn.textContent = '編集';
+    editBtn.addEventListener('click', () => openEditModal(t.id));
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-delete';
+    delBtn.textContent = '削除';
+    delBtn.addEventListener('click', () => deleteTeam(t.id, t.name));
+    actions.appendChild(delBtn);
+
+    item.appendChild(info);
+    item.appendChild(actions);
+    wrap.appendChild(item);
+  });
+
+  el.appendChild(wrap);
 }
 
 function statusLabel(s) {

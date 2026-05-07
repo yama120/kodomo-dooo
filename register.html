@@ -352,6 +352,9 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
   if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
   if (!instagram && !email) { showError('Instagramまたはメールアドレスのどちらかをご入力ください。'); return; }
+  if (instagram && !/^[a-zA-Z0-9._]+$/.test(instagram)) { showError('InstagramのIDは半角英数字・ピリオド・アンダースコアのみ使用できます。'); return; }
+  if (twitter && !/^[a-zA-Z0-9_]+$/.test(twitter)) { showError('X（Twitter）のIDは半角英数字・アンダースコアのみ使用できます。'); return; }
+  if (websiteUrl && !/^https?:\/\//.test(websiteUrl)) { showError('WebサイトURLはhttpまたはhttpsから始めてください。'); return; }
   if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
   if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
 
@@ -402,14 +405,14 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     return;
   }
 
-  // 管理者にメール通知
+  // 管理者にメール通知（失敗しても申請は通す）
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
     team_name: document.getElementById('name').value.trim(),
     sport: getSportValue(),
     pref: document.getElementById('pref').value,
     city: document.getElementById('city').value.trim(),
-    applicant_email: email || instagram ? `Instagram: @${instagram}` : '未入力',
-  }).catch(() => {}); // メール失敗しても申請は通す
+    applicant_email: email ? email : (instagram ? `Instagram: @${instagram}` : '未入力'),
+  }).catch(err => { console.warn('管理者メール送信失敗:', err); });
 
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
