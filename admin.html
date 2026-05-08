@@ -223,9 +223,25 @@
       <div class="form-group">
         <label>対象年齢</label>
         <div class="checkbox-group">
-          <label class="checkbox-item"><input type="checkbox" name="editAge" value="未就学" />未就学</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="未就学" id="editAgePreschool" />未就学</label>
           <label class="checkbox-item"><input type="checkbox" name="editAge" value="小学生" />小学生</label>
           <label class="checkbox-item"><input type="checkbox" name="editAge" value="中学生" />中学生</label>
+        </div>
+      </div>
+      <div class="form-group" id="editAgeMinWrap" style="display:none;">
+        <label>年齢下限（未就学選択時）</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="3歳〜" />3歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="4歳〜" />4歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="5歳〜" />5歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="6歳〜" />6歳〜</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>こだわり条件</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editFeature" value="female_instructor" />女性指導者がいる</label>
+          <label class="checkbox-item"><input type="checkbox" name="editFeature" value="girls_welcome" />女の子歓迎</label>
         </div>
       </div>
       <div class="form-group">
@@ -512,6 +528,15 @@ function openEditModal(id) {
   document.querySelectorAll('input[name="editAge"]').forEach(cb => {
     cb.checked = (t.age_groups || []).includes(cb.value);
   });
+  const hasPreschool = (t.age_groups || []).includes('未就学');
+  document.getElementById('editAgeMinWrap').style.display = hasPreschool ? 'block' : 'none';
+  document.querySelectorAll('input[name="editAgeMin"]').forEach(r => {
+    r.checked = r.value === t.age_min;
+  });
+  document.querySelectorAll('input[name="editFeature"]').forEach(cb => {
+    if (cb.value === 'female_instructor') cb.checked = !!t.female_instructor;
+    if (cb.value === 'girls_welcome') cb.checked = !!t.girls_welcome;
+  });
   document.querySelectorAll('input[name="editDay"]').forEach(cb => {
     cb.checked = (t.days || []).includes(cb.value);
   });
@@ -525,6 +550,8 @@ async function saveEdit() {
   const feeNum = parseInt(document.getElementById('editFeeNum').value) || 0;
   const ages = [...document.querySelectorAll('input[name="editAge"]:checked')].map(el => el.value);
   const days = [...document.querySelectorAll('input[name="editDay"]:checked')].map(el => el.value);
+  const ageMin = document.querySelector('input[name="editAgeMin"]:checked')?.value || null;
+  const features = [...document.querySelectorAll('input[name="editFeature"]:checked')].map(el => el.value);
 
   const updates = {
     name: document.getElementById('editName').value.trim(),
@@ -535,6 +562,9 @@ async function saveEdit() {
     fee: `月${feeNum.toLocaleString()}円`,
     trial: document.getElementById('editTrial').value === 'true',
     age_groups: ages,
+    age_min: ageMin,
+    female_instructor: features.includes('female_instructor'),
+    girls_welcome: features.includes('girls_welcome'),
     days: days,
     instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
     twitter: document.getElementById('editTwitter').value.trim().replace(/^@/, '') || null,
@@ -559,6 +589,13 @@ function closeModalOnOverlay(e) {
   if (e.target === document.getElementById('editModal')) closeEditModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEditModal(); });
+
+// 未就学チェック時にage_min表示切り替え
+document.getElementById('editAgePreschool').addEventListener('change', function() {
+  const wrap = document.getElementById('editAgeMinWrap');
+  wrap.style.display = this.checked ? 'block' : 'none';
+  if (!this.checked) document.querySelectorAll('input[name="editAgeMin"]').forEach(r => r.checked = false);
+});
 
 // 編集モーダル内の都道府県→市区町村連動
 document.getElementById('editPref').addEventListener('change', function() {
