@@ -416,7 +416,7 @@ async function loginWithGoogle() {
   const { error } = await db.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'https://yama120.github.io/kodomo-dooo/mypage.html',
+      redirectTo: 'https://chibispo.com/mypage.html',
     },
   });
   if (error) {
@@ -454,7 +454,7 @@ async function sendResetEmail() {
     return;
   }
   const { error } = await db.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://yama120.github.io/kodomo-dooo/reset-password.html',
+    redirectTo: 'https://chibispo.com/reset-password.html',
   });
   if (error) {
     msgEl.textContent = '送信に失敗しました。もう一度お試しください。';
