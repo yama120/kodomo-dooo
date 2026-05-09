@@ -1476,7 +1476,7 @@ async function loadTeams() {
   }
 
   teams = data.map(t => ({
-    id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city,
+    id: t.id, name: t.name, sport: t.sport, pref: t.pref, city: t.city, address: t.address || null,
     ageGroups: t.age_groups || [], days: t.days || [],
     feeNum: t.fee_num, fee: t.fee,
     trial: t.trial, ageMin: t.age_min || null,
@@ -1561,7 +1561,7 @@ function renderCards(list) {
       <div class="card-body">
         <div class="card-name">${team.name}</div>
         <div class="card-meta-grid">
-          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${team.pref}${team.city}</div>
+          <div class="card-meta-row" style="grid-column:1/-1;">📍 ${team.pref}${team.city}${team.address ? ' ' + team.address : ''}</div>
           <div class="card-meta-row">👦 ${team.ageGroups.join(' · ')}${team.ageMin ? `（${team.ageMin}）` : ''}</div>
           <div class="card-meta-row">💴 ${team.fee || '要確認'}</div>
         </div>
