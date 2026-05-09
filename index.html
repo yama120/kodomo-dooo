@@ -1650,7 +1650,7 @@ function openModal(id) {
       </div>
     </div>
     <div class="modal-location">
-      📍 <strong>${team.pref} ${team.city}</strong>
+      📍 <strong>${team.pref} ${team.city}${team.address ? ' ' + team.address : ''}</strong>
       <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city+(team.address?(' '+team.address):''))}" target="_blank">地図で見る ▶</a>
     </div>
 
