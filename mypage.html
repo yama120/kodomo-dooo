@@ -230,6 +230,11 @@
           <label>市区町村</label>
           <select id="city"><option value="">選択してください</option></select>
         </div>
+        <div class="form-group">
+          <label>丁目・番地以降 <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="text" id="address" placeholder="例：〇〇町1-2-3 チビスポ球場" />
+          <div style="font-size:.8rem;color:#64748b;margin-top:4px;">地図表示の精度が上がります</div>
+        </div>
       </div>
 
       <div class="card">
@@ -600,6 +605,7 @@ function fillForm(t) {
   document.getElementById('website_url').value = t.website_url || '';
   document.getElementById('email').value = t.email || '';
   document.getElementById('description').value = t.description || '';
+  document.getElementById('address').value = t.address || '';
 
   // 写真表示
   if (t.photo_url) {
@@ -759,6 +765,7 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     website_url: document.getElementById('website_url').value.trim() || null,
     email: document.getElementById('email').value.trim() || null,
     description: document.getElementById('description').value.trim() || null,
+    address: document.getElementById('address').value.trim() || null,
   };
 
   const { error } = await db.from('teams').update(updates).eq('id', myTeam.id);

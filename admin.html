@@ -273,6 +273,10 @@
         <input type="email" id="editEmail" />
       </div>
       <div class="form-group">
+        <label>丁目・番地以降 <span style="font-weight:400;color:#64748b;">任意</span></label>
+        <input type="text" id="editAddress" placeholder="例：〇〇町1-2-3 チビスポ球場" />
+      </div>
+      <div class="form-group">
         <label>紹介文</label>
         <textarea id="editDescription"></textarea>
       </div>
@@ -524,6 +528,7 @@ function openEditModal(id) {
   document.getElementById('editWebsiteUrl').value = t.website_url || '';
   document.getElementById('editEmail').value = t.email || '';
   document.getElementById('editDescription').value = t.description || '';
+  document.getElementById('editAddress').value = t.address || '';
 
   document.querySelectorAll('input[name="editAge"]').forEach(cb => {
     cb.checked = (t.age_groups || []).includes(cb.value);
@@ -571,6 +576,7 @@ async function saveEdit() {
     website_url: document.getElementById('editWebsiteUrl').value.trim() || null,
     email: document.getElementById('editEmail').value.trim() || null,
     description: document.getElementById('editDescription').value.trim() || null,
+    address: document.getElementById('editAddress').value.trim() || null,
   };
 
   const { error } = await db.from('teams').update(updates).eq('id', id);

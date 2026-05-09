@@ -174,6 +174,11 @@
             <option value="">都道府県を先に選択してください</option>
           </select>
         </div>
+        <div class="form-group">
+          <label>丁目・番地以降<span class="optional">（任意）</span></label>
+          <input type="text" id="address" placeholder="例：〇〇町1-2-3 チビスポ球場" />
+          <div class="hint">地図表示の精度が上がります</div>
+        </div>
       </div>
 
       <div class="card">
@@ -393,6 +398,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     email: email || null,
     twitter: twitter || null,
     website_url: websiteUrl || null,
+    address: document.getElementById('address').value.trim() || null,
     description: document.getElementById('description').value.trim() || null,
     status: 'pending',
     user_id: userId || null,

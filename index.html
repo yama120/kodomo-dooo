@@ -1651,7 +1651,7 @@ function openModal(id) {
     </div>
     <div class="modal-location">
       📍 <strong>${team.pref} ${team.city}</strong>
-      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city)}" target="_blank">地図で見る ▶</a>
+      <a href="https://www.google.com/maps/search/${encodeURIComponent(team.pref+team.city+(team.address?(' '+team.address):''))}" target="_blank">地図で見る ▶</a>
     </div>
 
     <div class="modal-section-heading">基本情報</div>
