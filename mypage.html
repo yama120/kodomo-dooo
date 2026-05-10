@@ -498,26 +498,27 @@ async function logout() {
 }
 
 async function loadMyTeam(userId) {
-  const { data, error } = await db.from('teams').select('*').eq('user_id', userId).maybeSingle();
+  const { data, error } = await db.from('teams').select('*').eq('user_id', userId).limit(1);
   if (error) { console.error('loadMyTeam error:', error); }
-  if (!data) {
+  const team = data && data[0];
+  if (!team) {
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
     return;
   }
-  myTeam = data;
+  myTeam = team;
   document.getElementById('loadingArea').style.display = 'none';
   document.getElementById('logoutBtn').style.display = 'block';
 
   // 削除済みの場合は削除済み画面を表示
-  if (data.status === 'deleted') {
+  if (team.status === 'deleted') {
     document.getElementById('deletedCard').style.display = 'block';
     return;
   }
 
-  fillForm(data);
+  fillForm(team);
   document.getElementById('dashboardArea').style.display = 'block';
-  if (data.status === 'pending') {
+  if (team.status === 'pending') {
     document.getElementById('pendingNote').style.display = 'block';
   }
   // メールログインの場合のみパスワード変更カードを表示
