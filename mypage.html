@@ -498,9 +498,8 @@ async function logout() {
 }
 
 async function loadMyTeam(userId) {
-  const { data, error } = await db.from('teams').select('*').eq('user_id', userId).limit(1);
+  const { data: team, error } = await db.from('teams').select('*').eq('user_id', userId).maybeSingle();
   if (error) { console.error('loadMyTeam error:', error); }
-  const team = data && data[0];
   if (!team) {
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';

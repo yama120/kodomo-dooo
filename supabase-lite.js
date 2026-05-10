@@ -150,6 +150,12 @@
         return this.execute();
       }
 
+      maybeSingle() {
+        this.singleResult = true;
+        this.maybeEmpty = true;
+        return this.execute();
+      }
+
       then(resolve, reject) {
         return this.execute().then(resolve, reject);
       }
@@ -164,9 +170,10 @@
           headers,
           body: this.body ? JSON.stringify(this.body) : undefined,
         });
-        if (!result.error && this.singleResult) {
+        if (this.singleResult) {
           result.data = Array.isArray(result.data) ? result.data[0] || null : result.data;
-          if (!result.data) result.error = { message: 'No rows returned' };
+          if (!result.data && !this.maybeEmpty) result.error = { message: 'No rows returned' };
+          else if (!result.data) result.error = null;
         }
         return result;
       }
