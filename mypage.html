@@ -113,6 +113,13 @@
     .upload-btn:disabled { opacity: .5; cursor: not-allowed; }
     .remove-photo-btn { display: inline-block; padding: 9px 18px; background: #f1f5f9; color: var(--muted); border-radius: 999px; font-size: .83rem; font-weight: 700; cursor: pointer; border: 1px solid var(--border); transition: all .15s; font-family: inherit; }
     .remove-photo-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+    .delete-team-btn { width: 100%; padding: 13px; border: 2px solid #fca5a5; background: #fff; color: #dc2626; border-radius: 10px; font-size: .92rem; font-weight: 800; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .delete-team-btn:hover { background: #fee2e2; }
+    .deleted-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px 24px; text-align: center; }
+    .deleted-card h2 { font-size: 1.2rem; font-weight: 900; color: var(--ink); margin-bottom: 12px; }
+    .deleted-card p { color: var(--muted); font-size: .92rem; line-height: 1.7; margin-bottom: 24px; }
+    .reapply-btn { display: inline-block; background: var(--orange); color: #fff; font-weight: 800; font-size: .95rem; padding: 12px 28px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; transition: opacity .15s; }
+    .reapply-btn:hover { opacity: .9; }
 
     /* Cropper modal */
     .crop-modal-overlay {
@@ -352,6 +359,21 @@
       <button type="submit" class="save-btn" id="saveBtn">保存する</button>
     </form>
 
+    <!-- チーム削除 -->
+    <div class="card" id="deleteTeamCard" style="margin-top:20px;">
+      <div class="card-title">🗑️ チームの掲載を削除する</div>
+      <p style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:16px;">掲載を削除するとチビスポの検索結果から非表示になります。再度掲載を希望する場合は再申請できます。</p>
+      <button type="button" class="delete-team-btn" onclick="deleteTeam()">掲載を削除する</button>
+    </div>
+
+    <!-- 削除済み表示 -->
+    <div id="deletedCard" class="deleted-card" style="display:none;">
+      <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
+      <h2>掲載を削除しました</h2>
+      <p>チビスポからチームの掲載が削除されました。<br>再度掲載を希望する場合は再申請してください。</p>
+      <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
+    </div>
+
     <!-- パスワード変更（メールログインのみ表示） -->
     <div class="card" id="passwordCard" style="display:none;margin-top:20px;">
       <div class="card-title">🔑 パスワードを変更する</div>
@@ -483,10 +505,17 @@ async function loadMyTeam(userId) {
     return;
   }
   myTeam = data;
-  fillForm(data);
   document.getElementById('loadingArea').style.display = 'none';
-  document.getElementById('dashboardArea').style.display = 'block';
   document.getElementById('logoutBtn').style.display = 'block';
+
+  // 削除済みの場合は削除済み画面を表示
+  if (data.status === 'deleted') {
+    document.getElementById('deletedCard').style.display = 'block';
+    return;
+  }
+
+  fillForm(data);
+  document.getElementById('dashboardArea').style.display = 'block';
   if (data.status === 'pending') {
     document.getElementById('pendingNote').style.display = 'block';
   }
@@ -496,6 +525,26 @@ async function loadMyTeam(userId) {
   if (isEmailUser) {
     document.getElementById('passwordCard').style.display = 'block';
   }
+}
+
+async function deleteTeam() {
+  if (!confirm('掲載を削除しますか？\n削除後も再申請することができます。')) return;
+  const { error } = await db.from('teams').update({ status: 'deleted' }).eq('id', myTeam.id);
+  if (error) { alert('削除に失敗しました。'); return; }
+  myTeam.status = 'deleted';
+  document.getElementById('dashboardArea').style.display = 'none';
+  document.getElementById('deletedCard').style.display = 'block';
+}
+
+async function reapplyTeam() {
+  if (!confirm('再申請しますか？管理者の承認後に再掲載されます。')) return;
+  const { error } = await db.from('teams').update({ status: 'pending' }).eq('id', myTeam.id);
+  if (error) { alert('再申請に失敗しました。'); return; }
+  myTeam.status = 'pending';
+  document.getElementById('deletedCard').style.display = 'none';
+  fillForm(myTeam);
+  document.getElementById('dashboardArea').style.display = 'block';
+  document.getElementById('pendingNote').style.display = 'block';
 }
 
 async function changePassword() {
