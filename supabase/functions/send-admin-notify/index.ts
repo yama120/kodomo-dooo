@@ -1,7 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
-const ADMIN_EMAIL = 'hyogoyamada@gmail.com'; // 管理者メールアドレス
+const ADMIN_EMAIL = 'moyori.info@gmail.com'; // 管理者メールアドレス
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
