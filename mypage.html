@@ -158,6 +158,14 @@
 <div class="container">
   <div id="loadingArea"><div class="spinner"></div></div>
 
+  <!-- 削除済み表示 -->
+  <div id="deletedCard" class="deleted-card" style="display:none;">
+    <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
+    <h2>掲載を削除済みです</h2>
+    <p>チビスポへのチームの掲載が削除されています。<br>再度掲載を希望する場合は再申請してください。</p>
+    <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
+  </div>
+
   <!-- LOGIN FORM -->
   <div id="loginArea" style="display:none;">
     <div class="login-card">
@@ -366,14 +374,6 @@
       <button type="button" class="delete-team-btn" onclick="deleteTeam()">掲載を削除する</button>
     </div>
 
-    <!-- 削除済み表示 -->
-    <div id="deletedCard" class="deleted-card" style="display:none;">
-      <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
-      <h2>掲載を削除しました</h2>
-      <p>チビスポからチームの掲載が削除されました。<br>再度掲載を希望する場合は再申請してください。</p>
-      <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
-    </div>
-
     <!-- パスワード変更（メールログインのみ表示） -->
     <div class="card" id="passwordCard" style="display:none;margin-top:20px;">
       <div class="card-title">🔑 パスワードを変更する</div>
@@ -498,8 +498,9 @@ async function logout() {
 }
 
 async function loadMyTeam(userId) {
-  const { data, error } = await db.from('teams').select('*').eq('user_id', userId).single();
-  if (error || !data) {
+  const { data, error } = await db.from('teams').select('*').eq('user_id', userId).maybeSingle();
+  if (error) { console.error('loadMyTeam error:', error); }
+  if (!data) {
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
     return;
