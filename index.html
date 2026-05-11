@@ -1604,7 +1604,7 @@ function renderCards(list) {
       team.contact.website_url ? `<a class="card-sns-btn" href="${team.contact.website_url}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">🌐</span> WEB</a>` : '',
       team.contact.instagram   ? `<a class="card-sns-btn ig" href="https://www.instagram.com/${team.contact.instagram}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-instagram ig-icon btn-icon"></i> Instagram</a>` : '',
       team.contact.twitter     ? `<a class="card-sns-btn tw" href="https://x.com/${team.contact.twitter}" target="_blank" onclick="event.stopPropagation()"><span class="btn-icon">𝕏</span></a>` : '',
-      team.contact.line_url    ? `<a class="card-sns-btn line" href="${team.contact.line_url}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-line btn-icon"></i> LINE</a>` : '',
+      team.contact.line_url    ? `<a class="card-sns-btn line" href="${team.contact.line_url}" target="_blank" onclick="event.stopPropagation()"><i class="fa-brands fa-line btn-icon" style="color:#06c755"></i> LINE</a>` : '',
     ].filter(Boolean).join('');
 
     const photoHTML = team.photoUrl
