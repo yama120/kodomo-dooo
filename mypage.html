@@ -839,7 +839,17 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     address: document.getElementById('address').value.trim() || null,
   };
 
-  const { error } = await db.from('teams').update(updates).eq('id', myTeam.id);
+  let error;
+  if (myTeam) {
+    ({ error } = await db.from('teams').update(updates).eq('id', myTeam.id));
+  } else {
+    const { data: { session } } = await db.auth.getSession();
+    updates.user_id = session.user.id;
+    updates.status = 'pending';
+    const result = await db.from('teams').insert(updates);
+    error = result.error;
+    if (!error && result.data) myTeam = result.data;
+  }
   const alertEl = document.getElementById('alertMsg');
 
   if (error) {
