@@ -436,6 +436,7 @@ img { max-width: 100%; display: block; }
   position: relative; height: 170px; overflow: hidden;
   border-radius: var(--radius) var(--radius) 0 0;
   background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  flex-shrink: 0;
 }
 .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .card-img-placeholder {
@@ -1608,7 +1609,7 @@ function renderCards(list) {
     ].filter(Boolean).join('');
 
     const photoHTML = team.photoUrl
-      ? `<img src="${team.photoUrl}" alt="${team.name}" style="width:100%;height:170px;object-fit:cover;display:block;" />`
+      ? `<img src="${team.photoUrl}" alt="${team.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />`
       : `<div class="card-img-placeholder">${sc.emoji}</div>`;
 
     const card = document.createElement('div');
