@@ -528,25 +528,19 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   // 写真アップロード（チームIDを取得してから）
   if (croppedBlob && userId) {
     try {
-      // 挿入したチームをuser_idで取得
       const teamRes = await db.from('teams').select('id').eq('user_id', userId).order('created_at', { ascending: false }).limit(1);
       const teamId = teamRes.data?.[0]?.id;
       if (teamId) {
-        const { data: { session } } = await db.auth.getSession();
-        const accessToken = session?.access_token;
         const path = `${userId}/${teamId}.jpg`;
-        await fetch(`${SUPABASE_URL}/storage/v1/object/team-photos/${path}`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${accessToken || SUPABASE_KEY}`,
-            'Content-Type': 'image/jpeg',
-            'x-upsert': 'true',
-          },
-          body: croppedBlob,
-        });
-        // photo_urlをteamsに保存
-        const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/team-photos/${path}`;
-        await db.from('teams').update({ photo_url: photoUrl }).eq('id', teamId);
+        const { error: uploadError } = await db.storage
+          .from('team-photos')
+          .upload(path, croppedBlob, { upsert: true, contentType: 'image/jpeg' });
+        if (!uploadError) {
+          const { data } = db.storage.from('team-photos').getPublicUrl(path);
+          await db.from('teams').update({ photo_url: data.publicUrl }).eq('id', teamId);
+        } else {
+          console.warn('写真アップロード失敗（申請は完了）:', uploadError);
+        }
       }
     } catch (photoErr) {
       console.warn('写真アップロード失敗（申請は完了）:', photoErr);
