@@ -845,6 +845,15 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
 
 // 初期セッションチェック
 let initialized = false;
+
+function showLoginFallback() {
+  if (!initialized) {
+    document.getElementById('loadingArea').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+  }
+}
+setTimeout(showLoginFallback, 3000); // 3秒以内に解決しなければログイン画面を表示
+
 db.auth.getSession().then(async ({ data: { session } }) => {
   initialized = true;
   if (session) {
@@ -855,6 +864,10 @@ db.auth.getSession().then(async ({ data: { session } }) => {
     document.getElementById('loadingArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
   }
+}).catch(() => {
+  initialized = true;
+  document.getElementById('loadingArea').style.display = 'none';
+  document.getElementById('loginArea').style.display = 'block';
 });
 
 db.auth.onAuthStateChange(async (event, session) => {
