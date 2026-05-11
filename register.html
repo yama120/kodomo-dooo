@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
   <script src="supabase-lite.js"></script>
   <script src="cities.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -88,6 +90,44 @@
       transition: transform .1s;
     }
     .back-btn:hover { transform: translateY(2px); }
+
+    /* Photo upload */
+    .photo-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 24px;
+      text-align: center; cursor: pointer; transition: border-color .15s;
+    }
+    .photo-upload-area:hover { border-color: var(--orange); }
+    .photo-upload-area input[type="file"] { display: none; }
+    .photo-preview { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; display: none; }
+    .photo-preview.show { display: block; }
+    .upload-btn {
+      display: inline-block; padding: 8px 20px; background: var(--orange-light);
+      color: var(--orange); border: 1.5px solid var(--orange); border-radius: 999px;
+      font-size: .85rem; font-weight: 700; cursor: pointer; transition: all .15s; font-family: inherit;
+    }
+    .upload-btn:hover { background: var(--orange); color: #fff; }
+
+    /* Cropper modal */
+    .crop-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.7); z-index: 500;
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    .crop-modal-overlay.open { display: flex; }
+    .crop-modal {
+      background: #fff; border-radius: 20px; width: 100%;
+      max-width: 600px; padding: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+    }
+    .crop-modal-title { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
+    .crop-modal-hint { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .crop-container { width: 100%; max-height: 400px; overflow: hidden; background: #000; border-radius: 10px; }
+    .crop-container img { max-width: 100%; display: block; }
+    .crop-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+    .crop-btn-cancel { padding: 10px 22px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .crop-btn-cancel:hover { background: #f1f5f9; }
+    .crop-btn-ok { padding: 10px 28px; border-radius: 999px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 var(--orange-dark); }
+    .crop-btn-ok:hover { opacity: .9; }
 
     @media (max-width: 480px) {
       .card { padding: 20px; }
@@ -295,12 +335,31 @@
         </div>
       </div>
 
-      <div class="card" style="background:#fff7ed;border:1.5px solid #fed7aa;">
-        <div class="card-title" style="border-color:#fed7aa;">📷 チーム写真について</div>
-        <p style="font-size:.88rem;color:#92400e;line-height:1.7;">
-          チーム写真は登録申請後、マイページからアップロードできます。<br>
-          写真を登録するとカードに表示され、保護者に見つけてもらいやすくなります。
-        </p>
+      <div class="card">
+        <div class="card-title">📷 チーム写真 <span style="font-weight:400;color:#64748b;font-size:.82rem;">任意</span></div>
+        <img id="photoPreview" class="photo-preview" alt="チーム写真" />
+        <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
+          <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
+          <label class="upload-btn" for="photoInput">写真を選ぶ</label>
+        </div>
+        <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.6;">申請後でもマイページから変更できます。</p>
+      </div>
+
+      <!-- Crop Modal -->
+      <div id="cropModalOverlay" class="crop-modal-overlay">
+        <div class="crop-modal">
+          <div class="crop-modal-title">トリミング</div>
+          <div class="crop-modal-hint">ドラッグで範囲を移動・リサイズできます</div>
+          <div class="crop-container">
+            <img id="cropImage" src="" alt="crop" />
+          </div>
+          <div class="crop-actions">
+            <button type="button" class="crop-btn-cancel" onclick="closeCropModal()">キャンセル</button>
+            <button type="button" class="crop-btn-ok" onclick="cropAndConfirm()">この範囲でOK</button>
+          </div>
+        </div>
       </div>
 
       <div class="form-group" style="margin-top:8px;">
@@ -320,6 +379,50 @@ const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Photo upload
+let cropper = null, croppedBlob = null;
+
+function previewPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    document.getElementById('photoMsg').textContent = '5MB以下の画像を選択してください。';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const cropImg = document.getElementById('cropImage');
+    if (cropper) { cropper.destroy(); cropper = null; }
+    cropImg.onload = () => {
+      document.getElementById('cropModalOverlay').classList.add('open');
+      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
+    };
+    cropImg.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function closeCropModal() {
+  document.getElementById('cropModalOverlay').classList.remove('open');
+  if (cropper) { cropper.destroy(); cropper = null; }
+  document.getElementById('photoInput').value = '';
+}
+
+function cropAndConfirm() {
+  if (!cropper) return;
+  const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 });
+  canvas.toBlob(blob => {
+    croppedBlob = blob;
+    const preview = document.getElementById('photoPreview');
+    preview.src = canvas.toDataURL('image/jpeg');
+    preview.classList.add('show');
+    document.getElementById('photoUploadArea').style.display = 'none';
+    document.getElementById('photoMsg').textContent = 'トリミング済み。申請時にアップロードされます。';
+    document.getElementById('cropModalOverlay').classList.remove('open');
+    if (cropper) { cropper.destroy(); cropper = null; }
+  }, 'image/jpeg', 0.9);
+}
 
 // 都道府県→市区町村連動
 document.getElementById('pref').addEventListener('change', function() {
@@ -391,7 +494,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
   const userId = authData.user?.id;
 
-  const { error } = await db.from('teams').insert({
+  const insertResult = await db.from('teams').insert({
     name: document.getElementById('name').value.trim(),
     sport: getSportValue(),
     pref: document.getElementById('pref').value,
@@ -415,11 +518,39 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     user_id: userId || null,
   });
 
-  if (error) {
+  if (insertResult.error) {
     showError('送信に失敗しました。もう一度お試しください。');
     btn.disabled = false;
     btn.textContent = '申請する（無料）';
     return;
+  }
+
+  // 写真アップロード（チームIDを取得してから）
+  if (croppedBlob && userId) {
+    try {
+      // 挿入したチームをuser_idで取得
+      const teamRes = await db.from('teams').select('id').eq('user_id', userId).order('created_at', { ascending: false }).limit(1);
+      const teamId = teamRes.data?.[0]?.id;
+      if (teamId) {
+        const { data: { session } } = await db.auth.getSession();
+        const accessToken = session?.access_token;
+        const path = `${userId}/${teamId}.jpg`;
+        await fetch(`${SUPABASE_URL}/storage/v1/object/team-photos/${path}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken || SUPABASE_KEY}`,
+            'Content-Type': 'image/jpeg',
+            'x-upsert': 'true',
+          },
+          body: croppedBlob,
+        });
+        // photo_urlをteamsに保存
+        const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/team-photos/${path}`;
+        await db.from('teams').update({ photo_url: photoUrl }).eq('id', teamId);
+      }
+    } catch (photoErr) {
+      console.warn('写真アップロード失敗（申請は完了）:', photoErr);
+    }
   }
 
   // 管理者にメール通知（失敗しても申請は通す）
