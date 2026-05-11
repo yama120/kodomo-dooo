@@ -338,13 +338,16 @@
       <div class="card">
         <div class="card-title">📷 チーム写真 <span style="font-weight:400;color:#64748b;font-size:.82rem;">任意</span></div>
         <img id="photoPreview" class="photo-preview" alt="チーム写真" />
+        <div id="photoActions" style="display:none;gap:8px;margin-bottom:10px;display:none;">
+          <button type="button" onclick="changePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid var(--orange);background:#fff;color:var(--orange);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">写真を変更</button>
+          <button type="button" onclick="removePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid #ef4444;background:#fff;color:#ef4444;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">削除</button>
+        </div>
         <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
           <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
           <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
           <label class="upload-btn" for="photoInput">写真を選ぶ</label>
         </div>
         <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
-        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.6;">申請後でもマイページから変更できます。</p>
       </div>
 
       <!-- Crop Modal -->
@@ -418,10 +421,27 @@ function cropAndConfirm() {
     preview.src = canvas.toDataURL('image/jpeg');
     preview.classList.add('show');
     document.getElementById('photoUploadArea').style.display = 'none';
+    document.getElementById('photoActions').style.display = 'flex';
     document.getElementById('photoMsg').textContent = 'トリミング済み。申請時にアップロードされます。';
     document.getElementById('cropModalOverlay').classList.remove('open');
     if (cropper) { cropper.destroy(); cropper = null; }
   }, 'image/jpeg', 0.9);
+}
+
+function changePhoto() {
+  document.getElementById('photoInput').value = '';
+  document.getElementById('photoInput').click();
+}
+
+function removePhoto() {
+  croppedBlob = null;
+  const preview = document.getElementById('photoPreview');
+  preview.src = '';
+  preview.classList.remove('show');
+  document.getElementById('photoUploadArea').style.display = 'block';
+  document.getElementById('photoActions').style.display = 'none';
+  document.getElementById('photoMsg').textContent = '';
+  document.getElementById('photoInput').value = '';
 }
 
 // 都道府県→市区町村連動
