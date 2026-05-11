@@ -398,11 +398,11 @@ function previewPhoto(event) {
   reader.onload = e => {
     const cropImg = document.getElementById('cropImage');
     if (cropper) { cropper.destroy(); cropper = null; }
-    cropImg.onload = () => {
-      document.getElementById('cropModalOverlay').classList.add('open');
-      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
-    };
     cropImg.src = e.target.result;
+    document.getElementById('cropModalOverlay').classList.add('open');
+    setTimeout(() => {
+      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
+    }, 100);
   };
   reader.readAsDataURL(file);
 }
