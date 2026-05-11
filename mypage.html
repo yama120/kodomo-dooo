@@ -368,6 +368,13 @@
         </div>
       </div>
 
+      <div class="form-group" id="agreeGroup" style="margin-top:8px;">
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:600;font-size:.9rem;">
+          <input type="checkbox" id="agreeCheck" style="margin-top:3px;flex-shrink:0;width:18px;height:18px;cursor:pointer;" />
+          <span><a href="legal.html" target="_blank" style="color:var(--primary);text-decoration:underline;">利用規約</a>および<a href="legal.html" target="_blank" style="color:var(--primary);text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
+        </label>
+      </div>
+
       <button type="submit" class="save-btn" id="saveBtn">保存する</button>
     </form>
 
@@ -506,7 +513,8 @@ async function loadMyTeam(userId) {
   if (error) { console.error('loadMyTeam error:', error); }
   if (!team) {
     document.getElementById('loadingArea').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
+    document.getElementById('dashboardArea').style.display = 'block';
+    document.getElementById('agreeGroup').style.display = 'block';
     return;
   }
   myTeam = team;
@@ -613,6 +621,7 @@ async function changePassword() {
 }
 
 function fillForm(t) {
+  document.getElementById('agreeGroup').style.display = 'none';
   document.getElementById('name').value = t.name;
   const sportSel = document.getElementById('sport');
   const sportOther = document.getElementById('sportOther');
@@ -792,6 +801,12 @@ async function removePhoto() {
 
 document.getElementById('editForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  if (!myTeam && !document.getElementById('agreeCheck').checked) {
+    alert('利用規約およびプライバシーポリシーへの同意が必要です。');
+    return;
+  }
+
   const btn = document.getElementById('saveBtn');
   btn.disabled = true;
   btn.textContent = '保存中...';
