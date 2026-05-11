@@ -549,7 +549,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   // 写真アップロード（チームIDを取得してから）
   if (croppedBlob && userId) {
     try {
-      const teamRes = await db.from('teams').select('id').eq('user_id', userId).order('created_at', { ascending: false }).limit(1);
+      const teamRes = await db.from('teams').select('id').eq('user_id', userId).order('created_at', { ascending: false });
       const teamId = teamRes.data?.[0]?.id;
       if (teamId) {
         const path = `${userId}/${teamId}.jpg`;
