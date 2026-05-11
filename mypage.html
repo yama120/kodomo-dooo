@@ -324,6 +324,10 @@
           <label>ウェブサイト URL <span style="font-weight:400;color:#64748b;">任意</span></label>
           <input type="url" id="website_url" placeholder="https://example.com" />
         </div>
+        <div class="form-group">
+          <label>LINE公式アカウント URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <input type="url" id="line_url" placeholder="https://lin.ee/xxxxx" />
+        </div>
       </div>
 
       <div class="card">
@@ -653,6 +657,7 @@ function fillForm(t) {
   document.getElementById('instagram').value = t.instagram || '';
   document.getElementById('twitter').value = t.twitter || '';
   document.getElementById('website_url').value = t.website_url || '';
+  document.getElementById('line_url').value = t.line_url || '';
   document.getElementById('email').value = t.email || '';
   document.getElementById('description').value = t.description || '';
   document.getElementById('address').value = t.address || '';
@@ -813,6 +818,7 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
     twitter: document.getElementById('twitter').value.trim().replace(/^@/, '') || null,
     website_url: document.getElementById('website_url').value.trim() || null,
+    line_url: document.getElementById('line_url').value.trim() || null,
     email: document.getElementById('email').value.trim() || null,
     description: document.getElementById('description').value.trim() || null,
     address: document.getElementById('address').value.trim() || null,

@@ -268,6 +268,10 @@
         <input type="url" id="editWebsiteUrl" placeholder="https://example.com" />
       </div>
       <div class="form-group">
+        <label>LINE公式アカウント URL</label>
+        <input type="url" id="editLineUrl" placeholder="https://lin.ee/xxxxx" />
+      </div>
+      <div class="form-group">
         <label>メール</label>
         <input type="email" id="editEmail" />
       </div>
@@ -526,6 +530,7 @@ function openEditModal(id) {
   document.getElementById('editInstagram').value = t.instagram || '';
   document.getElementById('editTwitter').value = t.twitter || '';
   document.getElementById('editWebsiteUrl').value = t.website_url || '';
+  document.getElementById('editLineUrl').value = t.line_url || '';
   document.getElementById('editEmail').value = t.email || '';
   document.getElementById('editDescription').value = t.description || '';
   document.getElementById('editAddress').value = t.address || '';
@@ -574,6 +579,7 @@ async function saveEdit() {
     instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
     twitter: document.getElementById('editTwitter').value.trim().replace(/^@/, '') || null,
     website_url: document.getElementById('editWebsiteUrl').value.trim() || null,
+    line_url: document.getElementById('editLineUrl').value.trim() || null,
     email: document.getElementById('editEmail').value.trim() || null,
     description: document.getElementById('editDescription').value.trim() || null,
     address: document.getElementById('editAddress').value.trim() || null,
