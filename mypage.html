@@ -106,7 +106,7 @@
     .photo-upload-area { border: 2px dashed var(--border); border-radius: 12px; padding: 28px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
     .photo-upload-area:hover { border-color: var(--orange); background: var(--orange-light); }
     .photo-upload-area input[type="file"] { display: none; }
-    .photo-preview { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; display: none; }
+    .photo-preview { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; margin-bottom: 12px; display: none; }
     .photo-preview.show { display: block; }
     .upload-btn { display: inline-block; padding: 9px 22px; background: var(--orange); color: #fff; border-radius: 999px; font-size: .85rem; font-weight: 800; cursor: pointer; border: none; transition: opacity .15s; font-family: inherit; }
     .upload-btn:hover { opacity: .85; }
@@ -333,15 +333,14 @@
       <div class="card">
         <div class="card-title">📷 チーム写真</div>
         <img id="photoPreview" class="photo-preview" alt="チーム写真" />
+        <div id="photoActions" style="display:none;gap:8px;margin-bottom:10px;">
+          <button type="button" onclick="changePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid var(--orange);background:#fff;color:var(--orange);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">写真を変更</button>
+          <button type="button" onclick="removePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid #ef4444;background:#fff;color:#ef4444;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">削除</button>
+        </div>
         <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
           <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
           <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
           <label class="upload-btn" for="photoInput">写真を選ぶ</label>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-          <button type="button" class="upload-btn" id="changePhotoBtn" onclick="document.getElementById('photoInput').click()" style="display:none;">写真を変更する</button>
-          <button type="button" class="upload-btn" id="uploadPhotoBtn" onclick="uploadPhoto()" style="display:none;">アップロード</button>
-          <button type="button" class="remove-photo-btn" id="removePhotoBtn" onclick="removePhoto()" style="display:none;">写真を削除</button>
         </div>
         <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
       </div>
@@ -677,12 +676,10 @@ function fillForm(t) {
     preview.src = t.photo_url;
     preview.classList.add('show');
     document.getElementById('photoUploadArea').style.display = 'none';
-    document.getElementById('changePhotoBtn').style.display = 'inline-block';
-    document.getElementById('removePhotoBtn').style.display = 'inline-block';
+    document.getElementById('photoActions').style.display = 'flex';
   }
 }
 
-let selectedPhotoFile = null;
 let croppedBlob = null;
 let cropper = null;
 
@@ -694,25 +691,15 @@ function previewPhoto(event) {
     document.getElementById('photoMsg').style.color = '#dc2626';
     return;
   }
-  selectedPhotoFile = file;
   const reader = new FileReader();
   reader.onload = e => {
     const cropImg = document.getElementById('cropImage');
-    // Cropperを初期化（前のインスタンスがあれば先に破棄）
     if (cropper) { cropper.destroy(); cropper = null; }
-    // onloadをsrc設定より先にセット（データURLは即時ロードされる場合があるため）
-    cropImg.onload = () => {
-      document.getElementById('cropModalOverlay').classList.add('open');
-      cropper = new Cropper(cropImg, {
-        aspectRatio: 4 / 3,
-        viewMode: 1,
-        movable: true,
-        zoomable: true,
-        scalable: false,
-        autoCropArea: 0.9,
-      });
-    };
     cropImg.src = e.target.result;
+    document.getElementById('cropModalOverlay').classList.add('open');
+    setTimeout(() => {
+      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
+    }, 100);
   };
   reader.readAsDataURL(file);
 }
@@ -720,37 +707,36 @@ function previewPhoto(event) {
 function closeCropModal() {
   document.getElementById('cropModalOverlay').classList.remove('open');
   if (cropper) { cropper.destroy(); cropper = null; }
-  // ファイル入力をリセット（同じファイルを再選択できるように）
   document.getElementById('photoInput').value = '';
-  selectedPhotoFile = null;
+}
+
+function changePhoto() {
+  document.getElementById('photoInput').value = '';
+  document.getElementById('photoInput').click();
 }
 
 function cropAndConfirm() {
   if (!cropper) return;
   const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 });
-  canvas.toBlob(blob => {
+  canvas.toBlob(async blob => {
     croppedBlob = blob;
-    // プレビューを更新
     const preview = document.getElementById('photoPreview');
     preview.src = canvas.toDataURL('image/jpeg');
     preview.classList.add('show');
-    document.getElementById('uploadPhotoBtn').style.display = 'inline-block';
-    document.getElementById('photoMsg').textContent = 'トリミング済み。アップロードボタンで保存してください。';
-    document.getElementById('photoMsg').style.color = '#2563eb';
-    // モーダルを閉じる
+    document.getElementById('photoUploadArea').style.display = 'none';
+    document.getElementById('photoActions').style.display = 'none';
     document.getElementById('cropModalOverlay').classList.remove('open');
     if (cropper) { cropper.destroy(); cropper = null; }
+    document.getElementById('photoMsg').textContent = 'アップロード中...';
+    document.getElementById('photoMsg').style.color = '#2563eb';
+    await uploadPhoto();
   }, 'image/jpeg', 0.9);
 }
 
 async function uploadPhoto() {
   if (!croppedBlob || !myTeam) return;
-  const btn = document.getElementById('uploadPhotoBtn');
-  btn.disabled = true;
-  btn.textContent = 'アップロード中...';
 
   const path = `${myTeam.user_id}/${myTeam.id}.jpg`;
-
   const { error: uploadError } = await db.storage
     .from('team-photos')
     .upload(path, croppedBlob, { upsert: true, contentType: 'image/jpeg' });
@@ -758,23 +744,18 @@ async function uploadPhoto() {
   if (uploadError) {
     document.getElementById('photoMsg').textContent = 'アップロードに失敗しました。';
     document.getElementById('photoMsg').style.color = '#dc2626';
-    btn.disabled = false;
-    btn.textContent = 'アップロード';
+    document.getElementById('photoUploadArea').style.display = 'block';
+    croppedBlob = null;
     return;
   }
 
   const { data } = db.storage.from('team-photos').getPublicUrl(path);
-  const photoUrl = data.publicUrl;
+  await db.from('teams').update({ photo_url: data.publicUrl }).eq('id', myTeam.id);
+  myTeam.photo_url = data.publicUrl;
 
-  await db.from('teams').update({ photo_url: photoUrl }).eq('id', myTeam.id);
-  myTeam.photo_url = photoUrl;
-
-  document.getElementById('photoMsg').textContent = '写真をアップロードしました。';
+  document.getElementById('photoMsg').textContent = '写真を保存しました。';
   document.getElementById('photoMsg').style.color = '#16a34a';
-  document.getElementById('removePhotoBtn').style.display = 'inline-block';
-  btn.disabled = false;
-  btn.textContent = 'アップロード';
-  selectedPhotoFile = null;
+  document.getElementById('photoActions').style.display = 'flex';
   croppedBlob = null;
 }
 
@@ -782,8 +763,7 @@ async function removePhoto() {
   if (!myTeam || !myTeam.photo_url) return;
   if (!confirm('写真を削除しますか？')) return;
 
-  const ext = myTeam.photo_url.split('.').pop().split('?')[0];
-  const path = `${myTeam.user_id}/${myTeam.id}.${ext}`;
+  const path = `${myTeam.user_id}/${myTeam.id}.jpg`;
   await db.storage.from('team-photos').remove([path]);
   await db.from('teams').update({ photo_url: null }).eq('id', myTeam.id);
   myTeam.photo_url = null;
@@ -791,9 +771,7 @@ async function removePhoto() {
   const preview = document.getElementById('photoPreview');
   preview.src = '';
   preview.classList.remove('show');
-  document.getElementById('removePhotoBtn').style.display = 'none';
-  document.getElementById('uploadPhotoBtn').style.display = 'none';
-  document.getElementById('changePhotoBtn').style.display = 'none';
+  document.getElementById('photoActions').style.display = 'none';
   document.getElementById('photoUploadArea').style.display = 'block';
   document.getElementById('photoMsg').textContent = '写真を削除しました。';
   document.getElementById('photoMsg').style.color = '#64748b';
