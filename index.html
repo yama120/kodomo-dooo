@@ -1618,9 +1618,9 @@ function renderCards(list) {
     card.className = 'team-card';
     card.innerHTML = `
       <div class="card-img-wrap" style="background:${bg};">
+        ${photoHTML}
         <span class="card-sport-badge badge-${sc.cls}">${team.sport}</span>
         <button class="card-heart-btn" data-id="${team.id}" onclick="toggleFav('${team.id}', event)">${fav ? '❤️' : '🤍'}</button>
-        ${photoHTML}
       </div>
       <div class="card-body">
         <div class="card-name">${team.name}</div>
