@@ -438,7 +438,9 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(135deg, #e0f2fe, #bae6fd);
   flex-shrink: 0;
 }
-.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0; }
+.card-sport-badge { z-index: 1; }
+.card-heart-btn { z-index: 1; }
 .card-img-placeholder {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center; font-size: 60px;
