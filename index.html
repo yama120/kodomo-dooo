@@ -1550,6 +1550,7 @@ async function loadTeams() {
     femaleInstructor: !!t.female_instructor, girlsWelcome: !!t.girls_welcome,
     contact: { instagram: t.instagram, email: t.email, twitter: t.twitter, website_url: t.website_url, line_url: t.line_url || null },
     description: t.description, photoUrl: t.photo_url,
+    plan: t.plan || 'free',
   }));
   applyFilters();
 }
