@@ -432,8 +432,10 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--shadow); overflow: hidden;
   cursor: pointer; transition: transform .15s, box-shadow .15s;
   display: flex; flex-direction: column;
+  border: 2px solid transparent;
 }
 .team-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+.team-card.is-paid { border-color: #fcd34d; box-shadow: 0 4px 16px rgba(251,191,36,.2); }
 .card-img-wrap {
   position: relative; height: 170px; overflow: hidden;
   border-radius: var(--radius) var(--radius) 0 0;
@@ -1624,7 +1626,7 @@ function renderCards(list) {
       : `<div class="card-img-placeholder">${sc.emoji}</div>`;
 
     const card = document.createElement('div');
-    card.className = 'team-card';
+    card.className = `team-card${team.plan === 'paid' ? ' is-paid' : ''}`;
     card.innerHTML = `
       <div class="card-img-wrap" style="background:${bg};">
         ${photoHTML}
