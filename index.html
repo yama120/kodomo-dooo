@@ -472,6 +472,7 @@ img { max-width: 100%; display: block; }
 .ctag.trial   { background: #f0fdf4; border-color: #86efac; color: #16a34a; }
 .ctag.beginner{ background: #fefce8; border-color: #fde047; color: #ca8a04; }
 .ctag.weekend { background: #f5f3ff; border-color: #c4b5fd; color: #7c3aed; }
+.ctag.weekday { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
 .ctag.female  { background: #fdf2f8; border-color: #f9a8d4; color: #db2777; }
 .card-sns-row {
   display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
@@ -1603,6 +1604,7 @@ function renderCards(list) {
     const tags = [
       team.trial ? '<span class="ctag trial">体験OK</span>' : '',
       (team.days && (team.days.includes('土') || team.days.includes('日'))) ? '<span class="ctag weekend">土日開催</span>' : '',
+      (team.days && WEEKDAY.some(d => team.days.includes(d))) ? '<span class="ctag weekday">平日開催</span>' : '',
     ].filter(Boolean).join('');
 
     const snsBtns = [
