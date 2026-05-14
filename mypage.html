@@ -558,13 +558,16 @@ async function reapplyTeam() {
   // 管理者にメール通知
   fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-admin-notify', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+    },
     body: JSON.stringify({
       team_name: myTeam.name,
       sport: myTeam.sport,
       pref: myTeam.pref,
       city: myTeam.city,
-      applicant_email: myTeam.contact?.email || myTeam.contact?.instagram ? `Instagram: @${myTeam.contact.instagram}` : '未入力',
+      applicant_email: myTeam.contact?.email || (myTeam.contact?.instagram ? `Instagram: @${myTeam.contact.instagram}` : '未入力'),
     }),
   }).catch(err => { console.warn('管理者メール送信失敗:', err); });
 
