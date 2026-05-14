@@ -554,6 +554,20 @@ async function reapplyTeam() {
   if (!confirm('再申請しますか？管理者の承認後に再掲載されます。')) return;
   const { error } = await db.from('teams').update({ status: 'pending' }).eq('id', myTeam.id);
   if (error) { alert('再申請に失敗しました。'); return; }
+
+  // 管理者にメール通知
+  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-admin-notify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      team_name: myTeam.name,
+      sport: myTeam.sport,
+      pref: myTeam.pref,
+      city: myTeam.city,
+      applicant_email: myTeam.contact?.email || myTeam.contact?.instagram ? `Instagram: @${myTeam.contact.instagram}` : '未入力',
+    }),
+  }).catch(err => { console.warn('管理者メール送信失敗:', err); });
+
   myTeam.status = 'pending';
   document.getElementById('deletedCard').style.display = 'none';
   fillForm(myTeam);
