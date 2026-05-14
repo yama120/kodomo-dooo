@@ -473,6 +473,7 @@ img { max-width: 100%; display: block; }
 .ctag.beginner{ background: #fefce8; border-color: #fde047; color: #ca8a04; }
 .ctag.weekend { background: #f5f3ff; border-color: #c4b5fd; color: #7c3aed; }
 .ctag.weekday { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+.ctag.paid    { background: #fffbeb; border-color: #fcd34d; color: #b45309; font-weight: 900; }
 .ctag.female  { background: #fdf2f8; border-color: #f9a8d4; color: #db2777; }
 .card-sns-row {
   display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
@@ -1579,6 +1580,8 @@ function applyFilters() {
   if (sortMode === 'fee_asc')  list = [...list].sort((a, b) => (a.feeNum||0) - (b.feeNum||0));
   if (sortMode === 'fee_desc') list = [...list].sort((a, b) => (b.feeNum||0) - (a.feeNum||0));
   if (sortMode === 'name')     list = [...list].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  // 有料クラブを先頭に
+  list = [...list.filter(t => t.plan === 'paid'), ...list.filter(t => t.plan !== 'paid')];
   renderCards(list);
 }
 
@@ -1602,6 +1605,7 @@ function renderCards(list) {
     const fav = isFav(team.id);
 
     const tags = [
+      team.plan === 'paid' ? '<span class="ctag paid">⭐ おすすめ</span>' : '',
       team.trial ? '<span class="ctag trial">体験OK</span>' : '',
       (team.days && (team.days.includes('土') || team.days.includes('日'))) ? '<span class="ctag weekend">土日開催</span>' : '',
       (team.days && WEEKDAY.some(d => team.days.includes(d))) ? '<span class="ctag weekday">平日開催</span>' : '',
