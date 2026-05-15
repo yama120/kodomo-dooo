@@ -1959,7 +1959,7 @@ document.querySelectorAll('.cat-item').forEach(item => {
     }
     syncCatActive();
     applyFilters();
-    document.getElementById('teams-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('cardGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
