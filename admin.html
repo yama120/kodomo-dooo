@@ -76,6 +76,25 @@
 
     .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .9rem; }
 
+    /* 体験申込み */
+    .section-title { font-size: 1.1rem; font-weight: 800; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px; }
+    .trial-list { display: flex; flex-direction: column; gap: 10px; }
+    .trial-row { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 14px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+    .trial-row.new { border-left: 4px solid #f97316; }
+    .trial-row-main { flex: 1; min-width: 200px; }
+    .trial-row-team { font-weight: 800; font-size: .95rem; margin-bottom: 4px; }
+    .trial-row-meta { font-size: .78rem; color: var(--muted); }
+    .trial-row-parent { font-size: .85rem; margin-top: 4px; }
+    .trial-row-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .trial-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+    .trial-badge.new { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .trial-badge.contacted { background: #dbeafe; color: #1e40af; }
+    .trial-badge.done { background: #dcfce7; color: #16a34a; }
+    .trial-type-tag { font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-right: 6px; }
+    .trial-type-tag.trial { background: #ffedd5; color: #c2410c; }
+    .trial-type-tag.inquiry { background: #e0e7ff; color: #4338ca; }
+    .trial-rank-item { display: flex; justify-content: space-between; padding: 8px 14px; background: #fff; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 6px; font-size: .88rem; }
+
     /* Loading */
     .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -148,6 +167,28 @@
       <div class="stat-card"><div class="stat-num" id="statApproved">-</div><div class="stat-label">公開中</div></div>
       <div class="stat-card"><div class="stat-num" id="statRejected">-</div><div class="stat-label">却下</div></div>
     </div>
+
+    <div class="section-title">📩 体験申込み</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statTrialTotal">-</div><div class="stat-label">累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTrialMonth">-</div><div class="stat-label">今月</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTrialNew">-</div><div class="stat-label">未対応</div></div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" id="trialTab-all" onclick="setTrialTab('all')">すべて</button>
+      <button class="tab-btn" id="trialTab-new" onclick="setTrialTab('new')">未対応</button>
+      <button class="tab-btn" id="trialTab-contacted" onclick="setTrialTab('contacted')">対応中</button>
+      <button class="tab-btn" id="trialTab-done" onclick="setTrialTab('done')">完了</button>
+      <button class="tab-btn" id="trialTab-trial_only" onclick="setTrialTab('trial_only')">🎉 体験のみ</button>
+      <button class="tab-btn" id="trialTab-inquiry_only" onclick="setTrialTab('inquiry_only')">💬 質問のみ</button>
+    </div>
+    <div id="trialList"><div class="empty">読み込み中...</div></div>
+
+    <div class="section-title">🏆 クラブ別申込みランキング</div>
+    <div id="trialRanking"><div class="empty">読み込み中...</div></div>
+
+    <div class="section-title" style="margin-top:40px;">📋 チーム管理</div>
 
     <div class="tab-bar">
       <button class="tab-btn active" onclick="setTab('pending')">承認待ち</button>
@@ -362,6 +403,123 @@ function showDashboard() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   loadTeams();
+  loadTrialRequests();
+}
+
+let allTrialRequests = [];
+let currentTrialTab = 'all';
+
+async function loadTrialRequests() {
+  const { data, error } = await db.from('trial_requests').select('*').order('created_at', { ascending: false });
+  if (error) {
+    document.getElementById('trialList').innerHTML = '<div class="empty">体験申込みの読み込みに失敗しました。</div>';
+    return;
+  }
+  allTrialRequests = data || [];
+  updateTrialStats();
+  renderTrialTab();
+  renderTrialRanking();
+}
+
+function updateTrialStats() {
+  const total = allTrialRequests.length;
+  const newCount = allTrialRequests.filter(r => r.status === 'new').length;
+  const now = new Date();
+  const thisMonth = allTrialRequests.filter(r => {
+    const d = new Date(r.created_at);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).length;
+  document.getElementById('statTrialTotal').textContent = total;
+  document.getElementById('statTrialMonth').textContent = thisMonth;
+  document.getElementById('statTrialNew').textContent = newCount;
+}
+
+function setTrialTab(tab) {
+  currentTrialTab = tab;
+  ['all','new','contacted','done','trial_only','inquiry_only'].forEach(t => {
+    const el = document.getElementById('trialTab-' + t);
+    if (el) el.classList.toggle('active', t === tab);
+  });
+  renderTrialTab();
+}
+
+function renderTrialTab() {
+  let list = allTrialRequests;
+  if (currentTrialTab === 'trial_only') {
+    list = allTrialRequests.filter(r => (r.type || 'trial') === 'trial');
+  } else if (currentTrialTab === 'inquiry_only') {
+    list = allTrialRequests.filter(r => r.type === 'inquiry');
+  } else if (currentTrialTab !== 'all') {
+    list = allTrialRequests.filter(r => r.status === currentTrialTab);
+  }
+  const container = document.getElementById('trialList');
+  if (list.length === 0) {
+    container.innerHTML = '<div class="empty">該当する申込みはありません。</div>';
+    return;
+  }
+  const teamMap = Object.fromEntries(allTeams.map(t => [t.id, t]));
+  const statusLabel = (s) => ({ new: '未対応', contacted: '対応中', done: '完了' }[s] || '未対応');
+  const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  container.innerHTML = '<div class="trial-list">' + list.map(r => {
+    const team = teamMap[r.team_id];
+    const teamName = team ? team.name : '（削除済みチーム）';
+    const isTrial = (r.type || 'trial') === 'trial';
+    const typeLabel = isTrial ? '🎉 体験' : '💬 質問';
+    const dateStr = new Date(r.created_at).toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const childInfo = isTrial
+      ? `<div class="trial-row-meta">${dateStr}｜${escaped(r.experience_level || '')}｜${r.child_age || '—'}歳・${escaped(r.child_grade || '')}</div>
+         <div class="trial-row-parent">お子さま：${escaped(r.child_name || '—')}${r.child_name_kana ? `（${escaped(r.child_name_kana)}）` : ''}</div>`
+      : `<div class="trial-row-meta">${dateStr}｜質問のみ</div>`;
+    const messagePreview = r.message ? `<div class="trial-row-parent" style="margin-top:4px;color:#475569;">💬 ${escaped(r.message.length > 80 ? r.message.substring(0, 80) + '...' : r.message)}</div>` : '';
+    return `
+      <div class="trial-row ${r.status === 'new' ? 'new' : ''}">
+        <div class="trial-row-main">
+          <div class="trial-row-team"><span class="trial-type-tag ${isTrial ? 'trial' : 'inquiry'}">${typeLabel}</span>${escaped(teamName)}</div>
+          ${childInfo}
+          <div class="trial-row-parent">保護者：${escaped(r.parent_name)}（<a href="mailto:${escaped(r.parent_email)}">${escaped(r.parent_email)}</a>）</div>
+          ${messagePreview}
+        </div>
+        <div class="trial-row-actions">
+          <span class="trial-badge ${r.status}">${statusLabel(r.status)}</span>
+          ${r.status === 'new' ? `<button class="btn btn-edit" onclick="adminUpdateTrialStatus('${r.id}', 'contacted')">対応中</button>` : ''}
+          ${r.status !== 'done' ? `<button class="btn btn-approve" onclick="adminUpdateTrialStatus('${r.id}', 'done')">完了</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('') + '</div>';
+}
+
+function renderTrialRanking() {
+  const teamMap = Object.fromEntries(allTeams.map(t => [t.id, t]));
+  const counts = {};
+  allTrialRequests.forEach(r => {
+    counts[r.team_id] = (counts[r.team_id] || 0) + 1;
+  });
+  const ranked = Object.entries(counts)
+    .map(([id, count]) => ({ team: teamMap[id], count }))
+    .filter(x => x.team)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const container = document.getElementById('trialRanking');
+  if (ranked.length === 0) {
+    container.innerHTML = '<div class="empty">まだ申込みデータがありません。</div>';
+    return;
+  }
+  const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  container.innerHTML = ranked.map((x, i) => `
+    <div class="trial-rank-item">
+      <span>${i + 1}位　${escaped(x.team.name)}</span>
+      <strong>${x.count}件</strong>
+    </div>
+  `).join('');
+}
+
+async function adminUpdateTrialStatus(id, status) {
+  const { error } = await db.from('trial_requests').update({ status }).eq('id', id);
+  if (error) { alert('更新に失敗しました。'); return; }
+  loadTrialRequests();
 }
 
 // ===== DATA =====

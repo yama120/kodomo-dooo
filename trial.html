@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>体験申し込み・お問い合わせ | チビスポ</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #ff8c1a;
+      --orange-dark: #e6720a;
+      --orange-light: #fff4e6;
+      --bg: #fff7ed;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #fed7aa;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 6px 20px rgba(255,140,26,.08);
+      --primary: #2563eb;
+    }
+    body { font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+    header { background: var(--orange); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 16px; }
+    header a { color: #fff; text-decoration: none; font-size: .9rem; opacity: .9; font-weight: 700; }
+    header a:hover { opacity: 1; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+    .container { max-width: 680px; margin: 28px auto; padding: 0 16px 80px; }
+    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
+    .team-info { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .team-info-emoji { width: 56px; height: 56px; border-radius: 50%; background: var(--orange-light); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .team-info-text h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+    .team-info-sub { font-size: .85rem; color: var(--muted); }
+    .info-row { display: flex; gap: 14px; flex-wrap: wrap; padding: 14px 0; }
+    .info-pill { background: var(--orange-light); color: var(--orange-dark); padding: 6px 12px; border-radius: 16px; font-size: .82rem; font-weight: 700; }
+    .info-note { font-size: .8rem; color: var(--muted); padding: 12px; background: #fef9f0; border-left: 3px solid var(--orange); border-radius: 6px; margin: 8px 0 4px; }
+    h2.section-title { font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: var(--text); border-left: 4px solid var(--orange); padding-left: 10px; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .required { color: #ef4444; margin-left: 4px; font-weight: 700; }
+    input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: .95rem; font-family: inherit; background: #fff; transition: border-color .15s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--orange); }
+    textarea { resize: vertical; min-height: 80px; }
+    .form-hint { font-size: .78rem; color: var(--muted); margin-top: 4px; }
+    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .radio-item { display: flex; align-items: center; padding: 10px 16px; border: 1.5px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all .15s; font-size: .9rem; }
+    .radio-item:hover { border-color: var(--orange); }
+    .radio-item input { margin-right: 6px; }
+    .radio-item input:checked + span { color: var(--orange-dark); font-weight: 700; }
+    .radio-item:has(input:checked) { border-color: var(--orange); background: var(--orange-light); }
+    .btn-submit { display: block; width: 100%; margin-top: 24px; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: opacity .15s; font-family: inherit; }
+    .btn-submit:hover:not(:disabled) { opacity: .9; }
+    .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
+    .err-msg { color: #ef4444; font-size: .85rem; margin-top: 6px; }
+    .success-card { text-align: center; padding: 40px 28px; }
+    .success-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--orange-dark); }
+    .success-card p { color: var(--muted); margin-bottom: 18px; }
+    .success-emoji { font-size: 48px; margin-bottom: 14px; }
+    .btn-back { display: inline-block; padding: 12px 28px; background: var(--orange); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 800; }
+    .loading { text-align: center; padding: 40px; color: var(--muted); }
+    .mode-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .mode-tab { flex: 1; padding: 14px 12px; border-radius: 12px; border: 2px solid var(--border); background: #fff; font-size: .95rem; font-weight: 800; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; }
+    .mode-tab:hover { border-color: var(--orange); color: var(--orange-dark); }
+    .mode-tab.active { background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 4px 14px rgba(255, 107, 0, .25); }
+    .mode-tab-desc { font-size: .72rem; font-weight: 600; margin-top: 4px; opacity: .8; }
+    .inquiry-only-note { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 12px; border-radius: 6px; font-size: .85rem; color: #1e40af; margin-bottom: 18px; }
+    footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 24px 16px; font-size: .82rem; }
+    footer a { color: #94a3b8; }
+    @media (max-width: 480px) {
+      .container { padding: 0 12px 60px; }
+      .card { padding: 20px; }
+      .team-info-emoji { width: 48px; height: 48px; font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/">← トップへ戻る</a>
+  <h1>体験申し込み・お問い合わせ</h1>
+</header>
+
+<div class="container">
+  <div id="root">
+    <div class="loading">読み込み中...</div>
+  </div>
+</div>
+
+<footer>
+  © 2026 チビスポ｜運営：MOYORI｜<a href="legal.html">プライバシーポリシー・利用規約</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+
+const SPORT_EMOJI = {
+  'サッカー':'⚽','野球':'⚾','バスケットボール':'🏀','テニス':'🎾','水泳':'🏊',
+  'バレーボール':'🏐','体操':'🤸','空手':'🥋','柔道':'🥋','剣道':'🥋',
+  'ダンス':'💃','卓球':'🏓','陸上':'🏃','ラグビー':'🏉','バドミントン':'🏸',
+};
+
+function getEmoji(sport) { return SPORT_EMOJI[sport] || '🏆'; }
+
+function getTeamId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('team_id');
+}
+
+async function fetchTeam(teamId) {
+  const endpoint = `${SUPABASE_URL}/rest/v1/teams?select=*&id=eq.${teamId}&limit=1`;
+  const res = await fetch(endpoint, {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+    },
+  });
+  if (!res.ok) throw new Error('チーム情報の取得に失敗しました');
+  const data = await res.json();
+  if (!data || !data.length) throw new Error('チームが見つかりませんでした');
+  return data[0];
+}
+
+function renderError(msg) {
+  document.getElementById('root').innerHTML = `
+    <div class="card">
+      <h2 class="section-title">エラー</h2>
+      <p style="color:#ef4444;margin-bottom:20px;">${msg}</p>
+      <a class="btn-back" href="/">トップへ戻る</a>
+    </div>
+  `;
+}
+
+function renderForm(team) {
+  const daysText = (team.days && team.days.length) ? team.days.join('・') : '要確認';
+  const trialNote = team.trial ? '体験OK' : '要相談';
+
+  document.getElementById('root').innerHTML = `
+    <div class="card">
+      <div class="team-info">
+        <div class="team-info-emoji">${getEmoji(team.sport)}</div>
+        <div class="team-info-text">
+          <h2>${team.name}</h2>
+          <div class="team-info-sub">${team.sport}｜${team.pref} ${team.city}</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span class="info-pill">📅 活動曜日：${daysText}</span>
+        <span class="info-pill">✓ ${trialNote}</span>
+      </div>
+      <div class="info-note">
+        詳しい時間帯はクラブと直接ご調整ください。希望日は第3希望まで入力できます。
+      </div>
+    </div>
+
+    <form id="trialForm" class="card">
+      <div class="mode-tabs">
+        <button type="button" class="mode-tab active" id="modeTrial" onclick="setMode('trial')">
+          🎉 体験申し込み
+          <div class="mode-tab-desc">体験に参加したい</div>
+        </button>
+        <button type="button" class="mode-tab" id="modeInquiry" onclick="setMode('inquiry')">
+          💬 質問のみ
+          <div class="mode-tab-desc">質問だけしたい</div>
+        </button>
+      </div>
+
+      <div id="inquiryNote" class="inquiry-only-note" style="display:none;">
+        質問だけを送る場合は、最小限の入力でOKです。お子さまの情報は不要です。
+      </div>
+
+      <div id="childSection">
+        <h2 class="section-title">👦 お子さまについて</h2>
+
+        <div class="form-group">
+          <label>お子さまのお名前<span class="required">*</span></label>
+          <input type="text" id="childName" placeholder="例：山田 花子" required />
+        </div>
+
+        <div class="form-group">
+          <label>フリガナ<span class="required">*</span></label>
+          <input type="text" id="childNameKana" placeholder="例：ヤマダ ハナコ" required />
+        </div>
+
+        <div class="form-group">
+          <label>年齢<span class="required">*</span></label>
+          <input type="number" id="childAge" min="3" max="18" placeholder="例：8" required />
+        </div>
+
+        <div class="form-group">
+          <label>学年<span class="required">*</span></label>
+          <select id="childGrade" required>
+            <option value="">選択してください</option>
+            <option>未就学</option>
+            <option>小学1年</option>
+            <option>小学2年</option>
+            <option>小学3年</option>
+            <option>小学4年</option>
+            <option>小学5年</option>
+            <option>小学6年</option>
+            <option>中学1年</option>
+            <option>中学2年</option>
+            <option>中学3年</option>
+            <option>その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>経験レベル<span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="exp" value="はじめて" required /><span>はじめて</span></label>
+            <label class="radio-item"><input type="radio" name="exp" value="少し経験あり" /><span>少し経験あり</span></label>
+            <label class="radio-item"><input type="radio" name="exp" value="経験者" /><span>経験者</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div id="dateSection">
+        <h2 class="section-title" style="margin-top:24px;">📅 希望日</h2>
+        <div class="form-hint" style="margin-bottom:14px;">第1希望は必須、第2・第3希望は任意です。</div>
+
+        <div class="form-group">
+          <label>第1希望<span class="required">*</span></label>
+          <input type="date" id="date1" required />
+        </div>
+
+        <div class="form-group">
+          <label>第2希望</label>
+          <input type="date" id="date2" />
+        </div>
+
+        <div class="form-group">
+          <label>第3希望</label>
+          <input type="date" id="date3" />
+        </div>
+      </div>
+
+      <h2 class="section-title" style="margin-top:24px;">📞 保護者の連絡先</h2>
+
+      <div class="form-group">
+        <label>保護者のお名前<span class="required">*</span></label>
+        <input type="text" id="parentName" placeholder="例：山田 太郎" required />
+      </div>
+
+      <div class="form-group">
+        <label>メールアドレス<span class="required">*</span></label>
+        <input type="email" id="parentEmail" placeholder="例：parent@example.com" required />
+        <div class="form-hint">クラブから直接ご連絡が入ります。</div>
+      </div>
+
+      <div class="form-group">
+        <label id="messageLabel">メッセージ（任意）</label>
+        <textarea id="message" placeholder="例：平日夕方も可能です／持病があります／クラブへのご質問など"></textarea>
+        <div class="form-hint" id="messageHint">体験前に確認したいことがあればこちらにご記入ください。クラブから直接ご返信が入ります。</div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">体験を申し込む</button>
+      <div class="err-msg" id="errMsg" style="display:none;"></div>
+    </form>
+  `;
+
+  document.getElementById('trialForm').addEventListener('submit', (e) => handleSubmit(e, team));
+}
+
+let currentMode = 'trial';
+
+function setMode(mode) {
+  currentMode = mode;
+  const isTrial = mode === 'trial';
+  document.getElementById('modeTrial').classList.toggle('active', isTrial);
+  document.getElementById('modeInquiry').classList.toggle('active', !isTrial);
+  document.getElementById('childSection').style.display = isTrial ? 'block' : 'none';
+  document.getElementById('dateSection').style.display = isTrial ? 'block' : 'none';
+  document.getElementById('inquiryNote').style.display = isTrial ? 'none' : 'block';
+  document.getElementById('submitBtn').textContent = isTrial ? '体験を申し込む' : '質問を送る';
+  document.getElementById('messageLabel').innerHTML = isTrial ? 'メッセージ（任意）' : '質問内容<span class="required">*</span>';
+  document.getElementById('messageHint').textContent = isTrial
+    ? '体験前に確認したいことがあればこちらにご記入ください。クラブから直接ご返信が入ります。'
+    : '質問内容をご記入ください。クラブから直接ご返信が入ります。';
+  document.getElementById('message').placeholder = isTrial
+    ? '例：平日夕方も可能です／持病があります／クラブへのご質問など'
+    : '例：見学だけでもいいですか？／月謝以外に費用はかかりますか？';
+  // required属性の切り替え
+  ['childName','childNameKana','childAge','childGrade','date1'].forEach(id => {
+    document.getElementById(id).required = isTrial;
+  });
+  document.querySelectorAll('input[name="exp"]').forEach(el => { el.required = isTrial; });
+}
+
+async function handleSubmit(e, team) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const errMsg = document.getElementById('errMsg');
+  errMsg.style.display = 'none';
+
+  const isTrial = currentMode === 'trial';
+  const childName = document.getElementById('childName').value.trim();
+  const childNameKana = document.getElementById('childNameKana').value.trim();
+  const childAge = document.getElementById('childAge').value;
+  const childGrade = document.getElementById('childGrade').value;
+  const exp = document.querySelector('input[name="exp"]:checked')?.value;
+  const date1 = document.getElementById('date1').value;
+  const date2 = document.getElementById('date2').value;
+  const date3 = document.getElementById('date3').value;
+  const parentName = document.getElementById('parentName').value.trim();
+  const parentEmail = document.getElementById('parentEmail').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (isTrial) {
+    if (!childName || !childNameKana || !childAge || !childGrade || !exp || !date1 || !parentName || !parentEmail) {
+      errMsg.textContent = '必須項目をすべて入力してください。';
+      errMsg.style.display = 'block';
+      return;
+    }
+  } else {
+    if (!parentName || !parentEmail || !message) {
+      errMsg.textContent = 'お名前・メールアドレス・質問内容をご入力ください。';
+      errMsg.style.display = 'block';
+      return;
+    }
+  }
+
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  try {
+    const insertEndpoint = `${SUPABASE_URL}/rest/v1/trial_requests`;
+    const res = await fetch(insertEndpoint, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        team_id: team.id,
+        type: isTrial ? 'trial' : 'inquiry',
+        child_name: isTrial ? childName : null,
+        child_name_kana: isTrial ? childNameKana : null,
+        child_age: isTrial ? parseInt(childAge, 10) : null,
+        child_grade: isTrial ? childGrade : null,
+        experience_level: isTrial ? exp : null,
+        preferred_date_1: isTrial ? date1 : null,
+        preferred_date_2: isTrial ? (date2 || null) : null,
+        preferred_date_3: isTrial ? (date3 || null) : null,
+        parent_name: parentName,
+        parent_email: parentEmail,
+        message: message || null,
+      }),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error('申込みの送信に失敗しました：' + text);
+    }
+
+    fetch(`${SUPABASE_URL}/functions/v1/send-trial-notify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+      },
+      body: JSON.stringify({
+        type: isTrial ? 'trial' : 'inquiry',
+        team_name: team.name,
+        team_email: team.contact?.email || null,
+        team_instagram: team.contact?.instagram || null,
+        sport: team.sport,
+        pref: team.pref,
+        city: team.city,
+        parent_name: parentName,
+        parent_email: parentEmail,
+        child_name: isTrial ? childName : null,
+        child_name_kana: isTrial ? childNameKana : null,
+        child_age: isTrial ? childAge : null,
+        child_grade: isTrial ? childGrade : null,
+        message: message || null,
+      }),
+    }).catch((err) => console.warn('通知メール送信失敗:', err));
+
+    renderSuccess(team, isTrial);
+  } catch (err) {
+    console.error(err);
+    errMsg.textContent = err.message || '送信に失敗しました。時間をおいて再度お試しください。';
+    errMsg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = isTrial ? '体験を申し込む' : '質問を送る';
+  }
+}
+
+function renderSuccess(team, isTrial) {
+  window.scrollTo(0, 0);
+  const title = isTrial ? '申込みを受け付けました！' : '質問を受け付けました！';
+  const desc = isTrial
+    ? `${team.name}から数日以内にご連絡が入ります。<br />しばらくお待ちください。`
+    : `${team.name}から数日以内にご返信が入ります。<br />しばらくお待ちください。`;
+  document.getElementById('root').innerHTML = `
+    <div class="card success-card">
+      <div class="success-emoji">${isTrial ? '🎉' : '💬'}</div>
+      <h2>${title}</h2>
+      <p>${desc}</p>
+      <p style="font-size:.85rem;">※返信メールは${team.name}から直接届きます。<br />迷惑メールフォルダもご確認ください。</p>
+      <a class="btn-back" href="/">トップへ戻る</a>
+    </div>
+  `;
+}
+
+(async () => {
+  const teamId = getTeamId();
+  if (!teamId) {
+    renderError('チームIDが指定されていません。');
+    return;
+  }
+  try {
+    const team = await fetchTeam(teamId);
+    renderForm(team);
+  } catch (err) {
+    renderError(err.message);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -830,6 +830,21 @@ footer {
   margin: 8px 0 0;
 }
 
+.modal-trial-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 16px; margin-top: 4px;
+  background: linear-gradient(135deg, #ff8c1a, #ff6b00);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 900; cursor: pointer;
+  font-family: inherit; text-decoration: none; transition: all .15s;
+  box-shadow: 0 4px 14px rgba(255, 107, 0, .35);
+}
+.modal-trial-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(255, 107, 0, .45); }
+.modal-trial-note {
+  text-align: center; font-size: 11px; color: var(--muted);
+  margin: 8px 0 0;
+}
+
 .modal-fav-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 13px; margin-top: 18px;
@@ -1757,10 +1772,9 @@ function openModal(id) {
     <div class="modal-section-heading">SNSリンク</div>
     <div class="modal-sns-row">${snsLinks}</div>` : ''}
 
-    ${(igBtn || mailBtn) ? `
-    <div class="modal-section-heading">お問い合わせ</div>
-    <div class="modal-contact-row">${igBtn}${mailBtn}</div>
-    ${contactNote}` : ''}
+    <div class="modal-section-heading">体験申し込み・お問い合わせ</div>
+    <a class="modal-trial-btn" href="trial.html?team_id=${team.id}">🎉 体験を申し込む</a>
+    <p class="modal-trial-note">フォームに入力するだけ。体験のお申込みもご質問もこちらから受け付けます。<br />クラブから直接ご連絡が入ります。</p>
 
     <button class="modal-fav-btn ${fav ? 'active' : ''}" id="modalFavBtn" onclick="toggleFavModal('${team.id}')">
       ${fav ? '❤️ お気に入り済み' : '🤍 お気に入りに追加'}

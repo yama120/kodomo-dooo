@@ -144,6 +144,43 @@
     .crop-btn-cancel:hover { background: #f1f5f9; }
     .crop-btn-ok { padding: 10px 28px; border-radius: 999px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 var(--orange-dark); }
     .crop-btn-ok:hover { opacity: .9; }
+
+    /* 体験申込み一覧 */
+    .trial-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .trial-summary-item { background: var(--orange-light); padding: 12px 18px; border-radius: 12px; flex: 1; min-width: 130px; text-align: center; }
+    .trial-summary-num { font-size: 1.6rem; font-weight: 900; color: var(--orange-dark); }
+    .trial-summary-label { font-size: .78rem; color: var(--muted); margin-top: 2px; font-weight: 700; }
+    .trial-item { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .trial-item.new { border-color: var(--orange); background: #fff9f0; }
+    .trial-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
+    .trial-item-date { font-size: .78rem; color: var(--muted); }
+    .trial-status-badge { font-size: .72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
+    .trial-status-badge.new { background: var(--orange); color: #fff; }
+    .trial-status-badge.contacted { background: #dbeafe; color: #1e40af; }
+    .trial-status-badge.done { background: #d1fae5; color: #065f46; }
+    .trial-type-badge { font-size: .72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; margin-right: 6px; }
+    .trial-type-badge.trial { background: #ffedd5; color: #c2410c; }
+    .trial-type-badge.inquiry { background: #e0e7ff; color: #4338ca; }
+    .trial-item.inquiry { border-color: #c7d2fe; background: #f5f3ff; }
+    .trial-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: .88rem; }
+    .trial-info-label { font-weight: 700; color: var(--muted); font-size: .78rem; }
+    .trial-info-value { color: var(--ink); margin-bottom: 6px; }
+    .trial-message { background: #f8fafc; padding: 10px 12px; border-radius: 8px; font-size: .85rem; margin-top: 10px; color: #475569; line-height: 1.7; }
+    .trial-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .trial-btn { padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .trial-btn:hover { background: #f1f5f9; }
+    .trial-btn.primary { border-color: var(--orange); color: var(--orange); }
+    .trial-btn.primary:hover { background: var(--orange-light); }
+    .trial-empty { text-align: center; padding: 30px 16px; color: var(--muted); font-size: .9rem; }
+    .trial-tab-bar { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 16px; }
+    .trial-tab-btn { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .82rem; cursor: pointer; color: var(--muted); font-weight: 700; font-family: inherit; transition: all .15s; }
+    .trial-tab-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .trial-tab-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .trial-tab-count { display: inline-block; margin-left: 4px; padding: 1px 6px; border-radius: 8px; background: rgba(0,0,0,.08); font-size: .72rem; font-weight: 800; }
+    .trial-tab-btn.active .trial-tab-count { background: rgba(255,255,255,.3); }
+    @media (max-width: 480px) {
+      .trial-info { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -203,6 +240,14 @@
     <div id="alertMsg" style="display:none;" class="alert"></div>
     <div id="pendingNote" class="pending-note" style="display:none;">
       ⏳ 現在承認待ちです。管理者が確認後に掲載されます。承認前でも情報の編集は可能です。
+    </div>
+
+    <!-- 体験申込み一覧（最上部に配置） -->
+    <div class="card" id="trialRequestsCard" style="display:none;">
+      <div class="card-title">📩 体験申込み一覧</div>
+      <div id="trialSummary" class="trial-summary"></div>
+      <div id="trialTabBar" class="trial-tab-bar"></div>
+      <div id="trialList"></div>
     </div>
 
     <form id="editForm">
@@ -539,6 +584,171 @@ async function loadMyTeam(userId) {
   if (isEmailUser) {
     document.getElementById('passwordCard').style.display = 'block';
   }
+
+  // 体験申込み一覧を読み込み
+  loadTrialRequests(team.id);
+}
+
+async function loadTrialRequests(teamId) {
+  const { data, error } = await db
+    .from('trial_requests')
+    .select('*')
+    .eq('team_id', teamId)
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.warn('loadTrialRequests error:', error);
+    renderTrialRequests([]);
+    return;
+  }
+  renderTrialRequests(data || []);
+}
+
+let allTrialRequests = [];
+let currentTrialFilter = 'all';
+
+function renderTrialRequests(requests) {
+  allTrialRequests = requests;
+  const card = document.getElementById('trialRequestsCard');
+  const summary = document.getElementById('trialSummary');
+  const tabBar = document.getElementById('trialTabBar');
+  card.style.display = 'block';
+
+  const total = requests.length;
+  const trialCount = requests.filter(r => (r.type || 'trial') === 'trial').length;
+  const inquiryCount = requests.filter(r => r.type === 'inquiry').length;
+  const newCount = requests.filter(r => r.status === 'new').length;
+  const contactedCount = requests.filter(r => r.status === 'contacted').length;
+  const doneCount = requests.filter(r => r.status === 'done').length;
+  const thisMonth = requests.filter(r => {
+    const d = new Date(r.created_at);
+    const now = new Date();
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).length;
+
+  summary.innerHTML = `
+    <div class="trial-summary-item">
+      <div class="trial-summary-num">${total}</div>
+      <div class="trial-summary-label">累計</div>
+    </div>
+    <div class="trial-summary-item">
+      <div class="trial-summary-num">${thisMonth}</div>
+      <div class="trial-summary-label">今月</div>
+    </div>
+    <div class="trial-summary-item">
+      <div class="trial-summary-num">${newCount}</div>
+      <div class="trial-summary-label">未対応</div>
+    </div>
+  `;
+
+  tabBar.innerHTML = `
+    <button class="trial-tab-btn ${currentTrialFilter === 'all' ? 'active' : ''}" onclick="setTrialFilter('all')">すべて<span class="trial-tab-count">${total}</span></button>
+    <button class="trial-tab-btn ${currentTrialFilter === 'new' ? 'active' : ''}" onclick="setTrialFilter('new')">未対応<span class="trial-tab-count">${newCount}</span></button>
+    <button class="trial-tab-btn ${currentTrialFilter === 'contacted' ? 'active' : ''}" onclick="setTrialFilter('contacted')">対応中<span class="trial-tab-count">${contactedCount}</span></button>
+    <button class="trial-tab-btn ${currentTrialFilter === 'done' ? 'active' : ''}" onclick="setTrialFilter('done')">完了<span class="trial-tab-count">${doneCount}</span></button>
+    <button class="trial-tab-btn ${currentTrialFilter === 'trial_only' ? 'active' : ''}" onclick="setTrialFilter('trial_only')">🎉 体験のみ<span class="trial-tab-count">${trialCount}</span></button>
+    <button class="trial-tab-btn ${currentTrialFilter === 'inquiry_only' ? 'active' : ''}" onclick="setTrialFilter('inquiry_only')">💬 質問のみ<span class="trial-tab-count">${inquiryCount}</span></button>
+  `;
+
+  renderTrialList();
+}
+
+function setTrialFilter(filter) {
+  currentTrialFilter = filter;
+  renderTrialRequests(allTrialRequests);
+}
+
+function renderTrialList() {
+  const list = document.getElementById('trialList');
+  let filtered = allTrialRequests;
+  if (currentTrialFilter === 'trial_only') {
+    filtered = allTrialRequests.filter(r => (r.type || 'trial') === 'trial');
+  } else if (currentTrialFilter === 'inquiry_only') {
+    filtered = allTrialRequests.filter(r => r.type === 'inquiry');
+  } else if (currentTrialFilter !== 'all') {
+    filtered = allTrialRequests.filter(r => r.status === currentTrialFilter);
+  }
+
+  if (allTrialRequests.length === 0) {
+    list.innerHTML = `<div class="trial-empty">体験申込みはまだありません。<br />申込みが入るとここに表示されます。</div>`;
+    return;
+  }
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="trial-empty">該当する申込みはありません。</div>`;
+    return;
+  }
+
+  const statusLabel = (s) => ({ new: '未対応', contacted: '対応中', done: '完了' }[s] || '未対応');
+
+  list.innerHTML = filtered.map(r => {
+    const dateStr = new Date(r.created_at).toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const formatDate = (d) => d ? d : '—';
+    const isTrial = (r.type || 'trial') === 'trial';
+    const typeLabel = isTrial ? '🎉 体験申込み' : '💬 質問';
+    const trialFields = `
+          <div>
+            <div class="trial-info-label">お子さまのお名前</div>
+            <div class="trial-info-value">${escaped(r.child_name || '—')}${r.child_name_kana ? `<br /><span style="font-size:.78rem;color:var(--muted);">（${escaped(r.child_name_kana)}）</span>` : ''}</div>
+          </div>
+          <div>
+            <div class="trial-info-label">学年・経験</div>
+            <div class="trial-info-value">${r.child_age}歳・${escaped(r.child_grade)}<br /><span style="font-size:.78rem;color:var(--muted);">${escaped(r.experience_level)}</span></div>
+          </div>`;
+    const dateFields = `
+          <div>
+            <div class="trial-info-label">希望日（第1）</div>
+            <div class="trial-info-value">${formatDate(r.preferred_date_1)}</div>
+          </div>
+          <div>
+            <div class="trial-info-label">希望日（第2・第3）</div>
+            <div class="trial-info-value">${formatDate(r.preferred_date_2)} / ${formatDate(r.preferred_date_3)}</div>
+          </div>`;
+    return `
+      <div class="trial-item ${r.status === 'new' ? 'new' : ''} ${isTrial ? '' : 'inquiry'}">
+        <div class="trial-item-header">
+          <div class="trial-item-date">📅 ${dateStr}</div>
+          <div>
+            <span class="trial-type-badge ${isTrial ? 'trial' : 'inquiry'}">${typeLabel}</span>
+            <span class="trial-status-badge ${r.status}">${statusLabel(r.status)}</span>
+          </div>
+        </div>
+        <div class="trial-info">
+          ${isTrial ? trialFields : ''}
+          <div>
+            <div class="trial-info-label">保護者名</div>
+            <div class="trial-info-value">${escaped(r.parent_name)}</div>
+          </div>
+          <div>
+            <div class="trial-info-label">連絡先</div>
+            <div class="trial-info-value"><a href="mailto:${escaped(r.parent_email)}" style="color:var(--orange-dark);">${escaped(r.parent_email)}</a></div>
+          </div>
+          ${isTrial ? dateFields : ''}
+        </div>
+        ${r.message ? `<div class="trial-message">💬 ${escaped(r.message)}</div>` : ''}
+        <div class="trial-actions">
+          <a class="trial-btn primary" href="mailto:${escaped(r.parent_email)}?subject=${encodeURIComponent('【' + (myTeam.name || '') + '】' + (isTrial ? '体験申込みのご連絡' : 'ご質問への回答'))}&body=${encodeURIComponent(escaped(r.parent_name) + '様\n\nこの度はご' + (isTrial ? '応募' : '質問') + 'ありがとうございます。\n以下、ご回答いたします。\n\n')}">✉️ メールで返信</a>
+          ${r.status === 'new' ? `
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'contacted')">対応中にする</button>
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'done')">完了にする</button>
+          ` : ''}
+          ${r.status === 'contacted' ? `
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'new')">↩ 未対応に戻す</button>
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'done')">完了にする</button>
+          ` : ''}
+          ${r.status === 'done' ? `
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'new')">↩ 未対応に戻す</button>
+            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'contacted')">↩ 対応中に戻す</button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function updateTrialStatus(id, status) {
+  const { error } = await db.from('trial_requests').update({ status }).eq('id', id);
+  if (error) { alert('更新に失敗しました。'); return; }
+  loadTrialRequests(myTeam.id);
 }
 
 async function deleteTeam() {
