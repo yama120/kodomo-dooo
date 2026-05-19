@@ -777,7 +777,7 @@ async function reapplyTeam() {
       sport: myTeam.sport,
       pref: myTeam.pref,
       city: myTeam.city,
-      applicant_email: myTeam.contact?.email || (myTeam.contact?.instagram ? `Instagram: @${myTeam.contact.instagram}` : '未入力'),
+      applicant_email: myTeam.email || (myTeam.instagram ? `Instagram: @${myTeam.instagram}` : '未入力'),
     }),
   }).catch(err => { console.warn('管理者メール送信失敗:', err); });
 
