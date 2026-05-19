@@ -26,9 +26,10 @@
     /* HEADER */
     header { background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,.06); position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 24px; }
+    .logo { flex-shrink: 0; }
     .logo img { height: 36px; display: block; }
-    .header-title { font-size: 1rem; font-weight: 800; color: var(--ink); }
-    .back-link { margin-left: auto; font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 4px; transition: color .15s; }
+    .header-title { font-size: 1rem; font-weight: 800; color: var(--ink); white-space: nowrap; }
+    .back-link { margin-left: auto; font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 4px; transition: color .15s; white-space: nowrap; flex-shrink: 0; }
     .back-link:hover { color: var(--orange); }
 
     .container { max-width: 680px; margin: 36px auto; padding: 0 16px 80px; }
@@ -132,8 +133,16 @@
     .crop-btn-ok:hover { opacity: .9; }
 
     @media (max-width: 480px) {
-      .card { padding: 20px; }
+      .card { padding: 20px 16px; }
       .page-heading h1 { font-size: 1.3rem; }
+      .header-inner { padding: 0 12px; gap: 10px; height: 56px; }
+      .logo img { height: 28px; }
+      .header-title { font-size: .85rem; }
+      .back-link { font-size: .75rem; }
+      .container { padding: 0 12px 60px; margin: 20px auto; }
+    }
+    @media (max-width: 360px) {
+      .header-title { display: none; }
     }
   </style>
 </head>
