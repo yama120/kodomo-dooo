@@ -354,25 +354,30 @@
       </div>
 
       <div class="card">
-        <div class="card-title">📞 連絡先・SNSリンク</div>
+        <div class="card-title">📞 連絡先</div>
+        <div class="form-hint" style="margin-bottom:14px;">体験申込みやお問い合わせの通知はこのメールアドレスに届きます。</div>
         <div class="form-group">
-          <label>メールアドレス</label>
-          <input type="email" id="email" />
+          <label>メールアドレス<span class="required">*</span></label>
+          <input type="email" id="email" required />
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔗 SNSリンク <span style="font-weight:400;font-size:.82rem;color:#64748b;">すべて任意</span></div>
         <div class="form-group">
           <label>Instagram アカウント</label>
           <input type="text" id="instagram" placeholder="@なしで入力" />
         </div>
         <div class="form-group">
-          <label>X（Twitter）アカウント <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>X（Twitter）アカウント</label>
           <input type="text" id="twitter" placeholder="@なしで入力" />
         </div>
         <div class="form-group">
-          <label>ウェブサイト URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>ウェブサイト URL</label>
           <input type="url" id="website_url" placeholder="https://example.com" />
         </div>
         <div class="form-group">
-          <label>LINE公式アカウント URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>LINE公式アカウント URL</label>
           <input type="url" id="line_url" placeholder="https://lin.ee/xxxxx" />
         </div>
       </div>
@@ -1011,6 +1016,12 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
 
   if (!myTeam && !document.getElementById('agreeCheck').checked) {
     alert('利用規約およびプライバシーポリシーへの同意が必要です。');
+    return;
+  }
+
+  const emailVal = document.getElementById('email').value.trim();
+  if (!emailVal) {
+    alert('連絡先のメールアドレスをご入力ください。');
     return;
   }
 

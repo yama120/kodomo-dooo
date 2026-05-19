@@ -283,13 +283,18 @@
       </div>
 
       <div class="card">
-        <div class="card-title">📞 連絡先・SNSリンク</div>
-        <div class="form-hint" style="margin-bottom:14px;">Instagramまたはメールのどちらかひとつはご入力ください。入力した情報はチームのページに表示されます。</div>
+        <div class="card-title">📞 連絡先</div>
+        <div class="form-hint" style="margin-bottom:14px;">体験申込みやお問い合わせの通知はこのメールアドレスに届きます。</div>
 
         <div class="form-group">
-          <label>メールアドレス</label>
-          <input type="email" id="email" placeholder="team@example.com" />
+          <label>メールアドレス<span class="required">*</span></label>
+          <input type="email" id="email" placeholder="team@example.com" required />
         </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔗 SNSリンク <span style="font-weight:400;font-size:.82rem;color:#64748b;">すべて任意</span></div>
+        <div class="form-hint" style="margin-bottom:14px;">入力した情報はチームのページに表示されます。</div>
 
         <div class="form-group">
           <label>Instagram アカウント</label>
@@ -297,16 +302,16 @@
         </div>
 
         <div class="form-group">
-          <label>X（Twitter）アカウント <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>X（Twitter）アカウント</label>
           <input type="text" id="twitter" placeholder="@なしで入力（例：team_name）" />
         </div>
 
         <div class="form-group">
-          <label>ウェブサイト URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>ウェブサイト URL</label>
           <input type="url" id="website_url" placeholder="https://example.com" />
         </div>
         <div class="form-group">
-          <label>LINE公式アカウント URL <span style="font-weight:400;color:#64748b;">任意</span></label>
+          <label>LINE公式アカウント URL</label>
           <input type="url" id="line_url" placeholder="https://lin.ee/xxxxx" />
         </div>
       </div>
@@ -490,7 +495,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   if (ages.length === 0) { showError('対象年齢を1つ以上選択してください。'); return; }
   if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
   if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
-  if (!instagram && !email) { showError('Instagramまたはメールアドレスのどちらかをご入力ください。'); return; }
+  if (!email) { showError('連絡先のメールアドレスをご入力ください。'); return; }
   if (instagram && !/^[a-zA-Z0-9._]+$/.test(instagram)) { showError('InstagramのIDは半角英数字・ピリオド・アンダースコアのみ使用できます。'); return; }
   if (twitter && !/^[a-zA-Z0-9_]+$/.test(twitter)) { showError('X（Twitter）のIDは半角英数字・アンダースコアのみ使用できます。'); return; }
   if (websiteUrl && !/^https?:\/\//.test(websiteUrl)) { showError('WebサイトURLはhttpまたはhttpsから始めてください。'); return; }
