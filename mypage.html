@@ -1004,13 +1004,24 @@ function fillForm(t) {
   document.getElementById('description').value = t.description || '';
   document.getElementById('address').value = t.address || '';
 
-  // 写真表示
+  // 写真表示（チーム切替時は必ずリセットしてから設定）
+  const preview = document.getElementById('photoPreview');
+  const photoMsg = document.getElementById('photoMsg');
+  const photoInput = document.getElementById('photoInput');
+  croppedBlob = null;
+  if (photoInput) photoInput.value = '';
+  if (photoMsg) photoMsg.textContent = '';
+
   if (t.photo_url) {
-    const preview = document.getElementById('photoPreview');
     preview.src = t.photo_url;
     preview.classList.add('show');
     document.getElementById('photoUploadArea').style.display = 'none';
     document.getElementById('photoActions').style.display = 'flex';
+  } else {
+    preview.src = '';
+    preview.classList.remove('show');
+    document.getElementById('photoUploadArea').style.display = 'block';
+    document.getElementById('photoActions').style.display = 'none';
   }
 }
 
