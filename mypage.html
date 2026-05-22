@@ -146,6 +146,15 @@
     .crop-btn-ok { padding: 10px 28px; border-radius: 999px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 var(--orange-dark); }
     .crop-btn-ok:hover { opacity: .9; }
 
+    /* チーム切替 */
+    .team-switcher-card { background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid var(--orange-light); }
+    .team-switcher-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .team-switcher-select { flex: 1; min-width: 200px; padding: 10px 14px; border: 1.5px solid var(--orange); border-radius: 10px; font-size: .95rem; font-weight: 700; background: #fff; color: var(--ink); font-family: inherit; cursor: pointer; }
+    .team-switcher-select:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,140,26,.2); }
+    .team-add-btn { padding: 10px 18px; background: #fff; border: 1.5px dashed var(--orange); border-radius: 10px; color: var(--orange-dark); font-size: .88rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; }
+    .team-add-btn:hover { background: var(--orange-light); }
+    .team-switcher-hint { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+
     /* 体験申込み一覧 */
     .trial-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
     .trial-summary-item { background: var(--orange-light); padding: 12px 18px; border-radius: 12px; flex: 1; min-width: 130px; text-align: center; }
@@ -214,13 +223,6 @@
 <div class="container">
   <div id="loadingArea"><div class="spinner"></div></div>
 
-  <!-- 削除済み表示 -->
-  <div id="deletedCard" class="deleted-card" style="display:none;">
-    <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
-    <h2>掲載を削除済みです</h2>
-    <p>チビスポへのチームの掲載が削除されています。<br>再度掲載を希望する場合は再申請してください。</p>
-    <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
-  </div>
 
   <!-- LOGIN FORM -->
   <div id="loginArea" style="display:none;">
@@ -255,8 +257,27 @@
   <!-- DASHBOARD -->
   <div id="dashboardArea" style="display:none;">
     <div id="alertMsg" style="display:none;" class="alert"></div>
+
+    <!-- チーム切替（複数チーム保有時のみ表示） -->
+    <div class="card team-switcher-card" id="teamSwitcherCard" style="display:none;">
+      <div class="card-title">📋 管理するチーム</div>
+      <div class="team-switcher-row">
+        <select id="teamSwitcher" class="team-switcher-select" onchange="switchTeam(this.value)"></select>
+        <button type="button" class="team-add-btn" onclick="addNewTeam()">＋ 新しいチームを追加</button>
+      </div>
+      <div class="team-switcher-hint">チームを切り替えると、そのチームの情報・申込みが表示されます。</div>
+    </div>
+
     <div id="pendingNote" class="pending-note" style="display:none;">
       ⏳ 現在承認待ちです。管理者が確認後に掲載されます。承認前でも情報の編集は可能です。
+    </div>
+
+    <!-- 削除済み表示 -->
+    <div id="deletedCard" class="deleted-card" style="display:none;">
+      <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
+      <h2>掲載を削除済みです</h2>
+      <p><strong id="deletedTeamName"></strong> のチビスポへの掲載が削除されています。<br>再度掲載を希望する場合は再申請してください。</p>
+      <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
     </div>
 
     <!-- 体験申込み一覧（最上部に配置） -->
@@ -576,39 +597,95 @@ async function logout() {
   await db.auth.signOut();
 }
 
+let allMyTeams = [];
+
 async function loadMyTeam(userId) {
-  const { data: team, error } = await db.from('teams').select('*').eq('user_id', userId).maybeSingle();
-  if (error) { console.error('loadMyTeam error:', error); }
-  if (!team) {
-    document.getElementById('loadingArea').style.display = 'none';
-    document.getElementById('dashboardArea').style.display = 'block';
-    document.getElementById('agreeGroup').style.display = 'block';
-    return;
-  }
-  myTeam = team;
+  const { data: teams, error } = await db.from('teams').select('*').eq('user_id', userId).order('created_at', { ascending: true });
+  if (error) { console.error('loadMyTeams error:', error); }
   document.getElementById('loadingArea').style.display = 'none';
   document.getElementById('logoutBtn').style.display = 'block';
 
-  // 削除済みの場合は削除済み画面を表示
-  if (team.status === 'deleted') {
-    document.getElementById('deletedCard').style.display = 'block';
+  allMyTeams = teams || [];
+
+  if (allMyTeams.length === 0) {
+    // 1チームも持っていない → 新規登録フォームを表示
+    document.getElementById('dashboardArea').style.display = 'block';
+    document.getElementById('agreeGroup').style.display = 'block';
+    renderPasswordCardIfNeeded();
     return;
   }
 
+  // チーム切替UIを構築
+  renderTeamSwitcher();
+
+  // 最初のチーム（または前回選択していたチーム）を表示
+  const lastTeamId = localStorage.getItem('chibispo_last_team_id');
+  const initialTeam = allMyTeams.find(t => t.id === lastTeamId) || allMyTeams[0];
+  await switchTeam(initialTeam.id);
+
+  renderPasswordCardIfNeeded();
+}
+
+function renderTeamSwitcher() {
+  const switcher = document.getElementById('teamSwitcher');
+  const card = document.getElementById('teamSwitcherCard');
+  // 1チームでも表示する（新規追加ボタンを使うため）
+  card.style.display = 'block';
+
+  const statusLabel = (s) => ({ pending: '承認待ち', approved: '公開中', rejected: '却下', deleted: '削除済み' }[s] || '');
+  switcher.innerHTML = allMyTeams.map(t => `
+    <option value="${t.id}">${escapeHtml(t.name || '（名称未設定）')}${t.status !== 'approved' ? `（${statusLabel(t.status)}）` : ''}</option>
+  `).join('');
+}
+
+function escapeHtml(s) {
+  return (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function switchTeam(teamId) {
+  const team = allMyTeams.find(t => t.id === teamId);
+  if (!team) return;
+  myTeam = team;
+  localStorage.setItem('chibispo_last_team_id', team.id);
+  document.getElementById('teamSwitcher').value = team.id;
+
+  // 削除済みカード・申込みカード・編集フォームを全て一旦リセット
+  document.getElementById('deletedCard').style.display = 'none';
+  document.getElementById('trialRequestsCard').style.display = 'none';
+  document.getElementById('pendingNote').style.display = 'none';
+  document.getElementById('alertMsg').style.display = 'none';
+
+  // 削除済みの場合は削除済み画面を表示（編集フォームは隠す）
+  if (team.status === 'deleted') {
+    document.getElementById('editForm').style.display = 'none';
+    document.getElementById('deleteTeamCard').style.display = 'none';
+    document.getElementById('deletedCard').style.display = 'block';
+    document.getElementById('deletedTeamName').textContent = team.name || '';
+    return;
+  }
+
+  // 通常表示
+  document.getElementById('editForm').style.display = 'block';
+  document.getElementById('deleteTeamCard').style.display = 'block';
   fillForm(team);
-  document.getElementById('dashboardArea').style.display = 'block';
   if (team.status === 'pending') {
     document.getElementById('pendingNote').style.display = 'block';
   }
-  // メールログインの場合のみパスワード変更カードを表示
+
+  loadTrialRequests(team.id);
+}
+
+function addNewTeam() {
+  // ログイン中のまま新規登録フローへ
+  location.href = 'register.html?add=true';
+}
+
+async function renderPasswordCardIfNeeded() {
   const { data: { user } } = await db.auth.getUser();
   const isEmailUser = user?.app_metadata?.provider === 'email';
   if (isEmailUser) {
     document.getElementById('passwordCard').style.display = 'block';
   }
-
-  // 体験申込み一覧を読み込み
-  loadTrialRequests(team.id);
 }
 
 async function loadTrialRequests(teamId) {
@@ -774,16 +851,20 @@ async function updateTrialStatus(id, status) {
 }
 
 async function deleteTeam() {
-  if (!confirm('掲載を削除しますか？\n削除後も再申請することができます。')) return;
+  if (!confirm(`「${myTeam.name}」の掲載を削除しますか？\n削除後も再申請することができます。`)) return;
   const { error } = await db.from('teams').update({ status: 'deleted' }).eq('id', myTeam.id);
   if (error) { alert('削除に失敗しました。'); return; }
   myTeam.status = 'deleted';
-  document.getElementById('dashboardArea').style.display = 'none';
-  document.getElementById('deletedCard').style.display = 'block';
+  // チームリストを更新
+  const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
+  if (idx >= 0) allMyTeams[idx] = myTeam;
+  renderTeamSwitcher();
+  document.getElementById('teamSwitcher').value = myTeam.id;
+  switchTeam(myTeam.id);
 }
 
 async function reapplyTeam() {
-  if (!confirm('再申請しますか？管理者の承認後に再掲載されます。')) return;
+  if (!confirm(`「${myTeam.name}」を再申請しますか？管理者の承認後に再掲載されます。`)) return;
   const { error } = await db.from('teams').update({ status: 'pending' }).eq('id', myTeam.id);
   if (error) { alert('再申請に失敗しました。'); return; }
 
@@ -804,10 +885,12 @@ async function reapplyTeam() {
   }).catch(err => { console.warn('管理者メール送信失敗:', err); });
 
   myTeam.status = 'pending';
-  document.getElementById('deletedCard').style.display = 'none';
-  fillForm(myTeam);
-  document.getElementById('dashboardArea').style.display = 'block';
-  document.getElementById('pendingNote').style.display = 'block';
+  // チームリストを更新
+  const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
+  if (idx >= 0) allMyTeams[idx] = myTeam;
+  renderTeamSwitcher();
+  document.getElementById('teamSwitcher').value = myTeam.id;
+  switchTeam(myTeam.id);
 }
 
 async function changePassword() {
@@ -1077,6 +1160,14 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
   let error;
   if (myTeam) {
     ({ error } = await db.from('teams').update(updates).eq('id', myTeam.id));
+    if (!error) {
+      // myTeamとallMyTeamsを更新
+      Object.assign(myTeam, updates);
+      const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
+      if (idx >= 0) allMyTeams[idx] = myTeam;
+      renderTeamSwitcher();
+      document.getElementById('teamSwitcher').value = myTeam.id;
+    }
   } else {
     const { data: { session } } = await db.auth.getSession();
     updates.user_id = session.user.id;

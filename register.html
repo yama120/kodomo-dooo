@@ -330,7 +330,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="authCard">
         <div class="card-title">🔐 ログイン情報（情報編集に使います）</div>
         <div class="form-hint" style="margin-bottom:14px;">承認後、マイページで情報を編集するためのアカウントです。</div>
         <div class="form-group">
@@ -346,6 +346,14 @@
           <label>パスワード（確認）<span class="required">*</span></label>
           <input type="password" id="authPasswordConfirm" placeholder="もう一度入力" minlength="8" required />
         </div>
+      </div>
+
+      <div class="card" id="addModeCard" style="display:none;background:#fff7ed;border:1.5px solid var(--orange-light);">
+        <div class="card-title">✨ 新しいチームを追加</div>
+        <p style="font-size:.9rem;color:#475569;line-height:1.7;margin:0;">
+          ログイン中のアカウントに、新しいチームを追加します。<br />
+          既存のチームと同じアカウントで管理できます。
+        </p>
       </div>
 
       <div class="card">
@@ -396,6 +404,30 @@ const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// 「add=true」かつログイン中ならログイン情報セクションをスキップ
+let isAddMode = false;
+async function checkAddMode() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('add') !== 'true') return;
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) {
+    location.href = 'mypage.html';
+    return;
+  }
+  isAddMode = true;
+  document.getElementById('authCard').style.display = 'none';
+  document.getElementById('addModeCard').style.display = 'block';
+  document.getElementById('authEmail').required = false;
+  document.getElementById('authPassword').required = false;
+  document.getElementById('authPasswordConfirm').required = false;
+  const btn = document.getElementById('submitBtn');
+  if (btn) btn.textContent = 'チームを追加する（無料）';
+  // ページタイトル変更
+  document.querySelectorAll('.page-heading h1').forEach(el => { el.textContent = '新しいチームを追加'; });
+  document.querySelectorAll('.page-heading p').forEach(el => { el.textContent = '同じアカウントで複数チームを管理できます'; });
+}
+checkAddMode();
 
 // Photo upload
 let cropper = null, croppedBlob = null;
@@ -507,26 +539,39 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   if (websiteUrl && !/^https?:\/\//.test(websiteUrl)) { showError('WebサイトURLはhttpまたはhttpsから始めてください。'); return; }
   if (lineUrl && !/^https?:\/\//.test(lineUrl)) { showError('LINE公式URLはhttpまたはhttpsから始めてください。'); return; }
   if (!document.getElementById('agreeCheck').checked) { showError('利用規約およびプライバシーポリシーへの同意が必要です。'); return; }
-  if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
-  if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
+  if (!isAddMode) {
+    if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
+    if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
+  }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = '送信中...';
 
-  // Supabaseアカウント作成
-  const { data: authData, error: authError } = await db.auth.signUp({
-    email: authEmail,
-    password: authPassword,
-  });
-  if (authError) {
-    showError('アカウント作成に失敗しました：' + authError.message);
-    btn.disabled = false;
-    btn.textContent = '申請する（無料）';
-    return;
+  // 認証処理：addモードはスキップ、通常モードは新規signUp
+  let userId = null;
+  if (isAddMode) {
+    const { data: { session } } = await db.auth.getSession();
+    userId = session?.user?.id;
+    if (!userId) {
+      showError('ログインセッションが切れています。再度ログインしてください。');
+      btn.disabled = false;
+      btn.textContent = 'チームを追加する（無料）';
+      return;
+    }
+  } else {
+    const { data: authData, error: authError } = await db.auth.signUp({
+      email: authEmail,
+      password: authPassword,
+    });
+    if (authError) {
+      showError('アカウント作成に失敗しました：' + authError.message);
+      btn.disabled = false;
+      btn.textContent = '申請する（無料）';
+      return;
+    }
+    userId = authData.user?.id;
   }
-
-  const userId = authData.user?.id;
 
   const insertResult = await db.from('teams').insert({
     name: document.getElementById('name').value.trim(),
@@ -596,6 +641,15 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
+  // addモードならマイページへ戻るボタンを表示
+  if (isAddMode) {
+    const ss = document.getElementById('successScreen');
+    ss.querySelector('h2').textContent = 'チームを追加しました';
+    ss.querySelector('p').innerHTML = '管理者の承認後に掲載されます。<br />マイページからチームを切り替えて確認できます。';
+    const backBtn = ss.querySelector('.back-btn');
+    backBtn.textContent = 'マイページに戻る';
+    backBtn.href = 'mypage.html';
+  }
 });
 
 function toggleSportOther(sel) {
