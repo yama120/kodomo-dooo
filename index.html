@@ -789,6 +789,10 @@ footer {
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; flex-shrink: 0;
 }
+@media (max-width: 480px) {
+  .modal-info-card { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; }
+  .modal-icon-wrap { width: 32px; height: 32px; font-size: 15px; }
+}
 .modal-icon-wrap.blue   { background: #dbeafe; }
 .modal-icon-wrap.pink   { background: #fce7f3; }
 .modal-icon-wrap.green  { background: #dcfce7; }
