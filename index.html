@@ -1940,13 +1940,23 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     if (!isDragging) return;
     isDragging = false;
     const delta = (currentY || 0) - (startY || 0);
-    modal.style.transition = 'transform .25s ease';
     if (delta > 100) {
+      // モーダルと背景を同時にフェードアウト
+      modal.style.transition = 'transform .22s ease-out';
+      overlay.style.transition = 'background .22s ease-out';
       modal.style.transform = `translateY(100vh)`;
-      setTimeout(closeModal, 220);
+      overlay.style.background = 'rgba(0,0,0,0)';
+      setTimeout(() => {
+        closeModal();
+        overlay.style.transition = '';
+      }, 220);
     } else {
+      // スナップバック
+      modal.style.transition = 'transform .22s ease';
+      overlay.style.transition = 'background .22s ease';
       modal.style.transform = '';
       overlay.style.background = '';
+      setTimeout(() => { overlay.style.transition = ''; }, 220);
     }
   });
 
