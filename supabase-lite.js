@@ -24,16 +24,84 @@
       });
     }
 
-    async function request(path, options = {}) {
+    let refreshPromise = null;
+
+    async function refreshSession() {
+      // 同時に複数のrefreshが走らないように共有Promise
+      if (refreshPromise) return refreshPromise;
       const session = readSession();
-      const headers = new Headers(options.headers || {});
-      headers.set('apikey', anonKey);
-      headers.set('Authorization', `Bearer ${session?.access_token || anonKey}`);
-      if (options.body && !(options.body instanceof FormData) && !(options.body instanceof Blob)) {
-        headers.set('Content-Type', 'application/json');
+      if (!session?.refresh_token) return null;
+
+      refreshPromise = (async () => {
+        try {
+          const response = await fetch(`${baseUrl}/auth/v1/token?grant_type=refresh_token`, {
+            method: 'POST',
+            headers: {
+              apikey: anonKey,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh_token: session.refresh_token }),
+          });
+          const text = await response.text();
+          const data = text ? JSON.parse(text) : null;
+          if (!response.ok) {
+            // refresh失敗 → セッション削除
+            writeSession(null);
+            notify('SIGNED_OUT', null);
+            return null;
+          }
+          const newSession = await normalizeSession(data);
+          if (newSession) {
+            writeSession(newSession);
+            notify('TOKEN_REFRESHED', newSession);
+            return newSession;
+          }
+          return null;
+        } catch (e) {
+          console.warn('Token refresh failed:', e);
+          return null;
+        }
+      })();
+
+      try {
+        return await refreshPromise;
+      } finally {
+        refreshPromise = null;
+      }
+    }
+
+    async function request(path, options = {}) {
+      let session = readSession();
+
+      // セッションが残り5分以内なら事前に更新（先回り更新）
+      if (session?.access_token && session.expires_at && session.refresh_token) {
+        const now = Math.floor(Date.now() / 1000);
+        if (session.expires_at - now < 300) {
+          const refreshed = await refreshSession();
+          if (refreshed) session = refreshed;
+        }
       }
 
-      const response = await fetch(`${baseUrl}${path}`, { ...options, headers });
+      const buildHeaders = (sess) => {
+        const headers = new Headers(options.headers || {});
+        headers.set('apikey', anonKey);
+        headers.set('Authorization', `Bearer ${sess?.access_token || anonKey}`);
+        if (options.body && !(options.body instanceof FormData) && !(options.body instanceof Blob)) {
+          headers.set('Content-Type', 'application/json');
+        }
+        return headers;
+      };
+
+      let response = await fetch(`${baseUrl}${path}`, { ...options, headers: buildHeaders(session) });
+
+      // 401でrefresh_tokenがあれば再試行（リアクティブ更新）
+      if (response.status === 401 && session?.refresh_token && !options._refreshed) {
+        const refreshed = await refreshSession();
+        if (refreshed) {
+          response = await fetch(`${baseUrl}${path}`, { ...options, headers: buildHeaders(refreshed) });
+        }
+      }
+
       const text = await response.text();
       const json = text ? JSON.parse(text) : null;
       if (!response.ok) {
