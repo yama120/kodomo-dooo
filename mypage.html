@@ -604,12 +604,12 @@ async function loadMyTeam(userId) {
   if (error) { console.error('loadMyTeams error:', error); }
   document.getElementById('loadingArea').style.display = 'none';
   document.getElementById('logoutBtn').style.display = 'block';
+  document.getElementById('dashboardArea').style.display = 'block';
 
   allMyTeams = teams || [];
 
   if (allMyTeams.length === 0) {
     // 1チームも持っていない → 新規登録フォームを表示
-    document.getElementById('dashboardArea').style.display = 'block';
     document.getElementById('agreeGroup').style.display = 'block';
     renderPasswordCardIfNeeded();
     return;
