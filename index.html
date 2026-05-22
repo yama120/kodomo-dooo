@@ -1835,7 +1835,25 @@ function openModal(id) {
   `;
 
   document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  lockBodyScroll();
+}
+
+let _savedScrollY = 0;
+function lockBodyScroll() {
+  _savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_savedScrollY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+}
+function unlockBodyScroll() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.width = '';
+  window.scrollTo(0, _savedScrollY);
 }
 
 async function shareToLine(url, text) {
@@ -1879,7 +1897,7 @@ function closeModal() {
   const overlay = document.getElementById('modalOverlay');
   overlay.classList.remove('open');
   overlay.style.background = '';
-  document.body.style.overflow = '';
+  unlockBodyScroll();
 }
 function closeModalOnOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
@@ -1908,13 +1926,15 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
     currentY = e.touches[0].clientY;
     const delta = currentY - startY;
     if (delta > 0) {
+      // 下スワイプ中は背景のスクロールを完全に止める
+      e.preventDefault();
       modal.style.transform = `translateY(${delta}px)`;
       overlay.style.background = `rgba(0,0,0,${Math.max(0.15, 0.5 - delta / 800)})`;
     } else {
       modal.style.transform = '';
       overlay.style.background = '';
     }
-  }, { passive: true });
+  }, { passive: false });
 
   modal.addEventListener('touchend', () => {
     if (!isDragging) return;
