@@ -717,6 +717,15 @@ footer {
   position: relative; overflow: hidden; flex-shrink: 0;
 }
 @keyframes modalIn { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-swipe-handle {
+  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  width: 40px; height: 5px; border-radius: 999px;
+  background: rgba(255,255,255,.7);
+  z-index: 11; pointer-events: none;
+}
+@media (min-width: 768px) {
+  .modal-swipe-handle { display: none; }
+}
 
 .modal-close-btn {
   position: absolute; top: 14px; right: 14px; z-index: 10;
@@ -1454,6 +1463,7 @@ footer {
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
   <div class="modal" id="modal">
+    <div class="modal-swipe-handle"></div>
     <button class="modal-close-btn" onclick="closeModal()">✕</button>
     <div class="modal-photo-wrap" id="modalPhotoWrap"></div>
     <div class="modal-content" id="modalContent"></div>
@@ -1860,9 +1870,74 @@ function toggleFavModal(id) {
   if (showFavOnly) applyFilters();
 }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModal() {
+  const modal = document.getElementById('modal');
+  if (modal) {
+    modal.style.transition = '';
+    modal.style.transform = '';
+  }
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.remove('open');
+  overlay.style.background = '';
+  document.body.style.overflow = '';
+}
 function closeModalOnOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// 下スワイプでモーダルを閉じる（モバイル向け）
+(function setupModalSwipeClose() {
+  const modal = document.getElementById('modal');
+  const overlay = document.getElementById('modalOverlay');
+  if (!modal || !overlay) return;
+
+  let startY = null;
+  let currentY = null;
+  let isDragging = false;
+
+  modal.addEventListener('touchstart', (e) => {
+    // モーダル上端までスクロールしている時のみスワイプ閉じを有効化
+    if (overlay.scrollTop > 4) return;
+    startY = e.touches[0].clientY;
+    currentY = startY;
+    isDragging = true;
+    modal.style.transition = 'none';
+  }, { passive: true });
+
+  modal.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    currentY = e.touches[0].clientY;
+    const delta = currentY - startY;
+    if (delta > 0) {
+      modal.style.transform = `translateY(${delta}px)`;
+      overlay.style.background = `rgba(0,0,0,${Math.max(0.15, 0.5 - delta / 800)})`;
+    } else {
+      modal.style.transform = '';
+      overlay.style.background = '';
+    }
+  }, { passive: true });
+
+  modal.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const delta = (currentY || 0) - (startY || 0);
+    modal.style.transition = 'transform .25s ease';
+    if (delta > 100) {
+      modal.style.transform = `translateY(100vh)`;
+      setTimeout(closeModal, 220);
+    } else {
+      modal.style.transform = '';
+      overlay.style.background = '';
+    }
+  });
+
+  modal.addEventListener('touchcancel', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    modal.style.transition = 'transform .25s ease';
+    modal.style.transform = '';
+    overlay.style.background = '';
+  });
+})();
 
 function makeMailto(team) {
   const subject = encodeURIComponent(`【チビスポ】${team.name}へのお問い合わせ`);
