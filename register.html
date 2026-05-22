@@ -418,6 +418,30 @@ async function checkAddMode() {
   // ページタイトル変更
   document.querySelectorAll('.page-heading h1').forEach(el => { el.textContent = '別のチームを追加'; });
   document.querySelectorAll('.page-heading p').forEach(el => { el.textContent = 'ログイン中のアカウントに、別のチームを追加できます'; });
+
+  // 既存チームの連絡先を初期値として設定
+  try {
+    const lastTeamId = localStorage.getItem('chibispo_last_team_id');
+    const { data: teams } = await db.from('teams').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+    if (teams && teams.length > 0) {
+      const baseTeam = teams.find(t => t.id === lastTeamId) || teams[0];
+      if (baseTeam.email) {
+        const emailEl = document.getElementById('email');
+        emailEl.value = baseTeam.email;
+        const formGroup = emailEl.closest('.form-group');
+        if (formGroup) {
+          const hint = document.createElement('div');
+          hint.className = 'form-hint';
+          hint.style.color = 'var(--orange-dark)';
+          hint.style.marginTop = '6px';
+          hint.innerHTML = '✓ 既存のチームと同じ連絡先が入っています。違う場合は変更してください。';
+          formGroup.appendChild(hint);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('既存チームの連絡先取得失敗:', e);
+  }
 }
 checkAddMode();
 
