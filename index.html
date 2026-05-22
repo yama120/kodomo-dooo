@@ -1024,8 +1024,8 @@ footer {
         <a href="#teams-section">チームを探す</a>
         <a href="join.html">掲載について</a>
       </nav>
-      <a href="register.html" class="btn-header-outline btn-register-header" style="margin-left:4px;">チームを掲載する</a>
-      <a href="mypage.html" class="btn-header-outline">チームログイン</a>
+      <a href="register.html" class="btn-header-outline btn-register-header" id="navRegister" style="margin-left:4px;">チームを掲載する</a>
+      <a href="mypage.html" class="btn-header-outline" id="navLogin">チームログイン</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="メニュー">
         <span></span><span></span><span></span>
       </button>
@@ -1034,8 +1034,8 @@ footer {
   <nav class="mobile-menu" id="mobileMenu">
     <a href="#teams-section" id="mobileTeamsLink">チームを探す</a>
     <a href="join.html">掲載について</a>
-    <a href="register.html">チームを掲載する</a>
-    <a href="mypage.html">チームログイン</a>
+    <a href="register.html" id="navRegisterMobile">チームを掲載する</a>
+    <a href="mypage.html" id="navLoginMobile">チームログイン</a>
   </nav>
 </header>
 
@@ -1458,6 +1458,24 @@ footer {
 const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
 const PUBLIC_SITE_URL = 'https://chibispo.com/';
+
+// ログイン状態を判定してナビゲーション切替
+(function updateNavOnLoad() {
+  try {
+    const storageKey = 'sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth';
+    const session = JSON.parse(localStorage.getItem(storageKey) || 'null');
+    if (session && session.access_token) {
+      const expiresAt = session.expires_at || 0;
+      const now = Math.floor(Date.now() / 1000);
+      if (expiresAt > now) {
+        const loginLinks = [document.getElementById('navLogin'), document.getElementById('navLoginMobile')];
+        loginLinks.forEach(el => {
+          if (el) el.textContent = 'マイページ';
+        });
+      }
+    }
+  } catch (e) {}
+})();
 
 const sportConfig = {
   "サッカー":        { cls: "soccer",     emoji: "⚽" },
