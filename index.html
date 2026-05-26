@@ -1541,6 +1541,18 @@ const PLACEHOLDER_SPORTS = [
 let teams = [];
 let favorites = JSON.parse(localStorage.getItem('sf_favorites') || '[]');
 
+// ドロップダウン定義済みの「標準種目」一覧（その他フィルター判定に使う）
+const STANDARD_SPORTS = new Set([
+  '野球', 'サッカー', 'バスケットボール',
+  '水泳', 'テニス', 'バレーボール',
+  'バドミントン', '柔道', '剣道',
+  '空手', '合気道', 'レスリング',
+  'ダンス', 'チアダンス', 'チアリーディング', '新体操',
+  '陸上', 'マラソン', 'トライアスロン',
+  'ラグビー', 'アメフト', 'ホッケー',
+  'ゴルフ', '乗馬',
+]);
+
 // フィルター状態
 let filterSport    = null;
 let filterAges     = new Set();
@@ -1612,7 +1624,14 @@ function applyFilters() {
   let list = teams.filter(t => {
     if (showFavOnly && !isFav(t.id)) return false;
     if (q && !t.name.toLowerCase().includes(q) && !t.city.includes(q) && !t.pref.includes(q) && !t.sport.includes(q) && !(t.description || '').toLowerCase().includes(q)) return false;
-    if (filterSport && t.sport !== filterSport) return false;
+    if (filterSport) {
+      if (filterSport === 'その他') {
+        // 「その他」フィルター：標準種目に含まれない（=自由入力された種目）のみ表示
+        if (STANDARD_SPORTS.has(t.sport)) return false;
+      } else if (t.sport !== filterSport) {
+        return false;
+      }
+    }
     if (filterPrefArea && t.pref !== filterPrefArea) return false;
     if (filterCity && t.city !== filterCity) return false;
     if (filterAges.size > 0) {
