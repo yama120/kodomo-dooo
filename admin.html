@@ -230,7 +230,7 @@
         </div>
         <div class="form-group">
           <label>種目</label>
-          <select id="editSport">
+          <select id="editSport" onchange="toggleEditSportOther(this)">
             <option>野球</option><option>サッカー</option><option>バスケットボール</option>
             <option>水泳</option><option>テニス</option><option>バレーボール</option>
             <option>バドミントン</option><option>柔道</option><option>剣道</option>
@@ -240,6 +240,7 @@
             <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
             <option>ゴルフ</option><option>乗馬</option><option>その他</option>
           </select>
+          <input type="text" id="editSportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
         </div>
         <div class="form-group">
           <label>都道府県</label>
@@ -412,6 +413,16 @@ db.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_IN') { showDashboard(); }
   if (event === 'SIGNED_OUT') { logout(); }
 });
+
+function toggleEditSportOther(sel) {
+  const other = document.getElementById('editSportOther');
+  if (sel.value === 'その他') {
+    other.style.display = 'block';
+  } else {
+    other.style.display = 'none';
+    other.value = '';
+  }
+}
 
 function showDashboard() {
   document.getElementById('loginWrap').style.display = 'none';
@@ -690,7 +701,19 @@ function openEditModal(id) {
   if (!t) return;
   document.getElementById('editId').value = t.id;
   document.getElementById('editName').value = t.name;
-  document.getElementById('editSport').value = t.sport;
+  // 種目：標準リストにあるならそのまま、なければ「その他」+ 自由入力欄に表示
+  const sportSelect = document.getElementById('editSport');
+  const sportOther = document.getElementById('editSportOther');
+  const standardSports = Array.from(sportSelect.options).map(o => o.value);
+  if (standardSports.includes(t.sport)) {
+    sportSelect.value = t.sport;
+    sportOther.style.display = 'none';
+    sportOther.value = '';
+  } else {
+    sportSelect.value = 'その他';
+    sportOther.style.display = 'block';
+    sportOther.value = t.sport || '';
+  }
   document.getElementById('editPref').value = t.pref;
 
   // 市区町村を都道府県に合わせて初期化
@@ -738,9 +761,13 @@ async function saveEdit() {
   const ageMin = document.querySelector('input[name="editAgeMin"]:checked')?.value || null;
   const features = [...document.querySelectorAll('input[name="editFeature"]:checked')].map(el => el.value);
 
+  const sportSelectVal = document.getElementById('editSport').value;
+  const sportOtherVal = document.getElementById('editSportOther').value.trim();
+  const finalSport = (sportSelectVal === 'その他' && sportOtherVal) ? sportOtherVal : sportSelectVal;
+
   const updates = {
     name: document.getElementById('editName').value.trim(),
-    sport: document.getElementById('editSport').value,
+    sport: finalSport,
     pref: document.getElementById('editPref').value,
     city: document.getElementById('editCity').value.trim(),
     fee_num: feeNum,

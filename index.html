@@ -527,16 +527,23 @@ img { max-width: 100%; display: block; }
 .badge-other      { background: #94a3b8; }
 
 /* sport bar colors (modal) */
-.sport-soccer     { background: linear-gradient(90deg,#22c55e,#16a34a); }
-.sport-baseball   { background: linear-gradient(90deg,#ef4444,#dc2626); }
-.sport-basketball { background: linear-gradient(90deg,#f97316,#ea580c); }
-.sport-swim       { background: linear-gradient(90deg,#06b6d4,#0891b2); }
-.sport-dance      { background: linear-gradient(90deg,#a855f7,#9333ea); }
-.sport-karate     { background: linear-gradient(90deg,#64748b,#475569); }
-.sport-tennis     { background: linear-gradient(90deg,#84cc16,#65a30d); }
-.sport-volleyball { background: linear-gradient(90deg,#8b5cf6,#7c3aed); }
-.sport-badminton  { background: linear-gradient(90deg,#ec4899,#db2777); }
-.sport-other      { background: linear-gradient(90deg,#94a3b8,#64748b); }
+.sport-soccer       { background: linear-gradient(90deg,#22c55e,#16a34a); }
+.sport-baseball     { background: linear-gradient(90deg,#ef4444,#dc2626); }
+.sport-basketball   { background: linear-gradient(90deg,#f97316,#ea580c); }
+.sport-swim         { background: linear-gradient(90deg,#06b6d4,#0891b2); }
+.sport-dance        { background: linear-gradient(90deg,#a855f7,#9333ea); }
+.sport-cheerdance   { background: linear-gradient(90deg,#ec4899,#be185d); }
+.sport-cheerleading { background: linear-gradient(90deg,#eab308,#ca8a04); }
+.sport-karate       { background: linear-gradient(90deg,#64748b,#475569); }
+.sport-kendo        { background: linear-gradient(90deg,#1f2937,#111827); }
+.sport-tennis       { background: linear-gradient(90deg,#84cc16,#65a30d); }
+.sport-volleyball   { background: linear-gradient(90deg,#8b5cf6,#7c3aed); }
+.sport-badminton    { background: linear-gradient(90deg,#f43f5e,#e11d48); }
+.sport-track        { background: linear-gradient(90deg,#14b8a6,#0d9488); }
+.sport-pingpong     { background: linear-gradient(90deg,#0ea5e9,#0284c7); }
+.sport-gymnastics   { background: linear-gradient(90deg,#fb7185,#f43f5e); }
+.sport-rugby        { background: linear-gradient(90deg,#854d0e,#713f12); }
+.sport-other        { background: linear-gradient(90deg,#94a3b8,#64748b); }
 
 /* placeholder card */
 .card-placeholder {
@@ -1496,20 +1503,22 @@ const PUBLIC_SITE_URL = 'https://chibispo.com/';
 })();
 
 const sportConfig = {
-  "サッカー":        { cls: "soccer",     emoji: "⚽" },
-  "野球":            { cls: "baseball",   emoji: "⚾" },
-  "バスケットボール":{ cls: "basketball", emoji: "🏀" },
-  "水泳":            { cls: "swim",       emoji: "🏊" },
-  "テニス":          { cls: "tennis",     emoji: "🎾" },
-  "バレーボール":    { cls: "volleyball", emoji: "🏐" },
-  "バドミントン":    { cls: "badminton",  emoji: "🏸" },
-  "ダンス":          { cls: "dance",      emoji: "💃" },
-  "チアダンス":      { cls: "dance",      emoji: "🎀" },
-  "チアリーディング":{ cls: "dance",      emoji: "📣" },
-  "武道":            { cls: "karate",     emoji: "🥋" },
-  "陸上":            { cls: "other",      emoji: "🏃" },
-  "剣道":            { cls: "karate",     emoji: "⚔️" },
-  "卓球":            { cls: "other",      emoji: "🏓" },
+  "サッカー":        { cls: "soccer",       emoji: "⚽" },
+  "野球":            { cls: "baseball",     emoji: "⚾" },
+  "バスケットボール":{ cls: "basketball",   emoji: "🏀" },
+  "水泳":            { cls: "swim",         emoji: "🏊" },
+  "テニス":          { cls: "tennis",       emoji: "🎾" },
+  "バレーボール":    { cls: "volleyball",   emoji: "🏐" },
+  "バドミントン":    { cls: "badminton",    emoji: "🏸" },
+  "ダンス":          { cls: "dance",        emoji: "💃" },
+  "チアダンス":      { cls: "cheerdance",   emoji: "🎀" },
+  "チアリーディング":{ cls: "cheerleading", emoji: "📣" },
+  "新体操":          { cls: "gymnastics",   emoji: "🤸" },
+  "武道":            { cls: "karate",       emoji: "🥋" },
+  "陸上":            { cls: "track",        emoji: "🏃" },
+  "剣道":            { cls: "kendo",        emoji: "⚔️" },
+  "卓球":            { cls: "pingpong",     emoji: "🏓" },
+  "ラグビー":        { cls: "rugby",        emoji: "🏉" },
 };
 
 const sportBg = {
