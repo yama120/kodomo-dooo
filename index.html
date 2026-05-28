@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>チビスポ | 近くの子どもスポーツクラブがすぐ見つかる</title>
@@ -1876,6 +1879,17 @@ function openModal(id) {
 
   document.getElementById('modalOverlay').classList.add('open');
   lockBodyScroll();
+
+  // GA4：クラブ詳細を開いたイベント
+  if (typeof gtag === 'function') {
+    gtag('event', 'club_detail_open', {
+      team_id: team.id,
+      team_name: team.name,
+      sport: team.sport,
+      pref: team.pref,
+      city: team.city,
+    });
+  }
 }
 
 let _savedScrollY = 0;

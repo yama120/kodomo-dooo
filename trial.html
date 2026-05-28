@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>体験申し込み・お問い合わせ | チビスポ</title>
@@ -387,6 +390,17 @@ async function handleSubmit(e, team) {
         message: message || null,
       }),
     }).catch((err) => console.warn('通知メール送信失敗:', err));
+
+    // GA4：体験申込み・問い合わせ送信イベント
+    if (typeof gtag === 'function') {
+      gtag('event', isTrial ? 'trial_submitted' : 'inquiry_submitted', {
+        team_id: team.id,
+        team_name: team.name,
+        sport: team.sport,
+        pref: team.pref,
+        city: team.city,
+      });
+    }
 
     renderSuccess(team, isTrial);
   } catch (err) {

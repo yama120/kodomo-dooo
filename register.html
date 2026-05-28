@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>チーム登録 | チビスポ</title>
@@ -654,6 +657,16 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
       applicant_email: email ? email : (instagram ? `Instagram: @${instagram}` : '未入力'),
     }),
   }).catch(err => { console.warn('管理者メール送信失敗:', err); });
+
+  // GA4：チーム登録完了イベント
+  if (typeof gtag === 'function') {
+    gtag('event', isAddMode ? 'team_added' : 'team_registered', {
+      team_name: document.getElementById('name').value.trim(),
+      sport: getSportValue(),
+      pref: document.getElementById('pref').value,
+      city: document.getElementById('city').value.trim(),
+    });
+  }
 
   document.getElementById('formArea').style.display = 'none';
   document.getElementById('successScreen').style.display = 'block';
