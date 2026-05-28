@@ -1703,6 +1703,8 @@ function renderCards(list) {
       team.trial ? '<span class="ctag trial">体験OK</span>' : '',
       (team.days && (team.days.includes('土') || team.days.includes('日'))) ? '<span class="ctag weekend">土日開催</span>' : '',
       (team.days && WEEKDAY.some(d => team.days.includes(d))) ? '<span class="ctag weekday">平日開催</span>' : '',
+      team.femaleInstructor ? '<span class="ctag female">👩‍🏫 女性指導者</span>' : '',
+      team.girlsWelcome ? '<span class="ctag female">🌸 女の子歓迎</span>' : '',
     ].filter(Boolean).join('');
 
     const snsBtns = [
@@ -1852,6 +1854,13 @@ function openModal(id) {
         <div><div class="modal-info-label">体験入会</div><div class="modal-info-value ${team.trial ? 'ok' : ''}">${team.trial ? 'OK' : '要相談'}</div></div>
       </div>
     </div>
+
+    ${(team.femaleInstructor || team.girlsWelcome) ? `
+    <div class="modal-section-heading">チームの特徴</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      ${team.femaleInstructor ? '<span class="ctag female">👩‍🏫 女性指導者がいる</span>' : ''}
+      ${team.girlsWelcome ? '<span class="ctag female">🌸 女の子歓迎</span>' : ''}
+    </div>` : ''}
 
     ${team.description ? `
     <div class="modal-section-heading">チームについて</div>
