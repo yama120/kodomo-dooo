@@ -50,6 +50,8 @@
     .google-btn svg { flex-shrink: 0; }
 
     .container { max-width: 680px; margin: 36px auto; padding: 0 16px 80px; }
+    /* ダッシュボード（タブUI）表示時は横幅を広げる */
+    .container.dashboard-wide { max-width: 1100px; }
 
     /* LOGIN */
     .login-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px 36px; }
@@ -71,6 +73,7 @@
       padding: 13px 16px; border: none; background: transparent;
       border-radius: 12px; font-size: .92rem; font-weight: 700; color: var(--muted);
       cursor: pointer; text-align: left; width: 100%; transition: all .15s;
+      white-space: nowrap; font-family: inherit;
     }
     .mypage-tab-btn:hover { background: var(--orange-light); color: var(--ink); }
     .mypage-tab-btn.active { background: var(--primary); color: #fff; }
@@ -693,8 +696,9 @@ async function loadMyTeam(userId) {
 
   allMyTeams = teams || [];
 
-  // タブレイアウトを表示
+  // タブレイアウトを表示＋コンテナを広げる
   document.getElementById('mypageLayout').style.display = 'flex';
+  document.querySelector('.container').classList.add('dashboard-wide');
 
   if (allMyTeams.length === 0) {
     // 1チームも持っていない → 新規登録フォーム（基本情報タブ）を表示
@@ -1335,6 +1339,7 @@ db.auth.onAuthStateChange(async (event, session) => {
     document.getElementById('dashboardArea').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
     document.getElementById('logoutBtn').style.display = 'none';
+    document.querySelector('.container').classList.remove('dashboard-wide');
   }
 });
 
