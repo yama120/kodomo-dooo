@@ -27,6 +27,12 @@
 </style>
 </head>
 <body>
+<!-- 起動時ローディング（ログイン判定＋チーム取得の間だけ・3秒で保険解除） -->
+<div id="mp-veil" style="position:fixed;inset:0;background:#fff;z-index:2600;display:flex;align-items:center;justify-content:center;transition:opacity .25s;">
+  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#1f8a5b;border-radius:50%;animation:mpspin .8s linear infinite;"></div>
+</div>
+<style>@keyframes mpspin{to{transform:rotate(360deg)}}</style>
+<script>setTimeout(function(){var v=document.getElementById('mp-veil');if(v){v.style.opacity='0';setTimeout(function(){v.remove();},260);}},3000);</script>
 
 <!-- ===== HERO ===== -->
 <section style="background:linear-gradient(135deg,#1f8a5b,#2a6fdb);color:#fff;padding:40px 0 34px;">
@@ -244,8 +250,9 @@
   function effectivePlan(t){ var p=(t&&t.plan)||'free'; if(p==='free')return'free'; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date())return'free'; return p; }
   function msg(el,ok,text){ el.style.display='block'; el.style.background=ok?'#eafaf0':'#fdecee'; el.style.color=ok?'#1f8a5b':'#c0314b'; el.textContent=text; }
 
-  function showLogin(){ $('mp-login').style.display='block'; $('mp-dash').style.display='none'; }
-  function showDash(){ $('mp-login').style.display='none'; $('mp-dash').style.display='block'; }
+  function hideVeil(){ var v=document.getElementById('mp-veil'); if(v){ v.style.opacity='0'; setTimeout(function(){ v.remove(); },260); } }
+  function showLogin(){ $('mp-login').style.display='block'; $('mp-dash').style.display='none'; hideVeil(); }
+  function showDash(){ $('mp-login').style.display='none'; $('mp-dash').style.display='block'; hideVeil(); }
   function updateAgeMin(){ var pre=$('f-age-pre'); $('f-agemin-wrap').style.display=(pre&&pre.checked)?'block':'none'; }
 
   // 都道府県ドロップダウン
@@ -576,11 +583,17 @@
     });
   }
 
-  // 起動時：セッションがあればダッシュボード
-  db.auth.getUser().then(function(res){
-    var user=res.data&&res.data.user;
-    if(user&&user.id){ loadTeam(user.id); } else { showLogin(); }
-  });
+  // 起動時：ローカルのセッションから即判定（トークン検証のネットワーク往復を省略）
+  db.auth.getSession().then(function(res){
+    var s=res&&res.data&&res.data.session;
+    var uid=s&&s.user&&s.user.id;
+    if(uid){ loadTeam(uid); return; }
+    if(s&&s.access_token){ // セッションはあるがuser未保存 → 従来通り取得
+      db.auth.getUser().then(function(r2){ var u=r2.data&&r2.data.user; if(u&&u.id){ loadTeam(u.id); } else { showLogin(); } }).catch(function(){ showLogin(); });
+      return;
+    }
+    showLogin();
+  }).catch(function(){ showLogin(); });
 
   $('mp-login-btn').addEventListener('click',function(){
     var email=$('mp-email').value.trim(), pw=$('mp-password').value;
