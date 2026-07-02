@@ -53,6 +53,15 @@
   </style>
 </head>
 <body>
+<!-- 読み込み中ベール（サンプル表示のチラつき防止。実データ描画完了で消える） -->
+<div id="sr-veil" style="position:fixed;inset:0;background:#fff;z-index:2600;display:flex;align-items:center;justify-content:center;transition:opacity .25s;">
+  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#2270e0;border-radius:50%;animation:srspin .8s linear infinite;"></div>
+</div>
+<style>@keyframes srspin{to{transform:rotate(360deg)}}</style>
+<script>
+window._srVeilOff=function(){ var v=document.getElementById('sr-veil'); if(!v) return; v.style.opacity='0'; setTimeout(function(){ v.remove(); },260); };
+setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
+</script>
 <div style="min-height:100%;background:#f2f4f7;padding-bottom:48px;">
 
   <!-- ヘッダーは shared.js で共通注入 -->
@@ -440,7 +449,7 @@
 <script src="supabase-lite.js"></script>
 <script>
 (function(){
-  if(!window.supabase) return;
+  if(!window.supabase){ if(window._srVeilOff) window._srVeilOff(); return; }
   var SUPABASE_URL='https://emkpkomrgknzrmxqbrvx.supabase.co';
   var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
   var db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -530,9 +539,9 @@
   });
 
   db.from('teams').select('*').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
-    if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); return; }
+    if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); if(window._srVeilOff) window._srVeilOff(); return; }
     var teams=(res.data||[]);
-    if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); return; }
+    if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); if(window._srVeilOff) window._srVeilOff(); return; }
     // ===== 条件検索（実データを使ったライブ絞り込み）=====
     function stripPref(p){ return String(p||'').replace(/[都道府県]$/,''); }
     var WEEKDAYS=['月','火','水','木','金'];
@@ -714,6 +723,7 @@
     if(emptyClear) emptyClear.addEventListener('click',function(e){ e.preventDefault(); doClear(); });
 
     apply();
+    if(window._srVeilOff) window._srVeilOff();
 
     // コメント数を取得してカードに反映
     db.from('comments').select('team_id').eq('status','visible').then(function(rc){
