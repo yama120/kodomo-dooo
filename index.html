@@ -1608,9 +1608,13 @@
     .then(function(r){return r.json();})
     .then(function(teams){
       if(!Array.isArray(teams)||!teams.length) return;
-      // 有料プラン → 写真あり → 新着 の順で最大8件
+      // 手動ピックアップ（先頭に固定表示するクラブ）
+      var PINNED=['961d5b61-4425-42bf-b778-c3ec44b79359']; // Ripples Dance Company 刈谷校
+      function pinIdx(t){ var i=PINNED.indexOf(t.id); return i<0?PINNED.length:i; }
+      // ピックアップ → 有料プラン → 写真あり → 新着 の順で最大8件
       teams.sort(function(a,b){
-        return (isPaid(b)?1:0)-(isPaid(a)?1:0)
+        return pinIdx(a)-pinIdx(b)
+          || (isPaid(b)?1:0)-(isPaid(a)?1:0)
           || (b.photo_url?1:0)-(a.photo_url?1:0)
           || new Date(b.created_at)-new Date(a.created_at);
       });
