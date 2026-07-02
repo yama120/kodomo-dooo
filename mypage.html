@@ -1,1360 +1,255 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>マイページ | チビスポ</title>
-<link rel="icon" type="image/png" href="assets/favicon.png" />
-<link rel="apple-touch-icon" href="assets/favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script src="supabase-lite.js"></script>
-  <script src="cities.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --orange: #ff8c1a; --orange-dark: #e6720a; --orange-light: #fff4e6;
-      --blue: #2563eb; --blue-light: #eff6ff;
-      --ink: #1e293b; --muted: #64748b; --border: #e2e8f0;
-      --bg: #f8fafc; --radius: 14px;
-      --shadow: 0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
-    }
-    body { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: inherit; }
-
-    /* HEADER */
-    header { background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,.06); position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 24px; }
-    .logo { flex-shrink: 0; }
-    .logo img { height: 36px; display: block; }
-    .header-title { font-size: 1rem; font-weight: 800; color: var(--ink); white-space: nowrap; }
-    .back-link { margin-left: auto; font-size: .85rem; color: var(--muted); transition: color .15s; white-space: nowrap; flex-shrink: 0; }
-    .back-link:hover { color: var(--orange); }
-    .logout-btn { background: #f1f5f9; border: 1px solid var(--border); color: var(--muted); padding: 7px 16px; border-radius: 999px; font-size: .82rem; font-weight: 700; cursor: pointer; transition: all .15s; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
-    .logout-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-
-    .or-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--muted); font-size: .82rem; }
-    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    .google-btn {
-      width: 100%; padding: 12px; border: 1.5px solid var(--border);
-      border-radius: 10px; background: #fff; font-size: .92rem; font-weight: 700;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      gap: 10px; transition: border-color .15s, box-shadow .15s; color: var(--ink); font-family: inherit;
-    }
-    .google-btn:hover { border-color: #4285f4; box-shadow: 0 0 0 3px rgba(66,133,244,.1); }
-    .google-btn svg { flex-shrink: 0; }
-
-    .container { max-width: 680px; margin: 36px auto; padding: 0 16px 80px; }
-    /* ダッシュボード（タブUI）表示時は横幅を広げる */
-    .container.dashboard-wide { max-width: 1100px; }
-
-    /* LOGIN */
-    .login-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px 36px; }
-    .login-card h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: 6px; }
-    .login-card p { font-size: .88rem; color: var(--muted); margin-bottom: 28px; line-height: 1.7; }
-
-    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
-    .card-title { font-size: .95rem; font-weight: 800; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--orange-light); color: var(--ink); display: flex; align-items: center; gap: 8px; }
-
-    /* ===== マイページ タブレイアウト ===== */
-    .mypage-layout { display: flex; gap: 24px; align-items: flex-start; }
-    .mypage-sidenav {
-      flex: 0 0 200px; position: sticky; top: 20px;
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 12px; display: flex; flex-direction: column; gap: 4px;
-    }
-    .mypage-tab-btn {
-      display: flex; align-items: center; gap: 10px;
-      padding: 13px 16px; border: none; background: transparent;
-      border-radius: 12px; font-size: .92rem; font-weight: 700; color: var(--muted);
-      cursor: pointer; text-align: left; width: 100%; transition: all .15s;
-      white-space: nowrap; font-family: inherit;
-    }
-    .mypage-tab-btn:hover { background: var(--orange-light); color: var(--ink); }
-    .mypage-tab-btn.active { background: var(--orange); color: #fff; }
-    .mypage-tab-btn .tab-badge {
-      margin-left: auto; background: #ef4444; color: #fff; font-size: .7rem;
-      font-weight: 800; min-width: 20px; height: 20px; border-radius: 999px;
-      display: inline-flex; align-items: center; justify-content: center; padding: 0 6px;
-    }
-    .mypage-tab-btn.active .tab-badge { background: #fff; color: var(--orange); }
-    .mypage-content { flex: 1; min-width: 0; max-width: 100%; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    @media (max-width: 768px) {
-      .mypage-layout { flex-direction: column; gap: 14px; }
-      .mypage-sidenav {
-        flex: none; width: 100%; position: static; flex-direction: row;
-        padding: 6px; gap: 6px;
-      }
-      /* 3タブを画面幅で均等割り（横スクロールなしで全部見える） */
-      .mypage-tab-btn { flex: 1 1 0; justify-content: center; padding: 11px 6px; font-size: .82rem; gap: 5px; }
-      .mypage-tab-btn .tab-badge { margin-left: 4px; }
-      /* タブUI時もコンテナを画面幅に収める（はみ出し防止） */
-      .container.dashboard-wide { max-width: 100%; }
-      .trial-summary-item { min-width: calc(33.333% - 11px); }
-    }
-
-    .status-badge { display: inline-block; font-size: .78rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; margin-left: 8px; }
-    .badge-pending  { background: #fef3c7; color: #d97706; }
-    .badge-approved { background: #dcfce7; color: #16a34a; }
-    .badge-rejected { background: #fee2e2; color: #dc2626; }
-
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-size: .85rem; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
-      border-radius: 10px; font-size: .93rem; outline: none; transition: border-color .15s, box-shadow .15s; font-family: inherit; color: var(--ink); background: #fff;
-    }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,140,26,.1); }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-hint { font-size: .78rem; color: var(--muted); margin-top: 5px; line-height: 1.6; }
-
-    .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
-    .checkbox-item { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1.5px solid var(--border); border-radius: 999px; cursor: pointer; font-size: .85rem; font-weight: 700; transition: all .15s; }
-    .checkbox-item input { width: auto; padding: 0; border: none; }
-    .checkbox-item:has(input:checked) { border-color: var(--orange); background: var(--orange-light); color: var(--orange); }
-
-    .fee-row { display: flex; align-items: center; gap: 8px; }
-    .fee-row input { flex: 1; }
-    .fee-unit { font-size: .9rem; color: var(--muted); white-space: nowrap; font-weight: 700; }
-
-    .save-btn {
-      width: 100%; padding: 15px; background: var(--orange); color: #fff; border: none;
-      border-radius: 999px; font-size: 1rem; font-weight: 900; cursor: pointer;
-      box-shadow: 0 4px 0 var(--orange-dark), 0 8px 20px rgba(255,140,26,.3);
-      transition: transform .1s, box-shadow .1s; font-family: inherit;
-    }
-    .save-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--orange-dark), 0 4px 12px rgba(255,140,26,.3); }
-    .save-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
-
-    .login-btn {
-      width: 100%; padding: 13px; background: var(--orange); color: #fff; border: none;
-      border-radius: 999px; font-size: .95rem; font-weight: 900; cursor: pointer;
-      box-shadow: 0 4px 0 var(--orange-dark); transition: transform .1s; font-family: inherit;
-    }
-    .login-btn:hover { transform: translateY(2px); }
-    .login-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-
-    .alert { padding: 12px 16px; border-radius: 10px; font-size: .88rem; margin-bottom: 16px; }
-    .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .alert-error   { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-
-    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin .7s linear infinite; margin: 60px auto; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .pending-note { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 10px; padding: 14px 16px; font-size: .88rem; color: #92400e; margin-bottom: 20px; }
-
-    .photo-upload-area { border: 2px dashed var(--border); border-radius: 12px; padding: 28px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
-    .photo-upload-area:hover { border-color: var(--orange); background: var(--orange-light); }
-    .photo-upload-area input[type="file"] { display: none; }
-    .photo-preview { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; margin-bottom: 12px; display: none; }
-    .photo-preview.show { display: block; }
-    .upload-btn { display: inline-block; padding: 9px 22px; background: var(--orange); color: #fff; border-radius: 999px; font-size: .85rem; font-weight: 800; cursor: pointer; border: none; transition: opacity .15s; font-family: inherit; }
-    .upload-btn:hover { opacity: .85; }
-    .upload-btn:disabled { opacity: .5; cursor: not-allowed; }
-    .remove-photo-btn { display: inline-block; padding: 9px 18px; background: #f1f5f9; color: var(--muted); border-radius: 999px; font-size: .83rem; font-weight: 700; cursor: pointer; border: 1px solid var(--border); transition: all .15s; font-family: inherit; }
-    .remove-photo-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-    .delete-team-btn { width: 100%; padding: 13px; border: 2px solid #fca5a5; background: #fff; color: #dc2626; border-radius: 10px; font-size: .92rem; font-weight: 800; cursor: pointer; transition: all .15s; font-family: inherit; }
-    .delete-team-btn:hover { background: #fee2e2; }
-    .deleted-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 40px 24px; text-align: center; }
-    .deleted-card h2 { font-size: 1.2rem; font-weight: 900; color: var(--ink); margin-bottom: 12px; }
-    .deleted-card p { color: var(--muted); font-size: .92rem; line-height: 1.7; margin-bottom: 24px; }
-    .reapply-btn { display: inline-block; background: var(--orange); color: #fff; font-weight: 800; font-size: .95rem; padding: 12px 28px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; transition: opacity .15s; }
-    .reapply-btn:hover { opacity: .9; }
-
-    /* Cropper modal */
-    .crop-modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.7); z-index: 500;
-      align-items: center; justify-content: center; padding: 16px;
-    }
-    .crop-modal-overlay.open { display: flex; }
-    .crop-modal {
-      background: #fff; border-radius: 20px; width: 100%;
-      max-width: 600px; padding: 28px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.4);
-    }
-    .crop-modal-title { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
-    .crop-modal-hint { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-    .crop-container { width: 100%; max-height: 400px; overflow: hidden; background: #000; border-radius: 10px; }
-    .crop-container img { max-width: 100%; display: block; }
-    .crop-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
-    .crop-btn-cancel { padding: 10px 22px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
-    .crop-btn-cancel:hover { background: #f1f5f9; }
-    .crop-btn-ok { padding: 10px 28px; border-radius: 999px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 var(--orange-dark); }
-    .crop-btn-ok:hover { opacity: .9; }
-
-    /* チーム切替 */
-    .team-switcher-card { background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1.5px solid var(--orange-light); }
-    .team-switcher-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .team-switcher-select { flex: 1; min-width: 200px; padding: 10px 14px; border: 1.5px solid var(--orange); border-radius: 10px; font-size: .95rem; font-weight: 700; background: #fff; color: var(--ink); font-family: inherit; cursor: pointer; }
-    .team-switcher-select:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,140,26,.2); }
-    .team-add-btn { padding: 10px 18px; background: #fff; border: 1.5px dashed var(--orange); border-radius: 10px; color: var(--orange-dark); font-size: .88rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .15s; white-space: nowrap; }
-    .team-add-btn:hover { background: var(--orange-light); }
-    .team-switcher-hint { font-size: .78rem; color: var(--muted); margin-top: 8px; }
-
-    /* 体験申込み一覧 */
-    .trial-summary { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-    .trial-summary-item { background: var(--orange-light); padding: 12px 18px; border-radius: 12px; flex: 1; min-width: 130px; text-align: center; }
-    .trial-summary-num { font-size: 1.6rem; font-weight: 900; color: var(--orange-dark); }
-    .trial-summary-label { font-size: .78rem; color: var(--muted); margin-top: 2px; font-weight: 700; }
-    .trial-item { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-    .trial-item.new { border-color: var(--orange); background: #fff9f0; }
-    .trial-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
-    .trial-item-date { font-size: .78rem; color: var(--muted); }
-    .trial-status-badge { font-size: .72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
-    .trial-status-badge.new { background: var(--orange); color: #fff; }
-    .trial-status-badge.contacted { background: #dbeafe; color: #1e40af; }
-    .trial-status-badge.done { background: #d1fae5; color: #065f46; }
-    .trial-type-badge { font-size: .72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; margin-right: 6px; }
-    .trial-type-badge.trial { background: #ffedd5; color: #c2410c; }
-    .trial-type-badge.inquiry { background: #e0e7ff; color: #4338ca; }
-    .trial-item.inquiry { border-color: #c7d2fe; background: #f5f3ff; }
-    .trial-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: .88rem; }
-    .trial-info-label { font-weight: 700; color: var(--muted); font-size: .78rem; }
-    .trial-info-value { color: var(--ink); margin-bottom: 6px; }
-    .trial-message { background: #f8fafc; padding: 10px 12px; border-radius: 8px; font-size: .85rem; margin-top: 10px; color: #475569; line-height: 1.7; }
-    .trial-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-    .trial-btn { padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .15s; }
-    .trial-btn:hover { background: #f1f5f9; }
-    .trial-btn.primary { border-color: var(--orange); color: var(--orange); }
-    .trial-btn.primary:hover { background: var(--orange-light); }
-    .trial-empty { text-align: center; padding: 30px 16px; color: var(--muted); font-size: .9rem; }
-    .trial-tab-bar { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 16px; }
-    .trial-tab-btn { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .82rem; cursor: pointer; color: var(--muted); font-weight: 700; font-family: inherit; transition: all .15s; }
-    .trial-tab-btn:hover { border-color: var(--orange); color: var(--orange); }
-    .trial-tab-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
-    .trial-tab-count { display: inline-block; margin-left: 4px; padding: 1px 6px; border-radius: 8px; background: rgba(0,0,0,.08); font-size: .72rem; font-weight: 800; }
-    .trial-tab-btn.active .trial-tab-count { background: rgba(255,255,255,.3); }
-    @media (max-width: 480px) {
-      .trial-info { grid-template-columns: 1fr; }
-      .header-inner { padding: 0 10px; gap: 8px; height: 52px; }
-      .logo img { height: 24px; }
-      .header-title { display: none; }
-      .back-link { font-size: .72rem; }
-      .logout-btn { padding: 5px 10px; font-size: .72rem; }
-      .container { padding: 0 12px 60px; margin: 20px auto; }
-      .card { padding: 20px 16px; }
-      .card-title { font-size: .9rem; margin-bottom: 16px; }
-      .trial-summary { gap: 8px; }
-      .trial-summary-item { padding: 10px 12px; min-width: 0; }
-      .trial-summary-num { font-size: 1.4rem; }
-      .trial-tab-bar { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .trial-tab-btn { white-space: nowrap; flex-shrink: 0; }
-      .trial-item { padding: 14px; }
-      .trial-actions { flex-direction: column; gap: 6px; }
-      .trial-actions .trial-btn { width: 100%; text-align: center; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マイページ｜チビスポ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .mp-wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+  .mp-favs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+  .mp-card{position:relative;display:block;background:#fff;border:1px solid #e6e9ed;border-radius:14px;overflow:hidden;text-decoration:none;color:#1f2a37;box-shadow:0 2px 8px rgba(20,28,38,.07);transition:transform .14s,box-shadow .14s;}
+  .mp-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,28,38,.12);}
+  .mp-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
+  .mp-rm{position:absolute;top:9px;right:9px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 2px 8px rgba(20,28,38,.2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;}
+  .mp-rm svg{width:17px;height:17px;}
+  @media (max-width:560px){ .mp-favs{grid-template-columns:repeat(2,1fr);gap:11px;} }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo"><a href="/"><img src="assets/logo.png" alt="チビスポ" /></a></div>
-    <span class="header-title">マイページ</span>
-    <a href="/" class="back-link">← 検索に戻る</a>
-    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">ログアウト</button>
+<!-- ===== HERO ===== -->
+<section style="background:linear-gradient(135deg,#e8455f,#e8784a);color:#fff;padding:42px 0 36px;">
+  <div class="mp-wrap">
+    <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">My Page</div>
+    <h1 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;">マイページ</h1>
+    <p style="margin:10px 0 0;font-size:14px;line-height:1.85;opacity:.95;">お気に入りに保存したクラブと、あなたの地域を確認できます。</p>
   </div>
-</header>
+</section>
 
-<div class="container">
-  <div id="loadingArea"><div class="spinner"></div></div>
+<div class="mp-wrap" style="padding:30px 20px 60px;">
 
-
-  <!-- LOGIN FORM -->
-  <div id="loginArea" style="display:none;">
-    <div class="login-card">
-      <h2>チームログイン</h2>
-      <p>Googleアカウントまたはメールアドレスでログインしてください。</p>
-      <div id="loginError" class="alert alert-error" style="display:none;"></div>
-
-      <button class="google-btn" onclick="loginWithGoogle()">
-        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-        Googleでログイン
-      </button>
-
-      <div class="or-divider">または</div>
-
-      <div class="form-group">
-        <label>メールアドレス</label>
-        <input type="email" id="loginEmail" placeholder="team@example.com" />
+  <!-- 地域 -->
+  <section style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:46px;height:46px;border-radius:12px;background:#f2f7ff;display:flex;align-items:center;justify-content:center;flex:0 0 46px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
       </div>
-      <div class="form-group">
-        <label>パスワード</label>
-        <input type="password" id="loginPassword" placeholder="••••••••" />
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#8a93a0;">あなたの地域</div>
+        <div id="mp-region" style="font-size:18px;font-weight:900;color:#1f2a37;">未設定</div>
       </div>
-      <button class="login-btn" id="loginBtn" onclick="login()">ログイン</button>
-      <div id="resetMsg" class="alert" style="display:none;margin-top:12px;"></div>
-      <p style="text-align:center;margin-top:16px;font-size:.85rem;">
-        <a href="#" onclick="sendResetEmail(); return false;" style="color:var(--primary);">パスワードをお忘れの方はこちら</a>
-      </p>
     </div>
-  </div>
+    <a href="#" class="cc-region-change" style="background:#2a6fdb;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 20px;border-radius:999px;">地域を変更</a>
+  </section>
 
-  <!-- DASHBOARD -->
-  <div id="dashboardArea" style="display:none;">
-    <div id="alertMsg" style="display:none;" class="alert"></div>
+  <!-- お気に入り -->
+  <section style="margin-top:30px;">
+    <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:21px;font-weight:900;">お気に入りクラブ</h2>
+    <p style="margin:0 0 18px;font-size:12.5px;color:#8a93a0;">クラブのカードのハート♡を押すと、ここに保存されます。</p>
 
-    <!-- チーム切替（複数チーム保有時のみ表示） -->
-    <div class="card team-switcher-card" id="teamSwitcherCard" style="display:none;">
-      <div class="card-title">📋 管理するチーム</div>
-      <div class="team-switcher-row">
-        <select id="teamSwitcher" class="team-switcher-select" onchange="switchTeam(this.value)"></select>
-        <button type="button" class="team-add-btn" onclick="addNewTeam()">＋ 新しいチームを追加</button>
-      </div>
-      <div class="team-switcher-hint">チームを切り替えると、そのチームの情報・申込みが表示されます。</div>
+    <div id="mp-favs" class="mp-favs"></div>
+
+    <div id="mp-empty" style="display:none;text-align:center;padding:48px 20px;background:#fff;border:1px dashed #d7dde3;border-radius:16px;">
+      <div style="font-size:34px;margin-bottom:10px;">🤍</div>
+      <div style="font-size:15px;font-weight:800;color:#1f2a37;margin-bottom:6px;">まだお気に入りがありません</div>
+      <p style="margin:0 0 18px;font-size:13px;color:#8a93a0;line-height:1.8;">気になるクラブを見つけて、ハートを押して保存しましょう。</p>
+      <a href="search.html" style="display:inline-block;background:#e8455f;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:11px 24px;border-radius:999px;">クラブを探す</a>
     </div>
+  </section>
 
-    <div id="pendingNote" class="pending-note" style="display:none;">
-      ⏳ 現在承認待ちです。管理者が確認後に掲載されます。承認前でも情報の編集は可能です。
+  <!-- アカウント -->
+  <section style="margin-top:34px;">
+    <!-- 未ログイン -->
+    <div id="mp-account-out" style="display:none;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
+      <div style="font-size:16px;font-weight:900;margin-bottom:6px;">ログインすると、もっと便利に</div>
+      <p style="margin:0 0 18px;font-size:12.5px;color:#8a93a0;line-height:1.9;">お気に入りをスマホ・PCで共有／クラブへのコメント／地域の自動設定ができます。</p>
+      <a href="login.html" style="display:inline-block;background:#2270e0;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:12px 30px;border-radius:999px;">ログイン / 新規登録</a>
     </div>
+    <!-- ログイン中 -->
+    <div id="mp-account-in" style="display:none;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:22px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;">
+        <h2 style="margin:0;font-family:'Zen Maru Gothic',sans-serif;font-size:19px;font-weight:900;">アカウント情報</h2>
+        <button id="mp-logout" style="background:#f3f4f6;border:none;color:#5b6573;font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:999px;cursor:pointer;">ログアウト</button>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:#8a93a0;">メールアドレス</div>
+      <div id="mp-email" style="font-size:14px;font-weight:600;margin:3px 0 14px;">-</div>
 
-    <!-- 削除済み表示 -->
-    <div id="deletedCard" class="deleted-card" style="display:none;">
-      <div style="font-size:48px;margin-bottom:16px;">🗑️</div>
-      <h2>掲載を削除済みです</h2>
-      <p><strong id="deletedTeamName"></strong> のチビスポへの掲載が削除されています。<br>再度掲載を希望する場合は再申請してください。</p>
-      <button class="reapply-btn" onclick="reapplyTeam()">再申請する</button>
+      <label style="display:block;font-size:12px;font-weight:700;color:#8a93a0;margin-bottom:5px;">ニックネーム（サイトに表示される名前）</label>
+      <input id="mp-display" type="text" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
+      <div style="font-size:11px;color:#aab1bb;margin-top:6px;">ニックネームはクラブへのコメント等で公開されます。本名は公開されません。</div>
+
+      <label style="display:block;font-size:12px;font-weight:700;color:#8a93a0;margin:14px 0 5px;">お名前（本名・非公開）</label>
+      <div style="display:flex;gap:8px;">
+        <input id="mp-lastname" type="text" placeholder="姓（例）山田" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
+        <input id="mp-firstname" type="text" placeholder="名（例）太郎" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
+      </div>
+
+      <label style="display:block;font-size:12px;font-weight:700;color:#8a93a0;margin:14px 0 5px;">お住まいの地域</label>
+      <div style="display:flex;gap:8px;">
+        <select id="mp-pref" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;"><option value="">都道府県</option></select>
+        <select id="mp-city" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;" disabled><option value="">市区町村</option></select>
+      </div>
+
+      <button id="mp-save" style="width:100%;background:#2270e0;color:#fff;border:none;border-radius:10px;padding:13px 0;font-size:14.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:18px;">変更を保存</button>
+      <div id="mp-save-msg" style="display:none;text-align:center;font-size:13px;margin-top:10px;"></div>
+
+      <details style="margin-top:18px;">
+        <summary style="font-size:13px;font-weight:700;color:#2270e0;cursor:pointer;">パスワードを変更する</summary>
+        <input id="mp-pw1" type="password" placeholder="新しいパスワード（6文字以上）" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;margin-top:10px;box-sizing:border-box;">
+        <input id="mp-pw2" type="password" placeholder="もう一度入力" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;margin-top:8px;box-sizing:border-box;">
+        <button id="mp-pw-save" style="width:100%;background:#fff;color:#2270e0;border:1.5px solid #2270e0;border-radius:10px;padding:11px 0;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:10px;">パスワードを更新</button>
+        <div id="mp-pw-msg" style="display:none;text-align:center;font-size:12.5px;margin-top:8px;"></div>
+      </details>
+
+      <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f2f4;display:flex;flex-direction:column;gap:14px;align-items:center;">
+        <a href="club-mypage.html" style="color:#2270e0;font-size:13px;font-weight:700;text-decoration:none;">クラブを運営している方はこちら（クラブ管理ページ）</a>
+        <button id="mp-logout-bottom" style="width:100%;background:#fff;border:1.5px solid #d7dbe0;color:#5b6573;border-radius:10px;padding:12px 0;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;">ログアウト</button>
+      </div>
     </div>
+  </section>
 
-    <!-- ===== タブレイアウト開始 ===== -->
-    <div class="mypage-layout" id="mypageLayout" style="display:none;">
-      <!-- サイドナビ -->
-      <nav class="mypage-sidenav">
-        <button type="button" class="mypage-tab-btn active" data-tab="trial" onclick="switchMypageTab('trial')">
-          📩 体験申込み <span class="tab-badge" id="trialTabBadge" style="display:none;">0</span>
-        </button>
-        <button type="button" class="mypage-tab-btn" data-tab="info" onclick="switchMypageTab('info')">
-          ✏️ 基本情報
-        </button>
-        <button type="button" class="mypage-tab-btn" data-tab="photo" onclick="switchMypageTab('photo')">
-          🖼 写真
-        </button>
-      </nav>
-
-      <div class="mypage-content">
-
-      <!-- ▼ タブ1: 体験申込み -->
-      <div class="tab-panel active" id="tabPanel-trial">
-        <div class="card" id="trialRequestsCard" style="display:none;">
-          <div class="card-title">📩 体験申込み一覧</div>
-          <div id="trialSummary" class="trial-summary"></div>
-          <div id="trialTabBar" class="trial-tab-bar"></div>
-          <div id="trialList"></div>
-        </div>
-      </div>
-
-      <!-- ▼ タブ2: 基本情報 ＋ ▼ タブ3: 写真（editFormで両方を内包） -->
-    <form id="editForm">
-      <div class="tab-panel" id="tabPanel-info">
-      <div class="card">
-        <div class="card-title">📋 基本情報</div>
-        <div class="form-group">
-          <label>チーム名</label>
-          <input type="text" id="name" required />
-        </div>
-        <div class="form-group">
-          <label>種目</label>
-          <select id="sport" onchange="toggleSportOther(this)">
-            <option>野球</option><option>サッカー</option><option>バスケットボール</option>
-            <option>水泳</option><option>テニス</option><option>バレーボール</option>
-            <option>バドミントン</option><option>柔道</option><option>剣道</option>
-            <option>空手</option><option>合気道</option><option>レスリング</option>
-            <option>ダンス</option><option>チアダンス</option><option>チアリーディング</option><option>新体操</option>
-            <option>陸上</option><option>マラソン</option><option>トライアスロン</option>
-            <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
-            <option>ゴルフ</option><option>乗馬</option><option>マルチスポーツ</option><option>その他</option>
-          </select>
-          <input type="text" id="sportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
-        </div>
-        <div class="form-group">
-          <label>都道府県</label>
-          <select id="pref">
-            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
-            <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
-            <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
-            <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
-            <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
-            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
-            <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
-            <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
-            <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
-            <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
-            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
-            <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>市区町村</label>
-          <select id="city"><option value="">選択してください</option></select>
-        </div>
-        <div class="form-group">
-          <label>丁目・番地以降 <span style="font-weight:400;color:#64748b;">任意</span></label>
-          <input type="text" id="address" placeholder="例：〇〇町1-2-3 チビスポ球場" />
-          <div style="font-size:.8rem;color:#64748b;margin-top:4px;">地図表示の精度が上がります</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">👦 対象・活動情報</div>
-        <div class="form-group">
-          <label>対象年齢（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" id="agePreschool" />未就学</label>
-            <label class="checkbox-item"><input type="checkbox" name="age" value="小学生" />小学生</label>
-            <label class="checkbox-item"><input type="checkbox" name="age" value="中学生" />中学生</label>
-          </div>
-          <div id="ageMinWrap" style="display:none;margin-top:12px;padding:12px 14px;background:#fff7ed;border-radius:10px;border:1.5px solid #fed7aa;">
-            <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:8px;">未就学の受け入れ開始年齢</div>
-            <div class="checkbox-group" style="flex-wrap:wrap;gap:8px;">
-              <label class="checkbox-item"><input type="radio" name="age_min" value="3歳〜" />3歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="4歳〜" />4歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="5歳〜" />5歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="6歳〜" />6歳〜</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>活動曜日（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="day" value="月" />月</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="火" />火</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="水" />水</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="木" />木</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="金" />金</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="土" />土</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="日" />日</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>チームの特徴（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="feature" value="female_instructor" />女性指導者がいる</label>
-            <label class="checkbox-item"><input type="checkbox" name="feature" value="girls_welcome" />女の子歓迎</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>月謝</label>
-          <div class="fee-row">
-            <input type="number" id="feeNum" min="0" max="100000" />
-            <span class="fee-unit">円 / 月</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>体験入会</label>
-          <select id="trial">
-            <option value="true">体験OK</option>
-            <option value="false">要相談</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📞 連絡先</div>
-        <div class="form-hint" style="margin-bottom:14px;">体験申込みやお問い合わせの通知はこのメールアドレスに届きます。</div>
-        <div class="form-group">
-          <label>メールアドレス<span class="required">*</span></label>
-          <input type="email" id="email" required />
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">🔗 SNSリンク <span style="font-weight:400;font-size:.82rem;color:#64748b;">すべて任意</span></div>
-        <div class="form-group">
-          <label>Instagram アカウント</label>
-          <input type="text" id="instagram" placeholder="@なしで入力" />
-        </div>
-        <div class="form-group">
-          <label>X（Twitter）アカウント</label>
-          <input type="text" id="twitter" placeholder="@なしで入力" />
-        </div>
-        <div class="form-group">
-          <label>ウェブサイト URL</label>
-          <input type="url" id="website_url" placeholder="https://example.com" />
-        </div>
-        <div class="form-group">
-          <label>LINE公式アカウント URL</label>
-          <input type="url" id="line_url" placeholder="https://lin.ee/xxxxx" />
-        </div>
-      </div>
-
-      <!-- 💬 紹介文（基本情報タブの末尾に移動） -->
-      <div class="card">
-        <div class="card-title">💬 チームの紹介文</div>
-        <div class="form-group">
-          <textarea id="description"></textarea>
-        </div>
-      </div>
-
-      <div class="form-group" id="agreeGroup" style="margin-top:8px;">
-        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:600;font-size:.9rem;">
-          <input type="checkbox" id="agreeCheck" style="margin-top:3px;flex-shrink:0;width:18px;height:18px;cursor:pointer;" />
-          <span><a href="legal.html" target="_blank" style="color:var(--primary);text-decoration:underline;">利用規約</a>および<a href="legal.html" target="_blank" style="color:var(--primary);text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
-        </label>
-      </div>
-
-      <button type="submit" class="save-btn" id="saveBtnInfo">保存する</button>
-      </div><!-- /tabPanel-info -->
-
-      <!-- ▼ タブ3: 写真 -->
-      <div class="tab-panel" id="tabPanel-photo">
-      <div class="card">
-        <div class="card-title">📷 チーム写真</div>
-        <img id="photoPreview" class="photo-preview" alt="チーム写真" />
-        <div id="photoActions" style="display:none;gap:8px;margin-bottom:10px;">
-          <button type="button" onclick="changePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid var(--orange);background:#fff;color:var(--orange);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">写真を変更</button>
-          <button type="button" onclick="removePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid #ef4444;background:#fff;color:#ef4444;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">削除</button>
-        </div>
-        <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
-          <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
-          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
-          <label class="upload-btn">写真を選ぶ</label>
-        </div>
-        <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
-      </div>
-
-      <!-- Crop Modal -->
-      <div id="cropModalOverlay" class="crop-modal-overlay">
-        <div class="crop-modal">
-          <div class="crop-modal-title">トリミング</div>
-          <div class="crop-modal-hint">ドラッグで範囲を移動・リサイズできます</div>
-          <div class="crop-container">
-            <img id="cropImage" src="" alt="crop" />
-          </div>
-          <div class="crop-actions">
-            <button type="button" class="crop-btn-cancel" onclick="closeCropModal()">キャンセル</button>
-            <button type="button" class="crop-btn-ok" onclick="cropAndConfirm()">この範囲でOK</button>
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" class="save-btn" id="saveBtnPhoto" style="display:none;">保存する</button>
-      </div><!-- /tabPanel-photo -->
-    </form>
-
-    <!-- 基本情報タブ末尾：危険操作系（削除・パスワード） -->
-    <div class="tab-panel" id="tabPanel-info-extra" data-belongs="info">
-    <!-- チーム削除 -->
-    <div class="card" id="deleteTeamCard" style="margin-top:20px;">
-      <div class="card-title">🗑️ チームの掲載を削除する</div>
-      <p style="font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:16px;">掲載を削除するとチビスポの検索結果から非表示になります。再度掲載を希望する場合は再申請できます。</p>
-      <button type="button" class="delete-team-btn" onclick="deleteTeam()">掲載を削除する</button>
-    </div>
-
-    <!-- パスワード変更（メールログインのみ表示） -->
-    <div class="card" id="passwordCard" style="display:none;margin-top:20px;">
-      <div class="card-title">🔑 パスワードを変更する</div>
-      <div id="passwordMsg" class="alert" style="display:none;margin-bottom:12px;"></div>
-      <div class="form-group">
-        <label>現在のパスワード</label>
-        <input type="password" id="currentPassword" placeholder="現在のパスワード" />
-      </div>
-      <div class="form-group">
-        <label>新しいパスワード</label>
-        <input type="password" id="newPassword" placeholder="8文字以上" />
-      </div>
-      <div class="form-group">
-        <label>新しいパスワード（確認）</label>
-        <input type="password" id="newPasswordConfirm" placeholder="もう一度入力" />
-      </div>
-      <button type="button" class="save-btn" id="changePasswordBtn" onclick="changePassword()">パスワードを変更する</button>
-    </div>
-    </div><!-- /tabPanel-info-extra -->
-
-      </div><!-- /mypage-content -->
-    </div><!-- /mypage-layout -->
-  </div>
 </div>
 
+<script src="supabase-lite.js"></script>
+<script src="cities.js"></script>
+<script src="shared.js"></script>
 <script>
-const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+(function () {
+  var X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#e0344c" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
-let myTeam = null;
+  function esc(s) { return (s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
-function toggleSportOther(sel) {
-  const other = document.getElementById('sportOther');
-  if (sel.value === 'その他') {
-    other.style.display = 'block';
-  } else {
-    other.style.display = 'none';
-    other.value = '';
-  }
-}
-
-function getSportValue() {
-  const sel = document.getElementById('sport').value;
-  if (sel === 'その他') {
-    return document.getElementById('sportOther').value.trim() || 'その他';
-  }
-  return sel;
-}
-
-// 未就学サブ選択トグル
-document.getElementById('agePreschool').addEventListener('change', function() {
-  const wrap = document.getElementById('ageMinWrap');
-  wrap.style.display = this.checked ? 'block' : 'none';
-  if (!this.checked) {
-    document.querySelectorAll('input[name="age_min"]').forEach(r => r.checked = false);
-  }
-});
-
-// 都道府県→市区町村連動
-document.getElementById('pref').addEventListener('change', function() {
-  const citySelect = document.getElementById('city');
-  const cities = CITIES[this.value] || [];
-  citySelect.innerHTML = cities.length
-    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
-    : '<option value="">選択してください</option>';
-});
-
-async function loginWithGoogle() {
-  const { error } = await db.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: 'https://chibispo.com/mypage.html',
-    },
-  });
-  if (error) {
-    const errorEl = document.getElementById('loginError');
-    errorEl.textContent = 'Googleログインに失敗しました。もう一度お試しください。';
-    errorEl.style.display = 'block';
-  }
-}
-
-async function login() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const btn = document.getElementById('loginBtn');
-  const errorEl = document.getElementById('loginError');
-  errorEl.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'ログイン中...';
-
-  const { error } = await db.auth.signInWithPassword({ email, password });
-  if (error) {
-    errorEl.textContent = 'メールアドレスまたはパスワードが正しくありません。';
-    errorEl.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'ログイン';
-  }
-}
-
-async function sendResetEmail() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const msgEl = document.getElementById('resetMsg');
-  if (!email) {
-    msgEl.textContent = 'メールアドレスを入力してからクリックしてください。';
-    msgEl.className = 'alert alert-error';
-    msgEl.style.display = 'block';
-    return;
-  }
-  const { error } = await db.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://chibispo.com/reset-password.html',
-  });
-  if (error) {
-    msgEl.textContent = '送信に失敗しました。もう一度お試しください。';
-    msgEl.className = 'alert alert-error';
-  } else {
-    msgEl.textContent = 'パスワードリセットのメールを送信しました。メールをご確認ください。';
-    msgEl.className = 'alert alert-success';
-  }
-  msgEl.style.display = 'block';
-}
-
-async function logout() {
-  await db.auth.signOut();
-}
-
-let allMyTeams = [];
-
-// ===== マイページ タブ切替 =====
-function switchMypageTab(tab) {
-  // ボタンのactive
-  document.querySelectorAll('.mypage-tab-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.tab === tab);
-  });
-  // パネルのactive（info は本体パネル＋extra パネルの両方）
-  document.querySelectorAll('.tab-panel').forEach(p => {
-    const belongs = p.dataset.belongs || p.id.replace('tabPanel-', '');
-    p.classList.toggle('active', belongs === tab);
-  });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function loadMyTeam(userId) {
-  const { data: teams, error } = await db.from('teams').select('*').eq('user_id', userId).order('created_at', { ascending: true });
-  if (error) { console.error('loadMyTeams error:', error); }
-  document.getElementById('loadingArea').style.display = 'none';
-  document.getElementById('logoutBtn').style.display = 'block';
-  document.getElementById('dashboardArea').style.display = 'block';
-
-  allMyTeams = teams || [];
-
-  // タブレイアウトを表示＋コンテナを広げる
-  document.getElementById('mypageLayout').style.display = 'flex';
-  document.querySelector('.container').classList.add('dashboard-wide');
-
-  if (allMyTeams.length === 0) {
-    // 1チームも持っていない → 新規登録フォーム（基本情報タブ）を表示
-    switchMypageTab('info');
-    document.getElementById('agreeGroup').style.display = 'block';
-    renderPasswordCardIfNeeded();
-    return;
+  function renderRegion() {
+    var r = (window.Chibi && window.Chibi.getRegion()) || '';
+    var el = document.getElementById('mp-region');
+    if (el) el.textContent = r || '未設定';
   }
 
-  // チーム切替UIを構築
-  renderTeamSwitcher();
-
-  // 最初のチーム（または前回選択していたチーム）を表示
-  const lastTeamId = localStorage.getItem('chibispo_last_team_id');
-  const initialTeam = allMyTeams.find(t => t.id === lastTeamId) || allMyTeams[0];
-  await switchTeam(initialTeam.id);
-
-  renderPasswordCardIfNeeded();
-}
-
-function renderTeamSwitcher() {
-  const switcher = document.getElementById('teamSwitcher');
-  const card = document.getElementById('teamSwitcherCard');
-  // 1チームでも表示する（新規追加ボタンを使うため）
-  card.style.display = 'block';
-
-  const statusLabel = (s) => ({ pending: '承認待ち', approved: '公開中', rejected: '却下', deleted: '削除済み' }[s] || '');
-  switcher.innerHTML = allMyTeams.map(t => `
-    <option value="${t.id}">${escapeHtml(t.name || '（名称未設定）')}${t.status !== 'approved' ? `（${statusLabel(t.status)}）` : ''}</option>
-  `).join('');
-}
-
-function escapeHtml(s) {
-  return (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
-
-async function switchTeam(teamId) {
-  const team = allMyTeams.find(t => t.id === teamId);
-  if (!team) return;
-  myTeam = team;
-  localStorage.setItem('chibispo_last_team_id', team.id);
-  document.getElementById('teamSwitcher').value = team.id;
-
-  // 削除済みカード・申込みカード・編集フォームを全て一旦リセット
-  document.getElementById('deletedCard').style.display = 'none';
-  document.getElementById('trialRequestsCard').style.display = 'none';
-  document.getElementById('pendingNote').style.display = 'none';
-  document.getElementById('alertMsg').style.display = 'none';
-
-  // 削除済みの場合は削除済み画面を表示（編集フォームは隠す）
-  if (team.status === 'deleted') {
-    document.getElementById('editForm').style.display = 'none';
-    document.getElementById('deleteTeamCard').style.display = 'none';
-    document.getElementById('deletedCard').style.display = 'block';
-    document.getElementById('deletedTeamName').textContent = team.name || '';
-    return;
+  function renderFavs() {
+    var favs = (window.Chibi && window.Chibi.getFavs()) || [];
+    var wrap = document.getElementById('mp-favs');
+    var empty = document.getElementById('mp-empty');
+    if (!wrap) return;
+    if (!favs.length) { wrap.innerHTML = ''; if (empty) empty.style.display = ''; return; }
+    if (empty) empty.style.display = 'none';
+    wrap.innerHTML = favs.map(function (f) {
+      var img = f.img ? '<img src="' + esc(f.img) + '" alt="' + esc(f.name) + '">' :
+        '<div style="width:100%;aspect-ratio:4/3;background:#eef1f4;"></div>';
+      var area = f.area ? '<div style="font-size:11.5px;color:#8a93a0;margin-top:3px;">📍' + esc(f.area) + '</div>' : '';
+      return '<a class="mp-card" href="' + esc(f.href || '#') + '">' +
+        '<button class="mp-rm" data-id="' + esc(f.id) + '" aria-label="削除">' + X_SVG + '</button>' +
+        img +
+        '<div style="padding:11px 13px 13px;">' +
+          '<div style="font-family:\'Zen Maru Gothic\',sans-serif;font-size:14.5px;font-weight:800;line-height:1.35;">' + esc(f.name) + '</div>' +
+          area +
+        '</div>' +
+      '</a>';
+    }).join('');
+    wrap.querySelectorAll('.mp-rm').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (window.Chibi) window.Chibi.removeFav(b.getAttribute('data-id'));
+      });
+    });
   }
 
-  // 通常表示
-  document.getElementById('editForm').style.display = 'block';
-  document.getElementById('deleteTeamCard').style.display = 'block';
-  fillForm(team);
-  if (team.status === 'pending') {
-    document.getElementById('pendingNote').style.display = 'block';
-  }
+  function renderAll() { renderRegion(); renderFavs(); }
 
-  loadTrialRequests(team.id);
-}
-
-function addNewTeam() {
-  // ログイン中のまま新規登録フローへ
-  location.href = 'register.html?add=true';
-}
-
-async function renderPasswordCardIfNeeded() {
-  const { data: { user } } = await db.auth.getUser();
-  const isEmailUser = user?.app_metadata?.provider === 'email';
-  if (isEmailUser) {
-    document.getElementById('passwordCard').style.display = 'block';
-  }
-}
-
-async function loadTrialRequests(teamId) {
-  const { data, error } = await db
-    .from('trial_requests')
-    .select('*')
-    .eq('team_id', teamId)
-    .order('created_at', { ascending: false });
-  if (error) {
-    console.warn('loadTrialRequests error:', error);
-    renderTrialRequests([]);
-    return;
-  }
-  renderTrialRequests(data || []);
-}
-
-let allTrialRequests = [];
-let currentTrialFilter = 'all';
-
-function renderTrialRequests(requests) {
-  allTrialRequests = requests;
-  const card = document.getElementById('trialRequestsCard');
-  const summary = document.getElementById('trialSummary');
-  const tabBar = document.getElementById('trialTabBar');
-  card.style.display = 'block';
-
-  const total = requests.length;
-  const trialCount = requests.filter(r => (r.type || 'trial') === 'trial').length;
-  const inquiryCount = requests.filter(r => r.type === 'inquiry').length;
-  const newCount = requests.filter(r => r.status === 'new').length;
-  const contactedCount = requests.filter(r => r.status === 'contacted').length;
-  const doneCount = requests.filter(r => r.status === 'done').length;
-
-  // タブの未対応バッジを更新
-  const badge = document.getElementById('trialTabBadge');
-  if (badge) {
-    if (newCount > 0) { badge.textContent = newCount; badge.style.display = 'inline-flex'; }
-    else { badge.style.display = 'none'; }
-  }
-  const thisMonth = requests.filter(r => {
-    const d = new Date(r.created_at);
-    const now = new Date();
-    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-  }).length;
-
-  summary.innerHTML = `
-    <div class="trial-summary-item">
-      <div class="trial-summary-num">${total}</div>
-      <div class="trial-summary-label">累計</div>
-    </div>
-    <div class="trial-summary-item">
-      <div class="trial-summary-num">${thisMonth}</div>
-      <div class="trial-summary-label">今月</div>
-    </div>
-    <div class="trial-summary-item">
-      <div class="trial-summary-num">${newCount}</div>
-      <div class="trial-summary-label">未対応</div>
-    </div>
-  `;
-
-  tabBar.innerHTML = `
-    <button class="trial-tab-btn ${currentTrialFilter === 'all' ? 'active' : ''}" onclick="setTrialFilter('all')">すべて<span class="trial-tab-count">${total}</span></button>
-    <button class="trial-tab-btn ${currentTrialFilter === 'new' ? 'active' : ''}" onclick="setTrialFilter('new')">未対応<span class="trial-tab-count">${newCount}</span></button>
-    <button class="trial-tab-btn ${currentTrialFilter === 'contacted' ? 'active' : ''}" onclick="setTrialFilter('contacted')">対応中<span class="trial-tab-count">${contactedCount}</span></button>
-    <button class="trial-tab-btn ${currentTrialFilter === 'done' ? 'active' : ''}" onclick="setTrialFilter('done')">完了<span class="trial-tab-count">${doneCount}</span></button>
-    <button class="trial-tab-btn ${currentTrialFilter === 'trial_only' ? 'active' : ''}" onclick="setTrialFilter('trial_only')">🎉 体験のみ<span class="trial-tab-count">${trialCount}</span></button>
-    <button class="trial-tab-btn ${currentTrialFilter === 'inquiry_only' ? 'active' : ''}" onclick="setTrialFilter('inquiry_only')">💬 質問のみ<span class="trial-tab-count">${inquiryCount}</span></button>
-  `;
-
-  renderTrialList();
-}
-
-function setTrialFilter(filter) {
-  currentTrialFilter = filter;
-  renderTrialRequests(allTrialRequests);
-}
-
-function renderTrialList() {
-  const list = document.getElementById('trialList');
-  let filtered = allTrialRequests;
-  if (currentTrialFilter === 'trial_only') {
-    filtered = allTrialRequests.filter(r => (r.type || 'trial') === 'trial');
-  } else if (currentTrialFilter === 'inquiry_only') {
-    filtered = allTrialRequests.filter(r => r.type === 'inquiry');
-  } else if (currentTrialFilter !== 'all') {
-    filtered = allTrialRequests.filter(r => r.status === currentTrialFilter);
-  }
-
-  if (allTrialRequests.length === 0) {
-    list.innerHTML = `<div class="trial-empty">体験申込みはまだありません。<br />申込みが入るとここに表示されます。</div>`;
-    return;
-  }
-  if (filtered.length === 0) {
-    list.innerHTML = `<div class="trial-empty">該当する申込みはありません。</div>`;
-    return;
-  }
-
-  const statusLabel = (s) => ({ new: '未対応', contacted: '対応中', done: '完了' }[s] || '未対応');
-
-  list.innerHTML = filtered.map(r => {
-    const dateStr = new Date(r.created_at).toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-    const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const formatDate = (d) => d ? d : '—';
-    const isTrial = (r.type || 'trial') === 'trial';
-    const typeLabel = isTrial ? '🎉 体験申込み' : '💬 質問';
-    const trialFields = `
-          <div>
-            <div class="trial-info-label">お子さまのお名前</div>
-            <div class="trial-info-value">${escaped(r.child_name || '—')}${r.child_name_kana ? `<br /><span style="font-size:.78rem;color:var(--muted);">（${escaped(r.child_name_kana)}）</span>` : ''}</div>
-          </div>
-          <div>
-            <div class="trial-info-label">学年・経験</div>
-            <div class="trial-info-value">${r.child_age}歳・${escaped(r.child_grade)}<br /><span style="font-size:.78rem;color:var(--muted);">${escaped(r.experience_level)}</span></div>
-          </div>`;
-    const dateFields = `
-          <div>
-            <div class="trial-info-label">希望日（第1）</div>
-            <div class="trial-info-value">${formatDate(r.preferred_date_1)}</div>
-          </div>
-          <div>
-            <div class="trial-info-label">希望日（第2・第3）</div>
-            <div class="trial-info-value">${formatDate(r.preferred_date_2)} / ${formatDate(r.preferred_date_3)}</div>
-          </div>`;
-    return `
-      <div class="trial-item ${r.status === 'new' ? 'new' : ''} ${isTrial ? '' : 'inquiry'}">
-        <div class="trial-item-header">
-          <div class="trial-item-date">📅 ${dateStr}</div>
-          <div>
-            <span class="trial-type-badge ${isTrial ? 'trial' : 'inquiry'}">${typeLabel}</span>
-            <span class="trial-status-badge ${r.status}">${statusLabel(r.status)}</span>
-          </div>
-        </div>
-        <div class="trial-info">
-          ${isTrial ? trialFields : ''}
-          <div>
-            <div class="trial-info-label">保護者名</div>
-            <div class="trial-info-value">${escaped(r.parent_name)}</div>
-          </div>
-          <div>
-            <div class="trial-info-label">連絡先</div>
-            <div class="trial-info-value"><a href="mailto:${escaped(r.parent_email)}" style="color:var(--orange-dark);">${escaped(r.parent_email)}</a></div>
-          </div>
-          ${isTrial ? dateFields : ''}
-        </div>
-        ${r.message ? `<div class="trial-message">💬 ${escaped(r.message)}</div>` : ''}
-        <div class="trial-actions">
-          <a class="trial-btn primary" href="mailto:${escaped(r.parent_email)}?subject=${encodeURIComponent('【' + (myTeam.name || '') + '】' + (isTrial ? '体験申込みのご連絡' : 'ご質問への回答'))}&body=${encodeURIComponent(escaped(r.parent_name) + '様\n\nこの度はご' + (isTrial ? '応募' : '質問') + 'ありがとうございます。\n以下、ご回答いたします。\n\n')}">✉️ メールで返信</a>
-          ${r.status === 'new' ? `
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'contacted')">対応中にする</button>
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'done')">完了にする</button>
-          ` : ''}
-          ${r.status === 'contacted' ? `
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'new')">↩ 未対応に戻す</button>
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'done')">完了にする</button>
-          ` : ''}
-          ${r.status === 'done' ? `
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'new')">↩ 未対応に戻す</button>
-            <button class="trial-btn" onclick="updateTrialStatus('${r.id}', 'contacted')">↩ 対応中に戻す</button>
-          ` : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-async function updateTrialStatus(id, status) {
-  const { error } = await db.from('trial_requests').update({ status }).eq('id', id);
-  if (error) { alert('更新に失敗しました。'); return; }
-  loadTrialRequests(myTeam.id);
-}
-
-async function deleteTeam() {
-  if (!confirm(`「${myTeam.name}」の掲載を削除しますか？\n削除後も再申請することができます。`)) return;
-  const { error } = await db.from('teams').update({ status: 'deleted' }).eq('id', myTeam.id);
-  if (error) { alert('削除に失敗しました。'); return; }
-  myTeam.status = 'deleted';
-  // チームリストを更新
-  const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
-  if (idx >= 0) allMyTeams[idx] = myTeam;
-  renderTeamSwitcher();
-  document.getElementById('teamSwitcher').value = myTeam.id;
-  switchTeam(myTeam.id);
-}
-
-async function reapplyTeam() {
-  if (!confirm(`「${myTeam.name}」を再申請しますか？管理者の承認後に再掲載されます。`)) return;
-  const { error } = await db.from('teams').update({ status: 'pending' }).eq('id', myTeam.id);
-  if (error) { alert('再申請に失敗しました。'); return; }
-
-  // 管理者にメール通知
-  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-admin-notify', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-    },
-    body: JSON.stringify({
-      team_name: myTeam.name,
-      sport: myTeam.sport,
-      pref: myTeam.pref,
-      city: myTeam.city,
-      applicant_email: myTeam.email || (myTeam.instagram ? `Instagram: @${myTeam.instagram}` : '未入力'),
-    }),
-  }).catch(err => { console.warn('管理者メール送信失敗:', err); });
-
-  myTeam.status = 'pending';
-  // チームリストを更新
-  const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
-  if (idx >= 0) allMyTeams[idx] = myTeam;
-  renderTeamSwitcher();
-  document.getElementById('teamSwitcher').value = myTeam.id;
-  switchTeam(myTeam.id);
-}
-
-async function changePassword() {
-  const currentPw = document.getElementById('currentPassword').value;
-  const newPw = document.getElementById('newPassword').value;
-  const confirmPw = document.getElementById('newPasswordConfirm').value;
-  const msgEl = document.getElementById('passwordMsg');
-  const btn = document.getElementById('changePasswordBtn');
-
-  msgEl.style.display = 'none';
-  if (!currentPw) {
-    msgEl.textContent = '現在のパスワードを入力してください。';
-    msgEl.className = 'alert alert-error';
-    msgEl.style.display = 'block';
-    return;
-  }
-  if (newPw.length < 8) {
-    msgEl.textContent = '新しいパスワードは8文字以上で入力してください。';
-    msgEl.className = 'alert alert-error';
-    msgEl.style.display = 'block';
-    return;
-  }
-  if (newPw !== confirmPw) {
-    msgEl.textContent = '新しいパスワードが一致しません。';
-    msgEl.className = 'alert alert-error';
-    msgEl.style.display = 'block';
-    return;
-  }
-  btn.disabled = true;
-  btn.textContent = '変更中...';
-
-  // 現在のパスワードで再認証
-  const { data: { user } } = await db.auth.getUser();
-  const { error: signInError } = await db.auth.signInWithPassword({
-    email: user.email,
-    password: currentPw,
-  });
-  if (signInError) {
-    msgEl.textContent = '現在のパスワードが正しくありません。';
-    msgEl.className = 'alert alert-error';
-    msgEl.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'パスワードを変更する';
-    return;
-  }
-
-  const { error } = await db.auth.updateUser({ password: newPw });
-  if (error) {
-    msgEl.textContent = '変更に失敗しました。もう一度お試しください。';
-    msgEl.className = 'alert alert-error';
-  } else {
-    msgEl.textContent = 'パスワードを変更しました。';
-    msgEl.className = 'alert alert-success';
-    document.getElementById('currentPassword').value = '';
-    document.getElementById('newPassword').value = '';
-    document.getElementById('newPasswordConfirm').value = '';
-  }
-  msgEl.style.display = 'block';
-  btn.disabled = false;
-  btn.textContent = 'パスワードを変更する';
-}
-
-function fillForm(t) {
-  document.getElementById('agreeGroup').style.display = 'none';
-  document.getElementById('name').value = t.name;
-  const sportSel = document.getElementById('sport');
-  const sportOther = document.getElementById('sportOther');
-  const knownSports = [...sportSel.options].map(o => o.value);
-  if (knownSports.includes(t.sport)) {
-    sportSel.value = t.sport;
-    sportOther.style.display = 'none';
-  } else {
-    sportSel.value = 'その他';
-    sportOther.value = t.sport;
-    sportOther.style.display = 'block';
-  }
-  document.getElementById('pref').value = t.pref;
-
-  const citySelect = document.getElementById('city');
-  const cities = CITIES[t.pref] || [];
-  citySelect.innerHTML = cities.length
-    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
-    : '<option value="">選択してください</option>';
-  citySelect.value = t.city;
-
-  document.querySelectorAll('input[name="age"]').forEach(cb => {
-    cb.checked = (t.age_groups || []).includes(cb.value);
-  });
-  // 特徴チェックボックスを復元
-  document.querySelector('input[name="feature"][value="female_instructor"]').checked = !!t.female_instructor;
-  document.querySelector('input[name="feature"][value="girls_welcome"]').checked = !!t.girls_welcome;
-
-  // 未就学サブ選択を復元
-  if ((t.age_groups || []).includes('未就学')) {
-    document.getElementById('ageMinWrap').style.display = 'block';
-    if (t.age_min) {
-      const r = document.querySelector(`input[name="age_min"][value="${t.age_min}"]`);
-      if (r) r.checked = true;
+  // ===== アカウント（ログイン状態・プロフィール編集）=====
+  function $(id){ return document.getElementById(id); }
+  function initAccount() {
+    var A = window.ChibiAuth;
+    // 地域セレクトを用意
+    if (typeof CITIES !== 'undefined') {
+      var pf = $('mp-pref'), ct = $('mp-city');
+      pf.innerHTML = '<option value="">都道府県</option>' + Object.keys(CITIES).map(function (p) { return '<option value="' + p + '">' + p + '</option>'; }).join('');
+      pf.addEventListener('change', function () {
+        if (!pf.value) { ct.innerHTML = '<option value="">市区町村</option>'; ct.disabled = true; return; }
+        ct.innerHTML = '<option value="">市区町村</option>' + (CITIES[pf.value] || []).map(function (c) { return '<option value="' + c + '">' + c + '</option>'; }).join('');
+        ct.disabled = false;
+      });
     }
+    if (!A || !A.ready()) { $('mp-account-out').style.display = 'block'; return; }
+    A.getProfile().then(function (prof) {
+      if (!prof) { $('mp-account-out').style.display = 'block'; return; }
+      // クラブアカウント（旧マイページのブックマーク流入）はクラブ管理ページへ
+      if (prof.role === 'club') { location.href = 'club-mypage.html'; return; }
+      $('mp-account-in').style.display = 'block';
+      $('mp-email').textContent = prof.email || '-';
+      $('mp-display').value = prof.display_name || '';
+      // 姓/名（無ければ full_name を空白で分割）
+      var ln = prof.last_name, fn = prof.first_name;
+      if (!ln && !fn && prof.full_name) { var parts = prof.full_name.trim().split(/\s+/); ln = parts[0] || ''; fn = parts.slice(1).join(' '); }
+      $('mp-lastname').value = ln || '';
+      $('mp-firstname').value = fn || '';
+      if (prof.pref) { $('mp-pref').value = prof.pref; $('mp-pref').dispatchEvent(new Event('change')); if (prof.city) $('mp-city').value = prof.city; }
+      // 地域カードにも反映
+      var regionText = [prof.pref, prof.city].filter(Boolean).join(' ');
+      if (regionText) { var rEl = $('mp-region'); if (rEl) rEl.textContent = regionText; if (window.Chibi) window.Chibi.setRegionParts(prof.pref, prof.city); }
+
+      // 保存
+      $('mp-save').addEventListener('click', function () {
+        var db = A.client(); if (!db) return;
+        var m = $('mp-save-msg');
+        A.getUser().then(function (u) {
+          if (!u) return;
+          var pref = $('mp-pref').value, city = $('mp-city').value;
+          var ln = $('mp-lastname').value.trim(), fn = $('mp-firstname').value.trim();
+          db.from('profiles').upsert({
+            id: u.id,
+            role: (prof && prof.role) || 'parent',
+            display_name: $('mp-display').value.trim(),
+            last_name: ln, first_name: fn,
+            full_name: [ln, fn].filter(Boolean).join(' '),
+            pref: pref, city: city,
+            region: [pref, city].filter(Boolean).join(' ')
+          }).then(function (res) {
+            m.style.display = 'block';
+            if (res && res.error) { m.style.color = '#c0314b'; m.textContent = '保存に失敗しました。'; }
+            else {
+              m.style.color = '#1f8a5b'; m.textContent = '保存しました。';
+              if (window.Chibi) window.Chibi.setRegionParts(pref, city);
+              var rEl = $('mp-region'); if (rEl && (pref || city)) rEl.textContent = [pref, city].filter(Boolean).join(' ');
+            }
+          });
+        });
+      });
+
+      // パスワード変更
+      $('mp-pw-save').addEventListener('click', function () {
+        var m = $('mp-pw-msg'); var p1 = $('mp-pw1').value, p2 = $('mp-pw2').value;
+        m.style.display = 'block';
+        if (!p1 || p1.length < 6) { m.style.color = '#c0314b'; m.textContent = '6文字以上で入力してください。'; return; }
+        if (p1 !== p2) { m.style.color = '#c0314b'; m.textContent = 'パスワードが一致しません。'; return; }
+        A.client().auth.updateUser({ password: p1 }).then(function (res) {
+          if (res && res.error) { m.style.color = '#c0314b'; m.textContent = '更新に失敗しました。'; }
+          else { m.style.color = '#1f8a5b'; m.textContent = 'パスワードを更新しました。'; $('mp-pw1').value = ''; $('mp-pw2').value = ''; }
+        });
+      });
+
+      // ログアウト（上・下 両方）
+      function doLogout() { A.signOut().then(function () { location.reload(); }); }
+      $('mp-logout').addEventListener('click', doLogout);
+      var lb = $('mp-logout-bottom'); if (lb) lb.addEventListener('click', doLogout);
+    }).catch(function () { $('mp-account-out').style.display = 'block'; });
   }
-  document.querySelectorAll('input[name="day"]').forEach(cb => {
-    cb.checked = (t.days || []).includes(cb.value);
-  });
-  document.getElementById('feeNum').value = t.fee_num;
-  document.getElementById('trial').value = String(t.trial);
-  document.getElementById('instagram').value = t.instagram || '';
-  document.getElementById('twitter').value = t.twitter || '';
-  document.getElementById('website_url').value = t.website_url || '';
-  document.getElementById('line_url').value = t.line_url || '';
-  document.getElementById('email').value = t.email || '';
-  document.getElementById('description').value = t.description || '';
-  document.getElementById('address').value = t.address || '';
 
-  // 写真表示（チーム切替時は必ずリセットしてから設定）
-  const preview = document.getElementById('photoPreview');
-  const photoMsg = document.getElementById('photoMsg');
-  const photoInput = document.getElementById('photoInput');
-  croppedBlob = null;
-  if (photoInput) photoInput.value = '';
-  if (photoMsg) photoMsg.textContent = '';
-
-  if (t.photo_url) {
-    preview.src = t.photo_url;
-    preview.classList.add('show');
-    document.getElementById('photoUploadArea').style.display = 'none';
-    document.getElementById('photoActions').style.display = 'flex';
+  document.addEventListener('chibi:favs', renderFavs);
+  document.addEventListener('chibi:region', renderRegion);
+  function boot() { renderAll(); initAccount(); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    preview.src = '';
-    preview.classList.remove('show');
-    document.getElementById('photoUploadArea').style.display = 'block';
-    document.getElementById('photoActions').style.display = 'none';
+    boot();
   }
-}
-
-let croppedBlob = null;
-let cropper = null;
-
-function previewPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    document.getElementById('photoMsg').textContent = '5MB以下の画像を選択してください。';
-    document.getElementById('photoMsg').style.color = '#dc2626';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const cropImg = document.getElementById('cropImage');
-    if (cropper) { cropper.destroy(); cropper = null; }
-    cropImg.src = e.target.result;
-    document.getElementById('cropModalOverlay').classList.add('open');
-    setTimeout(() => {
-      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
-    }, 100);
-  };
-  reader.readAsDataURL(file);
-}
-
-function closeCropModal() {
-  document.getElementById('cropModalOverlay').classList.remove('open');
-  if (cropper) { cropper.destroy(); cropper = null; }
-  document.getElementById('photoInput').value = '';
-}
-
-function changePhoto() {
-  document.getElementById('photoInput').value = '';
-  document.getElementById('photoInput').click();
-}
-
-function cropAndConfirm() {
-  if (!cropper) return;
-  const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 });
-  canvas.toBlob(async blob => {
-    croppedBlob = blob;
-    const preview = document.getElementById('photoPreview');
-    preview.src = canvas.toDataURL('image/jpeg');
-    preview.classList.add('show');
-    document.getElementById('photoUploadArea').style.display = 'none';
-    document.getElementById('photoActions').style.display = 'none';
-    document.getElementById('cropModalOverlay').classList.remove('open');
-    if (cropper) { cropper.destroy(); cropper = null; }
-    document.getElementById('photoMsg').textContent = 'アップロード中...';
-    document.getElementById('photoMsg').style.color = '#2563eb';
-    await uploadPhoto();
-  }, 'image/jpeg', 0.9);
-}
-
-async function uploadPhoto() {
-  if (!croppedBlob || !myTeam) return;
-
-  const path = `${myTeam.user_id}/${myTeam.id}.jpg`;
-  const { error: uploadError } = await db.storage
-    .from('team-photos')
-    .upload(path, croppedBlob, { upsert: true, contentType: 'image/jpeg' });
-
-  if (uploadError) {
-    document.getElementById('photoMsg').textContent = 'アップロードに失敗しました。';
-    document.getElementById('photoMsg').style.color = '#dc2626';
-    document.getElementById('photoUploadArea').style.display = 'block';
-    croppedBlob = null;
-    return;
-  }
-
-  const { data } = db.storage.from('team-photos').getPublicUrl(path);
-  await db.from('teams').update({ photo_url: data.publicUrl }).eq('id', myTeam.id);
-  myTeam.photo_url = data.publicUrl;
-
-  document.getElementById('photoMsg').textContent = '写真を保存しました。';
-  document.getElementById('photoMsg').style.color = '#16a34a';
-  document.getElementById('photoActions').style.display = 'flex';
-  croppedBlob = null;
-}
-
-async function removePhoto() {
-  if (!myTeam || !myTeam.photo_url) return;
-  if (!confirm('写真を削除しますか？')) return;
-
-  const path = `${myTeam.user_id}/${myTeam.id}.jpg`;
-  await db.storage.from('team-photos').remove([path]);
-  await db.from('teams').update({ photo_url: null }).eq('id', myTeam.id);
-  myTeam.photo_url = null;
-
-  const preview = document.getElementById('photoPreview');
-  preview.src = '';
-  preview.classList.remove('show');
-  document.getElementById('photoActions').style.display = 'none';
-  document.getElementById('photoUploadArea').style.display = 'block';
-  document.getElementById('photoMsg').textContent = '写真を削除しました。';
-  document.getElementById('photoMsg').style.color = '#64748b';
-}
-
-document.getElementById('editForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  if (!myTeam && !document.getElementById('agreeCheck').checked) {
-    alert('利用規約およびプライバシーポリシーへの同意が必要です。');
-    return;
-  }
-
-  const emailVal = document.getElementById('email').value.trim();
-  if (!emailVal) {
-    alert('連絡先のメールアドレスをご入力ください。');
-    return;
-  }
-
-  const saveBtns = [document.getElementById('saveBtnInfo'), document.getElementById('saveBtnPhoto')].filter(Boolean);
-  saveBtns.forEach(b => { b.disabled = true; b.textContent = '保存中...'; });
-
-  const ages = [...document.querySelectorAll('input[name="age"]:checked')].map(el => el.value);
-  const ageMin = document.querySelector('input[name="age_min"]:checked')?.value || null;
-  const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
-  const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
-  const feeNum = parseInt(document.getElementById('feeNum').value) || 0;
-
-  const updates = {
-    name: document.getElementById('name').value.trim(),
-    sport: getSportValue(),
-    pref: document.getElementById('pref').value,
-    city: document.getElementById('city').value,
-    age_groups: ages,
-    age_min: ageMin,
-    female_instructor: features.includes('female_instructor'),
-    girls_welcome: features.includes('girls_welcome'),
-    days: days,
-    fee_num: feeNum,
-    fee: `月${feeNum.toLocaleString()}円`,
-    trial: document.getElementById('trial').value === 'true',
-    instagram: document.getElementById('instagram').value.trim().replace(/^@/, '') || null,
-    twitter: document.getElementById('twitter').value.trim().replace(/^@/, '') || null,
-    website_url: document.getElementById('website_url').value.trim() || null,
-    line_url: document.getElementById('line_url').value.trim() || null,
-    email: document.getElementById('email').value.trim() || null,
-    description: document.getElementById('description').value.trim() || null,
-    address: document.getElementById('address').value.trim() || null,
-  };
-
-  let error;
-  if (myTeam) {
-    ({ error } = await db.from('teams').update(updates).eq('id', myTeam.id));
-    if (!error) {
-      // myTeamとallMyTeamsを更新
-      Object.assign(myTeam, updates);
-      const idx = allMyTeams.findIndex(t => t.id === myTeam.id);
-      if (idx >= 0) allMyTeams[idx] = myTeam;
-      renderTeamSwitcher();
-      document.getElementById('teamSwitcher').value = myTeam.id;
-    }
-  } else {
-    const { data: { session } } = await db.auth.getSession();
-    updates.user_id = session.user.id;
-    updates.status = 'pending';
-    const result = await db.from('teams').insert(updates);
-    error = result.error;
-    if (!error && result.data) myTeam = result.data;
-  }
-  const alertEl = document.getElementById('alertMsg');
-
-  if (error) {
-    alertEl.className = 'alert alert-error';
-    alertEl.textContent = '保存に失敗しました。もう一度お試しください。';
-  } else {
-    alertEl.className = 'alert alert-success';
-    alertEl.textContent = '保存しました。';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  alertEl.style.display = 'block';
-  saveBtns.forEach(b => { b.disabled = false; b.textContent = '保存する'; });
-});
-
-// 初期セッションチェック
-let initialized = false;
-
-function showLoginFallback() {
-  if (!initialized) {
-    document.getElementById('loadingArea').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
-  }
-}
-setTimeout(showLoginFallback, 3000); // 3秒以内に解決しなければログイン画面を表示
-
-db.auth.getSession().then(async ({ data: { session } }) => {
-  initialized = true;
-  if (session) {
-    document.getElementById('loginArea').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    await loadMyTeam(session.user.id);
-  } else {
-    document.getElementById('loadingArea').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
-  }
-}).catch(() => {
-  initialized = true;
-  document.getElementById('loadingArea').style.display = 'none';
-  document.getElementById('loginArea').style.display = 'block';
-});
-
-db.auth.onAuthStateChange(async (event, session) => {
-  if (!initialized) return; // getSession完了前は無視
-  if (event === 'SIGNED_IN') {
-    document.getElementById('loginArea').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    await loadMyTeam(session.user.id);
-  }
-  if (event === 'SIGNED_OUT') {
-    document.getElementById('loadingArea').style.display = 'none';
-    document.getElementById('dashboardArea').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
-    document.getElementById('logoutBtn').style.display = 'none';
-    document.querySelector('.container').classList.remove('dashboard-wide');
-  }
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && document.getElementById('loginArea').style.display !== 'none') login();
-});
+})();
 </script>
-
-<footer style="background:#1e293b;color:#94a3b8;text-align:center;padding:24px 16px;font-size:.82rem;margin-top:40px;">
-  © 2026 チビスポ｜運営：MOYORI｜<a href="legal.html" style="color:#94a3b8;">プライバシーポリシー・利用規約</a>｜<a href="contact.html" style="color:#94a3b8;">お問い合わせ</a>
-</footer>
 </body>
 </html>

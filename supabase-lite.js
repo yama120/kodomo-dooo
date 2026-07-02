@@ -24,84 +24,56 @@
       });
     }
 
+    // ---- トークンの自動更新（期限切れで全リクエストが401になるのを防ぐ）----
     let refreshPromise = null;
-
     async function refreshSession() {
-      // 同時に複数のrefreshが走らないように共有Promise
-      if (refreshPromise) return refreshPromise;
       const session = readSession();
-      if (!session?.refresh_token) return null;
-
-      refreshPromise = (async () => {
-        try {
-          const response = await fetch(`${baseUrl}/auth/v1/token?grant_type=refresh_token`, {
-            method: 'POST',
-            headers: {
-              apikey: anonKey,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ refresh_token: session.refresh_token }),
-          });
-          const text = await response.text();
-          const data = text ? JSON.parse(text) : null;
-          if (!response.ok) {
-            // refresh失敗 → セッション削除
-            writeSession(null);
-            notify('SIGNED_OUT', null);
-            return null;
+      if (!session?.refresh_token) { writeSession(null); return null; }
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          try {
+            const result = await authRequest('/auth/v1/token?grant_type=refresh_token', { refresh_token: session.refresh_token });
+            if (result.error || !result.data?.access_token) {
+              writeSession(null);
+              notify('SIGNED_OUT', null);
+              return null;
+            }
+            const fresh = await normalizeSession(result.data);
+            writeSession(fresh);
+            return fresh;
+          } finally {
+            refreshPromise = null;
           }
-          const newSession = await normalizeSession(data);
-          if (newSession) {
-            writeSession(newSession);
-            notify('TOKEN_REFRESHED', newSession);
-            return newSession;
-          }
-          return null;
-        } catch (e) {
-          console.warn('Token refresh failed:', e);
-          return null;
-        }
-      })();
-
-      try {
-        return await refreshPromise;
-      } finally {
-        refreshPromise = null;
+        })();
       }
+      return refreshPromise;
     }
 
-    async function request(path, options = {}) {
-      let session = readSession();
+    // 期限が近い/切れているセッションは先に更新してから返す
+    async function ensureFreshSession() {
+      const session = readSession();
+      if (!session?.access_token) return null;
+      if (session.expires_at && Date.now() / 1000 > session.expires_at - 30) {
+        return refreshSession();
+      }
+      return session;
+    }
 
-      // セッションが残り5分以内なら事前に更新（先回り更新）
-      if (session?.access_token && session.expires_at && session.refresh_token) {
-        const now = Math.floor(Date.now() / 1000);
-        if (session.expires_at - now < 300) {
-          const refreshed = await refreshSession();
-          if (refreshed) session = refreshed;
-        }
+    async function request(path, options = {}, _retried) {
+      const session = await ensureFreshSession();
+      const headers = new Headers(options.headers || {});
+      headers.set('apikey', anonKey);
+      headers.set('Authorization', `Bearer ${session?.access_token || anonKey}`);
+      if (options.body && !(options.body instanceof FormData) && !(options.body instanceof Blob)) {
+        headers.set('Content-Type', 'application/json');
       }
 
-      const buildHeaders = (sess) => {
-        const headers = new Headers(options.headers || {});
-        headers.set('apikey', anonKey);
-        headers.set('Authorization', `Bearer ${sess?.access_token || anonKey}`);
-        if (options.body && !(options.body instanceof FormData) && !(options.body instanceof Blob)) {
-          headers.set('Content-Type', 'application/json');
-        }
-        return headers;
-      };
-
-      let response = await fetch(`${baseUrl}${path}`, { ...options, headers: buildHeaders(session) });
-
-      // 401でrefresh_tokenがあれば再試行（リアクティブ更新）
-      if (response.status === 401 && session?.refresh_token && !options._refreshed) {
-        const refreshed = await refreshSession();
-        if (refreshed) {
-          response = await fetch(`${baseUrl}${path}`, { ...options, headers: buildHeaders(refreshed) });
-        }
+      const response = await fetch(`${baseUrl}${path}`, { ...options, headers });
+      // 401（トークン失効など）は一度だけ更新して再試行。更新できなければ匿名で再試行
+      if (response.status === 401 && session && !_retried) {
+        await refreshSession();
+        return request(path, options, true);
       }
-
       const text = await response.text();
       const json = text ? JSON.parse(text) : null;
       if (!response.ok) {
@@ -191,6 +163,14 @@
         return this.execute();
       }
 
+      upsert(values) {
+        this.method = 'POST';
+        this.body = values;
+        this.upsertMode = true; // 主キー衝突時はUPDATE（merge）
+        this.params.set('select', '*');
+        return this.execute();
+      }
+
       update(values) {
         this.method = 'PATCH';
         this.body = values;
@@ -232,7 +212,7 @@
         this.filters.forEach(([column, value]) => this.params.set(column, `eq.${value}`));
         const query = this.params.toString();
         const path = `/rest/v1/${this.table}${query ? `?${query}` : ''}`;
-        const headers = { Prefer: 'return=representation' };
+        const headers = { Prefer: (this.upsertMode ? 'resolution=merge-duplicates,' : '') + 'return=representation' };
         const result = await request(path, {
           method: this.method,
           headers,
@@ -278,8 +258,11 @@
 
     return {
       auth: {
-        async signUp({ email, password }) {
-          const result = await authRequest('/auth/v1/signup', { email, password });
+        async signUp({ email, password, options }) {
+          const body = { email, password };
+          if (options && options.data) body.data = options.data; // user_metadata（role等）
+          if (options && options.emailRedirectTo) body.gotrue_meta_security = {}, body.redirect_to = options.emailRedirectTo;
+          const result = await authRequest('/auth/v1/signup', body);
           const session = await normalizeSession(result.data);
           if (session) {
             writeSession(session);
@@ -306,7 +289,7 @@
           return authRequest('/auth/v1/recover', body);
         },
         async updateUser(values) {
-          const session = readSession() || await sessionFromUrlHash();
+          const session = (await ensureFreshSession()) || await sessionFromUrlHash();
           if (!session?.access_token) return { data: null, error: { message: 'Not logged in' } };
           const response = await fetch(`${baseUrl}/auth/v1/user`, {
             method: 'PUT',
@@ -325,7 +308,7 @@
           return { data: { user: json }, error: null };
         },
         async getUser() {
-          const session = readSession() || await sessionFromUrlHash();
+          const session = (await ensureFreshSession()) || await sessionFromUrlHash();
           if (!session?.access_token) return { data: { user: null }, error: null };
           const result = await getUserWithToken(session.access_token);
           const user = result.data?.user || result.data || null;
@@ -362,6 +345,12 @@
       },
       from(table) {
         return new QueryBuilder(table);
+      },
+      async rpc(fn, params) {
+        return request(`/rest/v1/rpc/${fn}`, {
+          method: 'POST',
+          body: JSON.stringify(params || {}),
+        });
       },
       storage: {
         from: storageBucket,

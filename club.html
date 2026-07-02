@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>港北ジュニアバスケ｜チビスポ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #fff; color: #1f2937; -webkit-font-smoothing: antialiased; }
+  .carousel::-webkit-scrollbar { height: 0; }
+  .carousel { scrollbar-width: none; }
+
+  /* ===== レスポンシブ対応 ===== */
+  /* 中央寄せブロックが画面端に密着しないよう左右パディング（PC幅では従来通り） */
+  @media (max-width: 1160px){
+    .cd-page > section,
+    .cd-page > div{ padding-left:20px !important; padding-right:20px !important; }
+  }
+  /* タブレット：ヒーロー縦積み・メイングリッド1カラム */
+  @media (max-width: 900px){
+    section[style*="gap:36px"]{ flex-direction:column !important; gap:22px !important; }
+    div[style*="flex:0 0 524px"]{ width:100% !important; flex:1 1 auto !important; }
+    div[style*="flex:0 0 524px"] > div[style*="position:relative"]{ width:100% !important; }
+    img[style*="width:524px"]{ width:100% !important; height:auto !important; }
+    div[style*="gap:11px;margin-top:12px"]{ flex-wrap:wrap !important; }
+    div[style*="grid-template-columns:1fr 336px"]{ grid-template-columns:1fr !important; }
+  }
+  /* スマホ：2カラム群を1カラム・PR4→2・コース表は横スクロール・タブと見出しを縮小 */
+  @media (max-width: 760px){
+    div[style*="grid-template-columns:1fr 1fr"]{ grid-template-columns:1fr !important; }
+    div[style*="grid-template-columns:repeat(4,1fr)"]{ grid-template-columns:repeat(2,1fr) !important; }
+    #cd-course > div{ overflow-x:auto !important; }
+    #cd-course table{ min-width:540px; }
+    .cd-tab{ font-size:13px !important; padding:12px 0 !important; }
+    h1[style*="font-size:31px"]{ font-size:24px !important; }
+  }
+  /* 狭幅スマホ：PRを1カラム・タブをさらに縮小 */
+  @media (max-width: 460px){
+    div[style*="grid-template-columns:repeat(4,1fr)"]{ grid-template-columns:1fr !important; }
+    .cd-tab{ font-size:12px !important; padding:11px 0 !important; }
+    .cd-page > section,
+    .cd-page > div{ padding-left:14px !important; padding-right:14px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="cd-page" style="width:100%;background:#fff;">
+
+  <!-- ヘッダーは shared.js で共通注入 -->
+
+  <!-- ============ BREADCRUMB ============ -->
+  <div style="max-width:1120px;margin:0 auto;padding:22px 0 16px;font-size:13px;color:#7a8694;display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+    <a href="index.html" style="color:#7a8694;text-decoration:none;">ホーム</a><span style="color:#c2cad3;">›</span>
+    <a id="cd-bc-pref" href="#" style="color:#7a8694;text-decoration:none;">愛知県</a><span id="cd-bc-sep2" style="color:#c2cad3;">›</span>
+    <a id="cd-bc-city" href="#" style="color:#7a8694;text-decoration:none;">清須市</a><span style="color:#c2cad3;">›</span>
+    <span id="cd-bc-name" style="color:#2b3340;font-weight:500;">クラブ名</span>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section style="max-width:1120px;margin:0 auto;display:flex;gap:36px;padding-bottom:28px;">
+    <!-- gallery -->
+    <div style="width:524px;flex:0 0 524px;">
+      <div style="position:relative;background:#eef1f4;border-radius:10px;">
+        <img id="cd-main-photo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" style="width:524px;height:360px;display:block;border-radius:10px;object-fit:cover;opacity:0;transition:opacity .25s ease;">
+        <div id="cd-photo-count" style="position:absolute;top:14px;right:14px;background:rgba(20,24,30,.7);color:#fff;font-size:13px;font-weight:700;padding:5px 12px;border-radius:20px;">1 / 7</div>
+        <button class="cd-arrow" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2b3340" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="cd-arrow" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2b3340" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div id="cd-thumbs" style="display:flex;gap:11px;margin-top:12px;">
+        <img src="assets/img-1401.png" alt="" style="width:96px;height:64px;display:block;border:2px solid #2563eb;border-radius:8px;object-fit:cover;">
+        <img src="assets/img-1350.png" alt="" style="width:96px;height:64px;display:block;border-radius:8px;object-fit:cover;">
+        <img src="assets/photo-26736351.jpg" alt="" style="width:96px;height:64px;display:block;border-radius:8px;object-fit:cover;">
+        <img src="assets/img-1404.png" alt="" style="width:96px;height:64px;display:block;border-radius:8px;object-fit:cover;">
+        <div style="position:relative;width:96px;height:64px;border-radius:8px;overflow:hidden;cursor:pointer;">
+          <img src="assets/img-1406-4.png" alt="" style="width:96px;height:64px;display:block;border-radius:8px;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:rgba(20,24,30,.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:1.3;border-radius:8px;">すべての<br>写真を見る</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- title + CTA -->
+    <div style="flex:1;min-width:0;">
+      <div style="display:flex;gap:18px;align-items:flex-start;">
+        <div id="cd-logo" style="width:78px;height:78px;flex:0 0 78px;border-radius:50%;border:3px solid #f08a1d;background:#1b2330;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f5a623;font-weight:900;line-height:1;overflow:hidden;">
+          <span style="font-size:9px;letter-spacing:1px;color:#f08a1d;">K&amp;G</span>
+          <span style="font-size:13px;color:#fff;margin:2px 0;">JUNIOR</span>
+          <span style="font-size:8px;letter-spacing:2px;color:#f08a1d;">BASKET</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <h1 id="cd-name" style="margin:0 0 9px;font-size:31px;font-weight:900;color:#2b3340;line-height:1.2;">港北ジュニアバスケ</h1>
+          <div style="display:flex;align-items:center;gap:7px;color:#54606e;font-size:14px;margin-bottom:5px;">
+            <span id="cd-sport-icon" style="display:inline-flex;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="#f08a1d"><circle cx="12" cy="12" r="9"/></svg></span><span id="cd-sport">バスケットボール</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;color:#54606e;font-size:14px;margin-bottom:9px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#54606e" stroke-width="1.8"><path d="M12 21s-6-5.5-6-10a6 6 0 0112 0c0 4.5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg><span id="cd-area">神奈川県 横浜市 港北区</span>
+            <a id="cd-map-link" href="#" target="_blank" rel="noopener" style="display:none;align-items:center;gap:3px;font-size:12.5px;font-weight:700;color:#2563eb;text-decoration:none;margin-left:4px;white-space:nowrap;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M12 21s-6-5.5-6-10a6 6 0 0112 0c0 4.5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>地図で見る</a>
+          </div>
+          <div style="font-size:14px;color:#54606e;"><span style="color:#8b96a3;">対象年齢</span>&nbsp;&nbsp;&nbsp;<span id="cd-age">小学3年生〜中学3年生</span></div>
+        </div>
+      </div>
+
+      <div id="cd-tags" style="display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 18px;">
+        <span style="background:#e8f1fd;color:#2563eb;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;">体験OK</span>
+        <span style="background:#e8f1fd;color:#2563eb;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;">土日開催</span>
+        <span style="background:#e8f1fd;color:#2563eb;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;">平日開催</span>
+        <span style="background:#e8f1fd;color:#2563eb;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;">大会出場実績</span>
+      </div>
+
+      <button class="cd-fav cd-fav-toggle" style="display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:40px;font-size:15px;font-weight:700;cursor:pointer;border:1.5px solid #d8dde2;background:#fff;color:#374151;">
+        <svg class="cd-fav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        <span class="cd-fav-label" data-fav-label="plain">お気に入り</span>
+      </button>
+
+      <button style="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.28);" style-hover="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.34);">体験申込をする（無料）</button>
+
+      <div style="display:flex;margin-top:16px;border:1px solid #e5e8ec;border-radius:12px;overflow:hidden;">
+        <a id="cd-hp" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 0;font-size:15px;font-weight:700;color:#2b3340;text-decoration:none;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式HP</a>
+        <div style="width:1px;background:#e5e8ec;"></div>
+        <a id="cd-ig" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 0;font-size:15px;font-weight:700;color:#2b3340;text-decoration:none;cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagram</a>
+        <div style="width:1px;background:#e5e8ec;"></div>
+        <a id="cd-line" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 0;font-size:15px;font-weight:700;color:#2b3340;text-decoration:none;cursor:pointer;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABS ============ -->
+  <div style="max-width:1120px;margin:0 auto;">
+    <div style="display:flex;gap:6px;background:#eef1f4;border-radius:10px;padding:6px;">
+      <div class="cd-tab" data-target="cd-points" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;background:#2563eb;color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);">教室情報</div>
+      <div class="cd-tab" data-target="cd-review" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">口コミ・評価</div>
+      <div class="cd-tab" id="cd-tab-course" data-target="cd-course" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">コース一覧</div>
+      <div class="cd-tab" data-target="cd-station" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">地図・アクセス</div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN GRID ============ -->
+  <div style="max-width:1120px;margin:24px auto 0;display:grid;grid-template-columns:1fr 336px;gap:24px;align-items:start;">
+
+    <!-- LEFT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:24px;min-width:0;">
+
+      <!-- points + intro -->
+      <div id="cd-points" style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 28px;">
+        <h2 id="cd-points-h" style="margin:0 0 16px;font-size:18px;font-weight:900;color:#2b3340;">おすすめポイント</h2>
+        <div id="cd-points-list" style="display:flex;flex-direction:column;gap:11px;margin-bottom:24px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>経験豊富なコーチが基礎から丁寧に指導！</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>チームワークと礼儀を大切にした指導方針</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>大会出場や交流試合で実力を伸ばせる環境</div>
+        </div>
+        <h2 style="margin:0 0 12px;font-size:18px;font-weight:900;color:#2b3340;">紹介文</h2>
+        <p id="cd-desc" style="margin:0;font-size:14.5px;line-height:1.95;color:#4a5560;text-wrap:pretty;white-space:pre-wrap;">港北ジュニアバスケットボールクラブは、「楽しい！」を大切にしながら、バスケットボールの技術向上はもちろん、仲間との絆、感謝の気持ちやあきらめない心を育てることを目指しています。初心者から経験者まで、それぞれのレベルに合わせた指導を行っています。</p>
+      </div>
+
+      <!-- course table -->
+      <div id="cd-course" style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 28px;">
+        <h2 style="margin:0 0 18px;font-size:18px;font-weight:900;color:#2b3340;">コース一覧</h2>
+        <div style="border:1px solid #e9ecef;border-radius:10px;overflow:hidden;">
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <thead>
+              <tr style="background:#f5f7f9;color:#6b7682;font-weight:700;">
+                <th style="text-align:left;padding:13px 18px;font-weight:700;">コース名</th>
+                <th style="text-align:left;padding:13px 12px;font-weight:700;">対象年齢</th>
+                <th style="text-align:left;padding:13px 12px;font-weight:700;">開催日</th>
+                <th style="text-align:left;padding:13px 12px;font-weight:700;">月謝</th>
+              </tr>
+            </thead>
+            <tbody id="cd-course-body" style="color:#3a4550;">
+              <tr style="border-top:1px solid #eef1f3;">
+                <td style="padding:15px 18px;font-weight:700;">U-9クラス</td>
+                <td style="padding:15px 12px;">小学3〜4年生</td>
+                <td style="padding:15px 12px;">土 9:00〜11:00</td>
+                <td style="padding:15px 12px;font-weight:700;">¥6,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- recommend -->
+      <div id="cd-grid-rr" style="display:grid;grid-template-columns:1fr;gap:24px;">
+        <div id="cd-recommend" style="border:1px solid #e5e8ec;border-radius:14px;padding:24px;">
+          <h2 style="margin:0 0 16px;font-size:17px;font-weight:900;color:#2b3340;">こんなお子様におすすめ</h2>
+          <div id="cd-recommend-list" style="display:flex;flex-direction:column;gap:11px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3a4550;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 18px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>バスケットボールを通して体力をつけたい</div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3a4550;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 18px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>チーム競技で協力する心と自立心を育てたい</div>
+            <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3a4550;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 18px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>大会など目標に向かって頑張りたい</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <!-- info table -->
+      <div style="border:1px solid #e5e8ec;border-radius:14px;overflow:hidden;">
+        <div id="cd-info" style="display:grid;grid-template-columns:104px 1fr;font-size:13.5px;">
+          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;border-bottom:1px solid #eef1f3;">活動エリア</div>
+          <div style="padding:14px 16px;color:#3a4550;border-bottom:1px solid #eef1f3;">神奈川県 横浜市 港北区</div>
+          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;">体験</div>
+          <div style="padding:14px 16px;color:#3a4550;">無料（随時受付中）</div>
+        </div>
+      </div>
+
+      <!-- CTA card -->
+      <div style="border:1px solid #f3c9da;border-radius:14px;padding:22px;background:#fffafc;">
+        <div style="text-align:center;color:#ea3b7e;font-size:15px;font-weight:900;margin-bottom:14px;">まずは気軽から！</div>
+        <button id="cd-trial-open" style="width:100%;padding:17px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);" style-hover="width:100%;padding:17px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.32);">体験申込をする（無料）</button>
+        <button class="cd-fav-toggle" style="width:100%;margin-top:11px;padding:14px 0;border:1.5px solid #d8dde2;border-radius:40px;background:#fff;color:#374151;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg class="cd-fav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="cd-fav-label" data-fav-label="suffix">お気に入りに追加</span>
+        </button>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px;">
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#2563eb;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式サイトを見る</a>
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#e1306c;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagramで見る</a>
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#06c755;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINEで問い合わせる</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ COMMENTS ============ -->
+  <div id="cd-comments-sec" style="max-width:1120px;margin:24px auto 0;">
+    <div style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 24px;background:#fff;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <span style="width:34px;height:34px;border-radius:10px;background:#eef4ff;display:flex;align-items:center;justify-content:center;flex:0 0 34px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg>
+        </span>
+        <h2 style="margin:0;font-size:18px;font-weight:900;color:#2b3340;">みんなのコメント</h2>
+        <span id="cd-cmt-count" style="background:#eef4ff;color:#2563eb;font-size:12.5px;font-weight:800;padding:3px 11px;border-radius:999px;">0</span>
+      </div>
+      <p style="margin:0 0 20px 44px;font-size:12.5px;color:#8a95a0;">クラブの雰囲気や体験の感想など、ニックネームで投稿できます。誹謗中傷はご遠慮ください。</p>
+
+      <!-- 投稿フォーム（ログイン時） -->
+      <div id="cd-cmt-form" style="display:none;margin-bottom:22px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span id="cd-cmt-avatar" style="width:38px;height:38px;border-radius:50%;background:#eef4ff;color:#2563eb;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex:0 0 38px;">?</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;color:#8a95a0;margin-bottom:6px;"><span id="cd-cmt-nick" style="font-weight:800;color:#2b3340;"></span> として投稿</div>
+            <textarea id="cd-cmt-body" rows="3" maxlength="1000" placeholder="コメントを入力（1000文字まで）" style="width:100%;border:1.5px solid #dfe4ea;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#dfe4ea'"></textarea>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:10px;">
+              <span id="cd-cmt-msg" style="font-size:12.5px;"></span>
+              <button id="cd-cmt-submit" style="background:#2563eb;color:#fff;border:none;border-radius:999px;padding:10px 26px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 10px rgba(37,99,235,.22);">投稿する</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 未ログイン時 -->
+      <div id="cd-cmt-login" style="display:none;background:linear-gradient(135deg,#f4f8ff,#f8fafc);border:1px dashed #c9d8f2;border-radius:12px;padding:20px;margin-bottom:22px;text-align:center;">
+        <span style="font-size:13px;color:#54606e;">コメントするには </span><a href="login.html" style="color:#2563eb;font-weight:800;text-decoration:none;">ログイン / 会員登録</a>
+      </div>
+
+      <!-- コメント一覧 -->
+      <div id="cd-cmt-list" style="display:flex;flex-direction:column;gap:0;"></div>
+      <div id="cd-cmt-empty" style="display:none;text-align:center;color:#9aa4af;font-size:13px;padding:28px;background:#fafbfc;border-radius:12px;">まだコメントはありません。最初のコメントを書いてみませんか？</div>
+    </div>
+  </div>
+
+  <!-- ============ STATION / AREA ============ -->
+  <div id="cd-station" style="max-width:1120px;margin:24px auto 0;">
+    <div style="border:1px solid #e5e8ec;border-radius:14px;padding:22px 24px;">
+      <h3 style="margin:0 0 15px;font-size:16px;font-weight:900;color:#2b3340;">近いエリアから他クラブを探す</h3>
+      <div id="cd-area-tags" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <span style="border:1px solid #dde2e7;border-radius:8px;padding:9px 16px;font-size:14px;color:#3a4550;cursor:pointer;">エリアを読み込み中…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CAROUSELS ============ -->
+  <div style="max-width:1120px;margin:24px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <!-- magazine -->
+    <div style="border:1px solid #e5e8ec;border-radius:14px;padding:22px 24px;position:relative;min-width:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 16px;">
+        <h3 style="margin:0;font-size:16px;font-weight:900;color:#2b3340;">お役立ちマガジン</h3>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button class="cd-mag-prev" style="width:32px;height:32px;border-radius:50%;border:1px solid #d7dde5;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="cd-mag-next" style="width:32px;height:32px;border-radius:50%;border:1px solid #d7dde5;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div id="cd-mag" class="carousel" style="display:flex;gap:14px;overflow-x:auto;padding:2px;">
+        <div style="flex:0 0 122px;cursor:pointer;">
+          <img src="assets/photo-34816422.jpg" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;">
+          <div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;">バスケが上手くなる！家庭でできる練習方法5選</div>
+          <div style="font-size:11px;color:#9aa4af;margin-top:6px;">2024.04.20</div>
+        </div>
+        <div style="flex:0 0 122px;cursor:pointer;">
+          <img src="assets/img-1353.png" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;">
+          <div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;">試合で活躍する子の特徴とは？保護者ができるサポート</div>
+          <div style="font-size:11px;color:#9aa4af;margin-top:6px;">2024.04.18</div>
+        </div>
+        <div style="flex:0 0 122px;cursor:pointer;">
+          <img src="assets/img-1406-3.png" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;">
+          <div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;">低学年のうちに身につけたいバスケの基礎</div>
+          <div style="font-size:11px;color:#9aa4af;margin-top:6px;">2024.04.15</div>
+        </div>
+        <div style="flex:0 0 122px;cursor:pointer;">
+          <img src="assets/hero.png" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;">
+          <div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;">熱中症を防ぐ！夏の練習で気をつけること</div>
+          <div style="font-size:11px;color:#9aa4af;margin-top:6px;">2024.04.10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- other clubs -->
+    <div style="border:1px solid #e5e8ec;border-radius:14px;padding:22px 24px;position:relative;min-width:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 16px;">
+        <h3 style="margin:0;font-size:16px;font-weight:900;color:#2b3340;">近いエリアの他クラブ</h3>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button class="cd-club-prev" style="width:32px;height:32px;border-radius:50%;border:1px solid #d7dde5;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="cd-club-next" style="width:32px;height:32px;border-radius:50%;border:1px solid #d7dde5;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div id="cd-club" class="carousel" style="display:flex;gap:14px;overflow-x:auto;padding:2px;">
+        <div style="flex:0 0 158px;cursor:pointer;">
+          <img src="assets/img-1401.png" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">
+          <div style="font-size:12.5px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:9px;">日吉ミニバスケットボールクラブ</div>
+          <div style="font-size:13px;font-weight:700;color:#ea3b7e;margin-top:5px;">¥5,500〜</div>
+        </div>
+        <div style="flex:0 0 158px;cursor:pointer;">
+          <img src="assets/img-1350.png" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">
+          <div style="font-size:12.5px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:9px;">綱島バスケットボールスクール</div>
+          <div style="font-size:13px;font-weight:700;color:#ea3b7e;margin-top:5px;">¥6,000〜</div>
+        </div>
+        <div style="flex:0 0 158px;cursor:pointer;">
+          <img src="assets/photo-26736351.jpg" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">
+          <div style="font-size:12.5px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:9px;">大倉山バスケクラブ</div>
+          <div style="font-size:13px;font-weight:700;color:#ea3b7e;margin-top:5px;">¥6,000〜</div>
+        </div>
+        <div style="flex:0 0 158px;cursor:pointer;">
+          <img src="assets/img-1404.png" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">
+          <div style="font-size:12.5px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:9px;">新横浜キッズバスケ</div>
+          <div style="font-size:13px;font-weight:700;color:#ea3b7e;margin-top:5px;">¥5,800〜</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LOCAL PR ============ -->
+  <div style="max-width:1120px;margin:24px auto 0;">
+    <div style="border:1px solid #e5e8ec;border-radius:14px;padding:22px 24px;">
+      <h3 style="margin:0 0 16px;font-size:16px;font-weight:900;color:#2b3340;">地域のおすすめ企業</h3>
+      <div id="cd-companies" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <a href="pr-sample.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
+          <div style="display:flex;align-items:center;gap:11px;">
+            <img src="assets/pr-hero.png" alt="さくら整骨院" style="width:54px;height:42px;flex:0 0 54px;border-radius:6px;object-fit:cover;display:block;">
+            <div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#2b3340;">さくら整骨院</div><div style="font-size:11px;color:#8a95a0;margin-top:2px;">スポーツ外傷・体のケア</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市中区</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+        <a href="pr-sample-sports.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
+          <div style="display:flex;align-items:center;gap:11px;">
+            <img src="assets/ms-hero.png" alt="ミナトスポーツ" style="width:54px;height:42px;flex:0 0 54px;border-radius:6px;object-fit:cover;display:block;background:#fdeef0;">
+            <div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#2b3340;">ミナトスポーツ</div><div style="font-size:11px;color:#8a95a0;margin-top:2px;">スポーツ用品の専門店</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市港区</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+        <a href="pr-sample-cafe.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
+          <div style="display:flex;align-items:center;gap:11px;">
+            <img src="assets/hc-hero.png" alt="ヘルシーカフェ" style="width:54px;height:42px;flex:0 0 54px;border-radius:6px;object-fit:cover;display:block;background:#edf7ef;">
+            <div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#2b3340;">ヘルシーカフェ</div><div style="font-size:11px;color:#8a95a0;margin-top:2px;">食事で体をつくる</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市昭和区</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+        <a href="pr-sample-design.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
+          <div style="display:flex;align-items:center;gap:11px;">
+            <img src="assets/db-hero.png" alt="デザインボックス" style="width:54px;height:42px;flex:0 0 54px;border-radius:6px;object-fit:cover;display:block;background:#eef0f2;">
+            <div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#2b3340;">デザインボックス</div><div style="font-size:11px;color:#8a95a0;margin-top:2px;">チームTシャツ・ユニフォーム</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>オンラインショップ</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+      </div>
+      <a href="recruit-pr.html" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;padding:14px 18px;border-radius:10px;background:linear-gradient(100deg,#fff4f6,#fef0ea);border:1px dashed #f1b6c1;text-decoration:none;">
+        <div style="font-size:13px;font-weight:800;color:#2b3340;">📣 あなたのお店も、この枠に掲載しませんか？<span style="display:block;font-size:11.5px;font-weight:600;color:#8a95a0;margin-top:3px;">地域の子育て世帯にPR。掲載プラン・料金はこちら</span></div>
+        <span style="flex:0 0 auto;background:#e8455f;color:#fff;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:999px;">広告掲載を見る ›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============ TRIAL MODAL ============ -->
+  <div id="cd-trial-modal" style="display:none;position:fixed;inset:0;z-index:2000;align-items:center;justify-content:center;padding:20px;background:rgba(15,21,30,.55);">
+    <div style="background:#fff;border-radius:18px;max-width:480px;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;padding:26px 24px;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;">
+      <button id="cd-trial-close" aria-label="閉じる" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:#f3f4f6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5b6573" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;color:#1f2a37;">体験申込み（無料）</h2>
+      <p id="cd-trial-team" style="margin:0 0 18px;font-size:12.5px;color:#8a95a0;"></p>
+
+      <div id="cd-trial-form">
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:0 0 5px;">お子さまの学年 <span style="color:#e0344c;font-size:11px;">必須</span></label>
+        <select id="tr-grade" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+          <option value="">選択してください</option>
+          <option>未就学（年少以下）</option><option>年中</option><option>年長</option>
+          <option>小学1年</option><option>小学2年</option><option>小学3年</option><option>小学4年</option><option>小学5年</option><option>小学6年</option>
+          <option>中学1年</option><option>中学2年</option><option>中学3年</option>
+        </select>
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">経験</label>
+        <div id="tr-exp" style="display:flex;gap:8px;">
+          <span class="tr-exp-opt" data-v="はじめて" style="flex:1;text-align:center;padding:9px 0;border:1px solid #d7dbe0;border-radius:20px;font-size:12.5px;font-weight:600;color:#54606e;cursor:pointer;">はじめて</span>
+          <span class="tr-exp-opt" data-v="少し経験あり" style="flex:1;text-align:center;padding:9px 0;border:1px solid #d7dbe0;border-radius:20px;font-size:12.5px;font-weight:600;color:#54606e;cursor:pointer;">少し経験あり</span>
+          <span class="tr-exp-opt" data-v="経験者" style="flex:1;text-align:center;padding:9px 0;border:1px solid #d7dbe0;border-radius:20px;font-size:12.5px;font-weight:600;color:#54606e;cursor:pointer;">経験者</span>
+        </div>
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">体験希望日（任意）</label>
+        <input id="tr-date1" type="text" placeholder="第1希望（例：7月12日（土）午前）" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+        <input id="tr-date2" type="text" placeholder="第2希望（任意）" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;margin-top:8px;">
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">保護者のお名前 <span style="color:#e0344c;font-size:11px;">必須</span></label>
+        <input id="tr-name" type="text" placeholder="例：山田 花子" autocomplete="name" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">連絡先メールアドレス <span style="color:#e0344c;font-size:11px;">必須</span></label>
+        <input id="tr-email" type="email" placeholder="you@example.com" autocomplete="email" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">メッセージ（任意）</label>
+        <textarea id="tr-msg" rows="3" maxlength="500" placeholder="質問や気になることがあればどうぞ" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+
+        <div id="tr-err" style="display:none;background:#fdecee;color:#c0314b;border-radius:9px;padding:10px 13px;font-size:12.5px;margin-top:12px;line-height:1.6;"></div>
+        <button id="tr-submit" style="width:100%;margin-top:16px;padding:15px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);">この内容で申し込む</button>
+        <p style="margin:10px 0 0;font-size:11px;color:#aab1bb;text-align:center;line-height:1.7;">送信した内容はこのクラブの運営者にのみ共有されます。</p>
+      </div>
+
+      <div id="cd-trial-done" style="display:none;text-align:center;padding:20px 0 10px;">
+        <div style="font-size:40px;margin-bottom:10px;">🎉</div>
+        <div style="font-size:17px;font-weight:900;color:#1f2a37;margin-bottom:8px;">申込みを送信しました！</div>
+        <p style="margin:0;font-size:13px;color:#54606e;line-height:1.9;">クラブから連絡が届くまでお待ちください。<br>返信が無い場合は、クラブのSNS等から直接お問い合わせください。</p>
+        <button id="cd-trial-done-close" style="margin-top:18px;background:#fff;border:1.5px solid #d7dbe0;color:#3a4550;border-radius:999px;padding:11px 30px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER NOTE ============ -->
+  <div style="max-width:1120px;margin:18px auto 48px;font-size:11.5px;color:#aab2bb;">※掲載内容は変更される場合があります。最新の情報は各教室の公式サイトをご確認ください。</div>
+
+</div>
+
+<script>
+  // style-hover シム（体験申込ボタン等）
+  document.querySelectorAll('[style-hover]').forEach(function(el){
+    var base = el.getAttribute('style') || '', hov = el.getAttribute('style-hover') || '';
+    el.addEventListener('mouseenter', function(){ el.setAttribute('style', base + ';' + hov); });
+    el.addEventListener('mouseleave', function(){ el.setAttribute('style', base); });
+  });
+  // タブ：アクティブ切替＋該当セクションへスクロール
+  var TB='flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;', TA='background:#2563eb;color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);', TI='color:#54606e;';
+  document.querySelectorAll('.cd-tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.cd-tab').forEach(function(x){ x.setAttribute('style', TB+TI); });
+      t.setAttribute('style', TB+TA);
+      var el = document.getElementById(t.dataset.target);
+      if(el){ var y = el.getBoundingClientRect().top + window.pageYOffset - 90; window.scrollTo({ top:y, behavior:'smooth' }); }
+    });
+  });
+  // お気に入りトグル（複数ボタン連動・Chibiに保存してマイページと同期）
+  var FAV_ID = new URLSearchParams(location.search).get('id') || '';
+  var favData = { id: FAV_ID, name: '', area: '', img: '', href: 'club.html?id=' + encodeURIComponent(FAV_ID) };
+  var fav = (window.Chibi && FAV_ID) ? Chibi.isFav(FAV_ID) : false;
+  function renderFav(){
+    document.querySelectorAll('.cd-fav-icon').forEach(function(s){
+      s.setAttribute('fill', fav?'#ea3b7e':'none');
+      s.setAttribute('stroke', fav?'#ea3b7e':'#374151');
+    });
+    document.querySelectorAll('.cd-fav-label').forEach(function(el){
+      el.textContent = (fav?'お気に入り登録済み':'お気に入り') + (el.dataset.favLabel==='suffix'?'に追加':'');
+    });
+    var hero = document.querySelector('.cd-fav');
+    if(hero) hero.setAttribute('style','display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:40px;font-size:15px;font-weight:700;cursor:pointer;'+(fav?'border:1.5px solid #ea3b7e;background:#fff0f6;color:#ea3b7e;':'border:1.5px solid #d8dde2;background:#fff;color:#374151;'));
+  }
+  document.querySelectorAll('.cd-fav-toggle').forEach(function(b){ b.addEventListener('click', function(){
+    if(window.Chibi && FAV_ID){ Chibi.toggleFav(favData); fav = Chibi.isFav(FAV_ID); }
+    else { fav=!fav; }
+    renderFav();
+  }); });
+  renderFav();
+  // 実データ読込後にお気に入り情報を更新するためのフック（別スクリプトから呼ばれる）
+  window._cdFavSync = function(t){
+    favData.name = t.name || '';
+    favData.area = [t.pref, t.city].filter(Boolean).join('・');
+    favData.img = t.photo_url || '';
+    if(window.Chibi && FAV_ID) fav = Chibi.isFav(FAV_ID);
+    renderFav();
+  };
+  // カルーセル
+  function slide(sel, dir){ var el=document.querySelector(sel); if(el) el.scrollBy({ left: dir*320, behavior:'smooth' }); }
+  var q=function(c){return document.querySelector(c);};
+  if(q('.cd-mag-prev')) q('.cd-mag-prev').addEventListener('click', function(){ slide('#cd-mag', -1); });
+  if(q('.cd-mag-next')) q('.cd-mag-next').addEventListener('click', function(){ slide('#cd-mag', 1); });
+  if(q('.cd-club-prev')) q('.cd-club-prev').addEventListener('click', function(){ slide('#cd-club', -1); });
+  if(q('.cd-club-next')) q('.cd-club-next').addEventListener('click', function(){ slide('#cd-club', 1); });
+</script>
+<!-- ?id のクラブをSupabaseから読み込んで詳細を実データ化（idが無ければ静的デモのまま） -->
+<script src="supabase-lite.js"></script>
+<script>
+(function(){
+  var id=new URLSearchParams(location.search).get('id');
+  if(!id || !window.supabase) return;
+  var db=supabase.createClient('https://emkpkomrgknzrmxqbrvx.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
+  var FALLBACK='assets/img-1401.png';
+  function setText(idn,v){ var e=document.getElementById(idn); if(e&&v!=null) e.textContent=v; }
+  function linkOrHide(idn,href){ var a=document.getElementById(idn); if(!a)return; if(href){ a.setAttribute('href',href); } else { a.style.display='none'; } }
+  function sportArt(sp){
+    sp=sp||'';
+    function has(){ for(var i=0;i<arguments.length;i++){ if(sp.indexOf(arguments[i])>=0) return true; } return false; }
+    if(has('サッカー','フットボール','フラッグ')) return {c:'#6BAAEF',i:'<circle cx="12" cy="12" r="9"/><polygon points="12,8 15,10.2 13.8,13.8 10.2,13.8 9,10.2"/>'};
+    if(has('バスケ'))                              return {c:'#F5A24B',i:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.2 3.2 9.6 9.6 12.8 12.8M18.4 5.6C15.2 8.8 8.8 15.2 5.6 18.4"/>'};
+    if(has('野球','ベースボール'))                  return {c:'#E8884A',i:'<circle cx="12" cy="12" r="9"/><path d="M7 5.2c2.6 2.8 4.4 7.4 4.4 13.6M17 5.2c-2.6 2.8-4.4 7.4-4.4 13.6"/>'};
+    if(has('バレー'))                              return {c:'#FFC83F',i:'<circle cx="12" cy="12" r="9"/><path d="M12 3a18 18 0 010 18M3.4 9c5 1 11.6 4 16.2 9M3.4 15c5-1 11.6-4 16.2-9"/>'};
+    if(has('テニス'))                              return {c:'#5BD6A0',i:'<ellipse cx="10" cy="8.5" rx="5" ry="6"/><path d="M6.6 13.2 3.5 19.5M7 6l6 5"/>'};
+    if(has('水泳','スイミング'))                    return {c:'#3FB6D6',i:'<circle cx="15" cy="6" r="2"/><path d="M3 16c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M4 12l5-3 3 2"/>'};
+    if(has('バトン')) return {c:'#FF7FB6',i:'<circle cx="6.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><path d="M8 16 L16 8"/><path d="M19.5 4.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>'};
+    if(has('ダブルダッチ')) return {c:'#C98BFF',i:'<path d="M5 4.5c-2.6 4-2.6 11 0 15"/><path d="M19 4.5c2.6 4 2.6 11 0 15"/><circle cx="12" cy="7.5" r="2"/><path d="M12 9.5v5l-2 5M12 14.5l2 5"/>'};
+    if(has('マルチ')) return {c:'#2a6fdb',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
+    if(has('柔術')) return {c:'#7B8CE8',i:'<path d="M3 11h7l2 2 2-2h7"/><path d="M10 11l-1.5 6M14 11l1.5 6"/>'};
+    if(has('レスリング','相撲')) return {c:'#7B8CE8',i:'<circle cx="8" cy="6.5" r="2.2"/><circle cx="16" cy="6.5" r="2.2"/><path d="M8 8.7c0 2 1.6 3.3 4 3.3s4-1.3 4-3.3"/><path d="M6 19c0-3 1-5 2.5-5M18 19c0-3-1-5-2.5-5"/>'};
+    if(has('空手','テコンドー')) return {c:'#7B8CE8',i:'<circle cx="11" cy="5" r="2"/><path d="M11 7l-1 6M10 13l-3 5M10 13l5-1M11 10l5 3"/>'};
+    if(has('スキー')) return {c:'#58b7d8',i:'<circle cx="16.5" cy="5" r="1.8"/><path d="M4 18 L18 8 M7 19.5 L21 9.5"/>'};
+    if(has('スノーボード','スノボ')) return {c:'#e8884a',i:'<rect x="9.5" y="3.5" width="5" height="17" rx="2.5" transform="rotate(32 12 12)"/><circle cx="6.5" cy="9" r="1.4"/><circle cx="17.5" cy="15" r="1.4"/>'};
+    if(has('サーフィン')) return {c:'#3FB6D6',i:'<path d="M4.5 19.5c7.5-1.5 12-9.5 15.5-15.5C14 5.5 6.5 11.5 4.5 19.5z"/><path d="M4.5 19.5l2.8-2.8"/>'};
+    if(has('カヌー')) return {c:'#b04ae8',i:'<path d="M3 14c3.5 3 14 3 18 0"/><path d="M8 5l8 12M16 5L8 17"/>'};
+    if(has('ダンス','チア','バトン'))               return {c:'#FF7FB6',i:'<circle cx="13" cy="5" r="2"/><path d="M13 7l-2 6M11 13l-3.5 5M11 13l4 2M13 9l4-1"/>'};
+    if(has('空手','柔道','柔術','剣道','テコンドー','武道','レスリング','相撲')) return {c:'#7B8CE8',i:'<circle cx="12" cy="5" r="2"/><path d="M12 7v5l4 2M12 12l-4 2M8 20l4-4 4 4"/>'};
+    if(has('体操','運動','マルチ','リズム','体育','陸上','ダブルダッチ')) return {c:'#C98BFF',i:'<circle cx="12" cy="5" r="2"/><path d="M12 7v6M8 9.5l8 1.5M9 19l3-6 3 6"/>'};
+    return {c:'#9aa3ad',i:'<path d="M12 3.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 17.8l-4.8 2.6.9-5.4L4.2 9.2l5.4-.8z"/>'};
+  }
+  function sportSvg(sp,size){ var a=sportArt(sp); size=size||14; return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex:0 0 auto">'+a.i+'</svg>'; }
+  function sportPlaceholder(sp, extra, iconSize){ var a=sportArt(sp); return '<div style="'+(extra||'')+'display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,'+a.c+'2e,'+a.c+'14);"><svg width="'+(iconSize||56)+'" height="'+(iconSize||56)+'" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="opacity:.9;">'+a.i+'</svg></div>'; }
+
+  db.from('teams').select('*').eq('id',id).eq('status','approved').single().then(function(res){
+    if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); return; }
+    var t=res.data;
+    // お気に入り保存用データを実データで更新（マイページ表示用）
+    if(window._cdFavSync) window._cdFavSync(t);
+
+    document.title=(t.name||'クラブ')+'｜チビスポ';
+    setText('cd-name',t.name); setText('cd-bc-name',t.name);
+    setText('cd-sport',t.sport);
+    // 種目アイコン（オレンジ丸→競技アイコン）
+    var siEl=document.getElementById('cd-sport-icon');
+    if(siEl){ var sa=sportArt(t.sport); siEl.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="'+sa.c+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+sa.i+'</svg>'; }
+    // ロゴ：あれば画像、無ければ枠ごと非表示
+    var logoEl=document.getElementById('cd-logo');
+    if(logoEl){ if(t.logo_url){ logoEl.innerHTML='<img src="'+t.logo_url+'" alt="" style="width:100%;height:100%;object-fit:cover;object-position:'+(t.logo_position||'50% 50%')+';display:block;">'; logoEl.style.background='#fff'; logoEl.style.border='1px solid #e5e8ec'; } else { logoEl.style.display='none'; } }
+    setText('cd-area',[t.pref,t.city,t.address].filter(Boolean).join(' '));
+    // 住所のGoogle Mapsリンク
+    var addrFull=[t.pref,t.city,t.address].filter(Boolean).join(' ');
+    var mapLink=document.getElementById('cd-map-link');
+    if(mapLink){ if(addrFull){ mapLink.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addrFull); mapLink.style.display='inline-flex'; } else { mapLink.style.display='none'; } }
+    // パンくず：都道府県・市区町村を実データ化＋検索リンク
+    (function(){ var prefS=String(t.pref||'').replace(/[都道府県]$/,'');
+      var bp=document.getElementById('cd-bc-pref');
+      if(bp){ if(t.pref){ bp.textContent=t.pref; bp.href='search.html?pref='+encodeURIComponent(prefS); } else { bp.style.display='none'; } }
+      var bc=document.getElementById('cd-bc-city');
+      if(bc){ if(t.city){ bc.textContent=t.city; bc.href='search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.style.display='none'; var s2=document.getElementById('cd-bc-sep2'); if(s2) s2.style.display='none'; } }
+    })();
+    var ages=(t.age_groups||[]).join('・'); if(t.age_min) ages+=(ages?'（'+t.age_min+'〜の受入も）':t.age_min); setText('cd-age',ages||'お問い合わせください');
+    if(t.description) setText('cd-desc', String(t.description).replace(/\*\*/g,''));
+
+    // 特徴タグ（事実）を実データで再構築
+    var tags=[]; var days=t.days||[];
+    if(t.trial) tags.push('体験OK');
+    if(days.indexOf('土')>=0||days.indexOf('日')>=0) tags.push('土日開催');
+    if(['月','火','水','木','金'].some(function(d){return days.indexOf(d)>=0;})) tags.push('平日開催');
+    if(t.girls_welcome) tags.push('女の子歓迎');
+    if(t.female_instructor) tags.push('女性指導者あり');
+    var tagWrap=document.getElementById('cd-tags');
+    var moods=(Array.isArray(t.moods)?t.moods:[]);
+    var moodHTML=moods.map(function(m){return '<span style="background:#eafaf0;color:#1f8a5b;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;border:1px solid #bfe6cf;"># '+m+'</span>';}).join('');
+    var featHTML=tags.map(function(x){return '<span style="background:#e8f1fd;color:#2563eb;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;">'+x+'</span>';}).join('');
+    if(tagWrap){ tagWrap.innerHTML=moodHTML+featHTML; }
+
+    // 連絡先
+    linkOrHide('cd-hp', t.website_url||'');
+    linkOrHide('cd-ig', t.instagram?('https://instagram.com/'+t.instagram):'');
+    linkOrHide('cd-line', t.line_url||'');
+
+    // ギャラリー（plan=freeは1枚／有料は最大7枚。今はphoto_url 1枚。将来 photos[] があれば対応）
+    var photos=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
+    // 実効プラン：有料でも期限切れなら free 扱い（期限切れ自動ダウングレード）
+    function effectivePlan(tm){ var p=tm.plan||'free'; if(p==='free') return 'free'; if(tm.plan_expires_at && new Date(tm.plan_expires_at) < new Date()) return 'free'; return p; }
+    var limit=(effectivePlan(t)!=='free')?7:1;
+    photos=photos.slice(0,limit);
+    var positions=(Array.isArray(t.photo_positions)?t.photo_positions:[]);
+    function posOf(i){ return positions[i]||'50% 50%'; }
+    var main=document.getElementById('cd-main-photo');
+    if(main){
+      if(photos.length){ main.onload=function(){ main.style.opacity='1'; }; main.style.objectPosition=posOf(0); main.src=photos[0]; }
+      else { var a=sportArt(t.sport); main.outerHTML='<div style="width:100%;max-width:524px;aspect-ratio:524/360;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,'+a.c+'2e,'+a.c+'14);"><svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" style="opacity:.9;">'+a.i+'</svg></div>'; }
+    }
+    var count=document.getElementById('cd-photo-count');
+    var thumbs=document.getElementById('cd-thumbs');
+    if(photos.length<=1){
+      if(count) count.style.display='none';
+      if(thumbs) thumbs.style.display='none';
+      document.querySelectorAll('.cd-arrow').forEach(function(b){ b.style.display='none'; });
+    } else {
+      if(count) count.textContent='1 / '+photos.length;
+      if(thumbs){ thumbs.innerHTML=photos.map(function(p,i){return '<img src="'+p+'" alt="" data-pos="'+posOf(i)+'" style="width:96px;height:64px;display:block;'+(i===0?'border:2px solid #2563eb;':'')+'border-radius:8px;object-fit:cover;object-position:'+posOf(i)+';cursor:pointer;" onclick="var m=document.getElementById(\'cd-main-photo\');m.src=this.src;m.style.objectPosition=this.getAttribute(\'data-pos\');">';}).join(''); }
+    }
+
+    // ===== 教室情報セクションを実データ化（無いデータの行・セクションは隠す） =====
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+    // 右の情報テーブル：データのある行だけ表示
+    function infoRow(label,val){ return '<div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;border-bottom:1px solid #eef1f3;">'+label+'</div><div style="padding:14px 16px;color:#3a4550;border-bottom:1px solid #eef1f3;">'+val+'</div>'; }
+    var rows='';
+    var area=[t.pref,t.city,t.address].filter(Boolean).join(' '); if(area) rows+=infoRow('活動エリア',esc(area));
+    if(t.venue) rows+=infoRow('主な活動場所',esc(t.venue));
+    var daysStr=(t.days||[]).join('・'); if(daysStr) rows+=infoRow('活動日',daysStr);
+    var feeStr=t.fee||(t.fee_num!=null?(Number(t.fee_num)===0?'無料':'¥'+Number(t.fee_num).toLocaleString()):''); if(feeStr) rows+=infoRow('月謝',esc(feeStr));
+    if(t.admission_fee_num!=null) rows+=infoRow('入会金',Number(t.admission_fee_num)===0?'なし':'¥'+Number(t.admission_fee_num).toLocaleString());
+    if(t.trial!=null) rows+=infoRow('体験',t.trial?'受付中':'要相談');
+    var info=document.getElementById('cd-info'); if(info) info.innerHTML=rows;
+
+    // おすすめポイント：あれば表示、無ければ見出しごと隠す
+    var pts=(Array.isArray(t.points)?t.points.filter(Boolean):[]);
+    var ph=document.getElementById('cd-points-h'), pl=document.getElementById('cd-points-list');
+    if(pts.length){ if(pl) pl.innerHTML=pts.map(function(p){return '<div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>'+esc(p)+'</div>';}).join(''); }
+    else { if(ph) ph.style.display='none'; if(pl) pl.style.display='none'; }
+
+    // こんなお子様におすすめ：あれば表示、無ければ枠ごと隠す（残った口コミを1カラムに）
+    var rec=(Array.isArray(t.recommended_for)?t.recommended_for.filter(Boolean):[]);
+    var rl=document.getElementById('cd-recommend-list');
+    if(rec.length){ if(rl) rl.innerHTML=rec.map(function(p){return '<div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3a4550;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 18px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>'+esc(p)+'</div>';}).join(''); }
+    else { var rc=document.getElementById('cd-recommend'); if(rc) rc.style.display='none'; var g=document.getElementById('cd-grid-rr'); if(g) g.style.gridTemplateColumns='1fr'; }
+
+    // コース一覧：あれば表示、無ければセクションとタブを隠す
+    var courses=(Array.isArray(t.courses)?t.courses:[]);
+    var cbody=document.getElementById('cd-course-body');
+    if(courses.length && cbody){
+      cbody.innerHTML=courses.map(function(c){ var dt=esc(c.day)+(c.time?' '+esc(c.time):''); var raw=String(c.fee==null?'':c.fee).trim(); var feeStr=(raw!=='' && /^[\d,]+$/.test(raw))?'¥'+Number(raw.replace(/,/g,'')).toLocaleString():esc(c.fee); return '<tr style="border-top:1px solid #eef1f3;"><td style="padding:15px 18px;font-weight:700;">'+esc(c.name)+'</td><td style="padding:15px 12px;">'+esc(c.age)+'</td><td style="padding:15px 12px;line-height:1.7;">'+dt+'</td><td style="padding:15px 12px;font-weight:700;">'+feeStr+'</td></tr>'; }).join('');
+    } else {
+      var cs=document.getElementById('cd-course'); if(cs) cs.style.display='none';
+      var ct=document.getElementById('cd-tab-course'); if(ct) ct.style.display='none';
+    }
+
+    // ===== 近いエリア（同じ都道府県の他クラブ）を実データで生成 =====
+    if(t.pref){
+      var prefStripped=String(t.pref).replace(/[都道府県]$/,'');
+      db.from('teams').select('id,name,city,sport,photo_url').eq('status','approved').eq('pref',t.pref).then(function(r2){
+        var others=((r2&&r2.data)||[]).filter(function(o){ return o.id!==t.id; });
+        // エリアタグ：同pref・他の市区町村（重複除外）→ 検索へ
+        var cities=[]; others.forEach(function(o){ if(o.city && o.city!==t.city && cities.indexOf(o.city)<0) cities.push(o.city); });
+        var tagsEl=document.getElementById('cd-area-tags');
+        if(tagsEl){
+          if(cities.length){
+            tagsEl.innerHTML=cities.slice(0,8).map(function(c){
+              return '<a href="search.html?pref='+encodeURIComponent(prefStripped)+'&city='+encodeURIComponent(c)+'" style="border:1px solid #dde2e7;border-radius:8px;padding:9px 16px;font-size:14px;color:#3a4550;text-decoration:none;cursor:pointer;">'+esc(c)+'</a>';
+            }).join('');
+          } else {
+            var st=document.getElementById('cd-station'); if(st) st.style.display='none';
+          }
+        }
+        // 近いエリアの他クラブ：同pref（同cityを優先）→ 詳細へ
+        var clubEl=document.getElementById('cd-club');
+        if(clubEl){
+          var sorted=others.slice().sort(function(a,b){ return (b.city===t.city?1:0)-(a.city===t.city?1:0); });
+          if(sorted.length){
+            clubEl.innerHTML=sorted.slice(0,12).map(function(o){
+              var media = o.photo_url ? '<img src="'+esc(o.photo_url)+'" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">' : sportPlaceholder(o.sport,'width:158px;height:96px;border-radius:8px;',46);
+              var sportLine = o.sport ? '<div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#54606e;margin-top:5px;">'+sportSvg(o.sport,13)+'<span>'+esc(o.sport)+'</span></div>' : '';
+              return '<a href="club.html?id='+encodeURIComponent(o.id)+'" style="flex:0 0 158px;cursor:pointer;text-decoration:none;color:inherit;">'+media+'<div style="font-size:12.5px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:9px;">'+esc(o.name)+'</div>'+sportLine+'</a>';
+            }).join('');
+          } else {
+            var pc=clubEl.parentElement; if(pc) pc.style.display='none';
+          }
+        }
+      });
+    }
+
+    // ===== 地域のおすすめ企業（companies：同エリア＋オンラインショップ）=====
+    function companyCard(c){
+      var loc = c.online
+        ? '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>オンラインショップ</span>'
+        : '<span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>'+esc(c.city||c.pref||'')+'</span>';
+      return '<a href="'+esc(c.page_url||'#')+'" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;"><div style="display:flex;align-items:center;gap:11px;"><img src="'+esc(c.banner_url||FALLBACK)+'" alt="'+esc(c.name)+'" style="width:54px;height:42px;flex:0 0 54px;border-radius:6px;object-fit:cover;display:block;"><div style="min-width:0;"><div style="font-size:13px;font-weight:700;color:#2b3340;">'+esc(c.name)+'</div><div style="font-size:11px;color:#8a95a0;margin-top:2px;">'+esc(c.tagline||c.category||'')+'</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">'+loc+'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg></div></a>';
+    }
+    db.from('companies').select('*').eq('status','active').then(function(rc){
+      if(rc.error||!rc.data||!rc.data.length) return;
+      var now=new Date();
+      var comps=rc.data.filter(function(c){
+        if(c.plan_expires_at && new Date(c.plan_expires_at)<now) return false;
+        return c.online || (c.pref && c.pref===t.pref);
+      });
+      comps.sort(function(a,b){ return (a.online?1:0)-(b.online?1:0) || (b.city===t.city?1:0)-(a.city===t.city?1:0) || ((a.sort_order||0)-(b.sort_order||0)); });
+      if(comps.length){ var g=document.getElementById('cd-companies'); if(g) g.innerHTML=comps.slice(0,4).map(companyCard).join(''); }
+    });
+  });
+
+  // ===== 体験申込み（現行kodomo-doooのtrial_requests方式を移植）=====
+  (function(){
+    var TEAM_ID = id;
+    var modal=document.getElementById('cd-trial-modal');
+    var openBtn=document.getElementById('cd-trial-open');
+    if(!modal||!openBtn) return;
+    if(!TEAM_ID){ return; } // 静的デモでは何もしない
+    var exp='';
+    function el(x){ return document.getElementById(x); }
+    function show(o){ modal.style.display=o?'flex':'none'; if(o){ el('cd-trial-form').style.display='block'; el('cd-trial-done').style.display='none'; } }
+    openBtn.addEventListener('click',function(){
+      var nm=document.getElementById('cd-name'); var teamName=nm?nm.textContent.trim():'';
+      el('cd-trial-team').textContent = teamName ? teamName+' への体験申込みです。' : '';
+      show(true);
+    });
+    el('cd-trial-close').addEventListener('click',function(){ show(false); });
+    el('cd-trial-done-close').addEventListener('click',function(){ show(false); });
+    modal.addEventListener('click',function(e){ if(e.target===modal) show(false); });
+    document.querySelectorAll('.tr-exp-opt').forEach(function(b){
+      b.addEventListener('click',function(){
+        exp=b.dataset.v;
+        document.querySelectorAll('.tr-exp-opt').forEach(function(x){
+          var on=(x===b);
+          x.style.borderColor=on?'#ea3b7e':'#d7dbe0'; x.style.background=on?'#fff0f6':'#fff'; x.style.color=on?'#ea3b7e':'#54606e'; x.style.fontWeight=on?'800':'600';
+        });
+      });
+    });
+    el('tr-submit').addEventListener('click',function(){
+      var err=el('tr-err');
+      function fail(t){ err.style.display='block'; err.textContent=t; }
+      err.style.display='none';
+      var grade=el('tr-grade').value, name=el('tr-name').value.trim(), email=el('tr-email').value.trim();
+      if(!grade) return fail('お子さまの学年を選択してください。');
+      if(!name) return fail('保護者のお名前を入力してください。');
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('メールアドレスの形式が正しくありません。');
+      el('tr-submit').disabled=true; el('tr-submit').textContent='送信中...';
+      db.from('trial_requests').insert({
+        team_id:TEAM_ID, child_grade:grade, experience_level:exp||null,
+        preferred_date_1:el('tr-date1').value.trim()||null,
+        preferred_date_2:el('tr-date2').value.trim()||null,
+        parent_name:name, parent_email:email,
+        message:el('tr-msg').value.trim()||null
+      }).then(function(res){
+        el('tr-submit').disabled=false; el('tr-submit').textContent='この内容で申し込む';
+        if(res.error){ fail('送信に失敗しました。時間をおいて再度お試しください。'); return; }
+        el('cd-trial-form').style.display='none'; el('cd-trial-done').style.display='block';
+      });
+    });
+  })();
+
+  // ===== コメント機能 =====
+  (function(){
+    var A = window.ChibiAuth;
+    function ce(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function el(x){ return document.getElementById(x); }
+    var TEAM_ID = id; // URLの ?id
+    var myUserId = null, myNick = '';
+    if(!TEAM_ID) return;
+
+    function fmtDate(s){ try{ var d=new Date(s); return (d.getMonth()+1)+'月'+d.getDate()+'日'; }catch(e){ return ''; } }
+
+    // ニックネームから安定した色を決める（アバター用）
+    var AV_COLORS=[['#eef4ff','#2563eb'],['#fef0f5','#e0447f'],['#effaf3','#1f8a5b'],['#fff6e8','#d97316'],['#f4effd','#7b5cd6'],['#eafafa','#0e8f97']];
+    function avatar(name,size){
+      name=name||'匿'; var h=0; for(var i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0;
+      var c=AV_COLORS[h%AV_COLORS.length];
+      return '<span style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+c[0]+';color:'+c[1]+';display:flex;align-items:center;justify-content:center;font-size:'+Math.round(size*0.42)+'px;font-weight:900;flex:0 0 '+size+'px;">'+ce(name.charAt(0))+'</span>';
+    }
+    function renderList(rows){
+      var list=el('cd-cmt-list'), empty=el('cd-cmt-empty'), cnt=el('cd-cmt-count');
+      if(cnt) cnt.textContent = rows.length;
+      if(!rows.length){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return; }
+      if(empty) empty.style.display='none';
+      list.innerHTML = rows.map(function(c,idx){
+        return '<div style="display:flex;gap:12px;padding:16px 2px;'+(idx<rows.length-1?'border-bottom:1px solid #f0f2f5;':'')+'">'
+          + avatar(c.nickname||'匿名',38)
+          + '<div style="flex:1;min-width:0;">'
+            + '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px;">'
+              + '<span style="font-size:13.5px;font-weight:800;color:#2b3340;">'+ce(c.nickname||'匿名')+'</span>'
+              + '<span style="font-size:11.5px;color:#b3bac4;flex-shrink:0;">'+fmtDate(c.created_at)+'</span>'
+            + '</div>'
+            + '<div style="font-size:14px;line-height:1.8;color:#3a4550;white-space:pre-wrap;word-break:break-word;">'+ce(c.body)+'</div>'
+            + '<div style="text-align:right;margin-top:4px;"><button class="cd-cmt-report" data-id="'+ce(c.id)+'" style="background:none;border:none;color:#d4d9e0;font-size:11px;cursor:pointer;">⚑ 通報</button></div>'
+          + '</div>'
+        + '</div>';
+      }).join('');
+      list.querySelectorAll('.cd-cmt-report').forEach(function(b){
+        b.addEventListener('click',function(){
+          if(!confirm('このコメントを通報しますか？')) return;
+          db.rpc('report_comment',{cid:b.getAttribute('data-id')}).then(function(){ b.textContent='通報しました'; b.disabled=true; });
+        });
+      });
+    }
+
+    function load(){
+      db.from('comments').select('*').eq('team_id',TEAM_ID).eq('status','visible').order('created_at',{ascending:false}).then(function(res){
+        if(res.error){ console.warn('[chibispo] comments load error', res.error); return; }
+        renderList(res.data||[]);
+      });
+    }
+
+    function setupForm(){
+      if(!A || !A.ready()){ el('cd-cmt-login').style.display='block'; return; }
+      A.getProfile().then(function(prof){
+        if(!prof){ el('cd-cmt-login').style.display='block'; return; }
+        myUserId = prof.id; myNick = prof.display_name || (prof.email? prof.email.split('@')[0] : 'ゲスト');
+        el('cd-cmt-form').style.display='block';
+        el('cd-cmt-nick').textContent = myNick;
+        // 自分のアバター（一覧と同じ配色ルール）
+        (function(){ var av=el('cd-cmt-avatar'); if(!av) return; var h=0; for(var i=0;i<myNick.length;i++) h=(h*31+myNick.charCodeAt(i))>>>0; var c=AV_COLORS[h%AV_COLORS.length]; av.style.background=c[0]; av.style.color=c[1]; av.textContent=myNick.charAt(0); })();
+        el('cd-cmt-submit').addEventListener('click', function(){
+          var body=el('cd-cmt-body').value.trim(); var msg=el('cd-cmt-msg');
+          if(!body){ msg.style.color='#c0314b'; msg.textContent='コメントを入力してください。'; return; }
+          el('cd-cmt-submit').disabled=true;
+          db.from('comments').insert({ team_id:TEAM_ID, user_id:myUserId, nickname:myNick, body:body }).then(function(res){
+            el('cd-cmt-submit').disabled=false;
+            if(res.error){ msg.style.color='#c0314b'; msg.textContent='投稿に失敗しました。時間をおいて再度お試しください。'; return; }
+            var inserted = Array.isArray(res.data)?res.data[0]:res.data;
+            el('cd-cmt-body').value='';
+            if(inserted && inserted.status==='hidden'){ msg.style.color='#c0314b'; msg.textContent='不適切な表現が含まれるため非表示になりました。'; }
+            else if(!inserted){ msg.style.color='#1f8a5b'; msg.textContent='投稿しました（内容によっては確認後の表示になります）。'; }
+            else { msg.style.color='#1f8a5b'; msg.textContent='投稿しました。'; }
+            load();
+          });
+        });
+      }).catch(function(){ el('cd-cmt-login').style.display='block'; });
+    }
+
+    function boot(){ load(); setupForm();
+      // カードの💬から来たとき（#comments）はコメント欄へスクロール
+      if(location.hash==='#comments'){ setTimeout(function(){ var s=el('cd-comments-sec'); if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); },400); }
+    }
+    if(window.ChibiAuth){ boot(); }
+    else { var w=setInterval(function(){ if(window.ChibiAuth){ clearInterval(w); A=window.ChibiAuth; boot(); } },100); }
+  })();
+})();
+</script>
+<script src="shared.js"></script>
+</body>
+</html>

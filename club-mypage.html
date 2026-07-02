@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>クラブ マイページ｜チビスポ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  a{color:#2270e0;}
+  .mp-wrap{max-width:680px;margin:0 auto;padding:0 20px;}
+  .mp-card{background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:24px 22px;margin-bottom:18px;}
+  .mp-label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#28323f;}
+  .mp-input{width:100%;border:1px solid #d7dbe0;border-radius:10px;padding:12px 13px;font-size:14px;font-family:inherit;color:#1f2a37;outline:none;background:#fff;}
+  .mp-input:focus{border-color:#1f8a5b;}
+  .mp-chk{display:inline-flex;align-items:center;gap:7px;border:1px solid #d7dbe0;border-radius:10px;padding:9px 13px;font-size:13px;color:#3b4654;cursor:pointer;background:#fff;}
+  .mp-chk input{accent-color:#1f8a5b;width:16px;height:16px;}
+  .hint{font-size:11.5px;color:#9aa3ad;margin-top:6px;line-height:1.6;}
+  .mp-btn{width:100%;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:14px 0;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(31,138,91,.28);}
+  .mp-group{margin-bottom:16px;}
+  .ed-btn{background:#fff;border:1px solid #d7dbe0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#3b4654;cursor:pointer;}
+  .ed-btn:hover{background:#f3f5f7;}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section style="background:linear-gradient(135deg,#1f8a5b,#2a6fdb);color:#fff;padding:40px 0 34px;">
+  <div class="mp-wrap">
+    <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">My Page</div>
+    <h1 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:26px;font-weight:900;">クラブ マイページ</h1>
+    <p style="margin:10px 0 0;font-size:13.5px;line-height:1.85;opacity:.95;">ログインして、チームの情報や写真を編集できます。</p>
+  </div>
+</section>
+
+<div class="mp-wrap" style="padding:26px 20px 60px;">
+
+  <!-- ログイン -->
+  <div id="mp-login" class="mp-card" style="display:none;">
+    <h2 style="margin:0 0 14px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">ログイン</h2>
+    <div class="mp-group"><label class="mp-label">メールアドレス</label><input class="mp-input" id="mp-email" type="email" placeholder="team@example.com" autocomplete="username"></div>
+    <div class="mp-group"><label class="mp-label">パスワード</label><input class="mp-input" id="mp-password" type="password" placeholder="パスワード" autocomplete="current-password"></div>
+    <div id="mp-login-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
+    <button class="mp-btn" id="mp-login-btn">ログイン</button>
+    <p class="hint" style="text-align:center;margin-top:12px;">アカウントが無い方は <a href="register.html">チーム登録</a> から。</p>
+  </div>
+
+  <!-- ダッシュボード（ログイン後） -->
+  <div id="mp-dash" style="display:none;">
+
+    <!-- プラン -->
+    <div id="mp-plan" class="mp-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#8a93a0;">現在のプラン</div>
+        <div id="mp-plan-name" style="font-size:18px;font-weight:900;color:#1f2a37;">無料掲載プラン</div>
+        <div id="mp-plan-sub" style="font-size:11.5px;color:#9aa3ad;margin-top:2px;"></div>
+      </div>
+      <a id="mp-upgrade" href="#" style="background:#e8455f;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:11px 20px;border-radius:999px;">有料プランにアップグレード</a>
+      <a id="mp-portal" href="#" target="_blank" rel="noopener" style="display:none;background:#fff;border:1.5px solid #d7dbe0;color:#3b4654;font-size:13px;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:999px;">プランの変更・解約</a>
+    </div>
+
+    <!-- 体験申込み -->
+    <div class="mp-card">
+      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">体験申込み <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
+      <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みです。メールで連絡を取り、対応状況を更新してください。</p>
+      <div id="mp-tr-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+      <div id="mp-tr-empty" style="display:none;text-align:center;color:#9aa3ad;font-size:13px;padding:20px;">まだ体験申込みはありません。</div>
+    </div>
+
+    <!-- クラブへのコメント -->
+    <div class="mp-card">
+      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブへのコメント <span id="mp-cmt-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
+      <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いたコメントです（非表示中のものも含めて確認できます）。</p>
+      <div id="mp-cmt-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+      <div id="mp-cmt-empty" style="display:none;text-align:center;color:#9aa3ad;font-size:13px;padding:20px;">まだコメントはありません。</div>
+    </div>
+
+    <!-- クラブ情報の編集 -->
+    <div class="mp-card">
+      <h2 style="margin:0 0 16px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブ情報の編集</h2>
+      <div class="mp-group">
+        <label class="mp-label">ロゴ<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（任意）</span></label>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div id="mp-logo-preview" style="width:72px;height:72px;flex:0 0 72px;border-radius:50%;border:1px solid #e5e8ec;background:#f6f7f9;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:11px;color:#b6bcc5;user-select:none;">なし</div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <button type="button" id="mp-logo-btn" class="ed-btn">ロゴをアップロード</button>
+            <button type="button" id="mp-logo-del" class="ed-btn" style="display:none;color:#c0314b;border-color:#f1c6cf;">ロゴを削除</button>
+          </div>
+        </div>
+        <p class="hint" id="mp-logo-hint" style="margin:9px 0 0;display:none;">ロゴをドラッグして表示位置を調整できます。</p>
+        <div id="mp-logo-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:9px 12px;margin-top:10px;"></div>
+        <input type="file" id="mp-logo-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
+      </div>
+      <div class="mp-group"><label class="mp-label">チーム名</label><input class="mp-input" id="f-name" type="text"></div>
+      <div class="mp-group"><label class="mp-label">種目</label><input class="mp-input" id="f-sport" type="text"></div>
+      <div class="mp-group"><label class="mp-label">都道府県</label><select class="mp-input" id="f-pref"><option value="">選択してください</option></select></div>
+      <div class="mp-group"><label class="mp-label">市区町村</label><input class="mp-input" id="f-city" type="text" placeholder="例：名古屋市中区"></div>
+      <div class="mp-group"><label class="mp-label">詳細住所<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（丁目・番地以降）</span></label><input class="mp-input" id="f-address" type="text" placeholder="例：〇〇町1-2-3 チビスポ体育館"><p class="hint">活動エリアの末尾に表示されます。地図表示の精度も上がります。</p></div>
+      <div class="mp-group"><label class="mp-label">主な活動場所<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（任意）</span></label><input class="mp-input" id="f-venue" type="text" placeholder="例：港北区総合体育館 ほか"><p class="hint">活動場所が住所と異なる場合や、複数・変動する場合に入力してください。空欄なら表示されません。</p></div>
+      <div class="mp-group">
+        <label class="mp-label">対象年齢</label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <label class="mp-chk"><input type="checkbox" class="f-age" value="未就学" id="f-age-pre">未就学（〜6歳）</label>
+          <label class="mp-chk"><input type="checkbox" class="f-age" value="小学生">小学生</label>
+          <label class="mp-chk"><input type="checkbox" class="f-age" value="中学生">中学生</label>
+        </div>
+        <div id="f-agemin-wrap" style="display:none;margin-top:10px;padding:11px 13px;background:#fff7ed;border-radius:10px;border:1px solid #fed7aa;">
+          <div style="font-size:12px;font-weight:700;color:#9a3412;margin-bottom:7px;">未就学の受け入れ開始年齢</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <label class="mp-chk"><input type="radio" name="f-agemin" value="3歳〜">3歳〜</label>
+            <label class="mp-chk"><input type="radio" name="f-agemin" value="4歳〜">4歳〜</label>
+            <label class="mp-chk"><input type="radio" name="f-agemin" value="5歳〜">5歳〜</label>
+            <label class="mp-chk"><input type="radio" name="f-agemin" value="6歳〜">6歳〜</label>
+          </div>
+        </div>
+      </div>
+      <div class="mp-group"><label class="mp-label">紹介文</label><textarea class="mp-input" id="f-desc" rows="6"></textarea></div>
+      <div class="mp-group">
+        <label class="mp-label">活動曜日</label>
+        <div id="f-days" style="display:flex;flex-wrap:wrap;gap:8px;">
+          <label class="mp-chk"><input type="checkbox" value="月">月</label><label class="mp-chk"><input type="checkbox" value="火">火</label><label class="mp-chk"><input type="checkbox" value="水">水</label><label class="mp-chk"><input type="checkbox" value="木">木</label><label class="mp-chk"><input type="checkbox" value="金">金</label><label class="mp-chk"><input type="checkbox" value="土">土</label><label class="mp-chk"><input type="checkbox" value="日">日</label>
+        </div>
+      </div>
+      <div class="mp-group"><label class="mp-label">入会金（円）<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（任意・無料は 0）</span></label><input class="mp-input" id="f-admission" type="number" min="0" placeholder="例：5000" style="max-width:200px;"></div>
+      <div class="mp-group"><label class="mp-label">月謝（円）</label><input class="mp-input" id="f-fee" type="number" min="0" style="max-width:200px;"></div>
+      <div class="mp-group">
+        <label class="mp-label">体験入会</label>
+        <div style="display:flex;gap:8px;">
+          <label class="mp-chk"><input type="radio" name="f-trial" value="true">体験OK</label>
+          <label class="mp-chk"><input type="radio" name="f-trial" value="false">要相談</label>
+        </div>
+      </div>
+      <div class="mp-group">
+        <label class="mp-label">特徴</label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <label class="mp-chk"><input type="checkbox" id="f-female">女性指導者がいる</label>
+          <label class="mp-chk"><input type="checkbox" id="f-girls">女の子歓迎</label>
+        </div>
+      </div>
+
+      <div class="mp-group">
+        <label class="mp-label">クラブの雰囲気タグ<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（最大3つ・各15文字以内）</span></label>
+        <p class="hint" style="margin-top:0;margin-bottom:8px;">💡 設定すると「雰囲気で探す」でクラブが見つかりやすくなり、合うご家庭からの体験申込が増えます。</p>
+        <div id="f-mood-selected" style="margin-bottom:8px;"></div>
+        <div style="display:flex;gap:8px;">
+          <input id="f-mood-input" class="mp-input" type="text" maxlength="15" placeholder="例）親子で参加OK" style="flex:1;">
+          <button id="f-mood-add" type="button" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer;">追加</button>
+        </div>
+        <div style="margin-top:12px;background:#f6f7f9;border:1px solid #eef0f2;border-radius:12px;padding:13px 14px;">
+          <div style="font-size:12px;color:#7b8492;margin-bottom:9px;">思いつかない場合は、こちらから選べます</div>
+          <div class="f-mood-axis" data-axis="方針" style="margin-bottom:8px;"></div>
+          <div class="f-mood-axis" data-axis="指導" style="margin-bottom:8px;"></div>
+          <div class="f-mood-axis" data-axis="空気"></div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid #eef0f2;margin:20px 0 16px;padding-top:18px;font-size:14px;font-weight:800;color:#28323f;">詳細情報<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:6px;">（任意・入力した項目だけ詳細ページに表示）</span></div>
+      <div class="mp-group">
+        <label class="mp-label">おすすめポイント<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（最大5つ）</span></label>
+        <div id="f-points"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;"><input id="f-points-input" class="mp-input" type="text" maxlength="40" placeholder="例）経験豊富なコーチが基礎から指導" style="flex:1;"><button type="button" id="f-points-add" class="ed-btn" style="flex:0 0 auto;">追加</button></div>
+      </div>
+      <div class="mp-group">
+        <label class="mp-label">こんなお子様におすすめ<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（最大5つ）</span></label>
+        <div id="f-rec"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;"><input id="f-rec-input" class="mp-input" type="text" maxlength="40" placeholder="例）体力をつけたいお子様" style="flex:1;"><button type="button" id="f-rec-add" class="ed-btn" style="flex:0 0 auto;">追加</button></div>
+      </div>
+      <div class="mp-group">
+        <label class="mp-label">コース一覧<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（複数クラスがある場合のみ）</span></label>
+        <p class="hint" style="margin-top:0;margin-bottom:8px;">未入力ならコースタブは表示されません。単一クラスのクラブは入力不要です。</p>
+        <div id="f-courses"></div>
+        <button type="button" id="f-course-add" class="ed-btn" style="margin-top:8px;">＋ コースを追加</button>
+      </div>
+
+      <div style="border-top:1px solid #eef0f2;margin:20px 0 16px;padding-top:18px;font-size:14px;font-weight:800;color:#28323f;">連絡先・SNS</div>
+      <div class="mp-group"><label class="mp-label">連絡先メールアドレス<span style="background:#fde7eb;color:#d33b57;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;margin-left:6px;">必須</span><span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（体験申込・お問い合わせの通知先）</span></label><input class="mp-input" id="f-email" type="email" placeholder="team@example.com" required></div>
+      <div class="mp-group"><label class="mp-label">Instagram（@なし）</label><input class="mp-input" id="f-ig" type="text" placeholder="team_name"></div>
+      <div class="mp-group"><label class="mp-label">ウェブサイト URL</label><input class="mp-input" id="f-web" type="url" placeholder="https://example.com"></div>
+      <div class="mp-group"><label class="mp-label">LINE公式 URL</label><input class="mp-input" id="f-line" type="url" placeholder="https://lin.ee/xxxxx"></div>
+
+      <div style="border-top:1px solid #eef0f2;margin:20px 0 14px;padding-top:18px;font-size:14px;font-weight:800;color:#28323f;">写真 <span id="mp-photo-limit" style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:4px;"></span></div>
+      <p class="hint" style="margin-top:0;margin-bottom:12px;" id="mp-photo-note"></p>
+      <div id="mp-photo-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:10px 12px;margin-bottom:12px;"></div>
+      <div id="mp-photos" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+      <div id="mp-photo-editor" style="display:none;margin-top:16px;"></div>
+      <input type="file" id="mp-photo-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
+
+      <div id="mp-save-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin:18px 0 12px;"></div>
+      <button class="mp-btn" id="mp-save">保存する</button>
+    </div>
+
+    <!-- 有料プラン誘導 -->
+    <div id="mp-upsell" class="mp-card" style="border:1.5px solid #f3c9da;background:#fffafc;">
+      <h2 style="margin:0 0 7px;font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;color:#e8455f;">もっと見てもらうには</h2>
+      <p style="margin:0 0 14px;font-size:13px;line-height:1.9;color:#5b6573;">有料プランにすると、<strong>検索結果で上位に表示</strong>され、<strong>写真を最大7枚</strong>掲載できます。同じ情報でも、見られる回数と体験申込の数が大きく変わります。</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a id="mp-upsell-monthly" href="listing.html" style="flex:1 1 180px;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:14px 10px;border-radius:14px;line-height:1.5;"><span style="font-size:14px;font-weight:800;">月額で試す</span><br><span style="font-size:11.5px;font-weight:600;opacity:.95;">¥3,000/月・30日間無料</span></a>
+        <a id="mp-upsell-annual" href="listing.html" style="flex:1 1 180px;text-align:center;background:#fff;border:1.5px solid #e8455f;color:#e8455f;text-decoration:none;padding:14px 10px;border-radius:14px;line-height:1.5;"><span style="font-size:14px;font-weight:800;">年額でお得に</span><br><span style="font-size:11.5px;font-weight:600;">¥30,000/年・2ヶ月分お得</span></a>
+      </div>
+      <p class="hint" style="margin:11px 0 0;text-align:center;">いつでも解約OK。まずは30日間、無料でお試しいただけます。</p>
+    </div>
+
+    <!-- パスワード変更 -->
+    <div class="mp-card">
+      <h2 style="margin:0 0 14px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">パスワードの変更</h2>
+      <div class="mp-group"><label class="mp-label">新しいパスワード<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（6文字以上）</span></label><input class="mp-input" id="pw-new" type="password" autocomplete="new-password"></div>
+      <div class="mp-group"><label class="mp-label">新しいパスワード（確認）</label><input class="mp-input" id="pw-new2" type="password" autocomplete="new-password"></div>
+      <div id="pw-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
+      <button class="mp-btn" id="pw-save" style="background:#28323f;box-shadow:none;">パスワードを変更する</button>
+    </div>
+
+    <!-- 掲載削除 -->
+    <div class="mp-card" style="border-color:#f1c6cf;">
+      <h2 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#c0314b;">掲載の削除</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:14px;">クラブの掲載情報をチビスポから完全に削除します。<strong>この操作は取り消せません。</strong>削除後はサイトに表示されなくなります。</p>
+      <div id="del-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
+      <button id="mp-delete" style="width:100%;background:#fff;border:1.5px solid #e8455f;color:#c0314b;border-radius:999px;padding:13px 0;font-size:14px;font-weight:800;cursor:pointer;">このクラブの掲載を削除する</button>
+    </div>
+
+    <div style="text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;">
+      <a href="mypage.html" style="color:#2270e0;font-size:13px;font-weight:700;text-decoration:none;">一般会員のマイページへ切り替える</a>
+      <button id="mp-logout" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;">ログアウト</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="supabase-lite.js"></script>
+<script>
+(function(){
+  if(!window.supabase) return;
+  var db=supabase.createClient('https://emkpkomrgknzrmxqbrvx.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
+  var STRIPE_LINKS={ monthly:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', annual:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001', feature:'#' };
+  var PORTAL_URL='https://billing.stripe.com/p/login/cNi00j5SJ2dK6wG66V00000'; // Stripe顧客ポータル（プラン変更・解約・カード更新）
+  // アップグレード先URL：Payment Linkが設定されていれば client_reference_id にチームIDを付けてStripeへ。未設定ならプラン説明ページへ。
+  function upgradeUrl(plan){ var base=STRIPE_LINKS[plan]; if(base && base!=='#' && team){ return base+(base.indexOf('?')>=0?'&':'?')+'client_reference_id='+encodeURIComponent(team.id); } return 'listing.html'; }
+  var $=function(id){return document.getElementById(id);};
+  var team=null, currentUserId=null, photoList=[], photoPos=[], photoMax=1, photoBusy=false, editIdx=-1, logoUrl=null, logoBusy=false, logoPos='50% 50%';
+
+  function effectivePlan(t){ var p=(t&&t.plan)||'free'; if(p==='free')return'free'; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date())return'free'; return p; }
+  function msg(el,ok,text){ el.style.display='block'; el.style.background=ok?'#eafaf0':'#fdecee'; el.style.color=ok?'#1f8a5b':'#c0314b'; el.textContent=text; }
+
+  function showLogin(){ $('mp-login').style.display='block'; $('mp-dash').style.display='none'; }
+  function showDash(){ $('mp-login').style.display='none'; $('mp-dash').style.display='block'; }
+  function updateAgeMin(){ var pre=$('f-age-pre'); $('f-agemin-wrap').style.display=(pre&&pre.checked)?'block':'none'; }
+
+  // 都道府県ドロップダウン
+  var PREFS=['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+  (function(){ var s=$('f-pref'); if(s){ PREFS.forEach(function(p){ var o=document.createElement('option'); o.value=p; o.textContent=p; s.appendChild(o); }); } })();
+
+  // 雰囲気タグ（自由入力＋プリセット・最大3）
+  var MOOD_PRESETS={ '方針':['楽しむこと','本格志向'], '指導':['ほめて伸ばす','礼儀・しつけ'], '空気':['アットホーム','少人数で丁寧','真剣に取り組む'] };
+  var selMoods=[];
+  function renderMoods(){
+    var sel=$('f-mood-selected'); if(!sel) return;
+    sel.innerHTML = selMoods.length ? selMoods.map(function(n){ return '<span style="display:inline-flex;align-items:center;gap:6px;background:#eafaf0;border:1px solid #bfe6cf;color:#1f8a5b;font-size:12.5px;font-weight:700;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;">'+n+'<button type="button" data-rm="'+n+'" style="border:none;background:none;color:#1f8a5b;cursor:pointer;font-size:14px;line-height:1;padding:0;">×</button></span>'; }).join('') : '<span style="font-size:12px;color:#b6bcc5;">まだタグがありません</span>';
+    sel.querySelectorAll('[data-rm]').forEach(function(b){ b.onclick=function(){ var n=b.getAttribute('data-rm'); selMoods=selMoods.filter(function(t){return t!==n;}); renderMoods(); }; });
+  }
+  function addMood(name){ name=(name||'').trim(); if(!name) return; if(name.length>15){ alert('タグは15文字以内で入力してください'); return; } if(selMoods.indexOf(name)>=0) return; if(selMoods.length>=3){ alert('タグは最大3つまでです'); return; } selMoods.push(name); renderMoods(); }
+  (function(){
+    var inp=$('f-mood-input'), addBtn=$('f-mood-add');
+    if(addBtn) addBtn.onclick=function(){ addMood(inp.value); inp.value=''; inp.focus(); };
+    if(inp) inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); addMood(inp.value); inp.value=''; } });
+    document.querySelectorAll('.f-mood-axis').forEach(function(row){
+      var axis=row.getAttribute('data-axis');
+      row.innerHTML='<span style="display:inline-block;font-size:11.5px;font-weight:800;color:#54606e;margin-right:8px;">'+axis+'</span>'+MOOD_PRESETS[axis].map(function(n){ return '<button type="button" class="ed-btn" data-name="'+n+'" style="padding:6px 12px;font-size:12px;margin:0 6px 6px 0;">'+n+'</button>'; }).join('');
+      row.querySelectorAll('[data-name]').forEach(function(b){ b.onclick=function(){ addMood(b.getAttribute('data-name')); }; });
+    });
+    renderMoods();
+  })();
+
+  function escAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+  // 箇条書きリストエディタ（おすすめポイント／こんなお子様に）
+  var selPoints=[], selRec=[];
+  function listEditor(hostId, inputId, addId, getArr, max){
+    var host=$(hostId), inp=$(inputId), btn=$(addId);
+    function render(){
+      var a=getArr();
+      host.innerHTML = a.length ? a.map(function(s,idx){ return '<div style="display:flex;align-items:center;gap:8px;background:#f6f7f9;border:1px solid #eef0f2;border-radius:8px;padding:8px 11px;margin-bottom:6px;"><span style="flex:1;font-size:13px;color:#3a4550;">'+String(s).replace(/</g,'&lt;')+'</span><button type="button" data-i="'+idx+'" style="border:none;background:none;color:#c0314b;cursor:pointer;font-size:15px;line-height:1;">×</button></div>'; }).join('') : '<span style="font-size:12px;color:#b6bcc5;">未設定</span>';
+      host.querySelectorAll('[data-i]').forEach(function(b){ b.onclick=function(){ getArr().splice(+b.getAttribute('data-i'),1); render(); }; });
+    }
+    function add(){ var v=(inp.value||'').trim(); if(!v) return; if(getArr().length>=max){ alert('最大'+max+'つまでです'); return; } getArr().push(v); inp.value=''; render(); }
+    btn.onclick=add;
+    inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); add(); } });
+    return { render:render };
+  }
+  var pointsEd=listEditor('f-points','f-points-input','f-points-add',function(){return selPoints;},5);
+  var recEd=listEditor('f-rec','f-rec-input','f-rec-add',function(){return selRec;},5);
+
+  // コース一覧エディタ
+  var courseList=[];
+  var AGE_OPTS=['未就学','小学1〜2年生','小学3〜4年生','小学5〜6年生','小学生','中学生','小学生〜中学生','全学年'];
+  var COURSE_DAYS=['月','火','水','木','金','土','日'];
+  var HOURS=(function(){ var a=[]; for(var h=5;h<=22;h++) a.push(h); return a; })();
+  var MINS=['00','05','10','15','20','25','30','35','40','45','50','55'];
+  function optList(opts,val){ return '<option value="">選択</option>'+opts.map(function(o){ return '<option'+(o===val?' selected':'')+'>'+o+'</option>'; }).join(''); }
+  function hourSel(k,val){ return '<select class="mp-input" data-t="'+k+'" style="padding:9px 4px;min-width:0;flex:1 1 0;"><option value="">時</option>'+HOURS.map(function(h){ return '<option'+(String(h)===String(val)?' selected':'')+'>'+h+'</option>'; }).join('')+'</select>'; }
+  function minSel(k,val){ return '<select class="mp-input" data-t="'+k+'" style="padding:9px 4px;min-width:0;flex:1 1 0;"><option value="">分</option>'+MINS.map(function(m){ return '<option'+(m===String(val)?' selected':'')+'>'+m+'</option>'; }).join('')+'</select>'; }
+  function parseTime(t){ t=t||''; var p=t.split('〜'); function pp(x){ x=(x||'').trim(); var a=x.split(':'); return {h:(a[0]||'').trim(), m:(a[1]||'').trim()}; } var s=pp(p[0]), e=pp(p[1]||''); return {sh:s.h,sm:s.m,eh:e.h,em:e.m}; }
+  function buildTime(sh,sm,eh,em){ var s=(sh&&sm)?(sh+':'+sm):''; var e=(eh&&em)?(eh+':'+em):''; if(s&&e) return s+'〜'+e; return s||e||''; }
+  function renderCourses(){
+    var host=$('f-courses'); host.innerHTML='';
+    if(!courseList.length){ host.innerHTML='<span style="font-size:12px;color:#b6bcc5;">コース未設定（複数クラスがある場合のみ追加）</span>'; }
+    courseList.forEach(function(c,idx){
+      var row=document.createElement('div');
+      row.style.cssText='border:1px solid #eef0f2;border-radius:10px;padding:10px;margin-bottom:8px;background:#fbfcfd;';
+      var cl='display:block;font-size:11px;font-weight:700;color:#8a93a0;margin:0 0 5px;';
+      var days=(c.day||'').split('・').filter(Boolean);
+      var tp=parseTime(c.time);
+      var dayChecks=COURSE_DAYS.map(function(d){ return '<label class="mp-chk" style="padding:6px 11px;"><input type="checkbox" data-day="'+d+'"'+(days.indexOf(d)>=0?' checked':'')+'>'+d+'</label>'; }).join('');
+      row.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:12px;font-weight:800;color:#28323f;">コース '+(idx+1)+'</span><button type="button" data-del="1" style="border:none;background:none;color:#c0314b;font-size:12px;font-weight:700;cursor:pointer;">この行を削除</button></div>'
+        +'<div style="margin-bottom:9px;"><label style="'+cl+'">コース名</label><input class="mp-input" data-k="name" placeholder="例：U-9クラス" value="'+escAttr(c.name)+'"></div>'
+        +'<div style="margin-bottom:9px;"><label style="'+cl+'">対象年齢</label><input class="mp-input" data-k="age" placeholder="例：小学3〜4年生／年中〜小2 など" value="'+escAttr(c.age)+'"></div>'
+        +'<div style="margin-bottom:9px;"><label style="'+cl+'">開催曜日 <span style="font-weight:400;color:#b6bcc5;">（複数選択可）</span></label><div data-days style="display:flex;flex-wrap:wrap;gap:6px;">'+dayChecks+'</div></div>'
+        +'<div style="margin-bottom:9px;"><label style="'+cl+'">時間</label><div style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;">'+hourSel('sh',tp.sh)+'<span style="color:#8a93a0;flex:0 0 auto;">:</span>'+minSel('sm',tp.sm)+'<span style="color:#8a93a0;margin:0 3px;font-weight:700;flex:0 0 auto;">〜</span>'+hourSel('eh',tp.eh)+'<span style="color:#8a93a0;flex:0 0 auto;">:</span>'+minSel('em',tp.em)+'</div></div>'
+        +'<div><label style="'+cl+'">月謝（円）</label><input class="mp-input" data-k="fee" type="number" min="0" placeholder="例：6000" value="'+escAttr(c.fee)+'" style="max-width:220px;"></div>';
+      row.querySelectorAll('[data-k]').forEach(function(el){ var h=function(){ courseList[idx][el.getAttribute('data-k')]=el.value; }; el.oninput=h; el.onchange=h; });
+      row.querySelectorAll('[data-day]').forEach(function(cb){ cb.onchange=function(){ var sel=[]; row.querySelectorAll('[data-day]').forEach(function(x){ if(x.checked) sel.push(x.getAttribute('data-day')); }); courseList[idx].day=sel.join('・'); }; });
+      function syncTime(){ var g={}; row.querySelectorAll('[data-t]').forEach(function(x){ g[x.getAttribute('data-t')]=x.value; }); courseList[idx].time=buildTime(g.sh,g.sm,g.eh,g.em); }
+      row.querySelectorAll('[data-t]').forEach(function(x){ x.onchange=syncTime; });
+      row.querySelector('[data-del]').onclick=function(){ courseList.splice(idx,1); renderCourses(); };
+      host.appendChild(row);
+    });
+  }
+  $('f-course-add').onclick=function(){ if(courseList.length>=12){ alert('コースは最大12件までです'); return; } courseList.push({name:'',age:'',day:'',time:'',fee:''}); renderCourses(); };
+
+  function fillForm(t){
+    logoUrl=t.logo_url||null; logoPos=t.logo_position||'50% 50%'; renderLogo();
+    $('f-name').value=t.name||''; $('f-sport').value=t.sport||'';
+    $('f-pref').value=t.pref||''; $('f-city').value=t.city||'';
+    $('f-address').value=t.address||'';
+    $('f-email').value=t.email||'';
+    selMoods=(Array.isArray(t.moods)?t.moods.slice(0,3):[]); renderMoods();
+    $('f-venue').value=t.venue||'';
+    $('f-admission').value=(t.admission_fee_num!=null?t.admission_fee_num:'');
+    selPoints=(Array.isArray(t.points)?t.points.slice(0,5):[]); pointsEd.render();
+    selRec=(Array.isArray(t.recommended_for)?t.recommended_for.slice(0,5):[]); recEd.render();
+    courseList=(Array.isArray(t.courses)?t.courses.map(function(c){return {name:c.name||'',age:c.age||'',day:c.day||'',time:c.time||'',fee:c.fee||''};}):[]); renderCourses();
+    var ages=t.age_groups||[];
+    document.querySelectorAll('.f-age').forEach(function(c){ c.checked=ages.indexOf(c.value)>=0; });
+    document.querySelectorAll('input[name="f-agemin"]').forEach(function(r){ r.checked=(t.age_min===r.value); });
+    updateAgeMin();
+    $('f-desc').value=t.description||'';
+    var days=t.days||[]; $('f-days').querySelectorAll('input').forEach(function(c){ c.checked=days.indexOf(c.value)>=0; });
+    $('f-fee').value=(t.fee_num!=null?t.fee_num:'');
+    document.querySelectorAll('input[name="f-trial"]').forEach(function(r){ r.checked=(String(t.trial)===r.value); });
+    $('f-female').checked=!!t.female_instructor; $('f-girls').checked=!!t.girls_welcome;
+    $('f-ig').value=t.instagram||''; $('f-web').value=t.website_url||''; $('f-line').value=t.line_url||'';
+
+    // プラン
+    var ep=effectivePlan(t);
+    var label={free:'無料掲載プラン',pr:'上位表示PR',feature:'特集・取材記事'}[ep]||'無料掲載プラン';
+    $('mp-plan-name').textContent=label;
+    $('mp-plan-sub').textContent = (ep!=='free' && t.plan_expires_at) ? ('有効期限：'+new Date(t.plan_expires_at).toLocaleDateString('ja-JP')) : '';
+    var up=$('mp-upgrade');
+    if(ep!=='free'){ up.style.display='none'; } else { up.style.display=''; up.href='#mp-upsell'; }
+    var po=$('mp-portal'); if(po){ if(ep!=='free'){ po.style.display=''; po.href=PORTAL_URL; } else { po.style.display='none'; } }
+    var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
+    var bm=$('mp-upsell-monthly'); if(bm) bm.href=upgradeUrl('monthly');
+    var ba=$('mp-upsell-annual'); if(ba){ if(STRIPE_LINKS.annual && STRIPE_LINKS.annual!=='#'){ ba.style.display=''; ba.href=upgradeUrl('annual'); } else { ba.style.display='none'; } }
+
+    // 写真（プラン連動の上限）
+    photoMax=(ep!=='free')?7:1;
+    photoList=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
+    photoList=photoList.slice(0,photoMax);
+    photoPos=(Array.isArray(t.photo_positions)?t.photo_positions.slice():[]);
+    while(photoPos.length<photoList.length) photoPos.push('50% 50%');
+    photoPos=photoPos.slice(0,photoList.length);
+    editIdx=-1; $('mp-photo-editor').style.display='none';
+    $('mp-photo-limit').textContent='（最大'+photoMax+'枚）';
+    $('mp-photo-note').textContent=(photoMax>1?'写真をクリックすると、表示位置の調整・並べ替え・削除ができます。1枚目がカバー写真です。':'無料プランは1枚まで。有料プランなら最大7枚に増やせます。写真をクリックで表示位置を調整できます。');
+    renderPhotos();
+  }
+
+  function renderPhotos(){
+    var host=$('mp-photos'); host.innerHTML='';
+    if(!photoList.length){ host.innerHTML='<span style="font-size:12px;color:#b6bcc5;margin-right:8px;">写真が登録されていません</span>'; }
+    photoList.forEach(function(url,i){
+      var cell=document.createElement('div');
+      cell.style.cssText='position:relative;width:108px;height:80px;border-radius:8px;overflow:hidden;border:2px solid '+(i===editIdx?'#1f8a5b':'#e6e9ed')+';cursor:pointer;';
+      cell.title='クリックで表示位置を調整';
+      cell.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;object-position:'+(photoPos[i]||'50% 50%')+';display:block;">'+(i===0?'<span style="position:absolute;left:5px;top:5px;background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'');
+      cell.onclick=function(){ openEditor(i); };
+      var del=document.createElement('button'); del.textContent='×'; del.title='削除';
+      del.style.cssText='position:absolute;right:4px;top:4px;width:20px;height:20px;border:none;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:13px;line-height:1;cursor:pointer;';
+      del.onclick=function(ev){ ev.stopPropagation(); removePhoto(i); };
+      cell.appendChild(del); host.appendChild(cell);
+    });
+    if(photoList.length<photoMax){
+      var add=document.createElement('button');
+      add.style.cssText='width:108px;height:80px;border:1.5px dashed #c7ccd3;border-radius:8px;background:#fafbfc;color:#8a93a0;font-size:12px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;';
+      add.innerHTML='<span style="font-size:18px;line-height:1;">＋</span>追加 ('+photoList.length+'/'+photoMax+')';
+      add.onclick=function(){ if(!photoBusy) $('mp-photo-input').click(); };
+      host.appendChild(add);
+    }
+  }
+
+  function openEditor(i){
+    if(photoBusy||i<0||i>=photoList.length) return;
+    editIdx=i; renderPhotos();
+    var url=photoList[i], pos=(photoPos[i]||'50% 50%').split(' ');
+    var px=parseInt(pos[0],10); if(isNaN(px)) px=50;
+    var py=parseInt(pos[1],10); if(isNaN(py)) py=50;
+    var ed=$('mp-photo-editor'); ed.style.display='block';
+    ed.innerHTML=
+      '<div style="border:1px solid #e6e9ed;border-radius:12px;padding:16px;background:#fbfcfd;">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+        +'<strong style="font-size:14px;">写真 '+(i+1)+' / '+photoList.length+'：表示位置の調整</strong>'
+        +'<button id="ed-close" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;">閉じる</button>'
+      +'</div>'
+      +'<p class="hint" style="margin:0 0 12px;">写真を<strong>ドラッグ</strong>（スマホは指でスワイプ）して、見せたい部分を枠の中に合わせてください。</p>'
+      +'<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;">'
+        +'<div><div style="font-size:11px;color:#8a93a0;font-weight:700;margin-bottom:5px;">詳細ページでの見え方（3:2）／ドラッグで調整</div>'
+          +'<div id="ed-frame" style="position:relative;width:100%;max-width:300px;aspect-ratio:524/360;border-radius:10px;overflow:hidden;border:1px solid #e6e9ed;cursor:grab;touch-action:none;user-select:none;"><img id="ed-prev-detail" src="'+url+'" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:'+px+'% '+py+'%;display:block;pointer-events:none;"></div></div>'
+        +'<div><div style="font-size:11px;color:#8a93a0;font-weight:700;margin-bottom:5px;">検索カードでの見え方（4:3）</div>'
+          +'<div style="width:150px;aspect-ratio:4/3;border-radius:10px;overflow:hidden;border:1px solid #e6e9ed;"><img id="ed-prev-card" src="'+url+'" style="width:100%;height:100%;object-fit:cover;object-position:'+px+'% '+py+'%;display:block;"></div></div>'
+      +'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px;">'
+        +(i>0?'<button id="ed-cover" class="ed-btn">カバーにする</button>':'')
+        +(i>0?'<button id="ed-left" class="ed-btn">← 前へ</button>':'')
+        +(i<photoList.length-1?'<button id="ed-right" class="ed-btn">次へ →</button>':'')
+        +'<button id="ed-reset" class="ed-btn">中央に戻す</button>'
+        +'<button id="ed-del" class="ed-btn" style="color:#c0314b;border-color:#f1c6cf;">削除</button>'
+        +'<button id="ed-save" style="margin-left:auto;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:10px 22px;font-size:13px;font-weight:900;cursor:pointer;">この位置で保存</button>'
+      +'</div></div>';
+    var frame=$('ed-frame'), dEl=$('ed-prev-detail'), cEl=$('ed-prev-card');
+    var cx=px, cy=py, dragging=false, sx=0, sy=0, ox=0, oy=0;
+    function clamp(v){ return v<0?0:(v>100?100:v); }
+    function apply(){ var v=Math.round(cx)+'% '+Math.round(cy)+'%'; dEl.style.objectPosition=v; cEl.style.objectPosition=v; photoPos[i]=v;
+      var thumb=$('mp-photos').children[i]; if(thumb){ var im=thumb.querySelector('img'); if(im) im.style.objectPosition=v; } }
+    frame.addEventListener('pointerdown',function(e){ dragging=true; sx=e.clientX; sy=e.clientY; ox=cx; oy=cy; try{frame.setPointerCapture(e.pointerId);}catch(_){ } frame.style.cursor='grabbing'; e.preventDefault(); });
+    frame.addEventListener('pointermove',function(e){ if(!dragging) return; var w=frame.clientWidth||300, h=frame.clientHeight||206; cx=clamp(ox-(e.clientX-sx)/w*100); cy=clamp(oy-(e.clientY-sy)/h*100); apply(); });
+    function endDrag(e){ if(!dragging) return; dragging=false; try{frame.releasePointerCapture(e.pointerId);}catch(_){ } frame.style.cursor='grab'; }
+    frame.addEventListener('pointerup',endDrag); frame.addEventListener('pointercancel',endDrag); frame.addEventListener('pointerleave',endDrag);
+    var rs=$('ed-reset'); if(rs) rs.onclick=function(){ cx=50; cy=50; apply(); };
+    $('ed-close').onclick=closeEditor;
+    var cv=$('ed-cover'); if(cv) cv.onclick=function(){ moveCover(i); };
+    var lf=$('ed-left'); if(lf) lf.onclick=function(){ moveBy(i,-1); };
+    var rt=$('ed-right'); if(rt) rt.onclick=function(){ moveBy(i,1); };
+    $('ed-del').onclick=function(){ removePhoto(i); };
+    $('ed-save').onclick=function(){ savePhotos(function(ok){ msgPhoto(ok, ok?'表示位置を保存しました。':'保存に失敗しました。'); }); };
+  }
+  function closeEditor(){ editIdx=-1; $('mp-photo-editor').style.display='none'; renderPhotos(); }
+  function moveCover(i){ if(i<=0) return; photoList.unshift(photoList.splice(i,1)[0]); photoPos.unshift(photoPos.splice(i,1)[0]); editIdx=0; afterReorder(); }
+  function moveBy(i,dir){ var j=i+dir; if(j<0||j>=photoList.length) return; var u=photoList[i];photoList[i]=photoList[j];photoList[j]=u; var p=photoPos[i];photoPos[i]=photoPos[j];photoPos[j]=p; editIdx=j; afterReorder(); }
+  function afterReorder(){ openEditor(editIdx); savePhotos(function(ok){ msgPhoto(ok, ok?'並び順を保存しました。':'保存に失敗しました。'); }); }
+
+  function msgPhoto(ok,text){ msg($('mp-photo-msg'),ok,text); }
+
+  function resizeImage(file, cb){
+    var img=new Image(); var url=URL.createObjectURL(file);
+    img.onload=function(){
+      var max=1280, w=img.width, h=img.height;
+      if(w>max){ h=Math.round(h*max/w); w=max; }
+      var c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      c.toBlob(function(b){ cb(b||file); }, 'image/jpeg', 0.85);
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); cb(file); };
+    img.src=url;
+  }
+
+  function savePhotos(cb){
+    var payload={ photos:photoList.slice(), photo_url:photoList[0]||null, photo_positions:photoPos.slice() };
+    db.from('teams').update(payload).eq('id',team.id).then(function(res){
+      if(!res.error){ team.photos=photoList.slice(); team.photo_url=photoList[0]||null; team.photo_positions=photoPos.slice(); }
+      cb&&cb(!res.error);
+    });
+  }
+
+  function removePhoto(i){
+    if(photoBusy||!team) return;
+    if(!window.confirm('この写真を削除しますか？')) return;
+    var url=photoList[i];
+    photoBusy=true; msgPhoto(true,'削除中...');
+    photoList.splice(i,1); photoPos.splice(i,1); closeEditor();
+    var marker='/team-photos/', idx=url?url.indexOf(marker):-1;
+    var path=idx>=0?decodeURIComponent(url.slice(idx+marker.length)):null;
+    var done=function(){ savePhotos(function(ok){ photoBusy=false; msgPhoto(ok, ok?'削除しました。':'削除の保存に失敗しました。'); }); };
+    if(path){ db.storage.from('team-photos').remove([path]).then(done, done); } else { done(); }
+  }
+
+  function loadTeam(userId){
+    currentUserId=userId;
+    db.from('teams').select('*').eq('user_id',userId).order('created_at',{ascending:false}).then(function(res){
+      if(res.error||!res.data||!res.data.length){
+        // チームが無い → 一般会員(parent)なら一般マイページへ誘導
+        db.from('profiles').select('role').eq('id',userId).single().then(function(pr){
+          var role=pr&&pr.data&&pr.data.role;
+          if(role==='parent'){
+            msg($('mp-login-msg'),true,'このアカウントは一般会員です。マイページへ移動します…');
+            setTimeout(function(){ location.href='mypage.html'; },1200);
+            return;
+          }
+          msg($('mp-login-msg'),false,'このアカウントに紐づくチームが見つかりませんでした。');
+          showLogin();
+        }).catch(function(){
+          msg($('mp-login-msg'),false,'このアカウントに紐づくチームが見つかりませんでした。');
+          showLogin();
+        });
+        return;
+      }
+      team=res.data[0]; fillForm(team); showDash(); loadClubComments(team.id); loadTrialRequests(team.id);
+    });
+  }
+  // 体験申込み一覧（対応状況の更新つき）
+  function loadTrialRequests(teamId){
+    function ce(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function fmt(s){ try{ var d=new Date(s); return (d.getMonth()+1)+'月'+d.getDate()+'日'; }catch(e){ return ''; } }
+    var ST={new:'新規',contacted:'連絡済み',done:'対応完了'};
+    db.from('trial_requests').select('*').eq('team_id',teamId).order('created_at',{ascending:false}).then(function(res){
+      var list=$('mp-tr-list'), empty=$('mp-tr-empty'), cnt=$('mp-tr-count');
+      if(res.error) return;
+      var rows=res.data||[];
+      if(cnt) cnt.textContent=rows.filter(function(r){return r.status==='new';}).length+' 件の新規';
+      if(!rows.length){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return; }
+      if(empty) empty.style.display='none';
+      list.innerHTML=rows.map(function(r){
+        var isNew=r.status==='new';
+        return '<div style="border:1px solid '+(isNew?'#f3c9da':'#eef1f3')+';border-radius:12px;padding:14px 16px;'+(isNew?'background:#fffafc;':'')+'">'
+          + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:7px;">'
+            + '<span style="font-size:13.5px;font-weight:800;color:#1f2a37;">'+ce(r.parent_name)+' さん'+(isNew?' <span style="background:#ea3b7e;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">NEW</span>':'')+'</span>'
+            + '<span style="font-size:11.5px;color:#aab1bb;">'+fmt(r.created_at)+'</span>'
+          + '</div>'
+          + '<div style="font-size:12.5px;color:#3a4550;line-height:1.9;">'
+            + '学年：'+ce(r.child_grade||'-')+'　経験：'+ce(r.experience_level||'-')+'<br>'
+            + (r.preferred_date_1?('希望日：'+ce(r.preferred_date_1)+(r.preferred_date_2?(' / '+ce(r.preferred_date_2)):'')+'<br>'):'')
+            + '連絡先：<a href="mailto:'+ce(r.parent_email)+'" style="color:#2270e0;font-weight:700;">'+ce(r.parent_email)+'</a>'
+            + (r.message?('<br>メッセージ：'+ce(r.message)):'')
+          + '</div>'
+          + '<div style="margin-top:9px;display:flex;align-items:center;gap:8px;">'
+            + '<span style="font-size:11.5px;color:#8a93a0;">対応状況：</span>'
+            + '<select class="mp-tr-status" data-id="'+ce(r.id)+'" style="border:1px solid #d7dbe0;border-radius:7px;padding:5px 9px;font-size:12px;font-family:inherit;">'
+              + Object.keys(ST).map(function(k){ return '<option value="'+k+'"'+(r.status===k?' selected':'')+'>'+ST[k]+'</option>'; }).join('')
+            + '</select>'
+          + '</div>'
+        + '</div>';
+      }).join('');
+      list.querySelectorAll('.mp-tr-status').forEach(function(sel){
+        sel.addEventListener('change',function(){
+          db.from('trial_requests').update({status:sel.value}).eq('id',sel.getAttribute('data-id')).then(function(r2){
+            if(!r2.error) loadTrialRequests(teamId);
+          });
+        });
+      });
+    });
+  }
+  // クラブへのコメント一覧（運営者は非表示分も閲覧可）
+  function loadClubComments(teamId){
+    function ce(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function fmt(s){ try{ var d=new Date(s); return (d.getMonth()+1)+'月'+d.getDate()+'日'; }catch(e){ return ''; } }
+    db.from('comments').select('*').eq('team_id',teamId).order('created_at',{ascending:false}).then(function(res){
+      var list=$('mp-cmt-list'), empty=$('mp-cmt-empty'), cnt=$('mp-cmt-count');
+      if(res.error){ return; }
+      var rows=res.data||[];
+      var visible=rows.filter(function(r){return r.status==='visible';});
+      if(cnt) cnt.textContent=visible.length;
+      if(!rows.length){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return; }
+      if(empty) empty.style.display='none';
+      list.innerHTML=rows.map(function(c){
+        var hidden=c.status!=='visible';
+        return '<div style="border:1px solid '+(hidden?'#f3d6d6':'#eef1f3')+';border-radius:12px;padding:13px 15px;'+(hidden?'background:#fdf6f6;':'')+'">'
+          + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px;">'
+            + '<span style="font-size:13px;font-weight:800;color:#1f2a37;">'+ce(c.nickname||'匿名')+'</span>'
+            + '<span style="font-size:11.5px;color:#aab1bb;">'+fmt(c.created_at)+(hidden?' ・<span style="color:#c0314b;font-weight:700;">非表示中</span>':'')+'</span>'
+          + '</div>'
+          + '<div style="font-size:13.5px;line-height:1.7;color:#3a4550;white-space:pre-wrap;word-break:break-word;">'+ce(c.body)+'</div>'
+        + '</div>';
+      }).join('');
+    });
+  }
+
+  // 起動時：セッションがあればダッシュボード
+  db.auth.getUser().then(function(res){
+    var user=res.data&&res.data.user;
+    if(user&&user.id){ loadTeam(user.id); } else { showLogin(); }
+  });
+
+  $('mp-login-btn').addEventListener('click',function(){
+    var email=$('mp-email').value.trim(), pw=$('mp-password').value;
+    if(!email||!pw){ msg($('mp-login-msg'),false,'メールとパスワードを入力してください。'); return; }
+    $('mp-login-btn').disabled=true; $('mp-login-btn').textContent='ログイン中...';
+    db.auth.signInWithPassword({email:email,password:pw}).then(function(res){
+      $('mp-login-btn').disabled=false; $('mp-login-btn').textContent='ログイン';
+      if(res.error){ msg($('mp-login-msg'),false,'ログインに失敗しました：'+(res.error.message||'')); return; }
+      var user=res.data&&res.data.user; if(user&&user.id){ loadTeam(user.id); }
+    });
+  });
+
+  $('f-age-pre').addEventListener('change',updateAgeMin);
+
+  $('mp-save').addEventListener('click',function(){
+    if(!team){ return; }
+    var emailVal=$('f-email').value.trim();
+    if(!emailVal){ msg($('mp-save-msg'),false,'連絡先メールアドレスは必須です。'); $('f-email').focus(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){ msg($('mp-save-msg'),false,'連絡先メールアドレスの形式が正しくありません。'); $('f-email').focus(); return; }
+    var days=[]; $('f-days').querySelectorAll('input:checked').forEach(function(c){ days.push(c.value); });
+    var feeNum=parseInt($('f-fee').value,10);
+    var trialEl=document.querySelector('input[name="f-trial"]:checked');
+    var ages=[]; document.querySelectorAll('.f-age:checked').forEach(function(c){ ages.push(c.value); });
+    var aminEl=document.querySelector('input[name="f-agemin"]:checked');
+    var agemin=($('f-age-pre').checked && aminEl)?aminEl.value:null;
+    var updates={
+      name:$('f-name').value.trim(), sport:$('f-sport').value.trim(),
+      pref:$('f-pref').value||null, city:$('f-city').value.trim()||null,
+      address:$('f-address').value.trim()||null,
+      age_groups:ages, age_min:agemin,
+      moods:selMoods.slice(),
+      venue:$('f-venue').value.trim()||null,
+      admission_fee_num:(function(){ var v=parseInt($('f-admission').value,10); return isNaN(v)?null:v; })(),
+      points:selPoints.slice(),
+      recommended_for:selRec.slice(),
+      courses:courseList.filter(function(c){ return (c.name||c.age||c.day||c.time||c.fee); }),
+      email:$('f-email').value.trim()||null,
+      description:$('f-desc').value.trim()||null,
+      days:days,
+      fee_num:isNaN(feeNum)?null:feeNum,
+      fee:isNaN(feeNum)?null:('月'+feeNum.toLocaleString()+'円'),
+      trial:trialEl?(trialEl.value==='true'):null,
+      female_instructor:$('f-female').checked, girls_welcome:$('f-girls').checked,
+      instagram:$('f-ig').value.trim().replace(/^@/,'')||null,
+      website_url:$('f-web').value.trim()||null, line_url:$('f-line').value.trim()||null
+    };
+    $('mp-save').disabled=true; $('mp-save').textContent='保存中...';
+    db.from('teams').update(updates).eq('id',team.id).then(function(res){
+      $('mp-save').disabled=false; $('mp-save').textContent='保存する';
+      if(res.error){ msg($('mp-save-msg'),false,'保存に失敗しました：'+(res.error.message||'')); return; }
+      Object.keys(updates).forEach(function(k){ team[k]=updates[k]; });
+      msg($('mp-save-msg'),true,'保存しました。');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  $('mp-photo-input').addEventListener('change',function(e){
+    var file=e.target.files&&e.target.files[0]; e.target.value='';
+    if(!file||!team||!currentUserId) return;
+    if(photoList.length>=photoMax){ msgPhoto(false,'これ以上追加できません（最大'+photoMax+'枚）。'); return; }
+    if(file.size>5*1024*1024){ msgPhoto(false,'5MB以下の画像を選んでください。'); return; }
+    photoBusy=true; msgPhoto(true,'アップロード中...');
+    resizeImage(file, function(blob){
+      var path=currentUserId+'/'+team.id+'-'+Date.now()+'.jpg';
+      db.storage.from('team-photos').upload(path, blob, {upsert:true, contentType:'image/jpeg'}).then(function(res){
+        if(res.error){ photoBusy=false; msgPhoto(false,'アップロードに失敗しました：'+(res.error.message||'')); return; }
+        var url=db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
+        photoList.push(url); photoPos.push('50% 50%');
+        savePhotos(function(ok){ photoBusy=false; msgPhoto(ok, ok?'写真を追加しました。下で表示位置を調整できます。':'追加の保存に失敗しました。'); if(ok){ openEditor(photoList.length-1); } else { renderPhotos(); } });
+      });
+    });
+  });
+
+  $('pw-save').addEventListener('click',function(){
+    var p1=$('pw-new').value, p2=$('pw-new2').value;
+    if(p1.length<6){ msg($('pw-msg'),false,'パスワードは6文字以上で入力してください。'); return; }
+    if(p1!==p2){ msg($('pw-msg'),false,'確認用パスワードが一致しません。'); return; }
+    $('pw-save').disabled=true; $('pw-save').textContent='変更中...';
+    db.auth.updateUser({password:p1}).then(function(res){
+      $('pw-save').disabled=false; $('pw-save').textContent='パスワードを変更する';
+      if(res.error){ msg($('pw-msg'),false,'変更に失敗しました：'+(res.error.message||'')); return; }
+      $('pw-new').value=''; $('pw-new2').value=''; msg($('pw-msg'),true,'パスワードを変更しました。');
+    });
+  });
+
+  $('mp-delete').addEventListener('click',function(){
+    if(!team) return;
+    if(!window.confirm('本当にこのクラブの掲載を削除しますか？\nこの操作は取り消せません。')) return;
+    if(!window.confirm('最終確認です。掲載情報をすべて削除します。よろしいですか？')) return;
+    $('mp-delete').disabled=true; $('mp-delete').textContent='削除中...';
+    // 写真をStorageから削除（ベストエフォート）
+    var paths=[]; (photoList||[]).forEach(function(u){ var m='/team-photos/', i=u.indexOf(m); if(i>=0) paths.push(decodeURIComponent(u.slice(i+m.length))); });
+    var doDelete=function(){
+      db.from('teams').delete().eq('id',team.id).then(function(res){
+        $('mp-delete').disabled=false; $('mp-delete').textContent='このクラブの掲載を削除する';
+        if(res.error){ msg($('del-msg'),false,'削除に失敗しました：'+(res.error.message||'')+'（権限設定が必要な場合があります）'); return; }
+        msg($('del-msg'),true,'掲載を削除しました。ご利用ありがとうございました。');
+        db.auth.signOut().then(function(){ team=null; setTimeout(function(){ showLogin(); window.scrollTo({top:0,behavior:'smooth'}); },1200); });
+      });
+    };
+    if(paths.length){ db.storage.from('team-photos').remove(paths).then(doDelete, doDelete); } else { doDelete(); }
+  });
+
+  // ===== ロゴ =====
+  function renderLogo(){
+    var p=$('mp-logo-preview'), del=$('mp-logo-del'), hint=$('mp-logo-hint');
+    if(!p) return;
+    if(logoUrl){ p.innerHTML='<img id="mp-logo-img" src="'+logoUrl+'" alt="" style="width:100%;height:100%;object-fit:cover;object-position:'+logoPos+';display:block;pointer-events:none;">'; p.style.cursor='grab'; p.style.touchAction='none'; if(del) del.style.display=''; if(hint) hint.style.display='block'; }
+    else { p.innerHTML='なし'; p.style.cursor='default'; if(del) del.style.display='none'; if(hint) hint.style.display='none'; }
+  }
+  // ロゴをドラッグして表示位置を調整
+  (function(){
+    var fr=$('mp-logo-preview'); if(!fr) return;
+    var dragging=false,sx=0,sy=0,ox=50,oy=50,cx=50,cy=50;
+    function clamp(v){ return v<0?0:(v>100?100:v); }
+    function apply(){ var v=Math.round(cx)+'% '+Math.round(cy)+'%'; logoPos=v; var im=$('mp-logo-img'); if(im) im.style.objectPosition=v; }
+    fr.addEventListener('pointerdown',function(e){ if(!logoUrl) return; dragging=true; var pr=(logoPos||'50% 50%').split(' '); ox=parseInt(pr[0],10); if(isNaN(ox))ox=50; oy=parseInt(pr[1],10); if(isNaN(oy))oy=50; cx=ox; cy=oy; sx=e.clientX; sy=e.clientY; try{fr.setPointerCapture(e.pointerId);}catch(_){ } fr.style.cursor='grabbing'; e.preventDefault(); });
+    fr.addEventListener('pointermove',function(e){ if(!dragging) return; var w=fr.clientWidth||72,h=fr.clientHeight||72; cx=clamp(ox-(e.clientX-sx)/w*100); cy=clamp(oy-(e.clientY-sy)/h*100); apply(); });
+    function end(e){ if(!dragging) return; dragging=false; try{fr.releasePointerCapture(e.pointerId);}catch(_){ } fr.style.cursor='grab';
+      if(team){ db.from('teams').update({logo_position:logoPos}).eq('id',team.id).then(function(r){ if(!r.error){ team.logo_position=logoPos; msg($('mp-logo-msg'),true,'ロゴの位置を保存しました。'); } }); }
+    }
+    fr.addEventListener('pointerup',end); fr.addEventListener('pointercancel',end); fr.addEventListener('pointerleave',end);
+  })();
+  $('mp-logo-btn').addEventListener('click',function(){ if(!logoBusy) $('mp-logo-input').click(); });
+  $('mp-logo-input').addEventListener('change',function(e){
+    var file=e.target.files&&e.target.files[0]; e.target.value='';
+    if(!file||!team||!currentUserId) return;
+    if(file.size>5*1024*1024){ msg($('mp-logo-msg'),false,'5MB以下の画像を選んでください。'); return; }
+    logoBusy=true; msg($('mp-logo-msg'),true,'アップロード中...');
+    resizeImage(file,function(blob){
+      var path=currentUserId+'/'+team.id+'-logo-'+Date.now()+'.jpg';
+      db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:'image/jpeg'}).then(function(res){
+        if(res.error){ logoBusy=false; msg($('mp-logo-msg'),false,'アップロードに失敗しました：'+(res.error.message||'')); return; }
+        var url=db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
+        db.from('teams').update({logo_url:url,logo_position:'50% 50%'}).eq('id',team.id).then(function(r){
+          logoBusy=false;
+          if(r.error){ msg($('mp-logo-msg'),false,'保存に失敗しました：'+(r.error.message||'')); return; }
+          logoUrl=url; logoPos='50% 50%'; team.logo_url=url; team.logo_position='50% 50%'; renderLogo(); msg($('mp-logo-msg'),true,'ロゴを設定しました。ドラッグで位置を調整できます。');
+        });
+      });
+    });
+  });
+  $('mp-logo-del').addEventListener('click',function(){
+    if(!team||logoBusy) return;
+    if(!window.confirm('ロゴを削除しますか？')) return;
+    logoBusy=true; msg($('mp-logo-msg'),true,'削除中...');
+    var url=logoUrl, marker='/team-photos/', i=url?url.indexOf(marker):-1, pa=i>=0?decodeURIComponent(url.slice(i+marker.length)):null;
+    var done=function(){ db.from('teams').update({logo_url:null}).eq('id',team.id).then(function(r){ logoBusy=false; if(r.error){ msg($('mp-logo-msg'),false,'削除に失敗しました。'); return; } logoUrl=null; team.logo_url=null; renderLogo(); msg($('mp-logo-msg'),true,'ロゴを削除しました。'); }); };
+    if(pa){ db.storage.from('team-photos').remove([pa]).then(done,done); } else { done(); }
+  });
+
+  $('mp-logout').addEventListener('click',function(){ db.auth.signOut().then(function(){ team=null; showLogin(); }); });
+})();
+</script>
+<script src="shared.js"></script>
+</body>
+</html>
