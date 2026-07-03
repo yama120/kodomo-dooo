@@ -80,7 +80,7 @@
 
       <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;">
         <img src="assets/logo.png" alt="チビスポ" style="height: 62px; width: auto; display: block;">
-        <span style="font-size: 10.5px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em;">地域×スポーツ</span>
+        <span style="font-size: 10.5px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em;">地域スポーツを、もっと身近に。</span>
       </a>
 
       <nav class="cc-nav" style="display: flex; align-items: center; gap: 24px; margin-left: auto;">
@@ -221,7 +221,7 @@
     <div style="max-width: 1120px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start;">
       <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 10px;">
         <div style="font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; font-weight: 900; letter-spacing: 0.02em;"><span style="color: #e8455f;">チ</span><span style="color: #2a6fdb;">ビ</span><span style="color: #e8784a;">ス</span><span style="color: #1f8a5b;">ポ</span></div>
-        <div style="font-size: 11px; font-weight: 700; color: #777777;">地域の子どもとスポーツをつなぐメディア</div>
+        <div style="font-size: 11px; font-weight: 700; color: #777777;">地域スポーツを、もっと身近に。</div>
       </div>
 
       <div style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">

@@ -2,6 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>チビスポ｜地域×スポーツ｜子どものクラブ・習い事を見つける</title>
 <meta name="description" content="チビスポは、地域の子どもスポーツ・習い事クラブを探せるメディア。地域×種目×雰囲気でぴったりのクラブが見つかり、スポーツを通した子どもの成長・発達に役立つ情報も届けます。">
@@ -1461,6 +1463,17 @@
     var outer = document.getElementById('hero-marquee');
     var track = document.getElementById('hero-track');
     if(!outer || !track) return;
+    // スマホ等のタッチ端末：JSの自動スクロールがネイティブのスワイプ慣性と競合して
+    // 「スライダーが効かない／画像がガタつく」ため、複製セットを隠して素のスナップ横スクロールにする
+    var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    if(coarse){
+      var dup = track.querySelector('[aria-hidden="true"]');
+      if(dup) dup.style.display = 'none';
+      outer.style.scrollSnapType = 'x mandatory';
+      outer.style.webkitOverflowScrolling = 'touch';
+      outer.style.cursor = 'auto';
+      return;
+    }
     var SECONDS_PER_LOOP = 30; // 元のCSSと同じ：1セット分を30秒で流す
     var hover = false, interacting = false, dragging = false, startX = 0, startScroll = 0, moved = false;
     function running(){ return !hover && !interacting && !dragging; }
