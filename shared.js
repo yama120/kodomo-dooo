@@ -51,11 +51,15 @@
       .cc-bottombar { display:flex !important; }
       body { padding-bottom:64px; }
       #cc-menu { bottom:64px !important; }
-      header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:12px !important; }
+      header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:10px !important; }
+      /* ロゴを小さめにしてサブタイトルが下に回り込まないようにする */
+      .cc-logo-img { height:34px !important; }
+      .cc-head-inner a[href="index.html"] span { white-space:nowrap !important; }
     }
     /* スマホ狭幅：タイルと下部バーの詰めすぎ・はみ出しを調整 */
     @media (max-width: 480px){
-      .cc-logo-img { height:38px !important; }
+      .cc-logo-img { height:30px !important; }
+      .cc-head-inner a[href="index.html"] span { font-size:9.5px !important; }
       #cc-menu { padding-left:12px !important; padding-right:12px !important; }
       #cc-menu > div[style*="grid-template-columns"]{ gap:8px !important; }
       #cc-menu a[style*="flex-direction:column"]{ padding:12px 2px !important; }
