@@ -293,15 +293,10 @@
         <span style="position: absolute; inset: 0; background: rgba(10,14,22,0.62);"></span>
         <span class="hs2-inner" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(20px, 5vw, 84px); padding: 0 22px; line-height: normal;">
           <span style="display: block; text-align: center;">
-            <span style="display: block; font-family: 'Pacifico', cursive; font-size: clamp(16px, 2.3vw, 30px); color: #8fc3ff; text-shadow: 0 2px 10px rgba(0,0,0,0.4);">Reserch</span>
-            <span style="display: block; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: clamp(30px, 5.2vw, 66px); color: #ffffff; line-height: 1.08; letter-spacing: 0.01em; text-shadow: 0 3px 16px rgba(0,0,0,0.45);">クラブを探す</span>
-            <span style="display: flex; gap: clamp(6px, 0.8vw, 10px); justify-content: center; margin-top: clamp(10px, 1.4vw, 18px);">
-              <span style="width: clamp(9px,1vw,13px); height: clamp(9px,1vw,13px); border-radius: 50%; background: #4a95ff;"></span>
-              <span style="width: clamp(9px,1vw,13px); height: clamp(9px,1vw,13px); border-radius: 50%; background: #35c07a;"></span>
-              <span style="width: clamp(9px,1vw,13px); height: clamp(9px,1vw,13px); border-radius: 50%; background: #f5b800;"></span>
-              <span style="width: clamp(9px,1vw,13px); height: clamp(9px,1vw,13px); border-radius: 50%; background: #ff5a74;"></span>
-            </span>
+            <span style="display: block; font-family: 'Pacifico', cursive; font-size: clamp(16px, 2.3vw, 30px); background: linear-gradient(90deg,#e8455f,#e8784a,#2a6fdb,#1f8a5b); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));">Reserch</span>
+            <span style="display: block; font-family: 'Noto Sans JP', sans-serif; font-weight: 900; font-size: clamp(30px, 5.2vw, 66px); color: #ffffff; line-height: 1.1; letter-spacing: 0.02em; text-shadow: 0 3px 16px rgba(0,0,0,0.45);">クラブを探す</span>
           </span>
+          <span style="width: clamp(3px,0.35vw,5px); height: clamp(64px,9vw,126px); background: rgba(255,255,255,0.92); border-radius: 4px; transform: rotate(20deg); flex: 0 0 auto;"></span>
           <span style="display: block; text-align: center;">
             <span style="display: block; font-size: clamp(12.5px, 1.55vw, 19px); font-weight: 800; color: #ffffff; line-height: 1.7; margin-bottom: clamp(12px, 1.6vw, 20px); text-shadow: 0 2px 10px rgba(0,0,0,0.45);">その子にあった<br>地域のスポーツを検索</span>
             <span style="display: inline-flex; align-items: center; gap: 12px; border: 2px solid #ffffff; border-radius: 999px; padding: clamp(9px,1.3vw,16px) clamp(22px,3vw,42px); font-size: clamp(15px,1.9vw,26px); font-weight: 900; color: #ffffff; background: rgba(255,255,255,0.14); box-shadow: 0 6px 18px rgba(0,0,0,0.28);">検索 <span style="font-size: 1.05em; line-height: 1;">›</span></span>
@@ -1753,8 +1748,7 @@
     var link = track.querySelector('a.hero-slide');
     if(link) link.addEventListener('click', function(e){ if(Math.abs(dx) > 6) e.preventDefault(); });
     // ホバー中は自動送り停止（PC）
-    track.addEventListener('mouseenter', stop);
-    track.addEventListener('mouseleave', start);
+    // ホバーでは止めない（常に自動送り）。タブ非表示時のみ停止して復帰時に再開。
     document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
     render(); start();
   })();
