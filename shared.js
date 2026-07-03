@@ -83,9 +83,9 @@
   <header data-screen-label="ヘッダー" style="position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.92); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); border-bottom: 1px solid #eeeeee;">
     <div class="cc-head-inner" style="max-width: 1320px; margin: 0 auto; padding: 0 24px; height: 74px; display: flex; align-items: center; gap: 22px;">
 
-      <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;">
-        <img class="cc-logo-img" src="assets/logo.png" alt="チビスポ" style="height: 46px; width: auto; display: block;">
-        <span style="font-size: 10.5px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em;">地域スポーツを、もっと身近に。</span>
+      <a href="index.html" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; flex: 0 0 auto; line-height: 1;">
+        <img class="cc-logo-img" src="assets/logo.png" alt="チビスポ" style="height: 36px; width: auto; display: block;">
+        <span style="font-size: 10px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em; white-space: nowrap;">地域スポーツを、もっと身近に。</span>
       </a>
 
       <nav class="cc-nav" style="display: flex; align-items: center; gap: 24px; margin-left: auto;">
