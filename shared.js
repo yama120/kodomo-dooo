@@ -55,6 +55,7 @@
     }
     /* スマホ狭幅：タイルと下部バーの詰めすぎ・はみ出しを調整 */
     @media (max-width: 480px){
+      .cc-logo-img { height:38px !important; }
       #cc-menu { padding-left:12px !important; padding-right:12px !important; }
       #cc-menu > div[style*="grid-template-columns"]{ gap:8px !important; }
       #cc-menu a[style*="flex-direction:column"]{ padding:12px 2px !important; }
@@ -79,7 +80,7 @@
     <div class="cc-head-inner" style="max-width: 1320px; margin: 0 auto; padding: 0 24px; height: 74px; display: flex; align-items: center; gap: 22px;">
 
       <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex: 0 0 auto;">
-        <img src="assets/logo.png" alt="チビスポ" style="height: 62px; width: auto; display: block;">
+        <img class="cc-logo-img" src="assets/logo.png" alt="チビスポ" style="height: 46px; width: auto; display: block;">
         <span style="font-size: 10.5px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em;">地域スポーツを、もっと身近に。</span>
       </a>
 
@@ -189,10 +190,6 @@
   /* ---------- 下部タブバー（モバイル） ---------- */
   var BOTTOMBAR = `
   <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:64px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around;">
-    <button class="cc-open-menu" aria-label="メニュー" style="background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; color:#e8455f;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      <span style="font-size:10px; font-weight:700;">メニュー</span>
-    </button>
     <a href="search.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/></svg>
       <span style="font-size:10px; font-weight:600;">クラブを探す</span>
@@ -213,6 +210,10 @@
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>
       <span style="font-size:10px; font-weight:600;">お気に入り</span>
     </a>
+    <button class="cc-open-menu" aria-label="メニュー" style="background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; color:#e8455f;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span style="font-size:10px; font-weight:700;">メニュー</span>
+    </button>
   </nav>`;
 
   /* ---------- フッター ---------- */
