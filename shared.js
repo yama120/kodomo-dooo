@@ -225,7 +225,7 @@
   <footer data-screen-label="フッター" style="background: #f4f4f2; padding: 52px 32px 32px;">
     <div style="max-width: 1120px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start;">
       <div style="flex: 0 0 220px; display: flex; flex-direction: column; gap: 10px;">
-        <div style="font-family: 'Zen Maru Gothic', sans-serif; font-size: 34px; font-weight: 900; letter-spacing: 0.02em;"><span style="color: #e8455f;">チ</span><span style="color: #2a6fdb;">ビ</span><span style="color: #e8784a;">ス</span><span style="color: #1f8a5b;">ポ</span></div>
+        <img src="assets/logo.png" alt="チビスポ" style="height: 40px; width: auto; display: block;">
         <div style="font-size: 11px; font-weight: 700; color: #777777;">地域スポーツを、もっと身近に。</div>
       </div>
 
