@@ -201,15 +201,28 @@
       <button class="mp-btn" id="mp-save">保存する</button>
     </div>
 
-    <!-- 有料プラン誘導 -->
+    <!-- 有料プラン誘導（フリー会員向け・2プラン） -->
     <div id="mp-upsell" class="mp-card" style="border:1.5px solid #f3c9da;background:#fffafc;">
       <h2 style="margin:0 0 7px;font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;color:#e8455f;">もっと見てもらうには</h2>
-      <p style="margin:0 0 14px;font-size:13px;line-height:1.9;color:#5b6573;">有料プランにすると、<strong>検索結果で上位に表示</strong>され、<strong>写真を最大7枚</strong>掲載できます。同じ情報でも、見られる回数と体験申込の数が大きく変わります。</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <a id="mp-upsell-monthly" href="listing.html" style="flex:1 1 180px;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:14px 10px;border-radius:14px;line-height:1.5;"><span style="font-size:14px;font-weight:800;">月額で試す</span><br><span style="font-size:11.5px;font-weight:600;opacity:.95;">¥3,000/月・30日間無料</span></a>
-        <a id="mp-upsell-annual" href="listing.html" style="flex:1 1 180px;text-align:center;background:#fff;border:1.5px solid #e8455f;color:#e8455f;text-decoration:none;padding:14px 10px;border-radius:14px;line-height:1.5;"><span style="font-size:14px;font-weight:800;">年額でお得に</span><br><span style="font-size:11.5px;font-weight:600;">¥30,000/年・2ヶ月分お得</span></a>
+      <p style="margin:0 0 16px;font-size:13px;line-height:1.9;color:#5b6573;">有料プランにすると、<strong>検索結果で上位に表示</strong>され、<strong>写真も増やせます</strong>。同じ情報でも、見られる回数と体験申込の数が大きく変わります。</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <!-- スタンダード -->
+        <div style="flex:1 1 230px;border:1.5px solid #e6e9ed;border-radius:14px;padding:16px 15px;background:#fff;">
+          <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">スタンダード</div>
+          <div style="font-size:12px;color:#7b8492;margin:3px 0 10px;line-height:1.6;">上位表示・注目枠・写真7枚・アクセスレポート</div>
+          <a id="mp-std-monthly" href="listing.html" style="display:block;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:12px 8px;border-radius:12px;font-size:13.5px;font-weight:800;line-height:1.4;">月額 ¥3,000<br><span style="font-size:11px;font-weight:600;opacity:.95;">30日間無料</span></a>
+          <a id="mp-std-annual" href="listing.html" style="display:block;text-align:center;margin-top:8px;color:#e8455f;text-decoration:none;font-size:12px;font-weight:700;">年額 ¥30,000（2ヶ月分お得）</a>
+        </div>
+        <!-- プロ -->
+        <div style="flex:1 1 230px;border:2px solid #e8455f;border-radius:14px;padding:16px 15px;background:#fff;position:relative;">
+          <div style="position:absolute;top:-11px;left:15px;background:#e8455f;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 10px;">いちばん届く</div>
+          <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">プロ</div>
+          <div style="font-size:12px;color:#7b8492;margin:3px 0 10px;line-height:1.6;">最上位固定＋トップ露出＋公式SNS月1回紹介＋写真15枚</div>
+          <a id="mp-pro-monthly" href="listing.html" style="display:block;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:12px 8px;border-radius:12px;font-size:13.5px;font-weight:800;">月額 ¥10,000</a>
+          <a id="mp-pro-annual" href="listing.html" style="display:block;text-align:center;margin-top:8px;color:#e8455f;text-decoration:none;font-size:12px;font-weight:700;">年額 ¥100,000（2ヶ月分お得）</a>
+        </div>
       </div>
-      <p class="hint" style="margin:11px 0 0;text-align:center;">いつでも解約OK。まずは30日間、無料でお試しいただけます。</p>
+      <p class="hint" style="margin:12px 0 0;text-align:center;">いつでも解約OK。プランの変更・解約は申込後、マイページの「プラン管理」から。</p>
     </div>
 
     <!-- パスワード変更 -->
@@ -242,7 +255,7 @@
 (function(){
   if(!window.supabase) return;
   var db=supabase.createClient('https://emkpkomrgknzrmxqbrvx.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
-  var STRIPE_LINKS={ monthly:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', annual:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001', feature:'#' };
+  var STRIPE_LINKS={ monthly:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', annual:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001', proMonthly:'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004', proAnnual:'https://buy.stripe.com/14AbJ1bd3aKg1cm1QF00005', feature:'https://buy.stripe.com/5kQ7sLftj5pWdZ8brf00006' };
   var PORTAL_URL='https://billing.stripe.com/p/login/cNi00j5SJ2dK6wG66V00000'; // Stripe顧客ポータル（プラン変更・解約・カード更新）
   // アップグレード先URL：Payment Linkが設定されていれば client_reference_id にチームIDを付けてStripeへ。未設定ならプラン説明ページへ。
   function upgradeUrl(plan){ var base=STRIPE_LINKS[plan]; if(base && base!=='#' && team){ return base+(base.indexOf('?')>=0?'&':'?')+'client_reference_id='+encodeURIComponent(team.id); } return 'listing.html'; }
@@ -363,18 +376,19 @@
 
     // プラン
     var ep=effectivePlan(t);
-    var label={free:'無料掲載プラン',pr:'上位表示PR',feature:'特集・取材記事'}[ep]||'無料掲載プラン';
+    var label={free:'フリー',pr:'スタンダード','pr-plus':'プロ',feature:'特集・取材記事'}[ep]||'フリー';
     $('mp-plan-name').textContent=label;
     $('mp-plan-sub').textContent = (ep!=='free' && t.plan_expires_at) ? ('有効期限：'+new Date(t.plan_expires_at).toLocaleDateString('ja-JP')) : '';
     var up=$('mp-upgrade');
     if(ep!=='free'){ up.style.display='none'; } else { up.style.display=''; up.href='#mp-upsell'; }
     var po=$('mp-portal'); if(po){ if(ep!=='free'){ po.style.display=''; po.href=PORTAL_URL; } else { po.style.display='none'; } }
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
-    var bm=$('mp-upsell-monthly'); if(bm) bm.href=upgradeUrl('monthly');
-    var ba=$('mp-upsell-annual'); if(ba){ if(STRIPE_LINKS.annual && STRIPE_LINKS.annual!=='#'){ ba.style.display=''; ba.href=upgradeUrl('annual'); } else { ba.style.display='none'; } }
+    // アップセルの4ボタンを配線（フリー会員が新規サブスク作成。既存有料のプラン変更は顧客ポータルから＝二重課金防止）
+    var wireUp=function(id,key){ var a=$(id); if(a){ if(STRIPE_LINKS[key] && STRIPE_LINKS[key]!=='#'){ a.style.display=''; a.href=upgradeUrl(key); } else { a.style.display='none'; } } };
+    wireUp('mp-std-monthly','monthly'); wireUp('mp-std-annual','annual'); wireUp('mp-pro-monthly','proMonthly'); wireUp('mp-pro-annual','proAnnual');
 
     // 写真（プラン連動の上限）
-    photoMax=(ep!=='free')?7:1;
+    photoMax=(ep==='pr-plus')?15:((ep!=='free')?7:1);
     photoList=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
     photoList=photoList.slice(0,photoMax);
     photoPos=(Array.isArray(t.photo_positions)?t.photo_positions.slice():[]);
@@ -382,7 +396,7 @@
     photoPos=photoPos.slice(0,photoList.length);
     editIdx=-1; $('mp-photo-editor').style.display='none';
     $('mp-photo-limit').textContent='（最大'+photoMax+'枚）';
-    $('mp-photo-note').textContent=(photoMax>1?'写真をクリックすると、表示位置の調整・並べ替え・削除ができます。1枚目がカバー写真です。':'無料プランは1枚まで。有料プランなら最大7枚に増やせます。写真をクリックで表示位置を調整できます。');
+    $('mp-photo-note').textContent=(photoMax>1?'写真をクリックすると、表示位置の調整・並べ替え・削除ができます。1枚目がカバー写真です。':'フリーは1枚まで。有料プランなら増やせます（スタンダード7枚／プロ15枚）。写真をクリックで表示位置を調整できます。');
     renderPhotos();
   }
 
