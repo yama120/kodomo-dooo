@@ -73,11 +73,11 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   </div>
 
   <!-- ============ HERO ============ -->
-  <section style="max-width:1120px;margin:0 auto;display:flex;gap:36px;padding-bottom:28px;">
+  <section style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:36px;padding-bottom:28px;">
     <!-- gallery -->
-    <div style="width:524px;flex:0 0 524px;">
+    <div style="width:100%;max-width:524px;flex:1 1 380px;min-width:0;">
       <div style="position:relative;background:#eef1f4;border-radius:10px;">
-        <img id="cd-main-photo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" style="width:524px;height:360px;display:block;border-radius:10px;object-fit:cover;opacity:0;transition:opacity .25s ease;">
+        <img id="cd-main-photo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" style="width:100%;height:auto;aspect-ratio:524/360;display:block;border-radius:10px;object-fit:cover;opacity:0;transition:opacity .25s ease;">
         <div id="cd-photo-count" style="position:absolute;top:14px;right:14px;background:rgba(20,24,30,.7);color:#fff;font-size:13px;font-weight:700;padding:5px 12px;border-radius:20px;">1 / 7</div>
         <button class="cd-arrow" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2b3340" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg>

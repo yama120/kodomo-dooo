@@ -171,7 +171,7 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">地域から探す</span>
         </a>
-        <a href="search.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
+        <a href="search.html#sr-sport" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8784a" stroke-width="1.8"><circle cx="14" cy="5" r="2"/><path d="M13 8l-4 3 3 3 1 5M9 11l-4 1M12 14l4 1"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">種目（スポーツ）から探す</span>
         </a>

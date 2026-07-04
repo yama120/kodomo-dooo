@@ -179,22 +179,22 @@
       <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;text-align:center;">掲載のお申し込み・お問い合わせ</h2>
       <p style="margin:0 0 22px;font-size:13px;color:#7b8492;text-align:center;line-height:1.8;">下記フォームよりお気軽にどうぞ。担当より2〜3営業日以内にご連絡します。</p>
       <div style="display:flex;flex-direction:column;gap:16px;">
-        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">店舗・会社名 <span style="color:#e8455f;">必須</span></label><input class="rp-input" type="text" placeholder="例）さくら整骨院"></div>
-        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">ご担当者名 <span style="color:#e8455f;">必須</span></label><input class="rp-input" type="text" placeholder="例）山田 太郎"></div>
+        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">店舗・会社名 <span style="color:#e8455f;">必須</span></label><input id="rp-company" class="rp-input" type="text" placeholder="例）さくら整骨院"></div>
+        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">ご担当者名 <span style="color:#e8455f;">必須</span></label><input id="rp-name" class="rp-input" type="text" placeholder="例）山田 太郎"></div>
         <div class="rp-grid2">
-          <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">メールアドレス <span style="color:#e8455f;">必須</span></label><input class="rp-input" type="email" placeholder="example@mail.com"></div>
-          <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">電話番号</label><input class="rp-input" type="tel" placeholder="000-0000-0000"></div>
+          <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">メールアドレス <span style="color:#e8455f;">必須</span></label><input id="rp-email" class="rp-input" type="email" placeholder="example@mail.com"></div>
+          <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">電話番号</label><input id="rp-tel" class="rp-input" type="tel" placeholder="000-0000-0000"></div>
         </div>
         <div class="rp-grid2">
           <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">業種</label>
-            <div style="position:relative;"><select class="rp-input" style="appearance:none;"><option>整骨院・整体</option><option>スポーツ用品店</option><option>学習塾・習い事</option><option>飲食・栄養</option><option>クリニック・薬局</option><option>その他</option></select><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></span></div>
+            <div style="position:relative;"><select id="rp-industry" class="rp-input" style="appearance:none;"><option>整骨院・整体</option><option>スポーツ用品店</option><option>学習塾・習い事</option><option>飲食・栄養</option><option>クリニック・薬局</option><option>その他</option></select><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></span></div>
           </div>
           <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">ご希望プラン</label>
-            <div style="position:relative;"><select class="rp-input" style="appearance:none;"><option>未定・相談したい</option><option>企業紹介プラン（¥50,000/年・制作＋掲載込み）</option><option>記事掲載（スポット・要相談）</option><option>その他・まず相談したい</option></select><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></span></div>
+            <div style="position:relative;"><select id="rp-plan" class="rp-input" style="appearance:none;"><option>未定・相談したい</option><option>企業紹介プラン（¥50,000/年・制作＋掲載込み）</option><option>記事掲載（スポット・要相談）</option><option>その他・まず相談したい</option></select><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></span></div>
           </div>
         </div>
-        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">ご質問・ご要望</label><textarea class="rp-input" rows="4" placeholder="掲載エリアやご予算など、お気軽にご記入ください。"></textarea></div>
-        <button type="button" style="margin-top:6px;width:100%;background:#e8455f;color:#fff;border:none;border-radius:999px;padding:15px 0;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(232,69,95,.28);">この内容で送信する</button>
+        <div><label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">ご質問・ご要望</label><textarea id="rp-msg" class="rp-input" rows="4" placeholder="掲載エリアやご予算など、お気軽にご記入ください。"></textarea></div>
+        <button id="rp-send" type="button" style="margin-top:6px;width:100%;background:#e8455f;color:#fff;border:none;border-radius:999px;padding:15px 0;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(232,69,95,.28);">この内容で送信する</button>
         <p style="margin:2px 0 0;font-size:11px;color:#aab1bb;text-align:center;">送信により<a href="legal.html#privacy" target="_blank" style="color:#2270e0;">プライバシーポリシー</a>に同意したものとみなします。</p>
       </div>
     </div>
@@ -202,5 +202,26 @@
 </section>
 
 <script src="shared.js"></script>
+<script>
+(function(){
+  var btn=document.getElementById('rp-send'); if(!btn) return;
+  function val(id){var e=document.getElementById(id);return e?String(e.value||'').trim():'';}
+  btn.addEventListener('click',function(){
+    var company=val('rp-company'),name=val('rp-name'),email=val('rp-email');
+    if(!company||!name||!email){ alert('「店舗・会社名」「ご担当者名」「メールアドレス」は必須です。'); return; }
+    var tel=val('rp-tel'),industry=val('rp-industry'),plan=val('rp-plan'),msg=val('rp-msg');
+    var body=''
+      +'■店舗・会社名：'+company+'\n'
+      +'■ご担当者名：'+name+'\n'
+      +'■メールアドレス：'+email+'\n'
+      +'■電話番号：'+(tel||'（未入力）')+'\n'
+      +'■業種：'+industry+'\n'
+      +'■ご希望プラン：'+plan+'\n'
+      +'■ご質問・ご要望：\n'+(msg||'（未入力）')+'\n';
+    var url='mailto:info@chibispo.com?subject='+encodeURIComponent('【チビスポ】掲載のお申し込み・お問い合わせ')+'&body='+encodeURIComponent(body);
+    window.location.href=url;
+  });
+})();
+</script>
 </body>
 </html>
