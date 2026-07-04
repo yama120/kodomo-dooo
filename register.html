@@ -86,7 +86,10 @@
     <div class="rg-card">
       <div class="rg-card-title">🏷 基本情報</div>
       <div class="rg-group"><label class="rg-label">チーム・クラブ名<span class="req">必須</span></label><input class="rg-input" id="name" type="text" placeholder="例：城東ジュニアベースボールクラブ" required></div>
-      <div class="rg-group"><label class="rg-label">種目<span class="req">必須</span></label><input class="rg-input" id="sport" type="text" placeholder="例：サッカー" required></div>
+      <div class="rg-group"><label class="rg-label">種目<span class="req">必須</span></label>
+        <select class="rg-input" id="sport" required><option value="" selected disabled hidden>選択してください</option></select>
+        <input class="rg-input" id="sportOther" type="text" placeholder="種目を入力（例：チアリーディング）" style="display:none;margin-top:8px;">
+      </div>
       <div class="rg-group">
         <label class="rg-label">都道府県<span class="req">必須</span></label>
         <select class="rg-input" id="pref" required>
@@ -94,7 +97,10 @@
           <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
         </select>
       </div>
-      <div class="rg-group"><label class="rg-label">市区町村<span class="req">必須</span></label><input class="rg-input" id="city" type="text" placeholder="例：名古屋市中区" required></div>
+      <div class="rg-group"><label class="rg-label">市区町村<span class="req">必須</span></label>
+        <select class="rg-input" id="city" required disabled><option value="" selected disabled hidden>先に都道府県を選択</option></select>
+        <input class="rg-input" id="cityOther" type="text" placeholder="市区町村を入力" style="display:none;margin-top:8px;">
+      </div>
       <div class="rg-group"><label class="rg-label">丁目・番地以降<span class="opt">任意</span></label><input class="rg-input" id="address" type="text" placeholder="例：〇〇町1-2-3 チビスポ球場"><div class="hint">地図表示の精度が上がります</div></div>
     </div>
 
@@ -235,6 +241,7 @@
 
 <script src="shared.js"></script>
 <script src="supabase-lite.js"></script>
+<script src="cities.js"></script>
 <script>
 // ===== Supabase クライアント =====
 var SUPABASE_URL='https://emkpkomrgknzrmxqbrvx.supabase.co';
@@ -329,6 +336,25 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
   // 初期描画
   paintPlanTabs();
 
+  // ===== 種目セレクト（その他は自由入力） =====
+  var SPORTS=['サッカー','バスケットボール','野球','バレーボール','バトンワーリング','ダブルダッチ','マルチスポーツ','ブラジリアン柔術','スキー','スノーボード','サーフィン','カヌー','水泳','体操','空手','ダンス','レスリング'];
+  var sportSel=document.getElementById('sport'), sportOther=document.getElementById('sportOther');
+  sportSel.innerHTML='<option value="" selected disabled hidden>選択してください</option>'+SPORTS.map(function(s){return '<option>'+s+'</option>';}).join('')+'<option value="その他">その他</option>';
+  sportSel.addEventListener('change',function(){ var o=(this.value==='その他'); sportOther.style.display=o?'block':'none'; sportOther.required=o; if(!o) sportOther.value=''; });
+
+  // ===== 市区町村セレクト（都道府県連動・CITIESはcities.jsから） =====
+  var prefSel=document.getElementById('pref'), citySel=document.getElementById('city'), cityOther=document.getElementById('cityOther');
+  function fillCities(){
+    cityOther.style.display='none'; cityOther.value=''; cityOther.required=false;
+    if(!prefSel.value){ citySel.innerHTML='<option value="" selected disabled hidden>先に都道府県を選択</option>'; citySel.disabled=true; return; }
+    var cs=(typeof CITIES!=='undefined' && CITIES[prefSel.value])?CITIES[prefSel.value]:[];
+    citySel.innerHTML='<option value="" selected disabled hidden>選択してください</option>'+cs.map(function(c){return '<option>'+c+'</option>';}).join('')+'<option value="その他">その他（自由入力）</option>';
+    citySel.disabled=false;
+  }
+  prefSel.addEventListener('change', fillCities);
+  citySel.addEventListener('change', function(){ var o=(this.value==='その他'); cityOther.style.display=o?'block':'none'; cityOther.required=o; if(!o) cityOther.value=''; });
+  fillCities();
+
   // ===== add=true：ログイン中なら別チーム追加モード（認証セクションを隠す） =====
   var isAddMode=false;
   (async function checkAddMode(){
@@ -374,12 +400,15 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     var lineUrl=document.getElementById('line_url').value.trim();
     var feeNum=parseInt(document.getElementById('feeNum').value,10);
     var name=document.getElementById('name').value.trim();
-    var sport=document.getElementById('sport').value.trim();
+    var sportVal=document.getElementById('sport').value;
+    var sport=(sportVal==='その他')?document.getElementById('sportOther').value.trim():sportVal;
+    var cityVal=document.getElementById('city').value;
+    var city=(cityVal==='その他')?document.getElementById('cityOther').value.trim():cityVal;
 
     if(!name) return err('チーム名をご入力ください。');
-    if(!sport) return err('種目をご入力ください。');
+    if(!sport) return err('種目を選択してください。');
     if(!document.getElementById('pref').value) return err('都道府県を選択してください。');
-    if(!document.getElementById('city').value.trim()) return err('市区町村をご入力ください。');
+    if(!city) return err('市区町村を選択してください。');
     if(ages.length===0) return err('対象年齢を1つ以上選択してください。');
     if(days.length===0) return err('活動曜日を1つ以上選択してください。');
     if(isNaN(feeNum)) return err('月謝を数字でご入力ください（無料は 0）。');
@@ -417,7 +446,7 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     var ins=await db.from('teams').insert({
       name:name, sport:sport,
       pref:document.getElementById('pref').value,
-      city:document.getElementById('city').value.trim(),
+      city:city,
       age_groups:ages, age_min:ageMin,
       female_instructor:features.indexOf('female_instructor')>=0,
       girls_welcome:features.indexOf('girls_welcome')>=0,
@@ -446,7 +475,7 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
 
     // 管理者へメール通知（失敗しても登録は成立）
     fetch(FUNCTIONS_URL+'/send-admin-notify',{ method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ team_name:name, sport:sport, pref:document.getElementById('pref').value, city:document.getElementById('city').value.trim(), applicant_email:email||(instagram?('Instagram: @'+instagram):'未入力') }) }).catch(function(){});
+      body:JSON.stringify({ team_name:name, sport:sport, pref:document.getElementById('pref').value, city:city, applicant_email:email||(instagram?('Instagram: @'+instagram):'未入力') }) }).catch(function(){});
 
     if(typeof gtag==='function'){ gtag('event', isAddMode?'team_added':'team_registered', { team_name:name, sport:sport, plan:planKey }); }
 
