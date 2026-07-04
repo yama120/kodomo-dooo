@@ -26,6 +26,8 @@
   @media (max-width: 900px){
     section[style*="gap:36px"]{ flex-direction:column !important; gap:22px !important; }
     div[style*="flex:0 0 524px"]{ width:100% !important; flex:1 1 auto !important; }
+    /* ギャラリー枠：縦積み時に flex-basis(380px) が高さになって余白が出るのを防ぐ */
+    section[style*="gap:36px"] > div[style*="flex:1 1 380px"]{ flex:0 0 auto !important; width:100% !important; }
     div[style*="flex:0 0 524px"] > div[style*="position:relative"]{ width:100% !important; }
     img[style*="width:524px"]{ width:100% !important; height:auto !important; }
     div[style*="gap:11px;margin-top:12px"]{ flex-wrap:wrap !important; }
@@ -73,7 +75,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   </div>
 
   <!-- ============ HERO ============ -->
-  <section style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:36px;padding-bottom:28px;">
+  <section style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:flex-start;gap:36px;padding-bottom:28px;">
     <!-- gallery -->
     <div style="width:100%;max-width:524px;flex:1 1 380px;min-width:0;">
       <div style="position:relative;background:#eef1f4;border-radius:10px;">
@@ -299,7 +301,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         </div>
       </div>
       <div id="cd-mag" class="carousel" style="display:flex;gap:14px;overflow-x:auto;padding:2px;">
-        <a href="magazine-1.html" style="flex:0 0 122px;cursor:pointer;text-decoration:none;color:inherit;"><img src="assets/sports/gymnastics.png" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;"><div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">6歳までの運動が、脳を育てる。幼児期に大切にしたい「多様な動き」</div><div style="font-size:11px;color:#9aa4af;margin-top:6px;">2026.06.20</div></a>
+        <a href="magazine-1.html" style="flex:0 0 122px;cursor:pointer;text-decoration:none;color:inherit;"><img src="assets/mag-1.jpg" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;"><div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">6歳までの運動が、脳を育てる。幼児期に大切にしたい「多様な動き」</div><div style="font-size:11px;color:#9aa4af;margin-top:6px;">2026.06.20</div></a>
         <a href="magazine-4.html" style="flex:0 0 122px;cursor:pointer;text-decoration:none;color:inherit;"><img src="assets/mag-4.jpg" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;"><div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">「うちの子に合うクラブ」の見つけ方・5つの視点</div><div style="font-size:11px;color:#9aa4af;margin-top:6px;">2026.06.12</div></a>
         <a href="magazine-5.html" style="flex:0 0 122px;cursor:pointer;text-decoration:none;color:inherit;"><img src="assets/mag-5.jpg" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;"><div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">子どものやる気を引き出す、声かけのコツ</div><div style="font-size:11px;color:#9aa4af;margin-top:6px;">2026.06.09</div></a>
         <a href="magazine-6.html" style="flex:0 0 122px;cursor:pointer;text-decoration:none;color:inherit;"><img src="assets/mag-6.jpg" alt="" style="width:122px;height:80px;border-radius:8px;object-fit:cover;display:block;"><div style="font-size:12px;font-weight:700;color:#2b3340;line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">けがを防ぐ！練習前後のストレッチ習慣</div><div style="font-size:11px;color:#9aa4af;margin-top:6px;">2026.06.08</div></a>

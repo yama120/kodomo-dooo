@@ -225,7 +225,7 @@
   <footer data-screen-label="フッター" style="background: #f4f4f2; padding: 52px 32px 32px;">
     <div style="max-width: 1120px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start;">
       <div style="flex: 0 0 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <img src="assets/logo.png" alt="チビスポ" style="height: 36px; width: auto; align-self: flex-start; display: block;">
+        <a href="index.html" style="align-self: flex-start; text-decoration: none; display: block;"><img src="assets/logo.png" alt="チビスポ" style="height: 36px; width: auto; display: block;"></a>
         <div style="font-size: 11px; font-weight: 700; color: #777777;">地域スポーツを、もっと身近に。</div>
       </div>
 
