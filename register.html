@@ -1,716 +1,516 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<meta charset="utf-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>チーム登録 | チビスポ</title>
-<link rel="icon" type="image/png" href="assets/favicon.png" />
-<link rel="apple-touch-icon" href="assets/favicon.png" />
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script src="supabase-lite.js"></script>
-  <script src="cities.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --orange: #ff8c1a; --orange-dark: #e6720a; --orange-light: #fff4e6;
-      --blue: #2563eb; --blue-light: #eff6ff;
-      --ink: #1e293b; --muted: #64748b; --border: #e2e8f0;
-      --bg: #f8fafc; --radius: 14px;
-      --shadow: 0 2px 8px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.05);
-    }
-    body { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-    a { text-decoration: none; color: inherit; }
-
-    /* HEADER */
-    header { background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,.06); position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 24px; }
-    .logo { flex-shrink: 0; }
-    .logo img { height: 36px; display: block; }
-    .header-title { font-size: 1rem; font-weight: 800; color: var(--ink); white-space: nowrap; }
-    .back-link { margin-left: auto; font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: 4px; transition: color .15s; white-space: nowrap; flex-shrink: 0; }
-    .back-link:hover { color: var(--orange); }
-
-    .container { max-width: 680px; margin: 36px auto; padding: 0 16px 80px; }
-
-    .page-heading { text-align: center; margin-bottom: 32px; }
-    .page-heading h1 { font-size: 1.6rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
-    .page-heading p { font-size: .9rem; color: var(--muted); }
-
-    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
-    .card-title { font-size: .95rem; font-weight: 800; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--orange-light); color: var(--ink); display: flex; align-items: center; gap: 8px; }
-
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-size: .85rem; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-    .form-group .required { color: #ef4444; margin-left: 2px; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px;
-      font-size: .93rem; outline: none; transition: border-color .15s, box-shadow .15s; font-family: inherit; color: var(--ink); background: #fff;
-    }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,140,26,.1); }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-hint { font-size: .78rem; color: var(--muted); margin-top: 5px; line-height: 1.6; }
-
-    .checkbox-group, .radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
-    .checkbox-item, .radio-item {
-      display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border: 1.5px solid var(--border); border-radius: 999px;
-      cursor: pointer; font-size: .85rem; font-weight: 700; transition: all .15s; color: var(--ink);
-    }
-    .checkbox-item input, .radio-item input { width: auto; padding: 0; border: none; }
-    .checkbox-item:has(input:checked), .radio-item:has(input:checked) {
-      border-color: var(--orange); background: var(--orange-light); color: var(--orange);
-    }
-
-    .fee-row { display: flex; align-items: center; gap: 8px; }
-    .fee-row input { flex: 1; }
-    .fee-unit { font-size: .9rem; color: var(--muted); white-space: nowrap; font-weight: 700; }
-
-    .submit-btn {
-      width: 100%; padding: 16px; background: var(--orange); color: #fff;
-      border: none; border-radius: 999px; font-size: 1.05rem; font-weight: 900;
-      cursor: pointer; transition: transform .1s, box-shadow .1s;
-      box-shadow: 0 4px 0 var(--orange-dark), 0 8px 20px rgba(255,140,26,.3);
-      font-family: inherit;
-    }
-    .submit-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--orange-dark), 0 4px 12px rgba(255,140,26,.3); }
-    .submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
-
-    .alert { padding: 14px 16px; border-radius: 10px; font-size: .88rem; margin-bottom: 20px; }
-    .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .alert-error   { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-
-    .success-screen { text-align: center; padding: 48px 20px; }
-    .success-screen .icon { font-size: 4rem; margin-bottom: 16px; }
-    .success-screen h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
-    .success-screen p { color: var(--muted); font-size: .9rem; line-height: 1.8; }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 8px; margin-top: 28px;
-      padding: 13px 32px; background: var(--orange); color: #fff;
-      border-radius: 999px; font-weight: 900; font-size: .95rem;
-      box-shadow: 0 4px 0 var(--orange-dark);
-      transition: transform .1s;
-    }
-    .back-btn:hover { transform: translateY(2px); }
-
-    /* Photo upload */
-    .photo-upload-area {
-      border: 2px dashed var(--border); border-radius: 12px; padding: 24px;
-      text-align: center; cursor: pointer; transition: border-color .15s;
-    }
-    .photo-upload-area:hover { border-color: var(--orange); }
-    .photo-upload-area input[type="file"] { display: none; }
-    .photo-preview { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; margin-bottom: 12px; display: none; }
-    .photo-preview.show { display: block; }
-    .upload-btn {
-      display: inline-block; padding: 8px 20px; background: var(--orange-light);
-      color: var(--orange); border: 1.5px solid var(--orange); border-radius: 999px;
-      font-size: .85rem; font-weight: 700; cursor: pointer; transition: all .15s; font-family: inherit;
-    }
-    .upload-btn:hover { background: var(--orange); color: #fff; }
-
-    /* Cropper modal */
-    .crop-modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.7); z-index: 500;
-      align-items: center; justify-content: center; padding: 16px;
-    }
-    .crop-modal-overlay.open { display: flex; }
-    .crop-modal {
-      background: #fff; border-radius: 20px; width: 100%;
-      max-width: 600px; padding: 28px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.4);
-    }
-    .crop-modal-title { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
-    .crop-modal-hint { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-    .crop-container { width: 100%; max-height: 400px; overflow: hidden; background: #000; border-radius: 10px; }
-    .crop-container img { max-width: 100%; display: block; }
-    .crop-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
-    .crop-btn-cancel { padding: 10px 22px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
-    .crop-btn-cancel:hover { background: #f1f5f9; }
-    .crop-btn-ok { padding: 10px 28px; border-radius: 999px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; box-shadow: 0 3px 0 var(--orange-dark); }
-    .crop-btn-ok:hover { opacity: .9; }
-
-    @media (max-width: 480px) {
-      .card { padding: 20px 16px; }
-      .page-heading h1 { font-size: 1.3rem; }
-      .header-inner { padding: 0 10px; gap: 8px; height: 52px; }
-      .logo img { height: 24px; }
-      .header-title { display: none; }
-      .back-link { font-size: .72rem; }
-      .container { padding: 0 12px 60px; margin: 20px auto; }
-    }
-  </style>
+<title>チーム登録（無料掲載）｜チビスポ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .rg-wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .rg-card{background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:24px 22px;margin-bottom:18px;}
+  .rg-card-title{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:17px;margin:0 0 16px;display:flex;gap:8px;align-items:center;}
+  .rg-group{margin-bottom:16px;}
+  .rg-group:last-child{margin-bottom:0;}
+  .rg-label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#28323f;}
+  .req{color:#e8455f;font-size:11px;margin-left:5px;}
+  .opt{color:#9aa3ad;font-size:11px;margin-left:5px;font-weight:500;}
+  .rg-input{width:100%;border:1px solid #d7dbe0;border-radius:10px;padding:12px 13px;font-size:14px;font-family:inherit;color:#1f2a37;outline:none;background:#fff;}
+  .rg-input:focus{border-color:#1f8a5b;}
+  .rg-checks{display:flex;flex-wrap:wrap;gap:8px;}
+  .rg-chk{display:inline-flex;align-items:center;gap:7px;border:1px solid #d7dbe0;border-radius:10px;padding:9px 13px;font-size:13px;color:#3b4654;cursor:pointer;background:#fff;}
+  .rg-chk input{accent-color:#1f8a5b;width:16px;height:16px;}
+  .hint{font-size:11.5px;color:#9aa3ad;margin-top:6px;line-height:1.6;}
+  .fee-row{display:flex;align-items:center;gap:10px;}
+  .fee-row input{max-width:160px;}
+  /* 雰囲気タグ・ピッカー */
+  #lt-selected{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .lt-preset{background:#fff;border:1px solid #d7dbe0;color:#3b4654;font-size:12px;font-weight:600;border-radius:999px;padding:6px 13px;margin:0 6px 6px 0;cursor:pointer;}
+  .lt-preset:hover{border-color:#1f8a5b;color:#1f8a5b;}
+  @media (max-width:560px){ .fee-row input{max-width:120px;} }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo"><a href="/"><img src="assets/logo.png" alt="チビスポ" /></a></div>
-    <span class="header-title">チーム登録</span>
-    <a href="/" class="back-link">← 検索に戻る</a>
+<!-- ===== HERO ===== -->
+<section style="background:linear-gradient(135deg,#1f8a5b,#2a6fdb);color:#fff;padding:44px 0 38px;">
+  <div class="rg-wrap">
+    <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">Team Registration</div>
+    <h1 id="rg-hero-title" style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;">チームを掲載する</h1>
+    <p id="rg-hero-sub" style="margin:12px 0 0;font-size:14px;line-height:1.9;opacity:.95;">必要事項をご入力ください（1〜2分）。送信後、運営の承認を経て掲載されます。</p>
   </div>
-</header>
+</section>
 
-<div class="container">
-  <div class="page-heading">
-    <h1>チームを無料で掲載する</h1>
-    <p>登録は3分で完了。審査後に掲載されます。</p>
-  </div>
+<div class="rg-wrap" style="padding:28px 20px 60px;">
+  <form id="rg-form" autocomplete="off">
 
-  <div id="successScreen" style="display:none;" class="card">
-    <div class="success-screen">
-      <div class="icon">🎉</div>
-      <h2>登録申請を受け付けました</h2>
-      <p>内容を確認後、掲載します。<br>承認まで数日お待ちください。</p>
-      <a href="/" class="back-btn">検索ページに戻る</a>
+    <!-- プラン選択（free / standard / pro を切り替え） -->
+    <div id="rg-plan" class="rg-card" style="margin-bottom:18px;">
+      <div class="rg-card-title" style="margin-bottom:6px;">💳 掲載プランを選ぶ</div>
+      <p class="hint" style="margin:0 0 14px;">まずは無料でOK。有料プランは登録後、そのままお支払いに進めます（後から変更も可能）。</p>
+      <div id="rg-plan-tabs" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <button type="button" class="rg-plan-tab" data-plan="free" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;">
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">フリー</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></div>
+          <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真1枚・基本掲載</div>
+        </button>
+        <button type="button" class="rg-plan-tab" data-plan="pr" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;position:relative;">
+          <span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap;">人気No.1</span>
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">スタンダード</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥3,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
+          <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真7枚・上位表示</div>
+        </button>
+        <button type="button" class="rg-plan-tab" data-plan="pr-plus" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;">
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">プロ</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥10,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
+          <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真15枚・最上位・SNS紹介</div>
+        </button>
+      </div>
+      <div id="rg-plan-pay" style="display:none;margin-top:12px;font-size:12px;color:#54606e;line-height:1.7;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 13px;">
+        <strong id="rg-plan-name" style="color:#9a3412;"></strong> を選択中。登録完了後、そのままお支払い画面に進みます。
+      </div>
     </div>
+
+    <!-- 基本情報 -->
+    <div class="rg-card">
+      <div class="rg-card-title">🏷 基本情報</div>
+      <div class="rg-group"><label class="rg-label">チーム・クラブ名<span class="req">必須</span></label><input class="rg-input" id="name" type="text" placeholder="例：城東ジュニアベースボールクラブ" required></div>
+      <div class="rg-group"><label class="rg-label">種目<span class="req">必須</span></label><input class="rg-input" id="sport" type="text" placeholder="例：サッカー" required></div>
+      <div class="rg-group">
+        <label class="rg-label">都道府県<span class="req">必須</span></label>
+        <select class="rg-input" id="pref" required>
+          <option value="">選択してください</option>
+          <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+        </select>
+      </div>
+      <div class="rg-group"><label class="rg-label">市区町村<span class="req">必須</span></label><input class="rg-input" id="city" type="text" placeholder="例：名古屋市中区" required></div>
+      <div class="rg-group"><label class="rg-label">丁目・番地以降<span class="opt">任意</span></label><input class="rg-input" id="address" type="text" placeholder="例：〇〇町1-2-3 チビスポ球場"><div class="hint">地図表示の精度が上がります</div></div>
+    </div>
+
+    <!-- 対象・活動情報 -->
+    <div class="rg-card">
+      <div class="rg-card-title">👦 対象・活動情報</div>
+      <div class="rg-group">
+        <label class="rg-label">対象年齢<span class="req">必須</span>（複数選択可）</label>
+        <div class="rg-checks">
+          <label class="rg-chk"><input type="checkbox" name="age" value="未就学" id="agePreschool">未就学（〜6歳）</label>
+          <label class="rg-chk"><input type="checkbox" name="age" value="小学生">小学生（7〜12歳）</label>
+          <label class="rg-chk"><input type="checkbox" name="age" value="中学生">中学生（13〜15歳）</label>
+        </div>
+        <div id="ageMinWrap" style="display:none;margin-top:12px;padding:12px 14px;background:#fff7ed;border-radius:10px;border:1.5px solid #fed7aa;">
+          <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:8px;">未就学の受け入れ開始年齢</div>
+          <div class="rg-checks">
+            <label class="rg-chk"><input type="radio" name="age_min" value="3歳〜">3歳〜</label>
+            <label class="rg-chk"><input type="radio" name="age_min" value="4歳〜">4歳〜</label>
+            <label class="rg-chk"><input type="radio" name="age_min" value="5歳〜">5歳〜</label>
+            <label class="rg-chk"><input type="radio" name="age_min" value="6歳〜">6歳〜</label>
+          </div>
+        </div>
+      </div>
+      <div class="rg-group">
+        <label class="rg-label">活動曜日<span class="req">必須</span>（複数選択可）</label>
+        <div class="rg-checks">
+          <label class="rg-chk"><input type="checkbox" name="day" value="月">月</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="火">火</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="水">水</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="木">木</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="金">金</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="土">土</label>
+          <label class="rg-chk"><input type="checkbox" name="day" value="日">日</label>
+        </div>
+      </div>
+      <div class="rg-group">
+        <label class="rg-label">月謝<span class="req">必須</span></label>
+        <div class="fee-row"><input class="rg-input" id="feeNum" type="number" placeholder="3000" min="0" max="100000" required><span style="font-size:13px;color:#54606e;">円 / 月</span></div>
+        <div class="hint">数字のみ。無料の場合は 0 を入力してください。</div>
+      </div>
+      <div class="rg-group">
+        <label class="rg-label">体験入会<span class="req">必須</span></label>
+        <div class="rg-checks">
+          <label class="rg-chk"><input type="radio" name="trial" value="true" required>体験OK</label>
+          <label class="rg-chk"><input type="radio" name="trial" value="false">要相談</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- チームの特徴（事実） -->
+    <div class="rg-card">
+      <div class="rg-card-title">✅ チームの特徴（あてはまるもの）</div>
+      <div class="rg-group">
+        <div class="rg-checks">
+          <label class="rg-chk"><input type="checkbox" name="feature" value="female_instructor">女性指導者がいる</label>
+          <label class="rg-chk"><input type="checkbox" name="feature" value="girls_welcome">女の子歓迎</label>
+          <label class="rg-chk"><input type="checkbox" name="feature" value="beginner_welcome">初心者歓迎</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- クラブの雰囲気タグ（新規） -->
+    <div class="rg-card">
+      <div class="rg-card-title">🎈 クラブの雰囲気タグ <span style="font-weight:500;color:#9aa3ad;font-size:12px;">（最大3つ・各15文字以内）</span></div>
+      <p style="margin:0 0 12px;font-size:12.5px;color:#7b8492;line-height:1.7;">クラブの空気が伝わるタグを設定できます。まずはご自由に入力を。思いつかなければ下から選べます。</p>
+      <div id="lt-selected"></div>
+      <div style="display:flex;gap:8px;">
+        <input id="lt-input" class="rg-input" type="text" maxlength="15" placeholder="例）親子で参加OK（15文字以内）" style="flex:1;">
+        <button id="lt-add" type="button" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer;">追加</button>
+      </div>
+      <div style="margin-top:14px;background:#f6f7f9;border:1px solid #eef0f2;border-radius:12px;padding:14px 15px;">
+        <div style="font-size:12px;color:#7b8492;margin-bottom:10px;">思いつかない場合は、こちらから選べます</div>
+        <div class="lt-axis" data-axis="方針"></div>
+        <div class="lt-axis" data-axis="指導"></div>
+        <div class="lt-axis" data-axis="空気"></div>
+      </div>
+    </div>
+
+    <!-- 連絡先 -->
+    <div class="rg-card">
+      <div class="rg-card-title">📞 連絡先</div>
+      <div class="hint" style="margin-bottom:14px;">体験申込みやお問い合わせの通知はこのメールアドレスに届きます。</div>
+      <div class="rg-group"><label class="rg-label">メールアドレス<span class="req">必須</span></label><input class="rg-input" id="email" type="email" placeholder="team@example.com" required></div>
+    </div>
+
+    <!-- SNSリンク -->
+    <div class="rg-card">
+      <div class="rg-card-title">🔗 SNSリンク <span class="opt">すべて任意</span></div>
+      <div class="rg-group"><label class="rg-label">Instagram アカウント</label><input class="rg-input" id="instagram" type="text" placeholder="@なしで入力（例：team_name）"></div>
+      <div class="rg-group"><label class="rg-label">X（Twitter）アカウント</label><input class="rg-input" id="twitter" type="text" placeholder="@なしで入力（例：team_name）"></div>
+      <div class="rg-group"><label class="rg-label">ウェブサイト URL</label><input class="rg-input" id="website_url" type="url" placeholder="https://example.com"></div>
+      <div class="rg-group"><label class="rg-label">LINE公式アカウント URL</label><input class="rg-input" id="line_url" type="url" placeholder="https://lin.ee/xxxxx"></div>
+    </div>
+
+    <!-- 紹介文 -->
+    <div class="rg-card">
+      <div class="rg-card-title">💬 チームの紹介文</div>
+      <div class="rg-group"><textarea class="rg-input" id="description" rows="5" placeholder="チームの特徴、雰囲気、指導方針などを自由に書いてください。"></textarea><div class="hint">100〜200文字程度が目安です。</div></div>
+    </div>
+
+    <!-- ログイン情報 -->
+    <div class="rg-card" id="authCard">
+      <div class="rg-card-title">🔐 ログイン情報（情報編集に使います）</div>
+      <div class="hint" style="margin-bottom:14px;">承認後、マイページで情報を編集するためのアカウントです。</div>
+      <div class="rg-group"><label class="rg-label">メールアドレス<span class="req">必須</span></label><input class="rg-input" id="authEmail" type="email" placeholder="team@example.com" required></div>
+      <div class="rg-group"><label class="rg-label">パスワード<span class="req">必須</span></label><input class="rg-input" id="authPassword" type="password" placeholder="8文字以上" minlength="8" required></div>
+      <div class="rg-group"><label class="rg-label">パスワード（確認）<span class="req">必須</span></label><input class="rg-input" id="authPasswordConfirm" type="password" placeholder="もう一度入力" minlength="8" required></div>
+    </div>
+
+    <!-- 写真（プラン連動・複数対応） -->
+    <div class="rg-card">
+      <div class="rg-card-title">📷 チーム写真 <span class="opt">任意</span> <span id="rg-photo-limit" style="font-weight:500;color:#9aa3ad;font-size:12px;">（最大1枚）</span></div>
+      <p class="hint" style="margin-top:0;margin-bottom:10px;">JPG・PNG・最大5MB／1枚。<span id="rg-photo-plannote"></span> 1枚目がカバー写真になります。</p>
+      <div id="rg-photos" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+      <input id="rg-photo-input" type="file" accept="image/jpeg,image/png,image/webp" multiple style="display:none;">
+    </div>
+
+    <!-- 同意 -->
+    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;font-weight:600;margin:4px 2px 16px;">
+      <input type="checkbox" id="agreeCheck" style="margin-top:3px;width:18px;height:18px;accent-color:#1f8a5b;">
+      <span><a href="legal.html#terms" target="_blank" style="color:#2270e0;text-decoration:underline;">利用規約</a>および<a href="legal.html#privacy" target="_blank" style="color:#2270e0;text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
+    </label>
+
+    <div id="rg-msg" style="display:none;margin-bottom:14px;font-size:13px;font-weight:700;border-radius:10px;padding:12px 14px;"></div>
+
+    <button type="submit" id="rg-submit" style="width:100%;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:16px 0;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(31,138,91,.28);">申請する（無料）</button>
+    <p style="text-align:center;font-size:11px;color:#aab1bb;margin-top:12px;">送信後、運営の承認を経て掲載されます。</p>
+  </form>
+
+  <!-- 送信完了画面 -->
+  <div id="rg-success" class="rg-card" style="display:none;text-align:center;padding:44px 22px;">
+    <div style="font-size:52px;line-height:1;margin-bottom:14px;">🎉</div>
+    <h2 id="rg-success-title" style="font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:900;margin:0 0 10px;">申請を受け付けました</h2>
+    <p id="rg-success-msg" style="color:#54606e;font-size:13.5px;line-height:1.9;margin:0 0 22px;">運営の承認後に掲載されます。<br>ご登録のメールアドレスにログイン確認メールをお送りしています。</p>
+    <a id="rg-success-btn" href="mypage.html" style="display:inline-block;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 30px;">マイページへ</a>
   </div>
 
-  <div id="formArea">
-    <div id="errorMsg" style="display:none;" class="alert alert-error"></div>
-
-    <form id="registerForm">
-      <div class="card">
-        <div class="card-title">📋 基本情報</div>
-
-        <div class="form-group">
-          <label>チーム名<span class="required">*</span></label>
-          <input type="text" id="name" placeholder="例：城東ジュニアベースボールクラブ" required />
-        </div>
-
-        <div class="form-group">
-          <label>種目<span class="required">*</span></label>
-          <select id="sport" required onchange="toggleSportOther(this)">
-            <option value="">選択してください</option>
-            <option>野球</option><option>サッカー</option><option>バスケットボール</option>
-            <option>水泳</option><option>テニス</option><option>バレーボール</option>
-            <option>バドミントン</option><option>柔道</option><option>剣道</option>
-            <option>空手</option><option>合気道</option><option>レスリング</option>
-            <option>ダンス</option><option>チアダンス</option><option>チアリーディング</option><option>新体操</option>
-            <option>陸上</option><option>マラソン</option><option>トライアスロン</option>
-            <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
-            <option>ゴルフ</option><option>乗馬</option><option>マルチスポーツ</option><option>その他</option>
-          </select>
-          <input type="text" id="sportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
-        </div>
-
-        <div class="form-group">
-          <label>都道府県<span class="required">*</span></label>
-          <select id="pref" required>
-            <option value="">選択してください</option>
-            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
-            <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
-            <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
-            <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
-            <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
-            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
-            <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
-            <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
-            <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
-            <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
-            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
-            <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>市区町村<span class="required">*</span></label>
-          <select id="city" required>
-            <option value="">都道府県を先に選択してください</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>丁目・番地以降<span class="optional">（任意）</span></label>
-          <input type="text" id="address" placeholder="例：〇〇町1-2-3 チビスポ球場" />
-          <div class="hint">地図表示の精度が上がります</div>
-        </div>
+  <!-- 登録後のおすすめ：HP・SNS制作代行 -->
+  <a id="rg-reco" href="listing.html#service" style="display:block;margin-top:24px;text-decoration:none;">
+    <div style="background:linear-gradient(120deg,#eafaf0,#f2f7ff);border:1px solid #cfe0d6;border-radius:16px;padding:22px 22px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:11px;font-weight:800;color:#fff;background:#1f8a5b;border-radius:999px;padding:3px 10px;">掲載のあとは</span>
+        <span style="font-size:13px;font-weight:900;color:#1f2a37;">もっと集客したい方へ</span>
       </div>
-
-      <div class="card">
-        <div class="card-title">👦 対象・活動情報</div>
-
-        <div class="form-group">
-          <label>対象年齢<span class="required">*</span>（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="age" value="未就学" id="agePreschool" />未就学（〜6歳）</label>
-            <label class="checkbox-item"><input type="checkbox" name="age" value="小学生" />小学生（7〜12歳）</label>
-            <label class="checkbox-item"><input type="checkbox" name="age" value="中学生" />中学生（13〜15歳）</label>
-          </div>
-          <div id="ageMinWrap" style="display:none;margin-top:12px;padding:12px 14px;background:#fff7ed;border-radius:10px;border:1.5px solid #fed7aa;">
-            <div style="font-size:13px;font-weight:700;color:#9a3412;margin-bottom:8px;">未就学の受け入れ開始年齢</div>
-            <div class="checkbox-group" style="flex-wrap:wrap;gap:8px;">
-              <label class="checkbox-item"><input type="radio" name="age_min" value="3歳〜" />3歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="4歳〜" />4歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="5歳〜" />5歳〜</label>
-              <label class="checkbox-item"><input type="radio" name="age_min" value="6歳〜" />6歳〜</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>活動曜日<span class="required">*</span>（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="day" value="月" />月</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="火" />火</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="水" />水</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="木" />木</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="金" />金</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="土" />土</label>
-            <label class="checkbox-item"><input type="checkbox" name="day" value="日" />日</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>チームの特徴（複数選択可）</label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="feature" value="female_instructor" />女性指導者がいる</label>
-            <label class="checkbox-item"><input type="checkbox" name="feature" value="girls_welcome" />女の子歓迎</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>月謝<span class="required">*</span></label>
-          <div class="fee-row">
-            <input type="number" id="feeNum" placeholder="3000" min="0" max="100000" required />
-            <span class="fee-unit">円 / 月</span>
-          </div>
-          <div class="form-hint">数字のみ入力。無料の場合は 0 を入力してください。</div>
-        </div>
-
-        <div class="form-group">
-          <label>体験入会<span class="required">*</span></label>
-          <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="trial" value="true" required />体験OK</label>
-            <label class="radio-item"><input type="radio" name="trial" value="false" />要相談</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📞 連絡先</div>
-        <div class="form-hint" style="margin-bottom:14px;">体験申込みやお問い合わせの通知はこのメールアドレスに届きます。</div>
-
-        <div class="form-group">
-          <label>メールアドレス<span class="required">*</span></label>
-          <input type="email" id="email" placeholder="team@example.com" required />
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">🔗 SNSリンク <span style="font-weight:400;font-size:.82rem;color:#64748b;">すべて任意</span></div>
-        <div class="form-hint" style="margin-bottom:14px;">入力した情報はチームのページに表示されます。</div>
-
-        <div class="form-group">
-          <label>Instagram アカウント</label>
-          <input type="text" id="instagram" placeholder="@なしで入力（例：team_name）" />
-        </div>
-
-        <div class="form-group">
-          <label>X（Twitter）アカウント</label>
-          <input type="text" id="twitter" placeholder="@なしで入力（例：team_name）" />
-        </div>
-
-        <div class="form-group">
-          <label>ウェブサイト URL</label>
-          <input type="url" id="website_url" placeholder="https://example.com" />
-        </div>
-        <div class="form-group">
-          <label>LINE公式アカウント URL</label>
-          <input type="url" id="line_url" placeholder="https://lin.ee/xxxxx" />
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">💬 チームの紹介文</div>
-        <div class="form-group">
-          <textarea id="description" placeholder="チームの特徴、雰囲気、指導方針などを自由に書いてください。"></textarea>
-          <div class="form-hint">100〜200文字程度が目安です。</div>
-        </div>
-      </div>
-
-      <div class="card" id="authCard">
-        <div class="card-title">🔐 ログイン情報（情報編集に使います）</div>
-        <div class="form-hint" style="margin-bottom:14px;">承認後、マイページで情報を編集するためのアカウントです。</div>
-        <div class="form-group">
-          <label>メールアドレス<span class="required">*</span></label>
-          <input type="email" id="authEmail" placeholder="team@example.com" required />
-          <div class="form-hint">連絡先メールと同じでも構いません。</div>
-        </div>
-        <div class="form-group">
-          <label>パスワード<span class="required">*</span></label>
-          <input type="password" id="authPassword" placeholder="8文字以上" minlength="8" required />
-        </div>
-        <div class="form-group">
-          <label>パスワード（確認）<span class="required">*</span></label>
-          <input type="password" id="authPasswordConfirm" placeholder="もう一度入力" minlength="8" required />
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="card-title">📷 チーム写真 <span style="font-weight:400;color:#64748b;font-size:.82rem;">任意</span></div>
-        <img id="photoPreview" class="photo-preview" alt="チーム写真" />
-        <div id="photoActions" style="display:none;gap:8px;margin-bottom:10px;display:none;">
-          <button type="button" onclick="changePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid var(--orange);background:#fff;color:var(--orange);font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">写真を変更</button>
-          <button type="button" onclick="removePhoto()" style="padding:8px 18px;border-radius:999px;border:1.5px solid #ef4444;background:#fff;color:#ef4444;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;">削除</button>
-        </div>
-        <div id="photoUploadArea" class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
-          <p style="color:#64748b;font-size:.88rem;margin-bottom:12px;">クリックして写真を選択（JPG・PNG・最大5MB）</p>
-          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(event)" />
-          <label class="upload-btn">写真を選ぶ</label>
-        </div>
-        <div id="photoMsg" style="font-size:.82rem;margin-top:8px;"></div>
-        <p style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.6;">申請後でもマイページから変更できます。</p>
-      </div>
-
-      <!-- Crop Modal -->
-      <div id="cropModalOverlay" class="crop-modal-overlay">
-        <div class="crop-modal">
-          <div class="crop-modal-title">トリミング</div>
-          <div class="crop-modal-hint">ドラッグで範囲を移動・リサイズできます</div>
-          <div class="crop-container">
-            <img id="cropImage" src="" alt="crop" />
-          </div>
-          <div class="crop-actions">
-            <button type="button" class="crop-btn-cancel" onclick="closeCropModal()">キャンセル</button>
-            <button type="button" class="crop-btn-ok" onclick="cropAndConfirm()">この範囲でOK</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group" style="margin-top:8px;">
-        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:600;font-size:.9rem;">
-          <input type="checkbox" id="agreeCheck" style="margin-top:3px;flex-shrink:0;width:18px;height:18px;cursor:pointer;" />
-          <span><a href="legal.html" target="_blank" style="color:#2563eb;text-decoration:underline;">利用規約</a>および<a href="legal.html" target="_blank" style="color:#2563eb;text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
-        </label>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">申請する（無料）</button>
-    </form>
-  </div>
+      <div style="font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:900;color:#1f2a37;line-height:1.5;margin-bottom:6px;">ホームページ・SNSで、チームの魅力をもっと届けませんか？</div>
+      <p style="margin:0 0 12px;font-size:12.5px;line-height:1.85;color:#54606e;">チーム専用サイトの<strong>制作・運用代行</strong>や、SNSのノウハウ伝授まで。手間をかけずに発信を強くできます。</p>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#1f8a5b;">制作・運用代行を見る ›</span>
+    </div>
+  </a>
 </div>
 
+<script src="shared.js"></script>
+<script src="supabase-lite.js"></script>
 <script>
-const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+// ===== Supabase クライアント =====
+var SUPABASE_URL='https://emkpkomrgknzrmxqbrvx.supabase.co';
+var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+var db=supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var FUNCTIONS_URL='https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1';
+// 有料プランの決済リンク（登録完了後に遷移）。標準＝月額から開始（年額は登録後マイページで変更可）
+var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus':'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004' };
 
-// 「add=true」かつログイン中ならログイン情報セクションをスキップ
-let isAddMode = false;
-async function checkAddMode() {
-  const params = new URLSearchParams(location.search);
-  if (params.get('add') !== 'true') return;
-  const { data: { session } } = await db.auth.getSession();
-  if (!session) {
-    location.href = 'mypage.html';
-    return;
-  }
-  isAddMode = true;
-  document.getElementById('authCard').style.display = 'none';
-  document.getElementById('authEmail').required = false;
-  document.getElementById('authPassword').required = false;
-  document.getElementById('authPasswordConfirm').required = false;
-  const btn = document.getElementById('submitBtn');
-  if (btn) btn.textContent = 'チームを追加する（無料）';
-  // ページタイトル変更
-  document.querySelectorAll('.page-heading h1').forEach(el => { el.textContent = '別のチームを追加'; });
-  document.querySelectorAll('.page-heading p').forEach(el => { el.textContent = 'ログイン中のアカウントに、別のチームを追加できます'; });
+(function(){
+  // ===== プラン選択（free / pr=スタンダード / pr-plus=プロ） =====
+  var PLAN_LABEL={ free:'フリー（¥0/月）', pr:'スタンダード（¥3,000/月〜）', 'pr-plus':'プロ（¥10,000/月〜）' };
+  var PHOTO_MAX={free:1,pr:7,'pr-plus':15};
+  var planKey=new URLSearchParams(location.search).get('plan');
+  if(!planKey || !PLAN_LABEL[planKey]) planKey='free';
+  var maxPhotos=PHOTO_MAX[planKey]||1;
+  var photos=[]; // {src}
 
-  // 既存チームの連絡先を初期値として設定
-  try {
-    const lastTeamId = localStorage.getItem('chibispo_last_team_id');
-    const { data: teams } = await db.from('teams').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
-    if (teams && teams.length > 0) {
-      const baseTeam = teams.find(t => t.id === lastTeamId) || teams[0];
-      if (baseTeam.email) {
-        const emailEl = document.getElementById('email');
-        emailEl.value = baseTeam.email;
-        const formGroup = emailEl.closest('.form-group');
-        if (formGroup) {
-          const hint = document.createElement('div');
-          hint.className = 'form-hint';
-          hint.style.color = 'var(--orange-dark)';
-          hint.style.marginTop = '6px';
-          hint.innerHTML = '✓ 既存のチームと同じ連絡先が入っています。違う場合は変更してください。';
-          formGroup.appendChild(hint);
-        }
-      }
-    }
-  } catch (e) {
-    console.warn('既存チームの連絡先取得失敗:', e);
-  }
-}
-checkAddMode();
-
-// Photo upload
-let cropper = null, croppedBlob = null;
-
-function previewPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    document.getElementById('photoMsg').textContent = '5MB以下の画像を選択してください。';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const cropImg = document.getElementById('cropImage');
-    if (cropper) { cropper.destroy(); cropper = null; }
-    cropImg.src = e.target.result;
-    document.getElementById('cropModalOverlay').classList.add('open');
-    setTimeout(() => {
-      cropper = new Cropper(cropImg, { aspectRatio: 4/3, viewMode: 1, autoCropArea: 0.9 });
-    }, 100);
-  };
-  reader.readAsDataURL(file);
-}
-
-function closeCropModal() {
-  document.getElementById('cropModalOverlay').classList.remove('open');
-  if (cropper) { cropper.destroy(); cropper = null; }
-  document.getElementById('photoInput').value = '';
-}
-
-function cropAndConfirm() {
-  if (!cropper) return;
-  const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 });
-  canvas.toBlob(blob => {
-    croppedBlob = blob;
-    const preview = document.getElementById('photoPreview');
-    preview.src = canvas.toDataURL('image/jpeg');
-    preview.classList.add('show');
-    document.getElementById('photoUploadArea').style.display = 'none';
-    document.getElementById('photoActions').style.display = 'flex';
-    document.getElementById('photoMsg').textContent = 'トリミング済み。申請時にアップロードされます。';
-    document.getElementById('cropModalOverlay').classList.remove('open');
-    if (cropper) { cropper.destroy(); cropper = null; }
-  }, 'image/jpeg', 0.9);
-}
-
-function changePhoto() {
-  document.getElementById('photoInput').value = '';
-  document.getElementById('photoInput').click();
-}
-
-function removePhoto() {
-  croppedBlob = null;
-  const preview = document.getElementById('photoPreview');
-  preview.src = '';
-  preview.classList.remove('show');
-  document.getElementById('photoUploadArea').style.display = 'block';
-  document.getElementById('photoActions').style.display = 'none';
-  document.getElementById('photoMsg').textContent = '';
-  document.getElementById('photoInput').value = '';
-}
-
-// 都道府県→市区町村連動
-document.getElementById('pref').addEventListener('change', function() {
-  const citySelect = document.getElementById('city');
-  const cities = CITIES[this.value] || [];
-  citySelect.innerHTML = cities.length
-    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
-    : '<option value="">都道府県を先に選択してください</option>';
-});
-
-const FUNCTIONS_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1';
-
-document.getElementById('agePreschool').addEventListener('change', function() {
-  const wrap = document.getElementById('ageMinWrap');
-  wrap.style.display = this.checked ? 'block' : 'none';
-  if (!this.checked) {
-    document.querySelectorAll('input[name="age_min"]').forEach(r => r.checked = false);
-  }
-});
-
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const ages = [...document.querySelectorAll('input[name="age"]:checked')].map(el => el.value);
-  const ageMin = document.querySelector('input[name="age_min"]:checked')?.value || null;
-  const features = [...document.querySelectorAll('input[name="feature"]:checked')].map(el => el.value);
-  const days = [...document.querySelectorAll('input[name="day"]:checked')].map(el => el.value);
-  const trialVal = document.querySelector('input[name="trial"]:checked')?.value;
-  const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
-  const email = document.getElementById('email').value.trim();
-  const twitter = document.getElementById('twitter').value.trim().replace(/^@/, '');
-  const websiteUrl = document.getElementById('website_url').value.trim();
-  const lineUrl = document.getElementById('line_url').value.trim();
-  const feeNum = parseInt(document.getElementById('feeNum').value);
-  const authEmail = document.getElementById('authEmail').value.trim();
-  const authPassword = document.getElementById('authPassword').value;
-  const authPasswordConfirm = document.getElementById('authPasswordConfirm').value;
-
-  const errorEl = document.getElementById('errorMsg');
-  errorEl.style.display = 'none';
-
-  if (ages.length === 0) { showError('対象年齢を1つ以上選択してください。'); return; }
-  if (days.length === 0) { showError('活動曜日を1つ以上選択してください。'); return; }
-  if (!trialVal) { showError('体験入会の可否を選択してください。'); return; }
-  if (!email) { showError('連絡先のメールアドレスをご入力ください。'); return; }
-  if (instagram && !/^[a-zA-Z0-9._]+$/.test(instagram)) { showError('InstagramのIDは半角英数字・ピリオド・アンダースコアのみ使用できます。'); return; }
-  if (twitter && !/^[a-zA-Z0-9_]+$/.test(twitter)) { showError('X（Twitter）のIDは半角英数字・アンダースコアのみ使用できます。'); return; }
-  if (websiteUrl && !/^https?:\/\//.test(websiteUrl)) { showError('WebサイトURLはhttpまたはhttpsから始めてください。'); return; }
-  if (lineUrl && !/^https?:\/\//.test(lineUrl)) { showError('LINE公式URLはhttpまたはhttpsから始めてください。'); return; }
-  if (!document.getElementById('agreeCheck').checked) { showError('利用規約およびプライバシーポリシーへの同意が必要です。'); return; }
-  if (!isAddMode) {
-    if (authPassword !== authPasswordConfirm) { showError('パスワードが一致しません。'); return; }
-    if (authPassword.length < 8) { showError('パスワードは8文字以上で入力してください。'); return; }
-  }
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '送信中...';
-
-  // 認証処理：addモードはスキップ、通常モードは新規signUp
-  let userId = null;
-  if (isAddMode) {
-    const { data: { session } } = await db.auth.getSession();
-    userId = session?.user?.id;
-    if (!userId) {
-      showError('ログインセッションが切れています。再度ログインしてください。');
-      btn.disabled = false;
-      btn.textContent = 'チームを追加する（無料）';
-      return;
-    }
-  } else {
-    const { data: authData, error: authError } = await db.auth.signUp({
-      email: authEmail,
-      password: authPassword,
+  function paintPlanTabs(){
+    document.querySelectorAll('.rg-plan-tab').forEach(function(t){
+      var on=t.getAttribute('data-plan')===planKey;
+      t.style.borderColor=on?'#1f8a5b':'#d7dbe0';
+      t.style.background=on?'#f3fbf6':'#fff';
+      t.style.boxShadow=on?'0 4px 12px rgba(31,138,91,.18)':'none';
     });
-    if (authError) {
-      showError('アカウント作成に失敗しました：' + authError.message);
-      btn.disabled = false;
-      btn.textContent = '申請する（無料）';
-      return;
-    }
-    userId = authData.user?.id;
+    var pay=document.getElementById('rg-plan-pay');
+    var pn=document.getElementById('rg-plan-name');
+    if(planKey==='free'){ pay.style.display='none'; }
+    else { pn.textContent=PLAN_LABEL[planKey]; pay.style.display='block'; }
+    var btn=document.getElementById('rg-submit');
+    if(btn && btn.dataset.busy!=='1') btn.textContent = planKey==='free' ? '無料で申請する' : '申請してお支払いに進む';
   }
-
-  const insertResult = await db.from('teams').insert({
-    name: document.getElementById('name').value.trim(),
-    sport: getSportValue(),
-    pref: document.getElementById('pref').value,
-    city: document.getElementById('city').value,
-    age_groups: ages,
-    age_min: ageMin,
-    female_instructor: features.includes('female_instructor'),
-    girls_welcome: features.includes('girls_welcome'),
-    days: days,
-    fee_num: feeNum,
-    fee: `月${feeNum.toLocaleString()}円`,
-    trial: trialVal === 'true',
-    instagram: instagram || null,
-    email: email || null,
-    twitter: twitter || null,
-    website_url: websiteUrl || null,
-    line_url: lineUrl || null,
-    address: document.getElementById('address').value.trim() || null,
-    description: document.getElementById('description').value.trim() || null,
-    status: 'pending',
-    user_id: userId || null,
+  function selectPlan(k){
+    if(!PLAN_LABEL[k]) k='free';
+    planKey=k; maxPhotos=PHOTO_MAX[k]||1;
+    // 上限を超えた写真は切り詰め
+    if(photos.length>maxPhotos) photos=photos.slice(0,maxPhotos);
+    updatePhotoNote(); renderPhotos(); paintPlanTabs();
+  }
+  document.querySelectorAll('.rg-plan-tab').forEach(function(t){
+    t.addEventListener('click',function(){ selectPlan(t.getAttribute('data-plan')); });
   });
 
-  if (insertResult.error) {
-    showError('送信に失敗しました。もう一度お試しください。');
-    btn.disabled = false;
-    btn.textContent = '申請する（無料）';
-    return;
+  // ===== 写真ピッカー（プラン連動：フリー=1／スタンダード=7／プロ=15） =====
+  var pGrid=document.getElementById('rg-photos');
+  var pInput=document.getElementById('rg-photo-input');
+  function updatePhotoNote(){
+    var lim=document.getElementById('rg-photo-limit'); if(lim) lim.textContent='（最大'+maxPhotos+'枚）';
+    var note=document.getElementById('rg-photo-plannote');
+    if(note) note.textContent = maxPhotos>1 ? ('このプランは最大'+maxPhotos+'枚まで掲載できます。') : '有料プランなら最大7〜15枚まで掲載できます。';
   }
-
-  // 写真アップロード（チームIDを取得してから）
-  if (croppedBlob && userId) {
-    try {
-      const teamRes = await db.from('teams').select('id').eq('user_id', userId).order('created_at', { ascending: false });
-      const teamId = teamRes.data?.[0]?.id;
-      if (teamId) {
-        const path = `${userId}/${teamId}.jpg`;
-        const { error: uploadError } = await db.storage
-          .from('team-photos')
-          .upload(path, croppedBlob, { upsert: true, contentType: 'image/jpeg' });
-        if (!uploadError) {
-          const { data } = db.storage.from('team-photos').getPublicUrl(path);
-          await db.from('teams').update({ photo_url: data.publicUrl }).eq('id', teamId);
-        } else {
-          console.warn('写真アップロード失敗（申請は完了）:', uploadError);
-        }
-      }
-    } catch (photoErr) {
-      console.warn('写真アップロード失敗（申請は完了）:', photoErr);
+  updatePhotoNote();
+  function renderPhotos(){
+    if(!pGrid) return;
+    var html=photos.map(function(p,i){
+      return '<div style="position:relative;width:104px;height:78px;border-radius:8px;overflow:hidden;border:1px solid #e6e9ed;">'
+        +'<img src="'+p.src+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">'
+        +(i===0?'<span style="position:absolute;left:5px;top:5px;background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'')
+        +'<button type="button" data-rm="'+i+'" aria-label="削除" style="position:absolute;right:4px;top:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(20,24,30,.7);color:#fff;font-size:13px;line-height:1;cursor:pointer;">×</button>'
+        +'</div>';
+    }).join('');
+    if(photos.length<maxPhotos){
+      html+='<button type="button" id="rg-photo-add" style="width:104px;height:78px;border:1.5px dashed #c7d0da;border-radius:8px;background:#fbfcfd;color:#1f8a5b;font-size:13px;font-weight:800;cursor:pointer;">＋ 追加<br><span style="font-size:10px;color:#9aa3ad;font-weight:600;">'+photos.length+' / '+maxPhotos+'</span></button>';
     }
+    pGrid.innerHTML=html;
+    var add=document.getElementById('rg-photo-add'); if(add) add.addEventListener('click',function(){ pInput.click(); });
+    pGrid.querySelectorAll('[data-rm]').forEach(function(b){ b.addEventListener('click',function(){ photos.splice(+b.getAttribute('data-rm'),1); renderPhotos(); }); });
+  }
+  if(pInput) pInput.addEventListener('change',function(e){
+    var files=[].slice.call(e.target.files||[]);
+    for(var i=0;i<files.length && photos.length<maxPhotos;i++){
+      var f=files[i];
+      if(f.size>5*1024*1024){ alert('5MB以下の画像を選んでください'); continue; }
+      (function(file){ var r=new FileReader(); r.onload=function(ev){ if(photos.length<maxPhotos){ photos.push({src:ev.target.result}); renderPhotos(); } }; r.readAsDataURL(file); })(f);
+    }
+    pInput.value='';
+  });
+  renderPhotos();
+
+  // 未就学チェックで開始年齢を出す
+  var pre=document.getElementById('agePreschool'), wrap=document.getElementById('ageMinWrap');
+  if(pre) pre.addEventListener('change', function(){
+    wrap.style.display=this.checked?'block':'none';
+    if(!this.checked) document.querySelectorAll('input[name="age_min"]').forEach(function(r){r.checked=false;});
+  });
+
+  // ===== 雰囲気タグ・ピッカー（自由入力＋プリセット） =====
+  var PRESETS={ '方針':['楽しむこと','本格志向'], '指導':['ほめて伸ばす','礼儀・しつけ'], '空気':['アットホーム','少人数で丁寧','真剣に取り組む'] };
+  var MAX=3, selected=[];
+  var sel=document.getElementById('lt-selected'), input=document.getElementById('lt-input');
+  function chipHTML(name){ return '<span style="display:inline-flex;align-items:center;gap:6px;background:#eafaf0;border:1px solid #bfe6cf;color:#1f8a5b;font-size:12.5px;font-weight:700;border-radius:999px;padding:6px 12px;">'+name+'<button type="button" data-rm="'+name+'" aria-label="削除" style="border:none;background:none;color:#1f8a5b;cursor:pointer;font-size:14px;line-height:1;padding:0;">×</button></span>'; }
+  function render(){
+    sel.innerHTML = selected.length ? selected.map(chipHTML).join('') : '<span style="font-size:12px;color:#b6bcc5;">まだタグがありません</span>';
+    sel.querySelectorAll('[data-rm]').forEach(function(b){ b.addEventListener('click',function(){ selected=selected.filter(function(t){return t!==b.getAttribute('data-rm');}); render(); }); });
+  }
+  function add(name){
+    name=(name||'').trim();
+    if(!name) return;
+    if(name.length>15){ alert('タグは15文字以内で入力してください'); return; }
+    if(selected.indexOf(name)>=0) return;
+    if(selected.length>=MAX){ alert('タグは最大'+MAX+'つまでです'); return; }
+    selected.push(name); render();
+  }
+  document.getElementById('lt-add').addEventListener('click',function(){ add(input.value); input.value=''; input.focus(); });
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); add(input.value); input.value=''; } });
+  document.querySelectorAll('.lt-axis').forEach(function(row){
+    var axis=row.getAttribute('data-axis'); row.style.marginBottom='8px';
+    row.innerHTML='<span style="display:inline-block;font-size:11.5px;font-weight:800;color:#54606e;margin-right:8px;">'+axis+'</span>'+
+      PRESETS[axis].map(function(n){return '<button type="button" class="lt-preset" data-name="'+n+'">'+n+'</button>';}).join('');
+  });
+  document.querySelectorAll('.lt-preset').forEach(function(b){ b.addEventListener('click',function(){ add(b.getAttribute('data-name')); }); });
+  render();
+
+  // 初期描画
+  paintPlanTabs();
+
+  // ===== add=true：ログイン中なら別チーム追加モード（認証セクションを隠す） =====
+  var isAddMode=false;
+  (async function checkAddMode(){
+    if(new URLSearchParams(location.search).get('add')!=='true') return;
+    var s=await db.auth.getSession();
+    var session=s && s.data ? s.data.session : null;
+    if(!session){ location.href='mypage.html'; return; }
+    isAddMode=true;
+    var ac=document.getElementById('authCard'); if(ac) ac.style.display='none';
+    ['authEmail','authPassword','authPasswordConfirm'].forEach(function(id){ var el=document.getElementById(id); if(el) el.required=false; });
+    var ht=document.getElementById('rg-hero-title'); if(ht) ht.textContent='別のチームを追加';
+    var hs=document.getElementById('rg-hero-sub'); if(hs) hs.textContent='ログイン中のアカウントに、別のチームを追加できます。';
+    // 既存チームの連絡先を初期値に
+    try{
+      var t=await db.from('teams').select('email').eq('user_id',session.user.id).order('created_at',{ascending:false});
+      if(t.data && t.data[0] && t.data[0].email){ var e2=document.getElementById('email'); if(e2 && !e2.value) e2.value=t.data[0].email; }
+    }catch(_){}
+  })();
+
+  // dataURL → Blob
+  function dataURLtoBlob(dataURL){
+    var parts=dataURL.split(','), mime=(parts[0].match(/:(.*?);/)||[])[1]||'image/jpeg';
+    var bin=atob(parts[1]), n=bin.length, u8=new Uint8Array(n);
+    while(n--) u8[n]=bin.charCodeAt(n);
+    return new Blob([u8],{type:mime});
   }
 
-  // 管理者にメール通知（失敗しても申請は通す）
-  fetch(`${FUNCTIONS_URL}/send-admin-notify`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      team_name: document.getElementById('name').value.trim(),
-      sport: getSportValue(),
-      pref: document.getElementById('pref').value,
-      city: document.getElementById('city').value.trim(),
-      applicant_email: email ? email : (instagram ? `Instagram: @${instagram}` : '未入力'),
-    }),
-  }).catch(err => { console.warn('管理者メール送信失敗:', err); });
+  // ===== 送信（Supabaseに保存 → 有料なら決済へ） =====
+  var msg=document.getElementById('rg-msg');
+  function err(t){ msg.style.display='block'; msg.style.background='#fdecee'; msg.style.color='#c0314b'; msg.textContent=t; window.scrollTo({top:0,behavior:'smooth'}); }
+  document.getElementById('rg-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.style.display='none';
+    var ages=[].slice.call(document.querySelectorAll('input[name="age"]:checked')).map(function(el){return el.value;});
+    var ageMin=(document.querySelector('input[name="age_min"]:checked')||{}).value||null;
+    var features=[].slice.call(document.querySelectorAll('input[name="feature"]:checked')).map(function(el){return el.value;});
+    var days=[].slice.call(document.querySelectorAll('input[name="day"]:checked')).map(function(el){return el.value;});
+    var trialEl=document.querySelector('input[name="trial"]:checked');
+    var email=document.getElementById('email').value.trim();
+    var instagram=document.getElementById('instagram').value.trim().replace(/^@/,'');
+    var twitter=document.getElementById('twitter').value.trim().replace(/^@/,'');
+    var websiteUrl=document.getElementById('website_url').value.trim();
+    var lineUrl=document.getElementById('line_url').value.trim();
+    var feeNum=parseInt(document.getElementById('feeNum').value,10);
+    var name=document.getElementById('name').value.trim();
+    var sport=document.getElementById('sport').value.trim();
 
-  // GA4：チーム登録完了イベント
-  if (typeof gtag === 'function') {
-    gtag('event', isAddMode ? 'team_added' : 'team_registered', {
-      team_name: document.getElementById('name').value.trim(),
-      sport: getSportValue(),
-      pref: document.getElementById('pref').value,
-      city: document.getElementById('city').value.trim(),
+    if(!name) return err('チーム名をご入力ください。');
+    if(!sport) return err('種目をご入力ください。');
+    if(!document.getElementById('pref').value) return err('都道府県を選択してください。');
+    if(!document.getElementById('city').value.trim()) return err('市区町村をご入力ください。');
+    if(ages.length===0) return err('対象年齢を1つ以上選択してください。');
+    if(days.length===0) return err('活動曜日を1つ以上選択してください。');
+    if(isNaN(feeNum)) return err('月謝を数字でご入力ください（無料は 0）。');
+    if(!trialEl) return err('体験入会の可否を選択してください。');
+    if(!email) return err('連絡先メールアドレスをご入力ください。');
+    if(instagram && !/^[a-zA-Z0-9._]+$/.test(instagram)) return err('InstagramのIDは半角英数字・ピリオド・アンダースコアのみです。');
+    if(twitter && !/^[a-zA-Z0-9_]+$/.test(twitter)) return err('XのIDは半角英数字・アンダースコアのみです。');
+    if(websiteUrl && !/^https?:\/\//.test(websiteUrl)) return err('WebサイトURLはhttp/httpsから始めてください。');
+    if(lineUrl && !/^https?:\/\//.test(lineUrl)) return err('LINE公式URLはhttp/httpsから始めてください。');
+    if(!document.getElementById('agreeCheck').checked) return err('利用規約・プライバシーポリシーへの同意が必要です。');
+    if(!isAddMode){
+      var pw=document.getElementById('authPassword').value, pw2=document.getElementById('authPasswordConfirm').value;
+      if(pw!==pw2) return err('パスワードが一致しません。');
+      if(pw.length<8) return err('パスワードは8文字以上で入力してください。');
+    }
+
+    var btn=document.getElementById('rg-submit');
+    btn.dataset.busy='1'; btn.disabled=true; btn.textContent='送信中...';
+
+    // 認証：追加モードは既存セッション、通常は新規signUp
+    var userId=null;
+    if(isAddMode){
+      var s2=await db.auth.getSession();
+      userId=s2 && s2.data && s2.data.session ? s2.data.session.user.id : null;
+      if(!userId){ btn.disabled=false; btn.dataset.busy=''; paintPlanTabs(); return err('ログインセッションが切れています。再度ログインしてください。'); }
+    } else {
+      var authEmail=document.getElementById('authEmail').value.trim();
+      var authPassword=document.getElementById('authPassword').value;
+      var au=await db.auth.signUp({ email:authEmail, password:authPassword });
+      if(au.error){ btn.disabled=false; btn.dataset.busy=''; paintPlanTabs(); return err('アカウント作成に失敗しました：'+au.error.message); }
+      userId=au.data && au.data.user ? au.data.user.id : null;
+    }
+
+    // teams へ登録（有料でも承認・支払い前は status=pending / プランは支払い後に手動反映）
+    var ins=await db.from('teams').insert({
+      name:name, sport:sport,
+      pref:document.getElementById('pref').value,
+      city:document.getElementById('city').value.trim(),
+      age_groups:ages, age_min:ageMin,
+      female_instructor:features.indexOf('female_instructor')>=0,
+      girls_welcome:features.indexOf('girls_welcome')>=0,
+      days:days, fee_num:feeNum, fee:'月'+feeNum.toLocaleString()+'円',
+      trial:trialEl.value==='true',
+      instagram:instagram||null, email:email||null, twitter:twitter||null,
+      website_url:websiteUrl||null, line_url:lineUrl||null,
+      address:document.getElementById('address').value.trim()||null,
+      description:document.getElementById('description').value.trim()||null,
+      status:'pending', user_id:userId||null
     });
-  }
+    if(ins.error){ btn.disabled=false; btn.dataset.busy=''; paintPlanTabs(); return err('送信に失敗しました。もう一度お試しください。'); }
 
-  document.getElementById('formArea').style.display = 'none';
-  document.getElementById('successScreen').style.display = 'block';
-  // addモードならマイページへ戻るボタンを表示
-  if (isAddMode) {
-    const ss = document.getElementById('successScreen');
-    ss.querySelector('h2').textContent = 'チームを追加しました';
-    ss.querySelector('p').innerHTML = '管理者の承認後に掲載されます。<br />マイページからチームを切り替えて確認できます。';
-    const backBtn = ss.querySelector('.back-btn');
-    backBtn.textContent = 'マイページに戻る';
-    backBtn.href = 'mypage.html';
-  }
-});
+    // チームID取得 → カバー写真アップロード
+    var teamId=null;
+    try{
+      var tr=await db.from('teams').select('id').eq('user_id',userId).order('created_at',{ascending:false});
+      teamId=tr.data && tr.data[0] ? tr.data[0].id : null;
+      if(teamId && photos.length){
+        var blob=dataURLtoBlob(photos[0].src);
+        var path=userId+'/'+teamId+'.jpg';
+        var up=await db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:'image/jpeg'});
+        if(!up.error){ var pub=db.storage.from('team-photos').getPublicUrl(path); await db.from('teams').update({photo_url:pub.data.publicUrl}).eq('id',teamId); }
+      }
+    }catch(_){}
 
-function toggleSportOther(sel) {
-  const other = document.getElementById('sportOther');
-  if (sel.value === 'その他') {
-    other.style.display = 'block';
-    other.required = true;
-  } else {
-    other.style.display = 'none';
-    other.required = false;
-    other.value = '';
-  }
-}
+    // 管理者へメール通知（失敗しても登録は成立）
+    fetch(FUNCTIONS_URL+'/send-admin-notify',{ method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ team_name:name, sport:sport, pref:document.getElementById('pref').value, city:document.getElementById('city').value.trim(), applicant_email:email||(instagram?('Instagram: @'+instagram):'未入力') }) }).catch(function(){});
 
-function getSportValue() {
-  const sel = document.getElementById('sport').value;
-  if (sel === 'その他') {
-    return document.getElementById('sportOther').value.trim() || 'その他';
-  }
-  return sel;
-}
+    if(typeof gtag==='function'){ gtag('event', isAddMode?'team_added':'team_registered', { team_name:name, sport:sport, plan:planKey }); }
 
-function showError(msg) {
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg;
-  el.style.display = 'block';
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
+    // 有料プラン：Stripe決済へ。無料：完了画面。
+    var paidLink=STRIPE_LINKS[planKey];
+    if(paidLink && planKey!=='free'){
+      var payUrl=paidLink+(teamId?('?client_reference_id='+encodeURIComponent(teamId)):'');
+      document.getElementById('rg-form').style.display='none';
+      var reco=document.getElementById('rg-reco'); if(reco) reco.style.display='none';
+      var suc=document.getElementById('rg-success');
+      document.getElementById('rg-success-title').textContent='登録を受け付けました';
+      document.getElementById('rg-success-msg').innerHTML='続けてお支払い手続きに進みます…<br>自動で移動しない場合は下のボタンを押してください。';
+      var sb=document.getElementById('rg-success-btn'); sb.textContent='お支払いに進む'; sb.href=payUrl;
+      suc.style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
+      setTimeout(function(){ location.href=payUrl; }, 1600);
+      return;
+    }
+
+    // 無料プラン：完了画面
+    document.getElementById('rg-form').style.display='none';
+    var reco2=document.getElementById('rg-reco'); if(reco2) reco2.style.display='none';
+    if(isAddMode){
+      document.getElementById('rg-success-title').textContent='チームを追加しました';
+      document.getElementById('rg-success-msg').innerHTML='運営の承認後に掲載されます。<br>マイページからチームを切り替えて確認できます。';
+      document.getElementById('rg-success-btn').textContent='マイページに戻る';
+    }
+    document.getElementById('rg-success').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
 </script>
-
-<footer style="background:#1e293b;color:#94a3b8;text-align:center;padding:24px 16px;font-size:.82rem;margin-top:40px;">
-  © 2026 チビスポ｜運営：MOYORI｜<a href="legal.html" style="color:#94a3b8;">プライバシーポリシー・利用規約</a>｜<a href="contact.html" style="color:#94a3b8;">お問い合わせ</a>
-</footer>
 </body>
 </html>
