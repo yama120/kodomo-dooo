@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;overflow-x:clip;}
   body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
   a{color:#2270e0;}
   .mp-wrap{max-width:680px;margin:0 auto;padding:0 20px;}
@@ -515,10 +515,12 @@
     if(path){ db.storage.from('team-photos').remove([path]).then(done, done); } else { done(); }
   }
 
-  function loadTeam(userId){
+  function loadTeam(userId, silent){
     currentUserId=userId;
     db.from('teams').select('*').eq('user_id',userId).order('created_at',{ascending:false}).then(function(res){
       if(res.error||!res.data||!res.data.length){
+        // 初回の自動セッション判定ではエラーを出さず、静かにログイン画面を表示
+        if(silent){ showLogin(); return; }
         // チームが無い → 一般会員(parent)なら一般マイページへ誘導
         db.from('profiles').select('role').eq('id',userId).single().then(function(pr){
           var role=pr&&pr.data&&pr.data.role;
@@ -609,9 +611,9 @@
   db.auth.getSession().then(function(res){
     var s=res&&res.data&&res.data.session;
     var uid=s&&s.user&&s.user.id;
-    if(uid){ loadTeam(uid); return; }
+    if(uid){ loadTeam(uid, true); return; }
     if(s&&s.access_token){ // セッションはあるがuser未保存 → 従来通り取得
-      db.auth.getUser().then(function(r2){ var u=r2.data&&r2.data.user; if(u&&u.id){ loadTeam(u.id); } else { showLogin(); } }).catch(function(){ showLogin(); });
+      db.auth.getUser().then(function(r2){ var u=r2.data&&r2.data.user; if(u&&u.id){ loadTeam(u.id, true); } else { showLogin(); } }).catch(function(){ showLogin(); });
       return;
     }
     showLogin();
