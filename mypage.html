@@ -89,14 +89,14 @@
 
       <label style="display:block;font-size:12px;font-weight:700;color:#8a93a0;margin:14px 0 5px;">お名前（本名・非公開）</label>
       <div style="display:flex;gap:8px;">
-        <input id="mp-lastname" type="text" placeholder="姓（例）山田" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
-        <input id="mp-firstname" type="text" placeholder="名（例）太郎" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
+        <input id="mp-lastname" type="text" placeholder="姓（例）山田" style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
+        <input id="mp-firstname" type="text" placeholder="名（例）太郎" style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box;">
       </div>
 
       <label style="display:block;font-size:12px;font-weight:700;color:#8a93a0;margin:14px 0 5px;">お住まいの地域</label>
       <div style="display:flex;gap:8px;">
-        <select id="mp-pref" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;"><option value="">都道府県</option></select>
-        <select id="mp-city" style="flex:1;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;" disabled><option value="">市区町村</option></select>
+        <select id="mp-pref" style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;"><option value="">都道府県</option></select>
+        <select id="mp-city" style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;" disabled><option value="">市区町村</option></select>
       </div>
 
       <button id="mp-save" style="width:100%;background:#2270e0;color:#fff;border:none;border-radius:10px;padding:13px 0;font-size:14.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:18px;">変更を保存</button>
