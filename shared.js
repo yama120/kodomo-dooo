@@ -115,11 +115,11 @@
         </a>
         <a class="cc-icontop cc-auth-out" href="club-mypage.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.8"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-5h4v5"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">クラブの方</span>
+          <span style="font-size:10.5px; font-weight:700;">クラブログイン</span>
         </a>
         <a class="cc-icontop cc-auth-out" href="login.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">ログイン</span>
+          <span style="font-size:10.5px; font-weight:700;">一般ログイン</span>
         </a>
         <a class="cc-icontop cc-auth-in cc-hidden" href="mypage.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
@@ -186,8 +186,8 @@
       </div>
 
       <a href="listing.html" style="display:block; text-align:center; background:#e8455f; color:#fff; font-size:15px; font-weight:800; border-radius:999px; padding:15px 0; margin-top:20px; text-decoration:none; box-shadow:0 6px 16px rgba(232,69,95,0.26);">チーム・クラブを掲載する</a>
-      <a href="login.html" class="cc-auth-out" style="display:block; text-align:center; border:1.5px solid #e8455f; color:#e8455f; font-size:15px; font-weight:800; border-radius:999px; padding:14px 0; margin-top:11px; text-decoration:none;">ログイン / 会員登録</a>
-      <a href="club-mypage.html" class="cc-auth-out" style="display:block; text-align:center; color:#2a6fdb; font-size:13.5px; font-weight:700; padding:12px 0 2px; text-decoration:none;">クラブの方（掲載・管理）ログイン</a>
+      <a href="login.html" class="cc-auth-out" style="display:block; text-align:center; border:1.5px solid #e8455f; color:#e8455f; font-size:15px; font-weight:800; border-radius:999px; padding:14px 0; margin-top:11px; text-decoration:none;">一般（保護者）ログイン / 会員登録</a>
+      <a href="club-mypage.html" class="cc-auth-out" style="display:block; text-align:center; border:1.5px solid #2a6fdb; color:#2a6fdb; font-size:14px; font-weight:800; border-radius:999px; padding:13px 0; margin-top:9px; text-decoration:none;">クラブ運営者ログイン（掲載・管理）</a>
       <a href="mypage.html" class="cc-auth-in cc-hidden" style="display:block; text-align:center; background:#2270e0; color:#fff; font-size:15px; font-weight:800; border-radius:999px; padding:14px 0; margin-top:11px; text-decoration:none;">マイページ</a>
     </div>`;
 
@@ -204,7 +204,7 @@
     </a>
     <a href="login.html" class="cc-auth-out" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-      <span style="font-size:10px; font-weight:600;">ログイン</span>
+      <span style="font-size:10px; font-weight:600;">一般ログイン</span>
     </a>
     <a href="mypage.html" class="cc-auth-in cc-hidden" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
@@ -359,7 +359,17 @@
           }).catch(function () { return { id: u.id, email: u.email, role: (u.user_metadata && u.user_metadata.role) || 'parent' }; });
         });
       },
-      onChange: function (cb) { var d = db(); if (!d) return; d.auth.onAuthStateChange(function (ev, sess) { _profileCache = null; cb(ev, sess); }); }
+      onChange: function (cb) { var d = db(); if (!d) return; d.auth.onAuthStateChange(function (ev, sess) { _profileCache = null; cb(ev, sess); }); },
+      // ログイン中のユーザーが掲載チームを持つ＝クラブ運営者か（roleに依存しない確実な判定）
+      hasTeam: function () {
+        var d = db(); if (!d) return Promise.resolve(false);
+        return d.auth.getUser().then(function (r) {
+          var u = r.data && r.data.user; if (!u) return false;
+          return d.from('teams').select('id').eq('user_id', u.id).limit(1)
+            .then(function (res) { return !!(res.data && res.data.length); })
+            .catch(function () { return false; });
+        }).catch(function () { return false; });
+      }
     };
   })();
   window.ChibiAuth = ChibiAuth;

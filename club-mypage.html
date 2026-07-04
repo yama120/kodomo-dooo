@@ -49,12 +49,18 @@
 
   <!-- ログイン -->
   <div id="mp-login" class="mp-card" style="display:none;">
-    <h2 style="margin:0 0 14px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">ログイン</h2>
+    <div style="display:inline-flex;align-items:center;gap:7px;background:#f2f7ff;color:#2a6fdb;font-size:12px;font-weight:800;border-radius:999px;padding:5px 12px;margin-bottom:10px;">🏫 クラブ運営者ログイン</div>
+    <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブ運営者ログイン</h2>
+    <p class="hint" style="margin:0 0 14px;">掲載クラブの情報編集・プラン管理はこちらから。</p>
     <div class="mp-group"><label class="mp-label">メールアドレス</label><input class="mp-input" id="mp-email" type="email" placeholder="team@example.com" autocomplete="username"></div>
     <div class="mp-group"><label class="mp-label">パスワード</label><input class="mp-input" id="mp-password" type="password" placeholder="パスワード" autocomplete="current-password"></div>
     <div id="mp-login-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
     <button class="mp-btn" id="mp-login-btn">ログイン</button>
     <p class="hint" style="text-align:center;margin-top:12px;">アカウントが無い方は <a href="register.html">チーム登録</a> から。</p>
+    <div style="margin-top:14px;border-top:1px solid #eef0f2;padding-top:14px;text-align:center;">
+      <p style="margin:0 0 8px;font-size:12px;color:#8a93a0;">クラブ運営者でない方（保護者・一般）は</p>
+      <a href="login.html" style="display:inline-block;border:1.5px solid #e8c9d4;background:#fffafc;color:#e8455f;font-weight:800;font-size:13.5px;text-decoration:none;border-radius:10px;padding:11px 22px;">一般（保護者）ログインはこちら →</a>
+    </div>
   </div>
 
   <!-- ダッシュボード（ログイン後） -->

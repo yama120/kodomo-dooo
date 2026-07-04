@@ -181,8 +181,9 @@
     if (!A || !A.ready()) { $('mp-account-out').style.display = 'block'; return; }
     A.getProfile().then(function (prof) {
       if (!prof) { $('mp-account-out').style.display = 'block'; return; }
-      // クラブアカウント（旧マイページのブックマーク流入）はクラブ管理ページへ
+      // クラブ運営者（role=club、または掲載チームを持つ）はクラブ管理ページへ確実に振り分け
       if (prof.role === 'club') { location.href = 'club-mypage.html'; return; }
+      A.hasTeam().then(function (isClub) { if (isClub) location.href = 'club-mypage.html'; });
       $('mp-account-in').style.display = 'block';
       $('mp-email').textContent = prof.email || '-';
       $('mp-display').value = prof.display_name || '';
