@@ -185,8 +185,11 @@
       .cc-bottombar { display:flex !important; }
       body { padding-bottom:64px; }
       #cc-menu { bottom:64px !important; }
-      /* ヒーローCTAは画像内に重ねたまま小型化 */
-      section[data-screen-label="ヒーロー"] .hero-cta { bottom:6% !important; padding:0 12px !important; gap:8px !important; }
+      /* ヒーローCTAは画像内に重ねたまま小型化。ドットと重ならないよう少し上へ */
+      section[data-screen-label="ヒーロー"] .hero-cta { bottom:15% !important; padding:0 12px !important; gap:8px !important; }
+      /* スライダーのドットを小さく・最下部へ（CTAボタンと重なり防止） */
+      section[data-screen-label="ヒーロー"] .hero-dots { bottom:8px !important; gap:7px !important; }
+      section[data-screen-label="ヒーロー"] .hero-dots button { width:7px !important; height:7px !important; }
       section[data-screen-label="ヒーロー"] .hero-cta a { font-size:10.5px !important; padding:7px 11px !important; gap:5px !important; }
       section[data-screen-label="ヒーロー"] .hero-cta a svg { width:13px !important; height:13px !important; }
       section[data-screen-label="ヒーロー"] .hero-cta a span { width:15px !important; height:15px !important; font-size:9px !important; }
@@ -216,7 +219,7 @@
       header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:12px !important; }
       /* ヒーローのCTAボタン：2つを等幅・中央揃えにして大きさを揃える */
       section[data-screen-label="ヒーロー"] .hero-cta { gap:9px !important; padding:0 16px !important; }
-      section[data-screen-label="ヒーロー"] .hero-cta a { font-size:11.5px !important; padding:8px 8px !important; flex:1 1 0 !important; min-width:0 !important; justify-content:center !important; white-space:nowrap !important; }
+      section[data-screen-label="ヒーロー"] .hero-cta a { font-size:11.5px !important; padding:9px 20px !important; flex:0 1 auto !important; justify-content:center !important; white-space:nowrap !important; }
       /* チビスポとは：周囲の浮遊写真は非表示（重なり防止） */
       section[data-screen-label="チビスポとは"] > img { display:none !important; }
       section[data-screen-label="チビスポとは"] { padding-left:20px !important; padding-right:20px !important; }
