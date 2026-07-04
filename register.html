@@ -76,8 +76,9 @@
           <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真15枚・最上位・SNS紹介</div>
         </button>
       </div>
-      <div id="rg-plan-pay" style="display:none;margin-top:12px;font-size:12px;color:#54606e;line-height:1.7;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 13px;">
-        <strong id="rg-plan-name" style="color:#9a3412;"></strong> を選択中。登録完了後、そのままお支払い画面に進みます。
+      <div id="rg-plan-pay" style="display:none;margin-top:12px;font-size:12px;color:#54606e;line-height:1.7;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px 14px;">
+        <div><strong id="rg-plan-name" style="color:#9a3412;"></strong> を選択中。登録完了後、そのままお支払い画面に進みます。</div>
+        <div id="rg-plan-detail" style="margin-top:7px;padding-top:7px;border-top:1px dashed #f0c893;font-size:12px;color:#54606e;"></div>
       </div>
     </div>
 
@@ -155,23 +156,6 @@
       </div>
     </div>
 
-    <!-- クラブの雰囲気タグ（新規） -->
-    <div class="rg-card">
-      <div class="rg-card-title">🎈 クラブの雰囲気タグ <span style="font-weight:500;color:#9aa3ad;font-size:12px;">（最大3つ・各15文字以内）</span></div>
-      <p style="margin:0 0 12px;font-size:12.5px;color:#7b8492;line-height:1.7;">クラブの空気が伝わるタグを設定できます。まずはご自由に入力を。思いつかなければ下から選べます。</p>
-      <div id="lt-selected"></div>
-      <div style="display:flex;gap:8px;">
-        <input id="lt-input" class="rg-input" type="text" maxlength="15" placeholder="例）親子で参加OK（15文字以内）" style="flex:1;">
-        <button id="lt-add" type="button" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer;">追加</button>
-      </div>
-      <div style="margin-top:14px;background:#f6f7f9;border:1px solid #eef0f2;border-radius:12px;padding:14px 15px;">
-        <div style="font-size:12px;color:#7b8492;margin-bottom:10px;">思いつかない場合は、こちらから選べます</div>
-        <div class="lt-axis" data-axis="方針"></div>
-        <div class="lt-axis" data-axis="指導"></div>
-        <div class="lt-axis" data-axis="空気"></div>
-      </div>
-    </div>
-
     <!-- 連絡先 -->
     <div class="rg-card">
       <div class="rg-card-title">📞 連絡先</div>
@@ -227,8 +211,12 @@
   <div id="rg-success" class="rg-card" style="display:none;text-align:center;padding:44px 22px;">
     <div style="font-size:52px;line-height:1;margin-bottom:14px;">🎉</div>
     <h2 id="rg-success-title" style="font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:900;margin:0 0 10px;">申請を受け付けました</h2>
-    <p id="rg-success-msg" style="color:#54606e;font-size:13.5px;line-height:1.9;margin:0 0 22px;">運営の承認後に掲載されます。<br>ご登録のメールアドレスにログイン確認メールをお送りしています。</p>
-    <a id="rg-success-btn" href="mypage.html" style="display:inline-block;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 30px;">マイページへ</a>
+    <p id="rg-success-msg" style="color:#54606e;font-size:13.5px;line-height:1.9;margin:0 0 20px;">運営の承認後に掲載されます。<br>ご登録のメールアドレスにログイン確認メールをお送りしています。</p>
+    <div id="rg-success-enrich" style="text-align:left;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;padding:16px 18px;margin:0 0 22px;">
+      <div style="font-size:13.5px;font-weight:900;color:#1f2a37;margin-bottom:6px;">📈 掲載効果を高めるには</div>
+      <p style="margin:0;font-size:12.5px;color:#54606e;line-height:1.85;">承認後、マイページから<strong>アピールポイント・こんな子におすすめ・雰囲気タグ・コース料金・会場・写真の追加</strong>を入力できます。詳しく書くほど保護者に選ばれやすくなります。</p>
+    </div>
+    <a id="rg-success-btn" href="club-mypage.html" style="display:inline-block;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 30px;">マイページで詳細を入力する</a>
   </div>
 
   <!-- 登録後のおすすめ：HP・SNS制作代行 -->
@@ -274,8 +262,13 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     });
     var pay=document.getElementById('rg-plan-pay');
     var pn=document.getElementById('rg-plan-name');
+    var det=document.getElementById('rg-plan-detail');
+    var PLAN_DETAIL={
+      pr:'💡 <strong>月払いは初回30日間 無料</strong>（以降 ¥3,000/月・解約はいつでも自由）。<br>年払いなら <strong>¥30,000/年</strong>＝<strong>2ヶ月分お得（約17%OFF）</strong>。プランの切替は登録後マイページから。',
+      'pr-plus':'💡 月払い ¥10,000/月（解約自由）。<br>年払いなら <strong>¥100,000/年</strong>＝<strong>2ヶ月分お得（約17%OFF）</strong>。プランの切替は登録後マイページから。'
+    };
     if(planKey==='free'){ pay.style.display='none'; }
-    else { pn.textContent=PLAN_LABEL[planKey]; pay.style.display='block'; }
+    else { pn.textContent=PLAN_LABEL[planKey]; if(det) det.innerHTML=PLAN_DETAIL[planKey]||''; pay.style.display='block'; }
     var btn=document.getElementById('rg-submit');
     if(btn && btn.dataset.busy!=='1') btn.textContent = planKey==='free' ? '無料で申請する' : '申請してお支払いに進む';
   }
@@ -332,33 +325,6 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     wrap.style.display=this.checked?'block':'none';
     if(!this.checked) document.querySelectorAll('input[name="age_min"]').forEach(function(r){r.checked=false;});
   });
-
-  // ===== 雰囲気タグ・ピッカー（自由入力＋プリセット） =====
-  var PRESETS={ '方針':['楽しむこと','本格志向'], '指導':['ほめて伸ばす','礼儀・しつけ'], '空気':['アットホーム','少人数で丁寧','真剣に取り組む'] };
-  var MAX=3, selected=[];
-  var sel=document.getElementById('lt-selected'), input=document.getElementById('lt-input');
-  function chipHTML(name){ return '<span style="display:inline-flex;align-items:center;gap:6px;background:#eafaf0;border:1px solid #bfe6cf;color:#1f8a5b;font-size:12.5px;font-weight:700;border-radius:999px;padding:6px 12px;">'+name+'<button type="button" data-rm="'+name+'" aria-label="削除" style="border:none;background:none;color:#1f8a5b;cursor:pointer;font-size:14px;line-height:1;padding:0;">×</button></span>'; }
-  function render(){
-    sel.innerHTML = selected.length ? selected.map(chipHTML).join('') : '<span style="font-size:12px;color:#b6bcc5;">まだタグがありません</span>';
-    sel.querySelectorAll('[data-rm]').forEach(function(b){ b.addEventListener('click',function(){ selected=selected.filter(function(t){return t!==b.getAttribute('data-rm');}); render(); }); });
-  }
-  function add(name){
-    name=(name||'').trim();
-    if(!name) return;
-    if(name.length>15){ alert('タグは15文字以内で入力してください'); return; }
-    if(selected.indexOf(name)>=0) return;
-    if(selected.length>=MAX){ alert('タグは最大'+MAX+'つまでです'); return; }
-    selected.push(name); render();
-  }
-  document.getElementById('lt-add').addEventListener('click',function(){ add(input.value); input.value=''; input.focus(); });
-  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ if(e.isComposing||e.keyCode===229) return; e.preventDefault(); add(input.value); input.value=''; } });
-  document.querySelectorAll('.lt-axis').forEach(function(row){
-    var axis=row.getAttribute('data-axis'); row.style.marginBottom='8px';
-    row.innerHTML='<span style="display:inline-block;font-size:11.5px;font-weight:800;color:#54606e;margin-right:8px;">'+axis+'</span>'+
-      PRESETS[axis].map(function(n){return '<button type="button" class="lt-preset" data-name="'+n+'">'+n+'</button>';}).join('');
-  });
-  document.querySelectorAll('.lt-preset').forEach(function(b){ b.addEventListener('click',function(){ add(b.getAttribute('data-name')); }); });
-  render();
 
   // 初期描画
   paintPlanTabs();
