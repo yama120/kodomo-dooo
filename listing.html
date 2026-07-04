@@ -121,49 +121,59 @@
       <h2 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:26px;font-weight:900;">料金プラン</h2>
       <p style="margin:10px 0 24px;font-size:13px;color:#9aa3ad;">まずは無料でOK。もっと見てほしいときだけ、有料オプションを（表示は税抜の目安）。</p>
     </div>
+    <!-- 月額/年額 切替トグル -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:9px;margin-bottom:24px;">
+      <div id="pl-toggle" style="display:inline-flex;background:#eef1f4;border-radius:999px;padding:4px;">
+        <button type="button" data-iv="m" class="pl-tg" style="border:none;border-radius:999px;padding:9px 26px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;">月額</button>
+        <button type="button" data-iv="y" class="pl-tg" style="border:none;border-radius:999px;padding:9px 26px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;">年額</button>
+      </div>
+      <span style="font-size:11.5px;font-weight:800;color:#1f8a5b;">年額なら2ヶ月分お得（約17%OFF）</span>
+    </div>
     <div class="ls-grid3">
-      <!-- 無料掲載 -->
-      <div style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
+      <!-- フリー -->
+      <div class="pcard" data-plan="free" style="display:flex;flex-direction:column;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
         <div style="font-size:14px;font-weight:800;color:#7b8492;">フリー</div>
-        <div style="margin:10px 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:32px;font-weight:900;">¥0<span style="font-size:14px;font-weight:700;color:#9aa3ad;">/月</span></div>
+        <div style="margin:10px 0 2px;font-family:'Zen Maru Gothic',sans-serif;font-size:32px;font-weight:900;"><span class="pc-main">¥0</span><span class="pc-unit" style="font-size:14px;font-weight:700;color:#9aa3ad;">/月</span></div>
+        <div class="pc-sub" style="min-height:22px;margin-bottom:4px;"></div>
         <div style="font-size:12px;color:#aab1bb;margin-bottom:18px;">まずは無料で載せる</div>
-        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;">
+        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;flex:1;">
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>クラブ詳細ページの掲載</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>写真1枚・コース・体験申込</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>検索結果・地図に表示</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>情報更新はいつでも無料</div>
         </div>
-        <a href="register.html?plan=free" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">無料で申し込む</a>
+        <a class="pl-buy" data-plan="free" href="register.html?plan=free" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">無料で申し込む</a>
       </div>
       <!-- スタンダード（人気） -->
-      <div style="position:relative;background:#f3fbf6;border:2.5px solid #1f8a5b;border-radius:18px;padding:32px 22px;text-align:center;box-shadow:0 22px 46px rgba(31,138,91,.26);">
+      <div class="pcard" data-plan="pr" style="display:flex;flex-direction:column;position:relative;background:#f3fbf6;border:2.5px solid #1f8a5b;border-radius:18px;padding:32px 22px;text-align:center;box-shadow:0 22px 46px rgba(31,138,91,.26);">
         <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#1f8a5b;color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:4px 14px;white-space:nowrap;">人気No.1</div>
         <div style="font-size:14px;font-weight:800;color:#1f8a5b;">スタンダード</div>
-        <div style="margin:10px 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:40px;font-weight:900;">¥3,000<span style="font-size:14px;font-weight:700;color:#9aa3ad;">/月〜</span></div>
-        <div style="display:inline-block;background:#1f8a5b;color:#fff;font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 12px;margin-bottom:6px;">初回30日間 無料</div>
-        <div style="font-size:12px;color:#54606e;margin-bottom:16px;line-height:1.6;">解約はいつでも自由<br><strong style="color:#1f8a5b;">年払い ¥30,000</strong>（2ヶ月分お得・約17%OFF）</div>
-        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;">
+        <div style="margin:10px 0 2px;font-family:'Zen Maru Gothic',sans-serif;font-size:40px;font-weight:900;"><span class="pc-main">¥3,000</span><span class="pc-unit" style="font-size:14px;font-weight:700;color:#9aa3ad;">/月</span></div>
+        <div class="pc-sub" style="min-height:24px;margin-bottom:8px;"></div>
+        <div style="font-size:12px;color:#54606e;margin-bottom:16px;">見つけてもらいやすく</div>
+        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;flex:1;">
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>フリープランのすべて</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>写真を7枚まで掲載</strong></div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>検索結果で上位に表示</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>「注目のクラブ」枠に掲載</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>月次アクセスレポート</div>
         </div>
-        <a href="register.html?plan=pr" style="display:block;margin-top:18px;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:12px 0;">このプランで申し込む</a>
+        <a class="pl-buy" data-plan="pr" href="register.html?plan=pr" style="display:block;margin-top:18px;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:12px 0;">このプランで申し込む</a>
       </div>
       <!-- プロ -->
-      <div style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
+      <div class="pcard" data-plan="pr-plus" style="display:flex;flex-direction:column;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
         <div style="font-size:14px;font-weight:800;color:#7b8492;">プロ</div>
-        <div style="margin:10px 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:32px;font-weight:900;">¥10,000<span style="font-size:14px;font-weight:700;color:#9aa3ad;">/月〜</span></div>
-        <div style="font-size:12px;color:#54606e;margin-bottom:16px;line-height:1.6;">探されなくても届ける<br><strong style="color:#1f8a5b;">年払い ¥100,000</strong>（2ヶ月分お得・約17%OFF）</div>
-        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;">
+        <div style="margin:10px 0 2px;font-family:'Zen Maru Gothic',sans-serif;font-size:32px;font-weight:900;"><span class="pc-main">¥10,000</span><span class="pc-unit" style="font-size:14px;font-weight:700;color:#9aa3ad;">/月</span></div>
+        <div class="pc-sub" style="min-height:22px;margin-bottom:4px;"></div>
+        <div style="font-size:12px;color:#54606e;margin-bottom:16px;">探されなくても届ける</div>
+        <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;flex:1;">
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>スタンダードのすべて</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>最上位に固定＋トップページ露出</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>公式SNSで月1回紹介</strong></div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>写真を15枚まで掲載</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>詳細アクセスレポート</div>
         </div>
-        <a href="register.html?plan=pr-plus" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">このプランで申し込む</a>
+        <a class="pl-buy" data-plan="pr-plus" href="register.html?plan=pr-plus" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">このプランで申し込む</a>
       </div>
     </div>
 
@@ -206,12 +216,17 @@
           <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">トップページに露出</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
           <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">公式SNSで月1回紹介</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
           <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">アクセスレポート</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;font-weight:700;color:#3b4654;">閲覧数</td><td style="text-align:center;font-weight:700;color:#3b4654;">詳細</td></tr>
-          <tr style="border-top:2px solid #e6e9ed;"><td style="padding:14px 16px;font-weight:800;color:#28323f;">料金</td><td style="text-align:center;font-weight:900;color:#1f8a5b;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></td><td style="text-align:center;font-weight:900;color:#1f8a5b;background:#f3fbf6;">¥3,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span><br><span style="font-size:9.5px;color:#1f8a5b;font-weight:800;">初回30日無料</span><br><span style="font-size:9.5px;color:#9aa3ad;font-weight:700;">年払¥30,000</span></td><td style="text-align:center;font-weight:900;">¥10,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></td></tr>
+          <tr style="border-top:2px solid #e6e9ed;">
+            <td style="padding:14px 16px;font-weight:800;color:#28323f;">料金</td>
+            <td style="text-align:center;font-weight:900;color:#1f8a5b;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></td>
+            <td style="text-align:center;background:#f3fbf6;padding:12px 6px;"><div style="font-weight:900;color:#1f8a5b;">月額 ¥3,000</div><div style="font-weight:800;color:#28323f;font-size:12px;margin-top:2px;">年額 ¥30,000</div><div style="font-size:9.5px;color:#1f8a5b;font-weight:800;margin-top:3px;">2ヶ月分お得・初回30日無料</div></td>
+            <td style="text-align:center;padding:12px 6px;"><div style="font-weight:900;color:#28323f;">月額 ¥10,000</div><div style="font-weight:800;color:#28323f;font-size:12px;margin-top:2px;">年額 ¥100,000</div><div style="font-size:9.5px;color:#1f8a5b;font-weight:800;margin-top:3px;">2ヶ月分お得</div></td>
+          </tr>
           <tr style="border-top:1px solid #eef0f2;">
             <td style="padding:14px 16px;"></td>
-            <td style="text-align:center;padding:12px 8px;"><a href="register.html?plan=free" style="display:inline-block;background:#fff;color:#1f8a5b;border:1.5px solid #cfe0d6;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 14px;">申し込む</a></td>
-            <td style="text-align:center;padding:12px 8px;background:#f3fbf6;"><a href="register.html?plan=pr" style="display:inline-block;background:#1f8a5b;color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 18px;box-shadow:0 4px 12px rgba(31,138,91,.28);">申し込む</a></td>
-            <td style="text-align:center;padding:12px 8px;"><a href="register.html?plan=pr-plus" style="display:inline-block;background:#fff;color:#1f8a5b;border:1.5px solid #cfe0d6;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 14px;">申し込む</a></td>
+            <td style="text-align:center;padding:12px 8px;"><a class="pl-buy-tbl" data-plan="free" data-iv="m" href="register.html?plan=free" style="display:inline-block;background:#fff;color:#1f8a5b;border:1.5px solid #cfe0d6;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 16px;">申し込む</a></td>
+            <td style="text-align:center;padding:12px 8px;background:#f3fbf6;"><a class="pl-buy-tbl" data-plan="pr" data-iv="m" href="register.html?plan=pr" style="display:block;background:#1f8a5b;color:#fff;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:9px 6px;box-shadow:0 4px 12px rgba(31,138,91,.28);">月額で申込</a><a class="pl-buy-tbl" data-plan="pr" data-iv="y" href="register.html?plan=pr" style="display:block;margin-top:6px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 6px;">年額で申込</a></td>
+            <td style="text-align:center;padding:12px 8px;"><a class="pl-buy-tbl" data-plan="pr-plus" data-iv="m" href="register.html?plan=pr-plus" style="display:block;background:#1f8a5b;color:#fff;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:9px 6px;">月額で申込</a><a class="pl-buy-tbl" data-plan="pr-plus" data-iv="y" href="register.html?plan=pr-plus" style="display:block;margin-top:6px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:12px;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 6px;">年額で申込</a></td>
           </tr>
         </tbody>
       </table>
@@ -277,77 +292,86 @@
 <script src="supabase-lite.js"></script>
 <script src="shared.js"></script>
 <script>
-// ログイン中のクラブ（掲載チームを持つ）が「申し込む」を押したら、その場でStripe決済へ。
-// 未ログイン／一般ユーザーは従来通り新規登録(register)へ。
+// 月額/年額トグルで、カードの価格表示・全申込ボタンを連動。
+// ログイン中クラブ＝Stripe決済(月/年・client_reference_id付)へ、未ログイン＝新規登録へ。
 (function(){
-  var A = window.ChibiAuth;
-  if(!A || !A.ready()) return;
-  var db = A.client(); if(!db) return;
-  // 各プランの月額(m)・年額(y)の決済リンク
   var STRIPE = {
     pr:       { m:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', y:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001' },
     'pr-plus':{ m:'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004', y:'https://buy.stripe.com/14AbJ1bd3aKg1cm1QF00005' }
   };
-  var clubTeamId = null, interval = 'm'; // 'm'=月額 / 'y'=年額
+  var PRICES = {
+    free:     { m:['¥0','/月'],       y:['¥0',''] },
+    pr:       { m:['¥3,000','/月'],   y:['¥30,000','/年'] },
+    'pr-plus':{ m:['¥10,000','/月'],  y:['¥100,000','/年'] }
+  };
+  var interval = 'm'; // 'm'=月額 / 'y'=年額
+  var A = window.ChibiAuth, db = (A && A.ready()) ? A.client() : null, clubTeamId = null;
 
-  var btns = [].slice.call(document.querySelectorAll('a[href^="register.html?plan="]'));
-  // 各ボタンにプランを保存（href差し替え後もプランを保持）
-  btns.forEach(function(a){ var m = a.getAttribute('href').match(/plan=([a-z-]+)/); a.setAttribute('data-plan', m ? m[1] : ''); });
-  // クリック時判定（選択中の周期でStripeへ）
-  btns.forEach(function(a){
+  function subHtml(plan, iv){
+    if(plan==='pr')      return iv==='m' ? '<span style="display:inline-block;background:#1f8a5b;color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:3px 12px;">初回30日間 無料</span>' : '<span style="font-size:11.5px;color:#1f8a5b;font-weight:800;">¥2,500/月 相当・2ヶ月分お得</span>';
+    if(plan==='pr-plus') return iv==='y' ? '<span style="font-size:11.5px;color:#1f8a5b;font-weight:800;">¥8,333/月 相当・2ヶ月分お得</span>' : '';
+    return '';
+  }
+  function target(plan, iv){
+    if(plan==='free') return clubTeamId ? 'club-mypage.html' : 'register.html?plan=free';
+    if(clubTeamId && STRIPE[plan] && STRIPE[plan][iv]) return STRIPE[plan][iv] + '?client_reference_id=' + encodeURIComponent(clubTeamId);
+    return 'register.html?plan=' + plan;
+  }
+  function paintToggle(){
+    document.querySelectorAll('.pl-tg').forEach(function(b){
+      var on = b.getAttribute('data-iv')===interval;
+      b.style.background = on ? '#fff' : 'transparent';
+      b.style.color      = on ? '#1f8a5b' : '#8a93a0';
+      b.style.boxShadow  = on ? '0 1px 4px rgba(0,0,0,.12)' : 'none';
+    });
+  }
+  function render(){
+    document.querySelectorAll('.pcard').forEach(function(card){
+      var plan = card.getAttribute('data-plan'); var pr = PRICES[plan][interval];
+      var mn=card.querySelector('.pc-main'), un=card.querySelector('.pc-unit'), sb=card.querySelector('.pc-sub');
+      if(mn) mn.textContent = pr[0];
+      if(un) un.textContent = pr[1];
+      if(sb) sb.innerHTML = subHtml(plan, interval);
+    });
+    document.querySelectorAll('.pl-buy').forEach(function(a){ a.href = target(a.getAttribute('data-plan'), interval); });
+    document.querySelectorAll('.pl-buy-tbl').forEach(function(a){ a.href = target(a.getAttribute('data-plan'), a.getAttribute('data-iv')); });
+    paintToggle();
+  }
+  document.querySelectorAll('.pl-tg').forEach(function(b){ b.addEventListener('click', function(){ interval = b.getAttribute('data-iv'); render(); }); });
+
+  // クリック時にもログイン中クラブならStripeへ（hrefは事前設定済みだが保険）
+  document.querySelectorAll('.pl-buy, .pl-buy-tbl').forEach(function(a){
     a.addEventListener('click', function(e){
-      if(!clubTeamId) return; // 未ログイン/一般 → register(既定の遷移)のまま
+      if(!clubTeamId) return;
       var plan = a.getAttribute('data-plan');
+      var iv = a.classList.contains('pl-buy-tbl') ? a.getAttribute('data-iv') : interval;
       if(plan==='free'){ e.preventDefault(); location.href='club-mypage.html'; return; }
-      var lk = STRIPE[plan] && STRIPE[plan][interval];
+      var lk = STRIPE[plan] && STRIPE[plan][iv];
       if(lk){ e.preventDefault(); location.href = lk + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
     });
   });
 
-  function swap(){
-    btns.forEach(function(a){
-      var plan = a.getAttribute('data-plan');
-      if(plan==='free'){ a.style.display='none'; return; }
-      var lk = STRIPE[plan] && STRIPE[plan][interval];
-      if(lk){ a.href = lk + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
-    });
-  }
-  function applyClub(teamId){
-    clubTeamId = teamId;
-    swap();
-    var sec = document.getElementById('price');
-    if(sec && !document.getElementById('cmp-club-bar')){
-      var bar = document.createElement('div'); bar.id='cmp-club-bar';
-      bar.style.cssText = 'max-width:1080px;margin:0 auto 12px;padding:14px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;';
-      bar.innerHTML =
-        '<div style="font-size:13px;font-weight:700;color:#1f8a5b;margin-bottom:10px;">掲載中のクラブとしてログイン中です。下のプランからそのままお申し込みいただけます。</div>'
-        + '<div style="font-size:11.5px;color:#8a93a0;margin-bottom:6px;">お支払い周期を選ぶ</div>'
-        + '<div style="display:inline-flex;background:#fff;border:1px solid #cfe0d6;border-radius:999px;padding:3px;gap:2px;">'
-        + '<button type="button" id="cmp-iv-m" style="border:none;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">月額</button>'
-        + '<button type="button" id="cmp-iv-y" style="border:none;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">年額（2ヶ月分お得）</button>'
-        + '</div>';
-      sec.insertBefore(bar, sec.firstChild);
-      var mb = document.getElementById('cmp-iv-m'), yb = document.getElementById('cmp-iv-y');
-      function paint(){
-        mb.style.background = interval==='m' ? '#1f8a5b' : 'transparent'; mb.style.color = interval==='m' ? '#fff' : '#1f8a5b';
-        yb.style.background = interval==='y' ? '#1f8a5b' : 'transparent'; yb.style.color = interval==='y' ? '#fff' : '#1f8a5b';
+  render(); // 初期描画（未ログインでも動作）
+
+  // ログイン中クラブ判定 → clubTeamId設定して再描画＋案内バー
+  if(db){
+    function apply(teamId){
+      clubTeamId = teamId; render();
+      var sec = document.getElementById('price');
+      if(sec && !document.getElementById('cmp-club-bar')){
+        var bar = document.createElement('div'); bar.id='cmp-club-bar';
+        bar.style.cssText = 'max-width:1080px;margin:0 auto 20px;padding:12px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;font-size:13px;font-weight:700;color:#1f8a5b;';
+        bar.textContent = '掲載中のクラブとしてログイン中です。プランを選んで「申し込む」から、そのままお支払いに進めます。';
+        sec.insertBefore(bar, sec.firstChild);
       }
-      mb.addEventListener('click', function(){ interval='m'; swap(); paint(); });
-      yb.addEventListener('click', function(){ interval='y'; swap(); paint(); });
-      paint();
     }
-  }
-  function checkTeam(uid){
-    db.from('teams').select('id').eq('user_id', uid).then(function(res){
-      var t = res.data && res.data[0]; if(t) applyClub(t.id);
+    function checkTeam(uid){ db.from('teams').select('id').eq('user_id', uid).then(function(res){ var t = res.data && res.data[0]; if(t) apply(t.id); }).catch(function(){}); }
+    db.auth.getSession().then(function(res){
+      var s = res && res.data && res.data.session; var uid = s && s.user && s.user.id;
+      if(uid){ checkTeam(uid); return; }
+      if(s && s.access_token){ db.auth.getUser().then(function(r2){ var u = r2.data && r2.data.user; if(u && u.id) checkTeam(u.id); }).catch(function(){}); }
     }).catch(function(){});
   }
-  db.auth.getSession().then(function(res){
-    var s = res && res.data && res.data.session;
-    var uid = s && s.user && s.user.id;
-    if(uid){ checkTeam(uid); return; }
-    if(s && s.access_token){ db.auth.getUser().then(function(r2){ var u = r2.data && r2.data.user; if(u && u.id) checkTeam(u.id); }).catch(function(){}); }
-  }).catch(function(){});
 })();
 </script>
 </body>
