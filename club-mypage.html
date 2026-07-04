@@ -384,7 +384,7 @@
     var po=$('mp-portal'); if(po){ if(ep!=='free'){ po.style.display=''; po.href=PORTAL_URL; } else { po.style.display='none'; } }
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
     // アップセルの4ボタンを配線（フリー会員が新規サブスク作成。既存有料のプラン変更は顧客ポータルから＝二重課金防止）
-    var wireUp=function(id,key){ var a=$(id); if(a){ if(STRIPE_LINKS[key] && STRIPE_LINKS[key]!=='#'){ a.style.display=''; a.href=upgradeUrl(key); } else { a.style.display='none'; } } };
+    var wireUp=function(id,key){ var a=$(id); if(a){ if(STRIPE_LINKS[key] && STRIPE_LINKS[key]!=='#'){ a.style.display='block'; a.href=upgradeUrl(key); } else { a.style.display='none'; } } };
     wireUp('mp-std-monthly','monthly'); wireUp('mp-std-annual','annual'); wireUp('mp-pro-monthly','proMonthly'); wireUp('mp-pro-annual','proAnnual');
 
     // 写真（プラン連動の上限）
