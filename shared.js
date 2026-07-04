@@ -365,7 +365,7 @@
         var d = db(); if (!d) return Promise.resolve(false);
         return d.auth.getUser().then(function (r) {
           var u = r.data && r.data.user; if (!u) return false;
-          return d.from('teams').select('id').eq('user_id', u.id).limit(1)
+          return d.from('teams').select('id').eq('user_id', u.id)
             .then(function (res) { return !!(res.data && res.data.length); })
             .catch(function () { return false; });
         }).catch(function () { return false; });

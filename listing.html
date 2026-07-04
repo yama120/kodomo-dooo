@@ -314,7 +314,7 @@
     }
   }
   function checkTeam(uid){
-    db.from('teams').select('id').eq('user_id', uid).limit(1).then(function(res){
+    db.from('teams').select('id').eq('user_id', uid).then(function(res){
       var t = res.data && res.data[0]; if(t) applyClub(t.id);
     }).catch(function(){});
   }
