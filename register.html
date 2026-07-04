@@ -437,7 +437,7 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     } else {
       var authEmail=document.getElementById('authEmail').value.trim();
       var authPassword=document.getElementById('authPassword').value;
-      var au=await db.auth.signUp({ email:authEmail, password:authPassword });
+      var au=await db.auth.signUp({ email:authEmail, password:authPassword, options:{ data:{ role:'club' } } });
       if(au.error){ btn.disabled=false; btn.dataset.busy=''; paintPlanTabs(); return err('アカウント作成に失敗しました：'+au.error.message); }
       userId=au.data && au.data.user ? au.data.user.id : null;
     }
