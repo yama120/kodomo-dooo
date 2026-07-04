@@ -74,6 +74,11 @@
       g.setAttribute('data-sel','1');
       selected = g;
     }, true);
+    // スクロール/タッチ時はツールチップを消す（position:fixedが画面に貼り付いて追従するのを防ぐ）
+    function hideTip(){ var t = document.getElementById('cs-map-tip'); if (t) t.style.opacity = '0'; }
+    window.addEventListener('scroll', hideTip, true);
+    window.addEventListener('touchstart', hideTip, true);
+    window.addEventListener('touchmove', hideTip, true);
   })();
   </script>
 
@@ -199,14 +204,19 @@
     /* スマホ：スライド2は縦積みになるため斜め区切りを隠してスッキリ見せる */
     @media (max-width: 560px){
       section[data-screen-label="ヒーロー"] .hs2-inner > span:nth-child(2){ display:none !important; }
-      section[data-screen-label="ヒーロー"] .hs2-inner{ gap:14px !important; }
+      section[data-screen-label="ヒーロー"] .hs2-inner{ gap:10px !important; }
+      /* スライド2の文字を全体的に縮小 */
+      section[data-screen-label="ヒーロー"] .hs2-inner > span:nth-child(1) > span:nth-child(1){ font-size:12px !important; }   /* Reserch */
+      section[data-screen-label="ヒーロー"] .hs2-inner > span:nth-child(1) > span:nth-child(2){ font-size:20px !important; }   /* クラブを探す */
+      section[data-screen-label="ヒーロー"] .hs2-inner > span:nth-child(3) > span:nth-child(1){ font-size:10.5px !important; margin-bottom:8px !important; }  /* その子にあった */
+      section[data-screen-label="ヒーロー"] .hs2-inner > span:nth-child(3) > span:nth-child(2){ font-size:12.5px !important; padding:7px 18px !important; gap:7px !important; }  /* 検索ボタン */
     }
     @media (max-width: 820px){
       /* ヘッダー：内側余白を詰める（ナビ等は1024pxで既に畳み済み） */
       header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:12px !important; }
       /* ヒーローのCTAボタン：2つを等幅・中央揃えにして大きさを揃える */
-      section[data-screen-label="ヒーロー"] .hero-cta { gap:10px !important; padding:0 14px !important; }
-      section[data-screen-label="ヒーロー"] .hero-cta a { font-size:14px !important; padding:13px 10px !important; flex:1 1 0 !important; min-width:0 !important; justify-content:center !important; white-space:nowrap !important; }
+      section[data-screen-label="ヒーロー"] .hero-cta { gap:9px !important; padding:0 16px !important; }
+      section[data-screen-label="ヒーロー"] .hero-cta a { font-size:11.5px !important; padding:8px 8px !important; flex:1 1 0 !important; min-width:0 !important; justify-content:center !important; white-space:nowrap !important; }
       /* チビスポとは：周囲の浮遊写真は非表示（重なり防止） */
       section[data-screen-label="チビスポとは"] > img { display:none !important; }
       section[data-screen-label="チビスポとは"] { padding-left:20px !important; padding-right:20px !important; }
