@@ -114,7 +114,7 @@
 </section>
 
 <!-- ===== 料金プラン ===== -->
-<section style="padding:48px 0 8px;">
+<section id="price" style="padding:48px 0 8px;scroll-margin-top:90px;">
   <div class="ls-wrap">
     <div style="text-align:center;margin-bottom:8px;">
       <div style="font-family:'Pacifico',cursive;font-size:18px;color:#e8784a;">Plan</div>
@@ -257,6 +257,36 @@
   </div>
 </section>
 
+<script src="supabase-lite.js"></script>
 <script src="shared.js"></script>
+<script>
+// ログイン中のクラブ（掲載チームを持つ）が見ている場合、料金の申込ボタンを
+// Stripe決済（client_reference_id付き）に差し替える。それ以外は新規登録(register)のまま。
+(function(){
+  var A = window.ChibiAuth;
+  if(!A || !A.ready()) return;
+  var STRIPE = { pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus':'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004' };
+  A.getUser().then(function(u){
+    if(!u) return;
+    A.client().from('teams').select('id').eq('user_id', u.id).limit(1).then(function(res){
+      var t = res.data && res.data[0];
+      if(!t) return; // 一般ユーザー・チーム無し → 新規登録導線のまま
+      // 既存クラブ向けの案内バーを料金セクション先頭に表示
+      var sec = document.getElementById('price');
+      if(sec){
+        var bar = document.createElement('div');
+        bar.style.cssText = 'max-width:1080px;margin:0 auto 6px;padding:12px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;font-size:13px;font-weight:700;color:#1f8a5b;';
+        bar.textContent = '掲載中のクラブとしてログイン中です。下のプランからそのままお申し込みいただけます（月額は初回30日無料）。';
+        sec.insertBefore(bar, sec.firstChild);
+      }
+      document.querySelectorAll('a[href^="register.html?plan="]').forEach(function(a){
+        var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
+        if(plan==='free'){ a.style.display='none'; return; } // 既に無料掲載中
+        if(STRIPE[plan]){ a.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(t.id); }
+      });
+    }).catch(function(){});
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

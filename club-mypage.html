@@ -199,12 +199,14 @@
       <div style="border-top:1px solid #eef0f2;margin:20px 0 14px;padding-top:18px;font-size:14px;font-weight:800;color:#28323f;">写真 <span id="mp-photo-limit" style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:4px;"></span></div>
       <p class="hint" style="margin-top:0;margin-bottom:12px;" id="mp-photo-note"></p>
       <div id="mp-photo-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:10px 12px;margin-bottom:12px;"></div>
-      <div id="mp-photos" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+      <div id="mp-photos" style="display:flex;flex-wrap:wrap;justify-content:flex-start;gap:10px;margin-bottom:6px;"></div>
       <div id="mp-photo-editor" style="display:none;margin-top:16px;"></div>
       <input type="file" id="mp-photo-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
 
-      <div id="mp-save-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin:18px 0 12px;"></div>
-      <button class="mp-btn" id="mp-save">保存する</button>
+      <div style="border-top:1px solid #eef0f2;margin-top:24px;padding-top:20px;">
+        <div id="mp-save-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin:0 0 12px;"></div>
+        <button class="mp-btn" id="mp-save">クラブ情報を保存する</button>
+      </div>
     </div>
 
     <!-- 有料プラン誘導（フリー会員向け・2プラン） -->
@@ -215,20 +217,26 @@
         <!-- スタンダード -->
         <div style="flex:1 1 230px;border:1.5px solid #e6e9ed;border-radius:14px;padding:16px 15px;background:#fff;">
           <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">スタンダード</div>
-          <div style="font-size:12px;color:#7b8492;margin:3px 0 10px;line-height:1.6;">上位表示・注目枠・写真7枚・アクセスレポート</div>
-          <a id="mp-std-monthly" href="listing.html" style="display:block;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:12px 8px;border-radius:12px;font-size:13.5px;font-weight:800;line-height:1.4;">月額 ¥3,000<br><span style="font-size:11px;font-weight:600;opacity:.95;">30日間無料</span></a>
-          <a id="mp-std-annual" href="listing.html" style="display:block;text-align:center;margin-top:8px;color:#e8455f;text-decoration:none;font-size:12px;font-weight:700;">年額 ¥30,000（2ヶ月分お得）</a>
+          <div style="font-size:12px;color:#7b8492;margin:3px 0 12px;line-height:1.6;">上位表示・注目枠・写真7枚・アクセスレポート</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:#28323f;margin-bottom:13px;">
+            <div><strong>月額 ¥3,000</strong> <span style="font-size:11px;color:#9aa3ad;">（初回30日無料）</span></div>
+            <div><strong>年額 ¥30,000</strong> <span style="font-size:11px;color:#1f8a5b;font-weight:700;">2ヶ月分お得</span></div>
+          </div>
+          <a href="listing.html#price" style="display:block;text-align:center;border:1.5px solid #e8455f;color:#e8455f;text-decoration:none;padding:11px 8px;border-radius:12px;font-size:13.5px;font-weight:800;">プランの詳細を見る →</a>
         </div>
         <!-- プロ -->
         <div style="flex:1 1 230px;border:2px solid #e8455f;border-radius:14px;padding:16px 15px;background:#fff;position:relative;">
           <div style="position:absolute;top:-11px;left:15px;background:#e8455f;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 10px;">いちばん届く</div>
           <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">プロ</div>
-          <div style="font-size:12px;color:#7b8492;margin:3px 0 10px;line-height:1.6;">最上位固定＋トップ露出＋公式SNS月1回紹介＋写真15枚</div>
-          <a id="mp-pro-monthly" href="listing.html" style="display:block;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:12px 8px;border-radius:12px;font-size:13.5px;font-weight:800;">月額 ¥10,000</a>
-          <a id="mp-pro-annual" href="listing.html" style="display:block;text-align:center;margin-top:8px;color:#e8455f;text-decoration:none;font-size:12px;font-weight:700;">年額 ¥100,000（2ヶ月分お得）</a>
+          <div style="font-size:12px;color:#7b8492;margin:3px 0 12px;line-height:1.6;">最上位固定＋トップ露出＋公式SNS月1回紹介＋写真15枚</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:#28323f;margin-bottom:13px;">
+            <div><strong>月額 ¥10,000</strong></div>
+            <div><strong>年額 ¥100,000</strong> <span style="font-size:11px;color:#1f8a5b;font-weight:700;">2ヶ月分お得</span></div>
+          </div>
+          <a href="listing.html#price" style="display:block;text-align:center;background:#e8455f;color:#fff;text-decoration:none;padding:11px 8px;border-radius:12px;font-size:13.5px;font-weight:800;">プランの詳細を見る →</a>
         </div>
       </div>
-      <p class="hint" style="margin:12px 0 0;text-align:center;">いつでも解約OK。プランの変更・解約は申込後、マイページの「プラン管理」から。</p>
+      <p class="hint" style="margin:13px 0 0;text-align:center;">詳細ページで内容を確認してからお申し込みいただけます。いつでも解約OK。</p>
     </div>
 
     <!-- パスワード変更 -->
