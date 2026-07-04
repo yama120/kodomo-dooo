@@ -283,34 +283,58 @@
   var A = window.ChibiAuth;
   if(!A || !A.ready()) return;
   var db = A.client(); if(!db) return;
-  var STRIPE = { pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus':'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004' };
-  var clubTeamId = null;
+  // 各プランの月額(m)・年額(y)の決済リンク
+  var STRIPE = {
+    pr:       { m:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', y:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001' },
+    'pr-plus':{ m:'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004', y:'https://buy.stripe.com/14AbJ1bd3aKg1cm1QF00005' }
+  };
+  var clubTeamId = null, interval = 'm'; // 'm'=月額 / 'y'=年額
 
-  // 申込ボタンにクリック時判定を仕込む（クリック時点でログイン中クラブならStripeへ）
   var btns = [].slice.call(document.querySelectorAll('a[href^="register.html?plan="]'));
+  // 各ボタンにプランを保存（href差し替え後もプランを保持）
+  btns.forEach(function(a){ var m = a.getAttribute('href').match(/plan=([a-z-]+)/); a.setAttribute('data-plan', m ? m[1] : ''); });
+  // クリック時判定（選択中の周期でStripeへ）
   btns.forEach(function(a){
     a.addEventListener('click', function(e){
       if(!clubTeamId) return; // 未ログイン/一般 → register(既定の遷移)のまま
-      var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
+      var plan = a.getAttribute('data-plan');
       if(plan==='free'){ e.preventDefault(); location.href='club-mypage.html'; return; }
-      if(STRIPE[plan]){ e.preventDefault(); location.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
+      var lk = STRIPE[plan] && STRIPE[plan][interval];
+      if(lk){ e.preventDefault(); location.href = lk + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
     });
   });
 
+  function swap(){
+    btns.forEach(function(a){
+      var plan = a.getAttribute('data-plan');
+      if(plan==='free'){ a.style.display='none'; return; }
+      var lk = STRIPE[plan] && STRIPE[plan][interval];
+      if(lk){ a.href = lk + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
+    });
+  }
   function applyClub(teamId){
     clubTeamId = teamId;
-    // 事前にhrefも差し替え（クリック前でもStripeに向く）
-    btns.forEach(function(a){
-      var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
-      if(plan==='free'){ a.style.display='none'; return; }
-      if(STRIPE[plan]){ a.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(teamId); }
-    });
+    swap();
     var sec = document.getElementById('price');
     if(sec && !document.getElementById('cmp-club-bar')){
       var bar = document.createElement('div'); bar.id='cmp-club-bar';
-      bar.style.cssText = 'max-width:1080px;margin:0 auto 10px;padding:12px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;font-size:13px;font-weight:700;color:#1f8a5b;';
-      bar.textContent = '掲載中のクラブとしてログイン中です。「申し込む」からそのままお支払いに進めます（月額は初回30日無料）。';
+      bar.style.cssText = 'max-width:1080px;margin:0 auto 12px;padding:14px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;';
+      bar.innerHTML =
+        '<div style="font-size:13px;font-weight:700;color:#1f8a5b;margin-bottom:10px;">掲載中のクラブとしてログイン中です。下のプランからそのままお申し込みいただけます。</div>'
+        + '<div style="font-size:11.5px;color:#8a93a0;margin-bottom:6px;">お支払い周期を選ぶ</div>'
+        + '<div style="display:inline-flex;background:#fff;border:1px solid #cfe0d6;border-radius:999px;padding:3px;gap:2px;">'
+        + '<button type="button" id="cmp-iv-m" style="border:none;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">月額</button>'
+        + '<button type="button" id="cmp-iv-y" style="border:none;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">年額（2ヶ月分お得）</button>'
+        + '</div>';
       sec.insertBefore(bar, sec.firstChild);
+      var mb = document.getElementById('cmp-iv-m'), yb = document.getElementById('cmp-iv-y');
+      function paint(){
+        mb.style.background = interval==='m' ? '#1f8a5b' : 'transparent'; mb.style.color = interval==='m' ? '#fff' : '#1f8a5b';
+        yb.style.background = interval==='y' ? '#1f8a5b' : 'transparent'; yb.style.color = interval==='y' ? '#fff' : '#1f8a5b';
+      }
+      mb.addEventListener('click', function(){ interval='m'; swap(); paint(); });
+      yb.addEventListener('click', function(){ interval='y'; swap(); paint(); });
+      paint();
     }
   }
   function checkTeam(uid){
@@ -318,7 +342,6 @@
       var t = res.data && res.data[0]; if(t) applyClub(t.id);
     }).catch(function(){});
   }
-  // ローカルセッションから判定（ネットワーク検証に依存せず確実に）
   db.auth.getSession().then(function(res){
     var s = res && res.data && res.data.session;
     var uid = s && s.user && s.user.id;
