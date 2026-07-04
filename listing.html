@@ -277,31 +277,53 @@
 <script src="supabase-lite.js"></script>
 <script src="shared.js"></script>
 <script>
-// ログイン中のクラブ（掲載チームを持つ）が見ている場合、料金の申込ボタンを
-// Stripe決済（client_reference_id付き）に差し替える。それ以外は新規登録(register)のまま。
+// ログイン中のクラブ（掲載チームを持つ）が「申し込む」を押したら、その場でStripe決済へ。
+// 未ログイン／一般ユーザーは従来通り新規登録(register)へ。
 (function(){
   var A = window.ChibiAuth;
   if(!A || !A.ready()) return;
+  var db = A.client(); if(!db) return;
   var STRIPE = { pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus':'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004' };
-  A.getUser().then(function(u){
-    if(!u) return;
-    A.client().from('teams').select('id').eq('user_id', u.id).limit(1).then(function(res){
-      var t = res.data && res.data[0];
-      if(!t) return; // 一般ユーザー・チーム無し → 新規登録導線のまま
-      // 既存クラブ向けの案内バーを料金セクション先頭に表示
-      var sec = document.getElementById('price');
-      if(sec){
-        var bar = document.createElement('div');
-        bar.style.cssText = 'max-width:1080px;margin:0 auto 6px;padding:12px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;font-size:13px;font-weight:700;color:#1f8a5b;';
-        bar.textContent = '掲載中のクラブとしてログイン中です。下のプランからそのままお申し込みいただけます（月額は初回30日無料）。';
-        sec.insertBefore(bar, sec.firstChild);
-      }
-      document.querySelectorAll('a[href^="register.html?plan="]').forEach(function(a){
-        var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
-        if(plan==='free'){ a.style.display='none'; return; } // 既に無料掲載中
-        if(STRIPE[plan]){ a.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(t.id); }
-      });
+  var clubTeamId = null;
+
+  // 申込ボタンにクリック時判定を仕込む（クリック時点でログイン中クラブならStripeへ）
+  var btns = [].slice.call(document.querySelectorAll('a[href^="register.html?plan="]'));
+  btns.forEach(function(a){
+    a.addEventListener('click', function(e){
+      if(!clubTeamId) return; // 未ログイン/一般 → register(既定の遷移)のまま
+      var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
+      if(plan==='free'){ e.preventDefault(); location.href='club-mypage.html'; return; }
+      if(STRIPE[plan]){ e.preventDefault(); location.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(clubTeamId); }
+    });
+  });
+
+  function applyClub(teamId){
+    clubTeamId = teamId;
+    // 事前にhrefも差し替え（クリック前でもStripeに向く）
+    btns.forEach(function(a){
+      var m = a.getAttribute('href').match(/plan=([a-z-]+)/); var plan = m && m[1];
+      if(plan==='free'){ a.style.display='none'; return; }
+      if(STRIPE[plan]){ a.href = STRIPE[plan] + '?client_reference_id=' + encodeURIComponent(teamId); }
+    });
+    var sec = document.getElementById('price');
+    if(sec && !document.getElementById('cmp-club-bar')){
+      var bar = document.createElement('div'); bar.id='cmp-club-bar';
+      bar.style.cssText = 'max-width:1080px;margin:0 auto 10px;padding:12px 16px;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;text-align:center;font-size:13px;font-weight:700;color:#1f8a5b;';
+      bar.textContent = '掲載中のクラブとしてログイン中です。「申し込む」からそのままお支払いに進めます（月額は初回30日無料）。';
+      sec.insertBefore(bar, sec.firstChild);
+    }
+  }
+  function checkTeam(uid){
+    db.from('teams').select('id').eq('user_id', uid).limit(1).then(function(res){
+      var t = res.data && res.data[0]; if(t) applyClub(t.id);
     }).catch(function(){});
+  }
+  // ローカルセッションから判定（ネットワーク検証に依存せず確実に）
+  db.auth.getSession().then(function(res){
+    var s = res && res.data && res.data.session;
+    var uid = s && s.user && s.user.id;
+    if(uid){ checkTeam(uid); return; }
+    if(s && s.access_token){ db.auth.getUser().then(function(r2){ var u = r2.data && r2.data.user; if(u && u.id) checkTeam(u.id); }).catch(function(){}); }
   }).catch(function(){});
 })();
 </script>
