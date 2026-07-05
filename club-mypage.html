@@ -403,7 +403,27 @@
     $('mp-plan-sub').textContent = (ep!=='free' && t.plan_expires_at) ? ('有効期限：'+new Date(t.plan_expires_at).toLocaleDateString('ja-JP')) : '';
     var up=$('mp-upgrade');
     if(ep!=='free'){ up.style.display='none'; } else { up.style.display=''; up.href='#mp-upsell'; }
-    var po=$('mp-portal'); if(po){ if(ep!=='free'){ po.style.display=''; po.href=PORTAL_URL; } else { po.style.display='none'; } }
+    var po=$('mp-portal');
+    if(po){
+      if(ep!=='free'){
+        po.style.display='';
+        po.onclick=function(e){
+          e.preventDefault();
+          if(po.dataset.busy==='1') return; po.dataset.busy='1';
+          var label=po.textContent; po.textContent='読み込み中…';
+          db.auth.getSession().then(function(res){
+            var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
+            if(!tok){ alert('ログインが必要です。'); po.textContent=label; po.dataset.busy=''; return; }
+            fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/create-portal-session',{
+              method:'POST', headers:{ 'Authorization':'Bearer '+tok, 'Content-Type':'application/json' }
+            }).then(function(r){ return r.json(); }).then(function(d){
+              if(d && d.url){ location.href=d.url; }
+              else { alert((d && d.message) || 'プラン管理ページを開けませんでした。'); po.textContent=label; po.dataset.busy=''; }
+            }).catch(function(){ alert('通信エラーが発生しました。'); po.textContent=label; po.dataset.busy=''; });
+          });
+        };
+      } else { po.style.display='none'; }
+    }
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
     // アップセルの4ボタンを配線（フリー会員が新規サブスク作成。既存有料のプラン変更は顧客ポータルから＝二重課金防止）
     var wireUp=function(id,key){ var a=$(id); if(a){ if(STRIPE_LINKS[key] && STRIPE_LINKS[key]!=='#'){ a.style.display='inline-block'; a.href=upgradeUrl(key); } else { a.style.display='none'; } } };
