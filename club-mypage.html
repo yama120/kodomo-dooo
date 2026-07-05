@@ -359,6 +359,8 @@
         manageCurrent=d.current;
         var cp=MANAGE_PLANS.filter(function(x){return x.key===d.current;})[0]||{};
         manageCanceling=!!d.cancel_at_period_end;
+        // Stripeの実データで取得した期間終了日(+3日猶予)をヘッダーの有効期限にも反映（自己修復・DB値と一致）
+        if(d.period_end){ var pe=mQ('mp-plan-sub'); if(pe) pe.textContent='有効期限：'+new Date(d.period_end*1000+3*86400000).toLocaleDateString('ja-JP'); }
         mQ('mp-manage-cur').innerHTML='現在のプラン：<strong>'+((cp.name||'不明')+' '+(cp.price||''))+'</strong>'+(d.cancel_at_period_end?' <span style="color:#c0314b;font-weight:800;">（期間終了時に解約予定）</span>':'');
       } else { mQ('mp-manage-cur').textContent=(d&&d.message)||'プラン情報を取得できませんでした。'; }
       updateCancelBtn();
