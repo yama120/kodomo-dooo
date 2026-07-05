@@ -133,7 +133,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         <span class="cd-fav-label" data-fav-label="plain">お気に入り</span>
       </button>
 
-      <button style="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.28);" style-hover="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.34);">体験申込をする（無料）</button>
+      <button id="cd-trial-open-top" style="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.28);" style-hover="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.34);">体験申込をする（無料）</button>
 
       <div style="display:flex;margin-top:16px;border:1px solid #e5e8ec;border-radius:12px;overflow:hidden;">
         <a id="cd-hp" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 0;font-size:15px;font-weight:700;color:#2b3340;text-decoration:none;cursor:pointer;">
@@ -709,16 +709,19 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   (function(){
     var TEAM_ID = id;
     var modal=document.getElementById('cd-trial-modal');
-    var openBtn=document.getElementById('cd-trial-open');
-    if(!modal||!openBtn) return;
+    // 上（ヒーロー右）と下、両方の体験申込ボタンを配線
+    var openBtns=[document.getElementById('cd-trial-open'),document.getElementById('cd-trial-open-top')].filter(Boolean);
+    if(!modal||!openBtns.length) return;
     if(!TEAM_ID){ return; } // 静的デモでは何もしない
     var exp='';
     function el(x){ return document.getElementById(x); }
     function show(o){ modal.style.display=o?'flex':'none'; if(o){ el('cd-trial-form').style.display='block'; el('cd-trial-done').style.display='none'; } }
-    openBtn.addEventListener('click',function(){
-      var nm=document.getElementById('cd-name'); var teamName=nm?nm.textContent.trim():'';
-      el('cd-trial-team').textContent = teamName ? teamName+' への体験申込みです。' : '';
-      show(true);
+    openBtns.forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var nm=document.getElementById('cd-name'); var teamName=nm?nm.textContent.trim():'';
+        el('cd-trial-team').textContent = teamName ? teamName+' への体験申込みです。' : '';
+        show(true);
+      });
     });
     el('cd-trial-close').addEventListener('click',function(){ show(false); });
     el('cd-trial-done-close').addEventListener('click',function(){ show(false); });
