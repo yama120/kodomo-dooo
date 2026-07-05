@@ -304,8 +304,19 @@
     {key:'pro_m', name:'プロ', price:'月額 ¥10,000', desc:'最上位固定・トップ露出・公式SNS月1回・写真15枚'},
     {key:'pro_y', name:'プロ', price:'年額 ¥100,000', desc:'内容は月額と同じ。2ヶ月分お得'}
   ];
-  var manageCurrent=null, manageBusy=false;
+  var manageCurrent=null, manageBusy=false, manageCanceling=false;
   function mQ(id){ return document.getElementById(id); }
+  // 解約予約の有無に応じて解約ボタンの見た目・文言を切り替える
+  function updateCancelBtn(){
+    var cb=mQ('mp-cancel-btn'); if(!cb) return;
+    if(manageCanceling){
+      cb.textContent='解約を取り消す';
+      cb.style.borderColor='#bfe3cd'; cb.style.color='#1f8a5b';
+    } else {
+      cb.textContent='このプランを解約する';
+      cb.style.borderColor='#f1c6cf'; cb.style.color='#c0314b';
+    }
+  }
   function manageApi(payload){
     return db.auth.getSession().then(function(res){
       var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
@@ -347,8 +358,10 @@
       if(d&&d.ok){
         manageCurrent=d.current;
         var cp=MANAGE_PLANS.filter(function(x){return x.key===d.current;})[0]||{};
+        manageCanceling=!!d.cancel_at_period_end;
         mQ('mp-manage-cur').innerHTML='現在のプラン：<strong>'+((cp.name||'不明')+' '+(cp.price||''))+'</strong>'+(d.cancel_at_period_end?' <span style="color:#c0314b;font-weight:800;">（期間終了時に解約予定）</span>':'');
       } else { mQ('mp-manage-cur').textContent=(d&&d.message)||'プラン情報を取得できませんでした。'; }
+      updateCancelBtn();
       renderPlanOpts();
     }).catch(function(){ mQ('mp-manage-cur').textContent='通信エラーが発生しました。'; });
   }
@@ -357,13 +370,25 @@
     if(cb && !cb.dataset.wired){ cb.dataset.wired='1';
       cb.addEventListener('click',function(){
         if(manageBusy) return;
-        if(!confirm('本当に解約しますか？\n支払い済みの期間の終わりまではご利用いただけます。')) return;
-        manageBusy=true; var t=cb.textContent; cb.textContent='処理中…';
-        manageApi({action:'cancel'}).then(function(d){
-          manageBusy=false; cb.textContent=t;
-          if(d&&d.ok){ manageMsg(true,d.message||'解約を受け付けました。'); openManage(); }
-          else { manageMsg(false,(d&&d.message)||'解約に失敗しました。'); }
-        }).catch(function(){ manageBusy=false; cb.textContent=t; manageMsg(false,'通信エラーが発生しました。'); });
+        if(manageCanceling){
+          // 解約予約の取り消し（再開）
+          if(!confirm('解約の予約を取り消しますか？\nこれまで通り継続してご利用いただけます。')) return;
+          manageBusy=true; cb.textContent='処理中…';
+          manageApi({action:'reactivate'}).then(function(d){
+            manageBusy=false;
+            if(d&&d.ok){ manageMsg(true,d.message||'解約を取り消しました。'); openManage(); }
+            else { updateCancelBtn(); manageMsg(false,(d&&d.message)||'取り消しに失敗しました。'); }
+          }).catch(function(){ manageBusy=false; updateCancelBtn(); manageMsg(false,'通信エラーが発生しました。'); });
+        } else {
+          // 解約（期間終了時）
+          if(!confirm('本当に解約しますか？\n支払い済みの期間の終わりまではご利用いただけます。')) return;
+          manageBusy=true; cb.textContent='処理中…';
+          manageApi({action:'cancel'}).then(function(d){
+            manageBusy=false;
+            if(d&&d.ok){ manageMsg(true,d.message||'解約を受け付けました。'); openManage(); }
+            else { updateCancelBtn(); manageMsg(false,(d&&d.message)||'解約に失敗しました。'); }
+          }).catch(function(){ manageBusy=false; updateCancelBtn(); manageMsg(false,'通信エラーが発生しました。'); });
+        }
       });
     }
     var cl=mQ('mp-manage-close');
