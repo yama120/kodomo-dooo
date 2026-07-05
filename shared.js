@@ -163,9 +163,9 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8455f" stroke-width="1.8"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">お気に入り</span>
         </a>
-        <a href="#" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">閲覧履歴</span>
+        <a href="faq.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.9"/><circle cx="12" cy="16.6" r=".6" fill="#b04ae8"/></svg>
+          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">よくある質問</span>
         </a>
         <a href="search.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
@@ -245,7 +245,7 @@
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">サポート</div>
-          <a href="#" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">よくある質問</a>
+          <a href="faq.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">よくある質問</a>
           <a href="contact.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">お問い合わせ</a>
           <a href="legal.html#terms" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">利用規約</a>
           <a href="legal.html#privacy" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">プライバシーポリシー</a>
@@ -258,11 +258,13 @@
         </div>
       </div>
 
+      <!-- SNSアイコン：公式アカウントのURL確定後に復活（href="#"のリンク切れを防ぐため一旦非表示）
       <div style="flex: 0 0 auto; display: flex; gap: 12px;">
         <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #2b2b2b; color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; text-decoration: none;">IG</a>
         <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #2b2b2b; color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; text-decoration: none;">X</a>
         <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1f8a5b; color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; text-decoration: none;">LINE</a>
       </div>
+      -->
     </div>
     <div style="text-align: center; font-size: 11px; color: #999999; margin-top: 40px; font-weight: 500;">© 2026 Chibispo All Rights Reserved.</div>
   </footer>`;
