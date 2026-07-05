@@ -545,6 +545,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   db.from('teams').select('*').eq('id',id).eq('status','approved').single().then(function(res){
     if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); if(window._cdVeilOff) window._cdVeilOff(); return; }
     var t=res.data;
+    window._cdTeam = t; // 体験申込の通知メールで参照
     // お気に入り保存用データを実データで更新（マイページ表示用）
     if(window._cdFavSync) window._cdFavSync(t);
 
@@ -754,6 +755,22 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         el('tr-submit').disabled=false; el('tr-submit').textContent='この内容で申し込む';
         if(res.error){ fail('送信に失敗しました。時間をおいて再度お試しください。'); return; }
         el('cd-trial-form').style.display='none'; el('cd-trial-done').style.display='block';
+        // 通知メール（クラブ・保護者・管理者）— 旧サイトと同じ send-trial-notify を呼ぶ
+        try{
+          var tm = window._cdTeam || {};
+          var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+          fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-trial-notify',{
+            method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON,'apikey':ANON},
+            body:JSON.stringify({
+              type:'trial',
+              team_name: tm.name||'', team_email: tm.email||null, team_instagram: tm.instagram||null,
+              sport: tm.sport||'', pref: tm.pref||'', city: tm.city||'',
+              parent_name: name, parent_email: email,
+              child_name: null, child_name_kana: null, child_age: null, child_grade: grade,
+              message: el('tr-msg').value.trim()||null
+            })
+          }).catch(function(err){ console.warn('通知メール送信失敗:',err); });
+        }catch(_){}
       });
     });
   })();
