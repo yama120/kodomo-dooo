@@ -74,7 +74,25 @@
         <div id="mp-plan-sub" style="font-size:11.5px;color:#9aa3ad;margin-top:2px;"></div>
       </div>
       <a id="mp-upgrade" href="#" style="background:#e8455f;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:11px 20px;border-radius:999px;">有料プランにアップグレード</a>
-      <a id="mp-portal" href="#" target="_blank" rel="noopener" style="display:none;background:#fff;border:1.5px solid #d7dbe0;color:#3b4654;font-size:13px;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:999px;">プランの変更・解約</a>
+      <a id="mp-portal" href="#" style="display:none;background:#fff;border:1.5px solid #d7dbe0;color:#3b4654;font-size:13px;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:999px;">プランの変更・解約</a>
+    </div>
+
+    <!-- ネイティブ プラン管理（有料クラブが「プランの変更・解約」を押すと開く） -->
+    <div id="mp-manage" class="mp-card" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;">
+        <h2 style="margin:0;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">プランの管理</h2>
+        <button id="mp-manage-close" type="button" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">閉じる</button>
+      </div>
+      <div id="mp-manage-cur" style="font-size:13px;color:#54606e;margin-bottom:14px;">読み込み中…</div>
+      <div id="mp-manage-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:14px;"></div>
+
+      <div style="font-size:12px;font-weight:800;color:#8a93a0;margin-bottom:8px;">プランを変更する</div>
+      <div id="mp-plan-opts" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+      <div style="border-top:1px solid #eef0f2;margin-top:18px;padding-top:16px;">
+        <button id="mp-cancel-btn" type="button" style="background:#fff;border:1.5px solid #f1c6cf;color:#c0314b;font-size:13px;font-weight:800;border-radius:999px;padding:10px 22px;cursor:pointer;font-family:inherit;">このプランを解約する</button>
+        <p style="margin:9px 0 0;font-size:11.5px;color:#9aa3ad;line-height:1.7;">解約しても、支払い済みの期間の終わりまではご利用いただけます（その後フリープランに戻ります）。</p>
+      </div>
     </div>
 
     <!-- 体験申込み -->
@@ -277,6 +295,80 @@
 (function(){
   if(!window.supabase) return;
   var db=supabase.createClient('https://emkpkomrgknzrmxqbrvx.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
+
+  // ===== ネイティブ プラン管理（変更・解約をチビスポ内で完結） =====
+  var MANAGE_URL='https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/manage-subscription';
+  var MANAGE_PLANS=[
+    {key:'std_m', name:'スタンダード', price:'月額 ¥3,000', desc:'上位表示・注目枠・写真7枚・アクセスレポート'},
+    {key:'std_y', name:'スタンダード', price:'年額 ¥30,000', desc:'内容は月額と同じ。2ヶ月分お得'},
+    {key:'pro_m', name:'プロ', price:'月額 ¥10,000', desc:'最上位固定・トップ露出・公式SNS月1回・写真15枚'},
+    {key:'pro_y', name:'プロ', price:'年額 ¥100,000', desc:'内容は月額と同じ。2ヶ月分お得'}
+  ];
+  var manageCurrent=null, manageBusy=false;
+  function mQ(id){ return document.getElementById(id); }
+  function manageApi(payload){
+    return db.auth.getSession().then(function(res){
+      var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
+      if(!tok) return Promise.reject('no_token');
+      return fetch(MANAGE_URL,{method:'POST',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();});
+    });
+  }
+  function manageMsg(ok,text){ var m=mQ('mp-manage-msg'); if(!m)return; m.style.display='block'; m.style.background=ok?'#eafaf0':'#fdecee'; m.style.color=ok?'#1f8a5b':'#c0314b'; m.textContent=text; }
+  function renderPlanOpts(){
+    var host=mQ('mp-plan-opts'); if(!host) return;
+    host.innerHTML=MANAGE_PLANS.map(function(p){
+      var cur=(manageCurrent===p.key);
+      return '<div style="border:1.5px solid '+(cur?'#1f8a5b':'#e6e9ed')+';border-radius:12px;padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;'+(cur?'background:#f3fbf6;':'')+'">'
+        +'<div style="min-width:0;"><div style="font-size:13.5px;font-weight:900;color:#28323f;">'+p.name+' <span style="font-weight:700;color:#1f8a5b;">'+p.price+'</span></div><div style="font-size:11.5px;color:#8a93a0;line-height:1.5;margin-top:2px;">'+p.desc+'</div></div>'
+        +(cur?'<span style="flex:0 0 auto;font-size:12px;font-weight:800;color:#1f8a5b;">利用中</span>'
+             :'<button type="button" class="mp-switch-btn" data-plan="'+p.key+'" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;">変更</button>')
+        +'</div>';
+    }).join('');
+    host.querySelectorAll('.mp-switch-btn').forEach(function(b){ b.addEventListener('click',function(){ doSwitch(b.getAttribute('data-plan'), b); }); });
+  }
+  function doSwitch(planKey, btn){
+    if(manageBusy) return;
+    var p=MANAGE_PLANS.filter(function(x){return x.key===planKey;})[0]; if(!p) return;
+    if(!confirm(p.name+'（'+p.price+'）に変更します。よろしいですか？\n差額は日割りで調整されます。')) return;
+    manageBusy=true; var t=btn.textContent; btn.textContent='変更中…';
+    manageApi({action:'switch',plan:planKey}).then(function(d){
+      manageBusy=false; btn.textContent=t;
+      if(d&&d.ok){ manageMsg(true,d.message||'変更しました。'); openManage(); }
+      else { manageMsg(false,(d&&d.message)||'変更に失敗しました。'); }
+    }).catch(function(){ manageBusy=false; btn.textContent=t; manageMsg(false,'通信エラーが発生しました。'); });
+  }
+  function openManage(){
+    var sec=mQ('mp-manage'); if(!sec) return;
+    sec.style.display='block';
+    mQ('mp-manage-cur').textContent='読み込み中…';
+    mQ('mp-manage-msg').style.display='none';
+    sec.scrollIntoView({behavior:'smooth',block:'start'});
+    manageApi({action:'status'}).then(function(d){
+      if(d&&d.ok){
+        manageCurrent=d.current;
+        var cp=MANAGE_PLANS.filter(function(x){return x.key===d.current;})[0]||{};
+        mQ('mp-manage-cur').innerHTML='現在のプラン：<strong>'+((cp.name||'不明')+' '+(cp.price||''))+'</strong>'+(d.cancel_at_period_end?' <span style="color:#c0314b;font-weight:800;">（期間終了時に解約予定）</span>':'');
+      } else { mQ('mp-manage-cur').textContent=(d&&d.message)||'プラン情報を取得できませんでした。'; }
+      renderPlanOpts();
+    }).catch(function(){ mQ('mp-manage-cur').textContent='通信エラーが発生しました。'; });
+  }
+  function setupManage(){
+    var cb=mQ('mp-cancel-btn');
+    if(cb && !cb.dataset.wired){ cb.dataset.wired='1';
+      cb.addEventListener('click',function(){
+        if(manageBusy) return;
+        if(!confirm('本当に解約しますか？\n支払い済みの期間の終わりまではご利用いただけます。')) return;
+        manageBusy=true; var t=cb.textContent; cb.textContent='処理中…';
+        manageApi({action:'cancel'}).then(function(d){
+          manageBusy=false; cb.textContent=t;
+          if(d&&d.ok){ manageMsg(true,d.message||'解約を受け付けました。'); openManage(); }
+          else { manageMsg(false,(d&&d.message)||'解約に失敗しました。'); }
+        }).catch(function(){ manageBusy=false; cb.textContent=t; manageMsg(false,'通信エラーが発生しました。'); });
+      });
+    }
+    var cl=mQ('mp-manage-close');
+    if(cl && !cl.dataset.wired){ cl.dataset.wired='1'; cl.addEventListener('click',function(){ mQ('mp-manage').style.display='none'; }); }
+  }
   var STRIPE_LINKS={ monthly:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', annual:'https://buy.stripe.com/7sY8wP1Ct2dKbR0eDr00001', proMonthly:'https://buy.stripe.com/5kQ5kDftj2dK4oy8f300004', proAnnual:'https://buy.stripe.com/14AbJ1bd3aKg1cm1QF00005', feature:'https://buy.stripe.com/5kQ7sLftj5pWdZ8brf00006' };
   var PORTAL_URL='https://billing.stripe.com/p/login/cNi00j5SJ2dK6wG66V00000'; // Stripe顧客ポータル（プラン変更・解約・カード更新）
   // アップグレード先URL：Payment Linkが設定されていれば client_reference_id にチームIDを付けてStripeへ。未設定ならプラン説明ページへ。
@@ -405,25 +497,10 @@
     if(ep!=='free'){ up.style.display='none'; } else { up.style.display=''; up.href='#mp-upsell'; }
     var po=$('mp-portal');
     if(po){
-      if(ep!=='free'){
-        po.style.display='';
-        po.onclick=function(e){
-          e.preventDefault();
-          if(po.dataset.busy==='1') return; po.dataset.busy='1';
-          var label=po.textContent; po.textContent='読み込み中…';
-          db.auth.getSession().then(function(res){
-            var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
-            if(!tok){ alert('ログインが必要です。'); po.textContent=label; po.dataset.busy=''; return; }
-            fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/create-portal-session',{
-              method:'POST', headers:{ 'Authorization':'Bearer '+tok, 'Content-Type':'application/json' }
-            }).then(function(r){ return r.json(); }).then(function(d){
-              if(d && d.url){ location.href=d.url; }
-              else { alert((d && d.message) || 'プラン管理ページを開けませんでした。'); po.textContent=label; po.dataset.busy=''; }
-            }).catch(function(){ alert('通信エラーが発生しました。'); po.textContent=label; po.dataset.busy=''; });
-          });
-        };
-      } else { po.style.display='none'; }
+      if(ep!=='free'){ po.style.display=''; po.onclick=function(e){ e.preventDefault(); openManage(); }; }
+      else { po.style.display='none'; }
     }
+    setupManage();
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
     // アップセルの4ボタンを配線（フリー会員が新規サブスク作成。既存有料のプラン変更は顧客ポータルから＝二重課金防止）
     var wireUp=function(id,key){ var a=$(id); if(a){ if(STRIPE_LINKS[key] && STRIPE_LINKS[key]!=='#'){ a.style.display='inline-block'; a.href=upgradeUrl(key); } else { a.style.display='none'; } } };
