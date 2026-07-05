@@ -520,6 +520,21 @@
     var label={free:'フリー',pr:'スタンダード','pr-plus':'プロ',feature:'特集・取材記事'}[ep]||'フリー';
     $('mp-plan-name').textContent=label;
     $('mp-plan-sub').textContent = (ep!=='free' && t.plan_expires_at) ? ('有効期限：'+new Date(t.plan_expires_at).toLocaleDateString('ja-JP')) : '';
+    // 有料プランは、解約予約中か自動更新中かをStripe実データで判定して表示を補正
+    if(ep!=='free'){
+      manageApi({action:'status'}).then(function(d){
+        if(!d||!d.ok) return;
+        var sub=$('mp-plan-sub'); if(!sub) return;
+        var endStr = d.period_end ? new Date(d.period_end*1000+3*86400000).toLocaleDateString('ja-JP')
+                   : (t.plan_expires_at?new Date(t.plan_expires_at).toLocaleDateString('ja-JP'):'');
+        if(!endStr) return;
+        if(d.cancel_at_period_end){
+          sub.innerHTML='<span style="color:#c0314b;font-weight:800;">'+endStr+' まで有効</span>（以降フリープランに戻ります）';
+        } else {
+          sub.textContent='有効期限：'+endStr+'（自動更新）';
+        }
+      }).catch(function(){});
+    }
     var up=$('mp-upgrade');
     if(ep!=='free'){ up.style.display='none'; } else { up.style.display=''; up.href='#mp-upsell'; }
     var po=$('mp-portal');
