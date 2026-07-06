@@ -909,6 +909,8 @@
       db.from('teams').delete().eq('id',team.id).then(function(res){
         $('mp-delete').disabled=false; $('mp-delete').textContent='このクラブの掲載を削除する';
         if(res.error){ msg($('del-msg'),false,'削除に失敗しました：'+(res.error.message||'')+'（権限設定が必要な場合があります）'); return; }
+        // return=representation で削除行が返る。空＝0件削除＝実際は消えていない（RLSのDELETEポリシー不足）
+        if(Array.isArray(res.data) && res.data.length===0){ msg($('del-msg'),false,'削除できませんでした。お手数ですが info@chibispo.com までご連絡ください（運営で対応します）。'); return; }
         msg($('del-msg'),true,'掲載を削除しました。ご利用ありがとうございました。');
         db.auth.signOut().then(function(){ team=null; setTimeout(function(){ showLogin(); window.scrollTo({top:0,behavior:'smooth'}); },1200); });
       });
