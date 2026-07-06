@@ -66,6 +66,16 @@
   <!-- ダッシュボード（ログイン後） -->
   <div id="mp-dash" style="display:none;">
 
+    <!-- チーム切替＋追加（1アカウントで複数チームを持つ場合） -->
+    <div id="mp-team-bar" class="mp-card" style="display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;">
+        <span style="font-size:12px;font-weight:700;color:#8a93a0;">編集中のチーム</span>
+        <select id="mp-team-select" style="display:none;font-family:inherit;font-size:14px;font-weight:800;color:#1f2a37;border:1.5px solid #d7dbe0;border-radius:10px;padding:9px 12px;background:#fff;min-width:200px;max-width:100%;"></select>
+        <span id="mp-team-single" style="font-size:14px;font-weight:800;color:#1f2a37;"></span>
+      </div>
+      <a id="mp-team-add" href="register.html?add=true" style="background:#fff;border:1.5px solid #1f8a5b;color:#1f8a5b;font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;">＋ 別のチームを追加</a>
+    </div>
+
     <!-- プラン -->
     <div id="mp-plan" class="mp-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
       <div>
@@ -318,6 +328,8 @@
     }
   }
   function manageApi(payload){
+    // 選択中チームのサブスクを対象にする（複数の有料チームを取り違えない）
+    if(payload && !payload.team_id && currentTeamId){ payload.team_id=currentTeamId; }
     return db.auth.getSession().then(function(res){
       var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
       if(!tok) return Promise.reject('no_token');
@@ -670,6 +682,31 @@
     if(path){ db.storage.from('team-photos').remove([path]).then(done, done); } else { done(); }
   }
 
+  var myTeams=[], currentTeamId=null;
+  // 複数チームを持つアカウント用：切替バーの描画
+  function renderTeamBar(){
+    var bar=$('mp-team-bar'); if(!bar) return;
+    var sel=$('mp-team-select'), single=$('mp-team-single');
+    bar.style.display='flex';
+    if(myTeams.length>1){
+      single.style.display='none'; sel.style.display='';
+      sel.innerHTML=myTeams.map(function(t){ return '<option value="'+t.id+'">'+(t.name?String(t.name).replace(/</g,'&lt;'):'（名称未設定）')+'</option>'; }).join('');
+      if(currentTeamId) sel.value=currentTeamId;
+      if(!sel.dataset.wired){ sel.dataset.wired='1'; sel.addEventListener('change',function(){ selectTeam(sel.value); }); }
+    } else {
+      sel.style.display='none'; single.style.display='';
+      single.textContent=(myTeams[0]&&myTeams[0].name)?myTeams[0].name:'（名称未設定）';
+    }
+  }
+  // 編集対象のチームを切り替え（team を差し替えて全機能を再描画）
+  function selectTeam(teamId){
+    var t=null; for(var i=0;i<myTeams.length;i++){ if(myTeams[i].id===teamId){ t=myTeams[i]; break; } }
+    if(!t) return;
+    currentTeamId=teamId; team=t;
+    try{ localStorage.setItem('chibi_mp_team_'+currentUserId, teamId); }catch(_){ }
+    var sel=$('mp-team-select'); if(sel && sel.style.display!=='none') sel.value=teamId;
+    fillForm(team); loadClubComments(team.id); loadTrialRequests(team.id);
+  }
   function loadTeam(userId, silent){
     currentUserId=userId;
     db.from('teams').select('*').eq('user_id',userId).order('created_at',{ascending:false}).then(function(res){
@@ -692,7 +729,10 @@
         });
         return;
       }
-      team=res.data[0]; fillForm(team); showDash(); loadClubComments(team.id); loadTrialRequests(team.id);
+      myTeams=res.data; showDash(); renderTeamBar();
+      var savedId=null; try{ savedId=localStorage.getItem('chibi_mp_team_'+userId); }catch(_){ }
+      var active=null; for(var i=0;i<myTeams.length;i++){ if(myTeams[i].id===savedId){ active=myTeams[i]; break; } }
+      selectTeam((active||myTeams[0]).id);
     });
   }
   // 体験申込み一覧（対応状況の更新つき）
