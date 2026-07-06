@@ -175,6 +175,12 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
 
       <!-- 教室情報パネル -->
       <div id="cd-panel-info" style="display:flex;flex-direction:column;gap:24px;">
+      <!-- 教室情報が未入力のとき表示（準備中） -->
+      <div id="cd-info-empty" style="display:none;border:1px solid #e5e8ec;border-radius:14px;padding:44px 28px;text-align:center;">
+        <div style="font-size:34px;margin-bottom:8px;">📝</div>
+        <div style="font-size:16px;font-weight:900;color:#2b3340;">教室情報は準備中です</div>
+        <div style="font-size:13px;color:#8a95a0;margin-top:8px;line-height:1.9;">詳しい紹介文やコースは近日公開予定です。<br>まずは無料体験から、お気軽にどうぞ。</div>
+      </div>
       <!-- points + intro -->
       <div id="cd-points" style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 28px;">
         <h2 id="cd-points-h" style="margin:0 0 16px;font-size:18px;font-weight:900;color:#2b3340;">おすすめポイント</h2>
@@ -295,7 +301,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
 
       <!-- CTA card -->
       <div style="border:1px solid #f3c9da;border-radius:14px;padding:22px;background:#fffafc;">
-        <div style="text-align:center;color:#ea3b7e;font-size:15px;font-weight:900;margin-bottom:14px;">まずは気軽から！</div>
+        <div style="text-align:center;color:#ea3b7e;font-size:15px;font-weight:900;margin-bottom:14px;">まずは、体験から！</div>
         <button id="cd-trial-open" style="width:100%;padding:17px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);" style-hover="width:100%;padding:17px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.32);">体験申込をする（無料）</button>
         <button class="cd-fav-toggle" style="width:100%;margin-top:11px;padding:14px 0;border:1.5px solid #d8dde2;border-radius:40px;background:#fff;color:#374151;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
           <svg class="cd-fav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="cd-fav-label" data-fav-label="suffix">お気に入りに追加</span>
@@ -703,6 +709,10 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       var cs=document.getElementById('cd-course'); if(cs) cs.style.display='none';
       var ct=document.getElementById('cd-tab-course'); if(ct) ct.style.display='none';
     }
+
+    // 教室情報が全て未入力なら「準備中」を表示（左パネルの空白を防ぐ）
+    var hasInfo = (t.description && String(t.description).trim()) || pts.length || courses.length || rec.length;
+    var ie=document.getElementById('cd-info-empty'); if(ie) ie.style.display=hasInfo?'none':'block';
 
     // メイン情報の描画完了 → 読み込みベールを解除
     if(window._cdVeilOff) window._cdVeilOff();
