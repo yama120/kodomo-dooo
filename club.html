@@ -745,20 +745,26 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       if(!name) return fail('保護者のお名前を入力してください。');
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('メールアドレスの形式が正しくありません。');
       el('tr-submit').disabled=true; el('tr-submit').textContent='送信中...';
-      db.from('trial_requests').insert({
-        team_id:TEAM_ID, child_grade:grade, experience_level:exp||null,
-        preferred_date_1:el('tr-date1').value.trim()||null,
-        preferred_date_2:el('tr-date2').value.trim()||null,
-        parent_name:name, parent_email:email,
-        message:el('tr-msg').value.trim()||null
-      }).then(function(res){
+      var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+      // return=minimal＝挿入行を返さない。anonはSELECT権限が無い（他人の申込を読めない設計）ため、
+      // 行を返す(representation)とSELECTが要求され permission denied になる。minimalなら保存だけで通る。
+      fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/trial_requests',{
+        method:'POST',
+        headers:{ apikey:ANON, Authorization:'Bearer '+ANON, 'Content-Type':'application/json', Prefer:'return=minimal' },
+        body:JSON.stringify({
+          team_id:TEAM_ID, child_grade:grade, experience_level:exp||null,
+          preferred_date_1:el('tr-date1').value.trim()||null,
+          preferred_date_2:el('tr-date2').value.trim()||null,
+          parent_name:name, parent_email:email,
+          message:el('tr-msg').value.trim()||null
+        })
+      }).then(function(r){
         el('tr-submit').disabled=false; el('tr-submit').textContent='この内容で申し込む';
-        if(res.error){ fail('送信に失敗しました。時間をおいて再度お試しください。'); return; }
+        if(!r.ok){ fail('送信に失敗しました。時間をおいて再度お試しください。'); return; }
         el('cd-trial-form').style.display='none'; el('cd-trial-done').style.display='block';
         // 通知メール（クラブ・保護者・管理者）— 旧サイトと同じ send-trial-notify を呼ぶ
         try{
           var tm = window._cdTeam || {};
-          var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
           fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-trial-notify',{
             method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON,'apikey':ANON},
             body:JSON.stringify({
@@ -771,7 +777,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
             })
           }).catch(function(err){ console.warn('通知メール送信失敗:',err); });
         }catch(_){}
-      });
+      }).catch(function(){ el('tr-submit').disabled=false; el('tr-submit').textContent='この内容で申し込む'; fail('通信エラーが発生しました。時間をおいて再度お試しください。'); });
     });
   })();
 
