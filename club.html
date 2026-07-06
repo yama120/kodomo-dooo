@@ -766,7 +766,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         try{
           var tm = window._cdTeam || {};
           fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-trial-notify',{
-            method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON,'apikey':ANON},
+            method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON},
             body:JSON.stringify({
               type:'trial',
               team_name: tm.name||'', team_email: tm.email||null, team_instagram: tm.instagram||null,
