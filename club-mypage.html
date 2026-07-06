@@ -76,6 +76,17 @@
       <a id="mp-team-add" href="register.html?add=true" style="background:#fff;border:1.5px solid #1f8a5b;color:#1f8a5b;font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;">＋ 別のチームを追加</a>
     </div>
 
+    <!-- 承認待ちバナー（status が approved 以外のとき表示） -->
+    <div id="mp-pending" class="mp-card" style="display:none;background:#fff8e6;border:1.5px solid #f2d492;">
+      <div style="display:flex;gap:11px;align-items:flex-start;">
+        <span style="font-size:20px;line-height:1.2;">⏳</span>
+        <div style="min-width:0;">
+          <div style="font-size:14px;font-weight:900;color:#a9781c;">この掲載は現在【承認待ち】です</div>
+          <div style="font-size:12.5px;color:#8a7320;line-height:1.75;margin-top:4px;">運営が内容を確認したのち公開され、「クラブを探す」や地図に表示されます。<br>公開まで少々お待ちください。編集はいつでも進めていただけます。</div>
+        </div>
+      </div>
+    </div>
+
     <!-- プラン -->
     <div id="mp-plan" class="mp-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
       <div>
@@ -505,6 +516,8 @@
   $('f-course-add').onclick=function(){ if(courseList.length>=12){ alert('コースは最大12件までです'); return; } courseList.push({name:'',age:'',day:'',time:'',fee:''}); renderCourses(); };
 
   function fillForm(t){
+    // 承認待ちバナー：approved以外（pending等）は「承認待ち」を表示
+    var pend=$('mp-pending'); if(pend) pend.style.display=(t.status==='approved')?'none':'block';
     logoUrl=t.logo_url||null; logoPos=t.logo_position||'50% 50%'; renderLogo();
     $('f-name').value=t.name||''; $('f-sport').value=t.sport||'';
     $('f-pref').value=t.pref||''; $('f-city').value=t.city||'';
