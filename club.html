@@ -172,7 +172,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
           <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>チームワークと礼儀を大切にした指導方針</div>
           <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>大会出場や交流試合で実力を伸ばせる環境</div>
         </div>
-        <h2 style="margin:0 0 12px;font-size:18px;font-weight:900;color:#2b3340;">紹介文</h2>
+        <h2 id="cd-desc-title" style="margin:0 0 12px;font-size:18px;font-weight:900;color:#2b3340;">紹介文</h2>
         <p id="cd-desc" style="margin:0;font-size:14.5px;line-height:1.95;color:#4a5560;text-wrap:pretty;white-space:pre-wrap;">港北ジュニアバスケットボールクラブは、「楽しい！」を大切にしながら、バスケットボールの技術向上はもちろん、仲間との絆、感謝の気持ちやあきらめない心を育てることを目指しています。初心者から経験者まで、それぞれのレベルに合わせた指導を行っています。</p>
       </div>
 
@@ -571,7 +571,13 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       if(bc){ if(t.city){ bc.textContent=t.city; bc.href='search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.style.display='none'; var s2=document.getElementById('cd-bc-sep2'); if(s2) s2.style.display='none'; } }
     })();
     var ages=(t.age_groups||[]).join('・'); if(t.age_min) ages+=(ages?'（'+t.age_min+'〜の受入も）':t.age_min); setText('cd-age',ages||'お問い合わせください');
-    if(t.description) setText('cd-desc', String(t.description).replace(/\*\*/g,''));
+    // 紹介文：未入力なら例文を残さずセクションごと非表示
+    if(t.description && String(t.description).trim()){
+      setText('cd-desc', String(t.description).replace(/\*\*/g,''));
+    } else {
+      var dEl=document.getElementById('cd-desc'), dT=document.getElementById('cd-desc-title');
+      if(dEl) dEl.style.display='none'; if(dT) dT.style.display='none';
+    }
 
     // 特徴タグ（事実）を実データで再構築
     var tags=[]; var days=t.days||[];
@@ -633,6 +639,8 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     var ph=document.getElementById('cd-points-h'), pl=document.getElementById('cd-points-list');
     if(pts.length){ if(pl) pl.innerHTML=pts.map(function(p){return '<div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>'+esc(p)+'</div>';}).join(''); }
     else { if(ph) ph.style.display='none'; if(pl) pl.style.display='none'; }
+    // おすすめポイントも紹介文も無ければ、共通の枠（#cd-points）ごと隠す
+    if(!pts.length && !(t.description && String(t.description).trim())){ var pbox=document.getElementById('cd-points'); if(pbox) pbox.style.display='none'; }
 
     // こんなお子様におすすめ：あれば表示、無ければ枠ごと隠す（残った口コミを1カラムに）
     var rec=(Array.isArray(t.recommended_for)?t.recommended_for.filter(Boolean):[]);
