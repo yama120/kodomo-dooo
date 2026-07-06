@@ -161,18 +161,20 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   <div id="cd-tabbar" style="max-width:1120px;margin:0 auto;">
     <div style="display:flex;gap:6px;background:#eef1f4;border-radius:10px;padding:6px;">
       <div class="cd-tab" data-target="cd-panel-info" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;background:#2563eb;color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);">教室情報</div>
-      <div class="cd-tab" data-target="cd-comments-sec" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">口コミ・評価</div>
+      <div class="cd-tab" data-target="cd-panel-review" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">口コミ・評価</div>
       <div class="cd-tab" id="cd-tab-course" data-target="cd-panel-info" data-scroll="cd-course" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">コース一覧</div>
       <div class="cd-tab" data-target="cd-panel-map" style="flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;color:#54606e;">地図・アクセス</div>
     </div>
   </div>
 
   <!-- ============ MAIN GRID（教室情報パネル） ============ -->
-  <div id="cd-panel-info" style="max-width:1120px;margin:24px auto 0;display:grid;grid-template-columns:1fr 336px;gap:24px;align-items:start;">
+  <div class="cd-detail-grid" style="max-width:1120px;margin:24px auto 0;display:grid;grid-template-columns:1fr 336px;gap:24px;align-items:start;">
 
     <!-- LEFT COLUMN -->
     <div style="display:flex;flex-direction:column;gap:24px;min-width:0;">
 
+      <!-- 教室情報パネル -->
+      <div id="cd-panel-info" style="display:flex;flex-direction:column;gap:24px;">
       <!-- points + intro -->
       <div id="cd-points" style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 28px;">
         <h2 id="cd-points-h" style="margin:0 0 16px;font-size:18px;font-weight:900;color:#2b3340;">おすすめポイント</h2>
@@ -221,38 +223,10 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- RIGHT SIDEBAR -->
-    <div style="display:flex;flex-direction:column;gap:24px;">
-      <!-- info table -->
-      <div style="border:1px solid #e5e8ec;border-radius:14px;overflow:hidden;">
-        <div id="cd-info" style="display:grid;grid-template-columns:104px 1fr;font-size:13.5px;">
-          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;border-bottom:1px solid #eef1f3;">活動エリア</div>
-          <div style="padding:14px 16px;color:#3a4550;border-bottom:1px solid #eef1f3;">神奈川県 横浜市 港北区</div>
-          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;">体験</div>
-          <div style="padding:14px 16px;color:#3a4550;">無料（随時受付中）</div>
-        </div>
-      </div>
-
-      <!-- CTA card -->
-      <div style="border:1px solid #f3c9da;border-radius:14px;padding:22px;background:#fffafc;">
-        <div style="text-align:center;color:#ea3b7e;font-size:15px;font-weight:900;margin-bottom:14px;">まずは気軽から！</div>
-        <button id="cd-trial-open" style="width:100%;padding:17px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);" style-hover="width:100%;padding:17px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.32);">体験申込をする（無料）</button>
-        <button class="cd-fav-toggle" style="width:100%;margin-top:11px;padding:14px 0;border:1.5px solid #d8dde2;border-radius:40px;background:#fff;color:#374151;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-          <svg class="cd-fav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="cd-fav-label" data-fav-label="suffix">お気に入りに追加</span>
-        </button>
-        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px;">
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#2563eb;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式サイトを見る</a>
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#e1306c;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagramで見る</a>
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#06c755;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINEで問い合わせる</a>
-        </div>
-      </div>
-    </div>
-  </div>
+      </div><!-- /cd-panel-info -->
 
   <!-- ============ COMMENTS（口コミ・評価パネル・既定は非表示） ============ -->
-  <div id="cd-comments-sec" style="display:none;max-width:1120px;margin:24px auto 0;">
+  <div id="cd-panel-review" style="display:none;">
     <div style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 24px;background:#fff;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
         <span style="width:34px;height:34px;border-radius:10px;background:#eef4ff;display:flex;align-items:center;justify-content:center;flex:0 0 34px;">
@@ -288,8 +262,9 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     </div>
   </div>
 
+
   <!-- ============ 地図・アクセスパネル（既定は非表示） ============ -->
-  <div id="cd-panel-map" style="display:none;max-width:1120px;margin:24px auto 0;">
+  <div id="cd-panel-map" style="display:none;">
     <div style="border:1px solid #e5e8ec;border-radius:14px;padding:26px 28px;">
       <h2 style="margin:0 0 6px;font-size:18px;font-weight:900;color:#2b3340;">地図・アクセス</h2>
       <div id="cd-map-addr" style="font-size:14px;color:#54606e;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:7px;">
@@ -300,6 +275,37 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       <a id="cd-map-gmap" href="#" target="_blank" rel="noopener" style="display:none;margin-top:16px;align-items:center;gap:8px;font-size:14px;font-weight:800;color:#2563eb;text-decoration:none;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.9"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Googleマップで開く →
       </a>
+    </div>
+  </div>
+
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <!-- info table -->
+      <div style="border:1px solid #e5e8ec;border-radius:14px;overflow:hidden;">
+        <div id="cd-info" style="display:grid;grid-template-columns:104px 1fr;font-size:13.5px;">
+          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;border-bottom:1px solid #eef1f3;">活動エリア</div>
+          <div style="padding:14px 16px;color:#3a4550;border-bottom:1px solid #eef1f3;">神奈川県 横浜市 港北区</div>
+          <div style="background:#f5f7f9;padding:14px 16px;font-weight:700;color:#54606e;">体験</div>
+          <div style="padding:14px 16px;color:#3a4550;">無料（随時受付中）</div>
+        </div>
+      </div>
+
+      <!-- CTA card -->
+      <div style="border:1px solid #f3c9da;border-radius:14px;padding:22px;background:#fffafc;">
+        <div style="text-align:center;color:#ea3b7e;font-size:15px;font-weight:900;margin-bottom:14px;">まずは気軽から！</div>
+        <button id="cd-trial-open" style="width:100%;padding:17px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);" style-hover="width:100%;padding:17px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.32);">体験申込をする（無料）</button>
+        <button class="cd-fav-toggle" style="width:100%;margin-top:11px;padding:14px 0;border:1.5px solid #d8dde2;border-radius:40px;background:#fff;color:#374151;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg class="cd-fav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="cd-fav-label" data-fav-label="suffix">お気に入りに追加</span>
+        </button>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px;">
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#2563eb;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式サイトを見る</a>
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#e1306c;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagramで見る</a>
+          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#06c755;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINEで問い合わせる</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -483,7 +489,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   });
   // タブ：中身を切り替える本物のタブ（教室情報／口コミ／地図をパネルで出し分け）
   var TB='flex:1;text-align:center;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;transition:all .15s;', TA='background:#2563eb;color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);', TI='color:#54606e;';
-  var CD_PANELS=['cd-panel-info','cd-comments-sec','cd-panel-map'];
+  var CD_PANELS=['cd-panel-info','cd-panel-review','cd-panel-map'];
   function cdActivateTab(t){
     if(!t) return;
     // display状態（コース無しクラブでのタブ非表示）を保持したままスタイルを切替
@@ -491,7 +497,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     var dd=t.style.display; t.setAttribute('style', TB+TA); if(dd) t.style.display=dd;
     // パネル出し分け
     var target=t.dataset.target;
-    CD_PANELS.forEach(function(id){ var p=document.getElementById(id); if(p) p.style.display=(id===target)?'':'none'; });
+    CD_PANELS.forEach(function(id){ var p=document.getElementById(id); if(p) p.style.display=(id!==target)?'none':(id==='cd-panel-info'?'flex':'block'); });
     // 位置合わせ：コースはコース表へ、それ以外はタブ位置へ（下にいる時だけ上へ）
     var anchor = t.dataset.scroll ? document.getElementById(t.dataset.scroll) : document.getElementById('cd-tabbar');
     if(anchor){ var y=anchor.getBoundingClientRect().top+window.pageYOffset-84; if(t.dataset.scroll || window.pageYOffset>y+10){ window.scrollTo({ top:y, behavior:'smooth' }); } }
@@ -909,7 +915,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
 
     function boot(){ load(); setupForm();
       // カードの💬から来たとき（#comments）は口コミタブを開いてスクロール
-      if(location.hash==='#comments'){ setTimeout(function(){ var rt=document.querySelector('.cd-tab[data-target="cd-comments-sec"]'); if(rt && typeof cdActivateTab==='function') cdActivateTab(rt); var s=el('cd-comments-sec'); if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); },400); }
+      if(location.hash==='#comments'){ setTimeout(function(){ var rt=document.querySelector('.cd-tab[data-target="cd-panel-review"]'); if(rt && typeof cdActivateTab==='function') cdActivateTab(rt); var s=el('cd-panel-review'); if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); },400); }
     }
     if(window.ChibiAuth){ boot(); }
     else { var w=setInterval(function(){ if(window.ChibiAuth){ clearInterval(w); A=window.ChibiAuth; boot(); } },100); }
