@@ -18,6 +18,8 @@
   .ab-narrow{max-width:720px;margin:0 auto;padding:0 20px;}
   .ab-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
   @media (max-width:720px){ .ab-grid2{grid-template-columns:1fr;} }
+  /* Our Story本文：web/タブレットは中央（親から継承）、スマホは左寄せで読みやすく */
+  @media (max-width:720px){ .ab-story{ text-align:left; } }
 </style>
 <!-- GA4 (auto-managed by install-ga4.mjs) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -45,7 +47,7 @@
 <section class="ab-narrow" style="padding:56px 20px 10px;text-align:center;">
   <div style="font-family:'Pacifico',cursive;font-size:18px;color:#e8455f;">Our Story</div>
   <h2 style="margin:8px 0 22px;font-family:'Zen Maru Gothic',sans-serif;font-size:25px;font-weight:900;line-height:1.5;">なぜ、チビスポを<br>つくったのか</h2>
-  <p style="margin:0;font-size:15px;line-height:2.1;color:#3b4654;text-align:left;">
+  <p class="ab-story" style="margin:0;font-size:15px;line-height:2.1;color:#3b4654;">
     <span style="display:inline-block;">「うちの子に合うクラブを見つけたい」——</span><br>
     <span style="display:inline-block;">その気持ちに、</span><span style="display:inline-block;">ちゃんと寄り添える場所を作りたい。</span><br><br>
     <span style="display:inline-block;">スポーツが育てるのは、</span><span style="display:inline-block;">運動能力だけじゃありません。</span><span style="display:inline-block;">仲間との関わり、</span><span style="display:inline-block;">挑戦する心、</span><span style="display:inline-block;">うまくいかない日の悔しさ、</span><span style="display:inline-block;">できた瞬間の笑顔。</span><br><span style="display:inline-block;">そして「自分らしさ」。</span><br><br>
