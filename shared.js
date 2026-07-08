@@ -193,7 +193,7 @@
 
   /* ---------- 下部タブバー（モバイル） ---------- */
   var BOTTOMBAR = `
-  <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:78px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around;">
+  <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:78px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around; padding-bottom:12px; box-sizing:border-box;">
     <a href="search.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/></svg>
       <span style="font-size:10px; font-weight:600;">クラブを探す</span>
