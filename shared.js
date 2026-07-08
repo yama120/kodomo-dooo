@@ -49,8 +49,8 @@
       .cc-actions { display:none !important; }
       .cc-burger { display:none !important; }
       .cc-bottombar { display:flex !important; }
-      body { padding-bottom:64px; }
-      #cc-menu { bottom:64px !important; }
+      body { padding-bottom:78px; }
+      #cc-menu { bottom:78px !important; }
       header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:10px !important; }
       /* ロゴを小さめにしてサブタイトルが下に回り込まないようにする */
       .cc-logo-img { height:34px !important; }
@@ -65,7 +65,7 @@
       #cc-menu a[style*="flex-direction:column"]{ padding:12px 2px !important; }
       #cc-menu a[style*="flex-direction:column"] span{ font-size:10px !important; line-height:1.25 !important; }
       .cc-bottombar > *{ flex:1 1 0; min-width:0; padding:0 2px; }
-      .cc-bottombar span{ font-size:9.5px !important; white-space:nowrap; }
+      .cc-bottombar span{ font-size:10.5px !important; white-space:nowrap; }
       .cc-publish { padding:9px 15px !important; font-size:12.5px !important; }
     }
     /* フッター：中間幅以下はリンクを2列に */
@@ -193,7 +193,7 @@
 
   /* ---------- 下部タブバー（モバイル） ---------- */
   var BOTTOMBAR = `
-  <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:64px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around;">
+  <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:78px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around;">
     <a href="search.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/></svg>
       <span style="font-size:10px; font-weight:600;">クラブを探す</span>
