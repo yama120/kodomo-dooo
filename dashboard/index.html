@@ -1226,6 +1226,13 @@ function renderRealPosts(stats){
         const r=await fetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q),{headers:{Authorization:"Bearer "+token}});
         if(r.ok){
           const d=await r.json();
+          // GA4の有無に関係なく、ヘッダーを実クラブ名・実プランに差し替え
+          if(d&&d.club&&d.club.name){
+            const nEl=document.querySelector("header .club .name");if(nEl)nEl.textContent=d.club.name;
+            const aEl=document.querySelector("header .club .avatar");if(aEl)aEl.textContent=(d.club.name.match(/[^\s（(]/)||["●"])[0];
+            const pEl=document.querySelector("header .club .plan");
+            if(pEl&&d.club.plan){const pm={free:"フリープラン",light:"ライトプラン",standard:"スタンダードプラン",pro:"プロプラン"};pEl.textContent=pm[d.club.plan]||d.club.plan;}
+          }
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
           if(d&&d.post_stats&&d.post_stats.length)renderRealPosts(d.post_stats);
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
