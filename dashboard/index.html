@@ -1186,6 +1186,27 @@ renderChannels();renderPostTypes();renderSurvey();renderTopPosts();
  * そのクラブの実測値を読み、GA4が埋められる範囲だけを差し替える。
  * 申込・入会・投稿・アンケートはデータ源が別なのでデモのまま明示する。
  * 失敗・該当なし・パラメータ無しのときはデモ表示を維持（フォールバック）。 */
+// SNS投稿の実測（sns_post_stats）を投稿タブ最上部にカードで表示
+function renderRealPosts(stats){
+  const pane=document.getElementById("pane-post");
+  if(!pane||!stats||!stats.length||document.getElementById("real-posts"))return;
+  const nameMap={instagram:"Instagram",threads:"Threads",youtube:"YouTube",tiktok:"TikTok",x:"X"};
+  const byPlat={};
+  for(const s of stats){(byPlat[s.platform]=byPlat[s.platform]||[]).push(s);}
+  const rows=Object.entries(byPlat).map(([plat,rs])=>{
+    const total=rs.reduce((a,r)=>a+(+r.post_count||0),0);
+    const latest=rs.slice().sort((a,b)=>String(b.period_end).localeCompare(String(a.period_end)))[0];
+    return {plat:nameMap[plat]||plat,total,week:latest?(+latest.post_count||0):0,weeks:rs.length};
+  });
+  const sec=document.createElement("section");
+  sec.id="real-posts";
+  sec.innerHTML=`<div class="sec-head"><h2>SNS投稿：連携アカウントの実測</h2><span class="ai-badge">実データ</span><span class="sub">連携済みアカウントから自動取得</span></div>`+
+    `<div class="grid">`+rows.map(r=>
+      `<div class="card"><div class="label">${r.plat}（実データ）</div><div class="value">${r.total}</div><div class="sub">直近${r.weeks}週の投稿 ／ 今週 ${r.week}本</div></div>`
+    ).join("")+`</div>`;
+  pane.insertBefore(sec,pane.firstChild);
+}
+
 (async function connectRealData(){
   const q=(new URLSearchParams(location.search).get("club")||"").trim();
   if(!q)return; // 実データ指定なし＝プレビュー（デモ）のまま
@@ -1205,10 +1226,15 @@ renderChannels();renderPostTypes();renderSurvey();renderTopPosts();
         const r=await fetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q),{headers:{Authorization:"Bearer "+token}});
         if(r.ok){
           const d=await r.json();
+          // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
+          if(d&&d.post_stats&&d.post_stats.length)renderRealPosts(d.post_stats);
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
-            setDemoBar(`⚠ ${d.club&&d.club.name?d.club.name+"の":""}実データはまだ準備中です（初回の集計後に表示されます）。デモ表示を継続します。`,"warn");
+            const hasPosts=d.post_stats&&d.post_stats.length;
+            setDemoBar(hasPosts
+              ?`✅ SNS投稿は実データを表示中（投稿タブ）。ページ閲覧(GA4)は掲載ページが見られると表示されます。`
+              :`⚠ ${d.club&&d.club.name?d.club.name+"の":""}実データはまだ準備中です（初回の集計後に表示されます）。デモ表示を継続します。`,hasPosts?"ok":"warn");
             return;
           }
         }else if(r.status===402){
