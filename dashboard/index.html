@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>クラブ分析ダッシュボード（プレビュー版）| チビスポ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#f6f6f4; --surface:#ffffff; --surface-2:#f3f2ee;
+    --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --baseline:#c3c2b7; --border:#e6e5e0;
+    --brand:#f08a2e; --brand-dark:#d97822;
+    --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s4:#008300; --s5:#4a3aa7; --s6:#e34948;
+    --good:#0ca30c; --good-text:#006300; --warn:#b97f00; --critical:#d03b3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP',system-ui,sans-serif;background:var(--page);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .logo{font-family:'Zen Maru Gothic','Noto Sans JP',sans-serif}
+  h1,h2,h3{font-family:'Noto Sans JP',sans-serif;letter-spacing:.01em}
+  main{max-width:1080px;margin:0 auto;padding:0 14px 80px}
+
+  .demo-bar{background:#f2f1ed;border-bottom:1px solid var(--grid);color:var(--ink-2);font-size:.74rem;text-align:center;padding:6px 12px}
+  .demo-bar b{color:var(--brand-dark)}
+
+  header.top{max-width:1080px;margin:0 auto;padding:16px 14px 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{font-weight:900;font-size:1.1rem;color:var(--brand);white-space:nowrap}
+  .logo span{font-family:'Noto Sans JP';color:var(--ink);font-size:.82rem;font-weight:700;margin-left:8px;letter-spacing:.06em}
+  .club{display:flex;align-items:center;gap:9px;margin-left:auto}
+  .club .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#ffc07a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;flex:none}
+  .club{min-width:0}
+  .club .name{font-weight:700;font-size:.82rem;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+  .club .plan{font-size:.64rem;color:#fff;background:var(--brand);border-radius:999px;padding:1px 9px;font-weight:700}
+
+  .tabbar{position:sticky;top:0;z-index:40;background:var(--page);border-bottom:1px solid var(--grid);padding:8px 0 0}
+  .tabbar-inner{max-width:1080px;margin:0 auto;padding:0 14px;display:flex;gap:4px;align-items:flex-end}
+  .tab{appearance:none;border:0;background:transparent;font:inherit;cursor:pointer;
+    padding:10px 18px 12px;font-size:.9rem;font-weight:700;color:var(--muted);
+    border-radius:8px 8px 0 0;border-bottom:3px solid transparent;min-height:46px}
+  .tab[aria-selected="true"]{color:var(--brand-dark);background:var(--surface);border-bottom-color:var(--brand)}
+  .tab-guide{margin-left:auto;font-size:.78rem;color:var(--ink-2);text-decoration:none;padding:10px 8px;white-space:nowrap}
+  .tab-guide:hover{color:var(--brand-dark)}
+  @media(max-width:560px){.tab{padding:10px 12px;font-size:.82rem}.t-label-sub{display:none}}
+
+  .pane{display:none;padding-top:18px}
+  .pane.show{display:block}
+
+  section{margin-top:28px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .sec-head h2{font-size:.95rem;font-weight:800;display:flex;align-items:center}
+  .sec-head h2::before{content:"";display:inline-block;width:4px;height:15px;background:var(--brand);border-radius:2px;margin-right:9px}
+  .sec-head .sub{color:var(--muted);font-size:.74rem}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(11,11,11,.04)}
+
+  details.first-guide{background:#f1f1ee;border:1px solid var(--grid);border-radius:8px;margin-top:14px}
+  details.first-guide summary{cursor:pointer;list-style:none;padding:10px 16px;font-size:.8rem;font-weight:700;color:var(--ink-2)}
+  details.first-guide summary::-webkit-details-marker{display:none}
+  details.first-guide summary::before{content:"▸ "}
+  details.first-guide[open] summary::before{content:"▾ "}
+  details.first-guide .fg-body{padding:0 16px 13px;font-size:.8rem;color:var(--ink-2)}
+  details.first-guide li{margin-top:5px}
+  .hint-i{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--surface-2);color:var(--muted);font-size:.66rem;font-weight:700;cursor:help;border:1px solid var(--border);vertical-align:2px;margin-left:4px}
+
+  .seg{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px}
+  .seg button{appearance:none;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:.8rem;padding:7px 14px;border-radius:7px;cursor:pointer;min-height:34px;white-space:nowrap;flex:none}
+  .seg button[aria-pressed="true"]{background:var(--brand);color:#fff;font-weight:700}
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media(max-width:760px){.kpi-grid{grid-template-columns:1fr 1fr}}
+  .kpi{padding:14px 16px}
+  .kpi .label{color:var(--ink-2);font-size:.74rem}
+  .kpi .value{font-size:clamp(1.5rem,4.5vw,1.9rem);font-weight:900;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .kpi .value small{font-size:.85rem;font-weight:700;color:var(--ink-2)}
+  .kpi .delta{font-size:.72rem;color:var(--muted)}
+  .kpi .delta.up{color:var(--good-text)} .kpi .delta.down{color:var(--critical)}
+  .kpi svg{display:block;margin-top:6px;width:100%;height:30px}
+  .goal-mini{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin-top:9px;border:1px solid var(--border)}
+  .goal-mini i{display:block;height:100%;background:var(--brand)}
+  .goal-note{font-size:.7rem;color:var(--muted);margin-top:4px}
+
+  .rev-banner{margin-top:10px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--brand);border-radius:10px;padding:12px 18px;font-size:.84rem;display:flex;gap:8px 26px;flex-wrap:wrap;align-items:center;box-shadow:0 1px 3px rgba(11,11,11,.04)}
+  .rev-banner b{color:var(--brand-dark);font-size:1rem;font-variant-numeric:tabular-nums}
+
+  .action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:10px}
+  .action{border-left:4px solid var(--brand);background:var(--surface);border-radius:10px;padding:13px 15px;border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(11,11,11,.04)}
+  .action .tag{font-size:.66rem;font-weight:700;padding:2px 10px;border-radius:999px;color:#fff;background:var(--brand)}
+  .action.p1 .tag{background:var(--critical)} .action.p1{border-left-color:var(--critical)}
+  .action.p3 .tag{background:var(--s1)} .action.p3{border-left-color:var(--s1)}
+  .action.consult{border:1.5px dashed var(--baseline);border-left:4px solid var(--ink);background:#fffdf6}
+  .action h3{font-size:.9rem;margin-top:7px}
+  .action p{font-size:.78rem;color:var(--ink-2);margin-top:4px}
+  .action .why{color:var(--muted);font-size:.72rem;margin-top:6px}
+  .ai-badge{font-size:.66rem;font-weight:700;color:#fff;background:var(--s5);border-radius:999px;padding:3px 11px}
+
+  .fstage{display:grid;grid-template-columns:200px 1fr 165px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--grid)}
+  .fstage:last-of-type{border-bottom:0}
+  @media(max-width:720px){.fstage{grid-template-columns:1fr;gap:6px;padding:12px 0}}
+  .fs-name{font-size:.85rem;font-weight:700}
+  .fs-src{display:inline-block;font-size:.62rem;font-weight:700;border-radius:4px;padding:1px 7px;margin-left:7px;vertical-align:1px;border:1px solid}
+  .fs-src.auto{color:var(--good-text);border-color:#bfdcbf;background:#f2f8f2}
+  .fs-src.semi{color:var(--warn);border-color:#e8d5ae;background:#fbf6ea}
+  .fs-src.manual{color:var(--muted);border-color:var(--grid);background:var(--surface-2)}
+  .fs-bar{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden;border:1px solid var(--grid)}
+  .fs-bar i{display:block;height:100%;border-radius:3px}
+  .fs-num{font-size:.9rem;font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .fs-rate{font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap;margin-left:8px}
+  .fs-rate.good{color:var(--good-text);background:#eef7ee}
+  .fs-rate.bad{color:#fff;background:var(--critical)}
+  .bottleneck{margin-top:14px;border:1.5px solid var(--critical);border-radius:10px;padding:14px 16px;background:#fdf6f4}
+  .bottleneck .bn-tag{font-size:.68rem;font-weight:700;color:#fff;background:var(--critical);border-radius:999px;padding:2px 11px}
+  .bottleneck h3{font-size:.9rem;margin-top:7px}
+  .bottleneck p{font-size:.8rem;color:var(--ink-2);margin-top:4px}
+  .cta-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  .btn-svc{appearance:none;border:1px solid var(--brand);background:#fff;color:var(--brand-dark);font:inherit;font-weight:700;font-size:.78rem;padding:8px 14px;border-radius:8px;cursor:pointer}
+  .btn-svc:hover{background:#fff7ec}
+
+  #map-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #map-wrap svg{display:block;min-width:780px;width:100%;height:auto}
+  .map-col{fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em}
+  .map-note{color:var(--muted);font-size:.73rem;margin-top:8px}
+  .scroll-hint{display:none;font-size:.7rem;color:var(--muted);text-align:right;margin-top:4px}
+  @media(max-width:820px){.scroll-hint{display:block}}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:860px){.grid-2{grid-template-columns:1fr}}
+  .chart-title{font-size:.9rem;font-weight:800}
+  .chart-sub{font-size:.73rem;color:var(--muted)}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:.73rem;color:var(--ink-2)}
+  .legend i{width:10px;height:10px;border-radius:3px}
+  .ev-list{display:flex;gap:6px 16px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--grid)}
+  .ev-item{font-size:.74rem;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+  .ev-chip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#fff;border:1.5px solid var(--brand);color:var(--brand-dark);font-size:.66rem;font-weight:700;flex:none}
+  .plot{margin-top:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .plot svg{display:block;width:100%;height:auto;min-width:520px}
+  .plot.free svg{min-width:0}
+  .axis{fill:var(--muted);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .insight{margin-top:12px;background:var(--surface-2);border-radius:8px;padding:11px 14px;font-size:.79rem;color:var(--ink-2)}
+  .insight b{color:var(--ink)}
+
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px}
+  .tbl{width:100%;border-collapse:collapse;font-size:.8rem;min-width:560px}
+  .tbl th{text-align:left;color:var(--muted);font-weight:500;font-size:.7rem;padding:7px;border-bottom:1px solid var(--baseline);white-space:nowrap}
+  .tbl td{padding:9px 7px;border-bottom:1px solid var(--grid);vertical-align:middle}
+  .tbl td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+  .tbl th.n{text-align:right}
+  .chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px}
+  .kind{font-size:.66rem;color:var(--ink-2);background:var(--surface-2);padding:2px 9px;border-radius:999px;white-space:nowrap}
+  .type-chip{font-size:.68rem;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap;color:#fff}
+  .mini-bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;min-width:64px}
+  .mini-bar i{display:block;height:100%;border-radius:99px}
+  .st-ok{color:var(--good-text);font-size:.72rem;font-weight:700;white-space:nowrap}
+  .st-wait{color:var(--warn);font-size:.72rem;font-weight:700;white-space:nowrap}
+  .row-link{font-size:.72rem;color:var(--s1);cursor:pointer;text-decoration:underline;white-space:nowrap}
+
+  .btn{appearance:none;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:.85rem;padding:11px 20px;border-radius:8px;cursor:pointer;min-height:42px}
+  .btn:hover{background:var(--brand-dark)}
+  .btn.ghost{background:var(--surface);color:var(--ink-2);border:1px solid var(--border)}
+
+  .form-card label{display:block;font-size:.76rem;color:var(--ink-2);margin:13px 0 5px;font-weight:700}
+  .form-card input,.form-card select{width:100%;font:inherit;font-size:.9rem;padding:11px 12px;border:1px solid var(--baseline);border-radius:10px;background:var(--surface)}
+  .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:860px){.settings-grid{grid-template-columns:1fr}}
+  .ok-msg{font-size:.8rem;color:var(--good-text);margin-left:10px;opacity:0;transition:.3s}
+  .ok-msg.show{opacity:1}
+
+  .modal-shell{position:fixed;inset:0;background:rgba(11,11,11,.45);display:none;z-index:50;align-items:center;justify-content:center;padding:14px}
+  .modal-shell.show{display:flex}
+  .modal{background:var(--surface);border-radius:12px;max-width:520px;width:100%;padding:22px;max-height:90vh;overflow:auto}
+  .modal h3{font-size:1.05rem}
+  .modal label{display:block;font-size:.76rem;color:var(--ink-2);margin:13px 0 5px;font-weight:700}
+  .modal input,.modal select{width:100%;font:inherit;font-size:.9rem;padding:11px 12px;border:1px solid var(--baseline);border-radius:10px}
+  .kind-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:480px){.kind-grid{grid-template-columns:1fr}}
+  .kind-grid button{appearance:none;font:inherit;font-size:.8rem;padding:10px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;text-align:left}
+  .kind-grid button[aria-pressed="true"]{border-color:var(--brand);background:#fff7ec;font-weight:700}
+  .kind-grid .k-desc{display:block;font-size:.68rem;color:var(--muted);font-weight:400}
+  .result-box{margin-top:14px;background:var(--surface-2);border-radius:12px;padding:14px;display:none}
+  .result-box.show{display:block}
+  .track-url{font-family:ui-monospace,Menlo,monospace;font-size:.76rem;background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 10px;word-break:break-all;margin-top:6px}
+  .qr-flex{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .qr-flex canvas{border:1px solid var(--border);border-radius:8px;background:#fff}
+  .qr-flex .q-note{font-size:.73rem;color:var(--ink-2);flex:1;min-width:180px}
+
+  .streak{font-size:.88rem;margin-top:10px;color:var(--ink-2)}
+  .streak b{color:var(--brand-dark);font-size:1.05rem;font-variant-numeric:tabular-nums}
+  details.more{margin-top:10px}
+  details.more summary{cursor:pointer;list-style:none;font-size:.8rem;font-weight:700;color:var(--s1);padding:8px 4px}
+  details.more summary::-webkit-details-marker{display:none}
+  details.more summary::before{content:"▸ "}
+  details.more[open] summary::before{content:"▾ "}
+
+  footer{max-width:1080px;margin:40px auto 0;padding:18px 14px;border-top:1px solid var(--grid);color:var(--muted);font-size:.72rem}
+
+  #tt{position:fixed;pointer-events:none;z-index:100;display:none;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:.75rem;color:var(--ink-2);box-shadow:0 8px 30px rgba(11,11,11,.15);max-width:250px}
+  #tt .t{font-weight:700;color:var(--ink)}
+  #tt .r{display:flex;gap:8px}
+  #tt .r .v{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+<div class="demo-bar">🔍 <b>プレビュー版</b>：架空クラブ「サンプルFC」のデモデータです。本導入時はあなたのクラブの実データが自動で表示されます。</div>
+
+<header class="top">
+  <div class="logo">チビスポ<span>クラブ分析</span></div>
+  <div class="club">
+    <div class="avatar">サ</div>
+    <div>
+      <div class="name">サンプルFC（岡山市・少年サッカー）</div>
+      <span class="plan">プロプラン</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" role="tablist">
+    <button class="tab" data-pane="home" aria-selected="true">ホーム</button>
+    <button class="tab" data-pane="shu" aria-selected="false">集客</button>
+    <button class="tab" data-pane="post" aria-selected="false">投稿</button>
+    <button class="tab" data-pane="input" aria-selected="false">記録<span class="t-label-sub">・設定</span></button>
+    <a class="tab-guide" href="guide.html">ガイド</a>
+  </div>
+</nav>
+
+<main>
+<!-- ============================================================ 🏠 ホーム -->
+<div class="pane show" id="pane-home">
+  <details class="first-guide">
+    <summary>はじめての方へ：この画面の見方（30秒）</summary>
+    <div class="fg-body"><ul>
+      <li><b>上の4つの数字</b>だけ毎週見ればOK。「体験申込」が増えていれば順調です</li>
+      <li><b>AIレポート</b>は毎月1日に自動更新。「次にやること」がそのまま書いてあります</li>
+      <li><b>タイムライン</b>は「何をした月に数字が動いたか」の振り返り。番号の縦線＝あなたがやった施策です</li>
+    </ul></div>
+  </details>
+
+  <section>
+    <div class="sec-head">
+      <div class="seg" id="period-seg">
+        <button data-p="this" aria-pressed="true">今月</button>
+        <button data-p="last">先月</button>
+        <button data-p="6m">6ヶ月</button>
+      </div>
+    </div>
+    <div class="kpi-grid" id="kpi"></div>
+    <div class="rev-banner" id="rev-banner"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>AIコーチの月次レポート</h2><span class="ai-badge">7月1日 自動生成</span>
+      <span class="sub">データから「次の一手」を毎月提案</span></div>
+    <div class="action-grid">
+      <div class="action p1">
+        <span class="tag">優先度 高</span>
+        <h3>ポスターQRを「駅前」以外にも増やす</h3>
+        <p>駅前ポスターのQRから今月<b>21人</b>が閲覧、体験申込も2件。紙の施策で一番効いています。</p>
+        <div class="why">掲示1ヶ所でこの数字なら、小学校近く・スーパーに増やせば倍が狙えます。場所ごとにQRを分けるのがコツ（ガイド手順3）。</div>
+      </div>
+      <div class="action">
+        <span class="tag">優先度 中</span>
+        <h3>「試合・成長の様子」の投稿を週1に増やす</h3>
+        <p>投稿タイプ別で<b>閲覧中央値1,980</b>と圧倒的（分析タブ参照）。募集告知の2.3倍見られています。</p>
+        <div class="why">成長系で知ってもらい、募集告知で申込へ——役割分担が数字に出ています。保護者提供の写真を活用すると継続しやすいです。</div>
+        <div class="cta-line"><button class="btn-svc" onclick="svcAlert('sns')">投稿ごと任せる：SNS運用代行</button></div>
+      </div>
+      <div class="action p3">
+        <span class="tag">伸びしろ</span>
+        <h3>「紹介カード」で口コミを計測する</h3>
+        <p>口コミはおそらく最強の入会経路ですが、今は<b>計測できていません</b>。</p>
+        <div class="why">QR付き紹介カードを保護者に渡せば「紹介経由が何人か」が見えます（ガイド手順5）。</div>
+        <div class="cta-line"><button class="btn-svc" onclick="svcAlert('hp')">紹介カードの制作を依頼</button></div>
+      </div>
+      <div class="action consult">
+        <span class="tag" style="background:var(--ink)">個別コンサル</span>
+        <h3>もっと踏み込んだ戦略が必要なときは</h3>
+        <p>集客のプロがあなたのデータを一緒に見ながら<b>次の一手を60分で決めます</b>（有料・月5枠）。</p>
+        <button class="btn" style="margin-top:8px" onclick="svcAlert('consult')">相談を申し込む</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>打ち手と成果のタイムライン</h2><span class="sub">番号の縦線＝施策。その後に数字が動いていれば「効いた」証拠</span></div>
+    <div class="card" id="timeline-card"></div>
+  </section>
+</div>
+
+<!-- ============================================================ 📊 集客 -->
+<div class="pane" id="pane-shu">
+  <details class="first-guide">
+    <summary>はじめての方へ：集客タブの見方（30秒）</summary>
+    <div class="fg-body"><ul>
+      <li>この画面の問いは1つ：<b>「人はどこから来て、どこで止まっているか」</b></li>
+      <li>①のファネルに<b>赤い枠</b>が出ていたら、そこが今月の直しどころ（改善案も出ます）</li>
+      <li>数字の横のバッジは取得方法：<b>自動</b>＝勝手に数える／<b>半自動</b>＝アンケート／<b>手動</b>＝あなたの記録</li>
+    </ul></div>
+  </details>
+
+  <section>
+    <div class="sec-head"><h2>① どの段階で、人が減っている？</h2><span class="sub">認知から入会まで。目安より弱い段階を自動判定</span></div>
+    <div class="card" id="full-funnel"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>② どこから来ている？</h2><span class="sub">線の太さ＝人数。点線＝まだ数えられていない流入</span></div>
+    <div class="card" id="map-wrap"></div>
+    <div class="scroll-hint">← 横にスクロールできます →</div>
+    <div class="card" style="margin-top:10px;border-left:4px solid var(--s3);background:var(--panelBG,#faf7f2)">
+      <div style="font-weight:800;margin-bottom:6px">🪧 なぜ「ポスター → クラブページ」を通すの？</div>
+      <p style="margin:0 0 8px;font-size:.82rem;line-height:1.75">
+        ポスターやチラシは、ふつう<b>貼って終わりで効果が分かりません</b>。QRをこのダッシュボードの計測リンクにすると、
+        <b>そのポスターが何人を体験申込・入会まで運んだか</b>が、この流れで丸ごと見えるようになります。
+      </p>
+      <p style="margin:0;font-size:.82rem;line-height:1.75">
+        スキャンした人は、写真・料金・口コミがそろったクラブページを見てから申し込むので、
+        いきなり申込フォームに送るより<b>途中で逃げません</b>。設定はチビスポ側で完結、あなたは貼るだけです。
+        <span style="color:var(--muted)">（Instagramなど、相手がもう中身を見ている媒体は、行き先を体験申込に近づけてもOK）</span>
+      </p>
+    </div>
+    <details class="more">
+      <summary>週ごとの媒体別推移もくわしく見る</summary>
+      <div class="card" id="weekly-views" style="margin-top:8px"></div>
+    </details>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>③ 媒体ごとの成績</h2><span class="sub">申込率2%超えは優秀</span>
+      <button class="btn" style="margin-left:auto;font-size:.78rem;padding:8px 16px;min-height:36px" onclick="openModal()">＋ 媒体を追加</button>
+    </div>
+    <div class="card">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr>
+          <th>媒体</th><th>種類</th><th class="n">流入<span class="hint-i" data-tip="この媒体からクラブページに来た人数">?</span></th>
+          <th class="n">体験申込</th><th class="n">申込率<span class="hint-i" data-tip="流入のうち体験申込した割合。2%超えは優秀">?</span></th>
+          <th>流入の量</th><th>状態</th><th></th>
+        </tr></thead>
+        <tbody id="ch-body"></tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>④ 紙・口コミの答え合わせ（アンケート）</h2><span class="sub" id="survey-count"></span></div>
+    <div class="card" style="max-width:640px">
+      <div class="plot free" id="survey-chart"></div>
+      <div class="chart-sub" style="margin-top:8px">見学者に「何で知りましたか？」を聞いた集計。取り込みは「記録・設定」タブから。<b>ポスターや口コミなどネットで数えられない経路</b>はここで答え合わせします。</div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================ 📱 投稿 -->
+<div class="pane" id="pane-post">
+  <details class="first-guide">
+    <summary>はじめての方へ：投稿タブの見方（30秒）</summary>
+    <div class="fg-body"><ul>
+      <li>この画面の問いは1つ：<b>「何を・いつ投稿すれば申込につながるか」</b></li>
+      <li>①でどのタイプが見られているかを掴み、②で実際の当たり投稿を確認、③でタイミングを決めます</li>
+      <li>本番版ではSNSを一度連携すれば、投稿データは自動で取り込まれます</li>
+    </ul></div>
+  </details>
+
+  <div class="seg" id="post-ch-seg" style="margin-top:14px;display:flex;flex-wrap:nowrap;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+    <button data-ch="all" aria-pressed="true">全体</button>
+    <button data-ch="Instagram" aria-pressed="false">Instagram</button>
+    <button data-ch="Threads" aria-pressed="false">Threads</button>
+    <button data-ch="X" aria-pressed="false">X</button>
+    <button data-ch="YouTube" aria-pressed="false">YouTube</button>
+    <button data-ch="TikTok" aria-pressed="false">TikTok</button>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>① 投稿の量と、見られているタイプ</h2><span class="sub">左＝何が見られているか ／ 右＝続けられているか（励みの記録）</span></div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="chart-title">どのタイプの投稿が見られている？</div>
+        <div class="chart-sub">棒＝閲覧の中央値。（）内は投稿数</div>
+        <div class="plot free" id="type-chart"></div>
+        <div class="chart-sub" style="margin-top:8px">タイプ分けは自動（AIが投稿内容から分類）。あなたが選ぶ必要はありません。</div>
+      </div>
+      <div class="card" id="weekly-posts"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>② 当たり投稿と、その共通点</h2><span class="sub">閲覧順。「ページ誘導」＝その投稿からクラブページに来た人数</span></div>
+    <div class="card">
+      <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr>
+          <th>日付</th><th>媒体</th><th>タイプ</th><th>投稿の内容</th>
+          <th class="n">閲覧</th><th class="n">いいね</th>
+          <th class="n">ページ誘導<span class="hint-i" data-tip="この投稿がきっかけでクラブページに来た人数">?</span></th>
+        </tr></thead>
+        <tbody id="posts-body"></tbody>
+      </table>
+      </div>
+      <div class="insight" id="posts-insight"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>③ いつ投稿・掲示するのがいい？</h2><span class="sub">体験申込が入る曜日から逆算</span></div>
+    <div class="card" style="max-width:640px" id="weekday-card"></div>
+  </section>
+</div>
+
+<!-- ============================================================ ✍️ 記録・設定 -->
+<div class="pane" id="pane-input">
+  <details class="first-guide">
+    <summary>はじめての方へ：何を記録すればいい？（30秒）</summary>
+    <div class="fg-body"><ul>
+      <li>サイト経由の数字は<b>全部自動</b>。手で入れるのは「電話・その場の出来事」と「やった施策」だけです</li>
+      <li>電話が来たら<b>「何を見てお電話くださいましたか？」とひとこと聞く</b>——これで紙媒体もデータになります</li>
+      <li>ポスター掲示・チラシ配布をしたら記録→ホームのタイムラインに縦線が立ち、効果の振り返りができます</li>
+    </ul></div>
+  </details>
+
+  <section class="settings-grid">
+    <div class="card form-card">
+      <div class="chart-title">出来事・施策を記録</div>
+      <div class="chart-sub">電話・その場の申込・やった施策はここから（10秒）</div>
+      <label>いつ？</label>
+      <input id="rec-date" type="date">
+      <label>何があった？</label>
+      <select id="rec-kind">
+        <optgroup label="出来事">
+          <option>体験・見学の申込</option><option>体験・見学に参加</option><option>入会が決まった</option><option>電話の問い合わせ</option><option>LINEの問い合わせ</option><option>退会</option>
+        </optgroup>
+        <optgroup label="施策（タイムラインに縦線が立ちます）">
+          <option>🪧 ポスターを掲示した</option><option>📄 チラシを配った</option><option>⚽ 体験会・イベントをやった</option><option>✏️ その他の施策</option>
+        </optgroup>
+      </select>
+      <label>きっかけ（わかれば）</label>
+      <select id="rec-route">
+        <option>不明・聞いていない</option><option>電話（チラシを見て）</option><option>電話（ポスターを見て）</option><option>知人の紹介</option><option>Instagramを見て</option><option>チビスポを見て</option><option>その場で（見学中に）</option>
+      </select>
+      <label>人数</label>
+      <input id="rec-num" type="number" min="1" value="1">
+      <label>メモ（任意）</label>
+      <input id="rec-memo" placeholder="例：小2の男の子。土曜の体験希望／駅前掲示板に掲示">
+      <div style="margin-top:16px"><button class="btn" onclick="saveRecord()">記録する</button><span class="ok-msg" id="rec-done">✅ 記録しました</span></div>
+    </div>
+
+    <div>
+      <div class="card form-card">
+        <div class="chart-title">見学アンケートの取り込み</div>
+        <div class="chart-sub">回収した紙をスマホで撮って入れるだけ。集計は分析タブに反映</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn ghost" onclick="openSurveyTpl()">アンケート用紙を見る</button>
+          <label class="btn" style="cursor:pointer">📷 写真から取り込む<input type="file" accept="image/*" style="display:none" onchange="mockOcr(this)"></label>
+        </div>
+        <div id="ocr-flow" style="display:none;margin-top:14px">
+          <div id="ocr-status" style="font-size:.8rem;color:var(--ink-2)"></div>
+          <div id="ocr-result" style="display:none;margin-top:10px;background:var(--surface-2);border-radius:12px;padding:14px">
+            <b style="font-size:.83rem">読み取り結果（間違っていたら直せます）</b>
+            <label>Q1. クラブを何で知りましたか？</label>
+            <select id="ocr-q1">
+              <option>ポスターを見て</option><option>チラシ</option><option>Instagram</option><option>チビスポで検索</option><option>知人の紹介</option><option>その他</option>
+            </select>
+            <label>Q2. 決め手になりそうなこと</label>
+            <input id="ocr-q2" value="コーチの雰囲気が良かった">
+            <button class="btn" style="margin-top:12px" onclick="applyOcr()">この内容で取り込む</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card form-card" style="margin-top:10px">
+        <div class="chart-title">会員の目標</div>
+        <label>目標人数</label>
+        <input id="goal-num" type="number" min="1" value="40">
+        <label>いつまでに（任意）</label>
+        <input id="goal-date" type="month" value="2026-12">
+        <div style="margin-top:14px"><button class="btn" onclick="saveGoal()">目標を保存</button><span class="ok-msg" id="goal-done">✅ 保存しました（ホームの逆算も更新）</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<!-- ==== 媒体追加モーダル ==== -->
+<div id="modal-bg" class="modal-shell" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3>媒体を追加</h3>
+    <p style="font-size:.78rem;color:var(--ink-2);margin-top:6px">追加すると専用の「計測リンク」と「QRコード」が発行され、そこから来た人数が自動で数えられます。転送先はクラブページのほか、自クラブのHPやLINEも指定できます。</p>
+    <label>媒体の名前（あとで見て分かる名前に）</label>
+    <input id="m-name" placeholder="例：小学校前ポスター、Instagram、体験会チラシ6月">
+    <label>種類</label>
+    <div class="kind-grid" id="m-kinds"></div>
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn" onclick="createChannel()">発行する</button>
+      <button class="btn ghost" onclick="closeModal()">閉じる</button>
+    </div>
+    <div class="result-box" id="m-result">
+      <b style="font-size:.83rem">✅ 発行しました！</b>
+      <div style="font-size:.76rem;color:var(--ink-2);margin-top:4px">この媒体からの流入は、下のリンク／QR経由で自動計測されます。</div>
+      <div class="track-url" id="m-url"></div>
+      <div class="qr-flex">
+        <canvas id="m-qr" width="110" height="110"></canvas>
+        <div class="q-note"><b>QRコード（サンプル）</b><br>本番版では印刷用の画像をダウンロードできます。<a href="guide.html#poster" style="color:var(--s1)">→ 使い方はガイド手順3</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==== アンケート用紙モーダル ==== -->
+<div id="tpl-bg" class="modal-shell" onclick="if(event.target===this)closeSurveyTpl()">
+  <div class="modal">
+    <h3>見学アンケート用紙（テンプレート）</h3>
+    <p style="font-size:.78rem;color:var(--ink-2);margin-top:6px">本番版では、クラブ名入りでPDFダウンロード・印刷できます。</p>
+    <div style="border:1.5px solid var(--baseline);border-radius:12px;padding:18px;margin-top:12px;background:#fff">
+      <div style="text-align:center;font-weight:900;font-family:'Zen Maru Gothic'">サンプルFC 見学アンケート</div>
+      <div style="font-size:.75rem;color:var(--muted);text-align:center">ご記入ありがとうございます（1分で終わります）</div>
+      <div style="font-size:.83rem;margin-top:14px;line-height:2.1">
+        <b>Q1. 当クラブを何で知りましたか？（○をつけてください）</b><br>
+        　ポスター ／ チラシ ／ Instagram ／ チビスポ ／ 知人の紹介 ／ その他（　　）<br>
+        <b>Q2. 見学のきっかけ・決め手になりそうなことは？</b><br>
+        　（　　　　　　　　　　　　　　　）<br>
+        <b>Q3. お子さまの学年</b>：（　）年生　<b>Q4. 本日の満足度</b>：😄 ／ 🙂 ／ 😐
+      </div>
+    </div>
+    <div style="margin-top:14px;text-align:right"><button class="btn ghost" onclick="closeSurveyTpl()">閉じる</button></div>
+  </div>
+</div>
+
+<footer>
+  チビスポ クラブ分析ダッシュボード（プレビュー版）｜ <a href="guide.html#words" style="color:var(--s1)">用語集</a> ｜ サンプルデータ：架空クラブ「サンプルFC」
+</footer>
+<div id="tt"></div>
+
+<script>
+"use strict";
+/* ================= サンプルデータ ================= */
+const MONTHS=["2月","3月","4月","5月","6月","7月"];
+const TREND={views:[180,240,310,300,355,380],trials:[4,6,9,8,11,12],joins:[1,3,4,3,5,5]};
+const WEEKS=["4/14","4/21","4/28","5/5","5/12","5/19","5/26","6/2","6/9","6/16","6/23","6/30"];
+const CH_WEEKLY={
+  chibispo:{name:"チビスポ検索・特集",color:"--s1",vals:[28,30,34,31,35,33,38,36,40,38,42,45]},
+  instagram:{name:"Instagram",color:"--s2",vals:[15,18,16,22,19,24,21,26,23,28,25,30]},
+  poster:{name:"駅前ポスターQR",color:"--s3",vals:[0,0,0,0,0,3,4,5,4,6,5,7]},
+  flyer:{name:"体験会チラシQR",color:"--s4",vals:[0,0,12,9,5,2,0,0,8,6,3,2]},
+  google:{name:"Google検索",color:"--s5",vals:[8,9,10,9,11,12,11,13,12,14,13,15]},
+};
+const POSTS_WEEKLY={
+  Instagram:{color:"--s2",vals:[2,2,3,2,2,3,3,2,3,3,3,4]},
+  Threads:{color:"--s5",vals:[1,1,1,2,1,1,2,1,2,1,2,2]},
+  X:{color:"--s6",vals:[1,0,1,0,1,1,0,1,0,1,1,0]},
+  YouTube:{color:"--s3",vals:[0,1,0,1,0,1,0,1,0,1,0,1]},
+  TikTok:{color:"--s4",vals:[1,1,2,1,2,2,1,2,2,2,3,2]},
+};
+const POST_TYPES={"試合・成長":"--s2","コーチ・人柄":"--s5","練習風景":"--s1","募集告知":"--brand","お知らせ":"--baseline"};
+const POSTS=[
+  {date:"6/28",ch:"Instagram",type:"試合・成長",text:"6年生ラストマッチの様子（保護者撮影）",views:2100,likes:112,clicks:9},
+  {date:"5/10",ch:"Instagram",type:"試合・成長",text:"初ゴールの瞬間！ベンチ全員で大騒ぎ",views:1980,likes:124,clicks:8},
+  {date:"6/14",ch:"Instagram",type:"試合・成長",text:"市大会ベスト8！応援ありがとうございました",views:1750,likes:98,clicks:7},
+  {date:"6/8",ch:"Instagram",type:"コーチ・人柄",text:"コーチ紹介:山本コーチが大事にしていること",views:1580,likes:95,clicks:11},
+  {date:"7/4",ch:"Instagram",type:"募集告知",text:"夏の体験会、募集開始！【7月の土曜・全4回】",views:1240,likes:58,clicks:14},
+  {date:"5/17",ch:"Threads",type:"コーチ・人柄",text:"「怒らない指導」について思うこと",views:1120,likes:48,clicks:5},
+  {date:"5/24",ch:"Instagram",type:"募集告知",text:"6月の体験会 受付中（土曜午前・持ち物不要）",views:880,likes:41,clicks:10},
+  {date:"6/21",ch:"Threads",type:"練習風景",text:"未経験の子が3ヶ月でできるようになること",views:860,likes:21,clicks:6},
+  {date:"4/26",ch:"Instagram",type:"募集告知",text:"新学期スタート！体験は随時受付です",views:760,likes:30,clicks:9},
+  {date:"5/31",ch:"Instagram",type:"練習風景",text:"雨の日の体育館練習、実は人気です",views:690,likes:34,clicks:3},
+  {date:"6/15",ch:"X",type:"お知らせ",text:"グラウンド開放日のお知らせ（7月分）",views:220,likes:4,clicks:1},
+  {date:"4/19",ch:"X",type:"お知らせ",text:"会費・持ち物のご案内ページを更新しました",views:180,likes:2,clicks:0},
+  {date:"6/1",ch:"YouTube",type:"練習風景",text:"【密着】土曜練習の1日（ダイジェスト3分）",views:3400,likes:86,clicks:12},
+  {date:"5/3",ch:"YouTube",type:"コーチ・人柄",text:"コーチが答える「よくある質問」10連発",views:1500,likes:40,clicks:6},
+  {date:"6/25",ch:"TikTok",type:"試合・成長",text:"リフティング30日チャレンジ ビフォーアフター",views:8200,likes:410,clicks:5},
+  {date:"6/5",ch:"TikTok",type:"練習風景",text:"1分でわかる、うちの練習メニュー",views:2900,likes:150,clicks:2},
+];
+const POST_CH_COLOR={Instagram:"--s2",Threads:"--s5",X:"--s6",YouTube:"--s3",TikTok:"--s4"};
+const CHANNELS=[
+  {id:"chibispo",name:"チビスポ検索・特集",kind:"チビスポ内",inflow:[152,128],trials:[5,4],tracked:true},
+  {id:"instagram",name:"Instagram",kind:"SNS",inflow:[96,74],trials:[4,3],tracked:true},
+  {id:"poster-ekimae",name:"駅前ポスターQR",kind:"ポスター",inflow:[21,9],trials:[2,0],tracked:true},
+  {id:"flyer",name:"体験会チラシQR",kind:"チラシ",inflow:[34,0],trials:[1,0],tracked:true},
+  {id:"google",name:"Google検索",kind:"検索",inflow:[52,48],trials:[0,1],tracked:true},
+  {id:"kuchikomi",name:"口コミ・紹介",kind:"紹介",inflow:[0,0],trials:[0,0],tracked:false},
+];
+const COLORS=["--s1","--s2","--s3","--s4","--s5","--s6"];
+const POSTS_PER_MONTH=[6,8,10,9,12,14];
+let EVENTS=[
+  {m:2,label:"📄 新学期チラシ配布"},
+  {m:3,label:"🪧 駅前ポスター掲示"},
+  {m:4,label:"📄 体験会チラシ配布"},
+  {m:5,label:"⚽ 夏の体験会 告知開始"},
+];
+const TALLY={"知人の紹介":5,"チビスポで検索":4,"ポスターを見て":3,"Instagram":2,"チラシ":1,"その他":0};
+const MEMBERS=32;
+const state={period:"this",postCh:"all"};
+
+/* ================= 小道具 ================= */
+const $=s=>document.querySelector(s);
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const C=v=>v.startsWith("--")?css(v):v;
+const svgNS="http://www.w3.org/2000/svg";
+const svgEl=(t,a={})=>{const e=document.createElementNS(svgNS,t);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e};
+const tt=$("#tt");
+function showTT(html,x,y){tt.innerHTML=html;tt.style.display="block";const r=tt.getBoundingClientRect();tt.style.left=Math.min(x+14,innerWidth-r.width-10)+"px";tt.style.top=Math.min(y+14,innerHeight-r.height-10)+"px"}
+function hideTT(){tt.style.display="none"}
+const chColor=i=>css(COLORS[i%COLORS.length]);
+const idx=()=>state.period==="last"?1:0;
+const getGoal=()=>parseInt(localStorage.getItem("demo-goal")||"40",10);
+const median=a=>{if(!a.length)return 0;const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2};
+function panelBG(svg,x,y,w,h,rows=3){
+  svg.appendChild(svgEl("rect",{x,y,width:w,height:h,rx:10,fill:"#faf9f5",stroke:css("--grid")}));
+  for(let g=1;g<rows;g++)svg.appendChild(svgEl("line",{x1:x+8,x2:x+w-8,y1:y+h*g/rows,y2:y+h*g/rows,stroke:css("--grid"),"stroke-dasharray":"2 4"}));
+}
+function svcAlert(kind){
+  const msg={sns:"SNS運用代行（月2万円〜）の申込ページへ（プレビューのため準備中）",
+    hp:"HP・ページ制作（4万円〜）の相談ページへ（プレビューのため準備中）",
+    consult:"個別コンサル（60分・月5枠）の予約ページへ（プレビューのため準備中）"};
+  alert(msg[kind]||msg.consult);
+}
+
+/* ================= タブ ================= */
+function switchTab(pane){
+  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x.dataset.pane===pane));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.remove("show"));
+  $("#pane-"+pane).classList.add("show");
+}
+document.querySelectorAll(".tab").forEach(b=>{
+  b.onclick=()=>{switchTab(b.dataset.pane);history.replaceState(null,"","#"+b.dataset.pane);scrollTo({top:0,behavior:"smooth"})};
+});
+const qch=new URLSearchParams(location.search).get("ch");
+if(qch){state.postCh=qch;
+  document.querySelectorAll("#post-ch-seg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ch===qch));}
+const h0=location.hash.slice(1)==="ana"?"shu":location.hash.slice(1);
+if(["shu","post","input"].includes(h0))switchTab(h0);
+
+/* ================= KPI＋目標 ================= */
+function spark(points,color){
+  const w=200,h=30,svg=svgEl("svg",{viewBox:`0 0 ${w} ${h}`,preserveAspectRatio:"none"});
+  const max=Math.max(...points,1),step=w/(points.length-1);
+  const y=v=>h-3-(v/max)*(h-7);
+  const d=points.map((v,i)=>`${i?"L":"M"}${(i*step).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  svg.appendChild(svgEl("path",{d:`${d}L${w},${h}L0,${h}Z`,fill:color,opacity:.12}));
+  svg.appendChild(svgEl("path",{d,fill:"none",stroke:color,"stroke-width":2,"stroke-linejoin":"round"}));
+  return svg;
+}
+function renderKPI(){
+  const k=$("#kpi");k.innerHTML="";
+  const isRange=state.period==="6m",i=idx();
+  const sum=a=>a.reduce((s,v)=>s+v,0);
+  const items=[
+    {label:"クラブページ閲覧",cur:isRange?sum(TREND.views):TREND.views[5-i],prev:TREND.views[4-i],series:TREND.views,color:css("--s1")},
+    {label:"体験申込",cur:isRange?sum(TREND.trials):TREND.trials[5-i],prev:TREND.trials[4-i],series:TREND.trials,color:css("--s2")},
+    {label:"入会",cur:isRange?sum(TREND.joins):TREND.joins[5-i],prev:TREND.joins[4-i],series:TREND.joins,color:css("--brand")},
+  ];
+  for(const it of items){
+    const d=document.createElement("div");d.className="card kpi";
+    let delta="";
+    if(!isRange){
+      const diff=it.cur-it.prev;
+      delta=diff===0?`<div class="delta">前月と同じ</div>`:`<div class="delta ${diff>0?"up":"down"}">${diff>0?"▲":"▼"} ${Math.abs(diff)} <span style="color:var(--muted)">vs 前月</span></div>`;
+    }else delta=`<div class="delta">6ヶ月合計</div>`;
+    d.innerHTML=`<div class="label">${it.label}</div><div class="value">${it.cur.toLocaleString()}</div>${delta}`;
+    d.appendChild(spark(it.series,it.color));
+    k.appendChild(d);
+  }
+  const goal=getGoal(),pct=Math.min(100,Math.round(MEMBERS/goal*100));
+  const g=document.createElement("div");g.className="card kpi";
+  g.innerHTML=`<div class="label">現在の会員数</div><div class="value">${MEMBERS}<small>人 / ${goal}人</small></div>
+    <div class="goal-mini"><i style="width:${pct}%"></i></div>
+    <div class="goal-note">目標まであと${Math.max(0,goal-MEMBERS)}人（${pct}%）</div>`;
+  k.appendChild(g);
+  renderRevBanner();
+}
+function renderRevBanner(){
+  const goal=getGoal(),remaining=Math.max(0,goal-MEMBERS);
+  const b=$("#rev-banner");
+  if(remaining===0){b.innerHTML=`<b>目標達成。</b>「記録・設定」タブから次の目標を設定しましょう。`;return}
+  const trials=Math.ceil(remaining/0.45),views=Math.round(trials/0.03/10)*10;
+  b.innerHTML=`あと<b>${remaining}人</b>の入会に必要な量（実績から逆算）：体験申込 <b>約${trials}人</b> ＝ ページ閲覧 <b>約${views.toLocaleString()}回</b>
+    <span style="color:var(--muted);font-size:.76rem">今のペース（月380閲覧）だと約${Math.max(1,Math.ceil(views/380))}ヶ月 → 上のAIレポートで加速</span>`;
+}
+
+/* ================= タイムライン ================= */
+function renderTimeline(){
+  const c=$("#timeline-card");
+  c.innerHTML=`<div class="chart-title">打ち手（上段）と成果（中・下段）</div><div class="chart-sub">同じ時間軸で重ねて見る——このダッシュボードの心臓部</div>`;
+  const W=1060,L=56,R=30,T=52;
+  const PH=[80,100,100],GAP=32;
+  const H=T+PH[0]+GAP+PH[1]+GAP+PH[2]+32;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`});
+  const x=i=>L+(i+0.5)*(W-L-R)/MONTHS.length;
+  const py=[T,T+PH[0]+GAP,T+PH[0]+GAP+PH[1]+GAP];
+  const perMonth={};
+  EVENTS.forEach((ev2,ei)=>{(perMonth[ev2.m]=perMonth[ev2.m]??[]).push(ei)});
+  EVENTS.forEach((ev2,ei)=>{
+    const sib=perMonth[ev2.m],pos=sib.indexOf(ei);
+    const ex=x(ev2.m)+(pos-(sib.length-1)/2)*22;
+    svg.appendChild(svgEl("line",{x1:ex,x2:ex,y1:T-4,y2:py[2]+PH[2],stroke:css("--brand"),"stroke-width":1.3,"stroke-dasharray":"4 4",opacity:.55}));
+    const g=svgEl("g",{style:"cursor:help"});
+    g.appendChild(svgEl("circle",{cx:ex,cy:T-15,r:9.5,fill:"#fff",stroke:css("--brand"),"stroke-width":1.6}));
+    const n=svgEl("text",{x:ex,y:T-11.5,"text-anchor":"middle",fill:css("--brand-dark"),"font-size":"10","font-weight":"700"});
+    n.textContent=ei+1;g.appendChild(n);
+    g.addEventListener("mousemove",e=>showTT(`<div class="t">施策 ${ei+1}｜${MONTHS[ev2.m]}</div>${ev2.label}`,e.clientX,e.clientY));
+    g.addEventListener("mouseleave",hideTT);
+    svg.appendChild(g);
+  });
+  panelBG(svg,L-10,py[0],W-L-R+20,PH[0],2);
+  let t1=svgEl("text",{x:L-46,y:py[0]+14,fill:css("--ink-2"),"font-size":"11","font-weight":"700"});t1.textContent="打ち手";svg.appendChild(t1);
+  t1=svgEl("text",{x:L-46,y:py[0]+28,fill:css("--muted"),"font-size":"9.5"});t1.textContent="投稿数";svg.appendChild(t1);
+  const maxP=Math.max(...POSTS_PER_MONTH);
+  POSTS_PER_MONTH.forEach((v,i)=>{
+    const bh=(PH[0]-24)*v/maxP,by=py[0]+PH[0]-8-bh;
+    const r=svgEl("rect",{x:x(i)-13,y:by,width:26,height:bh,rx:5,fill:css("--s5"),opacity:.85});
+    r.addEventListener("mousemove",e=>showTT(`<div class="t">${MONTHS[i]}</div><div class="r">SNS投稿<span class="v">${v}本</span></div>`,e.clientX,e.clientY));
+    r.addEventListener("mouseleave",hideTT);svg.appendChild(r);
+    const n=svgEl("text",{x:x(i),y:by-4,"text-anchor":"middle",fill:css("--s5"),"font-size":"10","font-weight":"700"});n.textContent=v;svg.appendChild(n);
+  });
+  panelBG(svg,L-10,py[1],W-L-R+20,PH[1],3);
+  const t2=svgEl("text",{x:L-46,y:py[1]+14,fill:css("--ink-2"),"font-size":"11","font-weight":"700"});t2.textContent="閲覧";svg.appendChild(t2);
+  const maxV=Math.max(...TREND.views);
+  const vy=v=>py[1]+10+(PH[1]-24)*(1-v/maxV);
+  svg.appendChild(svgEl("path",{d:TREND.views.map((v,i)=>`${i?"L":"M"}${x(i)},${vy(v)}`).join("")+`L${x(5)},${py[1]+PH[1]-8}L${x(0)},${py[1]+PH[1]-8}Z`,fill:css("--s1"),opacity:.12}));
+  svg.appendChild(svgEl("path",{d:TREND.views.map((v,i)=>`${i?"L":"M"}${x(i)},${vy(v)}`).join(""),fill:"none",stroke:css("--s1"),"stroke-width":2.2,"stroke-linejoin":"round"}));
+  TREND.views.forEach((v,i)=>{
+    const dot=svgEl("circle",{cx:x(i),cy:vy(v),r:9,fill:"transparent"});
+    dot.addEventListener("mousemove",e=>showTT(`<div class="t">${MONTHS[i]}</div><div class="r">ページ閲覧<span class="v">${v.toLocaleString()}</span></div>`,e.clientX,e.clientY));
+    dot.addEventListener("mouseleave",hideTT);svg.appendChild(dot);
+    svg.appendChild(svgEl("circle",{cx:x(i),cy:vy(v),r:3.2,fill:css("--s1"),stroke:"#fff","stroke-width":1.5}));
+    const n=svgEl("text",{x:x(i),y:vy(v)-8,"text-anchor":"middle",fill:css("--s1"),"font-size":"10","font-weight":"700"});n.textContent=v;svg.appendChild(n);
+  });
+  panelBG(svg,L-10,py[2],W-L-R+20,PH[2],3);
+  let t3=svgEl("text",{x:L-46,y:py[2]+14,fill:css("--ink-2"),"font-size":"11","font-weight":"700"});t3.textContent="申込";svg.appendChild(t3);
+  t3=svgEl("text",{x:L-46,y:py[2]+28,fill:css("--muted"),"font-size":"9.5"});t3.textContent="と入会";svg.appendChild(t3);
+  const max3=Math.max(...TREND.trials);
+  const ty=v=>py[2]+10+(PH[2]-24)*(1-v/max3);
+  TREND.joins.forEach((v,i)=>{
+    const bh=(PH[2]-24)*v/max3,by=py[2]+PH[2]-8-bh;
+    const r=svgEl("rect",{x:x(i)-11,y:by,width:22,height:Math.max(2,bh),rx:5,fill:css("--brand"),opacity:.9});
+    r.addEventListener("mousemove",e=>showTT(`<div class="t">${MONTHS[i]}</div><div class="r">入会<span class="v">${v}人</span></div>`,e.clientX,e.clientY));
+    r.addEventListener("mouseleave",hideTT);svg.appendChild(r);
+  });
+  svg.appendChild(svgEl("path",{d:TREND.trials.map((v,i)=>`${i?"L":"M"}${x(i)},${ty(v)}`).join(""),fill:"none",stroke:css("--s2"),"stroke-width":2.2,"stroke-linejoin":"round"}));
+  TREND.trials.forEach((v,i)=>{
+    const dot=svgEl("circle",{cx:x(i),cy:ty(v),r:9,fill:"transparent"});
+    dot.addEventListener("mousemove",e=>showTT(`<div class="t">${MONTHS[i]}</div><div class="r">体験申込<span class="v">${v}人</span></div>`,e.clientX,e.clientY));
+    dot.addEventListener("mouseleave",hideTT);svg.appendChild(dot);
+    svg.appendChild(svgEl("circle",{cx:x(i),cy:ty(v),r:3.2,fill:css("--s2"),stroke:"#fff","stroke-width":1.5}));
+    const n=svgEl("text",{x:x(i),y:ty(v)-8,"text-anchor":"middle",fill:css("--s2"),"font-size":"10","font-weight":"700"});n.textContent=v;svg.appendChild(n);
+  });
+  MONTHS.forEach((m,i)=>{const t=svgEl("text",{x:x(i),y:H-8,"text-anchor":"middle",class:"axis"});t.textContent=m;svg.appendChild(t)});
+  const plot=document.createElement("div");plot.className="plot";plot.appendChild(svg);c.appendChild(plot);
+  const lg=document.createElement("div");lg.className="legend";
+  [["SNS投稿数",css("--s5")],["ページ閲覧",css("--s1")],["体験申込",css("--s2")],["入会",css("--brand")]].forEach(([n,col])=>lg.insertAdjacentHTML("beforeend",`<span><i style="background:${col}"></i>${n}</span>`));
+  c.appendChild(lg);
+  c.insertAdjacentHTML("beforeend",
+    `<div class="ev-list">${EVENTS.map((e2,ei)=>`<span class="ev-item"><span class="ev-chip">${ei+1}</span>${MONTHS[e2.m]}：${e2.label}</span>`).join("")}</div>`);
+  c.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">読み方：番号の縦線＝施策。<b>紙の施策は2〜3週遅れて効く</b>ので、線の少し右の動きを見ます。施策は「記録・設定」タブから追加できます。</div>`);
+}
+
+/* ================= フルファネル ================= */
+const FUNNEL_STAGES=[
+  {id:"aware", name:"認知（SNSで表示された回数）", src:"auto", srcLabel:"自動：SNS連携",   value:22000},
+  {id:"visit", name:"流入（ページに来た人）",       src:"auto", srcLabel:"自動：GA4＋計測リンク", value:380,
+   bench:[2,5], benchNote:"認知→流入の目安 2〜5%",
+   fix:{title:"表示はされているのに、来てもらえていない",
+        body:"投稿は見られています（2.2万表示）が、プロフィールへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",
+        cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
+  {id:"apply", name:"体験申込",                     src:"auto", srcLabel:"自動＋手動：フォーム/記録", value:12,
+   bench:[1,2], benchNote:"流入→申込の目安 1〜2%",
+   fix:{title:"ページを見た人が申込まで進んでいない",
+        body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",
+        cta:[["ページ改善をプロに依頼：HP・ページ制作","hp"],["自分で直すポイントを聞く：個別相談","consult"]]}},
+  {id:"attend", name:"体験参加",                    src:"manual", srcLabel:"手動：記録", value:10,
+   bench:[70,90], benchNote:"申込→参加の目安 70〜90%",
+   fix:{title:"申込んだのに来ていない人がいる",
+        body:"前日リマインド（LINE・SMS）だけで大きく改善します。日程変更の受け皿も効きます。",
+        cta:[["運営の仕組みを相談：個別コンサル","consult"]]}},
+  {id:"join", name:"入会",                          src:"manual", srcLabel:"手動：記録", value:5,
+   bench:[30,50], benchNote:"参加→入会の目安 30〜50%",
+   fix:{title:"体験には来るが入会に至っていない",
+        body:"体験当日の「入会案内のひと押し」と初月特典の設計で変わります。",
+        cta:[["クロージングを相談：個別コンサル","consult"]]}},
+];
+function renderFullFunnel(){
+  const c=$("#full-funnel");c.innerHTML="";
+  const maxV=FUNNEL_STAGES[0].value;
+  const ord=["#86b6ef","#3987e5","#256abf","#184f95","#0d366b"];
+  let weakest=null;
+  FUNNEL_STAGES.forEach((st,i)=>{
+    const row=document.createElement("div");row.className="fstage";
+    let rateHtml="";
+    if(i>0){
+      const prev=FUNNEL_STAGES[i-1].value;
+      const rate=prev?st.value/prev*100:0;
+      const[lo]=st.bench;
+      const cls=rate<lo?"bad":"good";
+      const label=rate<lo?"目安未満":"良好";
+      if(rate<lo&&!weakest)weakest=st;
+      rateHtml=`<span class="fs-rate ${cls}" title="${st.benchNote}">${rate<10?rate.toFixed(1):Math.round(rate)}%・${label}</span>`;
+    }
+    const w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
+    row.innerHTML=`
+      <div class="fs-name">${st.name}<span class="fs-src ${st.src}">${st.srcLabel}</span></div>
+      <div class="fs-bar"><i style="width:${w}%;background:${ord[i]}"></i></div>
+      <div class="fs-num">${st.value.toLocaleString()}${rateHtml}</div>`;
+    c.appendChild(row);
+  });
+  if(weakest?.fix){
+    const b=document.createElement("div");b.className="bottleneck";
+    b.innerHTML=`<span class="bn-tag">今月のボトルネック</span>
+      <h3>${weakest.fix.title}</h3>
+      <p>${weakest.fix.body}<span style="color:var(--muted)">（${weakest.benchNote}）</span></p>
+      <div class="cta-line"><span style="font-size:.74rem;color:var(--muted)">自分でやるのが難しければ：</span>
+        ${weakest.fix.cta.map(([t,k])=>`<button class="btn-svc" onclick="svcAlert('${k}')">${t}</button>`).join("")}</div>`;
+    c.appendChild(b);
+  }
+  c.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:10px">目安（％の色）は子ども向けスポーツクラブの一般的なレンジ。あなたのクラブの実績が貯まると、目安ではなく<b>自クラブの過去実績</b>と比較するようになります。</div>`);
+}
+
+/* ================= 流れマップ ================= */
+function renderMap(){
+  const wrap=$("#map-wrap");wrap.innerHTML="";
+  const i=idx(),isRange=state.period==="6m";
+  const val=a=>isRange?Math.round(a[0]*4.2):a[i];
+  const media=CHANNELS.map((c,ci)=>({...c,color:chColor(ci),v:val(c.inflow),t:val(c.trials)}));
+  const views=isRange?TREND.views.reduce((s,v)=>s+v,0):TREND.views[5-i];
+  const trials=isRange?TREND.trials.reduce((s,v)=>s+v,0):TREND.trials[5-i];
+  const joins=isRange?TREND.joins.reduce((s,v)=>s+v,0):TREND.joins[5-i];
+  const colW=185,nodeH=50,gapY=12,T=36;
+  const rows=Math.max(media.length,3);
+  const H=T+rows*(nodeH+gapY)+8;
+  const svg=svgEl("svg",{viewBox:`0 0 900 ${H}`});
+  const colX=[4,320,625];
+  ["媒体（知ってもらう場所）","クラブページ","申込 → 入会"].forEach((t,ci)=>{
+    const l=svgEl("text",{x:colX[ci],y:18,class:"map-col"});l.textContent=t;svg.appendChild(l);
+  });
+  const midY=T+(rows*(nodeH+gapY)-gapY)/2-nodeH/2;
+  const nodes={
+    page:{x:colX[1],y:midY-28,w:205,h:66,title:"サンプルFC ページ",metric:`${views.toLocaleString()} 閲覧`},
+    trial:{x:colX[2],y:midY-50,w:225,h:54,title:"体験申込",metric:`${trials} 人（閲覧の${(trials/views*100).toFixed(1)}%）`},
+    join:{x:colX[2],y:midY+34,w:225,h:54,title:"入会",metric:`${joins} 人（申込の${Math.round(joins/trials*100)}%）`}};
+  media.forEach((m,mi)=>{
+    const y1=T+mi*(nodeH+gapY)+nodeH/2,x1=colX[0]+colW;
+    const x2=nodes.page.x,y2=nodes.page.y+nodes.page.h/2,mx=(x1+x2)/2;
+    const wpx=m.tracked?Math.max(2,Math.min(9,2+Math.log10(m.v||1)*2.2)):1.5;
+    const p=svgEl("path",{d:`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`,fill:"none",
+      stroke:m.tracked?m.color:css("--baseline"),"stroke-width":wpx,"stroke-dasharray":m.tracked?"none":"5 4",opacity:.85});
+    p.addEventListener("mousemove",e=>showTT(`<div class="t">${m.name} → ページ</div>`+(m.tracked?`<div class="r">流入<span class="v">${m.v}人</span></div>`:`<span style="color:#c05621">未計測</span> — 専用リンク/QRにすると数えられます（ガイド参照）`),e.clientX,e.clientY));
+    p.addEventListener("mouseleave",hideTT);svg.appendChild(p);
+    if(m.tracked&&m.v>0){const t=svgEl("text",{x:mx,y:(y1+y2)/2-4,"text-anchor":"middle",fill:css("--ink-2"),"font-size":"10","font-variant-numeric":"tabular-nums"});t.textContent=m.v;svg.appendChild(t)}
+  });
+  [["page","trial",trials,`${(trials/views*100).toFixed(1)}%`],["trial","join",joins,`${Math.round(joins/trials*100)}%`]].forEach(([a,b,v,pc])=>{
+    const A=nodes[a],B=nodes[b];
+    const isDown=B.x===A.x;
+    const d=isDown?`M${A.x+A.w/2},${A.y+A.h} L${A.x+A.w/2},${B.y}`:`M${A.x+A.w},${A.y+A.h/2} C${(A.x+A.w+B.x)/2},${A.y+A.h/2} ${(A.x+A.w+B.x)/2},${B.y+B.h/2} ${B.x},${B.y+B.h/2}`;
+    const p=svgEl("path",{d,fill:"none",stroke:css("--brand"),"stroke-width":Math.max(2.5,Math.min(9,2+Math.log10(v||1)*2.5)),opacity:.9});
+    p.addEventListener("mousemove",e=>showTT(`<div class="t">${A.title} → ${B.title}</div><div class="r">人数<span class="v">${v}</span></div><div class="r">前の段階から<span class="v">${pc}</span></div>`,e.clientX,e.clientY));
+    p.addEventListener("mouseleave",hideTT);svg.appendChild(p);
+    if(!isDown){const t=svgEl("text",{x:(A.x+A.w+B.x)/2,y:A.y+A.h/2-8,"text-anchor":"middle",fill:css("--brand-dark"),"font-size":"10.5","font-weight":"700"});t.textContent=pc;svg.appendChild(t)}
+    else{const t=svgEl("text",{x:A.x+A.w/2+8,y:(A.y+A.h+B.y)/2+3,fill:css("--brand-dark"),"font-size":"10.5","font-weight":"700"});t.textContent=pc;svg.appendChild(t)}
+  });
+  media.forEach((m,mi)=>{
+    const y=T+mi*(nodeH+gapY);
+    svg.appendChild(svgEl("rect",{x:colX[0],y,width:colW,height:nodeH,rx:12,fill:"#fff",stroke:m.tracked?m.color:css("--baseline"),"stroke-width":1.6,"stroke-dasharray":m.tracked?"none":"4 3"}));
+    let n=svgEl("text",{x:colX[0]+13,y:y+20,fill:css("--ink"),"font-size":"12","font-weight":"700"});n.textContent=m.name;svg.appendChild(n);
+    n=svgEl("text",{x:colX[0]+13,y:y+38,fill:m.tracked?css("--ink-2"):"#c05621","font-size":"10.5"});
+    n.textContent=m.tracked?`${m.v} 人が流入`:"⚠ 未計測（ガイド参照）";svg.appendChild(n);
+  });
+  Object.values(nodes).forEach(nd=>{
+    svg.appendChild(svgEl("rect",{x:nd.x,y:nd.y,width:nd.w,height:nd.h,rx:14,fill:"#fff",stroke:css("--brand"),"stroke-width":1.8}));
+    let t=svgEl("text",{x:nd.x+15,y:nd.y+22,fill:css("--ink"),"font-size":"13","font-weight":"900"});t.textContent=nd.title;svg.appendChild(t);
+    t=svgEl("text",{x:nd.x+15,y:nd.y+nd.h-11,fill:css("--ink-2"),"font-size":"11","font-variant-numeric":"tabular-nums"});t.textContent=nd.metric;svg.appendChild(t);
+  });
+  wrap.appendChild(svg);
+  wrap.insertAdjacentHTML("beforeend",`<div class="map-note">実線＝計測中（太さ＝人数）／点線＝未計測。マウス（タップ）で人数が出ます。</div>`);
+}
+
+/* ================= 週次の動き ================= */
+function renderWeeklyViews(){
+  const c=$("#weekly-views");
+  c.innerHTML=`<div class="chart-title">週次の流入推移（媒体別）</div><div class="chart-sub">どの媒体が伸びて、どれが落ちているか。ホバーで実数</div>`;
+  const lg=document.createElement("div");lg.className="legend";
+  Object.values(CH_WEEKLY).forEach(s=>lg.insertAdjacentHTML("beforeend",`<span><i style="background:${C(s.color)}"></i>${s.name}</span>`));
+  c.appendChild(lg);
+  const W=1040,H=290,L=40,R=140,T=16,B=28;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`});
+  panelBG(svg,L-10,T-6,W-L-R+20,H-T-B+6,4);
+  const maxV=Math.max(...Object.values(CH_WEEKLY).flatMap(s=>s.vals));
+  const x=i=>L+(i)*(W-L-R)/(WEEKS.length-1);
+  const y=v=>T+(H-T-B-10)*(1-v/maxV)+4;
+  const skip=Math.ceil(WEEKS.length/8);
+  WEEKS.forEach((w,i)=>{
+    if(i%skip!==0&&i!==WEEKS.length-1)return;
+    const t=svgEl("text",{x:x(i),y:H-8,"text-anchor":"middle",class:"axis"});t.textContent=w;svg.appendChild(t);
+  });
+  const series=Object.values(CH_WEEKLY);
+  series.forEach((s,si)=>{
+    const col=C(s.color);
+    svg.appendChild(svgEl("path",{d:s.vals.map((v,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(""),fill:"none",stroke:col,"stroke-width":2,"stroke-linejoin":"round"}));
+    s.vals.forEach((v,i)=>{
+      const dot=svgEl("circle",{cx:x(i),cy:y(v),r:8,fill:"transparent"});
+      dot.addEventListener("mousemove",e=>showTT(`<div class="t">${WEEKS[i]}の週</div><div class="r">${s.name}<span class="v">${v}人</span></div>`,e.clientX,e.clientY));
+      dot.addEventListener("mouseleave",hideTT);svg.appendChild(dot);
+    });
+    const last=s.vals[s.vals.length-1];
+    const lbl=svgEl("text",{x:W-R+14,y:T+14+si*18,fill:col,"font-size":"11","font-weight":"700"});
+    lbl.textContent=`${s.name.replace("チビスポ検索・特集","チビスポ内").replace("駅前ポスターQR","ポスター").replace("体験会チラシQR","チラシ").replace("Google検索","検索")} ${last}`;
+    svg.appendChild(lbl);
+  });
+  const plot=document.createElement("div");plot.className="plot";plot.appendChild(svg);c.appendChild(plot);
+  c.insertAdjacentHTML("beforeend",`<div class="insight">💡 <b>ポスター（黄）は5月末の掲示以降じわじわ増加中</b>、チラシ（緑）は配布直後だけ跳ねて2〜3週で消える——「常設のポスター」と「起爆剤のチラシ」で役割が違うことが読み取れます。</div>`);
+}
+function renderWeeklyPosts(){
+  const c=$("#weekly-posts");
+  const totals=WEEKS.map((_,i)=>Object.values(POSTS_WEEKLY).reduce((s,ch)=>s+ch.vals[i],0));
+  const thisWeek=totals[totals.length-1];
+  let streak=0;for(let i=totals.length-1;i>=0&&totals[i]>=6;i--)streak++;
+  c.innerHTML=`<div class="chart-title">投稿は続けられている？（週ごとの本数）</div>
+    <div class="chart-sub">積み上げ＝チャンネル別。媒体タブを選ぶとその媒体が濃く出ます</div>
+    <div class="streak">今週 <b>${thisWeek}本</b>${streak>=2?`　週6本以上が <b>${streak}週連続</b> 🔥`:""}</div>`;
+  const lg=document.createElement("div");lg.className="legend";
+  Object.entries(POSTS_WEEKLY).forEach(([n,s])=>lg.insertAdjacentHTML("beforeend",`<span><i style="background:${C(s.color)}"></i>${n}</span>`));
+  c.appendChild(lg);
+  const W=520,H=230,L=26,R=8,T=12,B=26;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`});
+  panelBG(svg,L-8,T-4,W-L-R+16,H-T-B+4,3);
+  const maxV=Math.max(...totals);
+  const bw=Math.min(22,(W-L-R)/WEEKS.length-8);
+  const x=i=>L+(i+0.5)*(W-L-R)/WEEKS.length-bw/2;
+  const y=v=>T+(H-T-B-8)*(1-v/maxV)+4;
+  const skip=Math.ceil(WEEKS.length/6);
+  WEEKS.forEach((w,i)=>{
+    if(i%skip!==0&&i!==WEEKS.length-1)return;
+    const t=svgEl("text",{x:x(i)+bw/2,y:H-8,"text-anchor":"middle",class:"axis"});t.textContent=w;svg.appendChild(t);
+  });
+  WEEKS.forEach((w,i)=>{
+    let acc=0;
+    Object.entries(POSTS_WEEKLY).forEach(([n,ch])=>{
+      const v=ch.vals[i];if(!v)return;
+      const y0=y(acc),y1=y(acc+v);
+      const dim=state.postCh!=="all"&&n!==state.postCh;
+      const r=svgEl("rect",{x:x(i),y:y1,width:bw,height:Math.max(1,y0-y1-2),rx:3,fill:C(ch.color),opacity:dim?0.18:1});
+      r.addEventListener("mousemove",e=>showTT(`<div class="t">${w}の週</div><div class="r">${n}<span class="v">${v}本</span></div>`,e.clientX,e.clientY));
+      r.addEventListener("mouseleave",hideTT);svg.appendChild(r);
+      acc+=v;
+    });
+  });
+  const plot=document.createElement("div");plot.className="plot";plot.appendChild(svg);c.appendChild(plot);
+  c.insertAdjacentHTML("beforeend",`<div class="scroll-hint">← 横にスクロールできます →</div>`);
+}
+function renderWeekday(){
+  const c=$("#weekday-card");
+  c.innerHTML=`<div class="chart-title">体験申込が入る曜日</div><div class="chart-sub">投稿・掲示のベストタイミングがわかる</div>`;
+  const days=["月","火","水","木","金","土","日"],vals=[1,1,2,1,4,5,2];
+  const W=520,H=230,L=8,R=8,B=24;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`});
+  panelBG(svg,L,4,W-L-R,H-B-4,3);
+  const max=Math.max(...vals),bw=Math.min(36,(W-L-R)/7-10);
+  vals.forEach((v,vi)=>{
+    const x=L+(vi+0.5)*(W-L-R)/7-bw/2;
+    const h=(H-B-24)*v/max,y=H-B-6-h;
+    const hot=vi===4||vi===5;
+    const r=svgEl("rect",{x,y,width:bw,height:h,rx:4,fill:hot?css("--brand"):"#a9c8ef"});
+    r.addEventListener("mousemove",e=>showTT(`<div class="t">${days[vi]}曜日</div><div class="r">体験申込<span class="v">${v}件</span></div>`,e.clientX,e.clientY));
+    r.addEventListener("mouseleave",hideTT);svg.appendChild(r);
+    let t=svgEl("text",{x:x+bw/2,y:H-8,"text-anchor":"middle",class:"axis"});t.textContent=days[vi];svg.appendChild(t);
+    t=svgEl("text",{x:x+bw/2,y:y-5,"text-anchor":"middle",fill:hot?css("--brand-dark"):css("--muted"),"font-size":"10.5","font-weight":"700"});t.textContent=v;svg.appendChild(t);
+  });
+  const plot=document.createElement("div");plot.className="plot free";plot.appendChild(svg);c.appendChild(plot);
+  c.insertAdjacentHTML("beforeend",`<div class="insight">💡 <b>金・土に集中</b>＝週末に家族で相談して決める動き。<b>募集系の投稿は金曜17〜19時</b>が効率的です。</div>`);
+}
+
+/* ================= 媒体テーブル ================= */
+function renderChannels(){
+  const body=$("#ch-body");body.innerHTML="";
+  const i=idx(),isRange=state.period==="6m";
+  const rows=CHANNELS.map((c,ci)=>({...c,color:chColor(ci),v:isRange?Math.round(c.inflow[0]*4.2):c.inflow[i],t:isRange?Math.round(c.trials[0]*4):c.trials[i]}));
+  const maxV=Math.max(...rows.map(r=>r.v),1);
+  for(const r of rows){
+    const rate=r.v?r.t/r.v*100:0;
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td style="white-space:nowrap"><span class="chip" style="background:${r.tracked?r.color:css("--baseline")}"></span><b>${r.name}</b></td>
+      <td><span class="kind">${r.kind}</span></td>
+      <td class="n">${r.tracked?r.v.toLocaleString():"—"}</td>
+      <td class="n">${r.tracked?r.t:"—"}</td>
+      <td class="n">${r.tracked&&r.v?rate.toFixed(1)+"%":"—"}</td>
+      <td><div class="mini-bar"><i style="width:${r.v/maxV*100}%;background:${r.color}"></i></div></td>
+      <td>${r.tracked?'<span class="st-ok">● 計測中</span>':'<span class="st-wait">● 未接続</span>'}</td>
+      <td>${r.tracked?`<span class="row-link" onclick="alert('本番版では専用リンクとQRを再表示・ダウンロードできます')">リンク/QR</span>`:`<a class="row-link" href="guide.html#kuchikomi">接続方法</a>`}</td>`;
+    body.appendChild(tr);
+  }
+}
+
+/* ================= 投稿の分析 ================= */
+const postSrc=()=>state.postCh==="all"?POSTS:POSTS.filter(p=>p.ch===state.postCh);
+function renderPostTypes(){
+  const wrap=$("#type-chart");wrap.innerHTML="";
+  const src=postSrc();
+  if(!src.length){wrap.innerHTML=`<div style="padding:20px 4px;font-size:.82rem;color:var(--muted)">この媒体の投稿データはまだありません。連携すると自動で取り込まれます。</div>`;return}
+  const byType={};
+  src.forEach(p=>{(byType[p.type]=byType[p.type]??[]).push(p)});
+  const rows=Object.entries(byType).map(([type,arr])=>({
+    type,n:arr.length,med:median(arr.map(p=>p.views)),
+    clicks:arr.reduce((s,p)=>s+p.clicks,0),
+  })).sort((a,b)=>b.med-a.med);
+  const max=Math.max(...rows.map(r=>r.med));
+  const W=480,rowH=40,H=rows.length*rowH+6;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`,style:"display:block;width:100%;height:auto"});
+  rows.forEach((r,ri)=>{
+    const y=ri*rowH+4;
+    let n=svgEl("text",{x:0,y:y+13,fill:css("--ink-2"),"font-size":"11.5","font-weight":"700"});
+    n.textContent=`${r.type}（${r.n}本）`;svg.appendChild(n);
+    const w=Math.max(3,(W-150)*r.med/max);
+    const bar=svgEl("rect",{x:0,y:y+18,width:w,height:11,rx:3,fill:C(POST_TYPES[r.type])});
+    bar.addEventListener("mousemove",e=>showTT(`<div class="t">${r.type}</div><div class="r">閲覧中央値<span class="v">${r.med.toLocaleString()}</span></div><div class="r">投稿数<span class="v">${r.n}本</span></div><div class="r">ページ誘導 計<span class="v">${r.clicks}人</span></div>`,e.clientX,e.clientY));
+    bar.addEventListener("mouseleave",hideTT);svg.appendChild(bar);
+    const label=r.med.toLocaleString();
+    const inside=w+8+label.length*7>W-4; // 右端を越えるならバー内側に白字で
+    n=svgEl("text",{x:inside?w-6:w+8,y:y+28,fill:inside?"#fff":css("--ink"),
+      "text-anchor":inside?"end":"start","font-size":"11.5","font-weight":"700","font-variant-numeric":"tabular-nums"});
+    n.textContent=label;svg.appendChild(n);
+  });
+  wrap.appendChild(svg);
+}
+function renderTopPosts(){
+  const body=$("#posts-body");body.innerHTML="";
+  const src=postSrc();
+  if(!src.length){$("#posts-insight").innerHTML="この媒体の投稿データはまだありません。連携すると自動で取り込まれます。";return}
+  const sorted=[...src].sort((a,b)=>b.views-a.views);
+  const best=sorted[0].views;
+  for(const p of sorted){
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td style="white-space:nowrap">${p.date}</td>
+      <td style="white-space:nowrap"><span class="chip" style="background:${C(POST_CH_COLOR[p.ch])}"></span>${p.ch}</td>
+      <td><span class="type-chip" style="background:${C(POST_TYPES[p.type])}">${p.type}</span></td>
+      <td>${p.text}${p.views===best?' <span style="font-size:.66rem;background:#fff2e0;color:var(--brand-dark);border-radius:999px;padding:2px 8px;font-weight:700">ベスト</span>':""}</td>
+      <td class="n">${p.views.toLocaleString()}</td><td class="n">${p.likes}</td><td class="n">${p.clicks}</td>`;
+    body.appendChild(tr);
+  }
+  const top3=sorted.slice(0,Math.min(3,sorted.length));
+  const typeCount={};top3.forEach(p=>typeCount[p.type]=(typeCount[p.type]??0)+1);
+  const topTypes=Object.entries(typeCount).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${t}×${n}`).join("・");
+  const chLabel=state.postCh==="all"?"全媒体":state.postCh;
+  let html=`💡 <b>${chLabel}の上位${top3.length}件：${topTypes}</b>。`;
+  const boshu=src.filter(p=>p.type==="募集告知"),other=src.filter(p=>p.type!=="募集告知");
+  const bv=boshu.reduce((s,p)=>s+p.views,0),ov=other.reduce((s,p)=>s+p.views,0);
+  if(bv>0&&ov>0){
+    const br=(boshu.reduce((s,p)=>s+p.clicks,0)/bv*100).toFixed(1);
+    const or2=(other.reduce((s,p)=>s+p.clicks,0)/ov*100).toFixed(1);
+    html+=`ページ誘導率は<b>募集告知が${br}%</b>（他タイプ ${or2}%）——「見られる投稿で知ってもらい、募集告知で申込へ」の役割分担が数字で確認できます。`;
+  }else if(state.postCh!=="all"){
+    html+=`この媒体には募集告知の投稿がまだありません。<b>体験会の告知を1本入れてページ誘導を測る</b>のがおすすめです。`;
+  }
+  html+=`本番版ではSNS連携で自動取込されます。`;
+  $("#posts-insight").innerHTML=html;
+}
+
+/* ================= アンケート集計 ================= */
+const TALLY_COLOR={"知人の紹介":"--s6","チビスポで検索":"--s1","ポスターを見て":"--s3","Instagram":"--s2","チラシ":"--s4","その他":"--baseline"};
+function renderSurvey(){
+  const total=Object.values(TALLY).reduce((s,v)=>s+v,0);
+  $("#survey-count").textContent=`回収済みアンケート ${total}件`;
+  const wrap=$("#survey-chart");wrap.innerHTML="";
+  const rows=Object.entries(TALLY).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(...rows.map(r=>r[1]),1);
+  const W=460,rowH=34,H=rows.length*rowH+6;
+  const svg=svgEl("svg",{viewBox:`0 0 ${W} ${H}`,style:"display:block;width:100%;height:auto"});
+  rows.forEach(([name,v],ri)=>{
+    const y=ri*rowH+4;
+    let n=svgEl("text",{x:0,y:y+12,fill:css("--ink-2"),"font-size":"11","font-weight":"700"});n.textContent=name;svg.appendChild(n);
+    const w=Math.max(3,(W-160)*v/max);
+    svg.appendChild(svgEl("rect",{x:0,y:y+16,width:w,height:10,rx:3,fill:C(TALLY_COLOR[name]??"--s1")}));
+    n=svgEl("text",{x:w+8,y:y+25,fill:css("--ink"),"font-size":"11","font-weight":"700","font-variant-numeric":"tabular-nums"});
+    n.textContent=`${v}人${total?`（${Math.round(v/total*100)}%）`:""}`;svg.appendChild(n);
+  });
+  wrap.appendChild(svg);
+}
+
+/* ================= 記録・設定 ================= */
+function saveRecord(){
+  const date=$("#rec-date").value;
+  if(!date){alert("日付を入れてください");return}
+  const kind=$("#rec-kind").value,num=parseInt($("#rec-num").value||"1",10);
+  const mi=MONTHS.indexOf(`${parseInt(date.slice(5,7),10)}月`);
+  if(mi>=0){
+    if(kind==="体験・見学の申込")TREND.trials[mi]+=num;
+    if(kind==="入会が決まった")TREND.joins[mi]+=num;
+    if(kind.includes("ポスター")||kind.includes("チラシ")||kind.includes("体験会")||kind.includes("その他の施策")){
+      const memo=$("#rec-memo").value.trim();
+      EVENTS.push({m:mi,label:kind.slice(0,2)+" "+(memo||kind.replace(/^..\s/,""))});
+    }
+  }
+  renderKPI();renderMap();renderChannels();renderTimeline();
+  const d=$("#rec-done");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),1800);
+  $("#rec-memo").value="";
+}
+function saveGoal(){
+  localStorage.setItem("demo-goal",$("#goal-num").value||"40");
+  renderKPI();
+  const d=$("#goal-done");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),2000);
+}
+function openSurveyTpl(){$("#tpl-bg").classList.add("show")}
+function closeSurveyTpl(){$("#tpl-bg").classList.remove("show")}
+function mockOcr(input){
+  if(!input.files||!input.files.length)return;
+  $("#ocr-flow").style.display="block";
+  $("#ocr-result").style.display="none";
+  $("#ocr-status").innerHTML="🔍 AIが読み取り中…（プレビュー版のためサンプル結果を表示します）";
+  setTimeout(()=>{$("#ocr-status").innerHTML="✅ 読み取りが完了しました";$("#ocr-result").style.display="block"},1200);
+  input.value="";
+}
+function applyOcr(){
+  const key=$("#ocr-q1").value;
+  TALLY[key]=(TALLY[key]??0)+1;
+  renderSurvey();
+  $("#ocr-status").innerHTML=`✅ 集計に追加しました（きっかけ：<b>${key}</b>）。「集客の分析」タブのグラフに反映されています。`;
+  $("#ocr-result").style.display="none";
+}
+
+/* ================= 媒体追加モーダル ================= */
+const KINDS=[
+  {id:"poster",n:"ポスター 🪧",d:"掲示場所ごとにQRを分けると効果比較できる"},
+  {id:"flyer",n:"チラシ 📄",d:"配布イベントごとに分けるのがおすすめ"},
+  {id:"sns",n:"SNS 📱",d:"Instagram・Threads・X など"},
+  {id:"referral",n:"紹介カード 🤝",d:"保護者に渡す口コミ計測用"},
+  {id:"web",n:"自クラブHP・ブログ 🌐",d:"リンクを貼り替えるだけ"},
+  {id:"other",n:"その他 ✏️",d:"看板・地域誌・イベントなど"},
+];
+let selectedKind="poster";
+function buildKinds(){
+  const g=$("#m-kinds");g.innerHTML="";
+  KINDS.forEach(k=>{
+    const b=document.createElement("button");
+    b.innerHTML=`${k.n}<span class="k-desc">${k.d}</span>`;
+    b.setAttribute("aria-pressed",k.id===selectedKind);
+    b.onclick=()=>{selectedKind=k.id;buildKinds()};
+    g.appendChild(b);
+  });
+}
+function openModal(){$("#modal-bg").classList.add("show");$("#m-result").classList.remove("show");$("#m-name").value="";buildKinds()}
+function closeModal(){$("#modal-bg").classList.remove("show")}
+function slugify(s){return (s||"media").toLowerCase().replace(/[^a-z0-9ぁ-んァ-ン一-龠]/g,"-").slice(0,20)||"media"}
+function createChannel(){
+  const name=$("#m-name").value.trim();
+  if(!name){alert("媒体の名前を入れてください");return}
+  const url=`https://chibispo.com/go/sample-fc/${encodeURIComponent(slugify(name))}`;
+  $("#m-url").textContent=url;
+  drawFakeQR($("#m-qr"),name);
+  $("#m-result").classList.add("show");
+  CHANNELS.push({id:slugify(name),name,kind:KINDS.find(k=>k.id===selectedKind).n.replace(/ .*/,""),inflow:[0,0],trials:[0,0],tracked:true});
+  renderChannels();renderMap();
+}
+function drawFakeQR(cv,seedStr){
+  const ctx=cv.getContext("2d");const N=21,S=cv.width/N;
+  let seed=0;for(const ch of seedStr)seed=(seed*31+ch.charCodeAt(0))>>>0;
+  const rnd=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;seed>>>=0;return seed/4294967295};
+  ctx.fillStyle="#fff";ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.fillStyle="#111";
+  const finder=(fx,fy)=>{ctx.fillRect(fx*S,fy*S,7*S,7*S);ctx.fillStyle="#fff";ctx.fillRect((fx+1)*S,(fy+1)*S,5*S,5*S);ctx.fillStyle="#111";ctx.fillRect((fx+2)*S,(fy+2)*S,3*S,3*S)};
+  for(let yy=0;yy<N;yy++)for(let xx=0;xx<N;xx++){
+    const inF=(xx<8&&yy<8)||(xx>=N-8&&yy<8)||(xx<8&&yy>=N-8);
+    if(!inF&&rnd()>0.52)ctx.fillRect(xx*S,yy*S,S,S);
+  }
+  finder(0,0);finder(N-7,0);finder(0,N-7);
+}
+
+/* ================= ヒント・期間切替・初期化 ================= */
+document.addEventListener("mousemove",e=>{const h=e.target.closest?.(".hint-i");if(h)showTT(h.dataset.tip,e.clientX,e.clientY)});
+document.addEventListener("mouseout",e=>{if(e.target.closest?.(".hint-i"))hideTT()});
+document.querySelectorAll("#post-ch-seg button").forEach(b=>{
+  b.onclick=()=>{state.postCh=b.dataset.ch;
+    document.querySelectorAll("#post-ch-seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    renderPostTypes();renderTopPosts();renderWeeklyPosts();};
+});
+document.querySelectorAll("#period-seg button").forEach(b=>{
+  b.onclick=()=>{state.period=b.dataset.p;
+    document.querySelectorAll("#period-seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    renderKPI();renderMap();renderChannels();};
+});
+$("#rec-date").value=new Date().toISOString().slice(0,10);
+$("#goal-num").value=getGoal();
+renderKPI();renderTimeline();renderFullFunnel();renderMap();
+renderWeeklyViews();renderWeeklyPosts();renderWeekday();
+renderChannels();renderPostTypes();renderSurvey();renderTopPosts();
+
+/* ================= 実データ接続（GA4）================= *
+ * ?club=<クラブUUID または 名前の一部> を付けて開くと、
+ * data/club-analytics.json（fetch-ga4-clubs.py が生成）から
+ * そのクラブの実測値を読み、GA4が埋められる範囲だけを差し替える。
+ * 申込・入会・投稿・アンケートはデータ源が別なのでデモのまま明示する。
+ * 失敗・該当なし・パラメータ無しのときはデモ表示を維持（フォールバック）。 */
+(async function connectRealData(){
+  const q=(new URLSearchParams(location.search).get("club")||"").trim();
+  if(!q)return; // 実データ指定なし＝プレビュー（デモ）のまま
+  const isUuid=/^[0-9a-f-]{8,}$/i.test(q);
+  const getJson=async(url)=>{const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status+" @ "+url);return r.json();};
+
+  // 本番経路：認証付きAPI（Worker）。club-mypageのログインセッションを同一オリジンのlocalStorageから読む。
+  // ローカル/開発経路：静的ファイル data/clubs/<uuid>.json にフォールバック。
+  const API_BASE="https://chibispo-tracking.hyogo120.workers.dev";
+  const SESSION_KEY="sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth";
+  let club=null,rng={},apiClicks=null;
+  if(isUuid){
+    try{
+      const sess=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
+      const token=sess&&sess.access_token;
+      if(token){
+        const r=await fetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q),{headers:{Authorization:"Bearer "+token}});
+        if(r.ok){
+          const d=await r.json();
+          if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
+          if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
+          if(!club&&d&&d.ok){
+            setDemoBar(`⚠ ${d.club&&d.club.name?d.club.name+"の":""}実データはまだ準備中です（初回の集計後に表示されます）。デモ表示を継続します。`,"warn");
+            return;
+          }
+        }else if(r.status===402){
+          setDemoBar("⚠ 分析ダッシュボードは有料プランの特典です。プランのアップグレードで実データが表示されます。","warn");
+          return;
+        }else if(r.status===401||r.status===403){
+          console.warn("[real-data] API認証エラー:",r.status);
+          // ログイン切れ等 → 静的フォールバックを試し、無ければ下の共通メッセージへ
+        }
+      }
+    }catch(err){console.warn("[real-data] API取得に失敗:",err&&err.message);}
+  }
+  // 静的ファイルフォールバック（ローカルプレビュー用）
+  if(!club){
+    try{
+      let cid=isUuid?q:null;
+      if(!cid){
+        const idx=await getJson("data/club-analytics.json");
+        const clubs=idx&&idx.clubs?idx.clubs:{};
+        const lc=q.toLowerCase();
+        const hit=clubs[q]
+          ||Object.values(clubs).find(c=>c.id&&c.id.toLowerCase().startsWith(lc))
+          ||Object.values(clubs).find(c=>c.name&&c.name.toLowerCase().includes(lc));
+        cid=hit&&hit.id;
+      }
+      if(cid){
+        const doc=await getJson("data/clubs/"+encodeURIComponent(cid)+".json");
+        club=doc.club||null; rng=doc.range||{};
+      }
+    }catch(err){
+      console.warn("[real-data] 実データ取得に失敗:",err&&err.message);
+    }
+  }
+  if(!club){
+    setDemoBar(`⚠ 「${q}」の実データを表示できませんでした（マイページにログインした状態で、マイページの「分析ダッシュボードを見る」から開いてください）。デモ表示を継続します。`,"warn");
+    return;
+  }
+  const start=fmtD(rng.start),end=fmtD(rng.end),days=rng.lookback_days||"";
+  const nm=club.name||"（名称未取得）";
+
+  // 1) ヘッダーをこのクラブに差し替え
+  const nameEl=document.querySelector("header .club .name");
+  if(nameEl)nameEl.textContent=nm;
+  const avEl=document.querySelector("header .club .avatar");
+  if(avEl)avEl.textContent=(nm.match(/[^\s（(]/)||["●"])[0];
+
+  // 2) 実データバッジ
+  setDemoBar(`✅ <b>実データ</b>：${nm}（GA4 ${start}〜${end}／閲覧 ${(+club.views||0).toLocaleString()}）　※申込・入会・投稿・アンケートは記録がたまるまでデモ表示`,"real");
+
+  // 3) ホーム最上部にGA4実測セクションを差し込む
+  const home=$("#pane-home");
+  const sec=document.createElement("section");
+  sec.id="real-ga4";
+  const head=document.createElement("div");head.className="sec-head";
+  head.innerHTML=`<h2>GA4実測：クラブページのアクセス</h2><span class="ai-badge">実データ</span><span class="sub">${start}〜${end}（過去${days}日）・チビスポ側ゼロ設定で自動取得</span>`;
+  sec.appendChild(head);
+
+  const grid=document.createElement("div");grid.className="kpi-grid";
+  const daily=(club.daily||[]).map(d=>+d.views||0);
+  const kcards=[
+    {label:"ページ閲覧",value:+club.views||0,color:css("--s1"),spark:true},
+    {label:"訪問ユーザー",value:+club.users||0,color:css("--s2")},
+    {label:"セッション",value:+club.sessions||0,color:css("--s5")},
+  ];
+  for(const it of kcards){
+    const d=document.createElement("div");d.className="card kpi";
+    d.innerHTML=`<div class="label">${it.label}</div><div class="value">${it.value.toLocaleString()}</div><div class="delta">実測値（${days}日）</div>`;
+    if(it.spark&&daily.length>1)d.appendChild(spark(daily,it.color));
+    grid.appendChild(d);
+  }
+  // 流入元（チャネル）内訳カード
+  const ch=club.channels||{};
+  const chMap={"Organic Social":["SNS","--s2"],"Direct":["直接・アプリ","--s1"],"Organic Search":["検索","--s5"],"Referral":["他サイト経由","--s3"],"Unassigned":["不明","--baseline"],"(other)":["その他","--baseline"]};
+  const chRows=Object.entries(ch).sort((a,b)=>b[1]-a[1]);
+  const chTotal=chRows.reduce((s,[,v])=>s+v,0)||1;
+  const cCard=document.createElement("div");cCard.className="card";cCard.style.gridColumn="span 1";
+  cCard.innerHTML=`<div class="label">流入元（GA4）</div>`+
+    (chRows.length?chRows.map(([k,v])=>{
+      const[lbl,col]=chMap[k]||[k,"--s6"];const pct=Math.round(v/chTotal*100);
+      return `<div style="margin:6px 0 2px;font-size:.76rem;display:flex;justify-content:space-between"><span>${lbl}</span><span style="color:var(--muted)">${v}（${pct}%）</span></div>
+        <div style="height:6px;border-radius:4px;background:#eee;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:${C(col)}"></i></div>`;
+    }).join(""):`<div class="sub" style="margin-top:6px">まだ計測データがありません</div>`);
+  grid.appendChild(cCard);
+
+  // 媒体別クリック：本番=API(link_clicksライブ集計)優先、ローカル=.clicks.jsonフォールバック
+  try{
+    const cl=apiClicks||await getJson("data/clubs/"+encodeURIComponent(club.id)+".clicks.json");
+    const rows=(cl&&cl.channels)||[];
+    if(rows.length){
+      const kindCol={poster:"--s3",flyer:"--s4",sns:"--s2",referral:"--s6",web:"--s1",other:"--baseline"};
+      const total=cl.total||rows.reduce((s,r)=>s+(+r.clicks||0),0)||1;
+      const mCard=document.createElement("div");mCard.className="card";
+      mCard.innerHTML=`<div class="label">媒体別クリック（計測リンク・${cl.range&&cl.range.lookback_days||days}日）</div>`+
+        rows.map(r=>{const pct=Math.round((+r.clicks||0)/total*100);const col=kindCol[r.kind]||"--s5";
+          return `<div style="margin:6px 0 2px;font-size:.76rem;display:flex;justify-content:space-between"><span>${r.name}</span><span style="color:var(--muted)">${r.clicks}（${pct}%）</span></div>
+            <div style="height:6px;border-radius:4px;background:#eee;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:${C(col)}"></i></div>`;
+        }).join("");
+      grid.appendChild(mCard);
+    }
+  }catch(_){/* clicksファイルが無ければスキップ＝GA4だけ表示 */}
+
+  sec.appendChild(grid);
+
+  // デモとの境界を明示
+  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">上はあなたのクラブの<b>実測値</b>です。下の会員数・体験申込・タイムライン・投稿・アンケートは、フォームや記録がつながるまで<b>デモ表示</b>のままです。</div>`);
+  home.insertBefore(sec,home.firstElementChild.nextSibling); // 「はじめての方へ」の直後
+
+  console.log("[real-data] 実データ表示:",nm,club);
+
+  function fmtD(s){if(!s)return"";const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[2]}/${+m[3]}`:s;}
+})();
+
+function setDemoBar(html,kind){
+  const b=document.querySelector(".demo-bar");if(!b)return;
+  b.innerHTML=html;
+  if(kind==="real"){b.style.background="#e7f6ec";b.style.color="#1b6b3a";b.style.borderColor="#bfe6cd";}
+  else if(kind==="warn"){b.style.background="#fff5e6";b.style.color="#8a5a00";b.style.borderColor="#f0d9a8";}
+}
+function fmtD(s){if(!s)return"";const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[2]}/${+m[3]}`:s;}
+</script>
+</body>
+</html>

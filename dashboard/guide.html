@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>媒体の追加・接続ガイド | チビスポ クラブ分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#f9f9f7;--surface:#fff;--surface-2:#f3f2ee;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;
+    --grid:#e1e0d9;--border:rgba(11,11,11,.10);--brand:#f08a2e;--brand-dark:#d97822;--blue:#2a78d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP',system-ui,sans-serif;background:var(--page);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Zen Maru Gothic','Noto Sans JP',sans-serif}
+  .demo-bar{background:#fff7ec;border-bottom:1px solid #f2ddc2;color:#8a5a17;font-size:.8rem;text-align:center;padding:8px 14px}
+  header.top{max-width:860px;margin:0 auto;padding:26px 18px 0}
+  .back{font-size:.8rem;color:var(--muted);text-decoration:none}
+  .back:hover{color:var(--brand-dark)}
+  h1{font-size:1.5rem;font-weight:900;margin-top:10px}
+  .updated{font-size:.76rem;color:var(--muted);margin-top:4px}
+  main{max-width:860px;margin:0 auto;padding:10px 18px 90px}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:20px;font-size:.86rem}
+  .toc b{font-size:.8rem;color:var(--muted)}
+  .toc a{color:var(--blue);text-decoration:none;display:inline-block;margin:2px 14px 2px 0}
+  section{margin-top:42px;scroll-margin-top:20px}
+  h2{font-size:1.15rem;font-weight:900;padding-bottom:8px;border-bottom:3px solid var(--brand)}
+  h2 .step{display:inline-flex;align-items:center;justify-content:center;background:var(--brand);color:#fff;border-radius:50%;width:30px;height:30px;font-size:.9rem;margin-right:10px;vertical-align:-4px}
+  h3{font-size:.98rem;margin-top:22px;color:var(--brand-dark)}
+  p,li{font-size:.9rem;color:var(--ink-2)}
+  p{margin-top:10px}
+  b{color:var(--ink)}
+  ol,ul{margin:10px 0 0 22px}
+  li{margin-top:6px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:14px}
+  .point{background:#eef6ff;border:1px solid #cfe3f8;border-radius:12px;padding:12px 16px;font-size:.85rem;color:#274a6d;margin-top:14px}
+  .point b{color:#1c5cab}
+  .warn{background:#fff4ec;border:1px solid #f4d9bd;border-radius:12px;padding:12px 16px;font-size:.85rem;color:#7c4a12;margin-top:14px}
+  .word{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-top:10px}
+  .word dt{font-weight:900;font-size:.9rem}
+  .word dd{font-size:.85rem;color:var(--ink-2);margin-top:2px}
+  .faq-q{font-weight:900;margin-top:18px;font-size:.92rem}
+  .faq-q::before{content:"Q. ";color:var(--brand)}
+  .faq-a{font-size:.88rem;color:var(--ink-2);margin-top:4px}
+  .faq-a::before{content:"A. ";color:var(--blue);font-weight:900}
+  .history{font-size:.82rem}
+  .history li{list-style:none;margin:8px 0 0 0;padding-left:0}
+  .history .date{display:inline-block;color:var(--muted);font-variant-numeric:tabular-nums;width:96px}
+  code{background:var(--surface-2);border-radius:6px;padding:2px 8px;font-size:.82rem}
+  /* 管理者メモ（編集する人向け・画面には薄く表示） */
+  .admin-note{border:1.5px dashed var(--brand);border-radius:10px;padding:8px 14px;font-size:.75rem;color:var(--brand-dark);margin-top:16px;background:#fffaf4}
+</style>
+</head>
+<body>
+<div class="demo-bar">🔍 プレビュー版のガイドです。内容はチビスポ運営が随時更新します。</div>
+<header class="top">
+  <a class="back" href="index.html">← ダッシュボードに戻る</a>
+  <h1>📖 媒体の追加・接続ガイド</h1>
+  <div class="updated">最終更新：2026年7月7日 ｜ このページはチビスポ運営が更新します。困ったらいつでも見に来てください。</div>
+</header>
+
+<main>
+  <div class="toc">
+    <b>もくじ</b><br>
+    <a href="#about">0. このダッシュボードでできること</a>
+    <a href="#chibispo">1. チビスポ掲載ページ（設定不要）</a>
+    <a href="#sns">2. Instagram・SNS をつなぐ</a>
+    <a href="#poster">3. ポスターにQRを付ける</a>
+    <a href="#flyer">4. チラシにQRを付ける</a>
+    <a href="#kuchikomi">5. 口コミを「見える化」する</a>
+    <a href="#hp">6. 自クラブのHP・ブログ</a>
+    <a href="#record">7. 体験・入会・電話の記録</a>
+    <a href="#survey">8. 見学アンケート（写真で取り込み）</a>
+    <a href="#sns-posts">9. SNS投稿の反応を見る</a>
+    <a href="#words">用語集</a>
+    <a href="#faq">よくある質問</a>
+    <a href="#history">更新履歴</a>
+  </div>
+
+  <!-- ============ 0 ============ -->
+  <section id="about">
+    <h2>0．このダッシュボードでできること</h2>
+    <p>ひとことで言うと、<b>「どの宣伝が、何人の入会につながったか」が見える</b>ようになります。</p>
+    <div class="card">
+      <ul>
+        <li>ポスター・チラシ・Instagram…<b>どれが効いているか</b>が数字でわかる</li>
+        <li>効いていない宣伝をやめて、<b>効いている宣伝に集中</b>できる</li>
+        <li>「あと何人に見てもらえば目標に届くか」を<b>逆算</b>できる</li>
+      </ul>
+    </div>
+    <div class="point">💡 <b>仕組みはシンプルです。</b>媒体ごとに「専用の入口（リンクやQRコード）」を用意して、どの入口から何人来たかを数えているだけ。あなたがやることは、<b>この後の手順どおりに入口を置くことだけ</b>です。難しい設定は一切ありません。</div>
+  </section>
+
+  <!-- ============ 1 ============ -->
+  <section id="chibispo">
+    <h2><span class="step">1</span>チビスポ掲載ページ（設定不要）</h2>
+    <p><b>何もしなくて大丈夫です。</b>チビスポの検索・特集・地域ページからあなたのクラブページに来た人は、自動で数えられています。</p>
+    <div class="point">💡 ダッシュボードの媒体一覧で「チビスポ検索・特集」が<b>「● 計測中」</b>になっていればOKです。</div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section id="sns">
+    <h2><span class="step">2</span>Instagram・SNSをつなぐ（5分・1回だけ）</h2>
+    <p>InstagramやThreadsの<b>プロフィールに貼っているリンク</b>を、専用リンクに貼り替えるだけです。</p>
+    <ol>
+      <li>ダッシュボードの「＋ 媒体を追加」を押す</li>
+      <li>名前に「Instagram」と入れて、種類は「SNS」を選ぶ → <b>発行する</b></li>
+      <li>出てきた専用リンク（例：<code>chibispo.com/go/あなたのクラブ/instagram</code>）をコピー</li>
+      <li>Instagramアプリ →「プロフィールを編集」→ リンク欄に<b>貼り替えて保存</b></li>
+    </ol>
+    <p>これで、Instagramのプロフィールから来た人が自動で数えられます。ThreadsやXも同じ手順で、媒体を分けて発行してください。</p>
+    <div class="warn">⚠ <b>大事：</b>SNSごとに<b>別のリンクを発行</b>してください。同じリンクを使い回すと「どのSNSが効いたか」が分からなくなります。</div>
+    <div class="point">💡 <b>見た目は変わりません。</b>専用リンクを踏んだ人は、普通どおりあなたのクラブページに届きます。数えるための目印が付いているだけです。</div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section id="poster">
+    <h2><span class="step">3</span>ポスターにQRを付ける</h2>
+    <p>紙のポスターこそ、この仕組みの本領です。<b>「貼っただけで終わり」だったポスターが、何人連れてきたか分かるようになります。</b></p>
+    <div class="point">💡 QRの行き先は<b>クラブページ</b>にしておくのがおすすめです。ポスターを見た人はまだクラブをよく知らないので、いきなり申込フォームだと逃げがち。<b>写真・料金・口コミがそろったクラブページで納得してもらってから申込</b>に進む方が、途中で離脱しません。しかもスキャン→閲覧→体験申込→入会の<b>全段階が数字で見える</b>ようになります。</div>
+    <ol>
+      <li>「＋ 媒体を追加」→ 名前に<b>掲示する場所</b>を入れる（例：「駅前掲示板ポスター」）</li>
+      <li>種類は「ポスター」を選ぶ → 発行する</li>
+      <li>QRコード画像をダウンロードして、ポスターのデザインに載せて印刷</li>
+      <li>QRのそばに<b>「体験申込はこちら」</b>と一言添える（読み取り率が全然違います）</li>
+    </ol>
+    <h3>コツ：場所ごとにQRを分ける</h3>
+    <p>駅前と小学校前に貼るなら、<b>QRを2つ発行</b>してください。「駅前は月20人・小学校前は月3人」のように場所の勝ち負けが分かり、次にどこへ貼るべきか判断できます。</p>
+    <div class="point">💡 掲示をやめた月は数字が落ちるので、<b>「掲示をやめたらどうなるか」も数字で確認できます</b>。効果が続いていれば継続、ゼロなら別の場所へ。</div>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section id="flyer">
+    <h2><span class="step">4</span>チラシにQRを付ける</h2>
+    <p>ポスターと同じ要領です。おすすめは<b>「配布のタイミングごと」に媒体を分ける</b>こと。</p>
+    <ul>
+      <li>例：「体験会チラシ6月」「新学期チラシ4月」のように名前を付ける</li>
+      <li>学校配布・ポスティング・手渡しを分けると、配り方の効果も比較できます</li>
+    </ul>
+    <div class="warn">⚠ チラシは<b>配ってから2〜3週間</b>が数字の見どころです。配布日をメモしておいて、ダッシュボードでその後の流入を確認してください。</div>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section id="kuchikomi">
+    <h2><span class="step">5</span>口コミを「見える化」する（紹介カード）</h2>
+    <p>入会理由で実は一番多いのが<b>保護者どうしの口コミ</b>。でも普通は計測できません。そこで<b>紹介カード</b>を使います。</p>
+    <ol>
+      <li>「＋ 媒体を追加」→ 名前「紹介カード」→ 種類「紹介カード」で発行</li>
+      <li>QR付きの名刺サイズカードを作る（チビスポ運営がテンプレートを用意します）</li>
+      <li>今の会員の保護者に「よかったらお友達に」と数枚ずつ渡す</li>
+    </ol>
+    <p>カードのQRから来た人＝<b>紹介経由</b>として数えられます。紹介が多いと分かったら、紹介特典（体験無料など）を作る判断もできます。</p>
+  </section>
+
+  <!-- ============ 6 ============ -->
+  <section id="hp">
+    <h2><span class="step">6</span>自クラブのHP・ブログ</h2>
+    <p>自前のホームページやブログがある場合は、そこに貼っている「チビスポのクラブページへのリンク」を専用リンクに貼り替えてください（手順はSNSと同じ）。</p>
+  </section>
+
+  <!-- ============ 7 ============ -->
+  <section id="record">
+    <h2><span class="step">7</span>体験・入会・電話の記録</h2>
+    <p>数字の「ゴール側」の記録方法です。サイト経由は自動、それ以外は手入力です。</p>
+    <div class="card">
+      <ul>
+        <li><b>チビスポの体験申込フォーム経由</b> → 自動で記録されます（設定不要）</li>
+        <li><b>電話・LINE・その場での申込</b> → ダッシュボード右上の<b>「✍️ 記録を入力」</b>から1件ずつ記録（10秒）。「何があった？」と「きっかけ」を選ぶだけです</li>
+        <li><b>入会が決まったら</b> → 同じく「✍️ 記録を入力」→「入会が決まった」を選ぶ</li>
+        <li><b>会員の目標人数</b> → 「✍️ 記録を入力」→「目標の変更」タブでいつでも変更できます。目標を変えると逆算（必要な体験数・閲覧数）も自動で更新されます</li>
+      </ul>
+    </div>
+    <div class="point">💡 <b>電話がかかってきたら「何を見てお電話くださいましたか？」とひとこと聞く</b>——これだけで、ネットで計測できない経路（電話・紹介）もデータになります。</div>
+    <div class="warn">⚠ ここの記録をサボると、ファネル（入会までの流れ）の数字が実際より少なく見えます。<b>「申込が来たらその場で1タップ」</b>を習慣にするのがコツです。</div>
+  </section>
+
+  <!-- ============ 8 ============ -->
+  <section id="survey">
+    <h2><span class="step">8</span>見学アンケート（写真で取り込み）</h2>
+    <p>見学に来た保護者に渡す紙のアンケートです。<b>「何がきっかけで来たか」を本人に聞く</b>ので、ポスター・口コミ・電話などネットで計測できない経路の一番確実なデータになります。</p>
+    <ol>
+      <li>ダッシュボードの「📄 アンケート用紙を見る」からテンプレートを印刷（クラブ名入り）</li>
+      <li>見学・体験に来た保護者に渡して、その場で記入してもらう（1分）</li>
+      <li>回収したら、<b>スマホで撮影して「📷 写真から取り込む」に入れる</b></li>
+      <li>AIが読み取った内容を確認（間違っていれば直す）→「この内容で取り込む」</li>
+    </ol>
+    <p>取り込んだ回答は自動で集計され、「何がきっかけで来たか」のグラフに反映されます。</p>
+    <div class="point">💡 <b>QRの数字とアンケートを見比べるのがプロの使い方。</b>アンケートで「ポスター」と答えた人が多いのにポスターQRの流入が少ない→「ポスターは見られているがQRが読まれていない」＝QRを大きくする・「申込はこちら」の文言を足す、という改善につながります。</div>
+  </section>
+
+  <!-- ============ 9 ============ -->
+  <section id="sns-posts">
+    <h2><span class="step">9</span>SNS投稿の反応を見る</h2>
+    <p>「SNS投稿の反応」の表では、投稿ごとに<b>閲覧・いいね・ページ誘導（その投稿からクラブページに来た人数）</b>が見られます。</p>
+    <ul>
+      <li><b>閲覧が多い投稿</b>＝知ってもらうのが得意な投稿（試合や成長の様子など）</li>
+      <li><b>ページ誘導が多い投稿</b>＝申込につながる投稿（体験会の募集など）</li>
+      <li>両方をバランスよく：<b>思い出系で知ってもらい → 募集系で申込へ</b>が基本形です</li>
+    </ul>
+    <div class="point">💡 本番版では、InstagramなどのSNSアカウントを一度連携すれば投稿データは自動で取り込まれます（毎回の入力は不要）。</div>
+  </section>
+
+  <!-- ============ 用語集 ============ -->
+  <section id="words">
+    <h2>📚 用語集（これだけ知っていれば大丈夫）</h2>
+    <dl>
+      <div class="word"><dt>流入（りゅうにゅう）</dt><dd>あなたのクラブページに人が来ること。「入口を通った人数」のイメージです。</dd></div>
+      <div class="word"><dt>閲覧（ビュー / PV）</dt><dd>ページが見られた回数。同じ人が2回見たら2回と数えます。</dd></div>
+      <div class="word"><dt>媒体（ばいたい）</dt><dd>人がクラブを知る場所のこと。Instagram・ポスター・チラシ・口コミ、ぜんぶ媒体です。</dd></div>
+      <div class="word"><dt>申込率（コンバージョン率）</dt><dd>来た人のうち、体験申込までした人の割合。<b>100人来て2人申し込んだら2%</b>。1%前後が普通、2%超えは優秀です。</dd></div>
+      <div class="word"><dt>ファネル</dt><dd>「知る → 見る → 申し込む → 入会」の流れを漏斗（ろうと）に見立てた図。どの段階で人が減っているかを見つけるための図です。</dd></div>
+      <div class="word"><dt>専用リンク / QRコード</dt><dd>媒体ごとに発行する「数えるための入口」。見た目・行き先は普通のリンクと同じで、目印が付いているだけです。</dd></div>
+    </dl>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <h2>❓ よくある質問</h2>
+    <p class="faq-q">専用リンクにすると、見に来た人に何か表示されますか？</p>
+    <p class="faq-a">何も変わりません。普通どおりクラブページが表示されるだけです。</p>
+    <p class="faq-q">個人情報は取られていませんか？</p>
+    <p class="faq-a">「どの入口から何人来たか」という人数だけを数えています。誰が見たかは分かりませんし、記録もしていません。</p>
+    <p class="faq-q">数字はいつ更新されますか？</p>
+    <p class="faq-a">1日1回、自動で更新されます（ダッシュボード上部に最終更新時刻が出ます）。</p>
+    <p class="faq-q">ポスターを剥がしたら媒体はどうすれば？</p>
+    <p class="faq-a">そのまま残しておいてOKです。流入が止まったことも「掲示をやめた効果」として記録に残ります。</p>
+    <p class="faq-q">やることが多くて何から始めればいいか分かりません</p>
+    <p class="faq-a">まずは<b>手順2（SNSのリンク貼り替え・5分）だけ</b>やってください。それだけでダッシュボードが動き始めます。紙のQRは次の印刷のタイミングで十分です。</p>
+  </section>
+
+  <!-- ============ 更新履歴 ============ -->
+  <section id="history">
+    <h2>🗒 更新履歴</h2>
+    <ul class="history">
+      <li><span class="date">2026-07-07</span>手順8「見学アンケート（写真取り込み）」・手順9「SNS投稿の反応」・手順7に電話記録と目標変更を追加</li>
+      <li><span class="date">2026-07-07</span>ガイド初版を公開（手順1〜7・用語集・FAQ）</li>
+      <!-- 新しい更新はこの上に1行ずつ追加 -->
+    </ul>
+    <div class="admin-note">✏️ <b>管理者メモ（このページの更新方法）：</b>新しい媒体の接続方法を追加するときは、セクション6の後に同じ形式で追加してください。更新したら「最終更新日」（ページ上部）と、この更新履歴に1行追記してください。</div>
+  </section>
+</main>
+</body>
+</html>

@@ -113,6 +113,16 @@
       <a id="mp-portal" href="#" style="display:none;background:#fff;border:1.5px solid #d7dbe0;color:#3b4654;font-size:13px;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:999px;">プランの変更・解約</a>
     </div>
 
+    <!-- 分析ダッシュボード導線（有料クラブのみ表示・?club=team.id で本人のクラブを開く） -->
+    <a id="mp-dashboard" class="mp-card" href="#" style="display:none;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#1f8a5b;">有料プラン特典</div>
+        <div style="font-size:16px;font-weight:900;color:#1f2a37;">📊 分析ダッシュボードを見る</div>
+        <div style="font-size:11.5px;color:#9aa3ad;margin-top:2px;">GA4の実データで、ページ閲覧・流入元・日別の動きを可視化</div>
+      </div>
+      <span style="background:#1f8a5b;color:#fff;font-size:13px;font-weight:800;padding:11px 20px;border-radius:999px;white-space:nowrap;">開く →</span>
+    </a>
+
     <!-- ネイティブ プラン管理（有料クラブが「プランの変更・解約」を押すと開く） -->
     <div id="mp-manage" class="mp-card" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;">
@@ -581,6 +591,12 @@
     if(po){
       if(ep!=='free'){ po.style.display=''; po.onclick=function(e){ e.preventDefault(); openManage(); }; }
       else { po.style.display='none'; }
+    }
+    // 分析ダッシュボード導線（有料クラブのみ・?club=本人のteam.id）
+    var dash=$('mp-dashboard');
+    if(dash){
+      if(ep!=='free' && t.id){ dash.style.display='flex'; dash.href='dashboard/index.html?club='+encodeURIComponent(t.id); }
+      else { dash.style.display='none'; }
     }
     setupManage();
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
