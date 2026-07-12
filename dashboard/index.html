@@ -1167,7 +1167,8 @@ document.addEventListener("mouseout",e=>{if(e.target.closest?.(".hint-i"))hideTT
 document.querySelectorAll("#post-ch-seg button").forEach(b=>{
   b.onclick=()=>{state.postCh=b.dataset.ch;
     document.querySelectorAll("#post-ch-seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
-    renderPostTypes();renderTopPosts();renderWeeklyPosts();};
+    renderPostTypes();renderTopPosts();renderWeeklyPosts();
+    if(window.__realPosts)renderRealPostList(window.__realPosts,state.postCh);};
 });
 document.querySelectorAll("#period-seg button").forEach(b=>{
   b.onclick=()=>{state.period=b.dataset.p;
@@ -1207,33 +1208,66 @@ function renderRealPosts(stats){
   pane.insertBefore(sec,pane.firstChild);
 }
 
-// 最近の投稿の中身（sns_posts）を投稿タブに一覧表示
-function renderRealPostList(posts){
+// 実データ投稿の共通ヘルパー
+const RP_NAME={instagram:"Instagram",threads:"Threads",youtube:"YouTube",tiktok:"TikTok",x:"X"};
+const rpEsc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(ch)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const rpFmt=(iso)=>{const d=new Date(iso);return isNaN(d)?"":`${d.getMonth()+1}/${d.getDate()}`;};
+const rpSnip=(s,n)=>{s=String(s==null?"":s).replace(/\s+/g," ").trim();return s.length>n?s.slice(0,n)+"…":s;};
+const RP_STYLE=`<style>
+    .rp-list{display:flex;flex-direction:column;gap:8px}
+    .rp-item{background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px}
+    .rp-meta{display:flex;align-items:center;gap:10px;font-size:.74rem;color:#8a8a8a;margin-bottom:5px;flex-wrap:wrap}
+    .rp-plat{font-weight:700;padding:1px 9px;border-radius:99px;color:#fff;font-size:.7rem}
+    .rp-instagram{background:#c13584}.rp-threads{background:#111}.rp-youtube{background:#e0304a}.rp-tiktok{background:#111}.rp-x{background:#111}
+    .rp-eng{color:#666}
+    .rp-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700}
+    .rp-text{font-size:.86rem;line-height:1.55;color:#333;white-space:pre-wrap}
+    .rp-rank{font-weight:900;color:var(--brand,#f08a2e);font-size:.9rem;min-width:1.4em}
+    .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
+  </style>`;
+function rpEngHtml(p){
+  // like_count が入っていれば反応を表示（IGは常時・Threadsは権限付き再連携後）
+  if(p.like_count==null && p.comments_count==null) return "";
+  return `<span class="rp-eng">♥ ${p.like_count==null?0:p.like_count}　💬 ${p.comments_count==null?0:p.comments_count}</span>`;
+}
+function rpItemHtml(p,rankNo){
+  const rank=rankNo?`<span class="rp-rank">${rankNo}</span>`:"";
+  const link=p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" class="rp-link">見る ↗</a>`:"";
+  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span><span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,100))||"（本文なし）"}</div></div>`;
+}
+
+// 最近の投稿の中身（sns_posts）を投稿タブに一覧表示（媒体フィルタ対応・再描画可）
+function renderRealPostList(posts,ch){
   const pane=document.getElementById("pane-post");
-  if(!pane||!posts||!posts.length||document.getElementById("real-postlist"))return;
-  const nameMap={instagram:"Instagram",threads:"Threads",youtube:"YouTube",tiktok:"TikTok",x:"X"};
-  const esc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(ch)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
-  const fmt=(iso)=>{const d=new Date(iso);return isNaN(d)?"":`${d.getMonth()+1}/${d.getDate()}`;};
-  const snip=(s)=>{s=String(s==null?"":s).replace(/\s+/g," ").trim();return s.length>100?s.slice(0,100)+"…":s;};
+  if(!pane||!posts||!posts.length)return;
+  const old=document.getElementById("real-postlist");if(old)old.remove();
+  const filtered=(ch&&ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
   const sec=document.createElement("section");
   sec.id="real-postlist";
-  sec.innerHTML=`<style>
-    #real-postlist .postlist{display:flex;flex-direction:column;gap:8px}
-    #real-postlist .pl-item{background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px}
-    #real-postlist .pl-meta{display:flex;align-items:center;gap:10px;font-size:.74rem;color:#8a8a8a;margin-bottom:5px;flex-wrap:wrap}
-    #real-postlist .pl-plat{font-weight:700;padding:1px 9px;border-radius:99px;color:#fff;font-size:.7rem}
-    #real-postlist .pl-instagram{background:#c13584}
-    #real-postlist .pl-threads{background:#111}
-    #real-postlist .pl-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700}
-    #real-postlist .pl-text{font-size:.86rem;line-height:1.55;color:#333;white-space:pre-wrap}
-  </style>`+
-    `<div class="sec-head"><h2>最近の投稿</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントの直近の投稿（新しい順）</span></div>`+
-    `<div class="postlist">`+posts.slice(0,20).map((p)=>{
-      const eng=p.platform==="instagram"?`<span class="pl-eng">♥ ${p.like_count==null?0:p.like_count}　💬 ${p.comments_count==null?0:p.comments_count}</span>`:"";
-      const link=p.permalink?`<a href="${esc(p.permalink)}" target="_blank" rel="noopener" class="pl-link">見る ↗</a>`:"";
-      return `<div class="pl-item"><div class="pl-meta"><span class="pl-plat pl-${esc(p.platform)}">${nameMap[p.platform]||esc(p.platform)}</span><span class="pl-date">${fmt(p.posted_at)}</span>${eng}${link}</div><div class="pl-text">${esc(snip(p.text))||"（本文なし）"}</div></div>`;
-    }).join("")+`</div>`;
+  const body=filtered.length
+    ? `<div class="rp-list">`+filtered.slice(0,20).map((p)=>rpItemHtml(p)).join("")+`</div>`
+    : `<div class="rp-empty">この媒体の投稿はまだ取り込まれていません。</div>`;
+  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>最近の投稿</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントの直近の投稿（新しい順）</span></div>`+body;
   const after=document.getElementById("real-posts");
+  if(after&&after.nextSibling)pane.insertBefore(sec,after.nextSibling);
+  else pane.insertBefore(sec,pane.firstChild);
+}
+
+// 反応が良かった投稿ランキング（like+commentの合計順・エンゲージ取得済みの投稿のみ）
+function renderRealRanking(posts){
+  const pane=document.getElementById("pane-post");
+  if(!pane||!posts)return;
+  const old=document.getElementById("real-ranking");if(old)old.remove();
+  const scored=posts
+    .filter((p)=>p.like_count!=null||p.comments_count!=null)
+    .map((p)=>({p,score:(p.like_count||0)+(p.comments_count||0)}))
+    .sort((a,b)=>b.score-a.score);
+  if(scored.length<3)return; // データが薄いうちは出さない
+  const sec=document.createElement("section");
+  sec.id="real-ranking";
+  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>反応が良かった投稿</h2><span class="ai-badge">実データ</span><span class="sub">いいね＋コメントの多い順（取得済みの反応から）</span></div>`+
+    `<div class="rp-list">`+scored.slice(0,5).map((s,i)=>rpItemHtml(s.p,i+1)).join("")+`</div>`;
+  const after=document.getElementById("real-postlist")||document.getElementById("real-posts");
   if(after&&after.nextSibling)pane.insertBefore(sec,after.nextSibling);
   else pane.insertBefore(sec,pane.firstChild);
 }
@@ -1266,7 +1300,7 @@ function renderRealPostList(posts){
           }
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
           if(d&&d.post_stats&&d.post_stats.length)renderRealPosts(d.post_stats);
-          if(d&&d.posts&&d.posts.length)renderRealPostList(d.posts);
+          if(d&&d.posts&&d.posts.length){window.__realPosts=d.posts;renderRealPostList(d.posts,"all");renderRealRanking(d.posts);}
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
