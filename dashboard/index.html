@@ -1244,7 +1244,7 @@ function rpEngHtml(p){
 }
 function rpItemHtml(p,rankNo){
   const rank=rankNo?`<span class="rp-rank">${rankNo}</span>`:"";
-  const type=p.post_type?`<span class="rp-type">${rpEsc(p.post_type)}</span>`:"";
+  const type=p.post_type?`<span class="type-chip" style="background:${rpTypeColor(p.post_type)};font-size:.66rem;padding:1px 8px">${rpEsc(p.post_type)}</span>`:"";
   const link=p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" class="rp-link">見る ↗</a>`:"";
   return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span>${type}<span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
 }
@@ -1254,7 +1254,9 @@ function rpItemHtml(p,rankNo){
 
 // 投稿目標（SNSごと・週あたり本数）：推奨デフォルトあり・クラブごとにlocalStorageで変更可
 const RP_GOAL_DEFAULTS={threads:7,instagram:3,x:7,youtube:1,tiktok:3};
-const RP_COLOR={instagram:"#c13584",threads:"#111",x:"#4a5568",youtube:"#e0304a",tiktok:"#16a085"};
+// デモと同じ配色を流用（媒体＝POST_CH_COLOR / タイプ＝POST_TYPES）
+const rpChColor=(plat)=>C(POST_CH_COLOR[RP_NAME[plat]||plat]||"--baseline");
+const rpTypeColor=(t)=>C(POST_TYPES[t]||"--s6"); // 未定義タイプ（その他等）は--s6（赤・橙のブランド色と区別）
 function rpGoalKey(){return "chibispo_postgoal2_"+(new URLSearchParams(location.search).get("club")||"").trim();}
 function rpGetGoals(){try{const o=JSON.parse(localStorage.getItem(rpGoalKey())||"{}");return (o&&typeof o==="object")?o:{};}catch(e){return {};}}
 function rpGoalOf(plat){const g=+rpGetGoals()[plat];return (g>0&&g<200)?g:(RP_GOAL_DEFAULTS[plat]||3);}
@@ -1284,7 +1286,7 @@ function rpGoalLinesHtml(stats,thisMon,lastMon){
     return `<div class="rp-goalline"><b class="gl-name">${RP_NAME[plat]||plat}</b>今週 <b>${cur}</b> ／ 目標 週<b>${goal}</b>本 ${prog}${st}<button class="rpc-edit" onclick="rpEditGoal('${plat}')">変更</button></div>`;
   }).join("");
 }
-// ①右：週ごとの投稿本数（実データ積み上げ・選択媒体以外は薄く）
+// ①右：週ごとの投稿本数（実データ積み上げ・媒体色＋背景グリッド・選択媒体以外は薄く）
 function rpWeeklySvg(stats,ch){
   const weeks=[...new Set(stats.map((s)=>s.period_start))].sort().slice(-12);
   const plats=[...new Set(stats.map((s)=>s.platform))];
@@ -1292,25 +1294,28 @@ function rpWeeklySvg(stats,ch){
   const map={};for(const s of stats){map[s.period_start+"|"+s.platform]=(map[s.period_start+"|"+s.platform]||0)+(+s.post_count||0);}
   const totals=weeks.map((w)=>plats.reduce((a,p)=>a+(map[w+"|"+p]||0),0));
   const maxV=Math.max(1,...totals);
-  const W=520,H=200,L=8,R=8,T=16,B=22;
-  const bw=Math.min(24,(W-L-R)/weeks.length-8);
+  const W=520,H=210,L=10,R=10,T=18,B=24;
+  const bw=Math.min(22,(W-L-R)/weeks.length-8);
   const x=(i)=>L+(i+0.5)*(W-L-R)/weeks.length-bw/2;
   const y=(v)=>T+(H-T-B)*(1-v/maxV);
-  let bars="";
+  const grid=C("--grid")||"#e7e4dc";
+  // 背景パネル＋破線グリッド（デモpanelBGと同じ見た目）
+  let s=`<rect x="${L-6}" y="${T-8}" width="${W-L-R+12}" height="${H-T-B+14}" rx="10" fill="#faf9f5" stroke="${grid}"/>`;
+  for(let g=1;g<3;g++){const gy=(T-8)+(H-T-B+14)*g/3;s+=`<line x1="${L}" x2="${W-R}" y1="${gy}" y2="${gy}" stroke="${grid}" stroke-dasharray="2 4"/>`;}
   weeks.forEach((w,i)=>{
     let acc=0;
     plats.forEach((p)=>{
       const v=map[w+"|"+p]||0;if(!v)return;
       const y0=y(acc),y1=y(acc+v);
-      const dim=(ch!=="all"&&p!==ch)?0.18:1;
-      bars+=`<rect x="${x(i)}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-1.5)}" rx="3" fill="${RP_COLOR[p]||"#999"}" opacity="${dim}"><title>${w}の週 ${RP_NAME[p]||p} ${v}本</title></rect>`;
+      const dim=(ch!=="all"&&p!==ch)?0.2:1;
+      s+=`<rect x="${x(i)}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-1.5)}" rx="3" fill="${rpChColor(p)}" opacity="${dim}"><title>${w}の週 ${RP_NAME[p]||p} ${v}本</title></rect>`;
       acc+=v;
     });
-    if(i%2===(weeks.length-1)%2)bars+=`<text x="${x(i)+bw/2}" y="${H-6}" text-anchor="middle" font-size="10" fill="#999">${w.slice(5).replace("-","/")}</text>`;
-    if(totals[i])bars+=`<text x="${x(i)+bw/2}" y="${y(totals[i])-4}" text-anchor="middle" font-size="10" font-weight="700" fill="#555">${totals[i]}</text>`;
+    if(i%2===(weeks.length-1)%2)s+=`<text x="${x(i)+bw/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="#999">${w.slice(5).replace("-","/")}</text>`;
+    if(totals[i])s+=`<text x="${x(i)+bw/2}" y="${y(totals[i])-4}" text-anchor="middle" font-size="10" font-weight="700" fill="#555">${totals[i]}</text>`;
   });
-  const legend=plats.map((p)=>`<span style="margin-right:12px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${RP_COLOR[p]||"#999"};margin-right:4px"></i>${RP_NAME[p]||p}</span>`).join("");
-  return `<div style="margin-top:9px"><div style="font-size:.72rem;color:#999;margin-bottom:4px">${legend}</div><div class="plot"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${bars}</svg></div></div>`;
+  const legend=plats.map((p)=>`<span style="margin-right:13px;white-space:nowrap"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${rpChColor(p)};margin-right:5px;vertical-align:middle"></i>${RP_NAME[p]||p}</span>`).join("");
+  return `<div style="margin-top:9px"><div style="font-size:.72rem;color:#888;margin-bottom:5px">${legend}</div><div class="plot"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${s}</svg></div></div>`;
 }
 // ①左：タイプ別の反応（AI分類・平均反応の横棒）
 function rpTypeBarsHtml(posts,ch){
@@ -1321,7 +1326,7 @@ function rpTypeBarsHtml(posts,ch){
   for(const p of typed){(g[p.post_type]=g[p.post_type]||[]).push((p.like_count||0)+(p.comments_count||0));}
   const rows=Object.entries(g).map(([t,arr])=>({t,n:arr.length,avg:Math.round(arr.reduce((a,b)=>a+b,0)/arr.length)})).sort((a,b)=>b.avg-a.avg);
   const max=Math.max(1,...rows.map((r)=>r.avg));
-  return `<div class="rp-types" style="margin-top:10px">`+rows.map((r)=>`<div class="rp-trow"><span class="rp-tname">${rpEsc(r.t)}<small>（${r.n}本）</small></span><span class="rp-tbar" style="width:${Math.round(r.avg/max*72)}%"></span><b>${r.avg}</b></div>`).join("")+`</div>`+
+  return `<div class="rp-types" style="margin-top:10px">`+rows.map((r)=>`<div class="rp-trow"><span class="rp-tname">${rpEsc(r.t)}<small>（${r.n}本）</small></span><span class="rp-tbar" style="width:${Math.round(r.avg/max*72)}%;background:${rpTypeColor(r.t)}"></span><b>${r.avg}</b></div>`).join("")+`</div>`+
     (rows.length>=2&&rows[0].avg>=rows[rows.length-1].avg*2?`<div class="insight">💡 <b>「${rpEsc(rows[0].t)}」の反応は「${rpEsc(rows[rows.length-1].t)}」の${Math.round(rows[0].avg/Math.max(1,rows[rows.length-1].avg))}倍</b>。次の投稿は「${rpEsc(rows[0].t)}」を試すのがおすすめです。</div>`:"");
 }
 // ②：当たり投稿テーブル＋共通点インサイト
@@ -1331,7 +1336,9 @@ function rpTopTableHtml(posts,ch){
     .map((p)=>({p,score:(p.like_count||0)+(p.comments_count||0)})).sort((a,b)=>b.score-a.score).slice(0,8);
   if(scored.length<3)return {html:`<div class="rp-empty">反応データがたまると、当たり投稿がここに表示されます</div>`,insight:""};
   const rows=scored.map((s,i)=>{const p=s.p;
-    return `<tr><td style="color:var(--brand);font-weight:900">${i+1}</td><td>${rpFmt(p.posted_at)}</td><td>${RP_NAME[p.platform]||rpEsc(p.platform)}</td><td>${p.post_type?rpEsc(p.post_type):"—"}</td><td>${rpEsc(rpSnip(p.text,40))}</td><td class="n">${p.like_count==null?"—":p.like_count}</td><td class="n">${p.comments_count==null?"—":p.comments_count}</td><td>${p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700;text-decoration:none">見る↗</a>`:""}</td></tr>`;
+    const chip=`<span class="chip" style="background:${rpChColor(p.platform)}"></span>${RP_NAME[p.platform]||rpEsc(p.platform)}`;
+    const type=p.post_type?`<span class="type-chip" style="background:${rpTypeColor(p.post_type)}">${rpEsc(p.post_type)}</span>`:"—";
+    return `<tr><td style="color:var(--brand);font-weight:900">${i+1}</td><td style="white-space:nowrap">${rpFmt(p.posted_at)}</td><td style="white-space:nowrap">${chip}</td><td>${type}</td><td>${rpEsc(rpSnip(p.text,40))}</td><td class="n">${p.like_count==null?"—":p.like_count}</td><td class="n">${p.comments_count==null?"—":p.comments_count}</td><td>${p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700;text-decoration:none">見る↗</a>`:""}</td></tr>`;
   }).join("");
   const tc={},pc={};
   scored.forEach((s)=>{if(s.p.post_type)tc[s.p.post_type]=(tc[s.p.post_type]||0)+1;pc[s.p.platform]=(pc[s.p.platform]||0)+1;});
