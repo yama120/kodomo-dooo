@@ -372,7 +372,7 @@
     <button data-ch="TikTok" aria-pressed="false">TikTok</button>
   </div>
 
-  <section>
+  <section id="demo-post-1">
     <div class="sec-head"><h2>① 投稿の量と、見られているタイプ</h2><span class="sub">左＝何が見られているか ／ 右＝続けられているか（励みの記録）</span></div>
     <div class="grid-2">
       <div class="card">
@@ -385,7 +385,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="demo-post-2">
     <div class="sec-head"><h2>② 当たり投稿と、その共通点</h2><span class="sub">閲覧順。「ページ誘導」＝その投稿からクラブページに来た人数</span></div>
     <div class="card">
       <div class="tbl-wrap">
@@ -402,7 +402,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="demo-post-3">
     <div class="sec-head"><h2>③ いつ投稿・掲示するのがいい？</h2><span class="sub">体験申込が入る曜日から逆算</span></div>
     <div class="card" style="max-width:640px" id="weekday-card"></div>
   </section>
@@ -1224,6 +1224,15 @@ const RP_STYLE=`<style>
     .rp-trow b{margin-left:auto;font-weight:800;min-width:2.2em;text-align:right}
     .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
     .rp-more{margin-top:8px;width:100%;padding:8px;background:#f4f4f4;border:1px solid #e5e5e5;border-radius:8px;color:#555;font-weight:700;font-size:.8rem;cursor:pointer}
+    .rpc2{flex:1;min-width:235px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 14px}
+    .rpc2-top{display:flex;align-items:baseline;gap:9px}
+    .rpc2-top .l{font-size:.8rem;color:#777;font-weight:700}
+    .rpc2-top b{font-size:1.3rem;font-weight:900}
+    .rpc2-top .s{font-size:.7rem;color:#999;margin-left:auto}
+    .rpc2-goal{margin-top:6px;font-size:.77rem;color:#555;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    .rpc2-goal .ok{color:#1a9e57;font-weight:800}
+    .rpc2-goal .miss{color:#b06a00;font-weight:700}
+    .rpc-chart{margin-top:12px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:12px 14px}
   </style>`;
 function rpEngHtml(p){
   if(p.like_count==null && p.comments_count==null) return "";
@@ -1250,47 +1259,86 @@ function rpBuildTypes(posts,ch){
   return sec;
 }
 
-// 投稿目標（週の合計本数）：推奨デフォルト3本・クラブごとにlocalStorageで変更可
-const RP_GOAL_DEFAULT=3;
-function rpGoalKey(){return "chibispo_postgoal_"+(new URLSearchParams(location.search).get("club")||"").trim();}
-function rpGetGoal(){const v=parseInt(localStorage.getItem(rpGoalKey())||"",10);return (v>0&&v<200)?v:RP_GOAL_DEFAULT;}
-function rpEditGoal(){
-  const v=prompt("1週間の投稿目標（合計本数）を入力してください。\n※推奨：無理なく続けられる本数（既定 "+RP_GOAL_DEFAULT+"本）",rpGetGoal());
+// 投稿目標（SNSごと・週あたり本数）：推奨デフォルトあり・クラブごとにlocalStorageで変更可
+const RP_GOAL_DEFAULTS={threads:7,instagram:3,x:7,youtube:1,tiktok:3};
+const RP_COLOR={instagram:"#c13584",threads:"#111",x:"#4a5568",youtube:"#e0304a",tiktok:"#16a085"};
+function rpGoalKey(){return "chibispo_postgoal2_"+(new URLSearchParams(location.search).get("club")||"").trim();}
+function rpGetGoals(){try{const o=JSON.parse(localStorage.getItem(rpGoalKey())||"{}");return (o&&typeof o==="object")?o:{};}catch(e){return {};}}
+function rpGoalOf(plat){const g=+rpGetGoals()[plat];return (g>0&&g<200)?g:(RP_GOAL_DEFAULTS[plat]||3);}
+function rpEditGoal(plat){
+  const hint=plat==="threads"?"\n（毎日1本なら7、1日2本なら14）":"";
+  const v=prompt(`${RP_NAME[plat]||plat} の1週間の投稿目標（本数）${hint}`,rpGoalOf(plat));
   if(v===null)return;
   const n=parseInt(v,10);
   if(!(n>0&&n<200)){alert("1〜199の数字を入力してください");return;}
-  localStorage.setItem(rpGoalKey(),String(n));
+  const g=rpGetGoals();g[plat]=n;localStorage.setItem(rpGoalKey(),JSON.stringify(g));
   const el=document.getElementById("real-posts");if(el)el.remove();
   renderRealPosts(window.__realStats||[]);
 }
-// 投稿本数（sns_post_stats）：上部にコンパクトな数値＋週の投稿目標の達成状況
+// 日付ヘルパー（週の始まり＝月曜）
+function rpAddDays(ymd,n){const d=new Date(ymd+"T00:00:00");d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function rpThisMonday(){const d=new Date();const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+// 週次投稿数の実データ積み上げチャート（sns_post_statsから）
+function rpWeeklyChartHtml(stats){
+  const weeks=[...new Set(stats.map((s)=>s.period_start))].sort().slice(-12);
+  const plats=[...new Set(stats.map((s)=>s.platform))];
+  if(weeks.length<2)return "";
+  const map={};for(const s of stats){map[s.period_start+"|"+s.platform]=(map[s.period_start+"|"+s.platform]||0)+(+s.post_count||0);}
+  const totals=weeks.map((w)=>plats.reduce((a,p)=>a+(map[w+"|"+p]||0),0));
+  const maxV=Math.max(1,...totals);
+  const W=640,H=170,L=8,R=8,T=14,B=22;
+  const bw=Math.min(26,(W-L-R)/weeks.length-8);
+  const x=(i)=>L+(i+0.5)*(W-L-R)/weeks.length-bw/2;
+  const y=(v)=>T+(H-T-B)*(1-v/maxV);
+  let bars="";
+  weeks.forEach((w,i)=>{
+    let acc=0;
+    plats.forEach((p)=>{
+      const v=map[w+"|"+p]||0;if(!v)return;
+      const y0=y(acc),y1=y(acc+v);
+      bars+=`<rect x="${x(i)}" y="${y1}" width="${bw}" height="${Math.max(1,y0-y1-1.5)}" rx="3" fill="${RP_COLOR[p]||"#999"}"><title>${w}の週 ${RP_NAME[p]||p} ${v}本</title></rect>`;
+      acc+=v;
+    });
+    if(i%2===(weeks.length-1)%2)bars+=`<text x="${x(i)+bw/2}" y="${H-6}" text-anchor="middle" font-size="10" fill="#999">${w.slice(5).replace("-","/")}</text>`;
+    if(totals[i])bars+=`<text x="${x(i)+bw/2}" y="${y(totals[i])-4}" text-anchor="middle" font-size="10" font-weight="700" fill="#555">${totals[i]}</text>`;
+  });
+  const legend=plats.map((p)=>`<span style="margin-right:12px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${RP_COLOR[p]||"#999"};margin-right:4px"></i>${RP_NAME[p]||p}</span>`).join("");
+  return `<div class="rpc-chart"><div style="font-size:.9rem;font-weight:700">投稿は続けられている？（週ごとの本数）</div><div style="font-size:.72rem;color:#999;margin:3px 0 6px">${legend}</div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${bars}</svg></div>`;
+}
+// 投稿本数＋SNSごとの週間目標＋週次チャート（すべて実データ）
 function renderRealPosts(stats){
   const pane=document.getElementById("pane-post");
   if(!pane||!stats||!stats.length||document.getElementById("real-posts"))return;
+  const thisMon=rpThisMonday(),lastMon=rpAddDays(thisMon,-7);
   const byPlat={};
   for(const s of stats){(byPlat[s.platform]=byPlat[s.platform]||[]).push(s);}
-  const rows=Object.entries(byPlat).map(([plat,rs])=>{
+  const cards=Object.entries(byPlat).map(([plat,rs])=>{
     const total=rs.reduce((a,r)=>a+(+r.post_count||0),0);
-    const latest=rs.slice().sort((a,b)=>String(b.period_end).localeCompare(String(a.period_end)))[0];
-    return {plat:RP_NAME[plat]||plat,total,week:latest?(+latest.post_count||0):0,weeks:rs.length};
+    const wk={};for(const r of rs){wk[r.period_start]=(wk[r.period_start]||0)+(+r.post_count||0);}
+    const cur=wk[thisMon]||0;
+    const goal=rpGoalOf(plat);
+    let streak=0;for(let w=lastMon;(wk[w]||0)>=goal;w=rpAddDays(w,-7))streak++; // 完了週の連続達成
+    const prog=cur>=goal?`<span class="ok">✓ 達成</span>`:`<span class="miss">あと${goal-cur}本</span>`;
+    const streakHtml=streak>=2?`<span class="rpc-streak">${streak}週連続🔥</span>`:"";
+    return `<div class="rpc2"><div class="rpc2-top"><span class="l">${RP_NAME[plat]||plat}</span><b>${total}</b><span class="s">直近${rs.length}週の投稿</span></div>`+
+      `<div class="rpc2-goal">今週 <b>${cur}</b> ／ 目標 週<b>${goal}</b>本 ${prog}${streakHtml}<button class="rpc-edit" onclick="rpEditGoal('${plat}')">目標を変更</button></div></div>`;
   });
-  // 週の合計本数（媒体横断）→ 今週の進捗＋達成連続週
-  const wk={};
-  for(const s of stats){wk[s.period_start]=(wk[s.period_start]||0)+(+s.post_count||0);}
-  const weeks=Object.keys(wk).sort().reverse(); // 新しい順
-  const goal=rpGetGoal();
-  const curTotal=weeks.length?wk[weeks[0]]:0;
-  let streak=0;for(let i=1;i<weeks.length;i++){if(wk[weeks[i]]>=goal)streak++;else break;} // 完了週で連続達成をカウント
-  const prog=curTotal>=goal
-    ? `<span class="ok">✓ 達成</span>`
-    : `<span class="miss">あと${goal-curTotal}本</span>`;
-  const streakHtml=streak>=2?`<span class="rpc-streak">${streak}週連続で達成🔥</span>`:"";
-  const goalLine=`<div class="rpc-goal">今週 合計<b>${curTotal}</b>本 ／ 目標 週<b>${goal}</b>本 ${prog}${streakHtml}<button class="rpc-edit" onclick="rpEditGoal()">目標を変更</button></div>`;
   const sec=document.createElement("section");
   sec.id="real-posts";
-  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>投稿の本数</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントから自動取得</span></div>`+
-    `<div class="rpc-row">`+rows.map(r=>`<div class="rpc"><span class="l">${r.plat}</span><b>${r.total}</b><span class="s">直近${r.weeks}週 ／ 今週${r.week}</span></div>`).join("")+`</div>`+goalLine;
+  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>投稿の本数と目標</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントから自動取得・目標はSNSごとに設定できます</span></div>`+
+    `<div class="rpc-row">`+cards.join("")+`</div>`+rpWeeklyChartHtml(stats);
   pane.insertBefore(sec,pane.firstChild);
+}
+// 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
+function rpApplyRealMode(){
+  ["demo-post-1","demo-post-2","demo-post-3"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  const have=new Set([...(window.__realPosts||[]).map((p)=>String(p.platform).toLowerCase()),...(window.__realStats||[]).map((s)=>String(s.platform).toLowerCase())]);
+  document.querySelectorAll("#post-ch-seg button").forEach((b)=>{
+    const ch=String(b.dataset.ch||"").toLowerCase();
+    if(ch!=="all"&&!have.has(ch))b.style.display="none";
+  });
+  const fg=document.querySelector("#pane-post .first-guide .fg-body ul");
+  if(fg)fg.innerHTML=`<li>この画面はすべて<b>連携アカウントの実データ</b>です（毎日自動更新）</li><li>上＝投稿ペースと目標 ／ 下＝タイプ別の反応・反応が良かった投稿・最近の投稿</li><li>目標は「目標を変更」からSNSごとに設定できます</li>`;
 }
 
 // 反応ランキング要素を組み立て（媒体フィルタ対応）
@@ -1326,7 +1374,7 @@ function rpBuildList(posts,ch){
 function renderRealBottom(posts,ch){
   const pane=document.getElementById("pane-post");
   if(!pane||!posts||!posts.length)return;
-  window.__rpCh=ch||"all";
+  window.__rpCh=String(ch||"all").toLowerCase(); // サブタブは"Instagram"、データは"instagram"なので小文字に統一
   let box=document.getElementById("real-post-block");
   if(!box){box=document.createElement("div");box.id="real-post-block";pane.appendChild(box);}
   box.innerHTML=RP_STYLE;
@@ -1364,6 +1412,7 @@ function renderRealBottom(posts,ch){
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
           if(d&&d.post_stats&&d.post_stats.length){window.__realStats=d.post_stats;renderRealPosts(d.post_stats);}
           if(d&&d.posts&&d.posts.length){window.__realPosts=d.posts;renderRealBottom(d.posts,"all");}
+          if((d&&d.post_stats&&d.post_stats.length)||(d&&d.posts&&d.posts.length))rpApplyRealMode();
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
