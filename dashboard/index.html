@@ -1198,6 +1198,12 @@ const RP_STYLE=`<style>
     #real-posts .rpc .l{font-size:.78rem;color:#777;font-weight:700}
     #real-posts .rpc b{font-size:1.35rem;font-weight:900}
     #real-posts .rpc .s{font-size:.72rem;color:#999;margin-left:auto}
+    #real-posts .rpc-goal{margin-top:11px;font-size:.85rem;color:#444;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    #real-posts .rpc-goal b{font-size:1.02rem}
+    #real-posts .rpc-goal .ok{color:#1a9e57;font-weight:800}
+    #real-posts .rpc-goal .miss{color:#b06a00;font-weight:700}
+    #real-posts .rpc-streak{color:var(--brand,#f08a2e);font-weight:800}
+    #real-posts .rpc-edit{background:none;border:1px solid #ddd;border-radius:7px;padding:3px 11px;font-size:.75rem;color:#666;cursor:pointer;margin-left:auto}
     #real-post-block>section{margin-top:16px}
     .rp-list{display:flex;flex-direction:column;gap:6px}
     .rp-item{background:#fff;border:1px solid #ececec;border-radius:9px;padding:8px 12px}
@@ -1221,7 +1227,20 @@ function rpItemHtml(p,rankNo){
   return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span><span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
 }
 
-// 投稿本数（sns_post_stats）：上部にコンパクトな数値で表示
+// 投稿目標（週の合計本数）：推奨デフォルト3本・クラブごとにlocalStorageで変更可
+const RP_GOAL_DEFAULT=3;
+function rpGoalKey(){return "chibispo_postgoal_"+(new URLSearchParams(location.search).get("club")||"").trim();}
+function rpGetGoal(){const v=parseInt(localStorage.getItem(rpGoalKey())||"",10);return (v>0&&v<200)?v:RP_GOAL_DEFAULT;}
+function rpEditGoal(){
+  const v=prompt("1週間の投稿目標（合計本数）を入力してください。\n※推奨：無理なく続けられる本数（既定 "+RP_GOAL_DEFAULT+"本）",rpGetGoal());
+  if(v===null)return;
+  const n=parseInt(v,10);
+  if(!(n>0&&n<200)){alert("1〜199の数字を入力してください");return;}
+  localStorage.setItem(rpGoalKey(),String(n));
+  const el=document.getElementById("real-posts");if(el)el.remove();
+  renderRealPosts(window.__realStats||[]);
+}
+// 投稿本数（sns_post_stats）：上部にコンパクトな数値＋週の投稿目標の達成状況
 function renderRealPosts(stats){
   const pane=document.getElementById("pane-post");
   if(!pane||!stats||!stats.length||document.getElementById("real-posts"))return;
@@ -1232,10 +1251,22 @@ function renderRealPosts(stats){
     const latest=rs.slice().sort((a,b)=>String(b.period_end).localeCompare(String(a.period_end)))[0];
     return {plat:RP_NAME[plat]||plat,total,week:latest?(+latest.post_count||0):0,weeks:rs.length};
   });
+  // 週の合計本数（媒体横断）→ 今週の進捗＋達成連続週
+  const wk={};
+  for(const s of stats){wk[s.period_start]=(wk[s.period_start]||0)+(+s.post_count||0);}
+  const weeks=Object.keys(wk).sort().reverse(); // 新しい順
+  const goal=rpGetGoal();
+  const curTotal=weeks.length?wk[weeks[0]]:0;
+  let streak=0;for(let i=1;i<weeks.length;i++){if(wk[weeks[i]]>=goal)streak++;else break;} // 完了週で連続達成をカウント
+  const prog=curTotal>=goal
+    ? `<span class="ok">✓ 達成</span>`
+    : `<span class="miss">あと${goal-curTotal}本</span>`;
+  const streakHtml=streak>=2?`<span class="rpc-streak">${streak}週連続で達成🔥</span>`:"";
+  const goalLine=`<div class="rpc-goal">今週 合計<b>${curTotal}</b>本 ／ 目標 週<b>${goal}</b>本 ${prog}${streakHtml}<button class="rpc-edit" onclick="rpEditGoal()">目標を変更</button></div>`;
   const sec=document.createElement("section");
   sec.id="real-posts";
   sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>投稿の本数</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントから自動取得</span></div>`+
-    `<div class="rpc-row">`+rows.map(r=>`<div class="rpc"><span class="l">${r.plat}</span><b>${r.total}</b><span class="s">直近${r.weeks}週 ／ 今週${r.week}</span></div>`).join("")+`</div>`;
+    `<div class="rpc-row">`+rows.map(r=>`<div class="rpc"><span class="l">${r.plat}</span><b>${r.total}</b><span class="s">直近${r.weeks}週 ／ 今週${r.week}</span></div>`).join("")+`</div>`+goalLine;
   pane.insertBefore(sec,pane.firstChild);
 }
 
@@ -1307,7 +1338,7 @@ function renderRealBottom(posts,ch){
             if(pEl&&d.club.plan){const pm={free:"フリープラン",light:"ライトプラン",standard:"スタンダードプラン",pro:"プロプラン"};pEl.textContent=pm[d.club.plan]||d.club.plan;}
           }
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
-          if(d&&d.post_stats&&d.post_stats.length)renderRealPosts(d.post_stats);
+          if(d&&d.post_stats&&d.post_stats.length){window.__realStats=d.post_stats;renderRealPosts(d.post_stats);}
           if(d&&d.posts&&d.posts.length){window.__realPosts=d.posts;renderRealBottom(d.posts,"all");}
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
