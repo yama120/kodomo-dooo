@@ -1168,7 +1168,7 @@ document.querySelectorAll("#post-ch-seg button").forEach(b=>{
   b.onclick=()=>{state.postCh=b.dataset.ch;
     document.querySelectorAll("#post-ch-seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
     renderPostTypes();renderTopPosts();renderWeeklyPosts();
-    if(window.__realPosts)renderRealPostList(window.__realPosts,state.postCh);};
+    if(window.__realPosts){window.__rpExpanded=false;renderRealBottom(window.__realPosts,state.postCh);}};
 });
 document.querySelectorAll("#period-seg button").forEach(b=>{
   b.onclick=()=>{state.period=b.dataset.p;
@@ -1187,89 +1187,97 @@ renderChannels();renderPostTypes();renderSurvey();renderTopPosts();
  * そのクラブの実測値を読み、GA4が埋められる範囲だけを差し替える。
  * 申込・入会・投稿・アンケートはデータ源が別なのでデモのまま明示する。
  * 失敗・該当なし・パラメータ無しのときはデモ表示を維持（フォールバック）。 */
-// SNS投稿の実測（sns_post_stats）を投稿タブ最上部にカードで表示
-function renderRealPosts(stats){
-  const pane=document.getElementById("pane-post");
-  if(!pane||!stats||!stats.length||document.getElementById("real-posts"))return;
-  const nameMap={instagram:"Instagram",threads:"Threads",youtube:"YouTube",tiktok:"TikTok",x:"X"};
-  const byPlat={};
-  for(const s of stats){(byPlat[s.platform]=byPlat[s.platform]||[]).push(s);}
-  const rows=Object.entries(byPlat).map(([plat,rs])=>{
-    const total=rs.reduce((a,r)=>a+(+r.post_count||0),0);
-    const latest=rs.slice().sort((a,b)=>String(b.period_end).localeCompare(String(a.period_end)))[0];
-    return {plat:nameMap[plat]||plat,total,week:latest?(+latest.post_count||0):0,weeks:rs.length};
-  });
-  const sec=document.createElement("section");
-  sec.id="real-posts";
-  sec.innerHTML=`<div class="sec-head"><h2>SNS投稿：連携アカウントの実測</h2><span class="ai-badge">実データ</span><span class="sub">連携済みアカウントから自動取得</span></div>`+
-    `<div class="grid">`+rows.map(r=>
-      `<div class="card"><div class="label">${r.plat}（実データ）</div><div class="value">${r.total}</div><div class="sub">直近${r.weeks}週の投稿 ／ 今週 ${r.week}本</div></div>`
-    ).join("")+`</div>`;
-  pane.insertBefore(sec,pane.firstChild);
-}
-
 // 実データ投稿の共通ヘルパー
 const RP_NAME={instagram:"Instagram",threads:"Threads",youtube:"YouTube",tiktok:"TikTok",x:"X"};
 const rpEsc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(ch)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 const rpFmt=(iso)=>{const d=new Date(iso);return isNaN(d)?"":`${d.getMonth()+1}/${d.getDate()}`;};
 const rpSnip=(s,n)=>{s=String(s==null?"":s).replace(/\s+/g," ").trim();return s.length>n?s.slice(0,n)+"…":s;};
 const RP_STYLE=`<style>
-    .rp-list{display:flex;flex-direction:column;gap:8px}
-    .rp-item{background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px}
-    .rp-meta{display:flex;align-items:center;gap:10px;font-size:.74rem;color:#8a8a8a;margin-bottom:5px;flex-wrap:wrap}
-    .rp-plat{font-weight:700;padding:1px 9px;border-radius:99px;color:#fff;font-size:.7rem}
+    #real-posts .rpc-row{display:flex;gap:10px;flex-wrap:wrap}
+    #real-posts .rpc{flex:1;min-width:150px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:8px 14px;display:flex;align-items:baseline;gap:9px}
+    #real-posts .rpc .l{font-size:.78rem;color:#777;font-weight:700}
+    #real-posts .rpc b{font-size:1.35rem;font-weight:900}
+    #real-posts .rpc .s{font-size:.72rem;color:#999;margin-left:auto}
+    #real-post-block>section{margin-top:16px}
+    .rp-list{display:flex;flex-direction:column;gap:6px}
+    .rp-item{background:#fff;border:1px solid #ececec;border-radius:9px;padding:8px 12px}
+    .rp-meta{display:flex;align-items:center;gap:9px;font-size:.72rem;color:#8a8a8a}
+    .rp-plat{font-weight:700;padding:1px 8px;border-radius:99px;color:#fff;font-size:.68rem}
     .rp-instagram{background:#c13584}.rp-threads{background:#111}.rp-youtube{background:#e0304a}.rp-tiktok{background:#111}.rp-x{background:#111}
-    .rp-eng{color:#666}
-    .rp-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700}
-    .rp-text{font-size:.86rem;line-height:1.55;color:#333;white-space:pre-wrap}
-    .rp-rank{font-weight:900;color:var(--brand,#f08a2e);font-size:.9rem;min-width:1.4em}
+    .rp-eng{color:#666;white-space:nowrap}
+    .rp-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700;white-space:nowrap}
+    .rp-text{font-size:.82rem;line-height:1.5;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+    .rp-rank{font-weight:900;color:var(--brand,#f08a2e);font-size:.85rem;min-width:1.2em}
     .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
+    .rp-more{margin-top:8px;width:100%;padding:8px;background:#f4f4f4;border:1px solid #e5e5e5;border-radius:8px;color:#555;font-weight:700;font-size:.8rem;cursor:pointer}
   </style>`;
 function rpEngHtml(p){
-  // like_count が入っていれば反応を表示（IGは常時・Threadsは権限付き再連携後）
   if(p.like_count==null && p.comments_count==null) return "";
   return `<span class="rp-eng">♥ ${p.like_count==null?0:p.like_count}　💬 ${p.comments_count==null?0:p.comments_count}</span>`;
 }
 function rpItemHtml(p,rankNo){
   const rank=rankNo?`<span class="rp-rank">${rankNo}</span>`:"";
   const link=p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" class="rp-link">見る ↗</a>`:"";
-  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span><span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,100))||"（本文なし）"}</div></div>`;
+  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span><span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
 }
 
-// 最近の投稿の中身（sns_posts）を投稿タブに一覧表示（媒体フィルタ対応・再描画可）
-function renderRealPostList(posts,ch){
+// 投稿本数（sns_post_stats）：上部にコンパクトな数値で表示
+function renderRealPosts(stats){
   const pane=document.getElementById("pane-post");
-  if(!pane||!posts||!posts.length)return;
-  const old=document.getElementById("real-postlist");if(old)old.remove();
-  const filtered=(ch&&ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
+  if(!pane||!stats||!stats.length||document.getElementById("real-posts"))return;
+  const byPlat={};
+  for(const s of stats){(byPlat[s.platform]=byPlat[s.platform]||[]).push(s);}
+  const rows=Object.entries(byPlat).map(([plat,rs])=>{
+    const total=rs.reduce((a,r)=>a+(+r.post_count||0),0);
+    const latest=rs.slice().sort((a,b)=>String(b.period_end).localeCompare(String(a.period_end)))[0];
+    return {plat:RP_NAME[plat]||plat,total,week:latest?(+latest.post_count||0):0,weeks:rs.length};
+  });
   const sec=document.createElement("section");
-  sec.id="real-postlist";
-  const body=filtered.length
-    ? `<div class="rp-list">`+filtered.slice(0,20).map((p)=>rpItemHtml(p)).join("")+`</div>`
-    : `<div class="rp-empty">この媒体の投稿はまだ取り込まれていません。</div>`;
-  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>最近の投稿</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントの直近の投稿（新しい順）</span></div>`+body;
-  const after=document.getElementById("real-posts");
-  if(after&&after.nextSibling)pane.insertBefore(sec,after.nextSibling);
-  else pane.insertBefore(sec,pane.firstChild);
+  sec.id="real-posts";
+  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>投稿の本数</h2><span class="ai-badge">実データ</span><span class="sub">連携アカウントから自動取得</span></div>`+
+    `<div class="rpc-row">`+rows.map(r=>`<div class="rpc"><span class="l">${r.plat}</span><b>${r.total}</b><span class="s">直近${r.weeks}週 ／ 今週${r.week}</span></div>`).join("")+`</div>`;
+  pane.insertBefore(sec,pane.firstChild);
 }
 
-// 反応が良かった投稿ランキング（like+commentの合計順・エンゲージ取得済みの投稿のみ）
-function renderRealRanking(posts){
-  const pane=document.getElementById("pane-post");
-  if(!pane||!posts)return;
-  const old=document.getElementById("real-ranking");if(old)old.remove();
-  const scored=posts
+// 反応ランキング要素を組み立て（媒体フィルタ対応）
+function rpBuildRanking(posts,ch){
+  const base=(ch&&ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
+  const scored=base
     .filter((p)=>p.like_count!=null||p.comments_count!=null)
     .map((p)=>({p,score:(p.like_count||0)+(p.comments_count||0)}))
     .sort((a,b)=>b.score-a.score);
-  if(scored.length<3)return; // データが薄いうちは出さない
+  if(scored.length<3)return null; // データが薄いうちは出さない
   const sec=document.createElement("section");
-  sec.id="real-ranking";
-  sec.innerHTML=RP_STYLE+`<div class="sec-head"><h2>反応が良かった投稿</h2><span class="ai-badge">実データ</span><span class="sub">いいね＋コメントの多い順（取得済みの反応から）</span></div>`+
+  sec.innerHTML=`<div class="sec-head"><h2>反応が良かった投稿</h2><span class="ai-badge">実データ</span><span class="sub">いいね＋コメントの多い順・上位5</span></div>`+
     `<div class="rp-list">`+scored.slice(0,5).map((s,i)=>rpItemHtml(s.p,i+1)).join("")+`</div>`;
-  const after=document.getElementById("real-postlist")||document.getElementById("real-posts");
-  if(after&&after.nextSibling)pane.insertBefore(sec,after.nextSibling);
-  else pane.insertBefore(sec,pane.firstChild);
+  return sec;
+}
+// 最近の投稿一覧を組み立て（1行省略・6件＋もっと見る・媒体フィルタ対応）
+function rpBuildList(posts,ch){
+  const filtered=(ch&&ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
+  const label=(ch&&ch!=="all")?(RP_NAME[ch]||ch):"全媒体";
+  const sec=document.createElement("section");
+  let body;
+  if(!filtered.length){body=`<div class="rp-empty">この媒体の投稿はまだ取り込まれていません。</div>`;}
+  else{
+    const expanded=!!window.__rpExpanded;
+    const shown=expanded?filtered.slice(0,30):filtered.slice(0,6);
+    body=`<div class="rp-list">`+shown.map((p)=>rpItemHtml(p)).join("")+`</div>`;
+    if(filtered.length>6)body+=`<button class="rp-more" onclick="window.__rpExpanded=!window.__rpExpanded;renderRealBottom(window.__realPosts,window.__rpCh)">${expanded?"閉じる":`もっと見る（全${filtered.length}件）`}</button>`;
+  }
+  sec.innerHTML=`<div class="sec-head"><h2>最近の投稿</h2><span class="ai-badge">実データ</span><span class="sub">${label}・新しい順（媒体タブで切替）</span></div>`+body;
+  return sec;
+}
+// 投稿タブ最下部に「反応ランキング→最近の投稿」をまとめて描画（フィルタ再描画可）
+function renderRealBottom(posts,ch){
+  const pane=document.getElementById("pane-post");
+  if(!pane||!posts||!posts.length)return;
+  window.__rpCh=ch||"all";
+  let box=document.getElementById("real-post-block");
+  if(!box){box=document.createElement("div");box.id="real-post-block";pane.appendChild(box);}
+  box.innerHTML=RP_STYLE;
+  const rank=rpBuildRanking(posts,window.__rpCh);if(rank)box.appendChild(rank);
+  box.appendChild(rpBuildList(posts,window.__rpCh));
 }
 
 (async function connectRealData(){
@@ -1300,7 +1308,7 @@ function renderRealRanking(posts){
           }
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
           if(d&&d.post_stats&&d.post_stats.length)renderRealPosts(d.post_stats);
-          if(d&&d.posts&&d.posts.length){window.__realPosts=d.posts;renderRealPostList(d.posts,"all");renderRealRanking(d.posts);}
+          if(d&&d.posts&&d.posts.length){window.__realPosts=d.posts;renderRealBottom(d.posts,"all");}
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
