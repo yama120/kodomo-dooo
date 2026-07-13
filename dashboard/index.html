@@ -248,7 +248,7 @@
     <div class="rev-banner" id="rev-banner"></div>
   </section>
 
-  <section>
+  <section id="demo-home-ai">
     <div class="sec-head"><h2>AIコーチの月次レポート</h2><span class="ai-badge">7月1日 自動生成</span>
       <span class="sub">データから「次の一手」を毎月提案</span></div>
     <div class="action-grid">
@@ -281,7 +281,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="demo-home-timeline">
     <div class="sec-head"><h2>打ち手と成果のタイムライン</h2><span class="sub">番号の縦線＝施策。その後に数字が動いていれば「効いた」証拠</span></div>
     <div class="card" id="timeline-card"></div>
   </section>
@@ -1402,6 +1402,32 @@ function renderRealPostTab(ch){
       ${rpFeedHtml(posts,c)}
     </section>`;
 }
+// ホームの手入力値（入会・会員数・目標）：クラブごとにlocalStorage
+function rpHomeKey(k){return "chibispo_home_"+k+"_"+(new URLSearchParams(location.search).get("club")||"").trim();}
+function rpGetNum(k,def){const v=parseInt(localStorage.getItem(rpHomeKey(k))||"",10);return isNaN(v)?def:v;}
+function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));if(window.__realD)rpApplyRealHome(window.__realD);}
+// ホームKPIを実データ化（閲覧=GA4／体験申込=trial_requests／入会・会員=手入力）＋デモ節を整理
+function rpApplyRealHome(d){
+  window.__realD=d;
+  const k=document.getElementById("kpi"); if(!k) return;
+  const a=(d.analytics&&d.analytics.club)?d.analytics.club:null;
+  const views=a?(+a.views||0):null;
+  const days=(d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30;
+  const trialTotal=d.trials?d.trials.total:null;
+  const joined=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
+  const members=rpGetNum("members",0), goal=rpGetNum("goal",40);
+  const dash=(x)=>x==null?`<span style="color:#c3c3c3">—</span>`:Number(x).toLocaleString();
+  const edit=(fn,label)=>`<button class="rpc-edit" style="margin-left:7px" onclick="${fn}">${label}</button>`;
+  const card=(label,val,sub)=>`<div class="card kpi"><div class="label">${label}</div><div class="value">${val}</div><div class="delta">${sub}</div></div>`;
+  const pct=goal>0?Math.min(100,Math.round(members/goal*100)):0;
+  k.innerHTML=RP_STYLE+
+    card("クラブページ閲覧", dash(views), views==null?"掲載ページが見られると表示":`過去${days}日（GA4実測）`)+
+    card("体験申込", dash(trialTotal), trialTotal==null?"申込フォームから自動集計":"累計（申込フォーム）")+
+    card("入会"+edit("rpEditNum('joins','入会した人数（累計）を入力')","記録"), joined, "記録した人数")+
+    `<div class="card kpi"><div class="label">現在の会員数${edit("rpEditNum('members','現在の会員数を入力')","記録")}</div><div class="value">${members}<small>人 / ${goal}人${edit("rpEditNum('goal','会員数の目標を入力')","目標")}</small></div><div class="goal-mini"><i style="width:${pct}%"></i></div><div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%）</div></div>`;
+  // デモ専用の節（逆算バナー・AIレポート・タイムライン）は実データが揃うまで隠す
+  ["rev-banner","demo-home-ai","demo-home-timeline"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+}
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
 function rpApplyRealMode(){
   ["demo-post-1","demo-post-2","demo-post-3"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
@@ -1444,6 +1470,7 @@ function rpApplyRealMode(){
           if(d&&d.post_stats&&d.post_stats.length)window.__realStats=d.post_stats;
           if(d&&d.posts&&d.posts.length)window.__realPosts=d.posts;
           if((window.__realStats||[]).length||(window.__realPosts||[]).length){renderRealPostTab("all");rpApplyRealMode();}
+          rpApplyRealHome(d);
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
