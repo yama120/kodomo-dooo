@@ -1214,6 +1214,13 @@ const RP_STYLE=`<style>
     .rp-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700;white-space:nowrap}
     .rp-text{font-size:.82rem;line-height:1.5;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
     .rp-rank{font-weight:900;color:var(--brand,#f08a2e);font-size:.85rem;min-width:1.2em}
+    .rp-type{background:#eef1fb;color:#4a5568;font-weight:700;padding:1px 8px;border-radius:99px;font-size:.67rem}
+    .rp-types{display:flex;flex-direction:column;gap:9px}
+    .rp-trow{display:flex;align-items:center;gap:10px;font-size:.85rem}
+    .rp-tname{min-width:118px;font-weight:700;color:#333}
+    .rp-tname small{color:#999;font-weight:400}
+    .rp-tbar{height:13px;background:var(--brand,#f08a2e);border-radius:6px;min-width:3px}
+    .rp-trow b{margin-left:auto;font-weight:800;min-width:2.2em;text-align:right}
     .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
     .rp-more{margin-top:8px;width:100%;padding:8px;background:#f4f4f4;border:1px solid #e5e5e5;border-radius:8px;color:#555;font-weight:700;font-size:.8rem;cursor:pointer}
   </style>`;
@@ -1223,8 +1230,23 @@ function rpEngHtml(p){
 }
 function rpItemHtml(p,rankNo){
   const rank=rankNo?`<span class="rp-rank">${rankNo}</span>`:"";
+  const type=p.post_type?`<span class="rp-type">${rpEsc(p.post_type)}</span>`:"";
   const link=p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" class="rp-link">見る ↗</a>`:"";
-  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span><span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
+  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span>${type}<span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
+}
+// タイプ別の反応（AI分類が入った投稿のみ・平均エンゲージ順）
+function rpBuildTypes(posts,ch){
+  const base=(ch&&ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
+  const typed=base.filter((p)=>p.post_type);
+  if(typed.length<3)return null; // 分類が3件たまるまで出さない
+  const g={};
+  for(const p of typed){const t=p.post_type;(g[t]=g[t]||[]).push((p.like_count||0)+(p.comments_count||0));}
+  const rows=Object.entries(g).map(([t,arr])=>({t,n:arr.length,avg:Math.round(arr.reduce((a,b)=>a+b,0)/arr.length)})).sort((a,b)=>b.avg-a.avg);
+  const max=Math.max(1,...rows.map((r)=>r.avg));
+  const sec=document.createElement("section");
+  sec.innerHTML=`<div class="sec-head"><h2>タイプ別の反応</h2><span class="ai-badge">実データ</span><span class="sub">AIが投稿を自動分類・反応(♥+💬)の平均が高い順</span></div>`+
+    `<div class="rp-types">`+rows.map((r)=>`<div class="rp-trow"><span class="rp-tname">${rpEsc(r.t)}<small>（${r.n}本）</small></span><span class="rp-tbar" style="width:${Math.round(r.avg/max*100)}%"></span><b>${r.avg}</b></div>`).join("")+`</div>`;
+  return sec;
 }
 
 // 投稿目標（週の合計本数）：推奨デフォルト3本・クラブごとにlocalStorageで変更可
@@ -1307,6 +1329,7 @@ function renderRealBottom(posts,ch){
   let box=document.getElementById("real-post-block");
   if(!box){box=document.createElement("div");box.id="real-post-block";pane.appendChild(box);}
   box.innerHTML=RP_STYLE;
+  const types=rpBuildTypes(posts,window.__rpCh);if(types)box.appendChild(types);
   const rank=rpBuildRanking(posts,window.__rpCh);if(rank)box.appendChild(rank);
   box.appendChild(rpBuildList(posts,window.__rpCh));
 }
