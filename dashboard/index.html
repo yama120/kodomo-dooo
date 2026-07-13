@@ -298,12 +298,12 @@
     </ul></div>
   </details>
 
-  <section>
+  <section id="shu-funnel">
     <div class="sec-head"><h2>① どの段階で、人が減っている？</h2><span class="sub">認知から入会まで。目安より弱い段階を自動判定</span></div>
     <div class="card" id="full-funnel"></div>
   </section>
 
-  <section>
+  <section id="shu-map">
     <div class="sec-head"><h2>② どこから来ている？</h2><span class="sub">線の太さ＝人数。点線＝まだ数えられていない流入</span></div>
     <div class="card" id="map-wrap"></div>
     <div class="scroll-hint">← 横にスクロールできます →</div>
@@ -343,7 +343,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="shu-survey">
     <div class="sec-head"><h2>④ 紙・口コミの答え合わせ（アンケート）</h2><span class="sub" id="survey-count"></span></div>
     <div class="card" style="max-width:640px">
       <div class="plot free" id="survey-chart"></div>
@@ -500,7 +500,8 @@
       <div class="track-url" id="m-url"></div>
       <div class="qr-flex">
         <canvas id="m-qr" width="110" height="110"></canvas>
-        <div class="q-note"><b>QRコード（サンプル）</b><br>本番版では印刷用の画像をダウンロードできます。<a href="guide.html#poster" style="color:var(--s1)">→ 使い方はガイド手順3</a></div>
+        <img id="m-qr-img" width="130" height="130" style="display:none;border-radius:8px" alt="QRコード">
+        <div class="q-note" id="m-qr-note"><b>QRコード（サンプル）</b><br>本番版では印刷用の画像をダウンロードできます。<a href="guide.html#poster" style="color:var(--s1)">→ 使い方はガイド手順3</a></div>
       </div>
     </div>
   </div>
@@ -1139,6 +1140,7 @@ function openModal(){$("#modal-bg").classList.add("show");$("#m-result").classLi
 function closeModal(){$("#modal-bg").classList.remove("show")}
 function slugify(s){return (s||"media").toLowerCase().replace(/[^a-z0-9ぁ-んァ-ン一-龠]/g,"-").slice(0,20)||"media"}
 function createChannel(){
+  if(window.__realD){ return rpCreateChannelReal(); } // 実データモードは計測リンクを本当に発行
   const name=$("#m-name").value.trim();
   if(!name){alert("媒体の名前を入れてください");return}
   const url=`https://chibispo.com/go/sample-fc/${encodeURIComponent(slugify(name))}`;
@@ -1428,6 +1430,61 @@ function rpApplyRealHome(d){
   // デモ専用の節（逆算バナー・AIレポート・タイムライン）は実データが揃うまで隠す
   ["rev-banner","demo-home-ai","demo-home-timeline"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
 }
+// ===== 集客タブ実データ化（媒体別クリック＝link_clicks・媒体作成＝計測リンク/QR発行） =====
+var RP_TRACK='https://chibispo-tracking.hyogo120.workers.dev';
+function rpToken(){try{var s=JSON.parse(localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth')||'null');return s&&s.access_token;}catch(e){return null;}}
+function rpApplyRealShu(d){
+  window.__realD=d;
+  var body=document.getElementById("ch-body");
+  if(body){
+    var chans=(d.clicks&&d.clicks.channels)||[];
+    if(!chans.length){
+      body.innerHTML='<tr><td colspan="8" style="color:#8a93a0;padding:18px;text-align:center;font-size:.85rem">まだ計測リンクからのアクセスがありません。<br>「＋ 媒体を追加」でポスター・チラシ用の計測リンク＆QRを作りましょう。</td></tr>';
+    }else{
+      var maxV=Math.max.apply(null,chans.map(function(c){return c.clicks;}).concat([1]));
+      body.innerHTML=chans.map(function(c){
+        var col=C('--s1');
+        return '<tr><td style="white-space:nowrap"><span class="chip" style="background:'+col+'"></span><b>'+rpEsc(c.name||c.slug)+'</b></td>'+
+          '<td><span class="kind">'+rpEsc(c.kind||'—')+'</span></td>'+
+          '<td class="n">'+Number(c.clicks).toLocaleString()+'</td>'+
+          '<td class="n">—</td><td class="n">—</td>'+
+          '<td><div class="mini-bar"><i style="width:'+Math.round(c.clicks/maxV*100)+'%;background:'+col+'"></i></div></td>'+
+          '<td><span class="st-ok">● 計測中</span></td>'+
+          '<td><span class="row-link" onclick="rpShowMedia(\''+rpEsc(c.slug)+'\',\''+rpEsc((c.name||c.slug)).replace(/\'/g,"")+'\')">リンク/QR</span></td></tr>';
+      }).join("");
+    }
+  }
+  ["shu-funnel","shu-map","shu-survey"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+}
+// 計測リンクからQR画像URL（外部QRサービス・印刷可）
+function rpQrSrc(url){return 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data='+encodeURIComponent(url);}
+function rpShowResult(url){
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  document.getElementById("m-url").textContent=url;
+  var cv=document.getElementById("m-qr"); if(cv)cv.style.display="none";
+  var img=document.getElementById("m-qr-img"); if(img){img.src=rpQrSrc(url);img.style.display="";}
+  var note=document.getElementById("m-qr-note");
+  if(note)note.innerHTML='<b>QRコード</b><br>ポスターやチラシに印刷してください。<a href="'+rpQrSrc(url)+'" target="_blank" rel="noopener" style="color:var(--s1);font-weight:700">→ 画像を開く/保存</a>';
+  document.getElementById("m-result").classList.add("show");
+}
+// 既存の媒体の「リンク/QR」を再表示
+function rpShowMedia(slug,name){
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  openModal(); document.getElementById("m-name").value=name||"";
+  rpShowResult(RP_TRACK+'/go/'+encodeURIComponent(club)+'/'+encodeURIComponent(slug));
+}
+// 実データ版：媒体を登録して計測リンク＋QRを発行
+function rpCreateChannelReal(){
+  var name=document.getElementById("m-name").value.trim();
+  if(!name){alert("媒体の名前を入れてください");return;}
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var token=rpToken(); if(!token){alert("ログインが必要です");return;}
+  var kind=""; try{kind=(KINDS.find(function(k){return k.id===selectedKind;})||{}).n||"";kind=String(kind).replace(/\s.*/,"");}catch(e){}
+  fetch(RP_TRACK+'/api/add-media',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,name:name,kind:kind})})
+    .then(function(r){return r.json();})
+    .then(function(j){ if(!j||!j.ok){alert("追加に失敗しました。もう一度お試しください。");return;} rpShowResult(j.url); })
+    .catch(function(){alert("追加に失敗しました（通信エラー）");});
+}
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
 function rpApplyRealMode(){
   ["demo-post-1","demo-post-2","demo-post-3"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
@@ -1471,6 +1528,7 @@ function rpApplyRealMode(){
           if(d&&d.posts&&d.posts.length)window.__realPosts=d.posts;
           if((window.__realStats||[]).length||(window.__realPosts||[]).length){renderRealPostTab("all");rpApplyRealMode();}
           rpApplyRealHome(d);
+          rpApplyRealShu(d);
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
           if(d&&d.clicks&&d.clicks.channels&&d.clicks.channels.length)apiClicks={range:{lookback_days:d.clicks.range_days},total:d.clicks.total,channels:d.clicks.channels};
           if(!club&&d&&d.ok){
