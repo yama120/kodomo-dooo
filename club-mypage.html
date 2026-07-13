@@ -123,6 +123,23 @@
       <span style="background:#1f8a5b;color:#fff;font-size:13px;font-weight:800;padding:11px 20px;border-radius:999px;white-space:nowrap;">開く →</span>
     </a>
 
+    <!-- SNS連携（有料クラブのみ・分析ダッシュボードの投稿分析に使う） -->
+    <div id="mp-sns" class="mp-card" style="display:none;">
+      <div style="font-size:12px;font-weight:700;color:#1f8a5b;">分析ダッシュボード用</div>
+      <div style="font-size:16px;font-weight:900;color:#1f2a37;margin:1px 0 3px;">SNSアカウントを連携</div>
+      <div style="font-size:11.5px;color:#9aa3ad;margin-bottom:13px;">連携すると、投稿数・反応・タイプ分析が自動で取り込まれます（毎日更新）</div>
+      <div id="mp-sns-msg" style="display:none;font-size:12.5px;font-weight:700;border-radius:9px;padding:9px 12px;margin-bottom:11px;"></div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <a id="mp-sns-ig" href="#" style="display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;border:1.5px solid #e6e9ec;border-radius:11px;padding:12px 15px;">
+          <span style="font-size:14px;font-weight:800;color:#1f2a37;">Instagram</span><span class="st" style="font-size:13px;font-weight:800;color:#c13584;">連携する →</span>
+        </a>
+        <a id="mp-sns-th" href="#" style="display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;border:1.5px solid #e6e9ec;border-radius:11px;padding:12px 15px;">
+          <span style="font-size:14px;font-weight:800;color:#1f2a37;">Threads</span><span class="st" style="font-size:13px;font-weight:800;color:#4a3aa7;">連携する →</span>
+        </a>
+      </div>
+      <div style="font-size:11px;color:#aab2bb;margin-top:10px;line-height:1.6;">※連携できるのはプロ/ビジネスのInstagram・Threadsアカウントです。連携後の解除はいつでも可能です。</div>
+    </div>
+
     <!-- ネイティブ プラン管理（有料クラブが「プランの変更・解約」を押すと開く） -->
     <div id="mp-manage" class="mp-card" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;">
@@ -452,6 +469,42 @@
   var team=null, currentUserId=null, photoList=[], photoPos=[], photoMax=1, photoBusy=false, editIdx=-1, logoUrl=null, logoBusy=false, logoPos='50% 50%';
 
   function effectivePlan(t){ var p=(t&&t.plan)||'free'; if(p==='free')return'free'; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date())return'free'; return p; }
+  // SNS連携カードの配線（有料クラブのみ・連携先URL・連携状態・戻り成功表示）
+  var SNS_WORKER='https://chibispo-tracking.hyogo120.workers.dev';
+  function setupSnsConnect(t, ep){
+    var card=$('mp-sns'); if(!card) return;
+    if(ep==='free' || !t || !t.id){ card.style.display='none'; return; }
+    card.style.display='';
+    var igBtn=$('mp-sns-ig'), thBtn=$('mp-sns-th');
+    igBtn.href=SNS_WORKER+'/auth/instagram/start?club='+encodeURIComponent(t.id);
+    thBtn.href=SNS_WORKER+'/auth/threads/start?club='+encodeURIComponent(t.id);
+    // OAuthから戻ってきた時の成功メッセージ
+    try{
+      var qs=new URLSearchParams(location.search);
+      var ig=qs.get('ig'), th=qs.get('th');
+      if(ig==='connected'||th==='connected'){
+        var m=$('mp-sns-msg'); if(m){ m.style.display=''; m.style.background='#e7f6ee'; m.style.color='#1f7a52';
+          m.textContent=(ig==='connected'?'Instagram':'Threads')+'を連携しました。投稿データは毎日自動で取り込まれます。'; }
+      } else if(ig==='error'||th==='error'){
+        var me=$('mp-sns-msg'); if(me){ me.style.display=''; me.style.background='#fdecec'; me.style.color='#b0413a';
+          me.textContent='連携に失敗しました。プロ/ビジネスアカウントで、もう一度お試しください。'; }
+      }
+    }catch(e){}
+    // 連携状態（Worker /api/sns-status に本人トークンで問い合わせ）
+    var setSt=function(btn, val){ var st=btn.querySelector('.st'); if(!st) return;
+      if(val){ st.textContent='連携済み ✓'; st.style.color='#1f8a5b'; btn.style.borderColor='#bfe6d0'; btn.style.background='#f4fbf7'; }
+    };
+    try{
+      var raw=localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth');
+      var s=raw?JSON.parse(raw):null; var token=s&&s.access_token;
+      if(token){
+        fetch(SNS_WORKER+'/api/sns-status?club='+encodeURIComponent(t.id),{headers:{Authorization:'Bearer '+token}})
+          .then(function(r){ return r.ok?r.json():null; })
+          .then(function(d){ if(!d||!d.ok) return; setSt(igBtn, d.instagram); setSt(thBtn, d.threads); })
+          .catch(function(){});
+      }
+    }catch(e){}
+  }
   function msg(el,ok,text){ el.style.display='block'; el.style.background=ok?'#eafaf0':'#fdecee'; el.style.color=ok?'#1f8a5b':'#c0314b'; el.textContent=text; }
 
   function hideVeil(){ var v=document.getElementById('mp-veil'); if(v){ v.style.opacity='0'; setTimeout(function(){ v.remove(); },260); } }
@@ -598,6 +651,7 @@
       if(ep!=='free' && t.id){ dash.style.display='flex'; dash.href='dashboard/index.html?club='+encodeURIComponent(t.id); }
       else { dash.style.display='none'; }
     }
+    setupSnsConnect(t, ep);
     setupManage();
     var us=$('mp-upsell'); if(us) us.style.display=(ep!=='free')?'none':'';
     // アップセルの4ボタンを配線（フリー会員が新規サブスク作成。既存有料のプラン変更は顧客ポータルから＝二重課金防止）
