@@ -1246,7 +1246,7 @@ function rpItemHtml(p,rankNo){
   const rank=rankNo?`<span class="rp-rank">${rankNo}</span>`:"";
   const type=p.post_type?`<span class="type-chip" style="background:${rpTypeColor(p.post_type)};font-size:.66rem;padding:1px 8px">${rpEsc(p.post_type)}</span>`:"";
   const link=p.permalink?`<a href="${rpEsc(p.permalink)}" target="_blank" rel="noopener" class="rp-link">見る ↗</a>`:"";
-  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat rp-${rpEsc(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span>${type}<span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
+  return `<div class="rp-item"><div class="rp-meta">${rank}<span class="rp-plat" style="background:${rpChColor(p.platform)}">${RP_NAME[p.platform]||rpEsc(p.platform)}</span>${type}<span>${rpFmt(p.posted_at)}</span>${rpEngHtml(p)}${link}</div><div class="rp-text">${rpEsc(rpSnip(p.text,90))||"（本文なし）"}</div></div>`;
 }
 // ============ 実データの投稿タブ ============
 // デモと同じ設計思想：①量と、反応されているタイプ → ②当たり投稿と共通点 → ③最近の投稿
