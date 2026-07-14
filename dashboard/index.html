@@ -1434,12 +1434,100 @@ function rpApplyRealHome(d){
     card("体験申込", dash(trialTotal), trialTotal==null?"申込フォームから自動集計":"累計（申込フォーム）")+
     card("入会"+edit("rpEditNum('joins','入会した人数（累計）を入力')","記録"), joined, "記録した人数")+
     `<div class="card kpi"><div class="label">現在の会員数${edit("rpEditNum('members','現在の会員数を入力')","記録")}</div><div class="value">${members}<small>人 / ${goal}人${edit("rpEditNum('goal','会員数の目標を入力')","目標")}</small></div><div class="goal-mini"><i style="width:${pct}%"></i></div><div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%）</div></div>`;
-  // デモ専用の節は隠さず「サンプル例」として見せる（どんな機能かユーザーに分かるように）
-  rpMarkSample("rev-banner","※サンプル。入会・申込データがたまると、あなたの数字で自動計算されます");
-  rpMarkSample("demo-home-ai","※サンプル。実データがたまると毎月自動生成されます");
-  rpMarkSample("demo-home-timeline","※サンプル。記録した施策と実データで表示されるようになります");
+  // 逆算バナーは実データ（会員数・目標）で再計算。AIレポート/タイムラインは実データ蓄積待ちを明示
+  rpRealRevBanner(d);
+  rpMarkSample("demo-home-ai","※これはサンプルです。データがたまると毎月あなたのクラブ向けに自動生成されます");
+  rpMarkSample("demo-home-timeline","※これはサンプルです。投稿・閲覧・申込の履歴がたまると、あなたの数字が同じ時間軸で重なって表示されます");
 }
-// 「サンプル例」バッジ：隠す代わりに、機能が分かるようデモ表示のまま明示する
+// ===== 実データ描画（0でも構造・グラフを必ず描く。サンプル数字は出さない） =====
+var RP_GRID=function(){return C('--grid')||'#e7e4dc';};
+// 曜日分析（trials.by_weekday）
+function rpRealWeekday(d){
+  var c=document.getElementById("weekday-card"); if(!c)return;
+  var vals=(d.trials&&d.trials.by_weekday)||[0,0,0,0,0,0,0];
+  var days=["月","火","水","木","金","土","日"], max=Math.max.apply(null,vals.concat([1]));
+  var W=520,H=210,L=8,R=8,B=24,gr=RP_GRID(), bw=Math.min(36,(W-L-R)/7-10);
+  var s='<rect x="'+L+'" y="4" width="'+(W-L-R)+'" height="'+(H-B-4)+'" rx="10" fill="#faf9f5" stroke="'+gr+'"/>';
+  for(var g=1;g<3;g++){var gy=4+(H-B-4)*g/3;s+='<line x1="'+(L+6)+'" x2="'+(W-R-6)+'" y1="'+gy+'" y2="'+gy+'" stroke="'+gr+'" stroke-dasharray="2 4"/>';}
+  vals.forEach(function(v,vi){
+    var x=L+(vi+0.5)*(W-L-R)/7-bw/2, h=(H-B-24)*v/max, y=H-B-6-h, hot=v>0&&v===max;
+    s+='<rect x="'+x+'" y="'+(v?y:H-B-8)+'" width="'+bw+'" height="'+(v?Math.max(h,2):2)+'" rx="4" fill="'+(hot?C('--brand'):'#a9c8ef')+'" opacity="'+(v?1:0.4)+'"><title>'+days[vi]+'曜 '+v+'件</title></rect>';
+    s+='<text x="'+(x+bw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#888">'+days[vi]+'</text>';
+    if(v)s+='<text x="'+(x+bw/2)+'" y="'+(y-4)+'" text-anchor="middle" font-size="10" font-weight="700" fill="#555">'+v+'</text>';
+  });
+  var tot=vals.reduce(function(a,b){return a+b;},0);
+  c.innerHTML='<div class="chart-title">体験申込が入る曜日</div><div class="chart-sub">'+(tot?'申込フォームの実データ（'+tot+'件）':'まだ申込がありません。入ると曜日ごとに自動集計されます')+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
+}
+// アンケート集計（未実装機能＝0件の構造を描く）
+function rpRealSurvey(){
+  var cnt=document.getElementById("survey-count"); if(cnt)cnt.textContent="回収済みアンケート 0件";
+  var wrap=document.getElementById("survey-chart"); if(!wrap)return;
+  var items=["知人の紹介","チビスポで検索","ポスターを見て","Instagram","チラシ","その他"];
+  var W=480,rowH=34,H=items.length*rowH+6;
+  var s='';
+  items.forEach(function(name,ri){
+    var y=ri*rowH+4;
+    s+='<text x="0" y="'+(y+13)+'" fill="#777" font-size="11.5" font-weight="700">'+name+'</text>';
+    s+='<rect x="150" y="'+(y+4)+'" width="'+(W-160)+'" height="10" rx="3" fill="#f0eee8"/>';
+    s+='<text x="'+(W-4)+'" y="'+(y+13)+'" text-anchor="end" fill="#bbb" font-size="11">0人</text>';
+  });
+  wrap.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>'+
+    '<div class="chart-sub" style="margin-top:6px">見学時にアンケートを取ると、「どこで知ったか」の答え合わせがここに集計されます（アンケート機能は準備中）</div>';
+}
+// 逆算バナー（実データ：会員数・目標から）
+function rpRealRevBanner(d){
+  var b=document.getElementById("rev-banner"); if(!b)return;
+  var members=rpGetNum("members",0), goal=rpGetNum("goal",40), remaining=Math.max(0,goal-members);
+  if(remaining===0){b.innerHTML='<b>目標達成！</b>「記録・設定」から次の目標を設定しましょう。';return;}
+  var trials=Math.ceil(remaining/0.45), views=Math.round(trials/0.03/10)*10;
+  b.innerHTML='あと<b>'+remaining+'人</b>の入会に必要な量（一般的な歩留まりから逆算）：体験申込 <b>約'+trials+'人</b> ＝ ページ閲覧 <b>約'+views.toLocaleString()+'回</b>'+
+    '<span style="color:var(--muted);font-size:.76rem">会員数を「記録」すると、あなたの実績に合わせて再計算されます</span>';
+}
+// 流れマップ（実データ：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を描く）
+function rpRealMap(d){
+  var wrap=document.getElementById("map-wrap"); if(!wrap)return;
+  var chans=(d.clicks&&d.clicks.channels)||[];
+  var views=(d.analytics&&d.analytics.club)?(+d.analytics.club.views||0):0;
+  var trials=d.trials?(+d.trials.total||0):0;
+  var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
+  var media=chans.length?chans.slice(0,6):[{name:"（媒体を追加すると表示）",clicks:0,slug:""}];
+  var colW=180,nodeH=46,gapY=12,T=30, rows=Math.max(media.length,3);
+  var H=T+rows*(nodeH+gapY)+8, colX=[4,320,600];
+  var maxc=Math.max.apply(null,media.map(function(m){return m.clicks;}).concat([1]));
+  var s='';
+  ["媒体（知ってもらう場所）","クラブページ","申込 → 入会"].forEach(function(t,ci){s+='<text x="'+colX[ci]+'" y="18" fill="#8a93a0" font-size="11" font-weight="700">'+t+'</text>';});
+  var midY=T+(rows*(nodeH+gapY)-gapY)/2-nodeH/2;
+  var pageN={x:colX[1],y:midY-28,w:200,h:60,t:"クラブページ",m:views+" 閲覧"};
+  var trialN={x:colX[2],y:midY-52,w:210,h:50,t:"体験申込",m:trials+" 人"};
+  var joinN={x:colX[2],y:midY+30,w:210,h:50,t:"入会",m:joins+" 人"};
+  // 媒体→ページ の線
+  media.forEach(function(m,mi){
+    var y1=T+mi*(nodeH+gapY)+nodeH/2, x1=colX[0]+colW, x2=pageN.x, y2=pageN.y+pageN.h/2, mx=(x1+x2)/2;
+    var wpx=m.clicks>0?Math.max(2,Math.min(9,2+Math.log10(m.clicks||1)*2.2)):1.5;
+    s+='<path d="M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2+'" fill="none" stroke="'+(m.clicks>0?C('--s1'):'#d5d5d5')+'" stroke-width="'+wpx+'" stroke-dasharray="'+(m.clicks>0?'none':'5 4')+'" opacity="0.8"/>';
+    if(m.clicks>0)s+='<text x="'+mx+'" y="'+((y1+y2)/2-4)+'" text-anchor="middle" fill="#888" font-size="10">'+m.clicks+'</text>';
+  });
+  // ページ→申込→入会
+  [[pageN,trialN,trials],[trialN,joinN,joins]].forEach(function(pr){
+    var A=pr[0],B=pr[1],v=pr[2], down=B.x===A.x;
+    var dd=down?'M'+(A.x+A.w/2)+','+(A.y+A.h)+' L'+(A.x+A.w/2)+','+B.y : 'M'+(A.x+A.w)+','+(A.y+A.h/2)+' C'+((A.x+A.w+B.x)/2)+','+(A.y+A.h/2)+' '+((A.x+A.w+B.x)/2)+','+(B.y+B.h/2)+' '+B.x+','+(B.y+B.h/2);
+    s+='<path d="'+dd+'" fill="none" stroke="'+(v>0?C('--brand'):'#d5d5d5')+'" stroke-width="'+(v>0?Math.max(2.5,Math.min(9,2+Math.log10(v||1)*2.5)):1.5)+'" stroke-dasharray="'+(v>0?'none':'5 4')+'" opacity="0.9"/>';
+  });
+  // ノード（媒体）
+  media.forEach(function(m,mi){
+    var y=T+mi*(nodeH+gapY);
+    s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="#fff" stroke="'+(m.clicks>0?C('--s1'):'#d5d5d5')+'" stroke-width="1.5"/>';
+    s+='<text x="'+(colX[0]+12)+'" y="'+(y+19)+'" fill="#28323f" font-size="12" font-weight="700">'+rpEsc((m.name||m.slug).slice(0,14))+'</text>';
+    s+='<text x="'+(colX[0]+12)+'" y="'+(y+36)+'" fill="#8a93a0" font-size="10.5">'+m.clicks+' クリック</text>';
+  });
+  [pageN,trialN,joinN].forEach(function(nd){
+    s+='<rect x="'+nd.x+'" y="'+nd.y+'" width="'+nd.w+'" height="'+nd.h+'" rx="13" fill="#fff" stroke="'+C('--brand')+'" stroke-width="1.6"/>';
+    s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+22)+'" fill="#28323f" font-size="12.5" font-weight="800">'+nd.t+'</text>';
+    s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+40)+'" fill="#8a93a0" font-size="11">'+nd.m+'</text>';
+  });
+  wrap.innerHTML='<svg viewBox="0 0 830 '+H+'" style="display:block;min-width:760px;width:100%;height:auto">'+s+'</svg>';
+}
+// 「サンプル例」バッジ（AIレポートなど、グラフでない未実装機能に使う）
 function rpMarkSample(id,note){
   var el=document.getElementById(id); if(!el||el.__sampled)return; el.__sampled=true;
   el.style.display="";
@@ -1472,11 +1560,10 @@ function rpApplyRealShu(d){
       }).join("");
     }
   }
-  // ①ファネルは実データで表示（0でも見せて「次にやること」を案内）
+  // すべて実データで描く（0でもグラフ構造は表示）
   rpRealFunnel(d);
-  // ②マップ・④アンケートは実データ版が未実装＝サンプル例として見せる（機能が分かるように）
-  rpMarkSample("shu-map","※サンプル。計測リンクと申込データがたまると、あなたの数字で表示されます");
-  rpMarkSample("shu-survey","※サンプル。アンケート機能は準備中です");
+  rpRealMap(d);
+  rpRealSurvey();
 }
 // ①ファネル（実データ）：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を見せる
 function rpRealFunnel(d){
@@ -1529,7 +1616,7 @@ function rpCreateChannelReal(){
 function rpApplyRealMode(){
   // ①②は実データ版で置き換え済みなので非表示（重複防止）。③曜日分析はサンプル例として見せる
   ["demo-post-1","demo-post-2"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
-  rpMarkSample("demo-post-3","※サンプル。体験申込がたまると、あなたの数字で表示されます");
+  rpRealWeekday(window.__realD||{}); // ③曜日分析は実データ（0でも構造を描く）
   // 媒体タブは全部見せる（未連携はタブを押すと「連携すると取り込まれます」の案内が出る）
   const fg=document.querySelector("#pane-post .first-guide .fg-body ul");
   if(fg)fg.innerHTML=`<li>この画面の問いは1つ：<b>「何を・どれだけ投稿すれば反応が伸びるか」</b>（すべて連携アカウントの実データ・毎日自動更新）</li><li>①でどのタイプが反応されているかを掴み、②で実際の当たり投稿を確認します</li><li>投稿の目標は①右の「変更」からSNSごとに設定できます</li>`;
