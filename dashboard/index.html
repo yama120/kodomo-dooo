@@ -1239,6 +1239,14 @@ const RP_STYLE=`<style>
     .rp-goalline .gl-name{min-width:84px;color:#333}
     .rp-ok{color:#1a9e57;font-weight:800}
     .rp-miss{color:#b06a00;font-weight:700}
+    .rp-sample{background:#98a1ad;color:#fff;font-size:.66rem;font-weight:800;padding:2px 10px;border-radius:999px;white-space:nowrap}
+    .rf-row{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap}
+    .rf-stage{flex:1;min-width:110px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:12px 8px;text-align:center}
+    .rf-stage .l{font-size:.73rem;color:#777;font-weight:700;line-height:1.4}
+    .rf-stage b{display:block;font-size:1.55rem;font-weight:900;margin-top:3px}
+    .rf-stage small{font-size:.64rem;color:#a8a8a8}
+    .rf-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ccc;font-weight:900;min-width:34px}
+    .rf-arrow .r{font-size:.67rem;color:#b06a00;font-weight:800;white-space:nowrap}
   </style>`;
 function rpEngHtml(p){
   if(p.like_count==null && p.comments_count==null) return "";
@@ -1354,7 +1362,7 @@ function rpTopTableHtml(posts,ch){
 // ③：最近の投稿（6件＋もっと見る）
 function rpFeedHtml(posts,ch){
   const base=(ch!=="all")?posts.filter((p)=>p.platform===ch):posts;
-  if(!base.length)return `<div class="rp-empty">この媒体の投稿はまだ取り込まれていません。</div>`;
+  if(!base.length)return `<div class="rp-empty">この媒体の投稿はまだ取り込まれていません。<br>未連携の場合は、マイページの「SNSアカウントを連携」から接続すると自動で取り込まれます。</div>`;
   const expanded=!!window.__rpExpanded;
   const shown=expanded?base.slice(0,30):base.slice(0,6);
   let h=`<div class="rp-list">`+shown.map((p)=>rpItemHtml(p)).join("")+`</div>`;
@@ -1426,8 +1434,19 @@ function rpApplyRealHome(d){
     card("体験申込", dash(trialTotal), trialTotal==null?"申込フォームから自動集計":"累計（申込フォーム）")+
     card("入会"+edit("rpEditNum('joins','入会した人数（累計）を入力')","記録"), joined, "記録した人数")+
     `<div class="card kpi"><div class="label">現在の会員数${edit("rpEditNum('members','現在の会員数を入力')","記録")}</div><div class="value">${members}<small>人 / ${goal}人${edit("rpEditNum('goal','会員数の目標を入力')","目標")}</small></div><div class="goal-mini"><i style="width:${pct}%"></i></div><div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%）</div></div>`;
-  // デモ専用の節（逆算バナー・AIレポート・タイムライン）は実データが揃うまで隠す
-  ["rev-banner","demo-home-ai","demo-home-timeline"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  // デモ専用の節は隠さず「サンプル例」として見せる（どんな機能かユーザーに分かるように）
+  rpMarkSample("rev-banner","※サンプル。入会・申込データがたまると、あなたの数字で自動計算されます");
+  rpMarkSample("demo-home-ai","※サンプル。実データがたまると毎月自動生成されます");
+  rpMarkSample("demo-home-timeline","※サンプル。記録した施策と実データで表示されるようになります");
+}
+// 「サンプル例」バッジ：隠す代わりに、機能が分かるようデモ表示のまま明示する
+function rpMarkSample(id,note){
+  var el=document.getElementById(id); if(!el||el.__sampled)return; el.__sampled=true;
+  el.style.display="";
+  var head=el.querySelector(".sec-head");
+  var badge='<span class="rp-sample">サンプル例</span>'+(note?'<span class="sub" style="color:#b06a00">'+note+'</span>':'');
+  if(head)head.insertAdjacentHTML("beforeend",badge);
+  else el.insertAdjacentHTML("afterbegin",'<div style="margin-bottom:7px">'+badge+'</div>');
 }
 // ===== 集客タブ実データ化（媒体別クリック＝link_clicks・媒体作成＝計測リンク/QR発行） =====
 var RP_TRACK='https://chibispo-tracking.hyogo120.workers.dev';
@@ -1453,7 +1472,29 @@ function rpApplyRealShu(d){
       }).join("");
     }
   }
-  ["shu-funnel","shu-map","shu-survey"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display="none";});
+  // ①ファネルは実データで表示（0でも見せて「次にやること」を案内）
+  rpRealFunnel(d);
+  // ②マップ・④アンケートは実データ版が未実装＝サンプル例として見せる（機能が分かるように）
+  rpMarkSample("shu-map","※サンプル。計測リンクと申込データがたまると、あなたの数字で表示されます");
+  rpMarkSample("shu-survey","※サンプル。アンケート機能は準備中です");
+}
+// ①ファネル（実データ）：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を見せる
+function rpRealFunnel(d){
+  var el=document.getElementById("full-funnel"); if(!el)return;
+  var views=(d.analytics&&d.analytics.club)?(+d.analytics.club.views||0):0;
+  var clicks=(d.clicks&&+d.clicks.total)||0;
+  var trials=d.trials?(+d.trials.total||0):0;
+  var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
+  var rate=function(a,b){return b>0?(Math.round(a/b*1000)/10)+"%":"—";};
+  var stage=function(l,v,s){return '<div class="rf-stage"><div class="l">'+l+'</div><b>'+Number(v).toLocaleString()+'</b><small>'+s+'</small></div>';};
+  var arrow=function(r){return '<div class="rf-arrow">→<span class="r">'+r+'</span></div>';};
+  el.innerHTML='<div class="rf-row">'+
+    stage("媒体クリック",clicks,"ポスター・チラシQR")+arrow(rate(views,clicks))+
+    stage("ページ閲覧",views,"GA4・過去30日")+arrow(rate(trials,views))+
+    stage("体験申込",trials,"申込フォーム")+arrow(rate(joins,trials))+
+    stage("入会",joins,"記録から")+
+    '</div>'+
+    '<div class="insight">💡 数字が<b>0の段階が「次にやること」</b>です。クリックが0→QRを掲示する／閲覧はあるのに申込0→ページの写真・体験案内を見直す、のように読みます。</div>';
 }
 // 計測リンクからQR画像URL（外部QRサービス・印刷可）
 function rpQrSrc(url){return 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data='+encodeURIComponent(url);}
@@ -1486,12 +1527,10 @@ function rpCreateChannelReal(){
 }
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
 function rpApplyRealMode(){
-  ["demo-post-1","demo-post-2","demo-post-3"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
-  const have=new Set([...(window.__realPosts||[]).map((p)=>String(p.platform).toLowerCase()),...(window.__realStats||[]).map((s)=>String(s.platform).toLowerCase())]);
-  document.querySelectorAll("#post-ch-seg button").forEach((b)=>{
-    const ch=String(b.dataset.ch||"").toLowerCase();
-    if(ch!=="all"&&!have.has(ch))b.style.display="none";
-  });
+  // ①②は実データ版で置き換え済みなので非表示（重複防止）。③曜日分析はサンプル例として見せる
+  ["demo-post-1","demo-post-2"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  rpMarkSample("demo-post-3","※サンプル。体験申込がたまると、あなたの数字で表示されます");
+  // 媒体タブは全部見せる（未連携はタブを押すと「連携すると取り込まれます」の案内が出る）
   const fg=document.querySelector("#pane-post .first-guide .fg-body ul");
   if(fg)fg.innerHTML=`<li>この画面の問いは1つ：<b>「何を・どれだけ投稿すれば反応が伸びるか」</b>（すべて連携アカウントの実データ・毎日自動更新）</li><li>①でどのタイプが反応されているかを掴み、②で実際の当たり投稿を確認します</li><li>投稿の目標は①右の「変更」からSNSごとに設定できます</li>`;
 }
