@@ -1423,7 +1423,6 @@ function rpApplyRealHome(d){
   const card=(label,val,sub)=>`<div class="card kpi"><div class="label">${label}</div><div class="value">${val}</div><div class="delta">${sub}</div></div>`;
   const pct=goal>0?Math.min(100,Math.round(members/goal*100)):0;
   k.innerHTML=RP_STYLE+
-    card("クラブページ閲覧", dash(views), views==null?"掲載ページが見られると表示":`過去${days}日（GA4実測）`)+
     card("体験申込", dash(trialTotal), trialTotal==null?"申込フォームから自動集計":"累計（申込フォーム）")+
     card("入会"+edit("rpEditNum('joins','入会した人数（累計）を入力')","記録"), joined, "記録した人数")+
     `<div class="card kpi"><div class="label">現在の会員数${edit("rpEditNum('members','現在の会員数を入力')","記録")}</div><div class="value">${members}<small>人 / ${goal}人${edit("rpEditNum('goal','会員数の目標を入力')","目標")}</small></div><div class="goal-mini"><i style="width:${pct}%"></i></div><div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%）</div></div>`;
@@ -1640,7 +1639,7 @@ function rpApplyRealMode(){
   sec.appendChild(grid);
 
   // デモとの境界を明示
-  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">上はあなたのクラブの<b>実測値</b>です。下の会員数・体験申込・タイムライン・投稿・アンケートは、フォームや記録がつながるまで<b>デモ表示</b>のままです。</div>`);
+  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">上はGA4の<b>実測値</b>（アクセス）です。下の体験申込・投稿・媒体別クリックも実データ。<b>入会と会員数だけ「記録」ボタンで手入力</b>できます。</div>`);
   home.insertBefore(sec,home.firstElementChild.nextSibling); // 「はじめての方へ」の直後
 
   console.log("[real-data] 実データ表示:",nm,club);
