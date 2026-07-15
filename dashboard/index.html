@@ -1415,7 +1415,7 @@ function renderRealPostTab(ch){
 // ホームの手入力値（入会・会員数・目標）：クラブごとにlocalStorage
 function rpHomeKey(k){return "chibispo_home_"+k+"_"+(new URLSearchParams(location.search).get("club")||"").trim();}
 function rpGetNum(k,def){const v=parseInt(localStorage.getItem(rpHomeKey(k))||"",10);return isNaN(v)?def:v;}
-function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));if(window.__realD)rpApplyRealHome(window.__realD);}
+function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}}
 // ホームKPIを実データ化（閲覧=GA4／体験申込=trial_requests／入会・会員=手入力）＋デモ節を整理
 function rpApplyRealHome(d){
   window.__realD=d;
@@ -1524,14 +1524,15 @@ function rpRealMap(d){
     var y=T+mi*(nodeH+gapY);
     s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="#fff" stroke="'+(m.tracked?C('--s1'):'#cfcfcf')+'" stroke-width="1.5" stroke-dasharray="'+(m.tracked?'none':'4 3')+'"/>';
     s+='<text x="'+(colX[0]+12)+'" y="'+(y+19)+'" fill="'+(m.tracked?'#28323f':'#8a93a0')+'" font-size="12" font-weight="700">'+rpEsc(String(m.name||"").slice(0,14))+'</text>';
-    s+='<text x="'+(colX[0]+12)+'" y="'+(y+36)+'" fill="'+(m.tracked?'#8a93a0':'#c05621')+'" font-size="10.5">'+(m.tracked?(m.clicks+' クリック'):'⚠ 未計測（計測リンクで数える）')+'</text>';
+    s+='<text x="'+(colX[0]+12)+'" y="'+(y+36)+'" fill="'+(m.tracked?'#8a93a0':'#c05621')+'" font-size="10.5">'+(m.tracked?(m.clicks+' クリック'):'⚠ 未計測')+'</text>';
   });
   [pageN,trialN,joinN].forEach(function(nd){
     s+='<rect x="'+nd.x+'" y="'+nd.y+'" width="'+nd.w+'" height="'+nd.h+'" rx="13" fill="#fff" stroke="'+C('--brand')+'" stroke-width="1.6"/>';
     s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+22)+'" fill="#28323f" font-size="12.5" font-weight="800">'+nd.t+'</text>';
     s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+40)+'" fill="#8a93a0" font-size="11">'+nd.m+'</text>';
   });
-  wrap.innerHTML='<svg viewBox="0 0 830 '+H+'" style="display:block;min-width:760px;width:100%;height:auto">'+s+'</svg>';
+  wrap.innerHTML='<svg viewBox="0 0 830 '+H+'" style="display:block;min-width:760px;width:100%;height:auto">'+s+'</svg>'+
+    '<div class="chart-sub" style="margin-top:8px"><b>実線＝計測中</b>（数字が出ます）／<b>点線＝まだ計測していない媒体</b>。点線の媒体を数えるには、下の「<b>＋ 媒体を追加</b>」でその媒体用の計測リンク・QRを作り、投稿やポスターにそのリンクを使ってください。</div>';
 }
 // 「サンプル例」バッジ（AIレポートなど、グラフでない未実装機能に使う）
 function rpMarkSample(id,note){
@@ -1572,22 +1573,43 @@ function rpApplyRealShu(d){
   rpRealSurvey();
 }
 // ①ファネル（実データ）：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を見せる
+// 集客ファネル（サンプルと同じデザイン・実データ。認知→流入→体験申込→体験参加→入会）
 function rpRealFunnel(d){
   var el=document.getElementById("full-funnel"); if(!el)return;
+  var snsViews=0;(d.post_stats||[]).forEach(function(s){snsViews+=(+s.total_views||0);});
   var views=(d.analytics&&d.analytics.club)?(+d.analytics.club.views||0):0;
-  var clicks=(d.clicks&&+d.clicks.total)||0;
   var trials=d.trials?(+d.trials.total||0):0;
+  var attend=rpGetNum("attend",0);
   var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
-  var rate=function(a,b){return b>0?(Math.round(a/b*1000)/10)+"%":"—";};
-  var stage=function(l,v,s){return '<div class="rf-stage"><div class="l">'+l+'</div><b>'+Number(v).toLocaleString()+'</b><small>'+s+'</small></div>';};
-  var arrow=function(r){return '<div class="rf-arrow">→<span class="r">'+r+'</span></div>';};
-  el.innerHTML='<div class="rf-row">'+
-    stage("媒体クリック",clicks,"ポスター・チラシQR")+arrow(rate(views,clicks))+
-    stage("ページ閲覧",views,"GA4・過去30日")+arrow(rate(trials,views))+
-    stage("体験申込",trials,"申込フォーム")+arrow(rate(joins,trials))+
-    stage("入会",joins,"記録から")+
-    '</div>'+
-    '<div class="insight">💡 数字が<b>0の段階が「次にやること」</b>です。クリックが0→QRを掲示する／閲覧はあるのに申込0→ページの写真・体験案内を見直す、のように読みます。</div>';
+  var stages=[
+    {name:"認知（SNSで表示された回数）",src:"auto",srcLabel:"自動：SNS連携",value:snsViews},
+    {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動：GA4＋計測リンク",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
+      fix:{title:"表示はされているのに、来てもらえていない",body:"投稿は見られていますが、プロフィール・ページへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
+    {name:"体験申込",src:"auto",srcLabel:"自動：申込フォーム",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",
+      fix:{title:"ページを見た人が申込まで進んでいない",body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",cta:[["ページを作ってもらう：HP制作","lp"],["改善のやり方だけ聞く：個別相談","consult"]]}},
+    {name:"体験参加",src:"manual",srcLabel:"手動：記録",value:attend,bench:[60,90],note:"申込→参加の目安 60〜90%",edit:"attend"},
+    {name:"入会",src:"manual",srcLabel:"手動：記録",value:joins,bench:[40,70],note:"参加→入会の目安 40〜70%",edit:"joins"}
+  ];
+  var maxV=Math.max.apply(null,stages.map(function(s){return s.value;}).concat([1]));
+  var ord=["#86b6ef","#3987e5","#256abf","#184f95","#0d366b"];
+  var weakest=null, html='';
+  stages.forEach(function(st,i){
+    var rateHtml='';
+    if(i>0&&st.bench){
+      var prev=stages[i-1].value, rate=prev?st.value/prev*100:0, lo=st.bench[0];
+      var bad=prev>0&&rate<lo;
+      if(bad&&!weakest&&st.fix)weakest=st;
+      rateHtml='<span class="fs-rate '+(bad?'bad':'good')+'" title="'+(st.note||'')+'">'+(prev>0?((rate<10?rate.toFixed(1):Math.round(rate))+'%・'+(bad?'目安未満':'良好')):'—')+'</span>';
+    }
+    var w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
+    var editBtn=st.edit?' <button class="rpc-edit" style="margin-left:6px" onclick="rpEditNum(\''+st.edit+'\',\''+st.name+'の人数（累計）を入力\')">記録</button>':'';
+    html+='<div class="fstage"><div class="fs-name">'+st.name+'<span class="fs-src '+st.src+'">'+st.srcLabel+'</span>'+editBtn+'</div><div class="fs-bar"><i style="width:'+w+'%;background:'+ord[i]+'"></i></div><div class="fs-num">'+Number(st.value).toLocaleString()+rateHtml+'</div></div>';
+  });
+  el.innerHTML=html;
+  if(weakest&&weakest.fix){
+    el.insertAdjacentHTML("beforeend",'<div class="bottleneck"><span class="bn-tag">今月のボトルネック</span><h3>'+weakest.fix.title+'</h3><p>'+weakest.fix.body+'<span style="color:var(--muted)">（'+(weakest.note||'')+'）</span></p><div class="cta-line"><span style="font-size:.74rem;color:var(--muted)">自分でやるのが難しければ：</span>'+weakest.fix.cta.map(function(c){return '<button class="btn-svc" onclick="svcAlert(\''+c[1]+'\')">'+c[0]+'</button>';}).join("")+'</div></div>');
+  }
+  el.insertAdjacentHTML("beforeend",'<div class="chart-sub" style="margin-top:10px">目安（％の色）は子ども向けスポーツクラブの一般的なレンジ。<b>数字が0の段階が「次にやること」</b>です。実績が貯まると、目安ではなく自クラブの過去実績と比較するようになります。</div>');
 }
 // 計測リンクからQR画像URL（外部QRサービス・印刷可）
 function rpQrSrc(url){return 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data='+encodeURIComponent(url);}
