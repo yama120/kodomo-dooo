@@ -344,7 +344,7 @@
   </section>
 
   <section id="shu-survey">
-    <div class="sec-head"><h2>④ 紙・口コミの答え合わせ（アンケート）</h2><span class="sub" id="survey-count"></span></div>
+    <div class="sec-head"><h2>④ アンケート結果</h2><span class="sub" id="survey-count"></span></div>
     <div class="card" style="max-width:640px">
       <div class="plot free" id="survey-chart"></div>
       <div class="chart-sub" style="margin-top:8px">見学者に「何で知りましたか？」を聞いた集計。取り込みは「記録・設定」タブから。<b>ポスターや口コミなどネットで数えられない経路</b>はここで答え合わせします。</div>
@@ -1495,7 +1495,10 @@ function rpRealSurvey(){
     s+='<text x="'+(W-4)+'" y="'+(y+13)+'" text-anchor="end" fill="#bbb" font-size="11">0人</text>';
   });
   wrap.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>'+
-    '<div class="chart-sub" style="margin-top:6px">見学時にアンケートを取ると、「どこで知ったか」の答え合わせがここに集計されます（アンケート機能は準備中）</div>';
+    '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">'+
+      '<button class="btn" style="font-size:.82rem;padding:9px 18px;min-height:38px" onclick="openSurveyTpl()">＋ アンケートを作成</button>'+
+      '<span class="chart-sub" style="margin:0">見学時に「何で知りましたか？」を聞くと、ポスターや口コミなど<b>ネットで数えられない経路</b>がここに集計されます。</span>'+
+    '</div>';
 }
 // 逆算バナー（実データ：会員数・目標から）
 function rpRealRevBanner(d){
@@ -1516,9 +1519,10 @@ function rpRealMap(d){
   // 計測済み媒体（link_clicks）＝実線
   var measured=chans.map(function(c){return {name:rpChannelName(c),clicks:+c.clicks||0,tracked:true};});
   // よくある媒体で、まだ計測リンクが無いもの＝点線「未計測」で提案表示
-  var suggest=[{n:"チビスポ特集・マガジン",kw:["特集","マガジン"]},{n:"Instagram・SNS",kw:["insta","sns","thread","ｓｎｓ"]},{n:"Google検索",kw:["google","検索"]},{n:"口コミ・紹介",kw:["口コミ","紹介"]}];
+  // add=true の媒体だけ、クラブが計測リンクを作れる（＝ホバー/クリックで追加導線を出す）
+  var suggest=[{n:"チビスポ特集・マガジン",kw:["特集","マガジン"],add:false},{n:"Instagram・SNS",kw:["insta","sns","thread","ｓｎｓ"],add:true},{n:"Google検索",kw:["google","検索"],add:false},{n:"口コミ・紹介",kw:["口コミ","紹介"],add:true}];
   var mnames=measured.map(function(m){return String(m.name).toLowerCase();});
-  var unmeasured=suggest.filter(function(s){return !mnames.some(function(n){return s.kw.some(function(k){return n.indexOf(k.toLowerCase())>=0;});});}).map(function(s){return {name:s.n,clicks:0,tracked:false};});
+  var unmeasured=suggest.filter(function(s){return !mnames.some(function(n){return s.kw.some(function(k){return n.indexOf(k.toLowerCase())>=0;});});}).map(function(s){return {name:s.n,clicks:0,tracked:false,add:s.add};});
   var media=measured.concat(unmeasured).slice(0,7);
   var colW=180,nodeH=46,gapY=12,T=30, rows=Math.max(media.length,3);
   var H=T+rows*(nodeH+gapY)+8, colX=[4,320,600];
@@ -1548,8 +1552,8 @@ function rpRealMap(d){
     s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="#fff" stroke="'+(m.tracked?C('--s1'):'#cfcfcf')+'" stroke-width="1.5" stroke-dasharray="'+(m.tracked?'none':'4 3')+'"/>';
     s+='<text x="'+(colX[0]+12)+'" y="'+(y+19)+'" fill="'+(m.tracked?'#28323f':'#8a93a0')+'" font-size="12" font-weight="700">'+rpEsc(String(m.name||"").slice(0,14))+'</text>';
     s+='<text x="'+(colX[0]+12)+'" y="'+(y+36)+'" fill="'+(m.tracked?'#8a93a0':'#c05621')+'" font-size="10.5">'+(m.tracked?(m.clicks+' クリック'):'⚠ 未計測')+'</text>';
-    // 未計測ノードはホバーでヒント・クリックで媒体追加（透明の当たり判定を上に重ねる）
-    if(!m.tracked){var nm=rpEsc(String(m.name||"")).replace(/'/g,"");
+    // クラブが計測リンクを作れる未計測媒体だけ、ホバーヒント＋クリックで媒体追加（特集など自動計測系は対象外）
+    if(!m.tracked&&m.add){var nm=rpEsc(String(m.name||"")).replace(/'/g,"");
       s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="transparent" style="cursor:pointer" onclick="rpAddMediaPrefill(\''+nm+'\')" onmousemove="rpHoverAdd(event,\''+nm+'\')" onmouseleave="hideTT()"></rect>';}
   });
   [pageN,trialN,joinN].forEach(function(nd){
@@ -1599,9 +1603,35 @@ function rpApplyRealShu(d){
   // すべて実データで描く（0でもグラフ構造は表示）
   rpRealFunnel(d);
   rpRealMap(d);
+  rpRealWeeklyTrend(d);
   rpRealSurvey();
 }
 // ①ファネル（実データ）：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を見せる
+// 週次の流入推移（媒体別・実データ＝link_clicksの週次バケット）
+function rpRealWeeklyTrend(d){
+  var el=document.getElementById("weekly-views"); if(!el)return;
+  var weekly=(d.clicks&&d.clicks.weekly)||{}, chans=(d.clicks&&d.clicks.channels)||[];
+  var nameMap={}; chans.forEach(function(c){nameMap[c.slug]=rpChannelName(c);});
+  var slugs=Object.keys(weekly);
+  if(!slugs.length){ el.innerHTML='<div class="chart-title">週次の流入推移（媒体別）</div><div class="rp-empty" style="margin-top:8px">計測リンクからのアクセスがたまると、媒体ごとの週次の伸びがここに出ます。「＋ 媒体を追加」でリンクを作りましょう。</div>'; return; }
+  var weeks=[], base=Date.now(); for(var i=11;i>=0;i--){var dt=new Date(base-i*7*86400000);var day=(dt.getUTCDay()+6)%7;dt.setUTCDate(dt.getUTCDate()-day);dt.setUTCHours(0,0,0,0);var w=dt.toISOString().slice(0,10);if(weeks.indexOf(w)<0)weeks.push(w);}
+  var palette=["--s1","--s2","--s3","--s4","--s5","--s6"];
+  var series=slugs.map(function(sl,i){return {name:nameMap[sl]||sl,color:C(palette[i%palette.length]),vals:weeks.map(function(w){return (weekly[sl]&&weekly[sl][w])||0;})};});
+  var maxV=Math.max.apply(null,[1].concat(series.reduce(function(a,s){return a.concat(s.vals);},[])));
+  var W=1040,H=290,L=40,R=150,T=16,B=28,gr=RP_GRID();
+  var x=function(i){return L+i*(W-L-R)/(weeks.length-1);}, yy=function(v){return T+(H-T-B-10)*(1-v/maxV)+4;};
+  var s='<rect x="'+(L-10)+'" y="'+(T-6)+'" width="'+(W-L-R+20)+'" height="'+(H-T-B+6)+'" rx="10" fill="#faf9f5" stroke="'+gr+'"/>';
+  for(var g=1;g<4;g++){var gy=(T-6)+(H-T-B+6)*g/4;s+='<line x1="'+(L-4)+'" x2="'+(W-R+4)+'" y1="'+gy+'" y2="'+gy+'" stroke="'+gr+'" stroke-dasharray="2 4"/>';}
+  var skip=Math.ceil(weeks.length/8);
+  weeks.forEach(function(w,i){if(i%skip!==0&&i!==weeks.length-1)return;s+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="#999">'+w.slice(5).replace("-","/")+'</text>';});
+  series.forEach(function(se,si){
+    s+='<path d="'+se.vals.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+","+yy(v).toFixed(1);}).join("")+'" fill="none" stroke="'+se.color+'" stroke-width="2" stroke-linejoin="round"/>';
+    se.vals.forEach(function(v,i){s+='<circle cx="'+x(i)+'" cy="'+yy(v)+'" r="2.6" fill="'+se.color+'"><title>'+weeks[i].slice(5)+'の週 '+rpEsc(se.name)+' '+v+'</title></circle>';});
+    s+='<text x="'+(W-R+14)+'" y="'+(T+14+si*18)+'" fill="'+se.color+'" font-size="11" font-weight="700">'+rpEsc(se.name.slice(0,12))+' '+se.vals[se.vals.length-1]+'</text>';
+  });
+  var legend=series.map(function(se){return '<span style="margin-right:12px;white-space:nowrap"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+se.color+';margin-right:4px;vertical-align:middle"></i>'+rpEsc(se.name)+'</span>';}).join("");
+  el.innerHTML='<div class="chart-title">週次の流入推移（媒体別）</div><div class="chart-sub">どの媒体が伸びて、どれが落ちているか（計測リンク経由の実数）</div><div style="font-size:.72rem;color:#888;margin:6px 0">'+legend+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
+}
 // 集客ファネル（サンプルと同じデザイン・実データ。認知→流入→体験申込→体験参加→入会）
 function rpRealFunnel(d){
   var el=document.getElementById("full-funnel"); if(!el)return;
