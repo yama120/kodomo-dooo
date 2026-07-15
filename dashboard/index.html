@@ -1427,7 +1427,8 @@ function rpApplyRealHome(d){
   const seg=document.getElementById("period-seg"); if(seg)seg.style.display="none";
   const a=(d.analytics&&d.analytics.club)?d.analytics.club:null;
   const views=a?(+a.views||0):null;
-  const daily=((a&&a.daily)||[]).map((x)=>+x.views||0);
+  let daily=((a&&a.daily)||[]).map((x)=>+x.views||0);
+  if(daily.length===1)daily=[0].concat(daily); // 1日分だけだと線にならないので先頭に0を足す
   const days=(d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30;
   const trialTotal=d.trials?(+d.trials.total||0):null;
   // 体験申込の月次スパーク（直近6ヶ月）
