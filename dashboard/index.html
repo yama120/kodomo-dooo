@@ -1548,6 +1548,9 @@ function rpRealMap(d){
     s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="#fff" stroke="'+(m.tracked?C('--s1'):'#cfcfcf')+'" stroke-width="1.5" stroke-dasharray="'+(m.tracked?'none':'4 3')+'"/>';
     s+='<text x="'+(colX[0]+12)+'" y="'+(y+19)+'" fill="'+(m.tracked?'#28323f':'#8a93a0')+'" font-size="12" font-weight="700">'+rpEsc(String(m.name||"").slice(0,14))+'</text>';
     s+='<text x="'+(colX[0]+12)+'" y="'+(y+36)+'" fill="'+(m.tracked?'#8a93a0':'#c05621')+'" font-size="10.5">'+(m.tracked?(m.clicks+' クリック'):'⚠ 未計測')+'</text>';
+    // 未計測ノードはホバーでヒント・クリックで媒体追加（透明の当たり判定を上に重ねる）
+    if(!m.tracked){var nm=rpEsc(String(m.name||"")).replace(/'/g,"");
+      s+='<rect x="'+colX[0]+'" y="'+y+'" width="'+colW+'" height="'+nodeH+'" rx="11" fill="transparent" style="cursor:pointer" onclick="rpAddMediaPrefill(\''+nm+'\')" onmousemove="rpHoverAdd(event,\''+nm+'\')" onmouseleave="hideTT()"></rect>';}
   });
   [pageN,trialN,joinN].forEach(function(nd){
     s+='<rect x="'+nd.x+'" y="'+nd.y+'" width="'+nd.w+'" height="'+nd.h+'" rx="13" fill="#fff" stroke="'+C('--brand')+'" stroke-width="1.6"/>';
@@ -1634,6 +1637,9 @@ function rpRealFunnel(d){
   }
   el.insertAdjacentHTML("beforeend",'<div class="chart-sub" style="margin-top:10px">目安（％の色）は子ども向けスポーツクラブの一般的なレンジ。<b>数字が0の段階が「次にやること」</b>です。実績が貯まると、目安ではなく自クラブの過去実績と比較するようになります。</div>');
 }
+// 未計測ノードのホバーヒント＆クリックで媒体追加モーダルを開く（名前プリセット）
+function rpHoverAdd(e,name){ showTT('<div class="t">'+name+'</div>まだ計測していない媒体です。<br><b>クリックで計測リンクを作成</b>',e.clientX,e.clientY); }
+function rpAddMediaPrefill(name){ if(typeof openModal==="function")openModal(); var el=document.getElementById("m-name"); if(el)el.value=name||""; }
 // 計測リンクからQR画像URL（外部QRサービス・印刷可）
 function rpQrSrc(url){return 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data='+encodeURIComponent(url);}
 function rpShowResult(url){
