@@ -1417,23 +1417,45 @@ function rpHomeKey(k){return "chibispo_home_"+k+"_"+(new URLSearchParams(locatio
 function rpGetNum(k,def){const v=parseInt(localStorage.getItem(rpHomeKey(k))||"",10);return isNaN(v)?def:v;}
 function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}}
 // ホームKPIを実データ化（閲覧=GA4／体験申込=trial_requests／入会・会員=手入力）＋デモ節を整理
+// 実データのホームKPI：デモと同じ部品（card.kpi＋label/value/delta＋spark）で描く
+function rpEnsureStyle(){ if(window.__rpStyleDone)return; window.__rpStyleDone=true; document.body.insertAdjacentHTML("beforeend",RP_STYLE); }
 function rpApplyRealHome(d){
   window.__realD=d;
   const k=document.getElementById("kpi"); if(!k) return;
+  rpEnsureStyle();
+  // 期間セグ（今月/先月/6ヶ月）は実績が貯まるまで非表示（今は過去30日の実測のみ）
+  const seg=document.getElementById("period-seg"); if(seg)seg.style.display="none";
   const a=(d.analytics&&d.analytics.club)?d.analytics.club:null;
   const views=a?(+a.views||0):null;
+  const daily=((a&&a.daily)||[]).map((x)=>+x.views||0);
   const days=(d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30;
-  const trialTotal=d.trials?d.trials.total:null;
+  const trialTotal=d.trials?(+d.trials.total||0):null;
+  // 体験申込の月次スパーク（直近6ヶ月）
+  let trialSpark=null;
+  if(d.trials&&d.trials.by_month){
+    const ms=[],now=new Date();
+    for(let i=5;i>=0;i--){const dt=new Date(now.getFullYear(),now.getMonth()-i,1);ms.push(dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0"));}
+    trialSpark=ms.map((m)=>+(d.trials.by_month[m]||0));
+  }
   const joined=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
   const members=rpGetNum("members",0), goal=rpGetNum("goal",40);
-  const dash=(x)=>x==null?`<span style="color:#c3c3c3">—</span>`:Number(x).toLocaleString();
-  const edit=(fn,label)=>`<button class="rpc-edit" style="margin-left:7px" onclick="${fn}">${label}</button>`;
-  const card=(label,val,sub)=>`<div class="card kpi"><div class="label">${label}</div><div class="value">${val}</div><div class="delta">${sub}</div></div>`;
+  const eBtn=(fn,t)=>`<button class="rpc-edit" style="padding:1px 8px;font-size:.68rem" onclick="${fn}">✎ ${t}</button>`;
+  const mk=(label,valHtml,deltaHtml,sparkArr,color)=>{
+    const c=document.createElement("div");c.className="card kpi";
+    c.innerHTML=`<div class="label">${label}</div><div class="value">${valHtml}</div><div class="delta">${deltaHtml}</div>`;
+    if(sparkArr&&sparkArr.length>1&&sparkArr.some((v)=>v>0))c.appendChild(spark(sparkArr,color));
+    return c;
+  };
+  k.innerHTML="";
+  k.appendChild(mk("クラブページ閲覧", views==null?'<span style="color:#c3c3c3">—</span>':views.toLocaleString(), views==null?"掲載ページが見られると表示":`過去${days}日（GA4実測）`, daily, css("--s1")));
+  k.appendChild(mk("体験申込", trialTotal==null?'<span style="color:#c3c3c3">—</span>':trialTotal.toLocaleString(), "累計（申込フォーム）", trialSpark, css("--s2")));
+  k.appendChild(mk("入会", String(joined), "記録した人数 "+eBtn("rpEditNum('joins','入会した人数（累計）を入力')","記録"), null, css("--brand")));
   const pct=goal>0?Math.min(100,Math.round(members/goal*100)):0;
-  k.innerHTML=RP_STYLE+
-    card("体験申込", dash(trialTotal), trialTotal==null?"申込フォームから自動集計":"累計（申込フォーム）")+
-    card("入会"+edit("rpEditNum('joins','入会した人数（累計）を入力')","記録"), joined, "記録した人数")+
-    `<div class="card kpi"><div class="label">現在の会員数${edit("rpEditNum('members','現在の会員数を入力')","記録")}</div><div class="value">${members}<small>人 / ${goal}人${edit("rpEditNum('goal','会員数の目標を入力')","目標")}</small></div><div class="goal-mini"><i style="width:${pct}%"></i></div><div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%）</div></div>`;
+  const g=document.createElement("div");g.className="card kpi";
+  g.innerHTML=`<div class="label">現在の会員数</div><div class="value">${members}<small>人 / ${goal}人</small></div>
+    <div class="goal-mini"><i style="width:${pct}%"></i></div>
+    <div class="goal-note">目標まであと${Math.max(0,goal-members)}人（${pct}%） ${eBtn("rpEditNum('members','現在の会員数を入力')","記録")}${eBtn("rpEditNum('goal','会員数の目標を入力')","目標")}</div>`;
+  k.appendChild(g);
   // 逆算バナーは実データ（会員数・目標）で再計算。AIレポート/タイムラインは実データ蓄積待ちを明示
   rpRealRevBanner(d);
   rpMarkSample("demo-home-ai","※これはサンプルです。データがたまると毎月あなたのクラブ向けに自動生成されます");
@@ -1793,7 +1815,7 @@ function rpApplyRealMode(){
   if(avEl)avEl.textContent=(nm.match(/[^\s（(]/)||["●"])[0];
 
   // 2) 実データバッジ
-  setDemoBar(`✅ <b>実データ</b>：${nm}（GA4 ${start}〜${end}／閲覧 ${(+club.views||0).toLocaleString()}）　※申込・入会・投稿・アンケートは記録がたまるまでデモ表示`,"real");
+  setDemoBar(`✅ <b>実データ</b>：${nm}（GA4 ${start}〜${end}／閲覧 ${(+club.views||0).toLocaleString()}）　閲覧・投稿・申込・クリックは実測。入会と会員数は「記録」から入力できます`,"real");
 
   // 3) ホーム最上部にGA4実測セクションを差し込む
   const home=$("#pane-home");
@@ -1849,9 +1871,11 @@ function rpApplyRealMode(){
 
   sec.appendChild(grid);
 
-  // デモとの境界を明示
-  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">上はGA4の<b>実測値</b>（アクセス）です。下の体験申込・投稿・媒体別クリックも実データ。<b>入会と会員数だけ「記録」ボタンで手入力</b>できます。</div>`);
-  home.insertBefore(sec,home.firstElementChild.nextSibling); // 「はじめての方へ」の直後
+  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">チビスポ側ゼロ設定で自動取得。媒体別クリックは、あなたが発行した計測リンク・QR経由の実測です。</div>`);
+  // GA4のアクセス詳細は「集客」タブへ（ホームはサンプルと同じKPI構成を保つ）
+  const shuPane=$("#pane-shu"), shuAnchor=$("#shu-funnel");
+  if(shuPane&&shuAnchor)shuPane.insertBefore(sec,shuAnchor);
+  else home.insertBefore(sec,home.firstElementChild.nextSibling);
 
   console.log("[real-data] 実データ表示:",nm,club);
 
