@@ -1482,23 +1482,43 @@ function rpRealWeekday(d){
   c.innerHTML='<div class="chart-title">体験申込が入る曜日</div><div class="chart-sub">'+(tot?'申込フォームの実データ（'+tot+'件）':'まだ申込がありません。入ると曜日ごとに自動集計されます')+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
 }
 // アンケート集計（未実装機能＝0件の構造を描く）
-function rpRealSurvey(){
-  var cnt=document.getElementById("survey-count"); if(cnt)cnt.textContent="回収済みアンケート 0件";
+var RP_SURVEY_STD=["知人の紹介","チビスポで検索","ポスターを見て","Instagram","チラシ","その他"];
+var RP_SURVEY_COL={"知人の紹介":"--s6","チビスポで検索":"--s1","ポスターを見て":"--s3","Instagram":"--s2","チラシ":"--s4","その他":"--baseline"};
+function rpSurveyColor(name){ for(var k in RP_SURVEY_COL){ if(name.indexOf(k)>=0||k.indexOf(name)>=0)return C(RP_SURVEY_COL[k]); } return C("--s5"); }
+// アンケート結果（Googleフォーム回答の「どこで知ったか」集計）。0でも標準項目で構造を描く
+function rpRealSurvey(d){
+  var sv=d&&d.survey, counts=(sv&&sv.result&&sv.result.counts)||{}, total=(sv&&sv.total)||0, connected=!!(sv&&sv.connected);
+  var cnt=document.getElementById("survey-count"); if(cnt)cnt.textContent="回収済みアンケート "+total+"件";
   var wrap=document.getElementById("survey-chart"); if(!wrap)return;
-  var items=["知人の紹介","チビスポで検索","ポスターを見て","Instagram","チラシ","その他"];
-  var W=480,rowH=34,H=items.length*rowH+6;
-  var s='';
-  items.forEach(function(name,ri){
-    var y=ri*rowH+4;
-    s+='<text x="0" y="'+(y+13)+'" fill="#777" font-size="11.5" font-weight="700">'+name+'</text>';
+  var items = total>0 ? Object.keys(counts).map(function(k){return [k,counts[k]];}).sort(function(a,b){return b[1]-a[1];}) : RP_SURVEY_STD.map(function(k){return [k,0];});
+  var max=Math.max.apply(null,[1].concat(items.map(function(x){return x[1];})));
+  var W=480,rowH=34,H=items.length*rowH+6, s='';
+  items.forEach(function(it,ri){
+    var name=it[0],v=it[1],y=ri*rowH+4, bw=(W-160)*v/max;
+    s+='<text x="0" y="'+(y+13)+'" fill="#555" font-size="11.5" font-weight="700">'+rpEsc(String(name).slice(0,10))+'</text>';
     s+='<rect x="150" y="'+(y+4)+'" width="'+(W-160)+'" height="10" rx="3" fill="#f0eee8"/>';
-    s+='<text x="'+(W-4)+'" y="'+(y+13)+'" text-anchor="end" fill="#bbb" font-size="11">0人</text>';
+    if(v>0)s+='<rect x="150" y="'+(y+4)+'" width="'+Math.max(3,bw)+'" height="10" rx="3" fill="'+rpSurveyColor(name)+'"/>';
+    s+='<text x="'+(W-4)+'" y="'+(y+13)+'" text-anchor="end" fill="'+(v>0?"#555":"#bbb")+'" font-size="11" font-weight="'+(v>0?"700":"400")+'">'+v+'人'+(total>0&&v>0?"（"+Math.round(v/total*100)+"%）":"")+'</text>';
   });
+  var footer = connected
+    ? '<span style="color:#1f8a5b;font-weight:800;font-size:.82rem">✓ 連携済み（毎日自動集計）</span><a href="javascript:void(0)" onclick="rpConnectSurvey()" style="color:var(--muted);font-size:.78rem;margin-left:12px;text-decoration:none">シートを変更</a>'
+    : '<button class="btn" style="font-size:.82rem;padding:9px 18px;min-height:38px" onclick="rpConnectSurvey()">＋ アンケートを連携</button><span class="chart-sub" style="margin:0">Googleフォームの回答シートを連携すると、「どこで知ったか」が自動集計されます。</span>';
   wrap.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>'+
-    '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">'+
-      '<button class="btn" style="font-size:.82rem;padding:9px 18px;min-height:38px" onclick="openSurveyTpl()">＋ アンケートを作成</button>'+
-      '<span class="chart-sub" style="margin:0">見学時に「何で知りましたか？」を聞くと、ポスターや口コミなど<b>ネットで数えられない経路</b>がここに集計されます。</span>'+
-    '</div>';
+    '<div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">'+footer+'</div>';
+}
+// Googleフォームの回答シートを連携（URL入力→Worker /api/survey/connect）
+function rpConnectSurvey(){
+  var msg="Googleフォームの「回答」→スプレッドシート のURLを貼ってください。\n\n※先にそのシートを次のメールに「閲覧者」で共有してください：\niryo-career-sheets@iryo-career.iam.gserviceaccount.com";
+  var u=prompt(msg); if(!u)return;
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var token=rpToken(); if(!token){alert("ログインが必要です");return;}
+  fetch(RP_TRACK+'/api/survey/connect',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,sheet:u})})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      if(j&&j.ok){ if(j.no_column)alert("シートは読めましたが「どこで知ったか」の列が見つかりませんでした。フォームの質問に「どこで知りましたか」を入れてください。"); else alert("連携しました。回答 "+j.total+"件を集計しました。毎日自動で更新されます。"); location.reload(); }
+      else if(j&&j.error==="sheet_read_failed")alert("シートを読めませんでした。共有設定（iryo-career-sheets@… を閲覧者に追加）とURLをご確認ください。");
+      else alert("連携に失敗しました："+((j&&j.error)||"不明"));
+    }).catch(function(){alert("連携に失敗しました（通信エラー）");});
 }
 // 逆算バナー（実データ：会員数・目標から）
 function rpRealRevBanner(d){
@@ -1604,7 +1624,7 @@ function rpApplyRealShu(d){
   rpRealFunnel(d);
   rpRealMap(d);
   rpRealWeeklyTrend(d);
-  rpRealSurvey();
+  rpRealSurvey(d);
 }
 // ①ファネル（実データ）：媒体クリック→ページ閲覧→体験申込→入会。0でも構造を見せる
 // 週次の流入推移（媒体別・実データ＝link_clicksの週次バケット）
