@@ -1650,8 +1650,7 @@ function rpRenderConnectBar(connected){
     {k:"instagram",n:"Instagram",act:W+"/auth/instagram/start?club="+encodeURIComponent(club)},
     {k:"threads",n:"Threads",act:W+"/auth/threads/start?club="+encodeURIComponent(club)},
     {k:"youtube",n:"YouTube",fn:"rpConnectYouTube()"},
-    {k:"tiktok",n:"TikTok",soon:true},
-    {k:"x",n:"X",soon:true}
+    {k:"tiktok",n:"TikTok",soon:true}
   ];
   var box=document.getElementById("rp-connect");
   if(!box){box=document.createElement("section");box.id="rp-connect";pane.insertBefore(box,pane.firstChild);}
@@ -1698,6 +1697,8 @@ function rpConnectYouTube(){
 }
 function rpApplyRealMode(){
   rpConnectBar();
+  // X（Twitter）は連携非対応なので媒体タブから消す
+  var xtab=document.querySelector('#post-ch-seg button[data-ch="X"]'); if(xtab)xtab.style.display="none";
   // ①②は実データ版で置き換え済みなので非表示（重複防止）。③曜日分析はサンプル例として見せる
   ["demo-post-1","demo-post-2"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
   rpRealWeekday(window.__realD||{}); // ③曜日分析は実データ（0でも構造を描く）
