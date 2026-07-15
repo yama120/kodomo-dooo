@@ -1460,7 +1460,7 @@ function rpApplyRealHome(d){
   // 逆算バナーは実データ（会員数・目標）で再計算。AIレポート/タイムラインは実データ蓄積待ちを明示
   rpRealRevBanner(d);
   rpMarkSample("demo-home-ai","※これはサンプルです。データがたまると毎月あなたのクラブ向けに自動生成されます");
-  rpMarkSample("demo-home-timeline","※これはサンプルです。投稿・閲覧・申込の履歴がたまると、あなたの数字が同じ時間軸で重なって表示されます");
+  rpRealTimeline(d); // タイムラインは実データ（履歴が無い段は点線）
 }
 // ===== 実データ描画（0でも構造・グラフを必ず描く。サンプル数字は出さない） =====
 var RP_GRID=function(){return C('--grid')||'#e7e4dc';};
@@ -1631,6 +1631,48 @@ function rpRealWeeklyTrend(d){
   });
   var legend=series.map(function(se){return '<span style="margin-right:12px;white-space:nowrap"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+se.color+';margin-right:4px;vertical-align:middle"></i>'+rpEsc(se.name)+'</span>';}).join("");
   el.innerHTML='<div class="chart-title">週次の流入推移（媒体別）</div><div class="chart-sub">どの媒体が伸びて、どれが落ちているか（計測リンク経由の実数）</div><div style="font-size:.72rem;color:#888;margin:6px 0">'+legend+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
+}
+// タイムライン（打ち手と成果）を実データで描く。月次履歴が無い段は点線プレースホルダ
+function rpRealTimeline(d){
+  var el=document.getElementById("timeline-card"); if(!el)return;
+  var now=new Date(), months=[];
+  for(var i=5;i>=0;i--){var dt=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({key:dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0"),label:(dt.getMonth()+1)+"月"});}
+  var postM={};(d.post_stats||[]).forEach(function(s){var m=String(s.period_start).slice(0,7);if(m)postM[m]=(postM[m]||0)+(+s.post_count||0);});
+  var posts=months.map(function(m){return postM[m.key]||0;});
+  var trialsM=(d.trials&&d.trials.by_month)||{};
+  var trials=months.map(function(m){return +(trialsM[m.key]||0);});
+  var hasPosts=posts.some(function(v){return v>0;}), hasTrials=trials.some(function(v){return v>0;});
+  var W=1040,L=54,R=24,gr=RP_GRID();
+  var PH=[70,90,90],GAP=26,T=20;
+  var H=T+PH[0]+GAP+PH[1]+GAP+PH[2]+30;
+  var x=function(i){return L+(i+0.5)*(W-L-R)/months.length;};
+  var py=[T,T+PH[0]+GAP,T+PH[0]+GAP+PH[1]+GAP];
+  function panel(y,h){var s='<rect x="'+(L-10)+'" y="'+y+'" width="'+(W-L-R+20)+'" height="'+h+'" rx="10" fill="#faf9f5" stroke="'+gr+'"/>';for(var g=1;g<3;g++){var gy=y+h*g/3;s+='<line x1="'+(L-4)+'" x2="'+(W-R+4)+'" y1="'+gy+'" y2="'+gy+'" stroke="'+gr+'" stroke-dasharray="2 4"/>';}return s;}
+  var s='';
+  // 打ち手（投稿数）＝棒
+  s+=panel(py[0],PH[0]);
+  s+='<text x="'+(L-46)+'" y="'+(py[0]+14)+'" fill="#54606e" font-size="11" font-weight="700">打ち手</text><text x="'+(L-46)+'" y="'+(py[0]+28)+'" fill="#999" font-size="9.5">投稿数</text>';
+  var maxP=Math.max.apply(null,[1].concat(posts));
+  posts.forEach(function(v,i){if(!v)return;var bh=(PH[0]-22)*v/maxP,by=py[0]+PH[0]-8-bh;s+='<rect x="'+(x(i)-13)+'" y="'+by+'" width="26" height="'+bh+'" rx="5" fill="'+C('--s5')+'" opacity="0.85"><title>'+months[i].label+' 投稿'+v+'本</title></rect><text x="'+x(i)+'" y="'+(by-4)+'" text-anchor="middle" fill="'+C('--s5')+'" font-size="10" font-weight="700">'+v+'</text>';});
+  if(!hasPosts)s+='<text x="'+((L+W-R)/2)+'" y="'+(py[0]+PH[0]/2+4)+'" text-anchor="middle" fill="#bbb" font-size="11">SNSを連携すると投稿数が入ります</text>';
+  // 閲覧＝月次履歴が無いので点線プレースホルダ
+  s+=panel(py[1],PH[1]);
+  s+='<text x="'+(L-46)+'" y="'+(py[1]+14)+'" fill="#54606e" font-size="11" font-weight="700">閲覧</text>';
+  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+(py[1]+PH[1]/2)+'" y2="'+(py[1]+PH[1]/2)+'" stroke="'+C('--s1')+'" stroke-width="2" stroke-dasharray="6 5" opacity="0.5"/>';
+  s+='<text x="'+((L+W-R)/2)+'" y="'+(py[1]+PH[1]/2-8)+'" text-anchor="middle" fill="#9aa3ad" font-size="10.5">月ごとの閲覧の推移は、これから毎月たまります（点線）</text>';
+  // 申込＝線、入会＝棒（入会は手動記録が無ければ空）
+  s+=panel(py[2],PH[2]);
+  s+='<text x="'+(L-46)+'" y="'+(py[2]+14)+'" fill="#54606e" font-size="11" font-weight="700">申込</text><text x="'+(L-46)+'" y="'+(py[2]+28)+'" fill="#999" font-size="9.5">と入会</text>';
+  if(hasTrials){
+    var maxT=Math.max.apply(null,[1].concat(trials));
+    var ty=function(v){return py[2]+10+(PH[2]-24)*(1-v/maxT);};
+    s+='<path d="'+trials.map(function(v,i){return (i?"L":"M")+x(i)+","+ty(v);}).join("")+'" fill="none" stroke="'+C('--s2')+'" stroke-width="2.2" stroke-linejoin="round"/>';
+    trials.forEach(function(v,i){s+='<circle cx="'+x(i)+'" cy="'+ty(v)+'" r="3" fill="'+C('--s2')+'"><title>'+months[i].label+' 体験申込'+v+'人</title></circle><text x="'+x(i)+'" y="'+(ty(v)-8)+'" text-anchor="middle" fill="'+C('--s2')+'" font-size="10" font-weight="700">'+v+'</text>';});
+  } else s+='<text x="'+((L+W-R)/2)+'" y="'+(py[2]+PH[2]/2+4)+'" text-anchor="middle" fill="#bbb" font-size="11">体験申込が入ると月ごとに表示されます</text>';
+  // 月ラベル
+  months.forEach(function(m,i){s+='<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" fill="#999" font-size="10.5">'+m.label+'</text>';});
+  var legend='<span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+C('--s5')+';margin-right:4px"></i>SNS投稿数</span><span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+C('--s2')+';margin-right:4px"></i>体験申込</span>';
+  el.innerHTML='<div class="chart-title">打ち手（上段）と成果（下段）</div><div class="chart-sub">同じ時間軸で重ねて見る。施策は「記録・設定」から追加すると縦線で重なります</div><div style="font-size:.72rem;color:#888;margin:6px 0">'+legend+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
 }
 // 集客ファネル（サンプルと同じデザイン・実データ。認知→流入→体験申込→体験参加→入会）
 function rpRealFunnel(d){
