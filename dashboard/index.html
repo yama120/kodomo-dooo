@@ -1508,15 +1508,15 @@ function rpRealSurvey(d){
 }
 // Googleフォームの回答シートを連携（URL入力→Worker /api/survey/connect）
 function rpConnectSurvey(){
-  var msg="Googleフォームの「回答」→スプレッドシート のURLを貼ってください。\n\n※先にそのシートを次のメールに「閲覧者」で共有してください：\niryo-career-sheets@iryo-career.iam.gserviceaccount.com";
+  var msg="アンケート集計用のURL（Apps Scriptの /exec URL、またはフォーム回答シートのURL）を貼ってください。\n\n通常はチビスポ側で設定済みです。";
   var u=prompt(msg); if(!u)return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
   fetch(RP_TRACK+'/api/survey/connect',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,sheet:u})})
     .then(function(r){return r.json();})
     .then(function(j){
-      if(j&&j.ok){ if(j.no_column)alert("シートは読めましたが「どこで知ったか」の列が見つかりませんでした。フォームの質問に「どこで知りましたか」を入れてください。"); else alert("連携しました。回答 "+j.total+"件を集計しました。毎日自動で更新されます。"); location.reload(); }
-      else if(j&&j.error==="sheet_read_failed")alert("シートを読めませんでした。共有設定（iryo-career-sheets@… を閲覧者に追加）とURLをご確認ください。");
+      if(j&&j.ok){ if(j.no_column)alert("読み込めましたが「どこで知ったか」の項目が見つかりませんでした。フォームの質問に「どこで知りましたか」を入れてください。"); else alert("連携しました。回答 "+j.total+"件を集計しました。毎日自動で更新されます。"); location.reload(); }
+      else if(j&&j.error==="sheet_read_failed")alert("読み込めませんでした。URLをご確認ください（Apps Scriptは「全員がアクセス可」で公開されている必要があります）。");
       else alert("連携に失敗しました："+((j&&j.error)||"不明"));
     }).catch(function(){alert("連携に失敗しました（通信エラー）");});
 }
