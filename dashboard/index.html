@@ -1516,7 +1516,7 @@ function rpRealMap(d){
   // 計測済み媒体（link_clicks）＝実線
   var measured=chans.map(function(c){return {name:c.name||c.slug,clicks:+c.clicks||0,tracked:true};});
   // よくある媒体で、まだ計測リンクが無いもの＝点線「未計測」で提案表示
-  var suggest=[{n:"チビスポ検索・特集",kw:["チビスポ","特集"]},{n:"Instagram・SNS",kw:["insta","sns","thread","ｓｎｓ"]},{n:"Google検索",kw:["google","検索"]},{n:"口コミ・紹介",kw:["口コミ","紹介"]}];
+  var suggest=[{n:"チビスポ特集・マガジン",kw:["特集","マガジン"]},{n:"Instagram・SNS",kw:["insta","sns","thread","ｓｎｓ"]},{n:"Google検索",kw:["google","検索"]},{n:"口コミ・紹介",kw:["口コミ","紹介"]}];
   var mnames=measured.map(function(m){return String(m.name).toLowerCase();});
   var unmeasured=suggest.filter(function(s){return !mnames.some(function(n){return s.kw.some(function(k){return n.indexOf(k.toLowerCase())>=0;});});}).map(function(s){return {name:s.n,clicks:0,tracked:false};});
   var media=measured.concat(unmeasured).slice(0,7);
