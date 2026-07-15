@@ -1514,7 +1514,7 @@ function rpRealMap(d){
   var trials=d.trials?(+d.trials.total||0):0;
   var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
   // 計測済み媒体（link_clicks）＝実線
-  var measured=chans.map(function(c){return {name:c.name||c.slug,clicks:+c.clicks||0,tracked:true};});
+  var measured=chans.map(function(c){return {name:rpChannelName(c),clicks:+c.clicks||0,tracked:true};});
   // よくある媒体で、まだ計測リンクが無いもの＝点線「未計測」で提案表示
   var suggest=[{n:"チビスポ特集・マガジン",kw:["特集","マガジン"]},{n:"Instagram・SNS",kw:["insta","sns","thread","ｓｎｓ"]},{n:"Google検索",kw:["google","検索"]},{n:"口コミ・紹介",kw:["口コミ","紹介"]}];
   var mnames=measured.map(function(m){return String(m.name).toLowerCase();});
@@ -1569,6 +1569,9 @@ function rpMarkSample(id,note){
   if(head)head.insertAdjacentHTML("beforeend",badge);
   else el.insertAdjacentHTML("afterbegin",'<div style="margin-bottom:7px">'+badge+'</div>');
 }
+// チビスポ側で自動発行する予約スラッグ（クラブの作業ゼロで計測される媒体）
+var RP_RESERVED={"chibispo-feature":"チビスポ特集・マガジン"};
+function rpChannelName(c){return RP_RESERVED[c.slug]||c.name||c.slug;}
 // ===== 集客タブ実データ化（媒体別クリック＝link_clicks・媒体作成＝計測リンク/QR発行） =====
 var RP_TRACK='https://chibispo-tracking.hyogo120.workers.dev';
 function rpToken(){try{var s=JSON.parse(localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth')||'null');return s&&s.access_token;}catch(e){return null;}}
@@ -1583,7 +1586,7 @@ function rpApplyRealShu(d){
       var maxV=Math.max.apply(null,chans.map(function(c){return c.clicks;}).concat([1]));
       body.innerHTML=chans.map(function(c){
         var col=C('--s1');
-        return '<tr><td style="white-space:nowrap"><span class="chip" style="background:'+col+'"></span><b>'+rpEsc(c.name||c.slug)+'</b></td>'+
+        return '<tr><td style="white-space:nowrap"><span class="chip" style="background:'+col+'"></span><b>'+rpEsc(rpChannelName(c))+'</b></td>'+
           '<td><span class="kind">'+rpEsc(c.kind||'—')+'</span></td>'+
           '<td class="n">'+Number(c.clicks).toLocaleString()+'</td>'+
           '<td class="n">—</td><td class="n">—</td>'+
