@@ -1619,7 +1619,49 @@ function rpCreateChannelReal(){
     .catch(function(){alert("追加に失敗しました（通信エラー）");});
 }
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
+// 投稿タブ上部の「連携アカウント」バー（連携状態＋連携ボタン）
+function rpConnectBar(){
+  var pane=document.getElementById("pane-post"); if(!pane)return;
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var W='https://chibispo-tracking.hyogo120.workers.dev';
+  var connected={};
+  [].concat((window.__realStats||[]).map(function(s){return String(s.platform).toLowerCase();}),(window.__realPosts||[]).map(function(p){return String(p.platform).toLowerCase();})).forEach(function(k){connected[k]=true;});
+  var plats=[
+    {k:"instagram",n:"Instagram",act:W+"/auth/instagram/start?club="+encodeURIComponent(club)},
+    {k:"threads",n:"Threads",act:W+"/auth/threads/start?club="+encodeURIComponent(club)},
+    {k:"youtube",n:"YouTube",fn:"rpConnectYouTube()"},
+    {k:"tiktok",n:"TikTok",soon:true},
+    {k:"x",n:"X",soon:true}
+  ];
+  var box=document.getElementById("rp-connect");
+  if(!box){box=document.createElement("section");box.id="rp-connect";pane.insertBefore(box,pane.firstChild);}
+  box.innerHTML=RP_STYLE+'<div class="sec-head"><h2>連携アカウント</h2><span class="sub">連携すると投稿・反応が毎日自動で取り込まれます</span></div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">'+plats.map(function(p){
+      var on=connected[p.k], right;
+      if(on) right='<span style="color:#1f8a5b;font-weight:800;font-size:.8rem;white-space:nowrap">連携済み ✓</span>';
+      else if(p.soon) right='<span style="color:#aaa;font-size:.78rem;white-space:nowrap">準備中</span>';
+      else if(p.fn) right='<a href="javascript:void(0)" onclick="'+p.fn+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
+      else right='<a href="'+p.act+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
+      return '<div style="flex:1;min-width:132px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-size:.85rem">'+p.n+'</b>'+right+'</div>';
+    }).join("")+'</div>';
+}
+function rpConnectYouTube(){
+  var ch=prompt("YouTubeチャンネルのURL（または @ハンドル）を入力してください。\n例：https://www.youtube.com/@yourchannel");
+  if(!ch)return;
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var token=rpToken(); if(!token){alert("ログインが必要です");return;}
+  fetch('https://chibispo-tracking.hyogo120.workers.dev/auth/youtube/connect',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,channel:ch})})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      if(j&&j.ok){ alert('YouTube「'+j.name+'」を連携しました。動画データは毎日自動で取り込まれます。'); location.reload(); }
+      else if(j&&j.error==='youtube_not_configured'){ alert('YouTube連携はまもなく使えるようになります（設定準備中）。'); }
+      else if(j&&j.error==='channel_not_found'){ alert('チャンネルが見つかりませんでした。URLか@ハンドルをご確認ください。'); }
+      else { alert('連携に失敗しました。もう一度お試しください。'); }
+    })
+    .catch(function(){ alert('連携に失敗しました（通信エラー）'); });
+}
 function rpApplyRealMode(){
+  rpConnectBar();
   // ①②は実データ版で置き換え済みなので非表示（重複防止）。③曜日分析はサンプル例として見せる
   ["demo-post-1","demo-post-2"].forEach((id)=>{const el=document.getElementById(id);if(el)el.style.display="none";});
   rpRealWeekday(window.__realD||{}); // ③曜日分析は実データ（0でも構造を描く）
