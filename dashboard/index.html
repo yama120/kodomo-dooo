@@ -1641,13 +1641,11 @@ function rpCreateChannelReal(){
     .catch(function(){alert("追加に失敗しました（通信エラー）");});
 }
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
-// 投稿タブ上部の「連携アカウント」バー（連携状態＋連携ボタン）
-function rpConnectBar(){
+// 投稿タブ上部の「連携アカウント」バー（連携状態＝APIで正確に判定＋連携ボタン）
+function rpRenderConnectBar(connected){
   var pane=document.getElementById("pane-post"); if(!pane)return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var W='https://chibispo-tracking.hyogo120.workers.dev';
-  var connected={};
-  [].concat((window.__realStats||[]).map(function(s){return String(s.platform).toLowerCase();}),(window.__realPosts||[]).map(function(p){return String(p.platform).toLowerCase();})).forEach(function(k){connected[k]=true;});
   var plats=[
     {k:"instagram",n:"Instagram",act:W+"/auth/instagram/start?club="+encodeURIComponent(club)},
     {k:"threads",n:"Threads",act:W+"/auth/threads/start?club="+encodeURIComponent(club)},
@@ -1666,6 +1664,22 @@ function rpConnectBar(){
       else right='<a href="'+p.act+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
       return '<div style="flex:1;min-width:132px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-size:.85rem">'+p.n+'</b>'+right+'</div>';
     }).join("")+'</div>';
+}
+function rpConnectBar(){
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var W='https://chibispo-tracking.hyogo120.workers.dev';
+  // まずはデータ有無で暫定表示
+  var connected={};
+  [].concat((window.__realStats||[]).map(function(s){return String(s.platform).toLowerCase();}),(window.__realPosts||[]).map(function(p){return String(p.platform).toLowerCase();})).forEach(function(k){connected[k]=true;});
+  rpRenderConnectBar(connected);
+  // 実際の連携状態をAPIで取得して上書き（連携直後・データ取得前でも正しく✓になる）
+  var token=rpToken();
+  if(token){
+    fetch(W+'/api/sns-status?club='+encodeURIComponent(club),{headers:{Authorization:'Bearer '+token}})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){ if(!d||!d.ok)return; ["instagram","threads","youtube","tiktok","x"].forEach(function(k){ if(d[k])connected[k]=true; }); rpRenderConnectBar(connected); })
+      .catch(function(){});
+  }
 }
 function rpConnectYouTube(){
   var ch=prompt("YouTubeチャンネルのURL（または @ハンドル）を入力してください。\n例：https://www.youtube.com/@yourchannel");
