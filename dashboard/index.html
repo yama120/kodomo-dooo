@@ -532,19 +532,6 @@ window.rpBootDone=rpBootDone;
           <button class="btn" onclick="switchTab('shu');history.replaceState(null,'','#shu');setTimeout(function(){var el=document.getElementById('shu-survey');if(el)el.scrollIntoView({behavior:'smooth'});},100)">アンケート結果を見る</button>
           <a class="btn ghost" href="guide.html#survey" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">仕組みをガイドで見る ↗</a>
         </div>
-        <div id="ocr-flow" style="display:none;margin-top:14px">
-          <div id="ocr-status" style="font-size:.8rem;color:var(--ink-2)"></div>
-          <div id="ocr-result" style="display:none;margin-top:10px;background:var(--surface-2);border-radius:12px;padding:14px">
-            <b style="font-size:.83rem">読み取り結果（間違っていたら直せます）</b>
-            <label>Q1. クラブを何で知りましたか？</label>
-            <select id="ocr-q1">
-              <option>ポスターを見て</option><option>チラシ</option><option>Instagram</option><option>チビスポで検索</option><option>知人の紹介</option><option>その他</option>
-            </select>
-            <label>Q2. 決め手になりそうなこと</label>
-            <input id="ocr-q2" value="コーチの雰囲気が良かった">
-            <button class="btn" style="margin-top:12px" onclick="applyOcr()">この内容で取り込む</button>
-          </div>
-        </div>
       </div>
 
       <div class="card form-card" style="margin-top:10px">
@@ -587,24 +574,6 @@ window.rpBootDone=rpBootDone;
 </div>
 
 <!-- ==== アンケート用紙モーダル ==== -->
-<div id="tpl-bg" class="modal-shell" onclick="if(event.target===this)closeSurveyTpl()">
-  <div class="modal">
-    <h3>見学アンケート用紙（テンプレート）</h3>
-    <p style="font-size:.78rem;color:var(--ink-2);margin-top:6px">本番版では、クラブ名入りでPDFダウンロード・印刷できます。</p>
-    <div style="border:1.5px solid var(--baseline);border-radius:12px;padding:18px;margin-top:12px;background:#fff">
-      <div style="text-align:center;font-weight:900;font-family:'Zen Maru Gothic'">サンプルFC 見学アンケート</div>
-      <div style="font-size:.75rem;color:var(--muted);text-align:center">ご記入ありがとうございます（1分で終わります）</div>
-      <div style="font-size:.83rem;margin-top:14px;line-height:2.1">
-        <b>Q1. 当クラブを何で知りましたか？（○をつけてください）</b><br>
-        　ポスター ／ チラシ ／ Instagram ／ チビスポ ／ 知人の紹介 ／ その他（　　）<br>
-        <b>Q2. 見学のきっかけ・決め手になりそうなことは？</b><br>
-        　（　　　　　　　　　　　　　　　）<br>
-        <b>Q3. お子さまの学年</b>：（　）年生　<b>Q4. 本日の満足度</b>：😄 ／ 🙂 ／ 😐
-      </div>
-    </div>
-    <div style="margin-top:14px;text-align:right"><button class="btn ghost" onclick="closeSurveyTpl()">閉じる</button></div>
-  </div>
-</div>
 
 <footer>
   チビスポ クラブ分析ダッシュボード（プレビュー版）｜ <a href="guide.html#words" style="color:var(--s1)">用語集</a> ｜ サンプルデータ：架空クラブ「サンプルFC」
@@ -1268,24 +1237,6 @@ function saveGoal(){
   }
   const d=$("#goal-done");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),2000);
 }
-function openSurveyTpl(){$("#tpl-bg").classList.add("show")}
-function closeSurveyTpl(){$("#tpl-bg").classList.remove("show")}
-function mockOcr(input){
-  if(!input.files||!input.files.length)return;
-  $("#ocr-flow").style.display="block";
-  $("#ocr-result").style.display="none";
-  $("#ocr-status").innerHTML="🔍 AIが読み取り中…（プレビュー版のためサンプル結果を表示します）";
-  setTimeout(()=>{$("#ocr-status").innerHTML="✅ 読み取りが完了しました";$("#ocr-result").style.display="block"},1200);
-  input.value="";
-}
-function applyOcr(){
-  const key=$("#ocr-q1").value;
-  TALLY[key]=(TALLY[key]??0)+1;
-  renderSurvey();
-  $("#ocr-status").innerHTML=`✅ 集計に追加しました（きっかけ：<b>${key}</b>）。「集客の分析」タブのグラフに反映されています。`;
-  $("#ocr-result").style.display="none";
-}
-
 /* ================= 媒体追加モーダル ================= */
 const KINDS=[
   {id:"poster",n:"ポスター 🪧",d:"掲示場所ごとにQRを分けると効果比較できる"},
