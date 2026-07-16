@@ -499,11 +499,11 @@
 
     <div>
       <div class="card form-card">
-        <div class="chart-title">見学アンケートの取り込み</div>
-        <div class="chart-sub">回収した紙をスマホで撮って入れるだけ。集計は分析タブに反映</div>
+        <div class="chart-title">保護者アンケート</div>
+        <div class="chart-sub">QR・URLで配って自動集計。「どこで知ったか」「満足度」「おすすめ度」がグラフになります</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-          <button class="btn ghost" onclick="openSurveyTpl()">アンケート用紙を見る</button>
-          <label class="btn" style="cursor:pointer">📷 写真から取り込む<input type="file" accept="image/*" style="display:none" onchange="mockOcr(this)"></label>
+          <button class="btn" onclick="switchTab('shu');history.replaceState(null,'','#shu');setTimeout(function(){var el=document.getElementById('shu-survey');if(el)el.scrollIntoView({behavior:'smooth'});},100)">アンケート結果を見る</button>
+          <a class="btn ghost" href="guide.html#survey" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">仕組みをガイドで見る ↗</a>
         </div>
         <div id="ocr-flow" style="display:none;margin-top:14px">
           <div id="ocr-status" style="font-size:.8rem;color:var(--ink-2)"></div>
@@ -1165,6 +1165,7 @@ function saveRecord(){
     else if(kind==="体験・見学に参加")localStorage.setItem(rpHomeKey("attend"),String(rpGetNum("attend",0)+num));
     else if(kind==="入会が決まった"){const jm=rpJoinsData();jm[mon]=(+jm[mon]||0)+num;localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(jm));}
     else if(kind==="退会")localStorage.setItem(rpHomeKey("members"),String(Math.max(0,rpGetNum("members",0)-num)));
+    rpManualPush();
     rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);
     rpRecHistory();
   }else{
@@ -1222,12 +1223,22 @@ function rpRecDelete(i){
   else if(r.k==="入会が決まった"){var jm=rpJoinsData();jm[mon]=Math.max(0,(+jm[mon]||0)-n);if(!jm[mon])delete jm[mon];localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(jm));}
   else if(r.k==="退会")localStorage.setItem(rpHomeKey("members"),String(rpGetNum("members",0)+n));
   recs.splice(i,1);localStorage.setItem(rpHomeKey("records"),JSON.stringify(recs));
+  rpManualPush();
   if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}
   rpRecHistory();
 }
 function saveGoal(){
-  localStorage.setItem("demo-goal",$("#goal-num").value||"40");
-  renderKPI();
+  const v=parseInt($("#goal-num").value||"40",10);
+  if(isNaN(v)||v<1){alert("目標人数は1以上で入力してください");return}
+  if(window.__realD){
+    // 実データモード：ホームの「現在の会員数」カードの目標と同じ保存先＋サーバー同期
+    localStorage.setItem(rpHomeKey("goal"),String(v));
+    rpManualPush();
+    rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealRevBanner(window.__realD);
+  }else{
+    localStorage.setItem("demo-goal",String(v));
+    renderKPI();
+  }
   const d=$("#goal-done");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),2000);
 }
 function openSurveyTpl(){$("#tpl-bg").classList.add("show")}
@@ -1548,7 +1559,7 @@ function renderRealPostTab(ch){
 // ホームの手入力値（入会・会員数・目標）：クラブごとにlocalStorage
 function rpHomeKey(k){return "chibispo_home_"+k+"_"+(new URLSearchParams(location.search).get("club")||"").trim();}
 function rpGetNum(k,def){const v=parseInt(localStorage.getItem(rpHomeKey(k))||"",10);return isNaN(v)?def:v;}
-function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}}
+function rpEditNum(k,label){var v=prompt(label,rpGetNum(k,0));if(v===null)return;var n=parseInt(v,10);if(isNaN(n)||n<0){alert("0以上の数字を入力してください");return;}localStorage.setItem(rpHomeKey(k),String(n));rpManualPush();if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}}
 // ホームKPIを実データ化（閲覧=GA4／体験申込=trial_requests／入会・会員=手入力）＋デモ節を整理
 // 実データのホームKPI：デモと同じ部品（card.kpi＋label/value/delta＋spark）で描く
 function rpEnsureStyle(){ if(window.__rpStyleDone)return; window.__rpStyleDone=true; document.body.insertAdjacentHTML("beforeend",RP_STYLE); }
@@ -1607,6 +1618,32 @@ function rpApplyRealHome(d){
 }
 // ===== 実データ描画（0でも構造・グラフを必ず描く。サンプル数字は出さない） =====
 var RP_GRID=function(){return C('--grid')||'#e7e4dc';};
+// ---- 手動記録のサーバー同期（localStorage=作業キャッシュ・Supabase=正本）----
+// 読み込み時：サーバーの値でローカルを上書き（他端末の変更を反映）。変更時：1.2秒後にまとめてサーバー保存
+function rpManualCollect(){
+  return {trial_manual:rpGetNum("trial_manual",0),attend:rpGetNum("attend",0),joins:rpGetNum("joins",0),
+    members:rpGetNum("members",0),goal:rpGetNum("goal",40),joins_m:rpJoinsData(),records:rpRecList()};
+}
+function rpManualApply(m){
+  if(!m||typeof m!=="object")return;
+  ["trial_manual","attend","joins","members","goal"].forEach(function(k){
+    if(m[k]!=null)localStorage.setItem(rpHomeKey(k),String(m[k]));
+  });
+  if(m.joins_m)localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(m.joins_m));
+  if(m.records)localStorage.setItem(rpHomeKey("records"),JSON.stringify(m.records));
+}
+var __rpManualT=null;
+function rpManualPush(){
+  clearTimeout(__rpManualT);
+  __rpManualT=setTimeout(function(){
+    var club=(new URLSearchParams(location.search).get("club")||"").trim();
+    var token=(typeof rpToken==="function")?rpToken():null;
+    if(!token||!club)return;
+    fetch(RP_TRACK+'/api/manual/save',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,data:rpManualCollect()})})
+      .then(function(r){return r.json();}).then(function(j){if(!(j&&j.ok))console.log('[manual] save failed',j);})
+      .catch(function(e){console.log('[manual] save error',e);});
+  },1200);
+}
 // ---- 入会の月別記録（localStorage: joins_m = {"2026-07":2,...}）----
 function rpJoinsData(){try{return JSON.parse(localStorage.getItem(rpHomeKey("joins_m"))||"{}")||{};}catch(e){return{};}}
 function rpJoinsMonths(){var m=rpJoinsData();return Object.keys(m).filter(function(k){return /^\d{4}-\d{2}$/.test(k);}).sort();}
@@ -1651,6 +1688,7 @@ function rpJoinsSave(){
     else{var n=parseInt(v,10);if(isNaN(n)||n<0){alert(k.replace('-','年')+'月：0以上の数字を入力してください');return;}m[k]=n;}
   }
   localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(m));
+  rpManualPush();
   rpModalClose();
   if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}
 }
@@ -2310,6 +2348,13 @@ function rpApplyRealMode(){
           if(d&&d.post_stats&&d.post_stats.length)window.__realStats=d.post_stats;
           if(d&&d.posts&&d.posts.length)window.__realPosts=d.posts;
           if((window.__realStats||[]).length||(window.__realPosts||[]).length){renderRealPostTab("all");rpApplyRealMode();}
+          // 手動記録：サーバーの値でローカルを更新（他端末の変更を反映）。サーバー未保存でローカルに記録があれば初回移行
+          if(d&&d.manual)rpManualApply(d.manual);
+          else if(d&&d.ok){
+            window.__realD=window.__realD||d; // rpManualPushはトークン/クラブだけ参照
+            var __lc=rpManualCollect();
+            if((__lc.records&&__lc.records.length)||__lc.trial_manual||__lc.attend||__lc.members||Object.keys(__lc.joins_m||{}).length)rpManualPush();
+          }
           rpApplyRealHome(d);
           rpApplyRealShu(d);
           if(d&&d.analytics&&d.analytics.club){club=d.analytics.club;rng=d.analytics.range||{};}
