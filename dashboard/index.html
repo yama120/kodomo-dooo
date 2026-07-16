@@ -67,7 +67,8 @@
   .seg button{appearance:none;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:.8rem;padding:7px 14px;border-radius:7px;cursor:pointer;min-height:34px;white-space:nowrap;flex:none}
   .seg button[aria-pressed="true"]{background:var(--brand);color:#fff;font-weight:700}
   .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-  @media(max-width:760px){.kpi-grid{grid-template-columns:1fr 1fr}}
+  .kpi-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.kpi-grid,.kpi-grid.cols3{grid-template-columns:1fr 1fr}}
   .kpi{padding:14px 16px}
   .kpi .label{color:var(--ink-2);font-size:.74rem}
   .kpi .value{font-size:clamp(1.5rem,4.5vw,1.9rem);font-weight:900;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
@@ -180,8 +181,10 @@
   .sv-tile .meta{font-size:.68rem;color:var(--muted);margin-top:1px}
   .sv-tile .cmp{font-size:.7rem;margin-top:5px;font-weight:700}
   .sv-tile .cmp.up{color:var(--good-text)} .sv-tile .cmp.down{color:var(--critical)} .sv-tile .cmp.na{color:var(--baseline);font-weight:500}
-  .sv-tile.nps{background:linear-gradient(180deg,#fff,#fff7ec);border-color:#f0dcc2}
+  .sv-tile.nps{background:linear-gradient(180deg,#fff,#fff7ec);border-color:#f0dcc2;grid-column:span 2}
   .sv-tile.nps .value{color:var(--brand-dark)}
+  .sv-tile.nps .label{min-height:0}
+  @media(max-width:560px){.sv-tile.nps{grid-column:1/-1}}
   .ai-adv{margin-top:18px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--s5);border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(11,11,11,.04)}
   .ai-adv .ai-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
   .ai-adv .ai-title{font-weight:800;font-size:.88rem}
@@ -801,7 +804,7 @@ function renderTimeline(){
 /* ================= フルファネル ================= */
 const FUNNEL_STAGES=[
   {id:"aware", name:"認知（SNSで表示された回数）", src:"auto", srcLabel:"自動：SNS連携",   value:22000},
-  {id:"visit", name:"流入（ページに来た人）",       src:"auto", srcLabel:"自動：GA4＋計測リンク", value:380,
+  {id:"visit", name:"流入（ページに来た人）",       src:"auto", srcLabel:"自動：アクセス解析＋計測リンク", value:380,
    bench:[2,5], benchNote:"認知→流入の目安 2〜5%",
    fix:{title:"表示はされているのに、来てもらえていない",
         body:"投稿は見られています（2.2万表示）が、プロフィールへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",
@@ -1491,7 +1494,7 @@ function rpApplyRealHome(d){
     return c;
   };
   k.innerHTML="";
-  k.appendChild(mk("クラブページ閲覧", views==null?'<span style="color:#c3c3c3">—</span>':views.toLocaleString(), views==null?"掲載ページが見られると表示":`過去${days}日（GA4実測）`, daily, css("--s1")));
+  k.appendChild(mk("クラブページ閲覧", views==null?'<span style="color:#c3c3c3">—</span>':views.toLocaleString(), views==null?"掲載ページが見られると表示":`過去${days}日・自動計測`, daily, css("--s1")));
   k.appendChild(mk("体験申込", trialTotal==null?'<span style="color:#c3c3c3">—</span>':trialTotal.toLocaleString(), "累計（申込フォーム）", trialSpark, css("--s2")));
   k.appendChild(mk("入会", String(joined), "記録した人数 "+eBtn("rpEditNum('joins','入会した人数（累計）を入力')","記録"), null, css("--brand")));
   const pct=goal>0?Math.min(100,Math.round(members/goal*100)):0;
@@ -1557,7 +1560,7 @@ function rpRealSurvey(d){
       +(v>0?'<tspan fill="#0b0b0b" font-weight="800">'+v+'人</tspan><tspan fill="#898781"> '+pct+'%</tspan>'
            :'<tspan fill="#c3c2b7">0人</tspan>')+'</text>';
   });
-  var html='<div class="sv-h">どこでこのクラブを知ったか</div><svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>';
+  var html='<div class="sv-h">どこでこのクラブを知ったか</div><svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;max-width:640px;height:auto">'+s+'</svg>';
 
   // ② 満足度・NPS タイル（＋他クラブ比較）
   var keys=Object.keys(numeric);
@@ -1565,13 +1568,15 @@ function rpRealSurvey(d){
     html+='<div class="sv-h">満足度・推奨度</div><div class="sv-grid">';
     keys.forEach(function(k){
       var m=numeric[k], b=bench[k], isNps=(typeof m.nps==="number");
-      var big=isNps?('<span style="font-size:.62em;font-weight:800">NPS </span>'+m.nps):(m.avg+'<small> /'+(m.max<=5?5:m.max)+'</small>');
+      var big=isNps?('<span style="font-size:.62em;font-weight:800">おすすめ度 </span>'+(m.nps>0?'+':'')+m.nps):(m.avg+'<small> /'+(m.max<=5?5:m.max)+'</small>');
+      var meta=isNps?('平均 '+m.avg+'点／回答 '+m.n+'件'):('回答 '+m.n+'件');
       var cmp;
       if(b&&b.clubs>1){
         var mv=isNps?m.nps:m.avg, bv=isNps?b.nps:b.avg, diff=Math.round((mv-bv)*100)/100, up=diff>=0;
-        cmp='<div class="cmp '+(up?'up':'down')+'">'+(up?'▲':'▼')+' 全体平均 '+bv+'（'+(up?'+':'')+diff+'）</div>';
-      } else { cmp='<div class="cmp na">比較はクラブが増えると表示</div>'; }
-      html+='<div class="sv-tile'+(isNps?' nps':'')+'"><div class="label">'+rpEsc(String(k).slice(0,22))+'</div><div class="value">'+big+'</div><div class="meta">回答 '+m.n+'件</div>'+cmp+'</div>';
+        cmp='<div class="cmp '+(up?'up':'down')+'">'+(up?'▲':'▼')+' 他クラブ平均 '+bv+'（'+(up?'+':'')+diff+'）</div>';
+      } else { cmp='<div class="cmp na">他クラブとの比較は、参加クラブが増えると表示されます</div>'; }
+      var expl=isNps?'<div class="meta" style="margin-top:5px;line-height:1.5">おすすめ度（NPS）＝「すすめたい(9〜10点)」の人の割合 −「そうでない(0〜6点)」の人の割合。<b>+50以上でかなり良好</b>です。</div>':'';
+      html+='<div class="sv-tile'+(isNps?' nps':'')+'"><div class="label">'+rpEsc(String(k).slice(0,22))+'</div><div class="value">'+big+'</div><div class="meta">'+meta+'</div>'+cmp+expl+'</div>';
     });
     html+='</div>';
   }
@@ -1939,7 +1944,7 @@ function rpRealFunnel(d){
   var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
   var stages=[
     {name:"認知（SNSで表示された回数）",src:"auto",srcLabel:"自動：SNS連携",value:snsViews},
-    {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動：GA4＋計測リンク",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
+    {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動：アクセス解析＋計測リンク",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
       fix:{title:"表示はされているのに、来てもらえていない",body:"投稿は見られていますが、プロフィール・ページへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
     {name:"体験申込",src:"auto",srcLabel:"自動：申込フォーム",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",
       fix:{title:"ページを見た人が申込まで進んでいない",body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",cta:[["ページを作ってもらう：HP制作","lp"],["改善のやり方だけ聞く：個別相談","consult"]]}},
@@ -2103,7 +2108,7 @@ function rpApplyRealMode(){
           if(!club&&d&&d.ok){
             const hasPosts=d.post_stats&&d.post_stats.length;
             setDemoBar(hasPosts
-              ?`✅ SNS投稿は実データを表示中（投稿タブ）。ページ閲覧(GA4)は掲載ページが見られると表示されます。`
+              ?`✅ SNS投稿は実データを表示中（投稿タブ）。ページ閲覧は掲載ページが見られると表示されます。`
               :`⚠ ${d.club&&d.club.name?d.club.name+"の":""}実データはまだ準備中です（初回の集計後に表示されます）。デモ表示を継続します。`,hasPosts?"ok":"warn");
             return;
           }
@@ -2152,17 +2157,17 @@ function rpApplyRealMode(){
   if(avEl)avEl.textContent=(nm.match(/[^\s（(]/)||["●"])[0];
 
   // 2) 実データバッジ
-  setDemoBar(`✅ <b>実データ</b>：${nm}（GA4 ${start}〜${end}／閲覧 ${(+club.views||0).toLocaleString()}）　閲覧・投稿・申込・クリックは実測。入会と会員数は「記録」から入力できます`,"real");
+  setDemoBar(`✅ <b>実データ</b>：${nm}（${start}〜${end}／閲覧 ${(+club.views||0).toLocaleString()}）　閲覧・投稿・申込・クリックは自動計測。入会と会員数は「記録」から入力できます`,"real");
 
   // 3) ホーム最上部にGA4実測セクションを差し込む
   const home=$("#pane-home");
   const sec=document.createElement("section");
   sec.id="real-ga4";
   const head=document.createElement("div");head.className="sec-head";
-  head.innerHTML=`<h2>GA4実測：クラブページのアクセス</h2><span class="ai-badge">実データ</span><span class="sub">${start}〜${end}（過去${days}日）・チビスポ側ゼロ設定で自動取得</span>`;
+  head.innerHTML=`<h2>クラブページのアクセス</h2><span class="ai-badge">実データ</span><span class="sub">${start}〜${end}（過去${days}日）・チビスポが自動で計測しています</span>`;
   sec.appendChild(head);
 
-  const grid=document.createElement("div");grid.className="kpi-grid";
+  const grid=document.createElement("div");grid.className="kpi-grid cols3";
   const daily=(club.daily||[]).map(d=>+d.views||0);
   const kcards=[
     {label:"ページ閲覧",value:+club.views||0,color:css("--s1"),spark:true},
@@ -2175,19 +2180,22 @@ function rpApplyRealMode(){
     if(it.spark&&daily.length>1)d.appendChild(spark(daily,it.color));
     grid.appendChild(d);
   }
-  // 流入元（チャネル）内訳カード
+  sec.appendChild(grid);
+
+  // 内訳2枚（流入元・媒体別クリック）はKPIの下に2列で並べる
+  const bg=document.createElement("div");bg.className="grid-2";bg.style.marginTop="10px";
   const ch=club.channels||{};
   const chMap={"Organic Social":["SNS","--s2"],"Direct":["直接・アプリ","--s1"],"Organic Search":["検索","--s5"],"Referral":["他サイト経由","--s3"],"Unassigned":["不明","--baseline"],"(other)":["その他","--baseline"]};
   const chRows=Object.entries(ch).sort((a,b)=>b[1]-a[1]);
   const chTotal=chRows.reduce((s,[,v])=>s+v,0)||1;
-  const cCard=document.createElement("div");cCard.className="card";cCard.style.gridColumn="span 1";
-  cCard.innerHTML=`<div class="label">流入元（GA4）</div>`+
+  const cCard=document.createElement("div");cCard.className="card kpi";
+  cCard.innerHTML=`<div class="label">流入元（どこから来たか）</div>`+
     (chRows.length?chRows.map(([k,v])=>{
       const[lbl,col]=chMap[k]||[k,"--s6"];const pct=Math.round(v/chTotal*100);
       return `<div class="mrow"><span class="mname">${lbl}</span><span class="mval"><b>${v}</b>（${pct}%）</span></div>
         <div class="mbar"><i style="width:${pct}%;background:${C(col)}"></i></div>`;
     }).join(""):`<div class="sub" style="margin-top:6px">まだ計測データがありません</div>`);
-  grid.appendChild(cCard);
+  bg.appendChild(cCard);
 
   // 媒体別クリック：本番=API(link_clicksライブ集計)優先、ローカル=.clicks.jsonフォールバック
   try{
@@ -2196,19 +2204,19 @@ function rpApplyRealMode(){
     if(rows.length){
       const kindCol={poster:"--s3",flyer:"--s4",sns:"--s2",referral:"--s6",web:"--s1",other:"--baseline"};
       const total=cl.total||rows.reduce((s,r)=>s+(+r.clicks||0),0)||1;
-      const mCard=document.createElement("div");mCard.className="card";
+      const mCard=document.createElement("div");mCard.className="card kpi";
       mCard.innerHTML=`<div class="label">媒体別クリック（計測リンク・${cl.range&&cl.range.lookback_days||days}日）</div>`+
         rows.map(r=>{const pct=Math.round((+r.clicks||0)/total*100);const col=kindCol[r.kind]||"--s5";
           return `<div class="mrow"><span class="mname">${r.name}</span><span class="mval"><b>${r.clicks}</b>（${pct}%）</span></div>
             <div class="mbar"><i style="width:${pct}%;background:${C(col)}"></i></div>`;
         }).join("");
-      grid.appendChild(mCard);
+      bg.appendChild(mCard);
     }
-  }catch(_){/* clicksファイルが無ければスキップ＝GA4だけ表示 */}
+  }catch(_){/* clicksファイルが無ければスキップ＝アクセス解析だけ表示 */}
+  if(bg.children.length===1)cCard.style.gridColumn="1/-1"; // 1枚だけなら全幅で空白を作らない
+  sec.appendChild(bg);
 
-  sec.appendChild(grid);
-
-  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">チビスポ側ゼロ設定で自動取得。媒体別クリックは、あなたが発行した計測リンク・QR経由の実測です。</div>`);
+  sec.insertAdjacentHTML("beforeend",`<div class="chart-sub" style="margin-top:8px">設定は不要。チビスポが自動で計測しています。媒体別クリックは、あなたが発行した計測リンク・QR経由の実測です。</div>`);
   // GA4のアクセス詳細は「集客」タブへ（ホームはサンプルと同じKPI構成を保つ）
   const shuPane=$("#pane-shu"), shuAnchor=$("#shu-funnel");
   if(shuPane&&shuAnchor)shuPane.insertBefore(sec,shuAnchor);
