@@ -532,7 +532,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     var pref=(t.pref||'').replace(/[都道府県]$/,'');
     var area=[t.pref,t.city].filter(Boolean).join('・');
     var pos=(t.photo_url && Array.isArray(t.photo_positions) && t.photo_positions[0])?t.photo_positions[0]:'50% 50%';
-    var media=t.photo_url ? '<img src="'+esc(t.photo_url)+'" alt="'+esc(t.name)+'" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:'+pos+';display:block;border-radius:0 0 12px 12px;">' : sportPlaceholder(t.sport,'aspect-ratio:4/3;border-radius:0 0 12px 12px;');
+    var media=t.photo_url ? '<img src="'+esc(t.photo_url)+'" alt="'+esc(t.name)+'" loading="lazy" decoding="async" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:'+pos+';display:block;border-radius:0 0 12px 12px;">' : sportPlaceholder(t.sport,'aspect-ratio:4/3;border-radius:0 0 12px 12px;');
     return '<a href="club.html?id='+esc(t.id)+'" class="club-card" data-pref="'+esc(pref)+'" data-city="'+esc(t.city||'')+'" data-sport="'+esc(t.sport)+'" data-mood="'+esc((t.moods||[]).join(','))+'" style="display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">'
       +media
       +'<div style="padding:11px 13px 14px;flex:1;display:flex;flex-direction:column;">'

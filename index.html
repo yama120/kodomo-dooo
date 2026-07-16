@@ -1665,7 +1665,7 @@
   function card(t){
     var a=sportArt(t.sport);
     var media = t.photo_url
-      ? '<img src="'+esc(t.photo_url)+'" alt="'+esc(t.name)+'" class="fc-img" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">'
+      ? '<img src="'+esc(t.photo_url)+'" alt="'+esc(t.name)+'" class="fc-img" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">'
       : '<div class="fc-img" style="position:absolute;inset:0;background:linear-gradient(150deg,'+a.c+'55,'+a.c+'22 60%,#3c3c42);display:flex;align-items:center;justify-content:center;"><svg width="110" height="110" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.75;margin-bottom:120px;">'+a.i+'</svg></div>';
     var catchCopy=(t.description||'').replace(/\s+/g,' ').trim();
     if(catchCopy.length>26) catchCopy=catchCopy.slice(0,26)+'…';

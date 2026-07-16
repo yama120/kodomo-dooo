@@ -321,12 +321,27 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     var add=document.getElementById('rg-photo-add'); if(add) add.addEventListener('click',function(){ pInput.click(); });
     pGrid.querySelectorAll('[data-rm]').forEach(function(b){ b.addEventListener('click',function(){ photos.splice(+b.getAttribute('data-rm'),1); renderPhotos(); }); });
   }
+  // アップロード前に長辺1280pxへ縮小（スマホ写真の原寸アップで配信量が膨らむのを防ぐ。マイページ側と同じ条件）
+  function resizeToDataURL(file, cb){
+    var img=new Image(), url=URL.createObjectURL(file);
+    img.onload=function(){
+      var max=1280, w=img.width, h=img.height;
+      if(w>max){ h=Math.round(h*max/w); w=max; }
+      var c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      try{ cb(c.toDataURL('image/jpeg',0.85)); }
+      catch(e){ var r=new FileReader(); r.onload=function(ev){ cb(ev.target.result); }; r.readAsDataURL(file); }
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); var r=new FileReader(); r.onload=function(ev){ cb(ev.target.result); }; r.readAsDataURL(file); };
+    img.src=url;
+  }
   if(pInput) pInput.addEventListener('change',function(e){
     var files=[].slice.call(e.target.files||[]);
     for(var i=0;i<files.length && photos.length<maxPhotos;i++){
       var f=files[i];
       if(f.size>5*1024*1024){ alert('5MB以下の画像を選んでください'); continue; }
-      (function(file){ var r=new FileReader(); r.onload=function(ev){ if(photos.length<maxPhotos){ photos.push({src:ev.target.result}); renderPhotos(); } }; r.readAsDataURL(file); })(f);
+      (function(file){ resizeToDataURL(file, function(src){ if(photos.length<maxPhotos){ photos.push({src:src}); renderPhotos(); } }); })(f);
     }
     pInput.value='';
   });
