@@ -13,6 +13,12 @@
     .cc-hidden{ display:none !important; }
     /* ページ内アンカー移動をゆっくりスクロールに（全ページ共通） */
     html{ scroll-behavior:smooth; }
+    /* iOS Safari対策：入力欄のフォントが16px未満だとフォーカス時に画面が自動ズームし、
+       そのまま戻らずスクロール不能になる。モバイルでは16pxを強制してズーム自体を防ぐ。 */
+    @media (max-width: 768px){
+      input:not([type="checkbox"]):not([type="radio"]),
+      select, textarea { font-size:16px !important; }
+    }
     /* ボトムシート開閉（クラス方式） */
     #cc-menu{ box-sizing:border-box; }
     #cc-menu.cc-open{ transform:translateY(0) !important; transition:transform .33s cubic-bezier(.32,.72,0,1) !important; }
