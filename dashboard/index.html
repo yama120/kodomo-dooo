@@ -1194,8 +1194,13 @@ function rpRecHistory(){
   if(!window.__realD){el.innerHTML="";return;}
   var recs=rpRecList();
   if(!recs.length){el.innerHTML='<div class="chart-sub" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--grid)">まだ記録がありません。記録するとここに履歴が並び、削除もできます。</div>';return;}
-  var rows=recs.map(function(r,i){return{r:r,i:i};}).reverse().slice(0,10);
-  el.innerHTML='<div style="font-weight:800;font-size:.82rem;margin-top:18px;padding-top:14px;border-top:1px solid var(--grid)">最近の記録（直近10件）</div>'
+  var all=recs.map(function(r,i){return{r:r,i:i};}).reverse();
+  var expanded=!!window.__recHistAll, LIMIT=10;
+  var rows=expanded?all:all.slice(0,LIMIT);
+  var more=all.length>LIMIT
+    ? '<div style="margin-top:10px;text-align:center"><button class="btn sm ghost" onclick="window.__recHistAll='+(expanded?'false':'true')+';rpRecHistory()">'+(expanded?'最近の10件だけ表示':'すべて表示（全'+all.length+'件）')+'</button></div>'
+    : '';
+  el.innerHTML='<div style="font-weight:800;font-size:.82rem;margin-top:18px;padding-top:14px;border-top:1px solid var(--grid)">最近の記録'+(expanded?'（全'+all.length+'件）':'（直近'+Math.min(LIMIT,all.length)+'件／全'+all.length+'件）')+'</div>'
     +'<div class="chart-sub">間違えたら削除してください。反映された数字も自動で元に戻ります。修正は削除→入れ直しで。</div>'
     +rows.map(function(o){
       var r=o.r,pol=rpRecIsPolicy(r.k);
@@ -1206,7 +1211,7 @@ function rpRecHistory(){
         +'<span style="color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+rpEsc(r.m||'')+'</span>'
         +'<span style="margin-left:auto;flex:none;color:var(--ink-2);font-size:.72rem;background:var(--surface-2);border-radius:999px;padding:1px 9px">'+eff+'</span>'
         +'<button class="rpc-edit" style="flex:none" onclick="rpRecDelete('+o.i+')">削除</button></div>';
-    }).join("");
+    }).join("")+more;
 }
 function rpRecDelete(i){
   var recs=rpRecList(),r=recs[i];if(!r)return;
