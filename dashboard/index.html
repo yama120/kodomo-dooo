@@ -155,6 +155,49 @@
   .row-link{font-size:.72rem;color:var(--s1);cursor:pointer;text-decoration:underline;white-space:nowrap}
 
   .btn{appearance:none;border:0;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:.85rem;padding:11px 20px;border-radius:8px;cursor:pointer;min-height:42px}
+  .btn.sm{font-size:.78rem;padding:8px 14px;min-height:36px}
+  .btn.ghost{background:var(--surface);color:var(--ink-2);border:1px solid var(--border)}
+  .btn.ghost:hover{border-color:var(--brand);color:var(--brand-dark)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  /* 小さな「記録」「変更」ボタン（実データ画面共通） */
+  .rpc-edit{appearance:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 10px;font:inherit;font-size:.7rem;font-weight:700;color:var(--ink-2);cursor:pointer;vertical-align:1px}
+  .rpc-edit:hover{border-color:var(--brand);color:var(--brand-dark)}
+  /* ミニ内訳行（流入元・媒体別クリックなどカード内の小さな棒） */
+  .mrow{display:flex;justify-content:space-between;align-items:baseline;font-size:.76rem;margin:9px 0 3px;gap:8px}
+  .mrow .mname{font-weight:500;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mrow .mval{color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+  .mrow .mval b{color:var(--ink);font-weight:800}
+  .mbar{height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--grid);overflow:hidden}
+  .mbar i{display:block;height:100%;border-radius:3px}
+  /* アンケート：見出し・満足度タイル・AIアドバイス・フッター */
+  .sv-h{font-size:.9rem;font-weight:800;margin:2px 0 6px}
+  .sv-h:not(:first-child){margin-top:18px}
+  .sv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;margin-top:8px}
+  .sv-tile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;box-shadow:0 1px 3px rgba(11,11,11,.04)}
+  .sv-tile .label{font-size:.72rem;color:var(--ink-2);font-weight:700;line-height:1.45;min-height:2.2em}
+  .sv-tile .value{font-size:1.45rem;font-weight:900;letter-spacing:-.01em;font-variant-numeric:tabular-nums;margin-top:2px}
+  .sv-tile .value small{font-size:.8rem;color:var(--muted);font-weight:700}
+  .sv-tile .meta{font-size:.68rem;color:var(--muted);margin-top:1px}
+  .sv-tile .cmp{font-size:.7rem;margin-top:5px;font-weight:700}
+  .sv-tile .cmp.up{color:var(--good-text)} .sv-tile .cmp.down{color:var(--critical)} .sv-tile .cmp.na{color:var(--baseline);font-weight:500}
+  .sv-tile.nps{background:linear-gradient(180deg,#fff,#fff7ec);border-color:#f0dcc2}
+  .sv-tile.nps .value{color:var(--brand-dark)}
+  .ai-adv{margin-top:18px;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--s5);border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(11,11,11,.04)}
+  .ai-adv .ai-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .ai-adv .ai-title{font-weight:800;font-size:.88rem}
+  .ai-adv .ai-quota{font-size:.68rem;color:var(--muted)}
+  .ai-adv .ai-body{font-size:.82rem;line-height:1.75;color:var(--ink-2);margin-top:8px}
+  .ai-adv .ai-body .ai-item{margin-top:12px;font-weight:700;color:var(--ink);display:flex;gap:8px;align-items:baseline}
+  .ai-adv .ai-body .ai-item:first-child{margin-top:0}
+  .ai-adv .ai-body .ai-dot{width:7px;height:7px;border-radius:2px;background:var(--s5);flex:none;transform:translateY(-1px)}
+  .ai-adv .ai-body .ai-line{margin-top:3px}
+  .ai-adv .ai-body .ai-line b{color:var(--ink)}
+  .ai-adv .ai-note{font-size:.7rem;color:var(--muted);margin-top:8px}
+  .sv-foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--grid);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .sv-live{color:var(--good-text);font-weight:800;font-size:.8rem}
+  .sv-note{font-size:.7rem;color:var(--muted);margin-top:7px}
+  .sv-editlink{font-size:.76rem;color:var(--ink-2);text-decoration:none;align-self:center}
+  .sv-editlink:hover{color:var(--brand-dark)}
   .btn:hover{background:var(--brand-dark)}
   .btn.ghost{background:var(--surface);color:var(--ink-2);border:1px solid var(--border)}
 
@@ -345,9 +388,9 @@
 
   <section id="shu-survey">
     <div class="sec-head"><h2>④ アンケート結果</h2><span class="sub" id="survey-count"></span></div>
-    <div class="card" style="max-width:640px">
+    <div class="card">
       <div class="plot free" id="survey-chart"></div>
-      <div class="chart-sub" style="margin-top:8px">見学者に「何で知りましたか？」を聞いた集計。取り込みは「記録・設定」タブから。<b>ポスターや口コミなどネットで数えられない経路</b>はここで答え合わせします。</div>
+      <div class="chart-sub" style="margin-top:10px">保護者アンケート（Googleフォーム）の自動集計。QR・URLから回答が入ると自動で反映されます。<b>ポスターや口コミなどネットで数えられない経路</b>はここで答え合わせします。</div>
     </div>
   </section>
 </div>
@@ -1501,61 +1544,73 @@ function rpRealSurvey(d){
   var cnt=document.getElementById("survey-count"); if(cnt)cnt.textContent="回収済みアンケート "+total+"件";
   var wrap=document.getElementById("survey-chart"); if(!wrap)return;
 
-  // ① どこで知ったか（棒グラフ）
+  // ① どこで知ったか（棒グラフ）。数字はバー領域の外側に確保して重なりを防ぐ
   var items = total>0 ? Object.keys(counts).map(function(k){return [k,counts[k]];}).sort(function(a,b){return b[1]-a[1];}) : RP_SURVEY_STD.map(function(k){return [k,0];});
   var max=Math.max.apply(null,[1].concat(items.map(function(x){return x[1];})));
-  var W=480,rowH=34,H=items.length*rowH+6, s='';
+  var W=520,rowH=36,LBL=142,NUM=92,BX=LBL+8,BW=W-BX-NUM,H=items.length*rowH+8, s='';
   items.forEach(function(it,ri){
-    var name=it[0],v=it[1],y=ri*rowH+4, bw=(W-160)*v/max;
-    s+='<text x="0" y="'+(y+13)+'" fill="#555" font-size="11.5" font-weight="700">'+rpEsc(String(name).slice(0,10))+'</text>';
-    s+='<rect x="150" y="'+(y+4)+'" width="'+(W-160)+'" height="10" rx="3" fill="#f0eee8"/>';
-    if(v>0)s+='<rect x="150" y="'+(y+4)+'" width="'+Math.max(3,bw)+'" height="10" rx="3" fill="'+rpSurveyColor(name)+'"/>';
-    s+='<text x="'+(W-4)+'" y="'+(y+13)+'" text-anchor="end" fill="'+(v>0?"#555":"#bbb")+'" font-size="11" font-weight="'+(v>0?"700":"400")+'">'+v+'人'+(total>0&&v>0?"（"+Math.round(v/total*100)+"%）":"")+'</text>';
+    var name=it[0],v=it[1],y=ri*rowH+6, bw=BW*v/max, pct=(total>0&&v>0)?Math.round(v/total*100):0;
+    s+='<text x="0" y="'+(y+14)+'" fill="'+(v>0?'#0b0b0b':'#898781')+'" font-size="12" font-weight="700">'+rpEsc(String(name).slice(0,9))+'</text>';
+    s+='<rect x="'+BX+'" y="'+(y+3)+'" width="'+BW+'" height="12" rx="4" fill="#f3f2ee" stroke="#e1e0d9" stroke-width="1"/>';
+    if(v>0)s+='<rect x="'+BX+'" y="'+(y+3)+'" width="'+Math.max(4,bw)+'" height="12" rx="4" fill="'+rpSurveyColor(name)+'"/>';
+    s+='<text x="'+(W-2)+'" y="'+(y+14)+'" text-anchor="end" font-size="11.5" font-variant-numeric="tabular-nums">'
+      +(v>0?'<tspan fill="#0b0b0b" font-weight="800">'+v+'人</tspan><tspan fill="#898781"> '+pct+'%</tspan>'
+           :'<tspan fill="#c3c2b7">0人</tspan>')+'</text>';
   });
-  var html='<div style="font-weight:800;font-size:.85rem;color:#333;margin-bottom:6px">どこでこのクラブを知ったか</div><svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>';
+  var html='<div class="sv-h">どこでこのクラブを知ったか</div><svg viewBox="0 0 '+W+' '+H+'" style="display:block;width:100%;height:auto">'+s+'</svg>';
 
   // ② 満足度・NPS タイル（＋他クラブ比較）
   var keys=Object.keys(numeric);
   if(keys.length){
-    html+='<div style="font-weight:800;font-size:.85rem;color:#333;margin:16px 0 8px">満足度・推奨度</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">';
+    html+='<div class="sv-h">満足度・推奨度</div><div class="sv-grid">';
     keys.forEach(function(k){
       var m=numeric[k], b=bench[k], isNps=(typeof m.nps==="number");
-      var big=isNps?('NPS '+m.nps):(m.avg+'<span style="font-size:.6em;color:#aaa"> /'+(m.max<=5?5:m.max)+'</span>');
+      var big=isNps?('<span style="font-size:.62em;font-weight:800">NPS </span>'+m.nps):(m.avg+'<small> /'+(m.max<=5?5:m.max)+'</small>');
       var cmp;
       if(b&&b.clubs>1){
         var mv=isNps?m.nps:m.avg, bv=isNps?b.nps:b.avg, diff=Math.round((mv-bv)*100)/100, up=diff>=0;
-        cmp='<div style="font-size:.72rem;margin-top:4px;color:'+(up?"#1f8a5b":"#c0392b")+'">全体平均 '+bv+'（'+(up?"+":"")+diff+'）</div>';
-      } else { cmp='<div style="font-size:.7rem;margin-top:4px;color:#bbb">比較はクラブが増えると表示</div>'; }
-      html+='<div style="background:#faf9f5;border:1px solid #ece9e1;border-radius:12px;padding:12px 14px"><div style="font-size:.74rem;color:#777;font-weight:700;line-height:1.3">'+rpEsc(String(k).slice(0,22))+'</div><div style="font-size:1.35rem;font-weight:800;color:#2c2c2c;margin-top:3px">'+big+'</div><div style="font-size:.68rem;color:#aaa">n='+m.n+'</div>'+cmp+'</div>';
+        cmp='<div class="cmp '+(up?'up':'down')+'">'+(up?'▲':'▼')+' 全体平均 '+bv+'（'+(up?'+':'')+diff+'）</div>';
+      } else { cmp='<div class="cmp na">比較はクラブが増えると表示</div>'; }
+      html+='<div class="sv-tile'+(isNps?' nps':'')+'"><div class="label">'+rpEsc(String(k).slice(0,22))+'</div><div class="value">'+big+'</div><div class="meta">回答 '+m.n+'件</div>'+cmp+'</div>';
     });
     html+='</div>';
   }
 
   // ③ AIアドバイス
   var adv=(sv&&sv.advice)||"";
-  html+='<div style="margin-top:16px;background:linear-gradient(180deg,#f7fbff,#f2f7ff);border:1px solid #dce9f7;border-radius:12px;padding:14px 16px">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><div style="font-weight:800;font-size:.85rem;color:#2f5fa0">🤖 AIの改善アドバイス</div>'
-    +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:.68rem;color:#9ab">本日 '+aUsed+'/'+aLimit+'回</span>'
-    +'<button class="btn" style="font-size:.74rem;padding:6px 12px;min-height:0'+(aLeft<=0?';opacity:.45;cursor:not-allowed':'')+'" '+(aLeft<=0?'disabled':'')+' onclick="rpSurveyAdvice()">'+(adv?"更新":"生成する")+'</button></div></div>'
-    +'<div id="survey-advice-body" style="font-size:.82rem;line-height:1.7;color:#333;margin-top:'+(adv?"8px":"0")+';white-space:pre-wrap">'+(adv?rpEsc(adv):'<span style="color:#aaa">'+(total>0?'「生成する」を押すと、集計と全クラブ平均をもとに次の一手を提案します。':'回答が集まると、データをもとに改善案を提案します。')+'</span>')+'</div></div>';
+  html+='<div class="ai-adv">'
+    +'<div class="ai-head"><div class="ai-title">🤖 AIの改善アドバイス <span class="ai-badge">AI分析</span></div>'
+    +'<div style="display:flex;align-items:center;gap:10px"><span class="ai-quota">本日 '+aUsed+'/'+aLimit+'回</span>'
+    +'<button class="btn sm" '+(aLeft<=0?'disabled':'')+' onclick="rpSurveyAdvice()">'+(adv?"更新":"生成する")+'</button></div></div>'
+    +'<div id="survey-advice-body" class="ai-body">'+(adv?rpAdvHtml(adv):'<span style="color:var(--baseline)">'+(total>0?'「生成する」を押すと、集計と全クラブ平均をもとに次の一手を提案します。':'回答が集まると、データをもとに改善案を提案します。')+'</span>')+'</div></div>';
 
   // ④ フッター（作成 or 配布ツール）
   if(provisioned){
-    html+='<div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;display:flex;gap:8px;flex-wrap:wrap;align-items:center">'
-      +'<span style="color:#1f8a5b;font-weight:800;font-size:.8rem">✓ アンケート稼働中</span>'
-      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyQR()">QRコード</button>'
-      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyCopyUrl()">URLをコピー</button>'
-      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyEmail()">メール文面</button>'
-      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0;background:#fff;color:#555;border:1px solid #ddd'+(rLeft<=0?';opacity:.45;cursor:not-allowed':'')+'" '+(rLeft<=0?'disabled':'')+' onclick="rpSurveyRefresh(this)">最新の回答を取り込む</button>'
-      +'<a href="'+rpEsc(window.__surveyInfo.edit_url||"#")+'" target="_blank" rel="noopener" style="font-size:.76rem;color:#666;text-decoration:none;align-self:center">質問を編集 ↗</a></div>'
-      +'<div style="font-size:.7rem;color:#aaa;margin-top:6px">🕕 毎朝6時に自動更新／手動の取り込みは本日 '+rUsed+'/'+rLimit+'回'+(rLeft<=0?'（本日の上限に達しました。明朝の自動更新をお待ちください）':'（残り'+rLeft+'回）')+(sv&&sv.updated_at?'　最終更新：'+rpEsc(String(sv.updated_at).slice(0,16).replace("T"," ")):'')+'</div>';
+    html+='<div class="sv-foot">'
+      +'<span class="sv-live">✓ アンケート稼働中</span>'
+      +'<button class="btn sm" onclick="rpSurveyQR()">QRコード</button>'
+      +'<button class="btn sm" onclick="rpSurveyCopyUrl()">URLをコピー</button>'
+      +'<button class="btn sm" onclick="rpSurveyEmail()">メール文面</button>'
+      +'<button class="btn sm ghost" '+(rLeft<=0?'disabled':'')+' onclick="rpSurveyRefresh(this)">最新の回答を取り込む</button>'
+      +'<a href="'+rpEsc(window.__surveyInfo.edit_url||"#")+'" target="_blank" rel="noopener" class="sv-editlink">質問を編集 ↗</a></div>'
+      +'<div class="sv-note">🕕 毎朝6時に自動更新／手動の取り込みは本日 '+rUsed+'/'+rLimit+'回'+(rLeft<=0?'（本日の上限に達しました。明朝の自動更新をお待ちください）':'（残り'+rLeft+'回）')+(sv&&sv.updated_at?'　最終更新：'+rpEsc(String(sv.updated_at).slice(0,16).replace("T"," ")):'')+'</div>';
   } else {
-    html+='<div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;display:flex;gap:10px;flex-wrap:wrap;align-items:center">'
-      +'<button class="btn" style="font-size:.82rem;padding:10px 18px;min-height:0" onclick="rpProvisionSurvey()">＋ アンケートを作成</button>'
-      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0;background:#fff;color:#555;border:1px solid #ddd" onclick="rpSurveyPreview()">質問を確認</button>'
-      +'<span style="font-size:.74rem;color:#999">ボタン1つでフォーム・QR・URLを発行します。</span></div>';
+    html+='<div class="sv-foot">'
+      +'<button class="btn sm" onclick="rpProvisionSurvey()">＋ アンケートを作成</button>'
+      +'<button class="btn sm ghost" onclick="rpSurveyPreview()">質問を確認</button>'
+      +'<span style="font-size:.74rem;color:var(--muted)">ボタン1つでフォーム・QR・URLを発行します。</span></div>';
   }
   wrap.innerHTML=html;
+}
+// AIアドバイスの文章を整形して表示（**太字**と「■ 見出し」行を装飾。それ以外の記号は素通し）
+function rpAdvHtml(t){
+  var lines=String(t||"").split(/\n/).map(function(s){return s.trim();}).filter(Boolean);
+  return lines.map(function(l){
+    var isHead=/^[■◆●▼]/.test(l);
+    var h=rpEsc(l.replace(/^[■◆●▼]\s*/,"")).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+    if(isHead)return '<div class="ai-item"><span class="ai-dot"></span><span>'+h+'</span></div>';
+    return '<div class="ai-line">'+h+'</div>';
+  }).join('');
 }
 // ---- アンケート：モーダル・コピー共通 ----
 function rpModal(inner,maxw){
@@ -1668,14 +1723,14 @@ function rpSurveyAdvice(){
     .then(function(j){
       if(!body)return;
       if(j&&j.ok){
-        body.textContent=j.advice||"";
+        body.innerHTML=rpAdvHtml(j.advice||"");
         var note="";
         if(j.unchanged)note="※ 前回から回答に変化がないため、保存済みの結果を表示しています（AIは実行していません）。";
         else if(j.limit_reached)note="※ 本日の生成上限（"+(j.limit||5)+"回）に達しました。保存済みの結果を表示しています。";
         else if(j.cached)note="※ さきほど生成した結果です（更新は約"+Math.ceil((j.wait||600)/60)+"分後から）";
         if(note){
           var n=document.createElement("div");
-          n.style.cssText="font-size:.7rem;color:#aaa;margin-top:6px";
+          n.className="ai-note";
           n.textContent=note;
           body.appendChild(n);
         }
@@ -1903,7 +1958,7 @@ function rpRealFunnel(d){
       rateHtml='<span class="fs-rate '+(bad?'bad':'good')+'" title="'+(st.note||'')+'">'+(prev>0?((rate<10?rate.toFixed(1):Math.round(rate))+'%・'+(bad?'目安未満':'良好')):'—')+'</span>';
     }
     var w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
-    var editBtn=st.edit?' <button class="rpc-edit" style="margin-left:6px" onclick="rpEditNum(\''+st.edit+'\',\''+st.name+'の人数（累計）を入力\')">記録</button>':'';
+    var editBtn=st.edit?' <button class="rpc-edit" style="margin-left:6px" onclick="rpEditNum(\''+st.edit+'\',\''+st.name+'の人数（累計）を入力\')">✎ 記録</button>':'';
     html+='<div class="fstage"><div class="fs-name">'+st.name+'<span class="fs-src '+st.src+'">'+st.srcLabel+'</span>'+editBtn+'</div><div class="fs-bar"><i style="width:'+w+'%;background:'+ord[i]+'"></i></div><div class="fs-num">'+Number(st.value).toLocaleString()+rateHtml+'</div></div>';
   });
   el.innerHTML=html;
@@ -2129,8 +2184,8 @@ function rpApplyRealMode(){
   cCard.innerHTML=`<div class="label">流入元（GA4）</div>`+
     (chRows.length?chRows.map(([k,v])=>{
       const[lbl,col]=chMap[k]||[k,"--s6"];const pct=Math.round(v/chTotal*100);
-      return `<div style="margin:6px 0 2px;font-size:.76rem;display:flex;justify-content:space-between"><span>${lbl}</span><span style="color:var(--muted)">${v}（${pct}%）</span></div>
-        <div style="height:6px;border-radius:4px;background:#eee;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:${C(col)}"></i></div>`;
+      return `<div class="mrow"><span class="mname">${lbl}</span><span class="mval"><b>${v}</b>（${pct}%）</span></div>
+        <div class="mbar"><i style="width:${pct}%;background:${C(col)}"></i></div>`;
     }).join(""):`<div class="sub" style="margin-top:6px">まだ計測データがありません</div>`);
   grid.appendChild(cCard);
 
@@ -2144,8 +2199,8 @@ function rpApplyRealMode(){
       const mCard=document.createElement("div");mCard.className="card";
       mCard.innerHTML=`<div class="label">媒体別クリック（計測リンク・${cl.range&&cl.range.lookback_days||days}日）</div>`+
         rows.map(r=>{const pct=Math.round((+r.clicks||0)/total*100);const col=kindCol[r.kind]||"--s5";
-          return `<div style="margin:6px 0 2px;font-size:.76rem;display:flex;justify-content:space-between"><span>${r.name}</span><span style="color:var(--muted)">${r.clicks}（${pct}%）</span></div>
-            <div style="height:6px;border-radius:4px;background:#eee;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:${C(col)}"></i></div>`;
+          return `<div class="mrow"><span class="mname">${r.name}</span><span class="mval"><b>${r.clicks}</b>（${pct}%）</span></div>
+            <div class="mbar"><i style="width:${pct}%;background:${C(col)}"></i></div>`;
         }).join("");
       grid.appendChild(mCard);
     }
