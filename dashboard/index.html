@@ -231,6 +231,28 @@
   .qr-flex canvas{border:1px solid var(--border);border-radius:8px;background:#fff}
   .qr-flex .q-note{font-size:.73rem;color:var(--ink-2);flex:1;min-width:180px}
 
+  /* ================= モバイル最適化 ================= */
+  /* タブバー：狭い画面では横スクロール（タブの潰れ・見切れを防ぐ） */
+  .tabbar-inner{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabbar-inner::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;flex:none}
+  /* タイムライン（6ヶ月×3段）は縮めると文字が読めなくなるため、横スクロールで文字サイズを守る */
+  #timeline-card .plot svg,#demo-home-timeline .plot svg{min-width:860px}
+  @media(max-width:720px){
+    .fs-num{text-align:left} /* ファネル縦積み時は左揃えの方が視線移動が少ない */
+  }
+  @media(max-width:560px){
+    main{padding:0 10px 80px}
+    .card{padding:14px}
+    .rpc-edit{padding:7px 13px;font-size:.74rem} /* 指で押せる大きさに */
+    .modal{padding:18px 16px}
+    /* iOSは16px未満の入力欄でフォーカス時に自動ズームして戻らないため16pxに固定 */
+    .form-card input,.form-card select,.modal input,.modal select,
+    #rp-modal input,#rp-modal select,#rp-modal textarea{font-size:16px!important}
+    .rev-banner{font-size:.8rem;padding:12px 14px}
+    .sv-tile .value{font-size:1.3rem}
+  }
+
   .streak{font-size:.88rem;margin-top:10px;color:var(--ink-2)}
   .streak b{color:var(--brand-dark);font-size:1.05rem;font-variant-numeric:tabular-nums}
   details.more{margin-top:10px}
@@ -669,7 +691,22 @@ function switchTab(pane){
   document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x.dataset.pane===pane));
   document.querySelectorAll(".pane").forEach(p=>p.classList.remove("show"));
   $("#pane-"+pane).classList.add("show");
+  setTimeout(rpScrollHints,60); // 表示後にはみ出しを測る
 }
+// 横スクロールが必要なグラフ・表に「← 横にスクロールできます →」を自動で付ける
+// （スマホで数値が見切れていることに気づけないため。不要になったら消す）
+function rpScrollHints(){
+  document.querySelectorAll(".plot,#map-wrap,.tbl-wrap").forEach(function(p){
+    var next=p.nextElementSibling;
+    var has=next&&next.classList&&next.classList.contains("scroll-hint");
+    var need=p.scrollWidth>p.clientWidth+4;
+    if(need&&!has){var d=document.createElement("div");d.className="scroll-hint";d.textContent="← 横にスクロールできます →";p.after(d);}
+    else if(!need&&has){next.remove();}
+  });
+}
+var __shT=null;
+window.addEventListener("resize",function(){clearTimeout(__shT);__shT=setTimeout(rpScrollHints,200);});
+setTimeout(rpScrollHints,300); // 初期表示分
 document.querySelectorAll(".tab").forEach(b=>{
   b.onclick=()=>{switchTab(b.dataset.pane);history.replaceState(null,"","#"+b.dataset.pane);scrollTo({top:0,behavior:"smooth"})};
 });
@@ -1299,7 +1336,8 @@ document.querySelectorAll("#period-seg button").forEach(b=>{
     document.querySelectorAll("#period-seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
     renderKPI();renderMap();renderChannels();};
 });
-$("#rec-date").value=new Date().toISOString().slice(0,10);
+// 記録フォームの日付初期値＝今日（ローカル時刻基準。toISOString()はUTCのため日本時間の朝9時まで前日になる）
+(function(){var d=new Date();$("#rec-date").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");})();
 rpRecKindToggle();
 $("#goal-num").value=getGoal();
 renderKPI();renderTimeline();renderFullFunnel();renderMap();
@@ -2514,7 +2552,7 @@ function rpApplyRealMode(){
   console.log("[real-data] 実データ表示:",nm,club);
 
   function fmtD(s){if(!s)return"";const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[2]}/${+m[3]}`:s;}
-})().catch(function(e){console.warn("[real-data]",e);}).then(function(){ if(window.rpBootDone)window.rpBootDone(); });
+})().catch(function(e){console.warn("[real-data]",e);}).then(function(){ if(window.rpBootDone)window.rpBootDone(); if(typeof rpScrollHints==="function")setTimeout(rpScrollHints,150); });
 
 // ---- セッション維持：タブに戻った時と定期的にトークンを更新する ----
 // これが無いと、他のタブを使っている間に約1時間で失効し、次の操作で401→サンプル表示に落ちる
