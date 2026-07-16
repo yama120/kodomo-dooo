@@ -1670,7 +1670,8 @@ function rpSurveyAdvice(){
       if(j&&j.ok){
         body.textContent=j.advice||"";
         var note="";
-        if(j.limit_reached)note="※ 本日の生成上限（"+(j.limit||5)+"回）に達しました。保存済みの結果を表示しています。";
+        if(j.unchanged)note="※ 前回から回答に変化がないため、保存済みの結果を表示しています（AIは実行していません）。";
+        else if(j.limit_reached)note="※ 本日の生成上限（"+(j.limit||5)+"回）に達しました。保存済みの結果を表示しています。";
         else if(j.cached)note="※ さきほど生成した結果です（更新は約"+Math.ceil((j.wait||600)/60)+"分後から）";
         if(note){
           var n=document.createElement("div");
