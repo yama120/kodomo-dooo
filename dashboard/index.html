@@ -1587,8 +1587,8 @@ function rpApplyRealHome(d){
   const trialManual=rpGetNum("trial_manual",0);
   const trialSum=(trialTotal||0)+trialManual;
   const trialBreak=(trialTotal!=null||trialManual>0)
-    ? `フォーム自動 ${trialTotal||0}＋電話・紙 ${trialManual} `+eBtn("rpGoRecord('体験・見学の申込')","記録")
-    : "フォームからの申込は自動で入ります。電話・紙の分は "+eBtn("rpGoRecord('体験・見学の申込')","記録");
+    ? `自動 ${trialTotal||0}＋手動 ${trialManual} `+eBtn("rpGoRecord('体験・見学の申込')","記録")
+    : "フォーム分は自動で入ります。電話などは "+eBtn("rpGoRecord('体験・見学の申込')","記録");
   k.appendChild(mk("体験申込", (trialTotal==null&&trialManual===0)?'<span style="color:#c3c3c3">—</span>':trialSum.toLocaleString(), trialBreak, trialSpark, css("--s2")));
   k.appendChild(mk("入会", String(joined),
     (joinsAvg!=null?`月平均 <b>${joinsAvg}人</b>が入会 `:"月ごとに記録できます ")+eBtn("rpJoinsModal()","記録"),
@@ -1931,8 +1931,10 @@ function rpRealMap(d){
   var wrap=document.getElementById("map-wrap"); if(!wrap)return;
   var chans=(d.clicks&&d.clicks.channels)||[];
   var views=(d.analytics&&d.analytics.club)?(+d.analytics.club.views||0):0;
-  var trials=d.trials?(+d.trials.total||0):0;
-  var joins=rpGetNum("joins", d.trials?(d.trials.joined||0):0);
+  var trialsAuto=d.trials?(+d.trials.total||0):0;       // フォーム（自動計測）
+  var trialsManual=rpGetNum("trial_manual",0);          // 記録（手動）
+  var trials=trialsAuto+trialsManual;
+  var joins=rpJoinsTotal(d.trials?(d.trials.joined||0):0); // 月別記録の合計
   // 計測済み媒体（link_clicks）＝実線
   var measured=chans.map(function(c){return {name:rpChannelName(c),clicks:+c.clicks||0,tracked:true};});
   // よくある媒体で、まだ計測リンクが無いもの＝点線「未計測」で提案表示
@@ -1948,8 +1950,8 @@ function rpRealMap(d){
   ["媒体（知ってもらう場所）","クラブページ","申込 → 入会"].forEach(function(t,ci){s+='<text x="'+colX[ci]+'" y="18" fill="#8a93a0" font-size="11" font-weight="700">'+t+'</text>';});
   var midY=T+(rows*(nodeH+gapY)-gapY)/2-nodeH/2;
   var pageN={x:colX[1],y:midY-28,w:200,h:60,t:"クラブページ",m:views+" 閲覧"};
-  var trialN={x:colX[2],y:midY-52,w:210,h:50,t:"体験申込",m:trials+" 人"};
-  var joinN={x:colX[2],y:midY+30,w:210,h:50,t:"入会",m:joins+" 人"};
+  var trialN={x:colX[2],y:midY-52,w:210,h:50,t:"体験申込",m:trials+"人（自動 "+trialsAuto+"＋手動 "+trialsManual+"）"};
+  var joinN={x:colX[2],y:midY+30,w:210,h:50,t:"入会",m:joins+"人（手動：記録）"};
   // 媒体→ページ の線
   media.forEach(function(m,mi){
     var y1=T+mi*(nodeH+gapY)+nodeH/2, x1=colX[0]+colW, x2=pageN.x, y2=pageN.y+pageN.h/2, mx=(x1+x2)/2;
@@ -1978,8 +1980,31 @@ function rpRealMap(d){
     s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+22)+'" fill="#28323f" font-size="12.5" font-weight="800">'+nd.t+'</text>';
     s+='<text x="'+(nd.x+14)+'" y="'+(nd.y+40)+'" fill="#8a93a0" font-size="11">'+nd.m+'</text>';
   });
+  // 手動で記録した申込の内訳（きっかけ別）＝自動計測に乗らない経路の分析
+  var manual='';
+  if(trialsManual>0){
+    var byRoute={},recSum=0;
+    rpRecList().filter(function(r){return r.k==="体験・見学の申込";}).forEach(function(r){
+      var key=(r.r&&r.r!=="不明・聞いていない")?r.r:"不明・聞いていない";
+      byRoute[key]=(byRoute[key]||0)+(+r.n||0);recSum+=(+r.n||0);
+    });
+    if(trialsManual-recSum>0)byRoute["（きっかけの記録なし）"]=(byRoute["（きっかけの記録なし）"]||0)+(trialsManual-recSum);
+    var rows=Object.keys(byRoute).map(function(k){return [k,byRoute[k]];}).sort(function(a,b){return b[1]-a[1];});
+    var maxR=Math.max.apply(null,[1].concat(rows.map(function(x){return x[1];})));
+    manual='<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--grid)">'
+      +'<div style="font-weight:800;font-size:.85rem">手動で記録した申込の内訳（きっかけ別）<span style="font-size:.7rem;font-weight:700;color:var(--muted);margin-left:8px">手動 '+trialsManual+'人</span></div>'
+      +'<div class="chart-sub">電話・その場などフォーム以外の申込が、何を見たのがきっかけだったか（「記録」のきっかけ欄から集計）</div>'
+      +'<div style="max-width:560px">'
+      +rows.map(function(it){
+        var pct=Math.round(it[1]/trialsManual*100);
+        return '<div class="mrow"><span class="mname">'+rpEsc(String(it[0]).slice(0,16))+'</span><span class="mval"><b>'+it[1]+'</b>（'+pct+'%）</span></div>'
+          +'<div class="mbar"><i style="width:'+Math.round(it[1]/maxR*100)+'%;background:'+rpSurveyColor(String(it[0]))+'"></i></div>';
+      }).join("")
+      +'</div></div>';
+  }
   wrap.innerHTML='<svg viewBox="0 0 830 '+H+'" style="display:block;min-width:760px;width:100%;height:auto">'+s+'</svg>'+
-    '<div class="chart-sub" style="margin-top:8px"><b>実線＝計測中</b>（数字が出ます）／<b>点線＝まだ計測していない媒体</b>。点線の媒体を数えるには、下の「<b>＋ 媒体を追加</b>」でその媒体用の計測リンク・QRを作り、投稿やポスターにそのリンクを使ってください。</div>';
+    '<div class="chart-sub" style="margin-top:8px"><b>実線＝計測中</b>（数字が出ます）／<b>点線＝まだ計測していない媒体</b>。点線の媒体を数えるには、下の「<b>＋ 媒体を追加</b>」でその媒体用の計測リンク・QRを作り、投稿やポスターにそのリンクを使ってください。</div>'
+    +manual;
 }
 // 「サンプル例」バッジ（AIレポートなど、グラフでない未実装機能に使う）
 function rpMarkSample(id,note){
