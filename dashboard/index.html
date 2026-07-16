@@ -1541,7 +1541,9 @@ function rpRealSurvey(d){
       +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyQR()">QRコード</button>'
       +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyCopyUrl()">URLをコピー</button>'
       +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0" onclick="rpSurveyEmail()">メール文面</button>'
-      +'<a href="'+rpEsc(window.__surveyInfo.edit_url||"#")+'" target="_blank" rel="noopener" style="font-size:.76rem;color:#666;text-decoration:none;align-self:center">質問を編集 ↗</a></div>';
+      +'<button class="btn" style="font-size:.78rem;padding:8px 14px;min-height:0;background:#fff;color:#555;border:1px solid #ddd" onclick="rpSurveyRefresh(this)">最新の回答を取り込む</button>'
+      +'<a href="'+rpEsc(window.__surveyInfo.edit_url||"#")+'" target="_blank" rel="noopener" style="font-size:.76rem;color:#666;text-decoration:none;align-self:center">質問を編集 ↗</a></div>'
+      +'<div style="font-size:.7rem;color:#aaa;margin-top:6px">通常は毎朝6時に自動集計されます。'+(sv&&sv.updated_at?'最終更新：'+rpEsc(String(sv.updated_at).slice(0,16).replace("T"," ")):'')+'</div>';
   } else {
     html+='<div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;display:flex;gap:10px;flex-wrap:wrap;align-items:center">'
       +'<button class="btn" style="font-size:.82rem;padding:10px 18px;min-height:0" onclick="rpProvisionSurvey()">＋ アンケートを作成</button>'
@@ -1627,6 +1629,26 @@ function rpSurveyEmail(){
   window.__surveyEmail=t; rpCopy(t);
   var h='<h3 style="margin:0 0 8px;font-size:1.05rem">メール文面</h3><p style="margin:0 0 10px;font-size:.76rem;color:#3a8f6a">✓ コピーしました。メールに貼り付けて送信してください。</p><textarea readonly style="width:100%;height:220px;font-size:.8rem;line-height:1.6;border:1px solid #ddd;border-radius:10px;padding:12px;box-sizing:border-box">'+rpEsc(t)+'</textarea><div style="margin-top:10px;text-align:right"><button class="btn" style="font-size:.8rem;padding:8px 16px;min-height:0" onclick="alert(rpCopy(window.__surveyEmail)?&quot;コピーしました&quot;:&quot;失敗&quot;)">もう一度コピー</button></div>';
   rpModal(h,440);
+}
+// ---- アンケート：最新の回答を取り込む（cronを待たずに再集計） ----
+function rpSurveyRefresh(btn){
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  var token=rpToken(); if(!token){alert("ログインが必要です");return;}
+  var orig=btn?btn.textContent:"";
+  if(btn){btn.disabled=true;btn.textContent="取り込み中…";}
+  fetch(RP_TRACK+'/api/survey/refresh',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club})})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      if(j&&j.ok){
+        if(j.no_column)alert("読み込めましたが「どこで知ったか」の項目が見つかりませんでした。フォームの質問をご確認ください。");
+        else alert("回答 "+j.total+"件を取り込みました。");
+        location.reload();
+      } else {
+        if(btn){btn.disabled=false;btn.textContent=orig;}
+        if(j&&j.error==="not_connected")alert("先にアンケートを作成してください。");
+        else alert("取り込みに失敗しました："+((j&&(j.detail||j.error))||"不明"));
+      }
+    }).catch(function(){ if(btn){btn.disabled=false;btn.textContent=orig;} alert("取り込みに失敗しました（通信エラー）"); });
 }
 // ---- アンケート：AIアドバイス ----
 function rpSurveyAdvice(){
