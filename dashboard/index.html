@@ -1645,7 +1645,8 @@ function rpSurveyRefresh(btn){
         location.reload();
       } else {
         if(btn){btn.disabled=false;btn.textContent=orig;}
-        if(j&&j.error==="not_connected")alert("先にアンケートを作成してください。");
+        if(j&&j.error==="too_soon")alert("さきほど取り込んだばかりです。あと"+(j.wait||30)+"秒お待ちください。");
+        else if(j&&j.error==="not_connected")alert("先にアンケートを作成してください。");
         else alert("取り込みに失敗しました："+((j&&(j.detail||j.error))||"不明"));
       }
     }).catch(function(){ if(btn){btn.disabled=false;btn.textContent=orig;} alert("取り込みに失敗しました（通信エラー）"); });
@@ -1660,7 +1661,15 @@ function rpSurveyAdvice(){
     .then(function(r){return r.json();})
     .then(function(j){
       if(!body)return;
-      if(j&&j.ok)body.textContent=j.advice;
+      if(j&&j.ok){
+        body.textContent=j.advice;
+        if(j.cached){
+          var n=document.createElement("div");
+          n.style.cssText="font-size:.7rem;color:#aaa;margin-top:6px";
+          n.textContent="※ さきほど生成した結果です（更新は約"+Math.ceil((j.wait||600)/60)+"分後から）";
+          body.appendChild(n);
+        }
+      }
       else if(j&&j.error==="no_data")body.innerHTML='<span style="color:#aaa">まだ回答がありません。集まってから生成できます。</span>';
       else if(j&&j.error==="ai_unavailable")body.innerHTML='<span style="color:#c00">AI設定が未完了です。</span>';
       else body.innerHTML='<span style="color:#c00">生成に失敗しました：'+rpEsc((j&&(j.detail||j.error))||"不明")+'</span>';
