@@ -472,7 +472,7 @@
       <label>いつ？</label>
       <input id="rec-date" type="date">
       <label>何があった？</label>
-      <select id="rec-kind">
+      <select id="rec-kind" onchange="rpRecKindToggle()">
         <optgroup label="出来事">
           <option>体験・見学の申込</option><option>体験・見学に参加</option><option>入会が決まった</option><option>電話の問い合わせ</option><option>LINEの問い合わせ</option><option>退会</option>
         </optgroup>
@@ -480,15 +480,21 @@
           <option>🪧 ポスターを掲示した</option><option>📄 チラシを配った</option><option>⚽ 体験会・イベントをやった</option><option>✏️ その他の施策</option>
         </optgroup>
       </select>
+      <div id="rec-route-wrap">
       <label>きっかけ（わかれば）</label>
       <select id="rec-route">
         <option>不明・聞いていない</option><option>電話（チラシを見て）</option><option>電話（ポスターを見て）</option><option>知人の紹介</option><option>Instagramを見て</option><option>チビスポを見て</option><option>その場で（見学中に）</option>
       </select>
+      </div>
+      <div id="rec-num-wrap">
       <label>人数</label>
       <input id="rec-num" type="number" min="1" value="1">
+      </div>
+      <div id="rec-effect" class="chart-sub" style="margin-top:8px"></div>
       <label>メモ（任意）</label>
       <input id="rec-memo" placeholder="例：小2の男の子。土曜の体験希望／駅前掲示板に掲示">
       <div style="margin-top:16px"><button class="btn" onclick="saveRecord()">記録する</button><span class="ok-msg" id="rec-done">✅ 記録しました</span></div>
+      <div id="rec-history"></div>
     </div>
 
     <div>
@@ -1122,16 +1128,37 @@ function renderSurvey(){
 }
 
 /* ================= 記録・設定 ================= */
+// 施策系（人数・きっかけの概念が無い記録）か
+function rpRecIsPolicy(k){return /ポスター|チラシ|体験会|施策/.test(String(k||""));}
+// 種類ごとの「どこに反映されるか」表示
+var RP_REC_EFFECT={
+  "体験・見学の申込":"→ ホーム・集客タブの「体験申込」に足されます",
+  "体験・見学に参加":"→ 集客タブの「体験参加」に足されます",
+  "入会が決まった":"→ その月の「入会」に足されます（月平均・タイムラインに反映）",
+  "退会":"→ 「現在の会員数」から引かれます",
+  "電話の問い合わせ":"→ 記録として残ります（メモ・振り返り用）",
+  "LINEの問い合わせ":"→ 記録として残ります（メモ・振り返り用）"
+};
+// 種類に応じて入力欄を出し分け（施策＝人数ときっかけ不要／退会＝きっかけ不要）
+function rpRecKindToggle(){
+  var k=document.getElementById('rec-kind');if(!k)return;
+  var pol=rpRecIsPolicy(k.value);
+  var rw=document.getElementById('rec-route-wrap'),nw=document.getElementById('rec-num-wrap'),ef=document.getElementById('rec-effect');
+  if(rw)rw.style.display=(pol||k.value==="退会")?"none":"";
+  if(nw)nw.style.display=pol?"none":"";
+  if(ef)ef.textContent=pol?"→ タイムラインに施策の縦線が立ちます（効果の振り返り用）":(RP_REC_EFFECT[k.value]||"");
+}
 function saveRecord(){
   const date=$("#rec-date").value;
   if(!date){alert("日付を入れてください");return}
-  const kind=$("#rec-kind").value,num=parseInt($("#rec-num").value||"1",10);
-  if(isNaN(num)||num<1){alert("人数は1以上で入力してください");return}
+  const kind=$("#rec-kind").value,pol=rpRecIsPolicy(kind);
+  const num=pol?0:parseInt($("#rec-num").value||"1",10);
+  if(!pol&&(isNaN(num)||num<1)){alert("人数は1以上で入力してください");return}
   const memo=$("#rec-memo").value.trim();
   if(window.__realD){
     // ===== 実データモード：保存して体験申込・入会・会員数・タイムラインに反映 =====
     let recs=[];try{recs=JSON.parse(localStorage.getItem(rpHomeKey("records"))||"[]")||[]}catch(e){}
-    recs.push({d:date,k:kind,r:$("#rec-route").value,n:num,m:memo});
+    recs.push({d:date,k:kind,r:(pol||kind==="退会")?"":$("#rec-route").value,n:num,m:memo});
     localStorage.setItem(rpHomeKey("records"),JSON.stringify(recs));
     const mon=date.slice(0,7);
     if(kind==="体験・見学の申込")localStorage.setItem(rpHomeKey("trial_manual"),String(rpGetNum("trial_manual",0)+num));
@@ -1139,15 +1166,14 @@ function saveRecord(){
     else if(kind==="入会が決まった"){const jm=rpJoinsData();jm[mon]=(+jm[mon]||0)+num;localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(jm));}
     else if(kind==="退会")localStorage.setItem(rpHomeKey("members"),String(Math.max(0,rpGetNum("members",0)-num)));
     rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);
+    rpRecHistory();
   }else{
     // ===== デモモード（プレビュー用・従来どおり）=====
     const mi=MONTHS.indexOf(`${parseInt(date.slice(5,7),10)}月`);
     if(mi>=0){
       if(kind==="体験・見学の申込")TREND.trials[mi]+=num;
       if(kind==="入会が決まった")TREND.joins[mi]+=num;
-      if(kind.includes("ポスター")||kind.includes("チラシ")||kind.includes("体験会")||kind.includes("その他の施策")){
-        EVENTS.push({m:mi,label:kind.slice(0,2)+" "+(memo||kind.replace(/^..\s/,""))});
-      }
+      if(pol)EVENTS.push({m:mi,label:kind.slice(0,2)+" "+(memo||kind.replace(/^..\s/,""))});
     }
     renderKPI();renderMap();renderChannels();renderTimeline();
   }
@@ -1158,7 +1184,41 @@ function saveRecord(){
 function rpGoRecord(kind){
   switchTab('input');history.replaceState(null,"","#input");scrollTo({top:0,behavior:"smooth"});
   var s=document.getElementById('rec-kind');if(s&&kind)s.value=kind;
+  rpRecKindToggle();
   var n=document.getElementById('rec-num');if(n)setTimeout(function(){n.focus();n.select&&n.select();},350);
+}
+// ---- 記録の履歴（直近10件・削除で数字も巻き戻す）----
+function rpRecList(){try{return JSON.parse(localStorage.getItem(rpHomeKey("records"))||"[]")||[]}catch(e){return[]}}
+function rpRecHistory(){
+  var el=document.getElementById("rec-history");if(!el)return;
+  if(!window.__realD){el.innerHTML="";return;}
+  var recs=rpRecList();
+  if(!recs.length){el.innerHTML='<div class="chart-sub" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--grid)">まだ記録がありません。記録するとここに履歴が並び、削除もできます。</div>';return;}
+  var rows=recs.map(function(r,i){return{r:r,i:i};}).reverse().slice(0,10);
+  el.innerHTML='<div style="font-weight:800;font-size:.82rem;margin-top:18px;padding-top:14px;border-top:1px solid var(--grid)">最近の記録（直近10件）</div>'
+    +'<div class="chart-sub">間違えたら削除してください。反映された数字も自動で元に戻ります。修正は削除→入れ直しで。</div>'
+    +rows.map(function(o){
+      var r=o.r,pol=rpRecIsPolicy(r.k);
+      var eff=pol?'縦線':(r.k==='退会'?('会員数 −'+r.n):(r.k==='電話の問い合わせ'||r.k==='LINEの問い合わせ'?'メモ':'＋'+r.n));
+      return '<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed var(--grid);font-size:.78rem">'
+        +'<span style="color:var(--muted);flex:none;font-variant-numeric:tabular-nums">'+rpEsc(String(r.d).slice(5).replace("-","/"))+'</span>'
+        +'<span style="font-weight:700;flex:none">'+rpEsc(r.k)+'</span>'
+        +'<span style="color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+rpEsc(r.m||'')+'</span>'
+        +'<span style="margin-left:auto;flex:none;color:var(--ink-2);font-size:.72rem;background:var(--surface-2);border-radius:999px;padding:1px 9px">'+eff+'</span>'
+        +'<button class="rpc-edit" style="flex:none" onclick="rpRecDelete('+o.i+')">削除</button></div>';
+    }).join("");
+}
+function rpRecDelete(i){
+  var recs=rpRecList(),r=recs[i];if(!r)return;
+  if(!confirm("この記録を削除しますか？（反映された数字も元に戻ります）\n\n"+String(r.d)+" "+r.k+(r.n?(" "+r.n+"人"):"")))return;
+  var n=+r.n||0,mon=String(r.d).slice(0,7);
+  if(r.k==="体験・見学の申込")localStorage.setItem(rpHomeKey("trial_manual"),String(Math.max(0,rpGetNum("trial_manual",0)-n)));
+  else if(r.k==="体験・見学に参加")localStorage.setItem(rpHomeKey("attend"),String(Math.max(0,rpGetNum("attend",0)-n)));
+  else if(r.k==="入会が決まった"){var jm=rpJoinsData();jm[mon]=Math.max(0,(+jm[mon]||0)-n);if(!jm[mon])delete jm[mon];localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(jm));}
+  else if(r.k==="退会")localStorage.setItem(rpHomeKey("members"),String(rpGetNum("members",0)+n));
+  recs.splice(i,1);localStorage.setItem(rpHomeKey("records"),JSON.stringify(recs));
+  if(window.__realD){rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);}
+  rpRecHistory();
 }
 function saveGoal(){
   localStorage.setItem("demo-goal",$("#goal-num").value||"40");
@@ -1246,6 +1306,7 @@ document.querySelectorAll("#period-seg button").forEach(b=>{
     renderKPI();renderMap();renderChannels();};
 });
 $("#rec-date").value=new Date().toISOString().slice(0,10);
+rpRecKindToggle();
 $("#goal-num").value=getGoal();
 renderKPI();renderTimeline();renderFullFunnel();renderMap();
 renderWeeklyViews();renderWeeklyPosts();renderWeekday();
@@ -1537,6 +1598,7 @@ function rpApplyRealHome(d){
   rpRealRevBanner(d);
   rpMarkSample("demo-home-ai","※これはサンプルです。データがたまると毎月あなたのクラブ向けに自動生成されます");
   rpRealTimeline(d); // タイムラインは実データ（履歴が無い段は点線）
+  rpRecHistory(); // 記録・設定タブの履歴リスト
 }
 // ===== 実データ描画（0でも構造・グラフを必ず描く。サンプル数字は出さない） =====
 var RP_GRID=function(){return C('--grid')||'#e7e4dc';};
