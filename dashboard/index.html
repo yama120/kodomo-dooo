@@ -94,11 +94,13 @@
   .action .why{color:var(--muted);font-size:.72rem;margin-top:6px}
   .ai-badge{font-size:.66rem;font-weight:700;color:#fff;background:var(--s5);border-radius:999px;padding:3px 11px}
 
-  .fstage{display:grid;grid-template-columns:200px 1fr 165px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--grid)}
+  .fstage{display:grid;grid-template-columns:215px 1fr 165px;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--grid)}
   .fstage:last-of-type{border-bottom:0}
   @media(max-width:720px){.fstage{grid-template-columns:1fr;gap:6px;padding:12px 0}}
-  .fs-name{font-size:.85rem;font-weight:700}
-  .fs-src{display:inline-block;font-size:.62rem;font-weight:700;border-radius:4px;padding:1px 7px;margin-left:7px;vertical-align:1px;border:1px solid}
+  /* 段階名：1段目＝名前／2段目＝取得方法バッジと記録ボタン（長い名前でも崩れないよう固定） */
+  .fs-name{font-size:.85rem;font-weight:700;line-height:1.4}
+  .fs-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px}
+  .fs-src{display:inline-block;font-size:.62rem;font-weight:700;border-radius:4px;padding:2px 7px;border:1px solid;white-space:nowrap;flex:none}
   .fs-src.auto{color:var(--good-text);border-color:#bfdcbf;background:#f2f8f2}
   .fs-src.semi{color:var(--warn);border-color:#e8d5ae;background:#fbf6ea}
   .fs-src.manual{color:var(--muted);border-color:var(--grid);background:var(--surface-2)}
@@ -834,23 +836,23 @@ function renderTimeline(){
 
 /* ================= フルファネル ================= */
 const FUNNEL_STAGES=[
-  {id:"aware", name:"認知（SNSで表示された回数）", src:"auto", srcLabel:"自動：SNS連携",   value:22000},
-  {id:"visit", name:"流入（ページに来た人）",       src:"auto", srcLabel:"自動：アクセス解析＋計測リンク", value:380,
+  {id:"aware", name:"認知（SNSで表示された回数）", src:"auto", srcLabel:"自動",srcTip:"SNS連携から自動で取得",   value:22000},
+  {id:"visit", name:"流入（ページに来た人）",       src:"auto", srcLabel:"自動",srcTip:"アクセス解析＋計測リンクから自動で取得", value:380,
    bench:[2,5], benchNote:"認知→流入の目安 2〜5%",
    fix:{title:"表示はされているのに、来てもらえていない",
         body:"投稿は見られています（2.2万表示）が、プロフィールへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",
         cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
-  {id:"apply", name:"体験申込",                     src:"auto", srcLabel:"自動＋手動：フォーム/記録", value:12,
+  {id:"apply", name:"体験申込",                     src:"auto", srcLabel:"自動＋手動",srcTip:"申込フォームは自動。電話・紙は「記録」から手動で追加", value:12,
    bench:[1,2], benchNote:"流入→申込の目安 1〜2%",
    fix:{title:"ページを見た人が申込まで進んでいない",
         body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",
         cta:[["ページ改善をプロに依頼：HP・ページ制作","hp"],["自分で直すポイントを聞く：個別相談","consult"]]}},
-  {id:"attend", name:"体験参加",                    src:"manual", srcLabel:"手動：記録", value:10,
+  {id:"attend", name:"体験参加",                    src:"manual", srcLabel:"手動",srcTip:"「記録・設定」タブから記録した人数", value:10,
    bench:[70,90], benchNote:"申込→参加の目安 70〜90%",
    fix:{title:"申込んだのに来ていない人がいる",
         body:"前日リマインド（LINE・SMS）だけで大きく改善します。日程変更の受け皿も効きます。",
         cta:[["運営の仕組みを相談：個別コンサル","consult"]]}},
-  {id:"join", name:"入会",                          src:"manual", srcLabel:"手動：記録", value:5,
+  {id:"join", name:"入会",                          src:"manual", srcLabel:"手動",srcTip:"「記録・設定」タブから記録した人数", value:5,
    bench:[30,50], benchNote:"参加→入会の目安 30〜50%",
    fix:{title:"体験には来るが入会に至っていない",
         body:"体験当日の「入会案内のひと押し」と初月特典の設計で変わります。",
@@ -875,7 +877,7 @@ function renderFullFunnel(){
     }
     const w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
     row.innerHTML=`
-      <div class="fs-name">${st.name}<span class="fs-src ${st.src}">${st.srcLabel}</span></div>
+      <div class="fs-name">${st.name}<div class="fs-meta"><span class="fs-src ${st.src}" title="${st.srcTip||''}">${st.srcLabel}</span></div></div>
       <div class="fs-bar"><i style="width:${w}%;background:${ord[i]}"></i></div>
       <div class="fs-num">${st.value.toLocaleString()}${rateHtml}</div>`;
     c.appendChild(row);
@@ -2267,13 +2269,13 @@ function rpRealFunnel(d){
   var attend=rpGetNum("attend",0);
   var joins=rpJoinsTotal(d.trials?(d.trials.joined||0):0);
   var stages=[
-    {name:"認知（SNSで表示された回数）",src:"auto",srcLabel:"自動：SNS連携",value:snsViews},
-    {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動：アクセス解析＋計測リンク",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
+    {name:"認知（SNSで表示された回数）",src:"auto",srcLabel:"自動",srcTip:"SNS連携から自動で取得",value:snsViews},
+    {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動",srcTip:"アクセス解析＋計測リンクから自動で取得",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
       fix:{title:"表示はされているのに、来てもらえていない",body:"投稿は見られていますが、プロフィール・ページへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
-    {name:"体験申込",src:"auto",srcLabel:"自動＋手動：フォーム/記録",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",editFn:"rpGoRecord('体験・見学の申込')",
+    {name:"体験申込",src:"auto",srcLabel:"自動＋手動",srcTip:"申込フォームは自動。電話・紙は「記録」から手動で追加",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",editFn:"rpGoRecord('体験・見学の申込')",
       fix:{title:"ページを見た人が申込まで進んでいない",body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",cta:[["ページを作ってもらう：HP制作","lp"],["改善のやり方だけ聞く：個別相談","consult"]]}},
-    {name:"体験参加",src:"manual",srcLabel:"手動：記録",value:attend,bench:[60,90],note:"申込→参加の目安 60〜90%",editFn:"rpGoRecord('体験・見学に参加')"},
-    {name:"入会",src:"manual",srcLabel:"手動：記録（月別）",value:joins,bench:[40,70],note:"参加→入会の目安 40〜70%",editFn:"rpJoinsModal()"}
+    {name:"体験参加",src:"manual",srcLabel:"手動",srcTip:"「記録・設定」タブから記録した人数",value:attend,bench:[60,90],note:"申込→参加の目安 60〜90%",editFn:"rpGoRecord('体験・見学に参加')"},
+    {name:"入会",src:"manual",srcLabel:"手動",srcTip:"「記録・設定」タブから月ごとに記録した人数",value:joins,bench:[40,70],note:"参加→入会の目安 40〜70%",editFn:"rpJoinsModal()"}
   ];
   var maxV=Math.max.apply(null,stages.map(function(s){return s.value;}).concat([1]));
   var ord=["#86b6ef","#3987e5","#256abf","#184f95","#0d366b"];
@@ -2287,9 +2289,12 @@ function rpRealFunnel(d){
       rateHtml='<span class="fs-rate '+(bad?'bad':'good')+'" title="'+(st.note||'')+'">'+(prev>0?((rate<10?rate.toFixed(1):Math.round(rate))+'%・'+(bad?'目安未満':'良好')):'—')+'</span>';
     }
     var w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
-    var editBtn=st.editFn?' <button class="rpc-edit" style="margin-left:6px" onclick="'+st.editFn+'">✎ 記録</button>'
-      :(st.edit?' <button class="rpc-edit" style="margin-left:6px" onclick="rpEditNum(\''+st.edit+'\',\''+(st.editLabel||st.name+'の人数（累計）を入力')+'\')">✎ 記録</button>':'');
-    html+='<div class="fstage"><div class="fs-name">'+st.name+'<span class="fs-src '+st.src+'">'+st.srcLabel+'</span>'+editBtn+'</div><div class="fs-bar"><i style="width:'+w+'%;background:'+ord[i]+'"></i></div><div class="fs-num">'+Number(st.value).toLocaleString()+rateHtml+'</div></div>';
+    var editBtn=st.editFn?'<button class="rpc-edit" onclick="'+st.editFn+'">✎ 記録</button>'
+      :(st.edit?'<button class="rpc-edit" onclick="rpEditNum(\''+st.edit+'\',\''+(st.editLabel||st.name+'の人数（累計）を入力')+'\')">✎ 記録</button>':'');
+    html+='<div class="fstage"><div class="fs-name">'+st.name
+      +'<div class="fs-meta"><span class="fs-src '+st.src+'" title="'+(st.srcTip||'')+'">'+st.srcLabel+'</span>'+editBtn+'</div></div>'
+      +'<div class="fs-bar"><i style="width:'+w+'%;background:'+ord[i]+'"></i></div>'
+      +'<div class="fs-num">'+Number(st.value).toLocaleString()+rateHtml+'</div></div>';
   });
   el.innerHTML=html;
   if(weakest&&weakest.fix){
