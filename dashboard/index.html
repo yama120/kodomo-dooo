@@ -468,7 +468,7 @@
   <section class="settings-grid">
     <div class="card form-card">
       <div class="chart-title">出来事・施策を記録</div>
-      <div class="chart-sub">電話・その場の申込・やった施策はここから（10秒）</div>
+      <div class="chart-sub">電話・その場の申込・やった施策はここから（10秒）。記録はホームと集客タブのグラフにすぐ反映されます</div>
       <label>いつ？</label>
       <input id="rec-date" type="date">
       <label>何があった？</label>
@@ -1126,18 +1126,39 @@ function saveRecord(){
   const date=$("#rec-date").value;
   if(!date){alert("日付を入れてください");return}
   const kind=$("#rec-kind").value,num=parseInt($("#rec-num").value||"1",10);
-  const mi=MONTHS.indexOf(`${parseInt(date.slice(5,7),10)}月`);
-  if(mi>=0){
-    if(kind==="体験・見学の申込")TREND.trials[mi]+=num;
-    if(kind==="入会が決まった")TREND.joins[mi]+=num;
-    if(kind.includes("ポスター")||kind.includes("チラシ")||kind.includes("体験会")||kind.includes("その他の施策")){
-      const memo=$("#rec-memo").value.trim();
-      EVENTS.push({m:mi,label:kind.slice(0,2)+" "+(memo||kind.replace(/^..\s/,""))});
+  if(isNaN(num)||num<1){alert("人数は1以上で入力してください");return}
+  const memo=$("#rec-memo").value.trim();
+  if(window.__realD){
+    // ===== 実データモード：保存して体験申込・入会・会員数・タイムラインに反映 =====
+    let recs=[];try{recs=JSON.parse(localStorage.getItem(rpHomeKey("records"))||"[]")||[]}catch(e){}
+    recs.push({d:date,k:kind,r:$("#rec-route").value,n:num,m:memo});
+    localStorage.setItem(rpHomeKey("records"),JSON.stringify(recs));
+    const mon=date.slice(0,7);
+    if(kind==="体験・見学の申込")localStorage.setItem(rpHomeKey("trial_manual"),String(rpGetNum("trial_manual",0)+num));
+    else if(kind==="体験・見学に参加")localStorage.setItem(rpHomeKey("attend"),String(rpGetNum("attend",0)+num));
+    else if(kind==="入会が決まった"){const jm=rpJoinsData();jm[mon]=(+jm[mon]||0)+num;localStorage.setItem(rpHomeKey("joins_m"),JSON.stringify(jm));}
+    else if(kind==="退会")localStorage.setItem(rpHomeKey("members"),String(Math.max(0,rpGetNum("members",0)-num)));
+    rpApplyRealHome(window.__realD);rpRealFunnel(window.__realD);rpRealMap(window.__realD);rpRealRevBanner(window.__realD);
+  }else{
+    // ===== デモモード（プレビュー用・従来どおり）=====
+    const mi=MONTHS.indexOf(`${parseInt(date.slice(5,7),10)}月`);
+    if(mi>=0){
+      if(kind==="体験・見学の申込")TREND.trials[mi]+=num;
+      if(kind==="入会が決まった")TREND.joins[mi]+=num;
+      if(kind.includes("ポスター")||kind.includes("チラシ")||kind.includes("体験会")||kind.includes("その他の施策")){
+        EVENTS.push({m:mi,label:kind.slice(0,2)+" "+(memo||kind.replace(/^..\s/,""))});
+      }
     }
+    renderKPI();renderMap();renderChannels();renderTimeline();
   }
-  renderKPI();renderMap();renderChannels();renderTimeline();
   const d=$("#rec-done");d.classList.add("show");setTimeout(()=>d.classList.remove("show"),1800);
   $("#rec-memo").value="";
+}
+// ホーム・集客タブの「✎記録」→ 記録・設定タブへ遷移して種類をプリセット
+function rpGoRecord(kind){
+  switchTab('input');history.replaceState(null,"","#input");scrollTo({top:0,behavior:"smooth"});
+  var s=document.getElementById('rec-kind');if(s&&kind)s.value=kind;
+  var n=document.getElementById('rec-num');if(n)setTimeout(function(){n.focus();n.select&&n.select();},350);
 }
 function saveGoal(){
   localStorage.setItem("demo-goal",$("#goal-num").value||"40");
@@ -1500,8 +1521,8 @@ function rpApplyRealHome(d){
   const trialManual=rpGetNum("trial_manual",0);
   const trialSum=(trialTotal||0)+trialManual;
   const trialBreak=(trialTotal!=null||trialManual>0)
-    ? `フォーム自動 ${trialTotal||0}＋電話・紙 ${trialManual} `+eBtn("rpEditNum('trial_manual','電話・紙などフォーム以外で受けた体験申込の数（累計）を入力')","記録")
-    : "フォームからの申込は自動で入ります "+eBtn("rpEditNum('trial_manual','電話・紙などフォーム以外で受けた体験申込の数（累計）を入力')","記録");
+    ? `フォーム自動 ${trialTotal||0}＋電話・紙 ${trialManual} `+eBtn("rpGoRecord('体験・見学の申込')","記録")
+    : "フォームからの申込は自動で入ります。電話・紙の分は "+eBtn("rpGoRecord('体験・見学の申込')","記録");
   k.appendChild(mk("体験申込", (trialTotal==null&&trialManual===0)?'<span style="color:#c3c3c3">—</span>':trialSum.toLocaleString(), trialBreak, trialSpark, css("--s2")));
   k.appendChild(mk("入会", String(joined),
     (joinsAvg!=null?`月平均 <b>${joinsAvg}人</b>が入会 `:"月ごとに記録できます ")+eBtn("rpJoinsModal()","記録"),
@@ -2004,10 +2025,26 @@ function rpRealTimeline(d){
       trials.forEach(function(v,i){s+='<circle cx="'+x(i)+'" cy="'+ty(v)+'" r="3" fill="'+C('--s2')+'"><title>'+months[i].label+' 体験申込'+v+'人</title></circle><text x="'+x(i)+'" y="'+(ty(v)-8)+'" text-anchor="middle" fill="'+C('--s2')+'" font-size="10" font-weight="700">'+v+'</text>';});
     }
   } else s+='<text x="'+((L+W-R)/2)+'" y="'+(py[2]+PH[2]/2+4)+'" text-anchor="middle" fill="#bbb" font-size="11">体験申込が入る・入会を記録すると月ごとに表示されます</text>';
+  // 施策の縦線（「記録・設定」で記録した施策。番号チップで下のリストと対応）
+  var recs=[];try{recs=JSON.parse(localStorage.getItem(rpHomeKey("records"))||"[]")||[];}catch(e){}
+  var evs=recs.filter(function(r){return /ポスター|チラシ|体験会|施策/.test(String(r.k||""))&&months.some(function(m){return String(r.d||"").slice(0,7)===m.key;});});
+  var perMonth={};
+  evs.forEach(function(ev,ei){
+    var mkey=String(ev.d).slice(0,7);
+    var mi=-1;months.forEach(function(m,i){if(m.key===mkey)mi=i;});
+    if(mi<0)return;
+    var off=(perMonth[mkey]||0);perMonth[mkey]=off+1;
+    var ex=x(mi)+off*14;
+    s+='<line x1="'+ex+'" x2="'+ex+'" y1="'+(T-4)+'" y2="'+(H-26)+'" stroke="'+C('--brand')+'" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.65"/>';
+    s+='<circle cx="'+ex+'" cy="'+(T-9)+'" r="8" fill="#fff" stroke="'+C('--brand')+'" stroke-width="1.5"/><text x="'+ex+'" y="'+(T-5.5)+'" text-anchor="middle" fill="'+C('--brand-dark')+'" font-size="9.5" font-weight="800">'+(ei+1)+'</text>';
+  });
   // 月ラベル
   months.forEach(function(m,i){s+='<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" fill="#999" font-size="10.5">'+m.label+'</text>';});
   var legend='<span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+C('--s5')+';margin-right:4px"></i>SNS投稿数</span><span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+C('--s2')+';margin-right:4px"></i>体験申込</span><span style="margin-right:14px"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+C('--brand')+';margin-right:4px"></i>入会（記録）</span>';
-  el.innerHTML='<div class="chart-title">打ち手（上段）と成果（下段）</div><div class="chart-sub">同じ時間軸で重ねて見る。施策は「記録・設定」から追加すると縦線で重なります</div><div style="font-size:.72rem;color:#888;margin:6px 0">'+legend+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>';
+  var evList=evs.length?'<div class="ev-list">'+evs.map(function(ev,i){
+    return '<span class="ev-item"><span class="ev-chip">'+(i+1)+'</span>'+rpEsc(String(ev.d).slice(5).replace("-","/"))+' '+rpEsc(ev.m||String(ev.k||"").replace(/^[^\s]*\s/,""))+'</span>';
+  }).join("")+'</div>':'';
+  el.innerHTML='<div class="chart-title">打ち手（上段）と成果（下段）</div><div class="chart-sub">同じ時間軸で重ねて見る。施策（ポスター掲示など）は<a href="javascript:void(0)" onclick="rpGoRecord(\'🪧 ポスターを掲示した\')" style="color:var(--s1);font-weight:700;text-decoration:none">「記録・設定」から追加 ↗</a>すると縦線で重なります</div><div style="font-size:.72rem;color:#888;margin:6px 0">'+legend+'</div><div class="plot"><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+s+'</svg></div>'+evList;
 }
 // 集客ファネル（サンプルと同じデザイン・実データ。認知→流入→体験申込→体験参加→入会）
 function rpRealFunnel(d){
@@ -2021,9 +2058,9 @@ function rpRealFunnel(d){
     {name:"認知（SNSで表示された回数）",src:"auto",srcLabel:"自動：SNS連携",value:snsViews},
     {name:"流入（ページに来た人）",src:"auto",srcLabel:"自動：アクセス解析＋計測リンク",value:views,bench:[2,5],note:"認知→流入の目安 2〜5%",
       fix:{title:"表示はされているのに、来てもらえていない",body:"投稿は見られていますが、プロフィール・ページへの導線が弱い状態。投稿の最後に「プロフィールのリンクから体験へ」の一言と、プロフィール文の整理で改善できます。",cta:[["投稿ごと任せる：SNS運用代行","sns"],["改善のやり方だけ聞く：個別相談","consult"]]}},
-    {name:"体験申込",src:"auto",srcLabel:"自動＋手動：フォーム/記録",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",edit:"trial_manual",editLabel:"電話・紙などフォーム以外で受けた体験申込の数（累計）を入力。フォーム分は自動で足されます",
+    {name:"体験申込",src:"auto",srcLabel:"自動＋手動：フォーム/記録",value:trials,bench:[1,3],note:"流入→申込の目安 1〜3%",editFn:"rpGoRecord('体験・見学の申込')",
       fix:{title:"ページを見た人が申込まで進んでいない",body:"写真・体験の流れ・料金の明記が申込率を左右します。ページの見直し、または専用ページの制作で改善できます。",cta:[["ページを作ってもらう：HP制作","lp"],["改善のやり方だけ聞く：個別相談","consult"]]}},
-    {name:"体験参加",src:"manual",srcLabel:"手動：記録",value:attend,bench:[60,90],note:"申込→参加の目安 60〜90%",edit:"attend"},
+    {name:"体験参加",src:"manual",srcLabel:"手動：記録",value:attend,bench:[60,90],note:"申込→参加の目安 60〜90%",editFn:"rpGoRecord('体験・見学に参加')"},
     {name:"入会",src:"manual",srcLabel:"手動：記録（月別）",value:joins,bench:[40,70],note:"参加→入会の目安 40〜70%",editFn:"rpJoinsModal()"}
   ];
   var maxV=Math.max.apply(null,stages.map(function(s){return s.value;}).concat([1]));
