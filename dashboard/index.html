@@ -270,6 +270,31 @@
   </div>
 </nav>
 
+<div id="rp-boot" style="display:none;position:fixed;inset:0;z-index:9998;background:var(--page);align-items:center;justify-content:center">
+  <div style="text-align:center">
+    <div style="width:34px;height:34px;margin:0 auto 14px;border:3px solid var(--grid);border-top-color:var(--brand);border-radius:50%;animation:rpspin .8s linear infinite"></div>
+    <div style="font-size:.85rem;color:var(--muted);font-weight:700">データを読み込んでいます…</div>
+  </div>
+</div>
+<style>@keyframes rpspin{to{transform:rotate(360deg)}}</style>
+<script>
+// クラブID付きURL＋ログイン済みなら、実データが入るまで画面を隠す（サンプルの一瞬表示を防ぐ）
+(function(){
+  try{
+    var q=new URLSearchParams(location.search).get("club")||"";
+    if(!/^[0-9a-f-]{8,}$/i.test(q))return;
+    var s=JSON.parse(localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth')||'null');
+    if(!s||!s.access_token)return;
+    var el=document.getElementById('rp-boot');
+    if(el)el.style.display='flex';
+    window.__rpBooting=true;
+    // 保険：8秒経っても実データが来なければ隠しを解除（読めない時はデモ＋警告バーが出る）
+    setTimeout(function(){ if(window.rpBootDone)window.rpBootDone(); },8000);
+  }catch(e){}
+})();
+function rpBootDone(){var el=document.getElementById('rp-boot');if(el)el.style.display='none';window.__rpBooting=false;}
+window.rpBootDone=rpBootDone;
+</script>
 <main>
 <!-- ============================================================ 🏠 ホーム -->
 <div class="pane show" id="pane-home">
@@ -1639,8 +1664,8 @@ function rpManualPush(){
     var club=(new URLSearchParams(location.search).get("club")||"").trim();
     var token=(typeof rpToken==="function")?rpToken():null;
     if(!token||!club)return;
-    fetch(RP_TRACK+'/api/manual/save',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,data:rpManualCollect()})})
-      .then(function(r){return r.json();}).then(function(j){if(!(j&&j.ok))console.log('[manual] save failed',j);})
+    rpAuthFetch(RP_TRACK+'/api/manual/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,data:rpManualCollect()})})
+      .then(function(r){return r?r.json():{error:'session_expired'};}).then(function(j){if(!(j&&j.ok))console.log('[manual] save failed',j);})
       .catch(function(e){console.log('[manual] save error',e);});
   },1200);
 }
@@ -1857,8 +1882,8 @@ function rpProvisionSurvey(){
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
   if(!confirm("このクラブ専用の入会アンケート（Googleフォーム）を作成します。よろしいですか？"))return;
   rpModal('<div style="text-align:center;padding:24px 8px;font-size:.9rem;color:#555">アンケートを作成しています…<br><span style="font-size:.75rem;color:#aaa">10秒ほどかかります</span></div>',360);
-  fetch(RP_TRACK+'/api/survey/provision',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club})})
-    .then(function(r){return r.json();})
+  rpAuthFetch(RP_TRACK+'/api/survey/provision',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       rpModalClose();
       if(j&&j.ok){ alert("アンケートを作成しました。QR・URLが使えるようになりました。"); location.reload(); }
@@ -1896,8 +1921,8 @@ function rpSurveyRefresh(btn){
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
   var orig=btn?btn.textContent:"";
   if(btn){btn.disabled=true;btn.textContent="取り込み中…";}
-  fetch(RP_TRACK+'/api/survey/refresh',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club})})
-    .then(function(r){return r.json();})
+  rpAuthFetch(RP_TRACK+'/api/survey/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       if(j&&j.ok){
         if(j.no_column)alert("読み込めましたが「どこで知ったか」の項目が見つかりませんでした。フォームの質問をご確認ください。");
@@ -1918,8 +1943,8 @@ function rpSurveyAdvice(){
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
   var body=document.getElementById("survey-advice-body");
   if(body){body.innerHTML='<span style="color:#999">AIが分析しています…（10秒ほど）</span>';body.style.marginTop='8px';}
-  fetch(RP_TRACK+'/api/survey/advice',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club})})
-    .then(function(r){return r.json();})
+  rpAuthFetch(RP_TRACK+'/api/survey/advice',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       if(!body)return;
       if(j&&j.ok){
@@ -1947,8 +1972,8 @@ function rpConnectSurvey(){
   var u=prompt(msg); if(!u)return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
-  fetch(RP_TRACK+'/api/survey/connect',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,sheet:u})})
-    .then(function(r){return r.json();})
+  rpAuthFetch(RP_TRACK+'/api/survey/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,sheet:u})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       if(j&&j.ok){ if(j.no_column)alert("読み込めましたが「どこで知ったか」の項目が見つかりませんでした。フォームの質問に「どこで知りましたか」を入れてください。"); else alert("連携しました。回答 "+j.total+"件を集計しました。毎日自動で更新されます。"); location.reload(); }
       else if(j&&j.error==="sheet_read_failed")alert("読み込めませんでした。URLをご確認ください（Apps Scriptは「全員がアクセス可」で公開されている必要があります）。");
@@ -2062,7 +2087,60 @@ var RP_RESERVED={"chibispo-feature":"チビスポ特集・マガジン"};
 function rpChannelName(c){return RP_RESERVED[c.slug]||c.name||c.slug;}
 // ===== 集客タブ実データ化（媒体別クリック＝link_clicks・媒体作成＝計測リンク/QR発行） =====
 var RP_TRACK='https://chibispo-tracking.hyogo120.workers.dev';
-function rpToken(){try{var s=JSON.parse(localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth')||'null');return s&&s.access_token;}catch(e){return null;}}
+// ---- ログインセッション（club-mypageのsupabase-liteと同じlocalStorageを共有）----
+// アクセストークンは約1時間で失効する。supabase-lite同様にrefresh_tokenで自動更新しないと
+// 時間が経ったタブで401→サンプル表示に落ちるため、ここでも更新処理を持つ。
+var RP_SESSION_KEY='sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth';
+var RP_SUPA_URL='https://emkpkomrgknzrmxqbrvx.supabase.co';
+var RP_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+function rpSession(){try{return JSON.parse(localStorage.getItem(RP_SESSION_KEY)||'null');}catch(e){return null;}}
+function rpToken(){var s=rpSession();return s&&s.access_token;}
+function rpTokenExpired(){var s=rpSession();return !!(s&&s.expires_at&&Date.now()/1000>s.expires_at-60);}
+var __rpRefreshing=null;
+// 期限切れ（または間近）ならrefresh_tokenで更新して新しいアクセストークンを返す
+function rpEnsureToken(){
+  var s=rpSession();
+  if(!s||!s.access_token)return Promise.resolve(null);
+  if(!rpTokenExpired())return Promise.resolve(s.access_token);
+  if(!s.refresh_token)return Promise.resolve(s.access_token); // 更新できないならそのまま試す
+  if(__rpRefreshing)return __rpRefreshing; // 同時多発を1本にまとめる
+  __rpRefreshing=fetch(RP_SUPA_URL+'/auth/v1/token?grant_type=refresh_token',{
+    method:'POST',headers:{'Content-Type':'application/json',apikey:RP_ANON},
+    body:JSON.stringify({refresh_token:s.refresh_token})
+  }).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    __rpRefreshing=null;
+    if(!j||!j.access_token)return null;
+    var ns={access_token:j.access_token,refresh_token:j.refresh_token||s.refresh_token,
+      expires_at:j.expires_in?Math.floor(Date.now()/1000)+j.expires_in:j.expires_at,user:j.user||s.user};
+    try{localStorage.setItem(RP_SESSION_KEY,JSON.stringify(ns));}catch(e){}
+    return j.access_token;
+  }).catch(function(){__rpRefreshing=null;return null;});
+  return __rpRefreshing;
+}
+// 認証付きfetch。401なら1度だけトークンを更新して再試行する
+function rpAuthFetch(url,opt){
+  opt=opt||{};
+  return rpEnsureToken().then(function(t){
+    if(!t)return null;
+    var o=Object.assign({},opt);o.headers=Object.assign({},opt.headers,{Authorization:'Bearer '+t});
+    return fetch(url,o).then(function(r){
+      if(r.status!==401)return r;
+      var s=rpSession();if(!s||!s.refresh_token)return r;
+      // 期限内でも弾かれた場合（時刻ズレ等）は強制更新して1回だけ再試行
+      return fetch(RP_SUPA_URL+'/auth/v1/token?grant_type=refresh_token',{
+        method:'POST',headers:{'Content-Type':'application/json',apikey:RP_ANON},
+        body:JSON.stringify({refresh_token:s.refresh_token})
+      }).then(function(rr){return rr.ok?rr.json():null;}).then(function(j){
+        if(!j||!j.access_token)return r;
+        var ns={access_token:j.access_token,refresh_token:j.refresh_token||s.refresh_token,
+          expires_at:j.expires_in?Math.floor(Date.now()/1000)+j.expires_in:j.expires_at,user:j.user||s.user};
+        try{localStorage.setItem(RP_SESSION_KEY,JSON.stringify(ns));}catch(e){}
+        var o2=Object.assign({},opt);o2.headers=Object.assign({},opt.headers,{Authorization:'Bearer '+j.access_token});
+        return fetch(url,o2);
+      });
+    });
+  });
+}
 function rpApplyRealShu(d){
   window.__realD=d;
   var body=document.getElementById("ch-body");
@@ -2246,8 +2324,8 @@ function rpCreateChannelReal(){
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
   var kind=""; try{kind=(KINDS.find(function(k){return k.id===selectedKind;})||{}).n||"";kind=String(kind).replace(/\s.*/,"");}catch(e){}
-  fetch(RP_TRACK+'/api/add-media',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,name:name,kind:kind})})
-    .then(function(r){return r.json();})
+  rpAuthFetch(RP_TRACK+'/api/add-media',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,name:name,kind:kind})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){ if(!j||!j.ok){alert("追加に失敗しました。もう一度お試しください。");return;} rpShowResult(j.url); })
     .catch(function(){alert("追加に失敗しました（通信エラー）");});
 }
@@ -2285,7 +2363,7 @@ function rpConnectBar(){
   // 実際の連携状態をAPIで取得して上書き（連携直後・データ取得前でも正しく✓になる）
   var token=rpToken();
   if(token){
-    fetch(W+'/api/sns-status?club='+encodeURIComponent(club),{headers:{Authorization:'Bearer '+token}})
+    rpAuthFetch(W+'/api/sns-status?club='+encodeURIComponent(club))
       .then(function(r){return r.ok?r.json():null;})
       .then(function(d){ if(!d||!d.ok)return; ["instagram","threads","youtube","tiktok","x"].forEach(function(k){ if(d[k])connected[k]=true; }); rpRenderConnectBar(connected); })
       .catch(function(){});
@@ -2296,8 +2374,8 @@ function rpConnectYouTube(){
   if(!ch)return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
-  fetch('https://chibispo-tracking.hyogo120.workers.dev/auth/youtube/connect',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({club:club,channel:ch})})
-    .then(function(r){return r.json();})
+  rpAuthFetch('https://chibispo-tracking.hyogo120.workers.dev/auth/youtube/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,channel:ch})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       if(j&&j.ok){ alert('YouTube「'+j.name+'」を連携しました。動画データは毎日自動で取り込まれます。'); location.reload(); }
       else if(j&&j.error==='youtube_not_configured'){ alert('YouTube連携はまもなく使えるようになります（設定準備中）。'); }
@@ -2334,7 +2412,8 @@ function rpApplyRealMode(){
       const sess=JSON.parse(localStorage.getItem(SESSION_KEY)||"null");
       const token=sess&&sess.access_token;
       if(token){
-        const r=await fetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q),{headers:{Authorization:"Bearer "+token}});
+        // 期限切れなら自動更新してから叩く（401時は1回だけ再試行）
+        const r=await rpAuthFetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q))||{ok:false};
         if(r.ok){
           const d=await r.json();
           // GA4の有無に関係なく、ヘッダーを実クラブ名・実プランに差し替え
@@ -2479,6 +2558,27 @@ function rpApplyRealMode(){
   console.log("[real-data] 実データ表示:",nm,club);
 
   function fmtD(s){if(!s)return"";const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${+m[2]}/${+m[3]}`:s;}
+})().catch(function(e){console.warn("[real-data]",e);}).then(function(){ if(window.rpBootDone)window.rpBootDone(); });
+
+// ---- セッション維持：タブに戻った時と定期的にトークンを更新する ----
+// これが無いと、他のタブを使っている間に約1時間で失効し、次の操作で401→サンプル表示に落ちる
+(function(){
+  var q=new URLSearchParams(location.search).get("club")||"";
+  if(!/^[0-9a-f-]{8,}$/i.test(q))return;
+  if(typeof rpEnsureToken!=="function")return;
+  var reloading=false;
+  function revive(){
+    if(document.hidden||reloading)return;
+    var had=!!(typeof rpToken==="function"&&rpToken());
+    if(!had)return;
+    rpEnsureToken().then(function(t){
+      // 失効から復帰できた直後で、画面がデモに落ちている場合だけ読み直す
+      if(t&&!window.__realD&&!reloading){reloading=true;location.reload();}
+    });
+  }
+  document.addEventListener("visibilitychange",revive);
+  window.addEventListener("focus",revive);
+  setInterval(function(){ if(!document.hidden&&typeof rpEnsureToken==="function")rpEnsureToken(); },5*60*1000);
 })();
 
 function setDemoBar(html,kind){
