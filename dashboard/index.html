@@ -1663,32 +1663,37 @@ function rpRealHomeAI(d){
   sec.innerHTML=head+'<div class="action-grid">'+cards+'</div><div id="ai-report-note" class="sv-note"></div>';
 }
 // Workerに送る実データサマリー（この中身がそのままAIの根拠になる）
+// キーは日本語＋単位つき。英語キー(trials/attend等)だとAIが「体験申込」を「試験参加」と誤訳し、
+// 申込・参加・入会を取り違えるため、意味が一意に決まる名前にしている。
 function rpHomeReportSummary(d){
   var manual=rpManualCollect();
   var typeCounts={}; ((d&&d.posts)||[]).forEach(function(p){var t=p.post_type||"未分類";typeCounts[t]=(typeCounts[t]||0)+1;});
+  var days=(d&&d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30;
+  var joinsM=manual.joins_m||{};
+  var joinsTotal=Object.keys(joinsM).reduce(function(s,k){return s+(+joinsM[k]||0);},0);
+  var trialsForm=(d&&d.trials&&+d.trials.total)||0, trialsManual=manual.trial_manual||0;
   return {
-    page_views:(d&&d.analytics&&d.analytics.club&&+d.analytics.club.views)||0,
-    range_days:(d&&d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30,
-    sns_views_total:((d&&d.post_stats)||[]).reduce(function(s,r){return s+(+r.total_views||0);},0),
-    posts_by_type:typeCounts,
-    clicks_by_media:((d&&d.clicks&&d.clicks.channels)||[]).map(function(c){return {name:rpChannelName(c),clicks:+c.clicks||0};}),
-    trials_form:(d&&d.trials&&+d.trials.total)||0,
-    trials_manual:manual.trial_manual||0,
-    attend:manual.attend||0,
-    joins_by_month:manual.joins_m||{},
-    members:manual.members||0,
-    goal:manual.goal||40,
+    "集計期間":days+"日間",
+    "クラブページの閲覧数":(d&&d.analytics&&d.analytics.club&&+d.analytics.club.views)||0,
+    "SNSで表示された回数":((d&&d.post_stats)||[]).reduce(function(s,r){return s+(+r.total_views||0);},0),
+    "SNS投稿数_タイプ別":typeCounts,
+    "計測リンク経由のクリック数_媒体別":((d&&d.clicks&&d.clicks.channels)||[]).map(function(c){return rpChannelName(c)+"：" +(+c.clicks||0)+"クリック";}),
+    "体験申込の件数":{"合計":trialsForm+trialsManual,"クラブページのフォーム経由（自動計測）":trialsForm,"電話・紙など（手動で記録した分）":trialsManual},
+    "体験に実際に参加した人数":manual.attend||0,
+    "入会した人数":{"合計":joinsTotal,"月別":joinsM},
+    "現在の会員数":manual.members||0,
+    "会員数の目標":manual.goal||40,
     // 満足度は生の{avg,n,max}を渡すとAIが「6.33/9」のように平均と回答数を混同するため、日本語の文にして渡す
-    survey:(d&&d.survey&&d.survey.result)?{
-      回答数:d.survey.total,
-      どこで知ったか:d.survey.result.counts||{},
-      満足度:Object.keys(d.survey.result.numeric||{}).map(function(k){
+    "保護者アンケート":(d&&d.survey&&d.survey.result)?{
+      "回答数":d.survey.total,
+      "どこでクラブを知ったか（回答者の内訳）":d.survey.result.counts||{},
+      "満足度":Object.keys(d.survey.result.numeric||{}).map(function(k){
         var m=d.survey.result.numeric[k];
         if(typeof m.nps==="number")return k+"：おすすめ度(NPS)＝"+m.nps+"（0〜10点で平均"+m.avg+"点・回答"+m.n+"件）";
         return k+"：平均"+m.avg+"点（"+(m.max<=5?5:m.max)+"点満点・回答"+m.n+"件）";
       })
-    }:null,
-    recent_policies:(rpRecList()||[]).filter(function(r){return rpRecIsPolicy(r.k);}).map(function(r){return r.d+" "+(r.m||r.k);}).slice(-10)
+    }:"まだアンケートを配布していない（または回答0件）",
+    "実施済みの施策（すでに記録・設定タブに登録済み）":(rpRecList()||[]).filter(function(r){return rpRecIsPolicy(r.k);}).map(function(r){return r.d+" "+(r.m||r.k);}).slice(-10)
   };
 }
 function rpHomeReportGen(btn){
