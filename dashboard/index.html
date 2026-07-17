@@ -1535,7 +1535,22 @@ function rpFeedHtml(posts,ch){
 function renderRealPostTab(ch){
   const pane=document.getElementById("pane-post");
   const stats=window.__realStats||[],posts=window.__realPosts||[];
-  if(!pane||(!stats.length&&!posts.length))return;
+  if(!pane)return;
+  // データ0でも描く（未連携の新規クラブでは「連携すると入ります」の空状態を出す）
+  if(!stats.length&&!posts.length){
+    let empty=document.getElementById("real-post-tab");
+    if(!empty){
+      empty=document.createElement("div");empty.id="real-post-tab";
+      const seg0=document.getElementById("post-ch-seg");
+      if(seg0&&seg0.nextSibling)pane.insertBefore(empty,seg0.nextSibling);else pane.appendChild(empty);
+    }
+    empty.innerHTML=RP_STYLE+'<section><div class="sec-head"><h2>投稿の反応</h2><span class="sub">SNSを連携すると、ここに実データが入ります</span></div>'
+      +'<div class="card"><div class="rp-empty" style="text-align:center;padding:26px 14px">'
+      +'<div style="font-size:.9rem;font-weight:800;color:var(--ink-2)">まだSNSが連携されていません</div>'
+      +'<div class="chart-sub" style="margin-top:8px;line-height:1.8">上の「連携アカウント」からInstagram・Threads・YouTubeをつなぐと、<br><b>投稿と反応が毎日自動で取り込まれます</b>（手入力は不要です）。<br>どのタイプの投稿が見られているか・当たり投稿・投稿の継続状況がわかります。</div>'
+      +'</div></div></section>';
+    return;
+  }
   window.__rpCh=String(ch||"all").toLowerCase(); // サブタブは"Instagram"、データは"instagram"
   const c=window.__rpCh;
   let box=document.getElementById("real-post-tab");
@@ -2500,6 +2515,9 @@ function rpApplyRealMode(){
         const r=await rpAuthFetch(API_BASE+"/api/dashboard?club="+encodeURIComponent(q))||{ok:false};
         if(r.ok){
           const d=await r.json();
+          // 以降の描画関数が参照するため、取得直後に確定させる
+          // （以前はrpApplyRealHome内で設定していたため、先に走るrpRealWeekday等が空データで描画されていた）
+          if(d&&d.ok)window.__realD=d;
           // GA4の有無に関係なく、ヘッダーを実クラブ名・実プランに差し替え
           if(d&&d.club&&d.club.name){
             document.title=d.club.name+"のクラブ分析 | チビスポ"; // 実データ時は「プレビュー版」を外す
@@ -2511,7 +2529,10 @@ function rpApplyRealMode(){
           // SNS投稿（sns_post_stats）はGA4の有無に関係なく実データ表示
           if(d&&d.post_stats&&d.post_stats.length)window.__realStats=d.post_stats;
           if(d&&d.posts&&d.posts.length)window.__realPosts=d.posts;
-          if((window.__realStats||[]).length||(window.__realPosts||[]).length){renderRealPostTab("all");rpApplyRealMode();}
+          // 実データモードなら必ず投稿タブも実データ化する。
+          // ※以前は「SNS投稿データがある時だけ」実行していたため、未連携の新規クラブでは
+          //   連携ボタン(rpConnectBar)が出ず、SNSを連携する手段が無い状態だった（鶏と卵）
+          if(d&&d.ok){renderRealPostTab("all");rpApplyRealMode();}
           // 手動記録：サーバーの値でローカルを更新（他端末の変更を反映）。サーバー未保存でローカルに記録があれば初回移行
           if(d&&d.manual)rpManualApply(d.manual);
           else if(d&&d.ok){
