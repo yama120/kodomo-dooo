@@ -471,13 +471,38 @@
   function effectivePlan(t){ var p=(t&&t.plan)||'free'; if(p==='free')return'free'; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date())return'free'; return p; }
   // SNS連携カードの配線（有料クラブのみ・連携先URL・連携状態・戻り成功表示）
   var SNS_WORKER='https://chibispo-tracking.hyogo120.workers.dev';
+  function startSnsOAuth(t, platform, btn){
+    if(!t||!t.id||!btn) return;
+    var st=btn.querySelector('.st'), before=st?st.textContent:'';
+    if(st) st.textContent='接続中…';
+    btn.style.pointerEvents='none';
+    db.auth.getSession().then(function(res){
+      var token=res&&res.data&&res.data.session&&res.data.session.access_token;
+      if(!token) throw new Error('no_session');
+      return fetch(SNS_WORKER+'/auth/'+platform+'/start',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+        body:JSON.stringify({club:t.id})
+      });
+    }).then(function(r){
+      return r.json().then(function(j){ return {ok:r.ok,data:j}; });
+    }).then(function(result){
+      if(!result.ok||!result.data||!result.data.auth_url) throw new Error(result.data&&result.data.error||'start_failed');
+      location.assign(result.data.auth_url);
+    }).catch(function(){
+      btn.style.pointerEvents='';
+      if(st) st.textContent=before||'連携する →';
+      var m=$('mp-sns-msg'); if(m){m.style.display='';m.style.background='#fdecec';m.style.color='#b0413a';m.textContent='連携を開始できませんでした。ログイン状態を確認して、もう一度お試しください。';}
+    });
+  }
   function setupSnsConnect(t, ep){
     var card=$('mp-sns'); if(!card) return;
     if(ep==='free' || !t || !t.id){ card.style.display='none'; return; }
     card.style.display='';
     var igBtn=$('mp-sns-ig'), thBtn=$('mp-sns-th');
-    igBtn.href=SNS_WORKER+'/auth/instagram/start?club='+encodeURIComponent(t.id);
-    thBtn.href=SNS_WORKER+'/auth/threads/start?club='+encodeURIComponent(t.id);
+    igBtn.href='javascript:void(0)'; thBtn.href='javascript:void(0)';
+    if(!igBtn.dataset.snsWired){igBtn.dataset.snsWired='1';igBtn.addEventListener('click',function(){startSnsOAuth(team,'instagram',igBtn);});}
+    if(!thBtn.dataset.snsWired){thBtn.dataset.snsWired='1';thBtn.addEventListener('click',function(){startSnsOAuth(team,'threads',thBtn);});}
     // OAuthから戻ってきた時の成功メッセージ
     try{
       var qs=new URLSearchParams(location.search);

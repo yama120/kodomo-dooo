@@ -2430,13 +2430,24 @@ function rpCreateChannelReal(){
 }
 // 実データモード：デモのサンプルセクションを隠し、媒体タブを連携済みだけに絞る
 // 投稿タブ上部の「連携アカウント」バー（連携状態＝APIで正確に判定＋連携ボタン）
+function rpConnectSns(platform){
+  if(platform!=="instagram"&&platform!=="threads")return;
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  if(!club||!rpToken()){alert("ログインが必要です");return;}
+  var W='https://chibispo-tracking.hyogo120.workers.dev';
+  rpAuthFetch(W+'/auth/'+platform+'/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club})})
+    .then(function(r){return r?r.json().then(function(j){return {ok:r.ok,data:j};}):{ok:false,data:{}};})
+    .then(function(result){
+      if(!result.ok||!result.data||!result.data.auth_url){alert("連携を開始できませんでした。ログイン状態を確認して、もう一度お試しください。");return;}
+      location.assign(result.data.auth_url);
+    })
+    .catch(function(){alert("連携を開始できませんでした（通信エラー）");});
+}
 function rpRenderConnectBar(connected){
   var pane=document.getElementById("pane-post"); if(!pane)return;
-  var club=(new URLSearchParams(location.search).get("club")||"").trim();
-  var W='https://chibispo-tracking.hyogo120.workers.dev';
   var plats=[
-    {k:"instagram",n:"Instagram",act:W+"/auth/instagram/start?club="+encodeURIComponent(club)},
-    {k:"threads",n:"Threads",act:W+"/auth/threads/start?club="+encodeURIComponent(club)},
+    {k:"instagram",n:"Instagram",fn:"rpConnectSns('instagram')"},
+    {k:"threads",n:"Threads",fn:"rpConnectSns('threads')"},
     {k:"youtube",n:"YouTube",fn:"rpConnectYouTube()"},
     {k:"tiktok",n:"TikTok",soon:true}
   ];
@@ -2448,7 +2459,6 @@ function rpRenderConnectBar(connected){
       if(on) right='<span style="color:#1f8a5b;font-weight:800;font-size:.8rem;white-space:nowrap">連携済み ✓</span>';
       else if(p.soon) right='<span style="color:#aaa;font-size:.78rem;white-space:nowrap">準備中</span>';
       else if(p.fn) right='<a href="javascript:void(0)" onclick="'+p.fn+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
-      else right='<a href="'+p.act+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
       return '<div style="flex:1;min-width:132px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-size:.85rem">'+p.n+'</b>'+right+'</div>';
     }).join("")+'</div>';
 }
