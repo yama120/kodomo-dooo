@@ -679,11 +679,13 @@ function panelBG(svg,x,y,w,h,rows=3){
   svg.appendChild(svgEl("rect",{x,y,width:w,height:h,rx:10,fill:"#faf9f5",stroke:css("--grid")}));
   for(let g=1;g<rows;g++)svg.appendChild(svgEl("line",{x1:x+8,x2:x+w-8,y1:y+h*g/rows,y2:y+h*g/rows,stroke:css("--grid"),"stroke-dasharray":"2 4"}));
 }
+// サービス相談への導線（チビスポの問い合わせページを開く。実サービス：SNS運用代行・制作・個別コンサル）
 function svcAlert(kind){
-  const msg={sns:"SNS運用代行（月2万円〜）の申込ページへ（プレビューのため準備中）",
-    hp:"HP・ページ制作（4万円〜）の相談ページへ（プレビューのため準備中）",
-    consult:"個別コンサル（60分・月5枠）の予約ページへ（プレビューのため準備中）"};
-  alert(msg[kind]||msg.consult);
+  const m={sns:{t:"SNS運用代行（月2万円〜）",d:"投稿づくりから丸ごと任せられます。"},
+    hp:{t:"制作の相談（HP・紹介カードなど）",d:"4万円〜。デザインから印刷データまで。"},
+    consult:{t:"個別コンサル（60分）",d:"あなたのデータを一緒に見ながら、次の一手を決めます。"}};
+  const s=m[kind]||m.consult;
+  if(confirm(s.t+"\n"+s.d+"\n\nお問い合わせページを開きますか？"))window.open("../contact.html","_blank","noopener");
 }
 
 /* ================= タブ ================= */
@@ -1628,12 +1630,86 @@ function rpApplyRealHome(d){
   k.appendChild(g);
   // 逆算バナーは実データ（会員数・目標）で再計算。AIレポート/タイムラインは実データ蓄積待ちを明示
   rpRealRevBanner(d);
-  rpMarkSample("demo-home-ai","※これはサンプルです。データがたまると毎月あなたのクラブ向けに自動生成されます");
+  rpRealHomeAI(d); // AIコーチの提案＝実データから生成（サンプル置き換え）
   rpRealTimeline(d); // タイムラインは実データ（履歴が無い段は点線）
   rpRecHistory(); // 記録・設定タブの履歴リスト
 }
 // ===== 実データ描画（0でも構造・グラフを必ず描く。サンプル数字は出さない） =====
 var RP_GRID=function(){return C('--grid')||'#e7e4dc';};
+// ---- ホーム「AIコーチの提案」（実データ版）----
+// デモの固定サンプルを置き換え、実データのサマリーをWorkerに送ってHaikuが優先度付きの施策3つを生成する
+function rpRealHomeAI(d){
+  var sec=document.getElementById("demo-home-ai"); if(!sec)return;
+  var ar=(d&&d.ai_report)||{};
+  var rep=ar.report||null, q=ar.quota||{used:0,limit:3};
+  var left=Math.max(0,(q.limit||3)-(q.used||0));
+  var when=ar.at?new Date(ar.at):null;
+  var badge=(when&&!isNaN(when))?((when.getMonth()+1)+"月"+when.getDate()+"日 生成"):"実データから生成";
+  var head='<div class="sec-head"><h2>AIコーチの提案</h2><span class="ai-badge">'+badge+'</span><span class="sub">あなたのクラブの実データから「次の一手」を提案</span>'
+    +'<span style="margin-left:auto;display:inline-flex;align-items:center;gap:8px"><span style="font-size:.68rem;color:var(--muted);white-space:nowrap">本日 '+(q.used||0)+'/'+(q.limit||3)+'回</span>'
+    +'<button class="btn sm" '+(left<=0?'disabled':'')+' onclick="rpHomeReportGen(this)">'+(rep?"更新":"生成する")+'</button></span></div>';
+  var cards='';
+  if(rep&&rep.length){
+    var cls={"高":"action p1","中":"action","低":"action p3"};
+    var tag={"高":"優先度 高","中":"優先度 中","低":"伸びしろ"};
+    cards=rep.map(function(a){
+      return '<div class="'+(cls[a.p]||'action')+'"><span class="tag">'+(tag[a.p]||'提案')+'</span><h3>'+rpEsc(a.title||'')+'</h3><p>'+rpEsc(a.body||'')+'</p>'+(a.why?'<div class="why">'+rpEsc(a.why)+'</div>':'')+'</div>';
+    }).join("");
+  }else{
+    cards='<div class="action" style="border-left-color:var(--baseline)"><span class="tag" style="background:var(--muted)">未生成</span><h3>実データから「次の一手」をAIが提案します</h3><p>右上の「生成する」を押してください。閲覧・申込・投稿・アンケートの実データをもとに、優先度付きで3つ提案します。</p><div class="why">データが少ないうちは「まず何を計測すべきか」を提案します。たまるほど具体的になります。</div></div>';
+  }
+  // 個別コンサル（実サービスの案内）は常設
+  cards+='<div class="action consult"><span class="tag" style="background:var(--ink)">個別コンサル</span><h3>もっと踏み込んだ戦略が必要なときは</h3><p>集客のプロがあなたのデータを一緒に見ながら<b>次の一手を60分で決めます</b>。</p><button class="btn" style="margin-top:8px" onclick="svcAlert(\'consult\')">相談を申し込む</button></div>';
+  sec.innerHTML=head+'<div class="action-grid">'+cards+'</div><div id="ai-report-note" class="sv-note"></div>';
+}
+// Workerに送る実データサマリー（この中身がそのままAIの根拠になる）
+function rpHomeReportSummary(d){
+  var manual=rpManualCollect();
+  var typeCounts={}; ((d&&d.posts)||[]).forEach(function(p){var t=p.post_type||"未分類";typeCounts[t]=(typeCounts[t]||0)+1;});
+  return {
+    page_views:(d&&d.analytics&&d.analytics.club&&+d.analytics.club.views)||0,
+    range_days:(d&&d.analytics&&d.analytics.range&&d.analytics.range.lookback_days)||30,
+    sns_views_total:((d&&d.post_stats)||[]).reduce(function(s,r){return s+(+r.total_views||0);},0),
+    posts_by_type:typeCounts,
+    clicks_by_media:((d&&d.clicks&&d.clicks.channels)||[]).map(function(c){return {name:rpChannelName(c),clicks:+c.clicks||0};}),
+    trials_form:(d&&d.trials&&+d.trials.total)||0,
+    trials_manual:manual.trial_manual||0,
+    attend:manual.attend||0,
+    joins_by_month:manual.joins_m||{},
+    members:manual.members||0,
+    goal:manual.goal||40,
+    survey:(d&&d.survey&&d.survey.result)?{total:d.survey.total,counts:d.survey.result.counts||{},numeric:d.survey.result.numeric||{}}:null,
+    recent_policies:(rpRecList()||[]).filter(function(r){return rpRecIsPolicy(r.k);}).map(function(r){return r.d+" "+(r.m||r.k);}).slice(-10)
+  };
+}
+function rpHomeReportGen(btn){
+  var club=(new URLSearchParams(location.search).get("club")||"").trim();
+  if(!rpToken()){alert("ログインが必要です");return;}
+  var orig=btn?btn.textContent:"";
+  if(btn){btn.disabled=true;btn.textContent="生成中…";}
+  rpAuthFetch(RP_TRACK+'/api/home/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,summary:rpHomeReportSummary(window.__realD||{})})})
+    .then(function(r){return r?r.json():{error:'session_expired'};})
+    .then(function(j){
+      if(j&&j.ok&&j.report){
+        if(window.__realD){
+          var prevQ=(window.__realD.ai_report&&window.__realD.ai_report.quota)||{used:0,limit:3};
+          window.__realD.ai_report={report:j.report,at:j.at||new Date().toISOString(),quota:{used:(j.used!=null?j.used:prevQ.used),limit:j.limit||prevQ.limit||3}};
+          rpRealHomeAI(window.__realD);
+        }
+        var note=document.getElementById("ai-report-note");
+        if(note){
+          if(j.unchanged)note.textContent="※ 前回からデータに変化がないため、保存済みの提案を表示しています（AIは実行していません）。";
+          else if(j.limit_reached)note.textContent="※ 本日の生成上限（"+(j.limit||3)+"回）に達しました。保存済みの提案を表示しています。";
+          else if(j.cached)note.textContent="※ さきほど生成した提案です（更新は約"+Math.ceil((j.wait||600)/60)+"分後から）。";
+          else note.textContent="";
+        }
+      }else{
+        if(btn){btn.disabled=false;btn.textContent=orig;}
+        if(j&&j.error==="not_ready")alert("サーバー側の準備（club_aiテーブル）が未完了です。");
+        else alert("生成に失敗しました："+((j&&(j.detail||j.error))||"不明"));
+      }
+    }).catch(function(){if(btn){btn.disabled=false;btn.textContent=orig;}alert("生成に失敗しました（通信エラー）");});
+}
 // ---- 手動記録のサーバー同期（localStorage=作業キャッシュ・Supabase=正本）----
 // 読み込み時：サーバーの値でローカルを上書き（他端末の変更を反映）。変更時：1.2秒後にまとめてサーバー保存
 function rpManualCollect(){
@@ -2412,6 +2488,7 @@ function rpApplyRealMode(){
           const d=await r.json();
           // GA4の有無に関係なく、ヘッダーを実クラブ名・実プランに差し替え
           if(d&&d.club&&d.club.name){
+            document.title=d.club.name+"のクラブ分析 | チビスポ"; // 実データ時は「プレビュー版」を外す
             const nEl=document.querySelector("header .club .name");if(nEl)nEl.textContent=d.club.name;
             const aEl=document.querySelector("header .club .avatar");if(aEl)aEl.textContent=(d.club.name.match(/[^\s（(]/)||["●"])[0];
             const pEl=document.querySelector("header .club .plan");
