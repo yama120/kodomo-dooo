@@ -1678,7 +1678,16 @@ function rpHomeReportSummary(d){
     joins_by_month:manual.joins_m||{},
     members:manual.members||0,
     goal:manual.goal||40,
-    survey:(d&&d.survey&&d.survey.result)?{total:d.survey.total,counts:d.survey.result.counts||{},numeric:d.survey.result.numeric||{}}:null,
+    // 満足度は生の{avg,n,max}を渡すとAIが「6.33/9」のように平均と回答数を混同するため、日本語の文にして渡す
+    survey:(d&&d.survey&&d.survey.result)?{
+      回答数:d.survey.total,
+      どこで知ったか:d.survey.result.counts||{},
+      満足度:Object.keys(d.survey.result.numeric||{}).map(function(k){
+        var m=d.survey.result.numeric[k];
+        if(typeof m.nps==="number")return k+"：おすすめ度(NPS)＝"+m.nps+"（0〜10点で平均"+m.avg+"点・回答"+m.n+"件）";
+        return k+"：平均"+m.avg+"点（"+(m.max<=5?5:m.max)+"点満点・回答"+m.n+"件）";
+      })
+    }:null,
     recent_policies:(rpRecList()||[]).filter(function(r){return rpRecIsPolicy(r.k);}).map(function(r){return r.d+" "+(r.m||r.k);}).slice(-10)
   };
 }
