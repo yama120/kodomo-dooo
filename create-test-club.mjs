@@ -23,9 +23,19 @@ const TEST_EMAIL = "app-test@chibispo.com";
 const TEST_CLUB_NAME = "テストFC（アプリ検証用）";
 
 if (!KEY) { console.error("✗ SUPABASE_SERVICE_KEY が未設定です。"); process.exit(1); }
-const h = KEY.startsWith("sb_")
-  ? { apikey: KEY, "Content-Type": "application/json" }
-  : { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" };
+// クリップボードにキー以外（コマンド文など）が入ったまま実行される事故を防ぐ
+const KEY_TRIMMED = KEY.trim();
+if (!/^(sb_secret_[A-Za-z0-9_-]+|eyJ[A-Za-z0-9_.-]+)$/.test(KEY_TRIMMED)) {
+  console.error(`✗ クリップボードの中身がSupabaseのキーではありません（先頭: "${KEY_TRIMMED.slice(0, 30)}..."）。
+  手順：
+   1. まずこのコマンドをターミナルに貼る（まだEnterしない）
+   2. Supabaseの Settings → API Keys で sb_secret_... をコピー
+   3. ターミナルに戻って Enter`);
+  process.exit(1);
+}
+const h = KEY_TRIMMED.startsWith("sb_")
+  ? { apikey: KEY_TRIMMED, "Content-Type": "application/json" }
+  : { apikey: KEY_TRIMMED, Authorization: `Bearer ${KEY_TRIMMED}`, "Content-Type": "application/json" };
 
 async function api(path, init) {
   const r = await fetch(`${URL_BASE}${path}`, { ...init, headers: { ...h, ...(init?.headers || {}) } });
