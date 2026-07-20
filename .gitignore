@@ -1,3 +1,4 @@
 db-*.sql
 install-ga4.mjs
 .DS_Store
+test-club-credentials.local.txt

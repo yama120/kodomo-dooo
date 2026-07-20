@@ -13,6 +13,7 @@
  *   3. ターミナルに戻って Enter
  */
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 
 const URL_BASE = "https://emkpkomrgknzrmxqbrvx.supabase.co";
 const KEY = process.env.SUPABASE_SERVICE_KEY || "";
@@ -76,12 +77,15 @@ if (userId) {
   console.log(`✓ ユーザー作成: ${userId}`);
 }
 
-// ★ 以降で何が失敗してもログイン情報は失われないよう、先に表示する
+// ★ 以降で何が失敗してもログイン情報は失われないよう、先に表示＋ファイル保存
+//   （スクリーンショット転記のミスを避けるため、Claudeはこのファイルを直接読む）
+writeFileSync("test-club-credentials.local.txt", `email=${TEST_EMAIL}\npassword=${password}\n`);
 console.log(`
 ============================================
-✅ テスト用ログイン情報（チャットに貼ってOK）:
+✅ テスト用ログイン情報:
   メール:     ${TEST_EMAIL}
   パスワード: ${password}
+  → test-club-credentials.local.txt にも保存しました（Claudeが直接読みます）
 ============================================
 `);
 
