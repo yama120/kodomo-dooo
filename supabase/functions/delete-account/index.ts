@@ -65,6 +65,12 @@ serve(async (req) => {
       } catch (e) { steps.trial_requests = String(e); }
     }
 
+    // 4b) 自分が関与するブロック（他人にブロックされている行は cascade しないので明示削除）
+    try {
+      await admin.from('user_blocks').delete().eq('blocked_user_id', uid);
+      steps.user_blocks = 'cleaned';
+    } catch (e) { steps.user_blocks = 'skip:' + String(e); }
+
     // 5) クラブ運営者の場合：所有クラブを非公開化（データは残すが公開停止）
     try {
       const { data: teams } = await admin.from('teams').select('id').eq('user_id', uid);
