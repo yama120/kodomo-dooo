@@ -15,6 +15,7 @@ serve(async (req) => {
 
   const {
     type,
+    team_id,
     team_name,
     team_email,
     team_instagram,
@@ -158,6 +159,29 @@ serve(async (req) => {
     results.push({ to: 'admin', status: adminRes.status });
   } catch (e) {
     results.push({ to: 'admin', error: String(e) });
+  }
+
+  // 4) クラブ運営者にプッシュ通知（アプリ版・トークンがあれば）
+  if (isTrial && team_id) {
+    try {
+      const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
+      const ANON = Deno.env.get('SUPABASE_ANON_KEY')!;
+      const secret = Deno.env.get('PUSH_TRIGGER_SECRET') || '';
+      const pr = await fetch(`${SUPABASE_URL}/functions/v1/send-push`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` },
+        body: JSON.stringify({
+          team_id,
+          title: '新しい体験申込が届きました',
+          body: `${team_name}に体験の申込がありました。受信箱で確認しましょう。`,
+          data: { kind: 'trial', team_id },
+          secret,
+        }),
+      });
+      results.push({ to: 'push', status: pr.status });
+    } catch (e) {
+      results.push({ to: 'push', error: String(e) });
+    }
   }
 
   return new Response(JSON.stringify({ results }), {
