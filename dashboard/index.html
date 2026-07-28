@@ -731,13 +731,20 @@ if(gotoParam){
     clearInterval(gotoTick);
     setTimeout(function(){
       if(gotoParam==="qr"){ if(typeof openModal==="function")openModal(); return; }
-      const el=document.getElementById(gotoParam);
-      if(el){
+      // __realD確定後もグラフ描画でレイアウトが縦に伸びることがあり、
+      // 1回きりのscrollIntoViewだと描画完了前の位置に着地して外れることがある。
+      // 少し間を置いてもう一度合わせ直す
+      const doScroll=function(){
+        const el=document.getElementById(gotoParam);
+        if(!el)return;
         el.scrollIntoView({behavior:"smooth",block:"start"});
         el.style.transition="box-shadow .3s";
         el.style.boxShadow="0 0 0 3px var(--primary,#2270e0)";
-        setTimeout(function(){el.style.boxShadow="";},1600);
-      }
+        clearTimeout(el.__gotoFade);
+        el.__gotoFade=setTimeout(function(){el.style.boxShadow="";},1600);
+      };
+      doScroll();
+      setTimeout(doScroll,1200);
     },300); // 直前の再描画が完了しきるのを少し待つ
   },200);
 }
