@@ -448,7 +448,13 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       <p id="cd-trial-team" style="margin:0 0 18px;font-size:12.5px;color:#8a95a0;"></p>
 
       <div id="cd-trial-form">
-        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:0 0 5px;">お子さまの学年 <span style="color:#e0344c;font-size:11px;">必須</span></label>
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:0 0 5px;">お子さまのお名前 <span style="color:#e0344c;font-size:11px;">必須</span></label>
+        <input id="tr-child" type="text" placeholder="例：山田 太郎" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">お名前の読み方（任意）</label>
+        <input id="tr-kana" type="text" placeholder="例：やまだ たろう" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+
+        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">お子さまの学年 <span style="color:#e0344c;font-size:11px;">必須</span></label>
         <select id="tr-grade" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
           <option value="">選択してください</option>
           <option>未就学（年少以下）</option><option>年中</option><option>年長</option>
@@ -470,22 +476,29 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">保護者のお名前 <span style="color:#e0344c;font-size:11px;">必須</span></label>
         <input id="tr-name" type="text" placeholder="例：山田 花子" autocomplete="name" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
 
-        <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">連絡先メールアドレス <span style="color:#e0344c;font-size:11px;">必須</span></label>
-        <input id="tr-email" type="email" placeholder="you@example.com" autocomplete="email" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+        <!-- ログイン中はアカウントのアドレスを使うので入力させない。
+             やり取りはチャットで完結する方針のため、メールは通知の宛先としてのみ使う -->
+        <div id="tr-email-wrap">
+          <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">連絡先メールアドレス <span style="color:#e0344c;font-size:11px;">必須</span></label>
+          <input id="tr-email" type="email" placeholder="you@example.com" autocomplete="email" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;">
+        </div>
 
         <label style="display:block;font-size:12.5px;font-weight:700;color:#3a4550;margin:14px 0 5px;">メッセージ（任意）</label>
         <textarea id="tr-msg" rows="3" maxlength="500" placeholder="質問や気になることがあればどうぞ" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
 
         <div id="tr-err" style="display:none;background:#fdecee;color:#c0314b;border-radius:9px;padding:10px 13px;font-size:12.5px;margin-top:12px;line-height:1.6;"></div>
         <button id="tr-submit" style="width:100%;margin-top:16px;padding:15px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 6px 14px rgba(234,59,126,.26);">この内容で申し込む</button>
-        <p style="margin:10px 0 0;font-size:11px;color:#aab1bb;text-align:center;line-height:1.7;">送信した内容はこのクラブの運営者にのみ共有されます。</p>
+        <p style="margin:10px 0 0;font-size:11px;color:#aab1bb;text-align:center;line-height:1.7;">申込後、そのままクラブとメッセージでやり取りできます。</p>
       </div>
 
       <div id="cd-trial-done" style="display:none;text-align:center;padding:20px 0 10px;">
         <div style="font-size:40px;margin-bottom:10px;">🎉</div>
         <div style="font-size:17px;font-weight:900;color:#1f2a37;margin-bottom:8px;">申込みを送信しました！</div>
-        <p style="margin:0;font-size:13px;color:#54606e;line-height:1.9;">クラブから連絡が届くまでお待ちください。<br>返信が無い場合は、クラブのSNS等から直接お問い合わせください。</p>
-        <button id="cd-trial-done-close" style="margin-top:18px;background:#fff;border:1.5px solid #d7dbe0;color:#3a4550;border-radius:999px;padding:11px 30px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;">閉じる</button>
+        <p id="cd-trial-done-msg" style="margin:0;font-size:13px;color:#54606e;line-height:1.9;">クラブから連絡が届くまでお待ちください。</p>
+        <!-- ログイン中：そのままチャットへ／未ログイン：会員登録を促す -->
+        <a id="cd-trial-chat" href="mypage.html" style="display:none;margin-top:16px;background:#f0435c;color:#fff;border-radius:999px;padding:13px 30px;font-size:14px;font-weight:800;text-decoration:none;">メッセージを開く</a>
+        <a id="cd-trial-signup" href="login.html" style="display:none;margin-top:16px;background:#f0435c;color:#fff;border-radius:999px;padding:13px 30px;font-size:14px;font-weight:800;text-decoration:none;">無料で会員登録する</a>
+        <button id="cd-trial-done-close" style="margin-top:14px;background:#fff;border:1.5px solid #d7dbe0;color:#3a4550;border-radius:999px;padding:11px 30px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:block;margin-left:auto;margin-right:auto;">閉じる</button>
       </div>
     </div>
   </div>
@@ -790,10 +803,29 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     var exp='';
     function el(x){ return document.getElementById(x); }
     function show(o){ modal.style.display=o?'flex':'none'; if(o){ el('cd-trial-form').style.display='block'; el('cd-trial-done').style.display='none'; } }
+    /* ログイン状態を取っておく。ログイン中は本人として申込を登録し
+       （user_idが入る＝そのままチャットが使える）、メール欄も隠す */
+    function loadMe(){
+      var A=window.ChibiAuth;
+      if(!A||!A.ready()) return Promise.resolve(null);
+      var db=A.client(); if(!db) return Promise.resolve(null);
+      return db.auth.getSession().then(function(r){
+        var ses=r&&r.data&&r.data.session;
+        if(!ses) return null;
+        window._cdMyToken=ses.access_token;
+        window._cdMyUid=ses.user&&ses.user.id;
+        window._cdMyEmail=ses.user&&ses.user.email;
+        return ses;
+      }).catch(function(){ return null; });
+    }
     openBtns.forEach(function(btn){
       btn.addEventListener('click',function(){
         var nm=document.getElementById('cd-name'); var teamName=nm?nm.textContent.trim():'';
         el('cd-trial-team').textContent = teamName ? teamName+' への体験申込みです。' : '';
+        loadMe().then(function(){
+          var w=el('tr-email-wrap');
+          if(w) w.style.display = window._cdMyEmail ? 'none' : 'block';
+        });
         show(true);
       });
     });
@@ -813,28 +845,61 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       var err=el('tr-err');
       function fail(t){ err.style.display='block'; err.textContent=t; }
       err.style.display='none';
-      var grade=el('tr-grade').value, name=el('tr-name').value.trim(), email=el('tr-email').value.trim();
+      var grade=el('tr-grade').value, name=el('tr-name').value.trim();
+      var child=el('tr-child').value.trim(), kana=el('tr-kana').value.trim();
+      // ログイン中はアカウントのアドレスを使う（入力欄は隠してある）
+      var email=(window._cdMyEmail || el('tr-email').value.trim());
+      if(!child) return fail('お子さまのお名前を入力してください。');
       if(!grade) return fail('お子さまの学年を選択してください。');
       if(!name) return fail('保護者のお名前を入力してください。');
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('メールアドレスの形式が正しくありません。');
+      var childLabel = kana ? (child+'（'+kana+'）') : child;
       el('tr-submit').disabled=true; el('tr-submit').textContent='送信中...';
       var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
       // return=minimal＝挿入行を返さない。anonはSELECT権限が無い（他人の申込を読めない設計）ため、
       // 行を返す(representation)とSELECTが要求され permission denied になる。minimalなら保存だけで通る。
-      fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/trial_requests',{
+      /* ログイン中は本人のトークンで登録する。user_idが入り、
+         そのままチャットが使える（未ログインはanonのまま＝従来どおり） */
+      var myTok = window._cdMyToken || null;
+      var wantRow = !!myTok;   // ログイン中だけ作成行のidを受け取る
+      fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/trial_requests' + (wantRow ? '?select=id' : ''),{
         method:'POST',
-        headers:{ apikey:ANON, Authorization:'Bearer '+ANON, 'Content-Type':'application/json', Prefer:'return=minimal' },
+        headers:{ apikey:ANON, Authorization:'Bearer '+(myTok||ANON), 'Content-Type':'application/json',
+                  Prefer: wantRow ? 'return=representation' : 'return=minimal' },
         body:JSON.stringify({
-          team_id:TEAM_ID, child_grade:grade, experience_level:exp||null,
+          team_id:TEAM_ID, child_name:childLabel, child_grade:grade, experience_level:exp||null,
           preferred_date_1:el('tr-date1').value.trim()||null,
           preferred_date_2:el('tr-date2').value.trim()||null,
           parent_name:name, parent_email:email,
+          user_id: window._cdMyUid || null,
           message:el('tr-msg').value.trim()||null
         })
       }).then(function(r){
         el('tr-submit').disabled=false; el('tr-submit').textContent='この内容で申し込む';
         if(!r.ok){ fail('送信に失敗しました。時間をおいて再度お試しください。'); return; }
         el('cd-trial-form').style.display='none'; el('cd-trial-done').style.display='block';
+        if(window._cdMyToken){
+          el('cd-trial-chat').style.display='inline-block';
+          el('cd-trial-done-msg').innerHTML='このままクラブとメッセージでやり取りできます。';
+        }else{
+          el('cd-trial-signup').style.display='inline-block';
+          el('cd-trial-done-msg').innerHTML='クラブから連絡が届くまでお待ちください。<br>会員登録すると、メールを使わずこの画面上でやり取りできます。';
+        }
+        // 申込内容を最初のメッセージとしてチャットに流す（ログイン時のみ）
+        if(wantRow){
+          r.json().then(function(rows){
+            var tid=(rows&&rows[0]&&rows[0].id)||null;
+            if(!tid) return;
+            var lines=['体験を申し込みました。','お子さま：'+childLabel+'（'+grade+'）'];
+            if(el('tr-date1').value.trim()) lines.push('希望日：'+el('tr-date1').value.trim());
+            if(el('tr-msg').value.trim()) lines.push('\n'+el('tr-msg').value.trim());
+            fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/trial_messages',{
+              method:'POST',
+              headers:{apikey:ANON, Authorization:'Bearer '+myTok, 'Content-Type':'application/json', Prefer:'return=minimal'},
+              body:JSON.stringify({trial_id:tid, sender_role:'parent', sender_id:window._cdMyUid, body:lines.join('\n')})
+            }).catch(function(){});
+          }).catch(function(){});
+        }
         // 通知メール（クラブ・保護者・管理者）— 旧サイトと同じ send-trial-notify を呼ぶ
         try{
           var tm = window._cdTeam || {};
@@ -845,7 +910,8 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
               team_name: tm.name||'', team_email: tm.email||null, team_instagram: tm.instagram||null,
               sport: tm.sport||'', pref: tm.pref||'', city: tm.city||'',
               parent_name: name, parent_email: email,
-              child_name: null, child_name_kana: null, child_age: null, child_grade: grade,
+              team_id: TEAM_ID,
+              child_name: childLabel, child_name_kana: kana||null, child_age: null, child_grade: grade,
               message: el('tr-msg').value.trim()||null
             })
           }).catch(function(err){ console.warn('通知メール送信失敗:',err); });
