@@ -81,6 +81,13 @@
     </div>
   </section>
 
+  <!-- 体験申込とクラブとのやり取り（ログイン時のみ表示） -->
+  <section id="mp-trials-sec" style="margin-top:30px;display:none;">
+    <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:21px;font-weight:900;">体験申込とメッセージ</h2>
+    <p style="margin:0 0 18px;font-size:12.5px;color:#8a93a0;">クラブとのやり取りはこの画面で完結します。メールアドレスは相手に表示されません。</p>
+    <div id="mp-trials"></div>
+  </section>
+
   <!-- アカウント -->
   <section style="margin-top:34px;">
     <!-- 未ログイン -->
@@ -132,6 +139,25 @@
     </div>
   </section>
 
+</div>
+
+<!-- クラブとのチャット -->
+<div id="mp-chat-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80;align-items:flex-end;justify-content:center;">
+  <div style="background:#fff;width:100%;max-width:560px;border-radius:18px 18px 0 0;max-height:88vh;display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid #eef0f2;">
+      <div style="flex:1;min-width:0;">
+        <div id="mp-chat-title" style="font-size:15px;font-weight:900;color:#1f2a37;"></div>
+        <div id="mp-chat-sub" style="font-size:11.5px;color:#8a93a0;margin-top:2px;"></div>
+      </div>
+      <button id="mp-chat-close" style="width:32px;height:32px;border:none;border-radius:50%;background:#f0eeea;color:#5b6573;font-size:16px;cursor:pointer;">×</button>
+    </div>
+    <div id="mp-chat-body" style="flex:1;overflow-y:auto;padding:16px 18px;background:#fafbfc;"></div>
+    <div style="padding:12px 18px 18px;border-top:1px solid #eef0f2;display:flex;gap:8px;">
+      <input id="mp-chat-input" type="text" placeholder="メッセージを入力" maxlength="1000"
+        style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:999px;padding:12px 16px;font-size:15px;font-family:inherit;outline:none;">
+      <button id="mp-chat-send" style="flex:0 0 auto;border:none;border-radius:999px;background:#f0435c;color:#fff;font-size:14px;font-weight:800;padding:0 20px;cursor:pointer;">送信</button>
+    </div>
+  </div>
 </div>
 
 <script src="supabase-lite.js"></script>
@@ -193,6 +219,193 @@
         ct.disabled = false;
       });
     }
+
+  /* ===== 体験申込とクラブとのやり取り =====
+     アプリ（chibispo-app）と同じ trial_requests / trial_messages / trial_reads を使う。
+     Web版はこれまでメール（クラブと保護者の実アドレス）でのやり取りしか
+     手段が無かったため、個人情報を出さずに済むこの経路を用意する。 */
+  var TRIAL_LABEL = {
+    'new':      { t: '受付済み・クラブ確認中', c: '#b97f00', bg: '#fff7e6' },
+    'attended': { t: '体験に参加しました',     c: '#2270e0', bg: '#eef4ff' },
+    'joined':   { t: '入会しました',           c: '#1f8a5b', bg: '#eafaf0' },
+    'lost':     { t: '見送り',            c: '#8a93a0', bg: '#f3f4f6' }
+  };
+  var chatState = { trialId: null, clubName: '', timer: null };
+  var SB_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+
+  // supabase-lite が対応していないクエリ（in など）用。RLSは効いたまま
+  function authToken() {
+    var db = A.client(); if (!db) return Promise.resolve(null);
+    return db.auth.getSession().then(function (r) {
+      return (r && r.data && r.data.session && r.data.session.access_token) || null;
+    }).catch(function () { return null; });
+  }
+  function restGet(q) {
+    return authToken().then(function (tok) {
+      if (!tok) return [];
+      return fetch(SB_URL + '/rest/v1/' + q, { headers: { apikey: SB_ANON, Authorization: 'Bearer ' + tok } })
+        .then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+    });
+  }
+
+  function trialStatus(st) { return TRIAL_LABEL[st] || TRIAL_LABEL['new']; }
+
+  function loadTrials() {
+    var db = A.client(); if (!db) return;
+    var sec = $('mp-trials-sec'), host = $('mp-trials');
+    if (!sec || !host) return;
+    A.getUser().then(function (u) {
+      if (!u) return;
+      // RLSで本人の申込だけが返る（user_id一致 or メール一致）
+      db.from('trial_requests')
+        .select('id,team_id,child_name,child_grade,status,created_at')
+        .order('created_at', { ascending: false })
+        .then(function (res) {
+          var rows = (res && res.data) || [];
+          if (!rows.length) { sec.style.display = 'none'; return; }
+          sec.style.display = 'block';
+          // クラブ名と未読をまとめて取る。
+          // supabase-lite には in() が無いので、この3本だけRESTを直接叩く
+          var teamIds = rows.map(function (r) { return r.team_id; }).filter(Boolean);
+          var trialIds = rows.map(function (r) { return r.id; });
+          Promise.all([
+            restGet('teams?select=id,name&id=in.(' + teamIds.join(',') + ')'),
+            restGet('trial_messages?select=trial_id,sender_role,created_at&trial_id=in.(' + trialIds.join(',') + ')'),
+            restGet('trial_reads?select=trial_id,last_read_at&user_id=eq.' + u.id + '&trial_id=in.(' + trialIds.join(',') + ')')
+          ]).then(function (r3) {
+            var names = {}; (r3[0] || []).forEach(function (t) { names[t.id] = t.name; });
+            var readAt = {}; (r3[2] || []).forEach(function (r) { readAt[r.trial_id] = Date.parse(r.last_read_at); });
+            var unread = {};
+            (r3[1] || []).forEach(function (m) {
+              if (m.sender_role === 'parent') return;         // 自分の発言は数えない
+              var seen = readAt[m.trial_id];
+              if (!seen || Date.parse(m.created_at) > seen) unread[m.trial_id] = (unread[m.trial_id] || 0) + 1;
+            });
+            host.innerHTML = rows.map(function (r) {
+              var st = trialStatus(r.status);
+              var nm = names[r.team_id] || 'クラブ';
+              var child = [r.child_name, r.child_grade].filter(Boolean).join('・');
+              var n = unread[r.id] || 0;
+              var badge = n ? '<span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#f0435c;color:#fff;font-size:11px;font-weight:900;margin-left:6px;">' + n + '</span>' : '';
+              return '<div style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:18px 20px;margin-bottom:12px;">' +
+                '<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">' +
+                  '<div style="flex:1;min-width:0;">' +
+                    '<div style="font-family:\'Zen Maru Gothic\',sans-serif;font-size:16px;font-weight:900;color:#1f2a37;">' + esc(nm) + '</div>' +
+                    '<div style="font-size:12px;color:#8a93a0;margin-top:2px;">' + esc(child || 'お子さま') + ' ・ ' + String(r.created_at || '').slice(0, 10) + ' 申込</div>' +
+                  '</div>' +
+                  '<span style="flex:0 0 auto;font-size:11.5px;font-weight:800;color:' + st.c + ';background:' + st.bg + ';padding:6px 12px;border-radius:999px;">' + st.t + '</span>' +
+                '</div>' +
+                '<button data-chat="' + esc(r.id) + '" data-club="' + esc(nm) + '" data-child="' + esc(child) + '" ' +
+                  'style="width:100%;margin-top:14px;background:#fff;border:1.5px solid #f0435c;color:#f0435c;border-radius:10px;padding:11px 0;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;">' +
+                  'メッセージ' + badge + '</button>' +
+              '</div>';
+            }).join('');
+            host.querySelectorAll('[data-chat]').forEach(function (b) {
+              b.addEventListener('click', function () {
+                openChat(b.getAttribute('data-chat'), b.getAttribute('data-club'), b.getAttribute('data-child'));
+              });
+            });
+          });
+        });
+    });
+  }
+
+  function renderMessages(list) {
+    var body = $('mp-chat-body');
+    if (!list.length) {
+      body.innerHTML = '<p style="text-align:center;color:#aab1bb;font-size:13px;padding:30px 0;">まだメッセージはありません。<br>日程の相談などにご利用ください。</p>';
+      return;
+    }
+    body.innerHTML = list.map(function (m) {
+      var mine = m.sender_role === 'parent';
+      var time = new Date(m.created_at);
+      var hm = (time.getMonth() + 1) + '/' + time.getDate() + ' ' + String(time.getHours()).padStart(2, '0') + ':' + String(time.getMinutes()).padStart(2, '0');
+      return '<div style="display:flex;justify-content:' + (mine ? 'flex-end' : 'flex-start') + ';margin-bottom:12px;">' +
+        '<div style="max-width:78%;">' +
+          '<div style="background:' + (mine ? '#f0435c' : '#fff') + ';color:' + (mine ? '#fff' : '#1f2a37') + ';border:1px solid ' + (mine ? '#f0435c' : '#e6e9ed') + ';border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;">' + esc(m.body) + '</div>' +
+          '<div style="font-size:10.5px;color:#aab1bb;margin-top:4px;text-align:' + (mine ? 'right' : 'left') + ';">' + hm + '</div>' +
+        '</div></div>';
+    }).join('');
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function fetchMessages() {
+    var db = A.client(); if (!db || !chatState.trialId) return;
+    db.from('trial_messages')
+      .select('id,sender_role,body,created_at')
+      .eq('trial_id', chatState.trialId)
+      .order('created_at', { ascending: true })
+      .then(function (res) { renderMessages((res && res.data) || []); });
+  }
+
+  function openChat(trialId, clubName, child) {
+    chatState.trialId = trialId; chatState.clubName = clubName;
+    $('mp-chat-title').textContent = clubName;
+    $('mp-chat-sub').textContent = (child ? child + 'の' : '') + '体験申込について';
+    $('mp-chat-bg').style.display = 'flex';
+    $('mp-chat-body').innerHTML = '<p style="text-align:center;color:#aab1bb;font-size:13px;padding:30px 0;">読み込み中…</p>';
+    fetchMessages();
+    markRead(trialId);
+    // 相手の返信を拾うため、開いている間だけ軽くポーリングする
+    clearInterval(chatState.timer);
+    chatState.timer = setInterval(fetchMessages, 15000);
+  }
+
+  function closeChat() {
+    $('mp-chat-bg').style.display = 'none';
+    clearInterval(chatState.timer);
+    chatState.timer = null;
+    chatState.trialId = null;
+    loadTrials();   // 未読バッジを更新
+  }
+
+  function markRead(trialId) {
+    var db = A.client(); if (!db) return;
+    A.getUser().then(function (u) {
+      if (!u) return;
+      db.from('trial_reads').upsert(
+        { trial_id: trialId, user_id: u.id, last_read_at: new Date().toISOString() },
+        { onConflict: 'trial_id,user_id' }
+      ).then(function () {});
+    });
+  }
+
+  function sendMessage() {
+    var db = A.client(); if (!db || !chatState.trialId) return;
+    var inp = $('mp-chat-input');
+    var text = (inp.value || '').trim();
+    if (!text) return;
+    var btn = $('mp-chat-send');
+    btn.disabled = true; inp.value = '';
+    A.getUser().then(function (u) {
+      if (!u) { btn.disabled = false; return; }
+      db.from('trial_messages').insert({
+        trial_id: chatState.trialId, sender_role: 'parent', sender_id: u.id, body: text
+      }).then(function (res) {
+        btn.disabled = false;
+        if (res && res.error) { inp.value = text; alert('送信に失敗しました。時間をおいてお試しください。'); return; }
+        fetchMessages();
+        // クラブへプッシュ通知（アプリ側と同じEdge Function。失敗しても送信は成立）
+        authToken().then(function (tok) {
+          if (!tok) return;
+          fetch(SB_URL + '/functions/v1/notify-message', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ trial_id: chatState.trialId, body: text })
+          }).catch(function () {});
+        });
+      });
+    });
+  }
+
+  (function bindChat() {
+    var c = $('mp-chat-close'); if (c) c.addEventListener('click', closeChat);
+    var bg = $('mp-chat-bg'); if (bg) bg.addEventListener('click', function (e) { if (e.target === bg) closeChat(); });
+    var s = $('mp-chat-send'); if (s) s.addEventListener('click', sendMessage);
+    var i = $('mp-chat-input'); if (i) i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); sendMessage(); } });
+  })();
+
     if (!A || !A.ready()) { $('mp-account-out').style.display = 'block'; return; }
     A.getProfile().then(function (prof) {
       if (!prof) { $('mp-account-out').style.display = 'block'; return; }
@@ -200,6 +413,7 @@
       if (prof.role === 'club') { location.href = 'club-mypage.html'; return; }
       A.hasTeam().then(function (isClub) { if (isClub) location.href = 'club-mypage.html'; });
       $('mp-account-in').style.display = 'block';
+      loadTrials();
       $('mp-email').textContent = prof.email || '-';
       $('mp-display').value = prof.display_name || '';
       // 姓/名（無ければ full_name を空白で分割）
