@@ -56,9 +56,9 @@ serve(async (req) => {
             <p>チビスポ経由で${typeLabel}が届きました。<br/>
             <strong>保護者の個人情報保護のため、内容はマイページでご確認ください。</strong></p>
             <table style="border-collapse:collapse;width:100%;max-width:500px;margin:16px 0;">
-              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">種別</td><td style="padding:8px;border:1px solid #ddd;">${typeLabelEmoji}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">種目</td><td style="padding:8px;border:1px solid #ddd;">${sport}</td></tr>
-              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">エリア</td><td style="padding:8px;border:1px solid #ddd;">${pref} ${city}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">種別</td><td style="padding:8px;border:1px solid #ddd;">${typeLabelEmoji}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">種目</td><td style="padding:8px;border:1px solid #ddd;">${sport}</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">エリア</td><td style="padding:8px;border:1px solid #ddd;">${pref} ${city}</td></tr>
             </table>
             <p style="margin-top:20px;">
               <a href="https://chibispo.com/mypage.html" style="background:#ff8c1a;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block;">マイページで詳細を確認する</a>
@@ -81,8 +81,8 @@ serve(async (req) => {
   // 2) 保護者に受付完了通知（クラブのメアドは載せない）
   try {
     const trialRows = isTrial ? `
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">お子さまのお名前</td><td style="padding:8px;border:1px solid #ddd;">${child_name || '—'}${child_name_kana ? `（${child_name_kana}）` : ''}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">学年・年齢</td><td style="padding:8px;border:1px solid #ddd;">${child_age}歳・${child_grade}</td></tr>` : '';
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">お子さまのお名前</td><td style="padding:8px;border:1px solid #ddd;">${child_name || '—'}${child_name_kana ? `（${child_name_kana}）` : ''}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">学年・年齢</td><td style="padding:8px;border:1px solid #ddd;">${child_age}歳・${child_grade}</td></tr>` : '';
 
     const parentRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -95,19 +95,34 @@ serve(async (req) => {
         to: parent_email,
         subject: `【チビスポ】${typeLabel}を受け付けました：${team_name}`,
         html: `
-          <h2 style="color:#ff6b00;">${typeLabel}を受け付けました</h2>
+          <h2 style="color:#f0435c;">${typeLabel}を受け付けました</h2>
           <p>${parent_name}様</p>
           <p>このたびは「<strong>${team_name}</strong>」への${typeLabel}ありがとうございます。</p>
-          <p>内容はクラブに通知されており、数日以内にクラブから直接ご${isTrial ? '連絡' : '返信'}が入ります。<br/>
+          <p>内容はクラブに通知されており、数日以内にクラブからご${isTrial ? '連絡' : '返信'}が入ります。<br/>
           しばらくお待ちください。</p>
+
+          <div style="background:#fdedef;border-radius:12px;padding:16px 18px;margin:18px 0;max-width:500px;">
+            <p style="margin:0 0 6px;font-size:14px;font-weight:bold;color:#21315b;">マイページでクラブとやり取りできます</p>
+            <p style="margin:0 0 12px;font-size:13px;line-height:1.8;color:#4a5468;">
+              日程の相談や質問は、メールではなくマイページのメッセージでやり取りできます。
+              メールアドレスを相手に知らせずに済み、やり取りが1か所にまとまります。
+            </p>
+            <a href="https://chibispo.com/mypage.html"
+               style="display:inline-block;background:#f0435c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;padding:11px 24px;border-radius:10px;">
+              マイページを開く
+            </a>
+            <p style="margin:10px 0 0;font-size:11.5px;color:#7a8299;">
+              ※このメールアドレス（${parent_email}）でログインすると、この申込が表示されます。
+            </p>
+          </div>
           <table style="border-collapse:collapse;width:100%;max-width:500px;margin:16px 0;">
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">種別</td><td style="padding:8px;border:1px solid #ddd;">${typeLabelEmoji}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">クラブ名</td><td style="padding:8px;border:1px solid #ddd;">${team_name}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">種目</td><td style="padding:8px;border:1px solid #ddd;">${sport}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fff7ed;">エリア</td><td style="padding:8px;border:1px solid #ddd;">${pref} ${city}</td></tr>${trialRows}
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">種別</td><td style="padding:8px;border:1px solid #ddd;">${typeLabelEmoji}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">クラブ名</td><td style="padding:8px;border:1px solid #ddd;">${team_name}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">種目</td><td style="padding:8px;border:1px solid #ddd;">${sport}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#fdedef;">エリア</td><td style="padding:8px;border:1px solid #ddd;">${pref} ${city}</td></tr>${trialRows}
           </table>
           <p style="font-size:13px;color:#64748b;margin-top:24px;">
-            ※返信メールは${team_name}から直接届きます。<br/>
+            ※クラブからの返信は、マイページのメッセージまたはメールで届きます。<br/>
             ※迷惑メールフォルダもご確認ください。<br/>
             ※数日たっても連絡がない場合は <a href="mailto:info@chibispo.com">info@chibispo.com</a> までご連絡ください。
           </p>
