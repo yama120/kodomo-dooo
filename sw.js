@@ -2,7 +2,7 @@
 // 方針：常に最新を取りに行き、成功したら控えにキャッシュ。オフライン時だけキャッシュを返す。
 //       → 「古いページを掴む」事故を避けつつ、インストール可能＆オフライン耐性を確保。
 // 対象：同一オリジンのGETのみ（Supabase/Googleマップ/フォント等の外部通信は素通し）。
-const CACHE = 'chibispo-v1';
+const CACHE = 'chibispo-v2';
 
 self.addEventListener('install', (e) => { self.skipWaiting(); });
 
