@@ -1031,13 +1031,16 @@
       if(empty) empty.style.display='none';
       list.innerHTML=rows.map(function(r){
         var isNew=r.status==='new';
+        var isQ=(r.type==='question');
         return '<div style="border:1px solid '+(isNew?'#f3c9da':'#eef1f3')+';border-radius:12px;padding:14px 16px;'+(isNew?'background:#fffafc;':'')+'">'
           + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:7px;">'
-            + '<span style="font-size:13.5px;font-weight:800;color:#1f2a37;">'+ce(r.parent_name)+' さん'+(isNew?' <span style="background:#ea3b7e;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">NEW</span>':'')+'</span>'
+            + '<span style="font-size:13.5px;font-weight:800;color:#1f2a37;">'+ce(r.parent_name)+' さん'
+              +(isQ?' <span style="background:#eef4ff;color:#2270e0;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">質問</span>':'')
+              +(isNew?' <span style="background:#ea3b7e;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">NEW</span>':'')+'</span>'
             + '<span style="font-size:11.5px;color:#aab1bb;">'+fmt(r.created_at)+'</span>'
           + '</div>'
           + '<div style="font-size:12.5px;color:#3a4550;line-height:1.9;">'
-            + '学年：'+ce(r.child_grade||'-')+'　経験：'+ce(r.experience_level||'-')+'<br>'
+            + (isQ ? '' : ('学年：'+ce(r.child_grade||'-')+'　経験：'+ce(r.experience_level||'-')+'<br>'))
             + (r.preferred_date_1?('希望日：'+ce(r.preferred_date_1)+(r.preferred_date_2?(' / '+ce(r.preferred_date_2)):'')+'<br>'):'')
             + (r.message?('メッセージ：'+ce(r.message)):'')
           + '</div>'
