@@ -718,6 +718,30 @@ if(qch){state.postCh=qch;
 const h0=location.hash.slice(1)==="ana"?"shu":location.hash.slice(1);
 if(["shu","post","input"].includes(h0))switchTab(h0);
 
+// アプリ設定画面からの深いリンク（?goto=shu-survey 等）。
+// 実データ（window.__realD）が非同期で入ってから描画され直す箇所があり、
+// 固定ディレイだと再描画で先に開いたモーダル／ハイライトが消えることがあるため、
+// 実データが確定（またはデモ表示にフォールバック）するまでポーリングしてから実行する
+const gotoParam=new URLSearchParams(location.search).get("goto");
+if(gotoParam){
+  const gotoStart=Date.now();
+  const gotoTick=setInterval(function(){
+    const ready=window.__realD || Date.now()-gotoStart>4000; // 4秒待っても来なければデモのまま実行
+    if(!ready)return;
+    clearInterval(gotoTick);
+    setTimeout(function(){
+      if(gotoParam==="qr"){ if(typeof openModal==="function")openModal(); return; }
+      const el=document.getElementById(gotoParam);
+      if(el){
+        el.scrollIntoView({behavior:"smooth",block:"start"});
+        el.style.transition="box-shadow .3s";
+        el.style.boxShadow="0 0 0 3px var(--primary,#2270e0)";
+        setTimeout(function(){el.style.boxShadow="";},1600);
+      }
+    },300); // 直前の再描画が完了しきるのを少し待つ
+  },200);
+}
+
 /* ================= KPI＋目標 ================= */
 function spark(points,color){
   const w=200,h=30,svg=svgEl("svg",{viewBox:`0 0 ${w} ${h}`,preserveAspectRatio:"none"});
