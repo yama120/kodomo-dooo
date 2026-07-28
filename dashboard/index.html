@@ -9,10 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --page:#f6f6f4; --surface:#ffffff; --surface-2:#f3f2ee;
-    --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
-    --grid:#e1e0d9; --baseline:#c3c2b7; --border:#e6e5e0;
-    --brand:#f08a2e; --brand-dark:#d97822;
+    /* アプリ（chibispo-app/src/index.css の @theme）と同じコーラル×ネイビー。
+       見出し・本文はネイビー系、アクセントはコーラル。 */
+    --page:#fafbfc; --surface:#ffffff; --surface-2:#f2f4f7;
+    --ink:#21315b; --ink-2:#4a5468; --muted:#7a8299;
+    --grid:#e1e5ec; --baseline:#9aa1b2; --border:#edf0f4;
+    --brand:#f0435c; --brand-dark:#d33a52;
     --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s4:#008300; --s5:#4a3aa7; --s6:#e34948;
     --good:#0ca30c; --good-text:#006300; --warn:#b97f00; --critical:#d03b3b;
   }
@@ -22,7 +24,7 @@
   h1,h2,h3{font-family:'Noto Sans JP',sans-serif;letter-spacing:.01em}
   main{max-width:1080px;margin:0 auto;padding:0 14px 80px}
 
-  .demo-bar{background:#f2f1ed;border-bottom:1px solid var(--grid);color:var(--ink-2);font-size:.74rem;text-align:center;padding:6px 12px}
+  .demo-bar{background:var(--surface-2);border-bottom:1px solid var(--grid);color:var(--ink-2);font-size:.74rem;text-align:center;padding:6px 12px}
   .demo-bar b{color:var(--brand-dark)}
 
   header.top{max-width:1080px;margin:0 auto;padding:16px 14px 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -1398,7 +1400,7 @@ const RP_STYLE=`<style>
     #real-posts .rpc-goal b{font-size:1.02rem}
     #real-posts .rpc-goal .ok{color:#1a9e57;font-weight:800}
     #real-posts .rpc-goal .miss{color:#b06a00;font-weight:700}
-    #real-posts .rpc-streak{color:var(--brand,#f08a2e);font-weight:800}
+    #real-posts .rpc-streak{color:var(--brand,#f0435c);font-weight:800}
     #real-posts .rpc-edit{background:none;border:1px solid #ddd;border-radius:7px;padding:3px 11px;font-size:.75rem;color:#666;cursor:pointer;margin-left:auto}
     #real-post-block>section{margin-top:16px}
     .rp-list{display:flex;flex-direction:column;gap:6px}
@@ -1407,15 +1409,15 @@ const RP_STYLE=`<style>
     .rp-plat{font-weight:700;padding:1px 8px;border-radius:99px;color:#fff;font-size:.68rem}
     .rp-instagram{background:#c13584}.rp-threads{background:#111}.rp-youtube{background:#e0304a}.rp-tiktok{background:#111}.rp-x{background:#111}
     .rp-eng{color:#666;white-space:nowrap}
-    .rp-link{margin-left:auto;color:var(--brand,#f08a2e);text-decoration:none;font-weight:700;white-space:nowrap}
+    .rp-link{margin-left:auto;color:var(--brand,#f0435c);text-decoration:none;font-weight:700;white-space:nowrap}
     .rp-text{font-size:.82rem;line-height:1.5;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
-    .rp-rank{font-weight:900;color:var(--brand,#f08a2e);font-size:.85rem;min-width:1.2em}
+    .rp-rank{font-weight:900;color:var(--brand,#f0435c);font-size:.85rem;min-width:1.2em}
     .rp-type{background:#eef1fb;color:#4a5568;font-weight:700;padding:1px 8px;border-radius:99px;font-size:.67rem}
     .rp-types{display:flex;flex-direction:column;gap:9px}
     .rp-trow{display:flex;align-items:center;gap:10px;font-size:.85rem}
     .rp-tname{min-width:118px;font-weight:700;color:#333}
     .rp-tname small{color:#999;font-weight:400}
-    .rp-tbar{height:13px;background:var(--brand,#f08a2e);border-radius:6px;min-width:3px}
+    .rp-tbar{height:13px;background:var(--brand,#f0435c);border-radius:6px;min-width:3px}
     .rp-trow b{margin-left:auto;font-weight:800;min-width:2.2em;text-align:right}
     .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
     .rp-more{margin-top:8px;width:100%;padding:8px;background:#f4f4f4;border:1px solid #e5e5e5;border-radius:8px;color:#555;font-weight:700;font-size:.8rem;cursor:pointer}

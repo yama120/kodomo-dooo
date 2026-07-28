@@ -56,7 +56,7 @@ async function getAccessToken(sa: { client_email: string; private_key: string })
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
-    const { team_id, user_id, title, body, data, secret } = await req.json();
+    const { team_id, user_id, title, body, data, secret, kind } = await req.json();
     if (TRIGGER_SECRET && secret !== TRIGGER_SECRET) return json({ ok: false, error: 'forbidden' }, 403);
     if (!title || !body) return json({ ok: false, error: 'missing_title_body' }, 400);
 
@@ -70,9 +70,18 @@ serve(async (req) => {
     }
     if (!uid) return json({ ok: false, error: 'no_target' }, 400);
 
-    // 有効なトークンを取得
-    const { data: toks } = await admin.from('push_tokens').select('token').eq('user_id', uid).eq('enabled', true);
+    // 有効なトークンを取得。kind が指定されていれば項目別ON/OFF（prefs）も見る。
+    // prefs は「未設定なら受け取る」扱い（通知設定を一度も触っていない人に届かないのを防ぐ）
+    const { data: toks } = await admin.from('push_tokens')
+      .select('token, prefs').eq('user_id', uid).eq('enabled', true);
     if (!toks || !toks.length) return json({ ok: true, sent: 0, note: 'no_tokens' });
+    const targets = kind
+      ? toks.filter((t) => {
+          const p = (t as { prefs?: Record<string, boolean> }).prefs;
+          return !p || p[kind as string] !== false;
+        })
+      : toks;
+    if (!targets.length) return json({ ok: true, sent: 0, note: 'muted_by_prefs' });
 
     const sa = JSON.parse(SERVICE_ACCOUNT);
     const accessToken = await getAccessToken(sa);
@@ -80,7 +89,7 @@ serve(async (req) => {
 
     let sent = 0;
     const dead: string[] = [];
-    for (const { token } of toks) {
+    for (const { token } of targets) {
       const msg = {
         message: {
           token,

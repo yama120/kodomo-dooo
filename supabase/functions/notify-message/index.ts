@@ -50,7 +50,7 @@ serve(async (req) => {
     const pr = await fetch(`${SUPABASE_URL}/functions/v1/send-push`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` },
-      body: JSON.stringify({ ...target, body: preview, data: { kind: 'message', trial_id }, secret: PUSH_SECRET }),
+      body: JSON.stringify({ ...target, body: preview, kind: 'trial_reply', data: { kind: 'message', trial_id }, secret: PUSH_SECRET }),
     });
     const pj = await pr.json().catch(() => ({}));
     return json({ ok: true, push: pj });

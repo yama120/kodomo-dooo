@@ -83,7 +83,7 @@ serve(async (req) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` },
           body: JSON.stringify({
-            user_id: s.user_id, title, body,
+            user_id: s.user_id, title, body, kind: 'saved_search',
             data: { kind: 'saved_search', saved_id: s.id, club_id: hits[0].id },
             secret: PUSH_SECRET,
           }),
