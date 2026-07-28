@@ -35,10 +35,22 @@ serve(async (req) => {
   const typeLabel = isTrial ? '体験申込み' : 'お問い合わせ';
   const typeLabelEmoji = isTrial ? '🎉 体験申込み' : '💬 お問い合わせ';
 
+  /* 検証用アカウントからの申込では、実在クラブにメールを飛ばさない。
+     2026-07-28、動作確認のつもりで実在クラブ（誠空会）に架空の申込通知を
+     送ってしまった。運用ルールだけでは同じ事故が起きるのでサーバ側で止める。
+     テスト用クラブ（テストFC）宛は従来どおり送るので検証は続けられる。 */
+  const TEST_SENDERS = ['app-parent-test@chibispo.com', 'app-test@chibispo.com'];
+  const TEST_TEAM_IDS = ['129e5f93-1f0e-4606-8edc-a770e765e644'];   // テストFC
+  const fromTestAccount = TEST_SENDERS.includes(String(parent_email || '').toLowerCase());
+  const toTestTeam = TEST_TEAM_IDS.includes(String(team_id || ''));
+  const blockRealClubMail = fromTestAccount && !toTestTeam;
+
   const results = [];
 
   // 1) クラブ運営者に通知（保護者の個人情報は載せない・マイページへ誘導）
-  if (team_email) {
+  if (blockRealClubMail) {
+    results.push({ to: 'club', skipped: 'test_account_to_real_club' });
+  } else if (team_email) {
     try {
       const clubRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -154,7 +166,7 @@ serve(async (req) => {
       body: JSON.stringify({
         from: 'チビスポ <info@chibispo.com>',
         to: ADMIN_EMAIL,
-        subject: `【チビスポ管理】新規${typeLabel}：${team_name}`,
+        subject: `${fromTestAccount ? '【テスト】' : ''}【チビスポ管理】新規${typeLabel}：${team_name}`,
         html: `
           <h2>新規${typeLabel}</h2>
           <table style="border-collapse:collapse;width:100%;max-width:500px;">

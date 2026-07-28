@@ -80,7 +80,15 @@ serve(async (req) => {
         mail = { skipped: 'recently_notified' };
       } else {
         const to = isClubSender ? parentEmail : clubEmail;
-        if (!to) {
+        /* 検証用アカウントが絡むやり取りでは、実在の相手にメールを出さない。
+           2026-07-28の誤送信を受けたサーバ側のガード（運用ルールだけに頼らない） */
+        const TEST_ADDRS = ['app-parent-test@chibispo.com', 'app-test@chibispo.com'];
+        const testInvolved = TEST_ADDRS.includes(String(parentEmail || '').toLowerCase())
+          || TEST_ADDRS.includes(String(clubEmail || '').toLowerCase());
+        const toIsTest = TEST_ADDRS.includes(String(to || '').toLowerCase());
+        if (testInvolved && !toIsTest) {
+          mail = { skipped: 'test_account_to_real_recipient' };
+        } else if (!to) {
           mail = { skipped: 'no_address' };
         } else {
           const who = isClubSender ? (team?.name || 'クラブ') : `${tr.parent_name || '保護者'}さん`;
