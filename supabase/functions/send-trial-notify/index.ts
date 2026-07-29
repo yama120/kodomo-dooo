@@ -3,6 +3,32 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const ADMIN_EMAIL = 'moyori.info@gmail.com';
 
+/* クラブの通知先を team_members から引く。
+   担当者が1人しか登録できないと、その人が交代した時点で申込通知が
+   誰にも届かなくなり、しかもクラブ側は気づけない。
+   team_members が空・未作成のときは、呼び出し元が渡した team_email に落とす。 */
+async function resolveClubEmails(teamId: string, fallback: string): Promise<string[]> {
+  const url = Deno.env.get('SUPABASE_URL');
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  const fb = String(fallback || '').trim();
+  const fbList = fb ? [fb.toLowerCase()] : [];
+  if (!url || !key || !teamId) return fbList;
+  try {
+    const r = await fetch(
+      `${url}/rest/v1/team_members?team_id=eq.${encodeURIComponent(teamId)}&notify=is.true&select=email`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+    );
+    if (!r.ok) return fbList;
+    const rows = await r.json();
+    const list = (Array.isArray(rows) ? rows : [])
+      .map((m: { email?: string }) => String(m.email || '').trim().toLowerCase())
+      .filter(Boolean);
+    return list.length ? [...new Set(list)] : fbList;
+  } catch {
+    return fbList;
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', {
@@ -47,10 +73,13 @@ serve(async (req) => {
 
   const results = [];
 
+  // クラブの通知先（複数可）。登録がなければ呼び出し元の team_email に落とす
+  const clubEmails = await resolveClubEmails(String(team_id || ''), String(team_email || ''));
+
   // 1) クラブ運営者に通知（保護者の個人情報は載せない・マイページへ誘導）
   if (blockRealClubMail) {
     results.push({ to: 'club', skipped: 'test_account_to_real_club' });
-  } else if (team_email) {
+  } else if (clubEmails.length) {
     try {
       const clubRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -60,7 +89,7 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           from: 'チビスポ <info@chibispo.com>',
-          to: team_email,
+          to: clubEmails,
           subject: `【チビスポ】新しい${typeLabel}が届きました：${team_name}`,
           html: `
             <h2 style="color:#ff6b00;">新しい${typeLabel}が届きました</h2>
@@ -174,7 +203,7 @@ serve(async (req) => {
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">クラブ</td><td style="padding:8px;border:1px solid #ddd;">${team_name}</td></tr>
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">種目</td><td style="padding:8px;border:1px solid #ddd;">${sport}</td></tr>
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">エリア</td><td style="padding:8px;border:1px solid #ddd;">${pref} ${city}</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">クラブ連絡先</td><td style="padding:8px;border:1px solid #ddd;">${team_email || (team_instagram ? `Instagram: @${team_instagram}` : '未登録')}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">クラブ通知先</td><td style="padding:8px;border:1px solid #ddd;">${clubEmails.length ? clubEmails.join('<br>') : (team_instagram ? `Instagram: @${team_instagram}` : '<strong style="color:#c0314b;">未登録（通知が届いていません）</strong>')}</td></tr>
             <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">保護者</td><td style="padding:8px;border:1px solid #ddd;">${parent_name}（${parent_email}）</td></tr>
             ${childRow}
             ${messageRow}

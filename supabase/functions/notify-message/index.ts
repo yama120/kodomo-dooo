@@ -43,7 +43,19 @@ serve(async (req) => {
     // ダミーアドレス（手動追加した申込）にはメールを送らない
     const rawParentEmail = (tr.parent_email as string | null) || '';
     const parentEmail = rawParentEmail && !rawParentEmail.endsWith('@chibispo.local') ? rawParentEmail : '';
-    const clubEmail = (team?.email as string | null) || '';
+    /* クラブ側の宛先。担当者が交代しても届くよう team_members から引く。
+       teams.email 1件だけだと、その担当者が辞めた時点で通知が誰にも
+       届かなくなり、しかもクラブは気づけない。
+       team_members が未作成・空のときは従来どおり teams.email に落とす */
+    const clubEmails: string[] = await (async () => {
+      const { data } = await admin.from('team_members')
+        .select('email, notify').eq('team_id', tr.team_id).eq('notify', true);
+      const list = (data || []).map((m) => String(m.email || '').trim()).filter(Boolean);
+      if (list.length) return [...new Set(list.map((e) => e.toLowerCase()))];
+      const fallback = String(team?.email || '').trim();
+      return fallback ? [fallback.toLowerCase()] : [];
+    })();
+    const clubEmail = clubEmails[0] || '';
 
     const target: { team_id?: string; user_id?: string; title: string } = isClubSender
       ? { user_id: (tr.user_id as string) || '', title: `${team?.name || 'クラブ'}からメッセージ` }
@@ -79,16 +91,18 @@ serve(async (req) => {
       if (notifiedRecently) {
         mail = { skipped: 'recently_notified' };
       } else {
-        const to = isClubSender ? parentEmail : clubEmail;
+        // クラブ宛は登録された通知先すべてに送る（保護者宛は本人1件）
+        const to = isClubSender ? (parentEmail ? [parentEmail] : []) : clubEmails;
         /* 検証用アカウントが絡むやり取りでは、実在の相手にメールを出さない。
            2026-07-28の誤送信を受けたサーバ側のガード（運用ルールだけに頼らない） */
         const TEST_ADDRS = ['app-parent-test@chibispo.com', 'app-test@chibispo.com'];
-        const testInvolved = TEST_ADDRS.includes(String(parentEmail || '').toLowerCase())
-          || TEST_ADDRS.includes(String(clubEmail || '').toLowerCase());
-        const toIsTest = TEST_ADDRS.includes(String(to || '').toLowerCase());
+        const isTestAddr = (e: string) => TEST_ADDRS.includes(String(e || '').toLowerCase());
+        const testInvolved = isTestAddr(parentEmail) || clubEmails.some(isTestAddr);
+        // 宛先が1件でも実在アドレスを含むなら送らない（一部だけ送るほうが危険）
+        const toIsTest = to.length > 0 && to.every(isTestAddr);
         if (testInvolved && !toIsTest) {
           mail = { skipped: 'test_account_to_real_recipient' };
-        } else if (!to) {
+        } else if (!to.length) {
           mail = { skipped: 'no_address' };
         } else {
           const who = isClubSender ? (team?.name || 'クラブ') : `${tr.parent_name || '保護者'}さん`;
