@@ -169,15 +169,24 @@
          1件しか登録できないと、担当者が交代したときに申込の通知が
          誰にも届かなくなる。フリープランでも複数登録できるようにする -->
     <div id="mp-notify" class="mp-card" data-pane="settings" style="display:none;">
-      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">通知先メールアドレス</h2>
-      <p class="hint" style="margin-top:0;margin-bottom:14px;">体験申込み・新着メッセージのお知らせを受け取るアドレスです。担当者が複数いる場合は追加してください。<span id="mp-notify-limit" style="font-weight:700;"></span></p>
+      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">スタッフと通知先</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:14px;">体験申込み・新着メッセージのお知らせを受け取る人です。ログインを招待すると、その人も申込の確認と返信ができるようになります。<span id="mp-notify-limit" style="font-weight:700;"></span></p>
       <div id="mp-notify-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
       <div id="mp-notify-list" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <input class="mp-input" id="mp-notify-email" type="email" placeholder="coach@example.com" style="flex:1 1 220px;">
-        <input class="mp-input" id="mp-notify-name" placeholder="担当者名（任意）" style="flex:1 1 140px;">
-        <button type="button" id="mp-notify-add" class="mp-btn" style="width:auto;padding:12px 24px;">追加</button>
+
+      <!-- 追加フォーム。代表者だけに出す -->
+      <div id="mp-notify-form">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input class="mp-input" id="mp-notify-email" type="email" placeholder="coach@example.com" style="flex:1 1 220px;">
+          <input class="mp-input" id="mp-notify-name" placeholder="担当者名（任意）" style="flex:1 1 140px;">
+          <button type="button" id="mp-notify-add" class="mp-btn" style="width:auto;padding:12px 24px;">追加</button>
+        </div>
+        <label style="display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12.5px;font-weight:700;color:#3b4654;">
+          <input type="checkbox" id="mp-notify-invite"> ログインもできるようにする（招待メールを送る）
+        </label>
+        <p class="hint" style="margin:7px 0 0;">招待した人は、申込の確認・返信とクラブ情報の編集ができます。プランの変更・掲載の削除・募集の停止は代表者だけです。</p>
       </div>
+      <p id="mp-notify-readonly" class="hint" style="display:none;margin:0;">スタッフの追加・削除はクラブの代表者だけが行えます。</p>
     </div>
 
     <!-- プラン -->
@@ -1337,22 +1346,64 @@
       }
       var rows=res.data||[];
       window.__ccMembers=rows;
+      // スタッフの追加・削除・招待は代表者だけ
+      var amOwner = !!(team && currentUserId && team.user_id===currentUserId);
+      var f=$('mp-notify-form'), ro=$('mp-notify-readonly');
+      if(f)  f.style.display  = amOwner ? 'block' : 'none';
+      if(ro) ro.style.display = amOwner ? 'none'  : 'block';
+
       var ce=function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+      var pill=function(text,bg,fg){ return '<span style="background:'+bg+';color:'+fg+';font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;">'+text+'</span>'; };
       list.innerHTML = rows.length ? rows.map(function(r){
         var isOwner = (r.role==='owner');
+        var joined  = !!r.user_id;
+        var pending = !joined && !!r.invite_token
+                      && (!r.invite_expires_at || Date.parse(r.invite_expires_at) > Date.now());
+        var expired = !joined && !!r.invite_token
+                      && !!r.invite_expires_at && Date.parse(r.invite_expires_at) <= Date.now();
+        var state = isOwner ? pill('代表','#eef4ff','#2270e0')
+                  : joined  ? pill('ログイン可','#e9f7ef','#1f7a4d')
+                  : pending ? pill('招待中','#fff6df','#a9781c')
+                  : expired ? pill('招待の期限切れ','#fdeaee','#c0314b')
+                            : pill('通知のみ','#f1f3f6','#6b7280');
         return '<div style="display:flex;align-items:center;gap:10px;border:1px solid #eef1f3;border-radius:10px;padding:10px 12px;flex-wrap:wrap;">'
           + '<div style="min-width:0;flex:1 1 180px;">'
-            + '<div style="font-size:13.5px;font-weight:800;color:#1f2a37;word-break:break-all;">'+ce(r.email)
-              + (isOwner?' <span style="background:#eef4ff;color:#2270e0;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;">代表</span>':'')
-            + '</div>'
+            + '<div style="font-size:13.5px;font-weight:800;color:#1f2a37;word-break:break-all;">'+ce(r.email)+' '+state+'</div>'
             + (r.name?'<div style="font-size:11.5px;color:#8a93a0;margin-top:2px;">'+ce(r.name)+'</div>':'')
           + '</div>'
           + '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#3b4654;font-weight:700;">'
-            + '<input type="checkbox" class="mp-notify-chk" data-id="'+ce(r.id)+'"'+(r.notify?' checked':'')+'> 通知を受け取る'
+            + '<input type="checkbox" class="mp-notify-chk" data-id="'+ce(r.id)+'"'+(r.notify?' checked':'')+(amOwner?'':' disabled')+'> 通知を受け取る'
           + '</label>'
-          + (isOwner ? '' : '<button type="button" class="ed-btn mp-notify-del" data-id="'+ce(r.id)+'" style="color:#c0314b;border-color:#f1c6cf;">削除</button>')
+          + ((amOwner && !isOwner && !joined)
+              ? '<button type="button" class="ed-btn mp-notify-invite" data-email="'+ce(r.email)+'" data-name="'+ce(r.name||'')+'">'
+                + (pending||expired ? '招待を再送' : 'ログインを招待') + '</button>'
+              : '')
+          + ((amOwner && !isOwner) ? '<button type="button" class="ed-btn mp-notify-del" data-id="'+ce(r.id)+'" style="color:#c0314b;border-color:#f1c6cf;">削除</button>' : '')
         + '</div>';
       }).join('') : '<p class="hint" style="margin:0;">通知先が登録されていません。申込が届いてもお知らせできない状態です。</p>';
+
+      // ログインを招待する（Edge Function 経由・代表者のみ）
+      list.querySelectorAll('.mp-notify-invite').forEach(function(b){
+        b.addEventListener('click', function(){
+          var label=b.textContent; b.disabled=true; b.textContent='送信中…';
+          db.auth.getSession().then(function(res2){
+            var tok=res2&&res2.data&&res2.data.session&&res2.data.session.access_token;
+            return fetch(SBU+'/functions/v1/club-invite',{
+              method:'POST',
+              headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+              body:JSON.stringify({action:'invite', team_id:teamId, email:b.getAttribute('data-email'), name:b.getAttribute('data-name')||null, role:'staff'}),
+            });
+          }).then(function(r){ return r.json(); }).then(function(d){
+            b.disabled=false; b.textContent=label;
+            if(!d||!d.ok){
+              notifyMsg(false, d && d.error==='already_joined' ? 'この方はすでに参加しています。' : '招待の送信に失敗しました。');
+              return;
+            }
+            notifyMsg(true, '招待メールを送りました。リンクは7日間有効です。');
+            loadNotifyMembers(teamId, plan);
+          }).catch(function(){ b.disabled=false; b.textContent=label; notifyMsg(false,'通信に失敗しました。'); });
+        });
+      });
 
       list.querySelectorAll('.mp-notify-chk').forEach(function(c){
         c.addEventListener('change', function(){
@@ -1379,20 +1430,52 @@
     var em=($('mp-notify-email').value||'').trim();
     var nm=($('mp-notify-name').value||'').trim();
     if(!em || em.indexOf('@')<0){ notifyMsg(false,'メールアドレスを正しく入力してください。'); return; }
+    var wantInvite = !!($('mp-notify-invite') && $('mp-notify-invite').checked);
     var btn=e.target; btn.disabled=true;
-    db.from('team_members').insert({ team_id: window.__ccTeamId, email: em, name: nm||null, role:'staff', notify:true })
-      .then(function(r){
-        btn.disabled=false;
-        if(r.error){
-          var m=String(r.error.message||'');
-          if(/duplicate|unique/i.test(m)) notifyMsg(false,'そのアドレスは既に登録されています。');
-          else if(/件までです/.test(m))   notifyMsg(false, m);
-          else notifyMsg(false,'追加に失敗しました。');
+    var done=function(ok, text){
+      btn.disabled=false;
+      notifyMsg(ok, text);
+      if(ok){
+        $('mp-notify-email').value=''; $('mp-notify-name').value='';
+        if($('mp-notify-invite')) $('mp-notify-invite').checked=false;
+        loadNotifyMembers(window.__ccTeamId, window.__ccPlan);
+      }
+    };
+
+    if(wantInvite){
+      // 招待つき：Edge Function が行の作成と招待メールをまとめて行う
+      db.auth.getSession().then(function(res){
+        var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
+        return fetch(SBU+'/functions/v1/club-invite',{
+          method:'POST',
+          headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+          body:JSON.stringify({action:'invite', team_id:window.__ccTeamId, email:em, name:nm||null, role:'staff'}),
+        });
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if(!d||!d.ok){
+          var err=(d&&d.error)||'';
+          done(false, err==='already_joined' ? 'この方はすでに参加しています。'
+                    : err==='not_owner'      ? '招待できるのはクラブの代表者だけです。'
+                    : /件までです/.test(String(d&&d.detail||'')) ? String(d.detail)
+                    : '招待の送信に失敗しました。');
           return;
         }
-        $('mp-notify-email').value=''; $('mp-notify-name').value='';
-        notifyMsg(true,'通知先を追加しました。');
-        loadNotifyMembers(window.__ccTeamId, window.__ccPlan);
+        done(true, '招待メールを送りました。リンクは7日間有効です。');
+      }).catch(function(){ done(false,'通信に失敗しました。'); });
+      return;
+    }
+
+    // 通知先だけ（ログインは不要）
+    db.from('team_members').insert({ team_id: window.__ccTeamId, email: em, name: nm||null, role:'staff', notify:true })
+      .then(function(r){
+        if(r.error){
+          var m=String(r.error.message||'');
+          if(/duplicate|unique/i.test(m)) done(false,'そのアドレスは既に登録されています。');
+          else if(/件までです/.test(m))   done(false, m);
+          else done(false,'追加に失敗しました。');
+          return;
+        }
+        done(true,'通知先を追加しました。');
       });
   });
 

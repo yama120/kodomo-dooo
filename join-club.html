@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
+  <meta charset="UTF-8" />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クラブに参加する | チビスポ</title>
+  <meta name="robots" content="noindex,nofollow">
+<!-- OGP / SNS共有カード -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="クラブに参加する | チビスポ">
+<meta property="og:url" content="https://chibispo.com/join-club.html">
+<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="クラブに参加する | チビスポ">
+<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
+  <script src="supabase-lite.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --primary: #2270e0; --brand: #f0435c; --bg: #f5f7f9; --text: #1f2430; --muted: #8a93a0; --border: #e6e9ed; --radius: 18px; --shadow: 0 4px 18px rgba(20,28,38,.06); }
+    body { font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 26px 26px; width: 100%; max-width: 400px; }
+    .brand { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
+    .brand svg { width: 56px; height: 56px; }
+    .brand span { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 900; font-size: 22px; color: var(--brand); margin-top: 6px; letter-spacing: .02em; }
+    h1 { font-size: 1rem; font-weight: 800; text-align: center; margin-bottom: 6px; }
+    p.lead { font-size: .88rem; color: var(--muted); margin-bottom: 20px; text-align: center; line-height: 1.8; }
+    .club { background:#fdedef; border:1px solid #f6ccd4; border-radius:12px; padding:13px 15px; margin-bottom:18px; text-align:center; }
+    .club .name { font-size: 15px; font-weight: 900; color:#21315b; }
+    .club .role { font-size: 12px; color:#8a5a66; margin-top:3px; }
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-group label { display: block; font-size: 12.5px; font-weight: 700; color: #3a4452; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px 13px; border: 1px solid var(--border); border-radius: 9px; font-size: .95rem; font-family: inherit; outline: none; transition: border-color .15s; }
+    .form-group input:focus { border-color: var(--primary); }
+    .btn { width: 100%; padding: 14px 0; background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: .95rem; font-weight: 800; font-family: inherit; cursor: pointer; }
+    .btn:hover { opacity: .9; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-ghost { background:#fff; color:#3a4452; border:1px solid var(--border); margin-top:9px; }
+    .alert { padding: 12px 16px; border-radius: 10px; font-size: .88rem; margin-bottom: 16px; text-align: left; line-height:1.8; }
+    .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .alert-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+    .note { font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:14px; text-align:center; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="brand" role="img" aria-label="チビスポ">
+    <svg viewBox="0 0 88 92" fill="none" aria-hidden="true">
+      <path fill="#EF5D71" d="M10.5 66.8C5.3 53 8.3 39.8 16.3 29.8C23.4 20.8 34 15.8 45.2 16.1C47.8 12.9 50.7 9.8 54.8 7.4C54.5 11.4 53.8 14.7 52.5 17.8C59.1 16.2 66 16 72.6 17C69.8 21.1 67 24.4 63.6 27.4C69 27 74.1 27.1 79.2 27.9C75.5 32.7 71.7 36.6 67.3 40.4C70.9 46 72.5 52.7 71.5 59C70.8 63.3 69.1 67.3 66.4 70.8C60.6 78.4 50.8 82.8 39.7 82.8C28.1 82.8 17 77.8 10.5 66.8Z" />
+      <path fill="#FFFFFF" d="M42.2 77.4C37.4 77.6 32.7 77.2 28.3 75.7C23.2 74 18.8 70.8 15.8 66.3C13.3 62.5 12.4 57.7 13.0 52.7C13.7 46.8 16.3 41.6 20.5 38.2C24.2 35.3 28.7 34.3 33.1 35.4C35.2 36.0 36.9 37.1 38.3 38.8C39.5 37.0 41.2 35.7 43.1 35.1C47.3 33.7 51.9 34.5 56.0 37.2C60.8 40.4 64.0 45.9 64.6 52.4C65.1 57.6 64.1 62.8 61.4 66.7C58.2 71.2 53.4 74.3 47.9 75.9C46.0 76.5 44.1 77.0 42.2 77.4Z" />
+      <ellipse cx="28.8" cy="54.5" rx="3.2" ry="4.3" fill="#2F3340" />
+      <ellipse cx="46.5" cy="54.5" rx="3.2" ry="4.3" fill="#2F3340" />
+      <circle cx="20.7" cy="61.8" r="2.2" fill="#F8CDD3" />
+      <circle cx="54.3" cy="61.8" r="2.2" fill="#F8CDD3" />
+      <path d="M32.6 63.4C33.9 65.9 35.9 67.2 37.7 67.2C39.5 67.2 41.5 65.9 42.8 63.4"
+        fill="none" stroke="#2F3340" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <span>チビスポ</span>
+  </div>
+
+  <h1 id="title">クラブに参加する</h1>
+  <p class="lead" id="lead">招待を確認しています…</p>
+
+  <div id="msg" class="alert" style="display:none;"></div>
+
+  <div id="clubBox" class="club" style="display:none;">
+    <div class="name" id="clubName"></div>
+    <div class="role" id="clubRole"></div>
+  </div>
+
+  <!-- パスワードを決めて参加（アカウントが無い場合） -->
+  <div id="signupArea" style="display:none;">
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="email" readonly style="background:#f6f7f9;color:#6b7280;">
+    </div>
+    <div class="form-group">
+      <label>パスワード（8文字以上）</label>
+      <input type="password" id="pw1" placeholder="新しいパスワード" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+      <label>パスワード（確認）</label>
+      <input type="password" id="pw2" placeholder="もう一度入力" autocomplete="new-password">
+    </div>
+    <button class="btn" id="signupBtn">この内容で参加する</button>
+    <button class="btn btn-ghost" id="toLoginBtn">すでにアカウントがある</button>
+  </div>
+
+  <!-- 既存アカウントでログインして参加 -->
+  <div id="loginArea" style="display:none;">
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPw" placeholder="パスワード" autocomplete="current-password">
+    </div>
+    <button class="btn" id="loginBtn">ログインして参加する</button>
+    <button class="btn btn-ghost" id="toSignupBtn">パスワードを新しく決める</button>
+  </div>
+
+  <div id="doneArea" style="display:none;">
+    <a class="btn" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;">クラブのマイページを開く</a>
+  </div>
+
+  <p class="note">招待リンクは発行から7日間有効です。<br>心当たりのない招待は、そのまま閉じてください。</p>
+</div>
+
+<script>
+/* クラブスタッフの招待受け口。
+   招待メールのリンク（?token=...）から来て、パスワードを決めるか
+   既存アカウントでログインすると team_members.user_id が埋まり、
+   そのクラブのマイページを使えるようになる。
+
+   トークンの照合と参加処理はすべて Edge Function（service_role）側で行う。
+   ブラウザから team_members を直接書けるようにすると、
+   他人が任意のクラブに自分を追加できてしまうため。 */
+var SB_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+var db = supabase.createClient(SB_URL, SB_ANON);
+var FN = SB_URL + '/functions/v1/club-invite';
+
+var $ = function(id){ return document.getElementById(id); };
+var token = new URLSearchParams(location.search).get('token') || '';
+var invite = null;
+
+function show(ok, text){
+  var m = $('msg');
+  m.style.display = 'block';
+  m.className = 'alert ' + (ok ? 'alert-success' : 'alert-error');
+  m.textContent = text;
+}
+function call(action, body){
+  return fetch(FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SB_ANON },
+    body: JSON.stringify(Object.assign({ action: action, token: token }, body || {})),
+  }).then(function(r){ return r.json(); });
+}
+
+function boot(){
+  if (!token) {
+    $('lead').textContent = '';
+    show(false, '招待リンクが正しくありません。クラブの代表者にもう一度送ってもらってください。');
+    return;
+  }
+  call('peek').then(function(d){
+    if (!d || !d.ok) {
+      $('lead').textContent = '';
+      var m = (d && d.error) === 'expired' ? 'この招待リンクは有効期限が切れています。'
+            : (d && d.error) === 'used'    ? 'この招待はすでに使われています。ログインしてご利用ください。'
+            : 'この招待リンクは無効です。';
+      show(false, m);
+      return;
+    }
+    invite = d;
+    $('lead').textContent = 'このクラブのスタッフとして招待されています。';
+    $('clubBox').style.display = 'block';
+    $('clubName').textContent = d.team_name || 'クラブ';
+    $('clubRole').textContent = (d.role === 'owner' ? '代表として参加' : 'スタッフとして参加') + '（' + d.email + '）';
+    $('email').value = d.email || '';
+    // 既にログイン中なら、そのアカウントで参加できる
+    db.auth.getSession().then(function(res){
+      var s = res && res.data && res.data.session;
+      if (s) { accept(s.access_token); return; }
+      $('signupArea').style.display = 'block';
+    });
+  }).catch(function(){
+    $('lead').textContent = '';
+    show(false, '通信に失敗しました。時間をおいて開き直してください。');
+  });
+}
+
+function accept(accessToken){
+  return fetch(FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + accessToken },
+    body: JSON.stringify({ action: 'accept', token: token }),
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if (!d || !d.ok) {
+      show(false, d && d.error === 'email_mismatch'
+        ? '招待されたメールアドレスと、ログイン中のアカウントが違います。いったんログアウトしてからやり直してください。'
+        : '参加処理に失敗しました。時間をおいて試してください。');
+      return;
+    }
+    $('signupArea').style.display = 'none';
+    $('loginArea').style.display = 'none';
+    $('doneArea').style.display = 'block';
+    show(true, (invite && invite.team_name ? invite.team_name : 'クラブ') + ' に参加しました。');
+  });
+}
+
+$('signupBtn').addEventListener('click', function(){
+  var p1 = $('pw1').value, p2 = $('pw2').value;
+  if (p1.length < 8) { show(false, 'パスワードは8文字以上にしてください。'); return; }
+  if (p1 !== p2)     { show(false, 'パスワードが一致しません。'); return; }
+  var btn = this; btn.disabled = true; btn.textContent = '処理中…';
+  db.auth.signUp({ email: invite.email, password: p1 }).then(function(res){
+    if (res.error) {
+      // 既に同じメールでアカウントがある場合はログイン側へ誘導
+      btn.disabled = false; btn.textContent = 'この内容で参加する';
+      $('signupArea').style.display = 'none';
+      $('loginArea').style.display = 'block';
+      $('loginEmail').value = invite.email;
+      show(false, 'このメールアドレスはすでに登録済みです。パスワードを入力してログインしてください。');
+      return;
+    }
+    return db.auth.signInWithPassword({ email: invite.email, password: p1 }).then(function(r2){
+      var tok = r2 && r2.data && r2.data.session && r2.data.session.access_token;
+      if (!tok) { btn.disabled = false; btn.textContent = 'この内容で参加する'; show(false, 'ログインに失敗しました。'); return; }
+      return accept(tok);
+    });
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'この内容で参加する';
+    show(false, '通信に失敗しました。');
+  });
+});
+
+$('loginBtn').addEventListener('click', function(){
+  var btn = this; btn.disabled = true; btn.textContent = '処理中…';
+  db.auth.signInWithPassword({ email: $('loginEmail').value.trim(), password: $('loginPw').value }).then(function(r){
+    btn.disabled = false; btn.textContent = 'ログインして参加する';
+    var tok = r && r.data && r.data.session && r.data.session.access_token;
+    if (!tok) { show(false, 'メールアドレスまたはパスワードが正しくありません。'); return; }
+    return accept(tok);
+  });
+});
+
+$('toLoginBtn').addEventListener('click', function(){
+  $('signupArea').style.display = 'none';
+  $('loginArea').style.display = 'block';
+  $('loginEmail').value = (invite && invite.email) || '';
+});
+$('toSignupBtn').addEventListener('click', function(){
+  $('loginArea').style.display = 'none';
+  $('signupArea').style.display = 'block';
+});
+
+boot();
+</script>
+</body>
+</html>
