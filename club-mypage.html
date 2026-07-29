@@ -104,7 +104,7 @@
       <a id="mp-team-add" href="register.html?add=true" style="background:#fff;border:1.5px solid #1f8a5b;color:#1f8a5b;font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;">＋ 別のチームを追加</a>
     </div>
 
-    <!-- 承認待ちバナー（status が approved 以外のとき表示） -->
+    <!-- 承認待ちバナー（status が pending / rejected のとき表示） -->
     <div id="mp-pending" class="mp-card" style="display:none;background:#fff8e6;border:1.5px solid #f2d492;">
       <div style="display:flex;gap:11px;align-items:flex-start;">
         <span style="font-size:20px;line-height:1.2;">⏳</span>
@@ -112,6 +112,28 @@
           <div style="font-size:14px;font-weight:900;color:#a9781c;">この掲載は現在【承認待ち】です</div>
           <div style="font-size:12.5px;color:#8a7320;line-height:1.75;margin-top:4px;">運営が内容を確認したのち公開され、「クラブを探す」や地図に表示されます。<br>公開まで少々お待ちください。</div>
         </div>
+      </div>
+    </div>
+
+    <!-- 募集停止中バナー（クラブ自身が止めているとき） -->
+    <div id="mp-paused" class="mp-card" style="display:none;background:#eef4fc;border:1.5px solid #b9d2f0;">
+      <div style="display:flex;gap:11px;align-items:flex-start;">
+        <span style="font-size:20px;line-height:1.2;">⏸</span>
+        <div style="min-width:0;">
+          <div style="font-size:14px;font-weight:900;color:#2a5fa8;">現在【募集を停止中】です</div>
+          <div style="font-size:12.5px;color:#3d6ba8;line-height:1.75;margin-top:4px;">検索・地図に表示されず、新しい体験申込みも届きません。<br>クラブ情報と過去の申込みは残っています。下の「募集の状態」からいつでも再開できます。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 募集の状態（定員が埋まったとき用。掲載の削除は取り消せないので、その手前の受け皿） -->
+    <div id="mp-recruit" class="mp-card" style="display:none;">
+      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">募集の状態</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:14px;">定員が埋まったときや長期休みのあいだは、掲載を消さずに募集だけ止められます。止めているあいだは検索・地図に出ず、体験申込みも届きません。</p>
+      <div id="mp-recruit-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span id="mp-recruit-state" style="font-size:13.5px;font-weight:800;color:#1f2a37;"></span>
+        <button id="mp-recruit-toggle" class="mp-btn" style="width:auto;padding:11px 24px;margin-left:auto;"></button>
       </div>
     </div>
 
@@ -174,7 +196,42 @@
     <!-- 体験申込み -->
     <div class="mp-card">
       <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">体験申込み <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
-      <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みです。メッセージでやり取りし、対応状況を更新してください。</p>
+      <p style="margin:0 0 14px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みです。メッセージでやり取りし、対応状況を更新してください。</p>
+
+      <!-- 対応中／完了のタブ。件数が増えると終わった申込に埋もれるため -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <button type="button" class="mp-tr-tab" data-tab="open" style="border:none;border-radius:999px;padding:8px 18px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;">対応中 <span data-c="open">0</span></button>
+        <button type="button" class="mp-tr-tab" data-tab="done" style="border:none;border-radius:999px;padding:8px 18px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;">完了 <span data-c="done">0</span></button>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button type="button" id="mp-tr-add" class="ed-btn">＋ 電話・紙の申込</button>
+          <button type="button" id="mp-tr-csv" class="ed-btn">CSVで書き出す</button>
+        </div>
+      </div>
+
+      <!-- 電話・紙で受けた申込を手で登録する（アプリの「＋」と同じ経路） -->
+      <div id="mp-tr-addbox" style="display:none;border:1px solid #eef1f3;border-radius:12px;padding:14px 16px;margin-bottom:14px;background:#fbfcfd;">
+        <div style="font-size:13px;font-weight:800;color:#1f2a37;margin-bottom:10px;">電話・紙で受けた申込を登録</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+          <input class="mp-input" id="mp-add-parent" placeholder="保護者のお名前（必須）">
+          <input class="mp-input" id="mp-add-phone" placeholder="電話番号（任意）">
+          <input class="mp-input" id="mp-add-child" placeholder="お子さまのお名前（任意）">
+          <input class="mp-input" id="mp-add-grade" placeholder="学年（例：小3）">
+          <input class="mp-input" id="mp-add-date" placeholder="体験希望日（任意）">
+          <select class="mp-input" id="mp-add-source">
+            <option value="電話">電話</option>
+            <option value="紙・その場">紙・その場</option>
+            <option value="紹介">紹介</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <input class="mp-input" id="mp-add-note" placeholder="メモ（任意）" style="margin-top:9px;">
+        <div id="mp-add-msg" style="display:none;font-size:12.5px;font-weight:700;border-radius:9px;padding:9px 11px;margin-top:10px;"></div>
+        <div style="display:flex;gap:8px;margin-top:11px;">
+          <button type="button" id="mp-add-save" class="mp-btn" style="width:auto;padding:11px 24px;">登録する</button>
+          <button type="button" id="mp-add-cancel" class="ed-btn">やめる</button>
+        </div>
+      </div>
+
       <div id="mp-tr-list" style="display:flex;flex-direction:column;gap:12px;"></div>
       <div id="mp-tr-empty" style="display:none;text-align:center;color:#9aa3ad;font-size:13px;padding:20px;">まだ体験申込みはありません。</div>
     </div>
@@ -650,9 +707,52 @@
   }
   $('f-course-add').onclick=function(){ if(courseList.length>=12){ alert('コースは最大12件までです'); return; } courseList.push({name:'',age:'',day:'',time:'',fee:''}); renderCourses(); };
 
+  /* 募集の一時停止。掲載の削除は取り消せないので、定員が埋まっただけの
+     クラブが「消すしかない」状況にならないようにする。
+     status を approved ⇄ paused で切り替える。paused は検索・地図・
+     クラブ詳細のどのクエリも status='approved' 条件で弾くため、
+     追加のカラムなしで「載っているが表に出ない」状態になる。 */
+  function recruitMsg(ok, text){
+    var m=$('mp-recruit-msg'); if(!m) return;
+    m.style.display='block';
+    m.style.background = ok ? '#e9f7ef' : '#fdeaee';
+    m.style.color = ok ? '#1f7a4d' : '#c0314b';
+    m.textContent = text;
+  }
+  function renderRecruit(t){
+    var box=$('mp-recruit'); if(!box) return;
+    // 承認待ち・却下のクラブには出さない（まだ公開されていないため）
+    if(t.status!=='approved' && t.status!=='paused'){ box.style.display='none'; return; }
+    box.style.display='block';
+    var paused=(t.status==='paused');
+    $('mp-recruit-state').textContent = paused ? '現在：募集停止中（サイトに表示されていません）' : '現在：募集中（サイトに表示されています）';
+    var btn=$('mp-recruit-toggle');
+    btn.textContent = paused ? '募集を再開する' : '募集を一時停止する';
+    btn.style.background = paused ? '#1f8a5b' : '#fff';
+    btn.style.color = paused ? '#fff' : '#c0314b';
+    btn.style.border = paused ? 'none' : '1.5px solid #e8455f';
+    btn.onclick = function(){
+      var next = paused ? 'approved' : 'paused';
+      if(!paused && !confirm('募集を一時停止します。\n検索・地図に表示されなくなり、新しい体験申込みも届かなくなります。\nクラブ情報と過去の申込みは残ります。')) return;
+      btn.disabled=true;
+      db.from('teams').update({status:next}).eq('id',t.id).then(function(r){
+        btn.disabled=false;
+        if(r.error){ recruitMsg(false,'切り替えに失敗しました。時間をおいて試してください。'); return; }
+        t.status=next;
+        var pz=$('mp-paused'); if(pz) pz.style.display=(next==='paused')?'block':'none';
+        renderRecruit(t);
+        recruitMsg(true, next==='paused' ? '募集を停止しました。再開するまでサイトには表示されません。' : '募集を再開しました。サイトに表示されます。');
+      });
+    };
+  }
+
   function fillForm(t){
-    // 承認待ちバナー：approved以外（pending等）は「承認待ち」を表示
-    var pend=$('mp-pending'); if(pend) pend.style.display=(t.status==='approved')?'none':'block';
+    // 承認待ち／募集停止中は別のバナー。paused はクラブ自身が止めた状態なので
+    // 「運営の承認をお待ちください」と出してはいけない
+    var isPaused=(t.status==='paused');
+    var pend=$('mp-pending'); if(pend) pend.style.display=(t.status==='approved'||isPaused)?'none':'block';
+    var pz=$('mp-paused'); if(pz) pz.style.display=isPaused?'block':'none';
+    renderRecruit(t);
     logoUrl=t.logo_url||null; logoPos=t.logo_position||'50% 50%'; renderLogo();
     $('f-name').value=t.name||''; $('f-sport').value=t.sport||'';
     $('f-pref').value=t.pref||''; $('f-city').value=t.city||'';
@@ -1038,9 +1138,22 @@
     db.from('trial_requests').select('*').eq('team_id',teamId).order('created_at',{ascending:false}).then(function(res){
       var list=$('mp-tr-list'), empty=$('mp-tr-empty'), cnt=$('mp-tr-count');
       if(res.error) return;
-      var rows=res.data||[];
-      if(cnt) cnt.textContent=rows.filter(function(r){return r.status==='new';}).length+' 件の新規';
-      if(!rows.length){ if(list) list.innerHTML=''; if(empty) empty.style.display='block'; return; }
+      var all=res.data||[];
+      window.__ccTrials=all;                       // CSV書き出しで使う
+      var isDone=function(r){ return r.status==='joined'||r.status==='lost'; };
+      var open=all.filter(function(r){ return !isDone(r); });
+      var done=all.filter(isDone);
+      // タブの件数
+      var setC=function(k,n){ var e=document.querySelector('[data-c="'+k+'"]'); if(e) e.textContent=n; };
+      setC('open',open.length); setC('done',done.length);
+      paintTrialTabs();
+      var rows=(window.__ccTrTab==='done')?done:open;
+      if(cnt) cnt.textContent=all.filter(function(r){return r.status==='new';}).length+' 件の新規';
+      if(!rows.length){
+        if(list) list.innerHTML='';
+        if(empty){ empty.style.display='block'; empty.textContent=(window.__ccTrTab==='done')?'完了した申込みはまだありません。':'対応中の申込みはありません。'; }
+        return;
+      }
       if(empty) empty.style.display='none';
       list.innerHTML=rows.map(function(r){
         var isNew=r.status==='new';
@@ -1084,6 +1197,107 @@
       loadClubUnread(rows.map(function(r){ return r.id; }));
     });
   }
+
+  /* ---- 体験申込みの「対応中／完了」タブ ---- */
+  window.__ccTrTab = window.__ccTrTab || 'open';
+  function paintTrialTabs(){
+    document.querySelectorAll('.mp-tr-tab').forEach(function(b){
+      var on = b.getAttribute('data-tab') === window.__ccTrTab;
+      b.style.background = on ? '#f0435c' : '#f1f3f6';
+      b.style.color = on ? '#fff' : '#6b7280';
+    });
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.mp-tr-tab');
+    if(!b) return;
+    window.__ccTrTab = b.getAttribute('data-tab');
+    if(window.__ccTeamId) loadTrialRequests(window.__ccTeamId);
+  });
+
+  /* ---- CSV書き出し。Excelで開けるようBOM付きUTF-8 ---- */
+  function trialsToCsv(rows){
+    var ST={new:'対応中',attended:'体験に来た',joined:'入会',lost:'見送り'};
+    var head=['受付日','種別','保護者名','お子さま','学年','希望日','経路','電話','メッセージ','対応状況'];
+    var esc=function(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; };
+    var lines=[head.map(esc).join(',')];
+    rows.forEach(function(r){
+      var d=new Date(r.created_at);
+      var ymd=isNaN(d)?'':d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate();
+      lines.push([
+        ymd, r.type==='question'?'質問':'体験申込', r.parent_name, r.child_name, r.child_grade,
+        r.preferred_date_1, r.via==='manual'?'手動登録':'フォーム',
+        // フォーム申込の電話番号は保持していない（個人情報を渡さない方針）
+        r.via==='manual'?(r.parent_phone||''):'',
+        r.message, ST[r.status]||r.status,
+      ].map(esc).join(','));
+    });
+    return '﻿'+lines.join('\r\n');
+  }
+  document.addEventListener('click', function(e){
+    if(!e.target || e.target.id!=='mp-tr-csv') return;
+    var rows=window.__ccTrials||[];
+    if(!rows.length){ alert('書き出す申込みがありません。'); return; }
+    var blob=new Blob([trialsToCsv(rows)],{type:'text/csv;charset=utf-8;'});
+    var a=document.createElement('a');
+    var d=new Date();
+    a.href=URL.createObjectURL(blob);
+    a.download='chibispo-taiken-'+d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  /* ---- 電話・紙で受けた申込の手動登録（アプリの「＋」と同じ Worker 経由） ---- */
+  var TRACK_WORKER='https://chibispo-tracking.hyogo120.workers.dev';
+  function addBoxMsg(ok, text){
+    var m=$('mp-add-msg'); if(!m) return;
+    m.style.display='block';
+    m.style.background = ok ? '#e9f7ef' : '#fdeaee';
+    m.style.color = ok ? '#1f7a4d' : '#c0314b';
+    m.textContent = text;
+  }
+  document.addEventListener('click', function(e){
+    var id=e.target && e.target.id;
+    if(id==='mp-tr-add'){
+      var box=$('mp-tr-addbox');
+      if(box) box.style.display = (box.style.display==='none'||!box.style.display) ? 'block' : 'none';
+      return;
+    }
+    if(id==='mp-add-cancel'){ var b2=$('mp-tr-addbox'); if(b2) b2.style.display='none'; return; }
+    if(id!=='mp-add-save') return;
+
+    var name=($('mp-add-parent').value||'').trim();
+    if(!name){ addBoxMsg(false,'保護者のお名前を入れてください。'); return; }
+    var btn=e.target; btn.disabled=true; btn.textContent='登録中…';
+    db.auth.getSession().then(function(res){
+      var token=res&&res.data&&res.data.session&&res.data.session.access_token;
+      if(!token) throw new Error('no_session');
+      return fetch(TRACK_WORKER+'/api/inbox/add',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+        body:JSON.stringify({
+          club: window.__ccTeamId,
+          parent_name: name,
+          parent_phone: ($('mp-add-phone').value||'').trim(),
+          child_name: ($('mp-add-child').value||'').trim(),
+          child_grade: ($('mp-add-grade').value||'').trim(),
+          preferred_date: ($('mp-add-date').value||'').trim(),
+          source: $('mp-add-source').value,
+          note: ($('mp-add-note').value||'').trim(),
+        }),
+      });
+    }).then(function(r){ return r.json(); }).then(function(d){
+      btn.disabled=false; btn.textContent='登録する';
+      if(!d || d.error){ addBoxMsg(false,'登録に失敗しました。時間をおいて試してください。'); return; }
+      ['mp-add-parent','mp-add-phone','mp-add-child','mp-add-grade','mp-add-date','mp-add-note'].forEach(function(k){ var el=$(k); if(el) el.value=''; });
+      addBoxMsg(true,'登録しました。対応中の一覧に追加されています。');
+      window.__ccTrTab='open';
+      if(window.__ccTeamId) loadTrialRequests(window.__ccTeamId);
+    }).catch(function(){
+      btn.disabled=false; btn.textContent='登録する';
+      addBoxMsg(false,'通信に失敗しました。');
+    });
+  });
+
   // クラブへのコメント一覧（運営者は非表示分も閲覧可）
   function loadClubComments(teamId){
     function ce(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }

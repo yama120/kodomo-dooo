@@ -195,6 +195,7 @@
     <div class="stats">
       <div class="stat-card"><div class="stat-num" id="statPending">-</div><div class="stat-label">承認待ち</div></div>
       <div class="stat-card"><div class="stat-num" id="statApproved">-</div><div class="stat-label">公開中</div></div>
+      <div class="stat-card"><div class="stat-num" id="statPaused">-</div><div class="stat-label">募集停止中</div></div>
       <div class="stat-card"><div class="stat-num" id="statRejected">-</div><div class="stat-label">却下</div></div>
     </div>
 
@@ -220,10 +221,11 @@
 
     <div class="section-title" style="margin-top:40px;">📋 チーム管理</div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="setTab('pending')">承認待ち</button>
-      <button class="tab-btn" onclick="setTab('approved')">公開中</button>
-      <button class="tab-btn" onclick="setTab('rejected')">却下</button>
+    <div class="tab-bar" id="teamTabs">
+      <button class="tab-btn active" data-team-tab="pending" onclick="setTab('pending')">承認待ち</button>
+      <button class="tab-btn" data-team-tab="approved" onclick="setTab('approved')">公開中</button>
+      <button class="tab-btn" data-team-tab="paused" onclick="setTab('paused')">募集停止中</button>
+      <button class="tab-btn" data-team-tab="rejected" onclick="setTab('rejected')">却下</button>
     </div>
 
     <div id="teamList"><div class="spinner"></div></div>
@@ -576,13 +578,16 @@ async function loadTeams() {
 function updateStats() {
   document.getElementById('statPending').textContent  = allTeams.filter(t => t.status === 'pending').length;
   document.getElementById('statApproved').textContent = allTeams.filter(t => t.status === 'approved').length;
+  document.getElementById('statPaused').textContent   = allTeams.filter(t => t.status === 'paused').length;
   document.getElementById('statRejected').textContent = allTeams.filter(t => t.status === 'rejected').length;
 }
 
 function setTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach((b, i) => {
-    b.classList.toggle('active', ['pending','approved','rejected'][i] === tab);
+  // .tab-btn は体験申込みのタブバーにもあるので、チーム管理のタブだけを対象にする
+  // （以前は全 .tab-btn を添字で突き合わせていて、体験申込み側が光っていた）
+  document.querySelectorAll('#teamTabs .tab-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.teamTab === tab);
   });
   renderTab();
 }
@@ -674,7 +679,11 @@ function renderTab() {
 }
 
 function statusLabel(s) {
-  return s === 'pending' ? '承認待ち' : s === 'approved' ? '公開中' : '却下';
+  // paused はクラブ自身がマイページで止めた状態。却下と混同しない
+  if (s === 'pending') return '承認待ち';
+  if (s === 'approved') return '公開中';
+  if (s === 'paused') return '募集停止中（クラブ設定）';
+  return '却下';
 }
 
 async function updateStatus(id, status) {
