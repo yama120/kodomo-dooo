@@ -251,6 +251,19 @@
         </div>
       </div>
 
+      <!-- 絞り込み。過去分から特定の保護者を探せなかった。
+           件数が少ないうちは邪魔なので、5件を超えたときだけ出す -->
+      <div id="mp-tr-filter" style="display:none;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <input class="mp-input" id="mp-tr-q" type="search" placeholder="保護者名・お子さまの名前・メッセージで検索" style="flex:1 1 240px;">
+        <select class="mp-input" id="mp-tr-kind" style="flex:0 1 150px;">
+          <option value="">すべての種別</option>
+          <option value="trial">体験申込のみ</option>
+          <option value="question">質問のみ</option>
+        </select>
+        <button type="button" id="mp-tr-clear" class="ed-btn">クリア</button>
+      </div>
+      <div id="mp-tr-hits" style="display:none;font-size:12px;color:#8a93a0;margin-bottom:10px;"></div>
+
       <!-- 電話・紙で受けた申込を手で登録する（アプリの「＋」と同じ経路） -->
       <div id="mp-tr-addbox" style="display:none;border:1px solid #eef1f3;border-radius:12px;padding:14px 16px;margin-bottom:14px;background:#fbfcfd;">
         <div style="font-size:13px;font-weight:800;color:#1f2a37;margin-bottom:10px;">電話・紙で受けた申込を登録</div>
@@ -1201,9 +1214,37 @@
       paintTrialTabs();
       var rows=(window.__ccTrTab==='done')?done:open;
       if(cnt) cnt.textContent=all.filter(function(r){return r.status==='new';}).length+' 件の新規';
+
+      /* 絞り込み。件数が少ないうちは検索欄のほうが邪魔なので、
+         5件を超えたクラブにだけ出す */
+      var filterBox=$('mp-tr-filter');
+      if(filterBox) filterBox.style.display = (all.length>5) ? 'flex' : 'none';
+      var q=(($('mp-tr-q')||{}).value||'').trim().toLowerCase();
+      var kind=(($('mp-tr-kind')||{}).value||'');
+      var beforeFilter=rows.length;
+      if(kind) rows=rows.filter(function(r){ return (r.type||'trial')===kind; });
+      if(q){
+        rows=rows.filter(function(r){
+          return [r.parent_name, r.child_name, r.child_grade, r.message, r.preferred_date_1]
+            .some(function(v){ return String(v||'').toLowerCase().indexOf(q)>=0; });
+        });
+      }
+      var filtering = !!(q||kind);
+      // 絞り込み中のCSVは、見えているものだけを書き出す
+      window.__ccTrialsFiltered = filtering ? rows.slice() : null;
+      var hits=$('mp-tr-hits');
+      if(hits){
+        hits.style.display = filtering ? 'block' : 'none';
+        hits.textContent = filtering ? (beforeFilter+' 件中 '+rows.length+' 件を表示（CSVはこの'+rows.length+'件）') : '';
+      }
+
       if(!rows.length){
         if(list) list.innerHTML='';
-        if(empty){ empty.style.display='block'; empty.textContent=(window.__ccTrTab==='done')?'完了した申込みはまだありません。':'対応中の申込みはありません。'; }
+        if(empty){
+          empty.style.display='block';
+          empty.textContent = (q||kind) ? '条件に合う申込みはありません。'
+            : ((window.__ccTrTab==='done') ? '完了した申込みはまだありません。' : '対応中の申込みはありません。');
+        }
         return;
       }
       if(empty) empty.style.display='none';
@@ -1371,6 +1412,26 @@
     if(window.__ccTeamId) loadTrialRequests(window.__ccTeamId);
   });
 
+  /* ---- 申込の絞り込み ---- */
+  (function(){
+    var timer=null;
+    var rerun=function(){ if(window.__ccTeamId) loadTrialRequests(window.__ccTeamId); };
+    document.addEventListener('input', function(e){
+      if(!e.target || e.target.id!=='mp-tr-q') return;
+      clearTimeout(timer); timer=setTimeout(rerun, 200);   // 打鍵ごとの再描画を抑える
+    });
+    document.addEventListener('change', function(e){
+      if(!e.target || e.target.id!=='mp-tr-kind') return;
+      rerun();
+    });
+    document.addEventListener('click', function(e){
+      if(!e.target || e.target.id!=='mp-tr-clear') return;
+      var q=$('mp-tr-q'), k=$('mp-tr-kind');
+      if(q) q.value=''; if(k) k.value='';
+      rerun();
+    });
+  })();
+
   /* ---- CSV書き出し。Excelで開けるようBOM付きUTF-8 ---- */
   function trialsToCsv(rows){
     var ST={new:'対応中',attended:'体験に来た',joined:'入会',lost:'見送り'};
@@ -1392,7 +1453,8 @@
   }
   document.addEventListener('click', function(e){
     if(!e.target || e.target.id!=='mp-tr-csv') return;
-    var rows=window.__ccTrials||[];
+    // 絞り込み中は見えているものだけ。そうでなければ全件
+    var rows=window.__ccTrialsFiltered || window.__ccTrials || [];
     if(!rows.length){ alert('書き出す申込みがありません。'); return; }
     var blob=new Blob([trialsToCsv(rows)],{type:'text/csv;charset=utf-8;'});
     var a=document.createElement('a');
