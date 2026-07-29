@@ -45,6 +45,23 @@
   .mp-group{margin-bottom:16px;}
   .ed-btn{background:#fff;border:1px solid #d7dbe0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#3b4654;cursor:pointer;}
   .ed-btn:hover{background:#f3f5f7;}
+
+  /* ===== マイページのタブ =====
+     カードごとに data-pane を付け、選択中のペイン以外をCSSで隠す。
+     カード自身が display:none / flex を出し分けている（SNS連携・プラン管理など）ため、
+     JSで display を直接いじるとその制御を壊す。!important で覆い隠すだけにして、
+     ペインが一致するときは各カード本来の display をそのまま活かす。 */
+  body[data-mp-pane="inbox"]    [data-pane]:not([data-pane="inbox"]),
+  body[data-mp-pane="info"]     [data-pane]:not([data-pane="info"]),
+  body[data-mp-pane="grow"]     [data-pane]:not([data-pane="grow"]),
+  body[data-mp-pane="settings"] [data-pane]:not([data-pane="settings"]){ display:none !important; }
+
+  .mp-tabs{display:flex;gap:6px;background:#eef0f3;border-radius:999px;padding:5px;margin-bottom:18px;overflow-x:auto;}
+  .mp-tab{flex:1 0 auto;white-space:nowrap;border:none;background:transparent;color:#6b7280;
+          border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;}
+  .mp-tab[aria-selected="true"]{background:#fff;color:#1f2a37;box-shadow:0 1px 4px rgba(0,0,0,.10);}
+  .mp-tab .mp-tab-badge{display:inline-block;min-width:18px;margin-left:5px;padding:1px 5px;border-radius:999px;
+          background:#f0435c;color:#fff;font-size:10.5px;font-weight:800;vertical-align:1px;}
 </style>
 <!-- GA4 (auto-managed by install-ga4.mjs) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -126,8 +143,19 @@
       </div>
     </div>
 
+    <!-- ===== カテゴリのタブ =====
+         1ページに全部並べると縦に長すぎて、日々見たい「届いた申込」に
+         たどり着くまでスクロールが要る。用途で4つに分ける。
+         バナー（承認待ち・募集停止中）とチーム切替はタブの外に置く -->
+    <div class="mp-tabs" id="mp-tabs" role="tablist">
+      <button class="mp-tab" role="tab" data-mp-tab="inbox"    aria-selected="true">受信箱<span id="mp-tab-badge" class="mp-tab-badge" style="display:none;">0</span></button>
+      <button class="mp-tab" role="tab" data-mp-tab="info"     aria-selected="false">クラブ情報</button>
+      <button class="mp-tab" role="tab" data-mp-tab="grow"     aria-selected="false">集客・プラン</button>
+      <button class="mp-tab" role="tab" data-mp-tab="settings" aria-selected="false">設定</button>
+    </div>
+
     <!-- 募集の状態（定員が埋まったとき用。掲載の削除は取り消せないので、その手前の受け皿） -->
-    <div id="mp-recruit" class="mp-card" style="display:none;">
+    <div id="mp-recruit" class="mp-card" data-pane="settings" style="display:none;">
       <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">募集の状態</h2>
       <p class="hint" style="margin-top:0;margin-bottom:14px;">定員が埋まったときや長期休みのあいだは、掲載を消さずに募集だけ止められます。止めているあいだは検索・地図に出ず、体験申込みも届きません。</p>
       <div id="mp-recruit-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
@@ -137,8 +165,23 @@
       </div>
     </div>
 
+    <!-- 通知先メールアドレス。
+         1件しか登録できないと、担当者が交代したときに申込の通知が
+         誰にも届かなくなる。フリープランでも複数登録できるようにする -->
+    <div id="mp-notify" class="mp-card" data-pane="settings" style="display:none;">
+      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">通知先メールアドレス</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:14px;">体験申込み・新着メッセージのお知らせを受け取るアドレスです。担当者が複数いる場合は追加してください。<span id="mp-notify-limit" style="font-weight:700;"></span></p>
+      <div id="mp-notify-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
+      <div id="mp-notify-list" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input class="mp-input" id="mp-notify-email" type="email" placeholder="coach@example.com" style="flex:1 1 220px;">
+        <input class="mp-input" id="mp-notify-name" placeholder="担当者名（任意）" style="flex:1 1 140px;">
+        <button type="button" id="mp-notify-add" class="mp-btn" style="width:auto;padding:12px 24px;">追加</button>
+      </div>
+    </div>
+
     <!-- プラン -->
-    <div id="mp-plan" class="mp-card" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div id="mp-plan" class="mp-card" data-pane="grow" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
       <div>
         <div style="font-size:12px;font-weight:700;color:#8a93a0;">現在のプラン</div>
         <div id="mp-plan-name" style="font-size:18px;font-weight:900;color:#1f2a37;">無料掲載プラン</div>
@@ -149,7 +192,7 @@
     </div>
 
     <!-- 分析ダッシュボード導線（有料クラブのみ表示・?club=team.id で本人のクラブを開く） -->
-    <a id="mp-dashboard" class="mp-card" href="#" style="display:none;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;">
+    <a id="mp-dashboard" class="mp-card" href="#" data-pane="grow" style="display:none;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;">
       <div>
         <div style="font-size:12px;font-weight:700;color:#1f8a5b;">有料プラン特典</div>
         <div style="font-size:16px;font-weight:900;color:#1f2a37;">📊 分析ダッシュボードを見る</div>
@@ -159,7 +202,7 @@
     </a>
 
     <!-- SNS連携（有料クラブのみ・分析ダッシュボードの投稿分析に使う） -->
-    <div id="mp-sns" class="mp-card" style="display:none;">
+    <div id="mp-sns" class="mp-card" data-pane="grow" style="display:none;">
       <div style="font-size:12px;font-weight:700;color:#1f8a5b;">分析ダッシュボード用</div>
       <div style="font-size:16px;font-weight:900;color:#1f2a37;margin:1px 0 3px;">SNSアカウントを連携</div>
       <div style="font-size:11.5px;color:#9aa3ad;margin-bottom:13px;">連携すると、投稿数・反応・タイプ分析が自動で取り込まれます（毎日更新）</div>
@@ -176,7 +219,7 @@
     </div>
 
     <!-- ネイティブ プラン管理（有料クラブが「プランの変更・解約」を押すと開く） -->
-    <div id="mp-manage" class="mp-card" style="display:none;">
+    <div id="mp-manage" class="mp-card" data-pane="grow" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;">
         <h2 style="margin:0;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">プランの管理</h2>
         <button id="mp-manage-close" type="button" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">閉じる</button>
@@ -194,7 +237,7 @@
     </div>
 
     <!-- 体験申込み -->
-    <div class="mp-card">
+    <div class="mp-card" data-pane="inbox">
       <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">体験申込み <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
       <p style="margin:0 0 14px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みです。メッセージでやり取りし、対応状況を更新してください。</p>
 
@@ -237,7 +280,7 @@
     </div>
 
     <!-- クラブへのコメント -->
-    <div class="mp-card">
+    <div class="mp-card" data-pane="inbox">
       <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブへのコメント <span id="mp-cmt-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
       <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いたコメントです（非表示中のものも含めて確認できます）。</p>
       <div id="mp-cmt-list" style="display:flex;flex-direction:column;gap:12px;"></div>
@@ -245,7 +288,7 @@
     </div>
 
     <!-- クラブ情報の編集 -->
-    <div class="mp-card">
+    <div class="mp-card" data-pane="info">
       <h2 style="margin:0 0 16px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブ情報の編集</h2>
       <div class="mp-group">
         <label class="mp-label">ロゴ<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（任意）</span></label>
@@ -361,7 +404,7 @@
     </div>
 
     <!-- 有料プラン誘導（フリー会員向け・2プラン） -->
-    <div id="mp-upsell" class="mp-card" style="border:1.5px solid #f3c9da;background:#fffafc;">
+    <div id="mp-upsell" class="mp-card" data-pane="grow" style="border:1.5px solid #f3c9da;background:#fffafc;">
       <h2 style="margin:0 0 7px;font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;color:#e8455f;">もっと見てもらうには</h2>
       <p style="margin:0 0 16px;font-size:13px;line-height:1.9;color:#5b6573;">有料プランにすると、<strong>検索結果で上位に表示</strong>され、<strong>写真も増やせます</strong>。同じ情報でも、見られる回数と体験申込の数が大きく変わります。</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
@@ -399,7 +442,7 @@
     </div>
 
     <!-- パスワード変更 -->
-    <div class="mp-card">
+    <div class="mp-card" data-pane="settings">
       <h2 style="margin:0 0 14px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">パスワードの変更</h2>
       <div class="mp-group"><label class="mp-label">新しいパスワード<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（6文字以上）</span></label><input class="mp-input" id="pw-new" type="password" autocomplete="new-password"></div>
       <div class="mp-group"><label class="mp-label">新しいパスワード（確認）</label><input class="mp-input" id="pw-new2" type="password" autocomplete="new-password"></div>
@@ -408,7 +451,7 @@
     </div>
 
     <!-- 掲載削除 -->
-    <div class="mp-card" style="border-color:#f1c6cf;">
+    <div class="mp-card" data-pane="settings" style="border-color:#f1c6cf;">
       <h2 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#c0314b;">掲載の削除</h2>
       <p class="hint" style="margin-top:0;margin-bottom:14px;">クラブの掲載情報をチビスポから完全に削除します。<strong>この操作は取り消せません。</strong>削除後はサイトに表示されなくなります。</p>
       <div id="del-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
@@ -960,7 +1003,9 @@
     currentTeamId=teamId; team=t;
     try{ localStorage.setItem('chibi_mp_team_'+currentUserId, teamId); }catch(_){ }
     var sel=$('mp-team-select'); if(sel && sel.style.display!=='none') sel.value=teamId;
+    window.__ccPlan = effectivePlan(team);
     fillForm(team); loadClubComments(team.id); loadTrialRequests(team.id);
+    loadNotifyMembers(team.id, window.__ccPlan);
   }
   function loadTeam(userId, silent){
     currentUserId=userId;
@@ -1146,6 +1191,13 @@
       // タブの件数
       var setC=function(k,n){ var e=document.querySelector('[data-c="'+k+'"]'); if(e) e.textContent=n; };
       setC('open',open.length); setC('done',done.length);
+      // 受信箱タブに未対応件数を出す。別のタブを開いていても気づけるように
+      var badge=$('mp-tab-badge');
+      if(badge){
+        var newCount=all.filter(function(r){return r.status==='new';}).length;
+        badge.textContent=newCount;
+        badge.style.display = newCount ? 'inline-block' : 'none';
+      }
       paintTrialTabs();
       var rows=(window.__ccTrTab==='done')?done:open;
       if(cnt) cnt.textContent=all.filter(function(r){return r.status==='new';}).length+' 件の新規';
@@ -1197,6 +1249,111 @@
       loadClubUnread(rows.map(function(r){ return r.id; }));
     });
   }
+
+  /* ---- マイページのカテゴリタブ ----
+     表示・非表示は body[data-mp-pane] とCSSで行う。各カードが自前で
+     display を出し分けているので、JSからは触らない */
+  function setMpPane(pane){
+    document.body.setAttribute('data-mp-pane', pane);
+    document.querySelectorAll('.mp-tab').forEach(function(b){
+      b.setAttribute('aria-selected', String(b.getAttribute('data-mp-tab')===pane));
+    });
+    try{ localStorage.setItem('cc_mp_pane', pane); }catch(e){}
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('.mp-tab');
+    if(!b) return;
+    setMpPane(b.getAttribute('data-mp-tab'));
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  (function(){
+    var saved='inbox';
+    try{ saved = localStorage.getItem('cc_mp_pane') || 'inbox'; }catch(e){}
+    if(['inbox','info','grow','settings'].indexOf(saved)<0) saved='inbox';
+    setMpPane(saved);
+  })();
+
+  /* ---- 通知先メールアドレス（team_members） ---- */
+  function notifyMsg(ok, text){
+    var m=$('mp-notify-msg'); if(!m) return;
+    m.style.display='block';
+    m.style.background = ok ? '#e9f7ef' : '#fdeaee';
+    m.style.color = ok ? '#1f7a4d' : '#c0314b';
+    m.textContent = text;
+  }
+  function loadNotifyMembers(teamId, plan){
+    var box=$('mp-notify'); if(!box) return;
+    box.style.display='block';
+    var lim = (plan && plan!=='free') ? 20 : 3;
+    var limEl=$('mp-notify-limit');
+    if(limEl) limEl.textContent = '（' + (plan && plan!=='free' ? '有料プラン' : 'フリープラン') + 'は' + lim + '件まで）';
+    db.from('team_members').select('*').eq('team_id',teamId).order('created_at',{ascending:true}).then(function(res){
+      var list=$('mp-notify-list'); if(!list) return;
+      if(res.error){
+        // テーブル未作成でもページ全体は壊さない
+        box.style.display='none';
+        return;
+      }
+      var rows=res.data||[];
+      window.__ccMembers=rows;
+      var ce=function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+      list.innerHTML = rows.length ? rows.map(function(r){
+        var isOwner = (r.role==='owner');
+        return '<div style="display:flex;align-items:center;gap:10px;border:1px solid #eef1f3;border-radius:10px;padding:10px 12px;flex-wrap:wrap;">'
+          + '<div style="min-width:0;flex:1 1 180px;">'
+            + '<div style="font-size:13.5px;font-weight:800;color:#1f2a37;word-break:break-all;">'+ce(r.email)
+              + (isOwner?' <span style="background:#eef4ff;color:#2270e0;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;">代表</span>':'')
+            + '</div>'
+            + (r.name?'<div style="font-size:11.5px;color:#8a93a0;margin-top:2px;">'+ce(r.name)+'</div>':'')
+          + '</div>'
+          + '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#3b4654;font-weight:700;">'
+            + '<input type="checkbox" class="mp-notify-chk" data-id="'+ce(r.id)+'"'+(r.notify?' checked':'')+'> 通知を受け取る'
+          + '</label>'
+          + (isOwner ? '' : '<button type="button" class="ed-btn mp-notify-del" data-id="'+ce(r.id)+'" style="color:#c0314b;border-color:#f1c6cf;">削除</button>')
+        + '</div>';
+      }).join('') : '<p class="hint" style="margin:0;">通知先が登録されていません。申込が届いてもお知らせできない状態です。</p>';
+
+      list.querySelectorAll('.mp-notify-chk').forEach(function(c){
+        c.addEventListener('change', function(){
+          db.from('team_members').update({notify:c.checked}).eq('id',c.getAttribute('data-id')).then(function(r){
+            if(r.error){ c.checked=!c.checked; notifyMsg(false,'更新に失敗しました。'); return; }
+            notifyMsg(true, c.checked?'通知を受け取る設定にしました。':'このアドレスへの通知を止めました。');
+          });
+        });
+      });
+      list.querySelectorAll('.mp-notify-del').forEach(function(b){
+        b.addEventListener('click', function(){
+          if(!confirm('この通知先を削除しますか？')) return;
+          db.from('team_members').delete().eq('id',b.getAttribute('data-id')).then(function(r){
+            if(r.error){ notifyMsg(false,'削除に失敗しました。'); return; }
+            notifyMsg(true,'通知先を削除しました。');
+            loadNotifyMembers(teamId, plan);
+          });
+        });
+      });
+    });
+  }
+  document.addEventListener('click', function(e){
+    if(!e.target || e.target.id!=='mp-notify-add') return;
+    var em=($('mp-notify-email').value||'').trim();
+    var nm=($('mp-notify-name').value||'').trim();
+    if(!em || em.indexOf('@')<0){ notifyMsg(false,'メールアドレスを正しく入力してください。'); return; }
+    var btn=e.target; btn.disabled=true;
+    db.from('team_members').insert({ team_id: window.__ccTeamId, email: em, name: nm||null, role:'staff', notify:true })
+      .then(function(r){
+        btn.disabled=false;
+        if(r.error){
+          var m=String(r.error.message||'');
+          if(/duplicate|unique/i.test(m)) notifyMsg(false,'そのアドレスは既に登録されています。');
+          else if(/件までです/.test(m))   notifyMsg(false, m);
+          else notifyMsg(false,'追加に失敗しました。');
+          return;
+        }
+        $('mp-notify-email').value=''; $('mp-notify-name').value='';
+        notifyMsg(true,'通知先を追加しました。');
+        loadNotifyMembers(window.__ccTeamId, window.__ccPlan);
+      });
+  });
 
   /* ---- 体験申込みの「対応中／完了」タブ ---- */
   window.__ccTrTab = window.__ccTrTab || 'open';
