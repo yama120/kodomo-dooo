@@ -318,9 +318,14 @@
           }
           return { data: { user }, error: result.error };
         },
+        /* 期限が近ければ更新してから返す。
+           呼び出し側は access_token を Edge Function や Worker にそのまま渡すため、
+           保存済みの値をそのまま返すと、1時間後には期限切れのJWTを送ってしまう。
+           DB読み書き（request）は自前で更新していたので、画面は動くのに
+           Edge Function だけ失敗する、という分かりにくい壊れ方をしていた。 */
         async getSession() {
           const hashSession = await sessionFromUrlHash();
-          const session = hashSession || readSession();
+          const session = hashSession || (await ensureFreshSession()) || readSession();
           return { data: { session }, error: null };
         },
         async signOut() {

@@ -673,15 +673,16 @@
     var setSt=function(btn, val){ var st=btn.querySelector('.st'); if(!st) return;
       if(val){ st.textContent='連携済み ✓'; st.style.color='#1f8a5b'; btn.style.borderColor='#bfe6d0'; btn.style.background='#f4fbf7'; }
     };
+    // localStorage から直接読むと期限切れのトークンを送ってしまう。
+    // getSession() は必要なら更新してから返すので、そちらを通す
     try{
-      var raw=localStorage.getItem('sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth');
-      var s=raw?JSON.parse(raw):null; var token=s&&s.access_token;
-      if(token){
-        fetch(SNS_WORKER+'/api/sns-status?club='+encodeURIComponent(t.id),{headers:{Authorization:'Bearer '+token}})
+      db.auth.getSession().then(function(res){
+        var token=res&&res.data&&res.data.session&&res.data.session.access_token;
+        if(!token) return;
+        return fetch(SNS_WORKER+'/api/sns-status?club='+encodeURIComponent(t.id),{headers:{Authorization:'Bearer '+token}})
           .then(function(r){ return r.ok?r.json():null; })
-          .then(function(d){ if(!d||!d.ok) return; setSt(igBtn, d.instagram); setSt(thBtn, d.threads); })
-          .catch(function(){});
-      }
+          .then(function(d){ if(!d||!d.ok) return; setSt(igBtn, d.instagram); setSt(thBtn, d.threads); });
+      }).catch(function(){});
     }catch(e){}
   }
   function msg(el,ok,text){ el.style.display='block'; el.style.background=ok?'#eafaf0':'#fdecee'; el.style.color=ok?'#1f8a5b':'#c0314b'; el.textContent=text; }
@@ -1323,6 +1324,19 @@
     setMpPane(saved);
   })();
 
+  /* 招待APIのエラーを日本語にする。
+     「失敗しました」だけだと、期限切れなのか権限なのか分からず対処できない */
+  function inviteErrText(d){
+    var e=(d&&d.error)||'';
+    if(e==='already_joined') return 'この方はすでに参加しています。';
+    if(e==='not_owner')      return '招待できるのはクラブの代表者だけです。';
+    if(e==='bad_email')      return 'メールアドレスの形式が正しくありません。';
+    if(e==='no_auth'||e==='invalid_token') return 'ログインの有効期限が切れています。ページを再読み込みしてからもう一度お試しください。';
+    if(e==='team_not_found') return 'クラブの情報が取得できませんでした。ページを再読み込みしてください。';
+    if(/件までです/.test(String((d&&d.detail)||''))) return String(d.detail);
+    return '招待の送信に失敗しました（' + (e||'原因不明') + '）。時間をおいて試してください。';
+  }
+
   /* ---- 通知先メールアドレス（team_members） ---- */
   function notifyMsg(ok, text){
     var m=$('mp-notify-msg'); if(!m) return;
@@ -1396,7 +1410,7 @@
           }).then(function(r){ return r.json(); }).then(function(d){
             b.disabled=false; b.textContent=label;
             if(!d||!d.ok){
-              notifyMsg(false, d && d.error==='already_joined' ? 'この方はすでに参加しています。' : '招待の送信に失敗しました。');
+              notifyMsg(false, inviteErrText(d));
               return;
             }
             notifyMsg(true, '招待メールを送りました。リンクは7日間有効です。');
@@ -1453,11 +1467,7 @@
         });
       }).then(function(r){ return r.json(); }).then(function(d){
         if(!d||!d.ok){
-          var err=(d&&d.error)||'';
-          done(false, err==='already_joined' ? 'この方はすでに参加しています。'
-                    : err==='not_owner'      ? '招待できるのはクラブの代表者だけです。'
-                    : /件までです/.test(String(d&&d.detail||'')) ? String(d.detail)
-                    : '招待の送信に失敗しました。');
+          done(false, inviteErrText(d));
           return;
         }
         done(true, '招待メールを送りました。リンクは7日間有効です。');
