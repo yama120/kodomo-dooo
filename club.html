@@ -679,12 +679,23 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       var bc=document.getElementById('cd-bc-city');
       if(bc){ if(t.city){ bc.textContent=t.city; bc.href='search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.style.display='none'; var s2=document.getElementById('cd-bc-sep2'); if(s2) s2.style.display='none'; } }
     })();
-    /* age_min は登録フォームの選択肢が「3歳〜」なので、値自体に〜が入っている。
-       そこへ「〜の受入も」を足していたため、全クラブで「3歳〜〜の受入も」になっていた。
-       表示側で末尾の〜を落としてから組み立てる（保存値には手を入れない） */
+    /* 対象年齢の組み立て。
+       age_min は登録フォームでは「未就学の受け入れ開始年齢」で、
+       未就学を選んだときだけ答える項目（実データも66件すべて未就学を含む）。
+       つまり確定した下限であって留保ではないので「〜の受入も」とは書かない。
+       また末尾に付けると小学生・中学生にも掛かって見えるため、
+       下限が掛かる「未就学」の直後に置く。
+       選択肢の値が「3歳〜」で〜を含んでいるので、いったん落としてから付け直す */
     var ageMin=String(t.age_min||'').replace(/[〜～~ー\-\s]+$/,'');
-    var ages=(t.age_groups||[]).join('・');
-    if(ageMin) ages += ages ? ('（'+ageMin+'〜の受入も）') : (ageMin+'〜');
+    var groups=(t.age_groups||[]).slice();
+    var ages;
+    if(ageMin){
+      var pi=groups.indexOf('未就学');
+      if(pi>=0){ groups[pi]='未就学（'+ageMin+'〜）'; ages=groups.join('・'); }
+      else { ages=groups.length ? (groups.join('・')+'（'+ageMin+'〜）') : (ageMin+'〜'); }
+    }else{
+      ages=groups.join('・');
+    }
     setText('cd-age',ages||'お問い合わせください');
     // 紹介文：未入力なら例文を残さずセクションごと非表示
     if(t.description && String(t.description).trim()){
