@@ -679,7 +679,13 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
       var bc=document.getElementById('cd-bc-city');
       if(bc){ if(t.city){ bc.textContent=t.city; bc.href='search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.style.display='none'; var s2=document.getElementById('cd-bc-sep2'); if(s2) s2.style.display='none'; } }
     })();
-    var ages=(t.age_groups||[]).join('・'); if(t.age_min) ages+=(ages?'（'+t.age_min+'〜の受入も）':t.age_min); setText('cd-age',ages||'お問い合わせください');
+    /* age_min は登録フォームの選択肢が「3歳〜」なので、値自体に〜が入っている。
+       そこへ「〜の受入も」を足していたため、全クラブで「3歳〜〜の受入も」になっていた。
+       表示側で末尾の〜を落としてから組み立てる（保存値には手を入れない） */
+    var ageMin=String(t.age_min||'').replace(/[〜～~ー\-\s]+$/,'');
+    var ages=(t.age_groups||[]).join('・');
+    if(ageMin) ages += ages ? ('（'+ageMin+'〜の受入も）') : (ageMin+'〜');
+    setText('cd-age',ages||'お問い合わせください');
     // 紹介文：未入力なら例文を残さずセクションごと非表示
     if(t.description && String(t.description).trim()){
       setText('cd-desc', String(t.description).replace(/\*\*/g,''));
