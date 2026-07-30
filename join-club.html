@@ -112,6 +112,17 @@
     <button class="btn btn-ghost" id="toSignupBtn">パスワードを新しく決める</button>
   </div>
 
+  <!-- 別のアカウントでログイン中のとき。誰でログインしているかを見せ、切り替え手段を出す -->
+  <div id="switchArea" style="display:none;">
+    <div class="alert alert-error" style="margin-bottom:14px;">
+      いま <strong id="mineEmail"></strong> でログインしています。<br>
+      この招待は <strong id="inviteEmail"></strong> 宛です。
+    </div>
+    <p class="lead" style="margin-bottom:16px;">招待されたアドレスで参加する必要があります。下のボタンでログアウトすると、そのまま参加の手続きに進めます。</p>
+    <button class="btn" id="logoutBtn">ログアウトして招待を受ける</button>
+    <a class="btn btn-ghost" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;line-height:1.2;">このまま自分のマイページへ戻る</a>
+  </div>
+
   <div id="doneArea" style="display:none;">
     <a class="btn" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;">クラブのマイページを開く</a>
   </div>
@@ -173,10 +184,19 @@ function boot(){
     $('clubRole').textContent = (d.role === 'owner' ? '代表として参加' : 'スタッフとして参加') + '（' + d.email + '）';
     $('email').value = d.email || '';
     // 既にログイン中なら、そのアカウントで参加できる
+    /* 既にログイン中でも、招待先と同じアカウントか確かめてから承諾する。
+       以前は無条件に accept を投げていたため、クラブの代表者が自分で
+       リンクを開くと「アカウントが違います」だけが出て、しかも
+       ログアウト手段が無く先に進めなかった。 */
     db.auth.getSession().then(function(res){
       var s = res && res.data && res.data.session;
-      if (s) { accept(s.access_token); return; }
-      $('signupArea').style.display = 'block';
+      if (!s) { $('signupArea').style.display = 'block'; return; }
+      var mine = String((s.user && s.user.email) || '').toLowerCase();
+      if (mine && mine === String(d.email || '').toLowerCase()) { accept(s.access_token); return; }
+      // 別のアカウントでログイン中。誰でログインしているかを見せて、切り替え手段を出す
+      $('mineEmail').textContent = mine || '（不明）';
+      $('inviteEmail').textContent = d.email || '';
+      $('switchArea').style.display = 'block';
     });
   }).catch(function(){
     $('lead').textContent = '';
@@ -236,6 +256,17 @@ $('loginBtn').addEventListener('click', function(){
     var tok = r && r.data && r.data.session && r.data.session.access_token;
     if (!tok) { show(false, 'メールアドレスまたはパスワードが正しくありません。'); return; }
     return accept(tok);
+  });
+});
+
+// ログアウトしてこのページに戻る（トークンはURLに残っているのでそのまま続けられる）
+$('logoutBtn').addEventListener('click', function(){
+  var btn = this; btn.disabled = true; btn.textContent = 'ログアウト中…';
+  db.auth.signOut().then(function(){
+    location.href = 'join-club.html?token=' + encodeURIComponent(token);
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'ログアウトして招待を受ける';
+    show(false, 'ログアウトに失敗しました。');
   });
 });
 

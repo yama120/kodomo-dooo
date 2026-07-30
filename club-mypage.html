@@ -46,6 +46,43 @@
   .ed-btn{background:#fff;border:1px solid #d7dbe0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#3b4654;cursor:pointer;}
   .ed-btn:hover{background:#f3f5f7;}
 
+  /* ===== 申込カードの対応状況 =====
+     以前はインラインstyleで組んでいて、高さ・角丸・文字サイズが
+     ボタンごとに違い、状態ラベルもボタンと同じ行に並んでいて不揃いだった。
+     高さ44pxに統一し、状態ラベルは行を分ける */
+  .tr-card{border:1px solid #eef1f3;border-radius:14px;padding:16px;}
+  .tr-card.is-new{border-color:#f3c9da;background:#fffafc;}
+  .tr-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+  .tr-name{font-size:14px;font-weight:800;color:#1f2a37;}
+  .tr-date{font-size:11.5px;color:#aab1bb;white-space:nowrap;}
+  .tr-meta{font-size:12.5px;color:#5a6472;line-height:1.85;}
+  .tr-tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1.5px;}
+
+  /* 状態ラベル（体験参加済み／入会済み／見送り）は独立した行に置く */
+  .tr-state{display:flex;align-items:center;gap:8px;margin-top:12px;}
+  .tr-state span{font-size:11.5px;font-weight:800;padding:4px 11px;border-radius:999px;}
+
+  .tr-msg{width:100%;height:44px;margin-top:12px;background:#fff;border:1.5px solid #f0435c;color:#f0435c;
+          border-radius:11px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;
+          display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+  .tr-msg:hover{background:#fff5f7;}
+
+  .tr-actions{display:flex;gap:8px;margin-top:8px;}
+  .tr-btn{height:44px;border-radius:11px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;
+          border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;
+          padding:0 14px;white-space:nowrap;}
+  .tr-btn:disabled{opacity:.55;cursor:default;}
+  .tr-btn.is-primary{flex:1 1 auto;background:#f0435c;color:#fff;}
+  .tr-btn.is-good{flex:1 1 auto;background:#1f8a5b;color:#fff;}
+  /* 否定的な選択は主ボタンより控えめに、幅も固定して主従を明確にする */
+  .tr-btn.is-ghost{flex:0 0 auto;min-width:104px;background:#fff;color:#5a6472;border-color:#d7dbe0;}
+  .tr-btn.is-ghost:hover{background:#f5f7f9;}
+  .tr-btn.is-wide{flex:1 1 100%;}
+
+  .tr-undo{display:block;width:100%;margin-top:8px;padding:6px 0;text-align:center;background:none;border:none;
+           color:#8a93a0;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:underline;}
+  .tr-undo:hover{color:#5a6472;}
+
   /* ===== マイページのタブ =====
      カードごとに data-pane を付け、選択中のペイン以外をCSSで隠す。
      カード自身が display:none / flex を出し分けている（SNS連携・プラン管理など）ため、
@@ -1235,32 +1272,41 @@
        ・「入会」にしても会員数が増えない（アプリでは増える）
      という食い違いがあった。Worker を通すことで両方そろう */
   function statusControls(r, ce){
-    var id=ce(r.id), btn='';
-    var B=function(to,label,style){
-      return '<button type="button" class="mp-tr-act" data-id="'+id+'" data-to="'+to+'" style="'+style+'">'+label+'</button>';
+    var id=ce(r.id);
+    // ボタンの見た目はCSS（.tr-btn / .tr-undo）に寄せる。
+    // 以前はインラインstyleで高さも角丸も文字サイズもバラバラだった
+    var B=function(to,label,cls){
+      return '<button type="button" class="mp-tr-act '+cls+'" data-id="'+id+'" data-to="'+to+'">'+label+'</button>';
     };
-    var primary='flex:1;min-width:120px;background:#f0435c;color:#fff;border:none;border-radius:10px;padding:10px 0;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;';
-    var good   ='flex:1;min-width:120px;background:#1f8a5b;color:#fff;border:none;border-radius:10px;padding:10px 0;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;';
-    var ghost  ='border:1px solid #d7dbe0;background:#fff;color:#3b4654;border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;';
-    var link   ='background:none;border:none;color:#8a93a0;font-size:11.5px;font-weight:700;text-decoration:underline;cursor:pointer;font-family:inherit;padding:4px 0;';
-    var pill=function(t,bg,fg){ return '<span style="background:'+bg+';color:'+fg+';font-size:11px;font-weight:800;border-radius:999px;padding:4px 10px;">'+t+'</span>'; };
+    var state=function(t,bg,fg){
+      return '<div class="tr-state"><span style="background:'+bg+';color:'+fg+';">'+t+'</span></div>';
+    };
 
     if(r.type==='question'){
       // 質問は体験の進行段階を持たない
-      if(r.status==='joined'||r.status==='lost') return '<div style="margin-top:10px;">'+pill('対応済み','#f1f3f6','#6b7280')+' '+B('new','対応中に戻す',link)+'</div>';
-      return '<div style="margin-top:10px;">'+B('lost','対応済みにする','width:100%;'+ghost)+'</div>';
+      if(r.status==='joined'||r.status==='lost'){
+        return state('対応済み','#f1f3f6','#6b7280') + B('new','対応中に戻す','tr-undo');
+      }
+      return '<div class="tr-actions">'+B('lost','対応済みにする','tr-btn is-ghost is-wide')+'</div>';
     }
     if(r.status==='new'){
-      btn = B('attended','体験に来た',primary) + B('lost','来なかった',ghost);
-    }else if(r.status==='attended'){
-      btn = pill('体験参加済み','#eef4ff','#2270e0') + B('joined','入会した',good) + B('lost','見送り',ghost)
-          + '<div style="width:100%;text-align:center;">'+B('new','対応中に戻す',link)+'</div>';
-    }else if(r.status==='joined'){
-      btn = pill('✓ 入会済み','#e9f7ef','#1f7a4d') + B('attended','取り消す',link);
-    }else{
-      btn = pill('見送り','#f1f3f6','#6b7280') + B('new','取り消す',link);
+      return '<div class="tr-actions">'
+        + B('attended','体験に来た','tr-btn is-primary')
+        + B('lost','来なかった','tr-btn is-ghost')
+      + '</div>';
     }
-    return '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+btn+'</div>';
+    if(r.status==='attended'){
+      return state('体験参加済み','#eef4ff','#2270e0')
+        + '<div class="tr-actions">'
+          + B('joined','入会した','tr-btn is-good')
+          + B('lost','見送り','tr-btn is-ghost')
+        + '</div>'
+        + B('new','対応中に戻す','tr-undo');
+    }
+    if(r.status==='joined'){
+      return state('✓ 入会済み','#e9f7ef','#1f7a4d') + B('attended','入会を取り消す','tr-undo');
+    }
+    return state('見送り','#f1f3f6','#6b7280') + B('new','対応中に戻す','tr-undo');
   }
 
   function setTrialStatus(teamId, id, to, btn){
@@ -1345,20 +1391,27 @@
       list.innerHTML=rows.map(function(r){
         var isNew=r.status==='new';
         var isQ=(r.type==='question');
-        return '<div style="border:1px solid '+(isNew?'#f3c9da':'#eef1f3')+';border-radius:12px;padding:14px 16px;'+(isNew?'background:#fffafc;':'')+'">'
-          + '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:7px;">'
-            + '<span style="font-size:13.5px;font-weight:800;color:#1f2a37;">'+ce(r.parent_name)+' さん'
-              +(isQ?' <span style="background:#eef4ff;color:#2270e0;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">質問</span>':'')
-              +(isNew?' <span style="background:#ea3b7e;color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;vertical-align:1px;">NEW</span>':'')+'</span>'
-            + '<span style="font-size:11.5px;color:#aab1bb;">'+fmt(r.created_at)+'</span>'
+        // 未入力の項目は「-」で埋めず行ごと省く。空欄が並ぶと読みにくい
+        var meta=[];
+        if(!isQ){
+          if(r.child_name)  meta.push('お子さま：'+ce(r.child_name));
+          if(r.child_grade) meta.push('学年：'+ce(r.child_grade));
+          if(r.experience_level) meta.push('経験：'+ce(r.experience_level));
+        }
+        var lines=[];
+        if(meta.length) lines.push(meta.join('　'));
+        if(r.preferred_date_1) lines.push('希望日：'+ce(r.preferred_date_1)+(r.preferred_date_2?(' / '+ce(r.preferred_date_2)):''));
+        if(r.message) lines.push('メッセージ：'+ce(r.message));
+
+        return '<div class="tr-card'+(isNew?' is-new':'')+'">'
+          + '<div class="tr-head">'
+            + '<span class="tr-name">'+ce(r.parent_name)+' さん'
+              +(isQ?' <span class="tr-tag" style="background:#eef4ff;color:#2270e0;">質問</span>':'')
+              +(isNew?' <span class="tr-tag" style="background:#ea3b7e;color:#fff;">NEW</span>':'')+'</span>'
+            + '<span class="tr-date">'+fmt(r.created_at)+'</span>'
           + '</div>'
-          + '<div style="font-size:12.5px;color:#3a4550;line-height:1.9;">'
-            + (isQ ? '' : ('学年：'+ce(r.child_grade||'-')+'　経験：'+ce(r.experience_level||'-')+'<br>'))
-            + (r.preferred_date_1?('希望日：'+ce(r.preferred_date_1)+(r.preferred_date_2?(' / '+ce(r.preferred_date_2)):'')+'<br>'):'')
-            + (r.message?('メッセージ：'+ce(r.message)):'')
-          + '</div>'
-          + '<button data-chat="'+ce(r.id)+'" data-who="'+ce(r.parent_name)+'" data-child="'+ce([r.child_name,r.child_grade].filter(Boolean).join('・'))+'" '
-            + 'style="width:100%;margin-top:11px;background:#fff;border:1.5px solid #f0435c;color:#f0435c;border-radius:10px;padding:10px 0;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;">'
+          + (lines.length?('<div class="tr-meta">'+lines.join('<br>')+'</div>'):'')
+          + '<button class="tr-msg" data-chat="'+ce(r.id)+'" data-who="'+ce(r.parent_name)+'" data-child="'+ce([r.child_name,r.child_grade].filter(Boolean).join('・'))+'">'
             + 'メッセージ<span data-unread="'+ce(r.id)+'"></span></button>'
           + statusControls(r, ce)
         + '</div>';
