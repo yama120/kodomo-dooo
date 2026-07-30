@@ -207,34 +207,49 @@
          誰にも届かなくなる。フリープランでも複数登録できるようにする -->
     <div id="mp-notify" class="mp-card" data-pane="settings" style="display:none;">
       <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">スタッフと通知先</h2>
-      <!-- 何の通知が届くのかを具体的に書く。「通知」だけでは中身が伝わらない -->
       <p class="hint" style="margin-top:0;margin-bottom:12px;">
-        次の2つが起きたときに、メールでお知らせが届く人です。<span id="mp-notify-limit" style="font-weight:700;"></span>
+        クラブに関わる人を登録します。権限によってできることが変わります。<span id="mp-notify-limit" style="font-weight:700;"></span>
       </p>
-      <ul class="hint" style="margin:0 0 12px;padding-left:1.1em;line-height:1.9;">
-        <li>体験申込み・質問が届いたとき</li>
-        <li>保護者から新しいメッセージが届いたとき</li>
-      </ul>
+      <!-- 権限ごとに何ができるのかを一覧で示す。追加のときに迷わないように -->
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;">
+        <tr style="background:#f6f7f9;">
+          <th style="text-align:left;padding:7px 9px;font-weight:800;color:#3b4654;border:1px solid #eef1f3;">権限</th>
+          <th style="text-align:left;padding:7px 9px;font-weight:800;color:#3b4654;border:1px solid #eef1f3;">できること</th>
+        </tr>
+        <tr>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;font-weight:800;white-space:nowrap;">お知らせ係</td>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;color:#5a6472;line-height:1.75;">メールでお知らせを受け取るだけ（ログインはできません）</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;font-weight:800;white-space:nowrap;">スタッフ</td>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;color:#5a6472;line-height:1.75;">お知らせの受け取り＋申込の確認・保護者への返信・クラブ情報の編集</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;font-weight:800;white-space:nowrap;color:#8a93a0;">代表</td>
+          <td style="padding:7px 9px;border:1px solid #eef1f3;color:#8a93a0;line-height:1.75;">上記＋プランの変更・掲載の削除・募集の停止<br><span style="font-size:11px;">（クラブを登録した本人のみ。変更できません）</span></td>
+        </tr>
+      </table>
       <p class="hint" style="margin:0 0 14px;">
-        お知らせを受け取るだけの人は、ログインはできません。申込の確認や保護者への返信もしてもらう場合は「ログインを招待」してください。
+        お知らせが届くのは「体験申込み・質問が届いたとき」と「保護者から新しいメッセージが届いたとき」です。
       </p>
       <div id="mp-notify-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
       <div id="mp-notify-list" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
 
-      <!-- 追加フォーム。代表者だけに出す -->
+      <!-- 追加フォーム。代表者だけに出す。
+           以前は「通知を受け取る」と「ログインもできるようにする」の
+           2つのチェックがあり、組み合わせを考えさせていた。
+           権限を1つ選ぶだけにして、通知とログインは権限から決まるようにする -->
       <div id="mp-notify-form">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <input class="mp-input" id="mp-notify-email" type="email" placeholder="coach@example.com" style="flex:1 1 220px;">
-          <input class="mp-input" id="mp-notify-name" placeholder="担当者名（任意）" style="flex:1 1 140px;">
+          <input class="mp-input" id="mp-notify-email" type="email" placeholder="coach@example.com" style="flex:1 1 200px;">
+          <input class="mp-input" id="mp-notify-name" placeholder="担当者名（任意）" style="flex:1 1 130px;">
+          <select class="mp-input" id="mp-notify-role" style="flex:0 1 150px;">
+            <option value="notice">お知らせ係として追加</option>
+            <option value="staff">スタッフとして追加</option>
+          </select>
           <button type="button" id="mp-notify-add" class="mp-btn" style="width:auto;padding:12px 24px;">追加</button>
         </div>
-        <label style="display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12.5px;font-weight:700;color:#3b4654;">
-          <input type="checkbox" id="mp-notify-invite"> ログインもできるようにする
-        </label>
-        <p class="hint" style="margin:7px 0 0;">
-          追加すると、そのアドレスに登録のお知らせが届きます。<br>
-          チェックを入れた場合は招待メールになり、リンクから参加すると<strong>申込の確認・返信とクラブ情報の編集</strong>ができるようになります。プランの変更・掲載の削除・募集の停止は代表者だけです。
-        </p>
+        <p class="hint" id="mp-notify-roleNote" style="margin:9px 0 0;"></p>
       </div>
       <p id="mp-notify-readonly" class="hint" style="display:none;margin:0;">スタッフの追加・削除はクラブの代表者だけが行えます。</p>
     </div>
@@ -1493,6 +1508,19 @@
     return '登録しましたが、メールの送信はスキップされました。';
   }
 
+  /* 選んだ権限で何が起きるのかを、追加ボタンを押す前に見せる。
+     送るメールの種類まで書いておかないと、相手に何が届くのか分からない */
+  function paintRoleNote(){
+    var sel=$('mp-notify-role'), note=$('mp-notify-roleNote');
+    if(!sel||!note) return;
+    note.innerHTML = (sel.value==='staff')
+      ? '招待メールが届きます。リンクから参加すると<strong>申込の確認・保護者への返信・クラブ情報の編集</strong>ができるようになります。'
+      : '登録のお知らせメールが届きます。<strong>ログインはできません</strong>ので、相手の操作は要りません。';
+  }
+  document.addEventListener('change', function(e){
+    if(e.target && e.target.id==='mp-notify-role') paintRoleNote();
+  });
+
   /* ---- 通知先メールアドレス（team_members） ---- */
   function notifyMsg(ok, text){
     var m=$('mp-notify-msg'); if(!m) return;
@@ -1521,6 +1549,7 @@
       var f=$('mp-notify-form'), ro=$('mp-notify-readonly');
       if(f)  f.style.display  = amOwner ? 'block' : 'none';
       if(ro) ro.style.display = amOwner ? 'none'  : 'block';
+      paintRoleNote();
 
       var ce=function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
       var pill=function(text,bg,fg){ return '<span style="background:'+bg+';color:'+fg+';font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;white-space:nowrap;">'+text+'</span>'; };
@@ -1607,14 +1636,15 @@
     var em=($('mp-notify-email').value||'').trim();
     var nm=($('mp-notify-name').value||'').trim();
     if(!em || em.indexOf('@')<0){ notifyMsg(false,'メールアドレスを正しく入力してください。'); return; }
-    var wantInvite = !!($('mp-notify-invite') && $('mp-notify-invite').checked);
+    // 権限で分岐する。staff は招待メール、notice はお知らせメールだけ
+    var wantInvite = (($('mp-notify-role')||{}).value === 'staff');
     var btn=e.target; btn.disabled=true;
     var done=function(ok, text){
       btn.disabled=false;
       notifyMsg(ok, text);
       if(ok){
         $('mp-notify-email').value=''; $('mp-notify-name').value='';
-        if($('mp-notify-invite')) $('mp-notify-invite').checked=false;
+        if($('mp-notify-role')) $('mp-notify-role').value='notice';
         loadNotifyMembers(window.__ccTeamId, window.__ccPlan);
       }
     };
