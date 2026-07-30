@@ -207,7 +207,17 @@
          誰にも届かなくなる。フリープランでも複数登録できるようにする -->
     <div id="mp-notify" class="mp-card" data-pane="settings" style="display:none;">
       <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">スタッフと通知先</h2>
-      <p class="hint" style="margin-top:0;margin-bottom:14px;">体験申込み・新着メッセージのお知らせを受け取る人です。ログインを招待すると、その人も申込の確認と返信ができるようになります。<span id="mp-notify-limit" style="font-weight:700;"></span></p>
+      <!-- 何の通知が届くのかを具体的に書く。「通知」だけでは中身が伝わらない -->
+      <p class="hint" style="margin-top:0;margin-bottom:12px;">
+        次の2つが起きたときに、メールでお知らせが届く人です。<span id="mp-notify-limit" style="font-weight:700;"></span>
+      </p>
+      <ul class="hint" style="margin:0 0 12px;padding-left:1.1em;line-height:1.9;">
+        <li>体験申込み・質問が届いたとき</li>
+        <li>保護者から新しいメッセージが届いたとき</li>
+      </ul>
+      <p class="hint" style="margin:0 0 14px;">
+        お知らせを受け取るだけの人は、ログインはできません。申込の確認や保護者への返信もしてもらう場合は「ログインを招待」してください。
+      </p>
       <div id="mp-notify-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
       <div id="mp-notify-list" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
 
@@ -1513,7 +1523,8 @@
       if(ro) ro.style.display = amOwner ? 'none'  : 'block';
 
       var ce=function(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
-      var pill=function(text,bg,fg){ return '<span style="background:'+bg+';color:'+fg+';font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;">'+text+'</span>'; };
+      var pill=function(text,bg,fg){ return '<span style="background:'+bg+';color:'+fg+';font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px;white-space:nowrap;">'+text+'</span>'; };
+      var mmdd=function(s){ try{ var d=new Date(s); return (d.getMonth()+1)+'/'+d.getDate(); }catch(e){ return ''; } };
       list.innerHTML = rows.length ? rows.map(function(r){
         var isOwner = (r.role==='owner');
         var joined  = !!r.user_id;
@@ -1521,14 +1532,20 @@
                       && (!r.invite_expires_at || Date.parse(r.invite_expires_at) > Date.now());
         var expired = !joined && !!r.invite_token
                       && !!r.invite_expires_at && Date.parse(r.invite_expires_at) <= Date.now();
+        /* バッジは「ログインできるか」だけを表す。
+           以前は「通知のみ」と書いていたため、どの通知の話なのか読み取れず、
+           しかも通知をオフにしても「通知のみ」と出て実態と食い違っていた。
+           通知のオン/オフは隣のチェックボックスが担う */
         var state = isOwner ? pill('代表','#eef4ff','#2270e0')
-                  : joined  ? pill('ログイン可','#e9f7ef','#1f7a4d')
-                  : pending ? pill('招待中','#fff6df','#a9781c')
+                  : joined  ? pill('ログインできる','#e9f7ef','#1f7a4d')
+                  : pending ? pill('招待中'+(r.invite_expires_at?('（'+mmdd(r.invite_expires_at)+'まで）'):''),'#fff6df','#a9781c')
                   : expired ? pill('招待の期限切れ','#fdeaee','#c0314b')
-                            : pill('通知のみ','#f1f3f6','#6b7280');
+                            : pill('ログインなし','#f1f3f6','#6b7280');
+        // 通知が切れていることは別に見せる（何も届かない状態を隠さない）
+        var offTag = r.notify ? '' : ' '+pill('通知オフ','#fdeaee','#c0314b');
         return '<div style="display:flex;align-items:center;gap:10px;border:1px solid #eef1f3;border-radius:10px;padding:10px 12px;flex-wrap:wrap;">'
           + '<div style="min-width:0;flex:1 1 180px;">'
-            + '<div style="font-size:13.5px;font-weight:800;color:#1f2a37;word-break:break-all;">'+ce(r.email)+' '+state+'</div>'
+            + '<div style="font-size:13.5px;font-weight:800;color:#1f2a37;word-break:break-all;">'+ce(r.email)+' '+state+offTag+'</div>'
             + (r.name?'<div style="font-size:11.5px;color:#8a93a0;margin-top:2px;">'+ce(r.name)+'</div>':'')
           + '</div>'
           + '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#3b4654;font-weight:700;">'
