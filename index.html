@@ -1711,15 +1711,36 @@
       if(!Array.isArray(teams)||!teams.length) return;
       // 手動ピックアップ（先頭に固定表示するクラブ）
       var PINNED=['961d5b61-4425-42bf-b778-c3ec44b79359']; // Ripples Dance Company 刈谷校
-      function pinIdx(t){ var i=PINNED.indexOf(t.id); return i<0?PINNED.length:i; }
-      // ピックアップ → 有料プラン → 写真あり → 新着 の順で最大8件
-      teams.sort(function(a,b){
-        return pinIdx(a)-pinIdx(b)
-          || (isPaid(b)?1:0)-(isPaid(a)?1:0)
-          || (b.photo_url?1:0)-(a.photo_url?1:0)
-          || new Date(b.created_at)-new Date(a.created_at);
+
+      /* 新着順だと、系列校をまとめて登録したクラブで枠が埋まる。
+         実際 LOICX は1アカウントに16校あり、注目枠がほぼ同じ名前で並んでいた。
+         写真のあるクラブから、同じ運営につき1校だけを選び、毎回ランダムに並べる。
+         同一運営の判定は user_id。クラブ名の文字列処理より確実 */
+      function shuffle(a){
+        for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; }
+        return a;
+      }
+      function ownerKey(t){ return t.user_id || t.email || t.id; }
+
+      var withPhoto = teams.filter(function(t){ return !!t.photo_url; });
+      var pool = (withPhoto.length >= 8) ? withPhoto : teams;   // 写真ありで足りなければ全体から
+      var seen = {}, uniq = [];
+      shuffle(pool.slice()).forEach(function(t){
+        var k = ownerKey(t);
+        if(seen[k]) return;                 // 同じ運営からは1校だけ（どの校になるかもランダム）
+        seen[k] = 1; uniq.push(t);
       });
-      sc.innerHTML = teams.slice(0,8).map(card).join('');
+
+      /* 有料プランは「上位表示」「注目のクラブ枠に掲載」と明示して売っているので、
+         ランダム化の対象にしつつも無料より前に出す。同じ層の中だけで毎回入れ替える */
+      var picks = shuffle(uniq.filter(isPaid)).concat(shuffle(uniq.filter(function(t){ return !isPaid(t); })));
+
+      // 手動ピックアップは先頭に固定
+      var pinned = teams.filter(function(t){ return PINNED.indexOf(t.id)>=0; });
+      pinned.forEach(function(p){ picks = picks.filter(function(t){ return t.id!==p.id; }); });
+      picks = pinned.concat(picks);
+
+      sc.innerHTML = picks.slice(0,8).map(card).join('');
       sc.dispatchEvent(new Event('scroll')); // 中央強調を再計算
     })
     .catch(function(){});
