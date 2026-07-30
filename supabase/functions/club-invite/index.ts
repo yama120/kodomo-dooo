@@ -37,6 +37,65 @@ serve(async (req) => {
   const { action, token, team_id, email, name, role } = await req.json().catch(() => ({}));
   const bearer = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
 
+  /* ---------- 通知先に登録したことを本人に知らせる（要オーナーのJWT） ----------
+     これが無いと、追加された人は自分が登録されたことを知らないまま、
+     ある日いきなり体験申込の通知を受け取ることになる。
+     ログインリンクは含めない（通知だけ受け取る相手にクラブ管理への
+     入口を渡すのは行き過ぎ。共用アドレスの場合はなおさら） */
+  if (action === 'notice') {
+    if (!bearer) return json({ ok: false, error: 'no_auth' }, 401);
+    const { data: ures } = await admin.auth.getUser(bearer);
+    const user = ures?.user;
+    if (!user) return json({ ok: false, error: 'invalid_token' }, 401);
+
+    const addr = String(email || '').trim().toLowerCase();
+    if (!addr || !addr.includes('@')) return json({ ok: false, error: 'bad_email' }, 400);
+
+    const { data: teams } = await admin.from('teams').select('id, name, user_id').eq('id', team_id).limit(1);
+    const team = teams?.[0] as { id: string; name: string; user_id: string } | undefined;
+    if (!team) return json({ ok: false, error: 'team_not_found' }, 404);
+    if (team.user_id !== user.id) return json({ ok: false, error: 'not_owner' }, 403);
+
+    if (isTestAddr(user.email || '') && !isTestAddr(addr)) {
+      return json({ ok: true, mail: 'skipped_test_account_to_real_recipient' });
+    }
+    if (!RESEND_API_KEY) return json({ ok: true, mail: 'skipped_no_key' });
+
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RESEND_API_KEY}` },
+      body: JSON.stringify({
+        from: 'チビスポ <info@chibispo.com>',
+        to: addr,
+        subject: `【チビスポ】${team.name} の通知先に登録されました`,
+        html: `
+          <div style="font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',sans-serif;background:#fafbfc;padding:28px 16px;">
+            <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #edf0f4;border-radius:16px;padding:28px 24px;">
+              <div style="font-size:19px;font-weight:800;color:#f0435c;letter-spacing:.04em;">チビスポ</div>
+              <h1 style="font-size:17px;font-weight:700;color:#21315b;margin:18px 0 0;">${team.name} の通知先に登録されました</h1>
+              <p style="font-size:13.5px;line-height:1.9;color:#4a5468;margin:14px 0 0;">
+                このメールアドレスが <strong style="color:#21315b;">${team.name}</strong> の通知先として登録されました。<br>
+                今後、体験申込みや新着メッセージのお知らせがこのアドレスに届きます。
+              </p>
+              <p style="font-size:13.5px;line-height:1.9;color:#4a5468;margin:14px 0 0;">
+                <strong>お手続きは必要ありません。</strong>このままお待ちください。
+              </p>
+              <hr style="border:none;border-top:1px solid #edf0f4;margin:22px 0 0;">
+              <p style="font-size:11.5px;line-height:1.8;color:#7a8299;margin:16px 0 0;">
+                心当たりがない場合は、クラブのご担当者にご確認いただくか、
+                <a href="mailto:info@chibispo.com" style="color:#7a8299;">info@chibispo.com</a> までご連絡ください。<br>
+                通知の停止はクラブのマイページから行えます。
+              </p>
+              <p style="font-size:11px;color:#9aa1b2;margin:16px 0 0;">
+                チビスポ ／ <a href="${SITE}" style="color:#9aa1b2;">chibispo.com</a>
+              </p>
+            </div>
+          </div>`,
+      }),
+    });
+    return json({ ok: true, mail: r.status });
+  }
+
   /* ---------- 招待リンクの中身を見る（未ログインでも可） ---------- */
   if (action === 'peek') {
     if (!token) return json({ ok: false, error: 'no_token' }, 400);

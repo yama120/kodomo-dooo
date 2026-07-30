@@ -219,9 +219,12 @@
           <button type="button" id="mp-notify-add" class="mp-btn" style="width:auto;padding:12px 24px;">追加</button>
         </div>
         <label style="display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12.5px;font-weight:700;color:#3b4654;">
-          <input type="checkbox" id="mp-notify-invite"> ログインもできるようにする（招待メールを送る）
+          <input type="checkbox" id="mp-notify-invite"> ログインもできるようにする
         </label>
-        <p class="hint" style="margin:7px 0 0;">招待した人は、申込の確認・返信とクラブ情報の編集ができます。プランの変更・掲載の削除・募集の停止は代表者だけです。</p>
+        <p class="hint" style="margin:7px 0 0;">
+          追加すると、そのアドレスに登録のお知らせが届きます。<br>
+          チェックを入れた場合は招待メールになり、リンクから参加すると<strong>申込の確認・返信とクラブ情報の編集</strong>ができるようになります。プランの変更・掲載の削除・募集の停止は代表者だけです。
+        </p>
       </div>
       <p id="mp-notify-readonly" class="hint" style="display:none;margin:0;">スタッフの追加・削除はクラブの代表者だけが行えます。</p>
     </div>
@@ -1468,6 +1471,18 @@
     return '招待の送信に失敗しました（' + (e||'原因不明') + '）。時間をおいて試してください。';
   }
 
+  /* 送信がスキップされたかどうかを見て、正直に伝える。
+     検証用アカウントのガードで送っていないのに「送りました」と出すと、
+     届かないメールを待たせてしまう */
+  function mailSent(d){ return !(d && typeof d.mail === 'string' && d.mail.indexOf('skipped') === 0); }
+  function mailResultText(d, okText){
+    if(mailSent(d)) return okText;
+    if(d.mail === 'skipped_test_account_to_real_recipient'){
+      return '登録しましたが、メールは送っていません（検証用アカウントから実在のアドレスへの送信は止めています）。';
+    }
+    return '登録しましたが、メールの送信はスキップされました。';
+  }
+
   /* ---- 通知先メールアドレス（team_members） ---- */
   function notifyMsg(ok, text){
     var m=$('mp-notify-msg'); if(!m) return;
@@ -1544,7 +1559,7 @@
               notifyMsg(false, inviteErrText(d));
               return;
             }
-            notifyMsg(true, '招待メールを送りました。リンクは7日間有効です。');
+            notifyMsg(mailSent(d), mailResultText(d, '招待メールを送りました。リンクは7日間有効です。'));
             loadNotifyMembers(teamId, plan);
           }).catch(function(){ b.disabled=false; b.textContent=label; notifyMsg(false,'通信に失敗しました。'); });
         });
@@ -1601,7 +1616,7 @@
           done(false, inviteErrText(d));
           return;
         }
-        done(true, '招待メールを送りました。リンクは7日間有効です。');
+        done(mailSent(d), mailResultText(d, '招待メールを送りました。リンクは7日間有効です。'));
       }).catch(function(){ done(false,'通信に失敗しました。'); });
       return;
     }
@@ -1616,7 +1631,25 @@
           else done(false,'追加に失敗しました。');
           return;
         }
-        done(true,'通知先を追加しました。');
+        /* 登録したことを本人に知らせる。
+           これが無いと、追加された人は自分が登録されたことを知らないまま
+           ある日いきなり体験申込の通知を受け取ることになる。
+           ログインリンクは含めない（通知だけの相手に管理の入口は渡さない）。
+           お知らせの送信に失敗しても登録自体は成立しているので、
+           そのことが分かる文言にする */
+        db.auth.getSession().then(function(res){
+          var tok=res&&res.data&&res.data.session&&res.data.session.access_token;
+          return fetch(SBU+'/functions/v1/club-invite',{
+            method:'POST',
+            headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},
+            body:JSON.stringify({action:'notice', team_id:window.__ccTeamId, email:em}),
+          });
+        }).then(function(r2){ return r2.json(); }).then(function(d2){
+          if(!d2||!d2.ok){ done(true,'通知先を追加しました（お知らせメールは送れませんでした）。'); return; }
+          done(mailSent(d2), mailResultText(d2, '通知先を追加し、本人にお知らせメールを送りました。'));
+        }).catch(function(){
+          done(true,'通知先を追加しました（お知らせメールは送れませんでした）。');
+        });
       });
   });
 
