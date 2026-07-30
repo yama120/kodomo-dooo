@@ -52,6 +52,18 @@
     .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
     .alert-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
     .note { font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:14px; text-align:center; }
+
+    /* 参加前：何ができるようになるのか */
+    .can { border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:18px; text-align:left; background:#fbfcfd; }
+    .can-t { font-size:13px; font-weight:800; color:var(--text); margin-bottom:8px; line-height:1.6; }
+    .can-l { margin:0; padding-left:1.15em; font-size:12.5px; color:#4a5560; line-height:1.95; }
+    .can-n { font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:9px; }
+
+    /* 参加後：次回のログイン方法 */
+    .next { border:1px solid #b9d2f0; background:#eef4fc; border-radius:12px; padding:14px 16px; margin-bottom:14px; text-align:left; }
+    .next-t { font-size:13px; font-weight:800; color:#2a5fa8; margin-bottom:8px; }
+    .next-l { margin:0; padding-left:1.25em; font-size:12.5px; color:#3d6ba8; line-height:1.95; }
+    .next-n { font-size:11.5px; color:#4a6d99; line-height:1.8; margin-top:9px; }
   </style>
 </head>
 <body>
@@ -78,6 +90,19 @@
   <div id="clubBox" class="club" style="display:none;">
     <div class="name" id="clubName"></div>
     <div class="role" id="clubRole"></div>
+  </div>
+
+  <!-- 参加すると何ができるのかを、パスワードを決める前に見せる。
+       招待される人はチビスポを初めて使うコーチが多く、
+       「クラブに参加する」だけでは何のアカウントを作っているのか分からない -->
+  <div id="canDo" class="can" style="display:none;">
+    <div class="can-t">参加すると、クラブの管理画面が使えるようになります</div>
+    <ul class="can-l">
+      <li>届いた体験申込み・質問を見る</li>
+      <li>保護者にメッセージで返信する</li>
+      <li>クラブ情報（写真・紹介文・活動日など）を編集する</li>
+    </ul>
+    <p class="can-n">プランの変更・掲載の削除・募集の停止は、クラブの代表者だけが行えます。</p>
   </div>
 
   <!-- パスワードを決めて参加（アカウントが無い場合） -->
@@ -124,6 +149,16 @@
   </div>
 
   <div id="doneArea" style="display:none;">
+    <!-- 参加後の案内。次回どこからログインするのかを明示する。
+         保護者向けのマイページとは別の入口なので、間違えると入れない -->
+    <div class="next">
+      <div class="next-t">次回からのログイン方法</div>
+      <ol class="next-l">
+        <li><strong>クラブ運営者ログイン</strong>（chibispo.com/club-mypage.html）を開く</li>
+        <li>このメールアドレスと、いま決めたパスワードでログイン</li>
+      </ol>
+      <p class="next-n">保護者向けの「マイページ」とは入口が違います。上のボタンをブックマークしておくと確実です。</p>
+    </div>
     <a class="btn" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;">クラブのマイページを開く</a>
   </div>
 
@@ -190,12 +225,13 @@ function boot(){
        ログアウト手段が無く先に進めなかった。 */
     db.auth.getSession().then(function(res){
       var s = res && res.data && res.data.session;
-      if (!s) { $('signupArea').style.display = 'block'; return; }
+      if (!s) { $('canDo').style.display = 'block'; $('signupArea').style.display = 'block'; return; }
       var mine = String((s.user && s.user.email) || '').toLowerCase();
       if (mine && mine === String(d.email || '').toLowerCase()) { accept(s.access_token); return; }
       // 別のアカウントでログイン中。誰でログインしているかを見せて、切り替え手段を出す
       $('mineEmail').textContent = mine || '（不明）';
       $('inviteEmail').textContent = d.email || '';
+      $('canDo').style.display = 'none';
       $('switchArea').style.display = 'block';
     });
   }).catch(function(){
@@ -218,6 +254,7 @@ function accept(accessToken){
     }
     $('signupArea').style.display = 'none';
     $('loginArea').style.display = 'none';
+    $('canDo').style.display = 'none';
     $('doneArea').style.display = 'block';
     show(true, (invite && invite.team_name ? invite.team_name : 'クラブ') + ' に参加しました。');
   });
