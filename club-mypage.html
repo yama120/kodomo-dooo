@@ -1030,9 +1030,40 @@
     fillForm(team); loadClubComments(team.id); loadTrialRequests(team.id);
     loadNotifyMembers(team.id, window.__ccPlan);
   }
+  /* 自分が関われるクラブを集める。
+     所有クラブ（user_id一致）に加えて、招待されて参加したスタッフのクラブも含める。
+     user_id だけで引いていたため、招待を承諾した人がマイページを開いても
+     「チームが見つかりません」でログイン画面に戻されていた。 */
+  function fetchMyClubs(userId){
+    return db.from('teams').select('*').eq('user_id',userId).order('created_at',{ascending:false})
+      .then(function(res){
+        var owned = (res.error ? [] : (res.data||[]));
+        // supabase-lite は eq しか持たない（in / not が無い）ので、
+        // joined_at の判定と重複除去はJS側で行い、クラブは1件ずつ引く。
+        // 1人が兼務するクラブは実際には1〜2件なので回数は問題にならない
+        return db.from('team_members').select('team_id,joined_at').eq('user_id',userId)
+          .then(function(mem){
+            var ids=(mem.error?[]:(mem.data||[]))
+              .filter(function(m){ return !!m.joined_at; })
+              .map(function(m){ return m.team_id; })
+              .filter(function(id,i,a){ return a.indexOf(id)===i; })
+              .filter(function(id){ return !owned.some(function(t){ return t.id===id; }); });
+            if(!ids.length) return { data: owned, error: res.error };
+            return Promise.all(ids.map(function(id){
+              return db.from('teams').select('*').eq('id',id).then(function(r2){
+                return (r2.error?[]:(r2.data||[]))[0]||null;
+              });
+            })).then(function(rows){
+              return { data: owned.concat(rows.filter(Boolean)), error: null };
+            });
+          })
+          .catch(function(){ return { data: owned, error: res.error }; });
+      });
+  }
+
   function loadTeam(userId, silent){
     currentUserId=userId;
-    db.from('teams').select('*').eq('user_id',userId).order('created_at',{ascending:false}).then(function(res){
+    fetchMyClubs(userId).then(function(res){
       if(res.error||!res.data||!res.data.length){
         // 初回の自動セッション判定ではエラーを出さず、静かにログイン画面を表示
         if(silent){ showLogin(); return; }
