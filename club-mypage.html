@@ -1580,13 +1580,40 @@
           + '<label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#3b4654;font-weight:700;">'
             + '<input type="checkbox" class="mp-notify-chk" data-id="'+ce(r.id)+'"'+(r.notify?' checked':'')+(amOwner?'':' disabled')+'> 通知を受け取る'
           + '</label>'
+          /* 権限の変更。スタッフ→お知らせ係の降格は、以前は削除して
+             登録し直すしかなかった（過去の招待の記録も消えていた）。
+             降格は user_id を外してログインを無効にする */
+          + ((amOwner && !isOwner && joined)
+              ? '<button type="button" class="ed-btn mp-notify-demote" data-id="'+ce(r.id)+'" data-email="'+ce(r.email)+'">お知らせ係に戻す</button>'
+              : '')
           + ((amOwner && !isOwner && !joined)
               ? '<button type="button" class="ed-btn mp-notify-invite" data-email="'+ce(r.email)+'" data-name="'+ce(r.name||'')+'">'
-                + (pending||expired ? '招待を再送' : 'ログインを招待') + '</button>'
+                + (pending||expired ? '招待を再送' : 'スタッフに変更（招待）') + '</button>'
               : '')
           + ((amOwner && !isOwner) ? '<button type="button" class="ed-btn mp-notify-del" data-id="'+ce(r.id)+'" style="color:#c0314b;border-color:#f1c6cf;">削除</button>' : '')
         + '</div>';
       }).join('') : '<p class="hint" style="margin:0;">通知先が登録されていません。申込が届いてもお知らせできない状態です。</p>';
+
+      /* スタッフ → お知らせ係 に戻す（降格）。
+         user_id を外してログインを無効にする。行そのものは残すので、
+         通知先としての登録と担当者名は保たれる。
+         RLSで自分のクラブのメンバーしか触れない */
+      list.querySelectorAll('.mp-notify-demote').forEach(function(b){
+        b.addEventListener('click', function(){
+          var em=b.getAttribute('data-email')||'この方';
+          if(!confirm(em+' をお知らせ係に戻します。\nログインできなくなり、申込の確認や返信はできなくなります。\nお知らせメールは引き続き届きます。')) return;
+          var label=b.textContent; b.disabled=true; b.textContent='変更中…';
+          db.from('team_members')
+            .update({ user_id:null, joined_at:null, invite_token:null, invite_expires_at:null, role:'staff' })
+            .eq('id', b.getAttribute('data-id'))
+            .then(function(r){
+              b.disabled=false; b.textContent=label;
+              if(r.error){ notifyMsg(false,'権限の変更に失敗しました。'); return; }
+              notifyMsg(true, em+' をお知らせ係に戻しました。');
+              loadNotifyMembers(teamId, plan);
+            });
+        });
+      });
 
       // ログインを招待する（Edge Function 経由・代表者のみ）
       list.querySelectorAll('.mp-notify-invite').forEach(function(b){
