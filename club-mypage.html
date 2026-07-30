@@ -312,13 +312,22 @@
 
     <!-- 体験申込み -->
     <div class="mp-card" data-pane="inbox">
-      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">体験申込み <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
-      <p style="margin:0 0 14px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みです。メッセージでやり取りし、対応状況を更新してください。</p>
+      <!-- 体験申込みと質問（type='question'）の両方がここに入る。
+           「体験申込み」だけだと、質問が来たときに置き場所が無いように見える -->
+      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">申込み・質問 <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
+      <p style="margin:0 0 14px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みと質問です。メッセージでやり取りし、対応状況を更新してください。</p>
 
       <!-- 対応中／完了のタブ。件数が増えると終わった申込に埋もれるため -->
       <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button type="button" class="mp-tr-tab" data-tab="open" style="border:none;border-radius:999px;padding:8px 18px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;">対応中 <span data-c="open">0</span></button>
         <button type="button" class="mp-tr-tab" data-tab="done" style="border:none;border-radius:999px;padding:8px 18px;font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;">完了 <span data-c="done">0</span></button>
+        <!-- 種別の絞り込み。質問が1件でもあるときだけ出す。
+             質問は体験の進行段階を持たないので、混ざっていると対応漏れしやすい -->
+        <div id="mp-tr-kinds" style="display:none;gap:6px;margin-left:6px;padding-left:10px;border-left:1px solid #e6e9ed;">
+          <button type="button" class="mp-tr-kind" data-kind="" style="border:none;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;">すべて</button>
+          <button type="button" class="mp-tr-kind" data-kind="trial" style="border:none;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;">体験申込 <span data-kc="trial">0</span></button>
+          <button type="button" class="mp-tr-kind" data-kind="question" style="border:none;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;">質問 <span data-kc="question">0</span></button>
+        </div>
         <div style="margin-left:auto;display:flex;gap:8px;">
           <button type="button" id="mp-tr-add" class="ed-btn">＋ 電話・紙の申込</button>
           <button type="button" id="mp-tr-csv" class="ed-btn">CSVで書き出す</button>
@@ -329,11 +338,6 @@
            件数が少ないうちは邪魔なので、5件を超えたときだけ出す -->
       <div id="mp-tr-filter" style="display:none;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <input class="mp-input" id="mp-tr-q" type="search" placeholder="保護者名・お子さまの名前・メッセージで検索" style="flex:1 1 240px;">
-        <select class="mp-input" id="mp-tr-kind" style="flex:0 1 150px;">
-          <option value="">すべての種別</option>
-          <option value="trial">体験申込のみ</option>
-          <option value="question">質問のみ</option>
-        </select>
         <button type="button" id="mp-tr-clear" class="ed-btn">クリア</button>
       </div>
       <div id="mp-tr-hits" style="display:none;font-size:12px;color:#8a93a0;margin-bottom:10px;"></div>
@@ -1372,6 +1376,23 @@
       // タブの件数
       var setC=function(k,n){ var e=document.querySelector('[data-c="'+k+'"]'); if(e) e.textContent=n; };
       setC('open',open.length); setC('done',done.length);
+
+      /* 種別のピル。質問が1件も無いクラブには出さない（大半のクラブがそう）。
+         件数も出して、質問が何件溜まっているかが一目で分かるようにする */
+      var qCount = all.filter(function(r){ return r.type==='question'; }).length;
+      var tCount = all.length - qCount;
+      var kinds = $('mp-tr-kinds');
+      if(kinds){
+        kinds.style.display = qCount ? 'flex' : 'none';
+        if(!qCount) window.__ccTrKind = '';          // 質問が消えたら絞り込みも解除
+        var kc=function(k,n){ var e=document.querySelector('[data-kc="'+k+'"]'); if(e) e.textContent=n; };
+        kc('trial', tCount); kc('question', qCount);
+        document.querySelectorAll('.mp-tr-kind').forEach(function(b){
+          var on = (b.getAttribute('data-kind')||'') === (window.__ccTrKind||'');
+          b.style.background = on ? '#21315b' : '#f1f3f6';
+          b.style.color      = on ? '#fff'    : '#6b7280';
+        });
+      }
       // 受信箱タブに未対応件数を出す。別のタブを開いていても気づけるように
       var badge=$('mp-tab-badge');
       if(badge){
@@ -1388,7 +1409,7 @@
       var filterBox=$('mp-tr-filter');
       if(filterBox) filterBox.style.display = (all.length>5) ? 'flex' : 'none';
       var q=(($('mp-tr-q')||{}).value||'').trim().toLowerCase();
-      var kind=(($('mp-tr-kind')||{}).value||'');
+      var kind = window.__ccTrKind || '';
       var beforeFilter=rows.length;
       if(kind) rows=rows.filter(function(r){ return (r.type||'trial')===kind; });
       if(q){
@@ -1751,14 +1772,17 @@
       if(!e.target || e.target.id!=='mp-tr-q') return;
       clearTimeout(timer); timer=setTimeout(rerun, 200);   // 打鍵ごとの再描画を抑える
     });
-    document.addEventListener('change', function(e){
-      if(!e.target || e.target.id!=='mp-tr-kind') return;
+    document.addEventListener('click', function(e){
+      var b = e.target.closest && e.target.closest('.mp-tr-kind');
+      if(!b) return;
+      window.__ccTrKind = b.getAttribute('data-kind') || '';
       rerun();
     });
     document.addEventListener('click', function(e){
       if(!e.target || e.target.id!=='mp-tr-clear') return;
-      var q=$('mp-tr-q'), k=$('mp-tr-kind');
-      if(q) q.value=''; if(k) k.value='';
+      var q=$('mp-tr-q');
+      if(q) q.value='';
+      window.__ccTrKind='';
       rerun();
     });
   })();
