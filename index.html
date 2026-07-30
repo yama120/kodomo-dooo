@@ -1705,7 +1705,7 @@
       + '</div>'
     + '</a>';
   }
-  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=*&status=eq.approved',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at&status=eq.approved',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
     .then(function(r){return r.json();})
     .then(function(teams){
       if(!Array.isArray(teams)||!teams.length) return;

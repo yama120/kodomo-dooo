@@ -642,7 +642,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   function sportSvg(sp,size){ var a=sportArt(sp); size=size||14; return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex:0 0 auto">'+a.i+'</svg>'; }
   function sportPlaceholder(sp, extra, iconSize){ var a=sportArt(sp); return '<div style="'+(extra||'')+'display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,'+a.c+'2e,'+a.c+'14);"><svg width="'+(iconSize||56)+'" height="'+(iconSize||56)+'" viewBox="0 0 24 24" fill="none" stroke="'+a.c+'" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="opacity:.9;">'+a.i+'</svg></div>'; }
 
-  db.from('teams').select('*').eq('id',id).eq('status','approved').single().then(function(res){
+  db.from('teams').select('id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at').eq('id',id).eq('status','approved').single().then(function(res){
     if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); if(window._cdVeilOff) window._cdVeilOff(); return; }
     var t=res.data;
     window._cdTeam = t; // 体験申込の通知メールで参照

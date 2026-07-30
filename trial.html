@@ -132,7 +132,7 @@ function getTeamId() {
 }
 
 async function fetchTeam(teamId) {
-  const endpoint = `${SUPABASE_URL}/rest/v1/teams?select=*&id=eq.${teamId}&limit=1`;
+  const endpoint = `${SUPABASE_URL}/rest/v1/teams?select=id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at&id=eq.${teamId}&limit=1`;
   const res = await fetch(endpoint, {
     headers: {
       apikey: SUPABASE_KEY,
