@@ -576,7 +576,7 @@
   </div>
 </div>
 
-<script src="supabase-lite.js"></script>
+<script src="supabase-lite.js?v=20260731"></script>
 <script>
 (function(){
   if(!window.supabase) return;
@@ -2020,10 +2020,12 @@
     // 写真をStorageから削除（ベストエフォート）
     var paths=[]; (photoList||[]).forEach(function(u){ var m='/team-photos/', i=u.indexOf(m); if(i>=0) paths.push(decodeURIComponent(u.slice(i+m.length))); });
     var doDelete=function(){
-      db.from('teams').delete().eq('id',team.id).then(function(res){
+      // 削除できたか（0件＝RLSに阻まれた）を見たいので id だけ返させる。
+      // 全列を返させると、隠している列の権限が無くて書き込みごと落ちる
+      db.from('teams').delete({returning:'id'}).eq('id',team.id).then(function(res){
         $('mp-delete').disabled=false; $('mp-delete').textContent='このクラブの掲載を削除する';
         if(res.error){ msg($('del-msg'),false,'削除に失敗しました：'+(res.error.message||'')+'（権限設定が必要な場合があります）'); return; }
-        // return=representation で削除行が返る。空＝0件削除＝実際は消えていない（RLSのDELETEポリシー不足）
+        // 削除行が返る。空＝0件削除＝実際は消えていない（RLSのDELETEポリシー不足）
         if(Array.isArray(res.data) && res.data.length===0){ msg($('del-msg'),false,'削除できませんでした。お手数ですが info@chibispo.com までご連絡ください（運営で対応します）。'); return; }
         msg($('del-msg'),true,'掲載を削除しました。ご利用ありがとうございました。');
         db.auth.signOut().then(function(){ team=null; setTimeout(function(){ showLogin(); window.scrollTo({top:0,behavior:'smooth'}); },1200); });

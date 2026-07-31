@@ -606,7 +606,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   if(q('.cd-club-next')) q('.cd-club-next').addEventListener('click', function(){ slide('#cd-club', 1); });
 </script>
 <!-- ?id のクラブをSupabaseから読み込んで詳細を実データ化（idが無ければ静的デモのまま） -->
-<script src="supabase-lite.js"></script>
+<script src="supabase-lite.js?v=20260731"></script>
 <script>
 (function(){
   var id=new URLSearchParams(location.search).get('id');
@@ -1106,7 +1106,8 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
           var body=el('cd-cmt-body').value.trim(); var msg=el('cd-cmt-msg');
           if(!body){ msg.style.color='#c0314b'; msg.textContent='コメントを入力してください。'; return; }
           el('cd-cmt-submit').disabled=true;
-          db.from('comments').insert({ team_id:TEAM_ID, user_id:myUserId, nickname:myNick, body:body }).then(function(res){
+          // 投稿が自動で非表示になったかを見たいので status を返させる
+          db.from('comments').insert({ team_id:TEAM_ID, user_id:myUserId, nickname:myNick, body:body },{returning:'id,status'}).then(function(res){
             el('cd-cmt-submit').disabled=false;
             if(res.error){ msg.style.color='#c0314b'; msg.textContent='投稿に失敗しました。時間をおいて再度お試しください。'; return; }
             var inserted = Array.isArray(res.data)?res.data[0]:res.data;

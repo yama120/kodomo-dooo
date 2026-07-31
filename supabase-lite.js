@@ -156,18 +156,25 @@
         return this;
       }
 
-      insert(values) {
+      /* 書き込みの返り値について。
+         PostgREST に更新後の行を返させると select=* と同じ扱いになり、
+         そのテーブルの全列に SELECT 権限が要る。teams のように
+         一部の列だけ許可しているテーブルでは、書き込みそのものが
+         「permission denied for table」で落ちる。
+         そのため既定では行を返さない。返り値が要る呼び出しだけ
+         returning で列を指定する（例：insert(row,{returning:'id'})）。 */
+      insert(values, options) {
         this.method = 'POST';
         this.body = values;
-        this.params.set('select', '*');
+        if (options && options.returning) this.params.set('select', options.returning);
         return this.execute();
       }
 
-      upsert(values) {
+      upsert(values, options) {
         this.method = 'POST';
         this.body = values;
         this.upsertMode = true; // 主キー衝突時はUPDATE（merge）
-        this.params.set('select', '*');
+        if (options && options.returning) this.params.set('select', options.returning);
         return this.execute();
       }
 
@@ -177,8 +184,9 @@
         return this;
       }
 
-      delete() {
+      delete(options) {
         this.method = 'DELETE';
+        if (options && options.returning) this.params.set('select', options.returning);
         return this;
       }
 
@@ -212,7 +220,12 @@
         this.filters.forEach(([column, value]) => this.params.set(column, `eq.${value}`));
         const query = this.params.toString();
         const path = `/rest/v1/${this.table}${query ? `?${query}` : ''}`;
-        const headers = { Prefer: (this.upsertMode ? 'resolution=merge-duplicates,' : '') + 'return=representation' };
+        // select が指定された書き込みだけ行を返させる（上の insert のコメント参照）
+        const wantsRow = this.method === 'GET' || this.params.has('select');
+        const headers = {
+          Prefer: (this.upsertMode ? 'resolution=merge-duplicates,' : '')
+            + (wantsRow ? 'return=representation' : 'return=minimal'),
+        };
         const result = await request(path, {
           method: this.method,
           headers,
