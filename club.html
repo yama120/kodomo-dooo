@@ -952,7 +952,8 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
             var tm=window._cdTeam||{};
             fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1/send-trial-notify',{
               method:'POST', headers:{'Content-Type':'application/json',Authorization:'Bearer '+ANON},
-              body:JSON.stringify({type:'question', team_id:TEAM_ID, team_name:tm.name||'', team_email:tm.email||null,
+              // 宛先は Edge Function が team_members から引く（クラブのメールは公開していない）
+              body:JSON.stringify({type:'question', team_id:TEAM_ID, team_name:tm.name||'', team_email:null,
                 sport:tm.sport||'', pref:tm.pref||'', city:tm.city||'',
                 parent_name:'保護者', parent_email:mail, message:body})
             }).catch(function(){});
@@ -1027,7 +1028,8 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
             method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON},
             body:JSON.stringify({
               type:'trial',
-              team_name: tm.name||'', team_email: tm.email||null, team_instagram: tm.instagram||null,
+              // 宛先は Edge Function が team_members から引く（クラブのメールは公開していない）
+              team_name: tm.name||'', team_email: null, team_instagram: tm.instagram||null,
               sport: tm.sport||'', pref: tm.pref||'', city: tm.city||'',
               parent_name: name, parent_email: email,
               team_id: TEAM_ID,

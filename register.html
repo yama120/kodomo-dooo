@@ -401,10 +401,16 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     ['authEmail','authPassword','authPasswordConfirm'].forEach(function(id){ var el=document.getElementById(id); if(el) el.required=false; });
     var ht=document.getElementById('rg-hero-title'); if(ht) ht.textContent='別のチームを追加';
     var hs=document.getElementById('rg-hero-sub'); if(hs) hs.textContent='ログイン中のアカウントに、別のチームを追加できます。';
-    // 既存チームの連絡先を初期値に
+    /* 既存チームの連絡先を初期値に。
+       teams.email は authenticated からも読めないので（ログインすれば
+       全クラブ分を集められた）、team_email() で自分のクラブの分だけ取る */
     try{
-      var t=await db.from('teams').select('email').eq('user_id',session.user.id).order('created_at',{ascending:false});
-      if(t.data && t.data[0] && t.data[0].email){ var e2=document.getElementById('email'); if(e2 && !e2.value) e2.value=t.data[0].email; }
+      var t=await db.from('teams').select('id').eq('user_id',session.user.id).order('created_at',{ascending:false});
+      if(t.data && t.data[0]){
+        var em=await db.rpc('team_email',{team:t.data[0].id});
+        var val=em&&em.data;
+        if(typeof val==='string'&&val){ var e2=document.getElementById('email'); if(e2 && !e2.value) e2.value=val; }
+      }
     }catch(_){}
   })();
 

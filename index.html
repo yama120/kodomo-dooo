@@ -1705,7 +1705,7 @@
       + '</div>'
     + '</a>';
   }
-  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at&status=eq.approved',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at,owner_hash&status=eq.approved',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
     .then(function(r){return r.json();})
     .then(function(teams){
       if(!Array.isArray(teams)||!teams.length) return;
@@ -1715,12 +1715,14 @@
       /* 新着順だと、系列校をまとめて登録したクラブで枠が埋まる。
          実際 LOICX は1アカウントに16校あり、注目枠がほぼ同じ名前で並んでいた。
          写真のあるクラブから、同じ運営につき1校だけを選び、毎回ランダムに並べる。
-         同一運営の判定は user_id。クラブ名の文字列処理より確実 */
+         同一運営の判定は owner_hash（user_id のハッシュ）。クラブ名の文字列処理より確実。
+         user_id そのものは匿名に公開していないので、ここでハッシュを使う。
+         owner_hash が取れなければ id にフォールバックし、まとめずに全校を残す */
       function shuffle(a){
         for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; }
         return a;
       }
-      function ownerKey(t){ return t.user_id || t.email || t.id; }
+      function ownerKey(t){ return t.owner_hash || t.id; }
 
       var withPhoto = teams.filter(function(t){ return !!t.photo_url; });
       var pool = (withPhoto.length >= 8) ? withPhoto : teams;   // 写真ありで足りなければ全体から
