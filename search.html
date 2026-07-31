@@ -217,9 +217,10 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
         <!-- 0件メッセージ -->
         <div id="sr-empty" style="display:none;background:#fff;border:1px dashed #d7dde3;border-radius:14px;padding:34px 22px;text-align:center;margin-bottom:18px;">
           <div style="font-size:34px;margin-bottom:8px;">🔍</div>
-          <div style="font-size:16px;font-weight:800;color:#1f2a37;margin-bottom:6px;">条件に合うクラブが見つかりませんでした</div>
+          <div id="sr-empty-title" style="font-size:16px;font-weight:800;color:#1f2a37;margin-bottom:6px;">条件に合うクラブが見つかりませんでした</div>
           <p id="sr-empty-cond" style="margin:0 0 14px;font-size:13px;color:#8a93a0;line-height:1.8;"></p>
           <a id="sr-empty-clear" href="search.html" style="display:inline-block;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 22px;border-radius:999px;">条件をクリアして探す</a>
+          <button id="sr-empty-region" type="button" style="display:none;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;border:none;font-family:inherit;padding:11px 22px;border-radius:999px;cursor:pointer;">地域を変える</button>
         </div>
         <!-- 条件に近いクラブ 見出し -->
         <div id="sr-near-label" style="display:none;align-items:baseline;gap:9px;margin-bottom:12px;flex-wrap:wrap;">
@@ -698,15 +699,46 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
         curList=matched; renderPage();
         return;
       }
-      // 0件：メッセージ＋近いクラブをフォールバック表示（何かしらカードを出す）
-      if(emptyEl){ emptyEl.style.display='block'; var ec=document.getElementById('sr-empty-cond'); if(ec) ec.textContent='条件に一致するクラブは見つかりませんでした。条件をゆるめてお試しください。'; }
+      /* 0件：メッセージ＋近いクラブをフォールバック表示（何かしらカードを出す）。
+
+         掲載があるのは47都道府県のうち22。残りの県を選んだ人は、検索した
+         つもりが無くても（最初の「お住まいの地域は？」に答えただけでも）
+         いきなり0件になる。「条件をゆるめて」と言われても、本人は条件を
+         付けた覚えがないので、地域が原因だと分からず「クラブが無い」と
+         受け取られる。地域だけが理由のときは県名を出して言い切る。 */
+      var prefCount = st.pref
+        ? teams.filter(function(t){ return stripPref(t.pref)===stripPref(st.pref); }).length
+        : -1;
+      var regionOnly = (prefCount === 0);   // その県に1件も無い＝他の条件を外しても0件
+
+      if(emptyEl){
+        emptyEl.style.display='block';
+        var et=document.getElementById('sr-empty-title');
+        var ec=document.getElementById('sr-empty-cond');
+        var clr=document.getElementById('sr-empty-clear');
+        var rgn=document.getElementById('sr-empty-region');
+        if(regionOnly){
+          if(et) et.textContent=st.pref+'には、まだ掲載クラブがありません';
+          if(ec) ec.textContent='チビスポは掲載クラブを増やしています。'+st.pref+'のクラブが載ったらここに表示されます。';
+          if(clr) clr.style.display='none';
+          if(rgn) rgn.style.display='inline-block';
+        }else{
+          if(et) et.textContent='条件に合うクラブが見つかりませんでした';
+          if(ec) ec.textContent=(st.pref? st.pref+'で、こ':'こ')+'の条件に一致するクラブはありませんでした。条件を変えてお試しください。';
+          if(clr) clr.style.display='inline-block';
+          if(rgn) rgn.style.display='none';
+        }
+      }
       var fb=[], label='';
       if(st.pref){ fb=teams.filter(function(t){return stripPref(t.pref)===stripPref(st.pref);}); if(fb.length) label=st.pref+'の他のクラブ'; }
       if(!fb.length && st.sport){ fb=teams.filter(function(t){return t.sport===st.sport;}); if(fb.length) label='近くの'+st.sport+'のクラブ'; }
       if(!fb.length){ fb=teams.slice(); label='他の地域のおすすめクラブ'; }
       if(nearLabel){ nearLabel.style.display='flex';
         var t1=document.getElementById('sr-near-title'); if(t1) t1.textContent=label;
-        var s1=document.getElementById('sr-near-sub'); if(s1) s1.textContent='ご希望の条件では見つからなかったため、近いクラブをご紹介します';
+        var s1=document.getElementById('sr-near-sub');
+        if(s1) s1.textContent = regionOnly
+          ? '参考までに、他の地域のクラブをご紹介します'
+          : 'ご希望の条件では見つからなかったため、近いクラブをご紹介します';
       }
       curList=fb; renderPage();
     }
@@ -751,6 +783,25 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     if(clearBtn) clearBtn.addEventListener('click',doClear);
     var emptyClear=document.getElementById('sr-empty-clear');
     if(emptyClear) emptyClear.addEventListener('click',function(e){ e.preventDefault(); doClear(); });
+    /* 掲載が無い県で0件になったとき用。条件を消すのではなく地域を選び直させる。
+       設定した地域は検索の初期値になるので、消しても開き直すと元に戻る */
+    var emptyRegion=document.getElementById('sr-empty-region');
+    if(emptyRegion) emptyRegion.addEventListener('click',function(){
+      if(typeof window.showRegionPopup==='function') window.showRegionPopup(true);
+      else doClear();
+    });
+    // 地域を選び直したら、その場で検索し直す（ポップアップは保存して閉じるだけなので）
+    document.addEventListener('chibi:region',function(){
+      if(!window.Chibi) return;
+      var np=Chibi.getRegionPref&&Chibi.getRegionPref(), nc=Chibi.getRegionCity&&Chibi.getRegionCity();
+      st.pref = np ? (prefList.filter(function(k){return k===np||stripPref(k)===stripPref(np);})[0]||np) : '';
+      if(elPref) elPref.value=st.pref;
+      refreshCities();
+      st.city = nc || '';
+      if(elCity) elCity.value=st.city;
+      apply();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
 
     apply();
     if(window._srVeilOff) window._srVeilOff();

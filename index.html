@@ -1709,8 +1709,6 @@
     .then(function(r){return r.json();})
     .then(function(teams){
       if(!Array.isArray(teams)||!teams.length) return;
-      // 手動ピックアップ（先頭に固定表示するクラブ）
-      var PINNED=['961d5b61-4425-42bf-b778-c3ec44b79359']; // Ripples Dance Company 刈谷校
 
       /* 新着順だと、系列校をまとめて登録したクラブで枠が埋まる。
          実際 LOICX は1アカウントに16校あり、注目枠がほぼ同じ名前で並んでいた。
@@ -1736,11 +1734,6 @@
       /* 有料プランは「上位表示」「注目のクラブ枠に掲載」と明示して売っているので、
          ランダム化の対象にしつつも無料より前に出す。同じ層の中だけで毎回入れ替える */
       var picks = shuffle(uniq.filter(isPaid)).concat(shuffle(uniq.filter(function(t){ return !isPaid(t); })));
-
-      // 手動ピックアップは先頭に固定
-      var pinned = teams.filter(function(t){ return PINNED.indexOf(t.id)>=0; });
-      pinned.forEach(function(p){ picks = picks.filter(function(t){ return t.id!==p.id; }); });
-      picks = pinned.concat(picks);
 
       sc.innerHTML = picks.slice(0,8).map(card).join('');
       sc.dispatchEvent(new Event('scroll')); // 中央強調を再計算
