@@ -23,11 +23,11 @@
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <script src="supabase-lite.js?v=20260731"></script>
-  <script src="cities.js?v=20260731"></script>
+  <script src="cities.js?v=20260731b"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --primary: #f0435c; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
+      --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
       --border: #e2e8f0; --radius: 12px;
       --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
     }
@@ -104,7 +104,7 @@
     .trial-row-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     .trial-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
     .trial-badge.new { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
-    .trial-badge.contacted { background: #fdedef; color: #21315b; }
+    .trial-badge.contacted { background: #dbeafe; color: #1e40af; }
     .trial-badge.done { background: #dcfce7; color: #16a34a; }
     .trial-type-tag { font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-right: 6px; }
     .trial-type-tag.trial { background: #ffedd5; color: #c2410c; }
@@ -133,7 +133,7 @@
     .checkbox-group { display: flex; flex-wrap: wrap; gap: 6px; }
     .checkbox-item { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; font-size: .82rem; transition: all .15s; }
     .checkbox-item input { width: auto; padding: 0; border: none; }
-    .checkbox-item:has(input:checked) { border-color: var(--primary); background: #fdedef; color: var(--primary); }
+    .checkbox-item:has(input:checked) { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
     .modal-footer { padding: 0 24px 20px; display: flex; gap: 10px; }
     .modal-footer .btn { flex: 1; padding: 10px; font-size: .9rem; }
     .btn-save { background: var(--primary); color: #fff; }

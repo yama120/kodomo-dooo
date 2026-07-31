@@ -31,7 +31,7 @@
 <style>
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{font-family:'Noto Sans JP',sans-serif;color:#21315b;background:#f2f4f7;-webkit-font-smoothing:antialiased;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f2f4f7;-webkit-font-smoothing:antialiased;}
 </style>
 
   <style>
@@ -85,7 +85,7 @@
 <body>
 <!-- 読み込み中ベール（サンプル表示のチラつき防止。実データ描画完了で消える） -->
 <div id="sr-veil" style="position:fixed;inset:0;background:#fff;z-index:2600;display:flex;align-items:center;justify-content:center;transition:opacity .25s;">
-  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#f0435c;border-radius:50%;animation:srspin .8s linear infinite;"></div>
+  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#2270e0;border-radius:50%;animation:srspin .8s linear infinite;"></div>
 </div>
 <style>@keyframes srspin{to{transform:rotate(360deg)}}</style>
 <script>
@@ -106,7 +106,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 
     <!-- 条件検索ボタン（タブレット以下） -->
     <button id="sr-filter-open" style="display:none;align-items:center;gap:8px;margin-bottom:14px;padding:11px 16px;background:#fff;border:1px solid #d7dbe0;border-radius:10px;font-size:14px;font-weight:700;color:#28323f;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05);">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>条件検索
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>条件検索
     </button>
     <!-- ドロワー背景（タブレット以下） -->
     <div id="sr-backdrop"></div>
@@ -126,21 +126,21 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 
         <style>
           .sr-mood{ display:inline-flex; align-items:center; font-size:12px; font-weight:600; color:#3b4654; background:#fff; border:1px solid #d7dbe0; border-radius:999px; padding:7px 13px; cursor:pointer; transition:all .14s; }
-          .sr-mood:hover{ border-color:#f0435c; color:#f0435c; }
-          .sr-mood.on{ background:#f0435c; color:#fff; border-color:#f0435c; }
+          .sr-mood:hover{ border-color:#2270e0; color:#2270e0; }
+          .sr-mood.on{ background:#2270e0; color:#fff; border-color:#2270e0; }
           .sr-sel{ width:100%; appearance:none; -webkit-appearance:none; background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%239aa3ad' stroke-width='2.2'><path d='M6 9l6 6 6-6'/></svg>") no-repeat right 11px center; border:1px solid #d7dbe0; border-radius:8px; padding:10px 32px 10px 11px; font-size:12.5px; font-family:inherit; color:#3b4654; outline:none; cursor:pointer; box-sizing:border-box; }
           .sr-sel:disabled{ background-color:#f3f4f6; color:#b6bcc5; cursor:default; }
           .sr-age{ flex:1; border:1px solid #d7dbe0; border-radius:7px; padding:7px 0; text-align:center; font-size:12px; font-weight:600; color:#3b4654; cursor:pointer; transition:all .14s; }
-          .sr-age.on{ background:#f0435c; color:#fff; border-color:#f0435c; }
+          .sr-age.on{ background:#2270e0; color:#fff; border-color:#2270e0; }
           .sr-chk{ display:flex; align-items:center; gap:9px; margin-bottom:11px; cursor:pointer; }
           .sr-chk .bx{ width:18px; height:18px; border-radius:4px; border:1.5px solid #c9ced6; flex:0 0 18px; display:flex; align-items:center; justify-content:center; }
           .sr-chk .bx svg{ display:none; }
-          .sr-chk.on .bx{ background:#f0435c; border-color:#f0435c; }
+          .sr-chk.on .bx{ background:#2270e0; border-color:#2270e0; }
           .sr-chk.on .bx svg{ display:block; }
           .sr-fee{ display:flex; align-items:center; gap:9px; margin-bottom:11px; cursor:pointer; }
           .sr-fee .dot{ width:17px; height:17px; border-radius:50%; border:1.5px solid #c9ced6; flex:0 0 17px; display:flex; align-items:center; justify-content:center; }
-          .sr-fee.on .dot{ border-color:#f0435c; }
-          .sr-fee.on .dot::after{ content:""; width:9px; height:9px; border-radius:50%; background:#f0435c; }
+          .sr-fee.on .dot{ border-color:#2270e0; }
+          .sr-fee.on .dot::after{ content:""; width:9px; height:9px; border-radius:50%; background:#2270e0; }
         </style>
 
         <div style="font-size:13px;font-weight:700;color:#28323f;margin-bottom:8px;">フリーワード</div>
@@ -197,18 +197,18 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 
         <!-- 選択中の条件（トップの「この条件で探す」から遷移したとき表示） -->
         <div id="sr-cond" style="display:none;align-items:center;gap:9px;flex-wrap:wrap;background:#eef5ff;border:1px solid #cfe0fb;border-radius:10px;padding:11px 15px;margin-bottom:14px;">
-          <span style="font-size:12.5px;font-weight:800;color:#f0435c;">選択中の条件</span>
+          <span style="font-size:12.5px;font-weight:800;color:#2270e0;">選択中の条件</span>
           <span id="sr-cond-chips" style="display:flex;flex-wrap:wrap;gap:7px;"></span>
           <a href="search.html" style="margin-left:auto;font-size:12px;font-weight:700;color:#5b6573;text-decoration:none;">クリア ✕</a>
         </div>
 
         <!-- toolbar -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <div class="sr-count" style="font-size:15px;color:#3b4654;">検索結果：<span style="font-size:21px;font-weight:800;color:#21315b;">126</span> 件</div>
+          <div class="sr-count" style="font-size:15px;color:#3b4654;">検索結果：<span style="font-size:21px;font-weight:800;color:#1f2a37;">126</span> 件</div>
           <div class="sr-tools" style="display:flex;align-items:center;gap:12px;">
             <span class="sr-sortlabel" style="font-size:13px;color:#5b6573;">並び替え：</span>
             <div class="sr-sort" style="display:flex;align-items:center;gap:18px;background:#fff;border:1px solid #d7dbe0;border-radius:8px;padding:9px 12px;font-size:13px;color:#3b4654;cursor:pointer;">おすすめ順<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div>
-            <a id="sr-mapbtn" href="map.html" class="sr-mapbtn" style="display:flex;align-items:center;gap:7px;background:#f0435c;color:#fff;border-radius:8px;padding:9px 15px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;">
+            <a id="sr-mapbtn" href="map.html" class="sr-mapbtn" style="display:flex;align-items:center;gap:7px;background:#2270e0;color:#fff;border-radius:8px;padding:9px 15px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>地図表示
             </a>
           </div>
@@ -217,27 +217,27 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
         <!-- 0件メッセージ -->
         <div id="sr-empty" style="display:none;background:#fff;border:1px dashed #d7dde3;border-radius:14px;padding:34px 22px;text-align:center;margin-bottom:18px;">
           <div style="font-size:34px;margin-bottom:8px;">🔍</div>
-          <div id="sr-empty-title" style="font-size:16px;font-weight:800;color:#21315b;margin-bottom:6px;">条件に合うクラブが見つかりませんでした</div>
+          <div id="sr-empty-title" style="font-size:16px;font-weight:800;color:#1f2a37;margin-bottom:6px;">条件に合うクラブが見つかりませんでした</div>
           <p id="sr-empty-cond" style="margin:0 0 14px;font-size:13px;color:#8a93a0;line-height:1.8;"></p>
-          <a id="sr-empty-clear" href="search.html" style="display:inline-block;background:#f0435c;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 22px;border-radius:999px;">条件をクリアして探す</a>
-          <button id="sr-empty-region" type="button" style="display:none;background:#f0435c;color:#fff;font-size:13.5px;font-weight:800;border:none;font-family:inherit;padding:11px 22px;border-radius:999px;cursor:pointer;">地域を変える</button>
+          <a id="sr-empty-clear" href="search.html" style="display:inline-block;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 22px;border-radius:999px;">条件をクリアして探す</a>
+          <button id="sr-empty-region" type="button" style="display:none;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;border:none;font-family:inherit;padding:11px 22px;border-radius:999px;cursor:pointer;">地域を変える</button>
         </div>
         <!-- 条件に近いクラブ 見出し -->
         <div id="sr-near-label" style="display:none;align-items:baseline;gap:9px;margin-bottom:12px;flex-wrap:wrap;">
-          <span id="sr-near-title" style="font-size:15px;font-weight:800;color:#21315b;">条件に近いクラブ</span>
+          <span id="sr-near-title" style="font-size:15px;font-weight:800;color:#1f2a37;">条件に近いクラブ</span>
           <span id="sr-near-sub" style="font-size:12px;color:#8a93a0;">条件を一部ゆるめて表示しています</span>
         </div>
 
         <!-- cards grid -->
         <div class="sr-cards" style="display:grid;grid-template-columns:repeat(auto-fill,230px);justify-content:center;gap:16px;">
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="サッカー" data-mood="楽しむこと,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="サッカー" data-mood="楽しむこと,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/img-1350.jpg" alt="青空サッカークラブ" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6BAAEF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="12,8 15,10.2 13.8,13.8 10.2,13.8 9,10.2"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">サッカー</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">青空サッカークラブ</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">青空サッカークラブ</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">愛知県・清須市・西枇杷島</span>
@@ -249,14 +249,14 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 </div>
               </div>
             </a>
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="ダンス" data-mood="楽しむこと,ほめて伸ばす" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="ダンス" data-mood="楽しむこと,ほめて伸ばす" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/img-1406-4.png" alt="Ripples Dance Company 刈谷校" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF7FB6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="5" r="2"/><path d="M13 7l-2 6M11 13l-3.5 5M11 13l4 2M13 9l4-1"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">ダンス</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">Ripples Dance Company 刈谷校</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">Ripples Dance Company 刈谷校</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">愛知県・刈谷市・築地町</span>
@@ -268,14 +268,14 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 </div>
               </div>
             </a>
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="バスケットボール" data-mood="本格志向,真剣に取り組む" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="バスケットボール" data-mood="本格志向,真剣に取り組む" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/img-1401.png" alt="港北ジュニアバスケ" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5A24B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.2 3.2 9.6 9.6 12.8 12.8M18.4 5.6C15.2 8.8 8.8 15.2 5.6 18.4"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">バスケットボール</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">港北ジュニアバスケ</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">港北ジュニアバスケ</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">神奈川県・横浜市・港北区</span>
@@ -287,14 +287,14 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 </div>
               </div>
             </a>
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="バレーボール" data-mood="アットホーム,少人数で丁寧" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="バレーボール" data-mood="アットホーム,少人数で丁寧" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/img-1404.png" alt="わかばバレーボールクラブ" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFD23F" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a18 18 0 010 18M3.4 9c5 1 11.6 4 16.2 9M3.4 15c5-1 11.6-4 16.2-9"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">バレーボール</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">わかばバレーボールクラブ</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">わかばバレーボールクラブ</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">東京都・町田市・木曽西</span>
@@ -306,14 +306,14 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 </div>
               </div>
             </a>
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="体操" data-mood="ほめて伸ばす,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="体操" data-mood="ほめて伸ばす,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/sports/gymnastics.png" alt="サンシャイン体操クラブ" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C98BFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v6M8 9.5l8 1.5M9 19l3-6 3 6"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">体操</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">サンシャイン体操クラブ</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">サンシャイン体操クラブ</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">埼玉県・さいたま市・浦和区</span>
@@ -325,14 +325,14 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 </div>
               </div>
             </a>
-            <a href="club.html" class="club-card" data-pref="愛知" data-sport="テニス" data-mood="楽しむこと,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">
+            <a href="club.html" class="club-card" data-pref="愛知" data-sport="テニス" data-mood="楽しむこと,アットホーム" style="display:block;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">
               <img src="assets/photo-34816422.jpg" alt="Sunnyテニスクラブ" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:0 0 12px 12px;">
               <div style="padding:11px 13px 14px;">
                 <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;">
                   <span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5BD6A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10" cy="8.5" rx="5" ry="6"/><path d="M6.6 13.2 3.5 19.5"/><path d="M7 6l6 5"/></svg></span>
                   <span style="font-size:12px;font-weight:600;color:#7b8492;">テニス</span>
                 </div>
-                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;">Sunnyテニスクラブ</h3>
+                <h3 style="margin:0 0 5px;font-family:'Zen Maru Gothic',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;">Sunnyテニスクラブ</h3>
                 <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>
                   <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">千葉県・柏市・つくしが丘</span>
@@ -353,8 +353,8 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
         
           <div style="background:#fff;border:1px solid #e6e9ed;border-radius:12px;padding:18px;margin-top:24px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-              <h3 style="margin:0;font-size:16px;font-weight:800;color:#21315b;">お役立ちマガジン</h3>
-              <div style="display:flex;align-items:center;gap:3px;color:#f0435c;font-size:13px;font-weight:600;cursor:pointer;">もっと見る<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></div>
+              <h3 style="margin:0;font-size:16px;font-weight:800;color:#1f2a37;">お役立ちマガジン</h3>
+              <div style="display:flex;align-items:center;gap:3px;color:#2270e0;font-size:13px;font-weight:600;cursor:pointer;">もっと見る<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></div>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;">
 
@@ -399,7 +399,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 <div style="font-size:11px;color:#8a93a0;">子どもにやさしい整骨院</div>
                 <div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 0;">さくら整骨院</div>
               </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
             </a>
             <a href="pr-sample-sports.html" style="background:#fff;border:1px solid #e6e9ed;border-radius:10px;padding:12px;display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;">
               <img src="assets/ms-hero.jpg" alt="ミナトスポーツ" style="width:54px;height:54px;flex:0 0 54px;border-radius:8px;object-fit:cover;display:block;background:#f1f6fd;">
@@ -407,7 +407,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 <div style="font-size:11px;color:#8a93a0;">スポーツ用品のことなら</div>
                 <div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 0;">ミナトスポーツ</div>
               </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
             </a>
             <a href="pr-sample-cafe.html" style="background:#fff;border:1px solid #e6e9ed;border-radius:10px;padding:12px;display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;">
               <img src="assets/hc-hero.jpg" alt="ヘルシーカフェ" style="width:54px;height:54px;flex:0 0 54px;border-radius:8px;object-fit:cover;display:block;background:#f0faf4;">
@@ -415,7 +415,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 <div style="font-size:11px;color:#8a93a0;">食事で体をつくる</div>
                 <div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 0;">ヘルシーカフェ</div>
               </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
             </a>
             <a href="pr-sample-design.html" style="background:#fff;border:1px solid #e6e9ed;border-radius:10px;padding:12px;display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;">
               <img src="assets/db-hero.jpg" alt="デザインボックス" style="width:54px;height:54px;flex:0 0 54px;border-radius:8px;object-fit:cover;display:block;background:#f5f1fd;">
@@ -423,12 +423,12 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
                 <div style="font-size:11px;color:#8a93a0;">チームのユニフォーム制作</div>
                 <div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 0;">デザインボックス</div>
               </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg>
             </a>
         </div>
         <a href="recruit-pr.html" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding:14px 18px;border-radius:10px;background:linear-gradient(100deg,#fff4f6,#fef0ea);border:1px dashed #f1b6c1;text-decoration:none;">
           <div style="font-size:13px;font-weight:800;color:#2b3340;">📣 あなたのお店も、この枠に掲載しませんか？<span style="display:block;font-size:11.5px;font-weight:600;color:#8a93a0;margin-top:3px;">地域の子育て世帯にPR。掲載プラン・料金はこちら</span></div>
-          <span style="flex:0 0 auto;background:#f0435c;color:#fff;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:999px;">広告掲載を見る ›</span>
+          <span style="flex:0 0 auto;background:#e8455f;color:#fff;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:999px;">広告掲載を見る ›</span>
         </a>
       </div>
 
@@ -475,7 +475,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 </script>
 <!-- 条件検索のフィルタ処理は下部のSupabaseローダー内（実データ）で一元管理 -->
 <!-- 全国の都道府県・市区町村データ（kodomo-doooと共通） -->
-<script src="cities.js?v=20260731"></script>
+<script src="cities.js?v=20260731b"></script>
 <!-- Supabaseから承認済みクラブ(teams)を読み込んでカードを実データ化（読めなければ静的カードのまま） -->
 <script src="supabase-lite.js?v=20260731"></script>
 <script>
@@ -500,7 +500,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     if(has('水泳','スイミング'))                    return svgIcon('#3FB6D6','<circle cx="15" cy="6" r="2"/><path d="M3 16c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M4 12l5-3 3 2"/>');
     if(has('バトン')) return svgIcon('#FF7FB6','<circle cx="6.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><path d="M8 16 L16 8"/><path d="M19.5 4.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>');
     if(has('ダブルダッチ')) return svgIcon('#C98BFF','<path d="M5 4.5c-2.6 4-2.6 11 0 15"/><path d="M19 4.5c2.6 4 2.6 11 0 15"/><circle cx="12" cy="7.5" r="2"/><path d="M12 9.5v5l-2 5M12 14.5l2 5"/>');
-    if(has('マルチ')) return svgIcon('#f0435c','<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>');
+    if(has('マルチ')) return svgIcon('#2a6fdb','<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>');
     if(has('柔術')) return svgIcon('#7B8CE8','<path d="M3 11h7l2 2 2-2h7"/><path d="M10 11l-1.5 6M14 11l1.5 6"/>');
     if(has('レスリング','相撲')) return svgIcon('#7B8CE8','<circle cx="8" cy="6.5" r="2.2"/><circle cx="16" cy="6.5" r="2.2"/><path d="M8 8.7c0 2 1.6 3.3 4 3.3s4-1.3 4-3.3"/><path d="M6 19c0-3 1-5 2.5-5M18 19c0-3-1-5-2.5-5"/>');
     if(has('空手','テコンドー')) return svgIcon('#7B8CE8','<circle cx="11" cy="5" r="2"/><path d="M11 7l-1 6M10 13l-3 5M10 13l5-1M11 10l5 3"/>');
@@ -524,7 +524,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     if(has('水泳','スイミング'))                    return {c:'#3FB6D6',i:'<circle cx="15" cy="6" r="2"/><path d="M3 16c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M4 12l5-3 3 2"/>'};
     if(has('バトン')) return {c:'#FF7FB6',i:'<circle cx="6.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><path d="M8 16 L16 8"/><path d="M19.5 4.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>'};
     if(has('ダブルダッチ')) return {c:'#C98BFF',i:'<path d="M5 4.5c-2.6 4-2.6 11 0 15"/><path d="M19 4.5c2.6 4 2.6 11 0 15"/><circle cx="12" cy="7.5" r="2"/><path d="M12 9.5v5l-2 5M12 14.5l2 5"/>'};
-    if(has('マルチ')) return {c:'#f0435c',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
+    if(has('マルチ')) return {c:'#2a6fdb',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
     if(has('柔術')) return {c:'#7B8CE8',i:'<path d="M3 11h7l2 2 2-2h7"/><path d="M10 11l-1.5 6M14 11l1.5 6"/>'};
     if(has('レスリング','相撲')) return {c:'#7B8CE8',i:'<circle cx="8" cy="6.5" r="2.2"/><circle cx="16" cy="6.5" r="2.2"/><path d="M8 8.7c0 2 1.6 3.3 4 3.3s4-1.3 4-3.3"/><path d="M6 19c0-3 1-5 2.5-5M18 19c0-3-1-5-2.5-5"/>'};
     if(has('空手','テコンドー')) return {c:'#7B8CE8',i:'<circle cx="11" cy="5" r="2"/><path d="M11 7l-1 6M10 13l-3 5M10 13l5-1M11 10l5 3"/>'};
@@ -547,11 +547,11 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     var area=[t.pref,t.city].filter(Boolean).join('・');
     var pos=(t.photo_url && Array.isArray(t.photo_positions) && t.photo_positions[0])?t.photo_positions[0]:'50% 50%';
     var media=t.photo_url ? '<img src="'+esc(t.photo_url)+'" alt="'+esc(t.name)+'" loading="lazy" decoding="async" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:'+pos+';display:block;border-radius:0 0 12px 12px;">' : sportPlaceholder(t.sport,'aspect-ratio:4/3;border-radius:0 0 12px 12px;');
-    return '<a href="club.html?id='+esc(t.id)+'" class="club-card" data-pref="'+esc(pref)+'" data-city="'+esc(t.city||'')+'" data-sport="'+esc(t.sport)+'" data-mood="'+esc((t.moods||[]).join(','))+'" style="display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#21315b;">'
+    return '<a href="club.html?id='+esc(t.id)+'" class="club-card" data-pref="'+esc(pref)+'" data-city="'+esc(t.city||'')+'" data-sport="'+esc(t.sport)+'" data-mood="'+esc((t.moods||[]).join(','))+'" style="display:flex;flex-direction:column;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #e6e9ed;box-shadow:0 2px 8px rgba(20,28,38,.08);text-decoration:none;color:#1f2a37;">'
       +media
       +'<div style="padding:11px 13px 14px;flex:1;display:flex;flex-direction:column;">'
       +'<div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:5px;"><span style="width:22px;height:22px;border-radius:50%;background:#f1f3f6;display:flex;align-items:center;justify-content:center;font-size:13px;">'+sportIcon(t.sport)+'</span><span style="font-size:12px;font-weight:600;color:#7b8492;">'+esc(t.sport)+'</span></div>'
-      +'<h3 class="cc-cardname" style="margin:0 0 5px;font-family:\'Zen Maru Gothic\',sans-serif;font-size:16px;font-weight:800;color:#21315b;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;">'+esc(t.name)+'</h3>'
+      +'<h3 class="cc-cardname" style="margin:0 0 5px;font-family:\'Zen Maru Gothic\',sans-serif;font-size:16px;font-weight:800;color:#1f2a37;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;">'+esc(t.name)+'</h3>'
       +'<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#7b8492;margin-bottom:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="1.9" style="flex:0 0 13px;"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span style="flex:1;min-width:0;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,#000 80%,transparent);mask-image:linear-gradient(90deg,#000 80%,transparent);">'+esc(area)+'</span></div>'
       +(t.description?'<div class="cc-carddesc" style="font-size:11.5px;line-height:1.55;color:#5b6573;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">'+esc(t.description)+'</div>':'')
       +'<div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;color:#3a4452;margin-top:auto;padding-top:10px;">'
@@ -653,7 +653,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       opts=opts||{};
       var active=opts.active, disabled=opts.disabled, isNav=opts.nav;
       var base='min-width:32px;height:32px;padding:0 6px;display:flex;align-items:center;justify-content:center;border-radius:'+(isNav?'8px':'50%')+';font-size:14px;';
-      if(active) base+='background:#f0435c;color:#fff;font-weight:700;';
+      if(active) base+='background:#2270e0;color:#fff;font-weight:700;';
       else if(disabled) base+='color:#c2c8d0;cursor:default;';
       else base+='color:#3b4654;cursor:pointer;font-weight:'+(isNav?'600':'500')+';';
       var el=document.createElement('div');
@@ -831,7 +831,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       var loc = c.online
         ? '<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#8a93a0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>オンラインショップ</span>'
         : '<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#8a93a0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>'+esc(c.city||c.pref||'')+'</span>';
-      return '<a href="'+esc(c.page_url||'#')+'" style="background:#fff;border:1px solid #e6e9ed;border-radius:10px;padding:12px;display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;"><img src="'+esc(c.banner_url||'assets/img-1350.jpg')+'" alt="'+esc(c.name)+'" style="width:54px;height:54px;flex:0 0 54px;border-radius:8px;object-fit:cover;display:block;"><div style="min-width:0;flex:1;"><div style="font-size:11px;color:#8a93a0;">'+esc(c.tagline||c.category||'')+'</div><div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 3px;">'+esc(c.name)+'</div>'+loc+'</div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg></a>';
+      return '<a href="'+esc(c.page_url||'#')+'" style="background:#fff;border:1px solid #e6e9ed;border-radius:10px;padding:12px;display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit;"><img src="'+esc(c.banner_url||'assets/img-1350.jpg')+'" alt="'+esc(c.name)+'" style="width:54px;height:54px;flex:0 0 54px;border-radius:8px;object-fit:cover;display:block;"><div style="min-width:0;flex:1;"><div style="font-size:11px;color:#8a93a0;">'+esc(c.tagline||c.category||'')+'</div><div style="font-size:14px;font-weight:800;color:#28323f;margin:1px 0 3px;">'+esc(c.name)+'</div>'+loc+'</div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2270e0" stroke-width="2.6" style="flex:0 0 16px;"><path d="M9 6l6 6-6 6"/></svg></a>';
     }
     db.from('companies').select('*').eq('status','active').then(function(rc){
       if(rc.error||!rc.data||!rc.data.length) return;
@@ -849,6 +849,6 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
   })();
 })();
 </script>
-<script src="shared.js?v=20260731"></script>
+<script src="shared.js?v=20260731b"></script>
 </body>
 </html>

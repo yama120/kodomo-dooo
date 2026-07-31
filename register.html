@@ -34,7 +34,7 @@
 <style>
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{font-family:'Noto Sans JP',sans-serif;color:#21315b;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
   a{color:inherit;}
   .rg-wrap{max-width:760px;margin:0 auto;padding:0 20px;}
   .rg-card{background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:24px 22px;margin-bottom:18px;}
@@ -42,27 +42,27 @@
   .rg-group{margin-bottom:16px;}
   .rg-group:last-child{margin-bottom:0;}
   .rg-label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#28323f;}
-  .req{color:#f0435c;font-size:11px;margin-left:5px;}
+  .req{color:#e8455f;font-size:11px;margin-left:5px;}
   .opt{color:#9aa3ad;font-size:11px;margin-left:5px;font-weight:500;}
-  .rg-input{width:100%;border:1px solid #d7dbe0;border-radius:10px;padding:12px 13px;font-size:14px;font-family:inherit;color:#21315b;outline:none;background:#fff;}
-  .rg-input:focus{border-color:#f0435c;}
+  .rg-input{width:100%;border:1px solid #d7dbe0;border-radius:10px;padding:12px 13px;font-size:14px;font-family:inherit;color:#1f2a37;outline:none;background:#fff;}
+  .rg-input:focus{border-color:#1f8a5b;}
   .rg-checks{display:flex;flex-wrap:wrap;gap:8px;}
   .rg-chk{display:inline-flex;align-items:center;gap:7px;border:1px solid #d7dbe0;border-radius:10px;padding:9px 13px;font-size:13px;color:#3b4654;cursor:pointer;background:#fff;}
-  .rg-chk input{accent-color:#f0435c;width:16px;height:16px;}
+  .rg-chk input{accent-color:#1f8a5b;width:16px;height:16px;}
   .hint{font-size:11.5px;color:#9aa3ad;margin-top:6px;line-height:1.6;}
   .fee-row{display:flex;align-items:center;gap:10px;}
   .fee-row input{max-width:160px;}
   /* 雰囲気タグ・ピッカー */
   #lt-selected{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
   .lt-preset{background:#fff;border:1px solid #d7dbe0;color:#3b4654;font-size:12px;font-weight:600;border-radius:999px;padding:6px 13px;margin:0 6px 6px 0;cursor:pointer;}
-  .lt-preset:hover{border-color:#f0435c;color:#f0435c;}
+  .lt-preset:hover{border-color:#1f8a5b;color:#1f8a5b;}
   @media (max-width:560px){ .fee-row input{max-width:120px;} }
 </style>
 </head>
 <body>
 
 <!-- ===== HERO ===== -->
-<section style="background:linear-gradient(135deg,#f0435c,#21315b);color:#fff;padding:44px 0 38px;">
+<section style="background:linear-gradient(135deg,#1f8a5b,#2a6fdb);color:#fff;padding:44px 0 38px;">
   <div class="rg-wrap">
     <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">Team Registration</div>
     <h1 id="rg-hero-title" style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;">チームを掲載する</h1>
@@ -79,19 +79,19 @@
       <p class="hint" style="margin:0 0 14px;">まずは無料でOK。有料プランは登録後、そのままお支払いに進めます（後から変更も可能）。</p>
       <div id="rg-plan-tabs" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
         <button type="button" class="rg-plan-tab" data-plan="free" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;">
-          <div style="font-size:14px;font-weight:900;color:#21315b;">フリー</div>
-          <div style="font-size:12px;font-weight:800;color:#f0435c;margin-top:2px;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></div>
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">フリー</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></div>
           <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真1枚・基本掲載</div>
         </button>
         <button type="button" class="rg-plan-tab" data-plan="pr" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;position:relative;">
-          <span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#f0435c;color:#fff;font-size:9px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap;">人気No.1</span>
-          <div style="font-size:14px;font-weight:900;color:#21315b;">スタンダード</div>
-          <div style="font-size:12px;font-weight:800;color:#f0435c;margin-top:2px;">¥3,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
+          <span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap;">人気No.1</span>
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">スタンダード</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥3,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
           <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真7枚・上位表示</div>
         </button>
         <button type="button" class="rg-plan-tab" data-plan="pr-plus" style="border:1.5px solid #d7dbe0;background:#fff;border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:inherit;">
-          <div style="font-size:14px;font-weight:900;color:#21315b;">プロ</div>
-          <div style="font-size:12px;font-weight:800;color:#f0435c;margin-top:2px;">¥10,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
+          <div style="font-size:14px;font-weight:900;color:#1f2a37;">プロ</div>
+          <div style="font-size:12px;font-weight:800;color:#1f8a5b;margin-top:2px;">¥10,000<span style="font-size:10px;color:#9aa3ad;">/月〜</span></div>
           <div style="font-size:10.5px;color:#9aa3ad;margin-top:4px;line-height:1.5;">写真15枚・最上位・SNS紹介</div>
         </button>
       </div>
@@ -222,13 +222,13 @@
 
     <!-- 同意 -->
     <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;font-weight:600;margin:4px 2px 16px;">
-      <input type="checkbox" id="agreeCheck" style="margin-top:3px;width:18px;height:18px;accent-color:#f0435c;">
-      <span><a href="legal.html#terms" target="_blank" style="color:#f0435c;text-decoration:underline;">利用規約</a>および<a href="legal.html#privacy" target="_blank" style="color:#f0435c;text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
+      <input type="checkbox" id="agreeCheck" style="margin-top:3px;width:18px;height:18px;accent-color:#1f8a5b;">
+      <span><a href="legal.html#terms" target="_blank" style="color:#2270e0;text-decoration:underline;">利用規約</a>および<a href="legal.html#privacy" target="_blank" style="color:#2270e0;text-decoration:underline;">プライバシーポリシー</a>に同意します</span>
     </label>
 
     <div id="rg-msg" style="display:none;margin-bottom:14px;font-size:13px;font-weight:700;border-radius:10px;padding:12px 14px;"></div>
 
-    <button type="submit" id="rg-submit" style="width:100%;background:#f0435c;color:#fff;border:none;border-radius:999px;padding:16px 0;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(240,67,92,.28);">申請する（無料）</button>
+    <button type="submit" id="rg-submit" style="width:100%;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:16px 0;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(31,138,91,.28);">申請する（無料）</button>
     <p style="text-align:center;font-size:11px;color:#aab1bb;margin-top:12px;">送信後、運営の承認を経て掲載されます。</p>
   </form>
 
@@ -237,30 +237,30 @@
     <div style="font-size:52px;line-height:1;margin-bottom:14px;">🎉</div>
     <h2 id="rg-success-title" style="font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:900;margin:0 0 10px;">申請を受け付けました</h2>
     <p id="rg-success-msg" style="color:#54606e;font-size:13.5px;line-height:1.9;margin:0 0 20px;">運営の承認後に掲載されます。<br>ご登録のメールアドレスにログイン確認メールをお送りしています。</p>
-    <div id="rg-success-enrich" style="text-align:left;background:#fdedef;border:1px solid #cfe0d6;border-radius:12px;padding:16px 18px;margin:0 0 22px;">
-      <div style="font-size:13.5px;font-weight:900;color:#21315b;margin-bottom:6px;">📈 掲載効果を高めるには</div>
+    <div id="rg-success-enrich" style="text-align:left;background:#f3fbf6;border:1px solid #cfe0d6;border-radius:12px;padding:16px 18px;margin:0 0 22px;">
+      <div style="font-size:13.5px;font-weight:900;color:#1f2a37;margin-bottom:6px;">📈 掲載効果を高めるには</div>
       <p style="margin:0;font-size:12.5px;color:#54606e;line-height:1.85;">承認後、マイページから<strong>アピールポイント・こんな子におすすめ・雰囲気タグ・コース料金・会場・写真の追加</strong>を入力できます。詳しく書くほど保護者に選ばれやすくなります。</p>
     </div>
-    <a id="rg-success-btn" href="club-mypage.html" style="display:inline-block;background:#f0435c;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 30px;">マイページで詳細を入力する</a>
+    <a id="rg-success-btn" href="club-mypage.html" style="display:inline-block;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 30px;">マイページで詳細を入力する</a>
   </div>
 
   <!-- 登録後のおすすめ：HP・SNS制作代行 -->
   <a id="rg-reco" href="listing.html#service" style="display:block;margin-top:24px;text-decoration:none;">
-    <div style="background:linear-gradient(120deg,#e7f6ec,#f2f7ff);border:1px solid #cfe0d6;border-radius:16px;padding:22px 22px;">
+    <div style="background:linear-gradient(120deg,#eafaf0,#f2f7ff);border:1px solid #cfe0d6;border-radius:16px;padding:22px 22px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span style="font-size:11px;font-weight:800;color:#fff;background:#f0435c;border-radius:999px;padding:3px 10px;">掲載のあとは</span>
-        <span style="font-size:13px;font-weight:900;color:#21315b;">もっと集客したい方へ</span>
+        <span style="font-size:11px;font-weight:800;color:#fff;background:#1f8a5b;border-radius:999px;padding:3px 10px;">掲載のあとは</span>
+        <span style="font-size:13px;font-weight:900;color:#1f2a37;">もっと集客したい方へ</span>
       </div>
-      <div style="font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:900;color:#21315b;line-height:1.5;margin-bottom:6px;">ホームページ・SNSで、チームの魅力をもっと届けませんか？</div>
+      <div style="font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:900;color:#1f2a37;line-height:1.5;margin-bottom:6px;">ホームページ・SNSで、チームの魅力をもっと届けませんか？</div>
       <p style="margin:0 0 12px;font-size:12.5px;line-height:1.85;color:#54606e;">チーム専用サイトの<strong>制作・運用代行</strong>や、SNSのノウハウ伝授まで。手間をかけずに発信を強くできます。</p>
-      <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#f0435c;">制作・運用代行を見る ›</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#1f8a5b;">制作・運用代行を見る ›</span>
     </div>
   </a>
 </div>
 
-<script src="shared.js?v=20260731"></script>
+<script src="shared.js?v=20260731b"></script>
 <script src="supabase-lite.js?v=20260731"></script>
-<script src="cities.js?v=20260731"></script>
+<script src="cities.js?v=20260731b"></script>
 <script>
 // ===== Supabase クライアント =====
 var SUPABASE_URL='https://emkpkomrgknzrmxqbrvx.supabase.co';
@@ -282,9 +282,9 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
   function paintPlanTabs(){
     document.querySelectorAll('.rg-plan-tab').forEach(function(t){
       var on=t.getAttribute('data-plan')===planKey;
-      t.style.borderColor=on?'#f0435c':'#d7dbe0';
-      t.style.background=on?'#fdedef':'#fff';
-      t.style.boxShadow=on?'0 4px 12px rgba(240,67,92,.18)':'none';
+      t.style.borderColor=on?'#1f8a5b':'#d7dbe0';
+      t.style.background=on?'#f3fbf6':'#fff';
+      t.style.boxShadow=on?'0 4px 12px rgba(31,138,91,.18)':'none';
     });
     var pay=document.getElementById('rg-plan-pay');
     var pn=document.getElementById('rg-plan-name');
@@ -323,12 +323,12 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
     var html=photos.map(function(p,i){
       return '<div style="position:relative;width:104px;height:78px;border-radius:8px;overflow:hidden;border:1px solid #e6e9ed;">'
         +'<img src="'+p.src+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">'
-        +(i===0?'<span style="position:absolute;left:5px;top:5px;background:#f0435c;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'')
+        +(i===0?'<span style="position:absolute;left:5px;top:5px;background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'')
         +'<button type="button" data-rm="'+i+'" aria-label="削除" style="position:absolute;right:4px;top:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(20,24,30,.7);color:#fff;font-size:13px;line-height:1;cursor:pointer;">×</button>'
         +'</div>';
     }).join('');
     if(photos.length<maxPhotos){
-      html+='<button type="button" id="rg-photo-add" style="width:104px;height:78px;border:1.5px dashed #c7d0da;border-radius:8px;background:#fbfcfd;color:#f0435c;font-size:13px;font-weight:800;cursor:pointer;">＋ 追加<br><span style="font-size:10px;color:#9aa3ad;font-weight:600;">'+photos.length+' / '+maxPhotos+'</span></button>';
+      html+='<button type="button" id="rg-photo-add" style="width:104px;height:78px;border:1.5px dashed #c7d0da;border-radius:8px;background:#fbfcfd;color:#1f8a5b;font-size:13px;font-weight:800;cursor:pointer;">＋ 追加<br><span style="font-size:10px;color:#9aa3ad;font-weight:600;">'+photos.length+' / '+maxPhotos+'</span></button>';
     }
     pGrid.innerHTML=html;
     var add=document.getElementById('rg-photo-add'); if(add) add.addEventListener('click',function(){ pInput.click(); });

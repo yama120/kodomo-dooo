@@ -30,7 +30,7 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="cities.js?v=20260731"></script>
+<script src="cities.js?v=20260731b"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans JP',sans-serif;color:#1f2430;-webkit-font-smoothing:antialiased;background:#eceef1}
@@ -239,7 +239,7 @@ html,body{overflow-x:hidden}
       <button class="cc-fee" data-v="none" style="display:flex;align-items:center;gap:11px;background:none;border:none;padding:5px 0;width:100%;text-align:left"><span class="cc-fee-dot"></span><span style="font-size:14px;color:#3a4452">指定しない</span></button>
     </div>
 
-    <button id="cc-apply" style="width:100%;padding:13px;background:#f0435c;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;margin-bottom:10px;cursor:pointer">この条件で表示</button>
+    <button id="cc-apply" style="width:100%;padding:13px;background:#1668d9;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;margin-bottom:10px;cursor:pointer">この条件で表示</button>
     <button id="cc-clear" style="width:100%;padding:12px;background:#fff;color:#5b6675;border:1px solid #dfe3e8;border-radius:10px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>
       条件をクリア
@@ -257,7 +257,7 @@ html,body{overflow-x:hidden}
       </button>
 
       <button id="cc-filter-open" style="display:none;align-items:center;gap:7px;padding:9px 14px;background:#fff;border:1px solid #dfe3e8;border-radius:24px;font-size:13px;font-weight:700;color:#1f2430;box-shadow:0 2px 8px rgba(0,0,0,.16);cursor:pointer">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>条件検索
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1668d9" stroke-width="2"><path d="M3 5h18M6 12h12M10 19h4"/></svg>条件検索
       </button>
 
       <div id="cc-leaflet" style="position:absolute;inset:0;z-index:1"></div>
@@ -267,7 +267,7 @@ html,body{overflow-x:hidden}
         <div style="background:#fff;border-radius:9px;box-shadow:0 5px 16px rgba(0,0,0,.2);padding:6px 10px;white-space:nowrap;border:1px solid #eef0f2">
           <div style="font-size:9.5px;color:#7b8492;line-height:1.2;margin-bottom:2px"><span id="cc-hv-sport"></span></div>
           <div id="cc-hv-name" style="font-size:12px;font-weight:800;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.2"></div>
-          <div style="font-size:9.5px;color:#f0435c;font-weight:700;line-height:1.2;margin-top:5px">クリックで表示 ›</div>
+          <div style="font-size:9.5px;color:#1668d9;font-weight:700;line-height:1.2;margin-top:5px">クリックで表示 ›</div>
         </div>
         <div style="width:10px;height:10px;background:#fff;border-right:1px solid #eef0f2;border-bottom:1px solid #eef0f2;transform:rotate(45deg);margin:-6px auto 0"></div>
       </div>
@@ -297,7 +297,7 @@ html,body{overflow-x:hidden}
             </div>
             <div id="cc-detail-desc" style="margin-top:6px;font-size:11px;line-height:1.5;color:#54606e;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden"></div>
             <div style="display:flex;gap:7px;margin-top:8px">
-              <a id="cc-detail-link" href="club.html" style="flex:1;text-align:center;padding:7px 6px;background:#fff;color:#f0435c;border:1.5px solid #f0435c;border-radius:8px;font-size:11.5px;font-weight:700;text-decoration:none">詳細を見る</a>
+              <a id="cc-detail-link" href="club.html" style="flex:1;text-align:center;padding:7px 6px;background:#fff;color:#1668d9;border:1.5px solid #1668d9;border-radius:8px;font-size:11.5px;font-weight:700;text-decoration:none">詳細を見る</a>
               <a id="cc-detail-trial" href="club.html" style="flex:1;text-align:center;padding:7px 6px;background:#e6197e;color:#fff;border:none;border-radius:8px;font-size:11.5px;font-weight:700;text-decoration:none">体験申込</a>
             </div>
             <div id="cc-detail-dots" style="display:flex;justify-content:center;align-items:center;gap:6px;margin-top:11px"></div>
@@ -306,14 +306,14 @@ html,body{overflow-x:hidden}
       </div>
 
       <div class="cc-maphint" style="position:absolute;left:18px;top:18px;display:flex;align-items:center;gap:8px;background:#fff;padding:9px 15px;border-radius:24px;box-shadow:0 3px 10px rgba(0,0,0,.14);font-size:13px;font-weight:600;color:#3a4452;z-index:400">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><circle cx="12" cy="17" r=".6" fill="#f0435c" stroke="none"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1668d9" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><circle cx="12" cy="17" r=".6" fill="#1668d9" stroke="none"/></svg>
         地図を動かして近くのクラブを探せます
       </div>
       <div style="position:absolute;right:18px;bottom:74px;background:#fff;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.14);overflow:hidden;z-index:400">
         <button id="cc-zoomin" style="width:40px;height:40px;border:none;background:#fff;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #eef0f2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3a4452" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></button>
         <button id="cc-zoomout" style="width:40px;height:40px;border:none;background:#fff;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3a4452" stroke-width="2.2"><path d="M5 12h14"/></svg></button>
       </div>
-      <button id="cc-research" class="cc-recenter" style="position:absolute;right:18px;top:18px;display:flex;align-items:center;gap:7px;background:#fff;padding:10px 16px;border-radius:24px;box-shadow:0 3px 10px rgba(0,0,0,.14);font-size:13px;font-weight:700;color:#f0435c;border:none;z-index:500">
+      <button id="cc-research" class="cc-recenter" style="position:absolute;right:18px;top:18px;display:flex;align-items:center;gap:7px;background:#fff;padding:10px 16px;border-radius:24px;box-shadow:0 3px 10px rgba(0,0,0,.14);font-size:13px;font-weight:700;color:#1668d9;border:none;z-index:500">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>
         このエリアで再検索
       </button>
@@ -321,7 +321,7 @@ html,body{overflow-x:hidden}
         <span style="font-size:11px;color:#5b6675;font-weight:600;text-shadow:0 0 3px #fff">500m</span>
         <div style="width:64px;height:6px;border:1.5px solid #8a93a1;border-top:none"></div>
       </div>
-      <button class="cc-recenter" style="position:absolute;right:18px;bottom:18px;display:flex;align-items:center;gap:7px;background:#fff;padding:10px 16px;border-radius:24px;box-shadow:0 3px 10px rgba(0,0,0,.14);font-size:13px;font-weight:700;color:#f0435c;border:none;z-index:500">
+      <button class="cc-recenter" style="position:absolute;right:18px;bottom:18px;display:flex;align-items:center;gap:7px;background:#fff;padding:10px 16px;border-radius:24px;box-shadow:0 3px 10px rgba(0,0,0,.14);font-size:13px;font-weight:700;color:#1668d9;border:none;z-index:500">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
         現在地に戻る
       </button>
@@ -402,7 +402,7 @@ html,body{overflow-x:hidden}
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
               <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市中区</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
             </div>
           </a>
           <a href="pr-sample-sports.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
@@ -412,7 +412,7 @@ html,body{overflow-x:hidden}
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
               <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市港区</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
             </div>
           </a>
           <a href="pr-sample-cafe.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
@@ -422,7 +422,7 @@ html,body{overflow-x:hidden}
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
               <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>名古屋市昭和区</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
             </div>
           </a>
           <a href="pr-sample-design.html" style="border:1px solid #e9ecef;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;">
@@ -432,13 +432,13 @@ html,body{overflow-x:hidden}
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;padding-top:9px;">
               <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;color:#8a95a0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9aa3ad" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>オンラインショップ</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
             </div>
           </a>
         </div>
         <a href="recruit-pr.html" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;padding:14px 18px;border-radius:10px;background:linear-gradient(100deg,#fff4f6,#fef0ea);border:1px dashed #f1b6c1;text-decoration:none;">
           <div style="font-size:13px;font-weight:800;color:#2b3340;">📣 あなたのお店も、この枠に掲載しませんか？<span style="display:block;font-size:11.5px;font-weight:600;color:#8a95a0;margin-top:3px;">地域の子育て世帯にPR。掲載プラン・料金はこちら</span></div>
-          <span style="flex:0 0 auto;background:#f0435c;color:#fff;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:999px;">広告掲載を見る ›</span>
+          <span style="flex:0 0 auto;background:#e8455f;color:#fff;font-size:12.5px;font-weight:800;padding:9px 16px;border-radius:999px;">広告掲載を見る ›</span>
         </a>
       </div>
     </div>
@@ -477,7 +477,7 @@ html,body{overflow-x:hidden}
   function sportEmoji(sp){ sp=sp||''; function h(){for(var i=0;i<arguments.length;i++)if(sp.indexOf(arguments[i])>=0)return true;return false;}
     if(h('バトン')) return {c:'#FF7FB6',i:'<circle cx="6.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><path d="M8 16 L16 8"/><path d="M19.5 4.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>'};
     if(h('ダブルダッチ')) return {c:'#C98BFF',i:'<path d="M5 4.5c-2.6 4-2.6 11 0 15"/><path d="M19 4.5c2.6 4 2.6 11 0 15"/><circle cx="12" cy="7.5" r="2"/><path d="M12 9.5v5l-2 5M12 14.5l2 5"/>'};
-    if(h('マルチ')) return {c:'#f0435c',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
+    if(h('マルチ')) return {c:'#2a6fdb',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
     if(h('柔術')) return {c:'#7B8CE8',i:'<path d="M3 11h7l2 2 2-2h7"/><path d="M10 11l-1.5 6M14 11l1.5 6"/>'};
     if(h('レスリング','相撲')) return {c:'#7B8CE8',i:'<circle cx="8" cy="6.5" r="2.2"/><circle cx="16" cy="6.5" r="2.2"/><path d="M8 8.7c0 2 1.6 3.3 4 3.3s4-1.3 4-3.3"/><path d="M6 19c0-3 1-5 2.5-5M18 19c0-3-1-5-2.5-5"/>'};
     if(h('空手','テコンドー')) return {c:'#7B8CE8',i:'<circle cx="11" cy="5" r="2"/><path d="M11 7l-1 6M10 13l-3 5M10 13l5-1M11 10l5 3"/>'};
@@ -498,7 +498,7 @@ html,body{overflow-x:hidden}
     if(h('水泳','スイミング'))                    return {c:'#3FB6D6',i:'<circle cx="15" cy="6" r="2"/><path d="M3 16c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M4 12l5-3 3 2"/>'};
     if(h('バトン')) return {c:'#FF7FB6',i:'<circle cx="6.5" cy="17.5" r="2.2"/><circle cx="17.5" cy="6.5" r="2.2"/><path d="M8 16 L16 8"/><path d="M19.5 4.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>'};
     if(h('ダブルダッチ')) return {c:'#C98BFF',i:'<path d="M5 4.5c-2.6 4-2.6 11 0 15"/><path d="M19 4.5c2.6 4 2.6 11 0 15"/><circle cx="12" cy="7.5" r="2"/><path d="M12 9.5v5l-2 5M12 14.5l2 5"/>'};
-    if(h('マルチ')) return {c:'#f0435c',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
+    if(h('マルチ')) return {c:'#2a6fdb',i:'<circle cx="9" cy="9" r="4.6"/><circle cx="15" cy="15" r="4.6"/>'};
     if(h('柔術')) return {c:'#7B8CE8',i:'<path d="M3 11h7l2 2 2-2h7"/><path d="M10 11l-1.5 6M14 11l1.5 6"/>'};
     if(h('レスリング','相撲')) return {c:'#7B8CE8',i:'<circle cx="8" cy="6.5" r="2.2"/><circle cx="16" cy="6.5" r="2.2"/><path d="M8 8.7c0 2 1.6 3.3 4 3.3s4-1.3 4-3.3"/><path d="M6 19c0-3 1-5 2.5-5M18 19c0-3-1-5-2.5-5"/>'};
     if(h('空手','テコンドー')) return {c:'#7B8CE8',i:'<circle cx="11" cy="5" r="2"/><path d="M11 7l-1 6M10 13l-3 5M10 13l5-1M11 10l5 3"/>'};
@@ -567,7 +567,7 @@ html,body{overflow-x:hidden}
   function fs(i){ return state.favs[i]?'#e6197e':'#aab0b9'; }
   function tagPill(label,big){
     var m={'楽しむこと':'color:#d97316;border:1px solid #f6dcb6',
-      '本格志向':'color:#f0435c;border:1px solid #c5dcf7',
+      '本格志向':'color:#1668d9;border:1px solid #c5dcf7',
       'ほめて伸ばす':'color:#e6197e;border:1px solid #f7c6dd',
       '礼儀・しつけ':'color:#7b5cd6;border:1px solid #d9cdf5',
       'アットホーム':'color:#d9682f;border:1px solid #f3d2bd',
@@ -662,7 +662,7 @@ html,body{overflow-x:hidden}
     var dd=$('cc-detail-dots'); if(dd){ var s=''; for(var k=0;k<PINS.length;k++){ var on=k===state.detailIdx; s+='<span style="width:'+(on?'12px':'4px')+';height:4px;border-radius:2px;background:'+(on?'#e6197e':'#d6dae0')+';transition:width .2s,background .2s"></span>'; } dd.innerHTML=s; }
   }
   var CARD_BASE='position:relative;width:184px;flex-shrink:0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.18);cursor:pointer;transition:box-shadow .15s';
-  var CARD_SEL='position:relative;width:184px;flex-shrink:0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 0 0 2.5px #f0435c,0 6px 16px rgba(22,104,217,.3);cursor:pointer;transition:box-shadow .15s';
+  var CARD_SEL='position:relative;width:184px;flex-shrink:0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 0 0 2.5px #1668d9,0 6px 16px rgba(22,104,217,.3);cursor:pointer;transition:box-shadow .15s';
   function renderCards(){
     $('cc-cards').innerHTML = PINS.map(function(p,i){
       if(p._hidden) return '';
@@ -690,24 +690,24 @@ html,body{overflow-x:hidden}
   // ---- filters ----
   function renderDist(){ document.querySelectorAll('.cc-dist').forEach(function(btn){
     var on=state.dist===btn.dataset.v;
-    btn.setAttribute('style','flex:1;padding:8px 0;border-radius:8px;font-size:13px;'+(on?'border:1.5px solid #f0435c;background:#e9f1fd;color:#f0435c;font-weight:700':'border:1px solid #dfe3e8;background:#fff;color:#54606e;font-weight:600'));
+    btn.setAttribute('style','flex:1;padding:8px 0;border-radius:8px;font-size:13px;'+(on?'border:1.5px solid #1668d9;background:#e9f1fd;color:#1668d9;font-weight:700':'border:1px solid #dfe3e8;background:#fff;color:#54606e;font-weight:600'));
   }); }
   function renderCond(){ document.querySelectorAll('.cc-cond').forEach(function(btn){
     var on=state.cond[btn.dataset.k]; var box=btn.querySelector('.cc-cond-box'); var chk=btn.querySelector('.cc-check');
-    box.setAttribute('style','width:19px;height:19px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;'+(on?'background:#f0435c;border:1.5px solid #f0435c':'background:#fff;border:1.5px solid #cdd3da'));
+    box.setAttribute('style','width:19px;height:19px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;'+(on?'background:#1668d9;border:1.5px solid #1668d9':'background:#fff;border:1.5px solid #cdd3da'));
     chk.style.display=on?'':'none';
   }); }
   function renderFee(){ document.querySelectorAll('.cc-fee').forEach(function(btn){
     var on=state.fee===btn.dataset.v; var dot=btn.querySelector('.cc-fee-dot');
-    dot.setAttribute('style','width:18px;height:18px;border-radius:50%;background:#fff;flex-shrink:0;'+(on?'border:5px solid #f0435c':'border:1.5px solid #cdd3da'));
+    dot.setAttribute('style','width:18px;height:18px;border-radius:50%;background:#fff;flex-shrink:0;'+(on?'border:5px solid #1668d9':'border:1.5px solid #cdd3da'));
   }); }
   function renderView(){ document.querySelectorAll('.cc-view').forEach(function(btn){
     var on=state.view===btn.dataset.v;
-    btn.setAttribute('style','display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-weight:700;font-size:14px;'+(on?'background:#f0435c;color:#fff;border:none':'background:#fff;color:#5b6675;border:1px solid #dfe3e8'));
+    btn.setAttribute('style','display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-weight:700;font-size:14px;'+(on?'background:#1668d9;color:#fff;border:none':'background:#fff;color:#5b6675;border:1px solid #dfe3e8'));
   }); }
 
   function renderAge(){ document.querySelectorAll('.cc-age').forEach(function(b){ var on=!!state.ages[b.dataset.age];
-    b.style.borderColor=on?'#f0435c':'#dfe3e8'; b.style.background=on?'#e9f1fd':'#fff'; b.style.color=on?'#f0435c':'#54606e'; b.style.fontWeight=on?'700':'600'; }); }
+    b.style.borderColor=on?'#1668d9':'#dfe3e8'; b.style.background=on?'#e9f1fd':'#fff'; b.style.color=on?'#1668d9':'#54606e'; b.style.fontWeight=on?'700':'600'; }); }
 
   // ---- 絞り込みエンジン ----
   var WEEKDAYS=['月','火','水','木','金'];
@@ -1000,6 +1000,6 @@ html,body{overflow-x:hidden}
 
 })();
 </script>
-<script src="shared.js?v=20260731"></script>
+<script src="shared.js?v=20260731b"></script>
 </body>
 </html>
