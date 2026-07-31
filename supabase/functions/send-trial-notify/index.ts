@@ -6,27 +6,45 @@ const ADMIN_EMAIL = 'moyori.info@gmail.com';
 /* クラブの通知先を team_members から引く。
    担当者が1人しか登録できないと、その人が交代した時点で申込通知が
    誰にも届かなくなり、しかもクラブ側は気づけない。
-   team_members が空・未作成のときは、呼び出し元が渡した team_email に落とす。 */
+
+   team_members が空のときは teams.email に落とす。ここは必ずサーバー側で
+   引くこと。クラブの連絡先は列権限で隠しており、呼び出し元（ブラウザ・
+   アプリ）はもう teams.email を読めない。渡された team_email を頼りに
+   していると、通知先を1件も登録していないクラブに申込が届かなくなる。 */
 async function resolveClubEmails(teamId: string, fallback: string): Promise<string[]> {
   const url = Deno.env.get('SUPABASE_URL');
   const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   const fb = String(fallback || '').trim();
   const fbList = fb ? [fb.toLowerCase()] : [];
   if (!url || !key || !teamId) return fbList;
+  const auth = { apikey: key, Authorization: `Bearer ${key}` };
   try {
     const r = await fetch(
       `${url}/rest/v1/team_members?team_id=eq.${encodeURIComponent(teamId)}&notify=is.true&select=email`,
-      { headers: { apikey: key, Authorization: `Bearer ${key}` } },
+      { headers: auth },
     );
-    if (!r.ok) return fbList;
-    const rows = await r.json();
-    const list = (Array.isArray(rows) ? rows : [])
-      .map((m: { email?: string }) => String(m.email || '').trim().toLowerCase())
-      .filter(Boolean);
-    return list.length ? [...new Set(list)] : fbList;
-  } catch {
-    return fbList;
-  }
+    if (r.ok) {
+      const rows = await r.json();
+      const list = (Array.isArray(rows) ? rows : [])
+        .map((m: { email?: string }) => String(m.email || '').trim().toLowerCase())
+        .filter(Boolean);
+      if (list.length) return [...new Set(list)];
+    }
+  } catch { /* teams.email で拾い直す */ }
+
+  try {
+    const r = await fetch(
+      `${url}/rest/v1/teams?id=eq.${encodeURIComponent(teamId)}&select=email`,
+      { headers: auth },
+    );
+    if (r.ok) {
+      const rows = await r.json();
+      const mail = String((Array.isArray(rows) ? rows[0]?.email : '') || '').trim().toLowerCase();
+      if (mail) return [mail];
+    }
+  } catch { /* 最後は呼び出し元の指定に落とす */ }
+
+  return fbList;
 }
 
 serve(async (req) => {
