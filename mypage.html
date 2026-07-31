@@ -31,11 +31,11 @@
 <style>
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  body{font-family:'Noto Sans JP',sans-serif;color:#21315b;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
   a{color:inherit;}
   .mp-wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
   .mp-favs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
-  .mp-card{position:relative;display:block;background:#fff;border:1px solid #e6e9ed;border-radius:14px;overflow:hidden;text-decoration:none;color:#1f2a37;box-shadow:0 2px 8px rgba(20,28,38,.07);transition:transform .14s,box-shadow .14s;}
+  .mp-card{position:relative;display:block;background:#fff;border:1px solid #e6e9ed;border-radius:14px;overflow:hidden;text-decoration:none;color:#21315b;box-shadow:0 2px 8px rgba(20,28,38,.07);transition:transform .14s,box-shadow .14s;}
   .mp-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,28,38,.12);}
   .mp-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
   .mp-rm{position:absolute;top:9px;right:9px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 2px 8px rgba(20,28,38,.2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;}
@@ -55,7 +55,7 @@
 <body>
 
 <!-- ===== HERO ===== -->
-<section style="background:linear-gradient(135deg,#e8455f,#e8784a);color:#fff;padding:42px 0 36px;">
+<section style="background:linear-gradient(135deg,#f0435c,#e8784a);color:#fff;padding:42px 0 36px;">
   <div class="mp-wrap">
     <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">My Page</div>
     <h1 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:28px;font-weight:900;">マイページ</h1>
@@ -69,14 +69,14 @@
   <section style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
     <div style="display:flex;align-items:center;gap:12px;">
       <div style="width:46px;height:46px;border-radius:12px;background:#f2f7ff;display:flex;align-items:center;justify-content:center;flex:0 0 46px;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f0435c" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
       </div>
       <div>
         <div style="font-size:12px;font-weight:700;color:#8a93a0;">あなたの地域</div>
-        <div id="mp-region" style="font-size:18px;font-weight:900;color:#1f2a37;">未設定</div>
+        <div id="mp-region" style="font-size:18px;font-weight:900;color:#21315b;">未設定</div>
       </div>
     </div>
-    <a href="#" class="cc-region-change" style="background:#2a6fdb;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 20px;border-radius:999px;">地域を変更</a>
+    <a href="#" class="cc-region-change" style="background:#f0435c;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:10px 20px;border-radius:999px;">地域を変更</a>
   </section>
 
   <!-- お気に入り -->
@@ -88,9 +88,9 @@
 
     <div id="mp-empty" style="display:none;text-align:center;padding:48px 20px;background:#fff;border:1px dashed #d7dde3;border-radius:16px;">
       <div style="font-size:34px;margin-bottom:10px;">🤍</div>
-      <div style="font-size:15px;font-weight:800;color:#1f2a37;margin-bottom:6px;">まだお気に入りがありません</div>
+      <div style="font-size:15px;font-weight:800;color:#21315b;margin-bottom:6px;">まだお気に入りがありません</div>
       <p style="margin:0 0 18px;font-size:13px;color:#8a93a0;line-height:1.8;">気になるクラブを見つけて、ハートを押して保存しましょう。</p>
-      <a href="search.html" style="display:inline-block;background:#e8455f;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:11px 24px;border-radius:999px;">クラブを探す</a>
+      <a href="search.html" style="display:inline-block;background:#f0435c;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:11px 24px;border-radius:999px;">クラブを探す</a>
     </div>
   </section>
 
@@ -107,7 +107,7 @@
     <div id="mp-account-out" style="display:none;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:26px 22px;text-align:center;">
       <div style="font-size:16px;font-weight:900;margin-bottom:6px;">ログインすると、もっと便利に</div>
       <p style="margin:0 0 18px;font-size:12.5px;color:#8a93a0;line-height:1.9;">お気に入りをスマホ・PCで共有／クラブへのコメント／地域の自動設定ができます。</p>
-      <a href="login.html" style="display:inline-block;background:#2270e0;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:12px 30px;border-radius:999px;">ログイン / 新規登録</a>
+      <a href="login.html" style="display:inline-block;background:#f0435c;color:#fff;font-size:14px;font-weight:800;text-decoration:none;padding:12px 30px;border-radius:999px;">ログイン / 新規登録</a>
     </div>
     <!-- ログイン中 -->
     <div id="mp-account-in" style="display:none;background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:22px;">
@@ -134,19 +134,19 @@
         <select id="mp-city" style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;box-sizing:border-box;" disabled><option value="">市区町村</option></select>
       </div>
 
-      <button id="mp-save" style="width:100%;background:#2270e0;color:#fff;border:none;border-radius:10px;padding:13px 0;font-size:14.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:18px;">変更を保存</button>
+      <button id="mp-save" style="width:100%;background:#f0435c;color:#fff;border:none;border-radius:10px;padding:13px 0;font-size:14.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:18px;">変更を保存</button>
       <div id="mp-save-msg" style="display:none;text-align:center;font-size:13px;margin-top:10px;"></div>
 
       <details style="margin-top:18px;">
-        <summary style="font-size:13px;font-weight:700;color:#2270e0;cursor:pointer;">パスワードを変更する</summary>
+        <summary style="font-size:13px;font-weight:700;color:#f0435c;cursor:pointer;">パスワードを変更する</summary>
         <input id="mp-pw1" type="password" placeholder="新しいパスワード（6文字以上）" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;margin-top:10px;box-sizing:border-box;">
         <input id="mp-pw2" type="password" placeholder="もう一度入力" style="width:100%;border:1px solid #d7dbe0;border-radius:9px;padding:11px 12px;font-size:14px;font-family:inherit;margin-top:8px;box-sizing:border-box;">
-        <button id="mp-pw-save" style="width:100%;background:#fff;color:#2270e0;border:1.5px solid #2270e0;border-radius:10px;padding:11px 0;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:10px;">パスワードを更新</button>
+        <button id="mp-pw-save" style="width:100%;background:#fff;color:#f0435c;border:1.5px solid #f0435c;border-radius:10px;padding:11px 0;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:10px;">パスワードを更新</button>
         <div id="mp-pw-msg" style="display:none;text-align:center;font-size:12.5px;margin-top:8px;"></div>
       </details>
 
       <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid #f0f2f4;display:flex;flex-direction:column;gap:14px;align-items:center;">
-        <a href="club-mypage.html" style="color:#2270e0;font-size:13px;font-weight:700;text-decoration:none;">クラブを運営している方はこちら（クラブ管理ページ）</a>
+        <a href="club-mypage.html" style="color:#f0435c;font-size:13px;font-weight:700;text-decoration:none;">クラブを運営している方はこちら（クラブ管理ページ）</a>
         <button id="mp-logout-bottom" style="width:100%;background:#fff;border:1.5px solid #d7dbe0;color:#5b6573;border-radius:10px;padding:12px 0;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;">ログアウト</button>
       </div>
     </div>
@@ -159,7 +159,7 @@
   <div style="background:#fff;width:100%;max-width:560px;border-radius:18px 18px 0 0;max-height:86vh;display:flex;flex-direction:column;">
     <div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid #eef0f2;">
       <div style="flex:1;min-width:0;">
-        <div id="mp-chat-title" style="font-size:15px;font-weight:900;color:#1f2a37;"></div>
+        <div id="mp-chat-title" style="font-size:15px;font-weight:900;color:#21315b;"></div>
         <div id="mp-chat-sub" style="font-size:11.5px;color:#8a93a0;margin-top:2px;"></div>
       </div>
       <button id="mp-chat-close" style="width:32px;height:32px;border:none;border-radius:50%;background:#f0eeea;color:#5b6573;font-size:16px;cursor:pointer;">×</button>
@@ -174,11 +174,11 @@
 </div>
 
 <script src="supabase-lite.js?v=20260731"></script>
-<script src="cities.js"></script>
-<script src="shared.js"></script>
+<script src="cities.js?v=20260731"></script>
+<script src="shared.js?v=20260731"></script>
 <script>
 (function () {
-  var X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#e0344c" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var X_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#d33a52" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
   function esc(s) { return (s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -239,8 +239,8 @@
      手段が無かったため、個人情報を出さずに済むこの経路を用意する。 */
   var TRIAL_LABEL = {
     'new':      { t: '受付済み・クラブ確認中', c: '#b97f00', bg: '#fff7e6' },
-    'attended': { t: '体験に参加しました',     c: '#2270e0', bg: '#eef4ff' },
-    'joined':   { t: '入会しました',           c: '#1f8a5b', bg: '#eafaf0' },
+    'attended': { t: '体験に参加しました',     c: '#f0435c', bg: '#eef4ff' },
+    'joined':   { t: '入会しました',           c: '#2fa85c', bg: '#e7f6ec' },
     'lost':     { t: '見送り',            c: '#8a93a0', bg: '#f3f4f6' }
   };
   var chatState = { trialId: null, clubName: '', timer: null };
@@ -303,7 +303,7 @@
               return '<div style="background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:18px 20px;margin-bottom:12px;">' +
                 '<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">' +
                   '<div style="flex:1;min-width:0;">' +
-                    '<div style="font-family:\'Zen Maru Gothic\',sans-serif;font-size:16px;font-weight:900;color:#1f2a37;">' + esc(nm) + '</div>' +
+                    '<div style="font-family:\'Zen Maru Gothic\',sans-serif;font-size:16px;font-weight:900;color:#21315b;">' + esc(nm) + '</div>' +
                     '<div style="font-size:12px;color:#8a93a0;margin-top:2px;">' + esc(child || 'お子さま') + ' ・ ' + String(r.created_at || '').slice(0, 10) + ' 申込</div>' +
                   '</div>' +
 
@@ -335,7 +335,7 @@
       var hm = (time.getMonth() + 1) + '/' + time.getDate() + ' ' + String(time.getHours()).padStart(2, '0') + ':' + String(time.getMinutes()).padStart(2, '0');
       return '<div style="display:flex;justify-content:' + (mine ? 'flex-end' : 'flex-start') + ';margin-bottom:12px;">' +
         '<div style="max-width:78%;">' +
-          '<div style="background:' + (mine ? '#f0435c' : '#fff') + ';color:' + (mine ? '#fff' : '#1f2a37') + ';border:1px solid ' + (mine ? '#f0435c' : '#e6e9ed') + ';border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;">' + esc(m.body) + '</div>' +
+          '<div style="background:' + (mine ? '#f0435c' : '#fff') + ';color:' + (mine ? '#fff' : '#21315b') + ';border:1px solid ' + (mine ? '#f0435c' : '#e6e9ed') + ';border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;">' + esc(m.body) + '</div>' +
           '<div style="font-size:10.5px;color:#aab1bb;margin-top:4px;text-align:' + (mine ? 'right' : 'left') + ';">' + hm + '</div>' +
         '</div></div>';
     }).join('');
@@ -470,7 +470,7 @@
             m.style.display = 'block';
             if (res && res.error) { m.style.color = '#c0314b'; m.textContent = '保存に失敗しました。'; }
             else {
-              m.style.color = '#1f8a5b'; m.textContent = '保存しました。';
+              m.style.color = '#f0435c'; m.textContent = '保存しました。';
               if (window.Chibi) window.Chibi.setRegionParts(pref, city);
               var rEl = $('mp-region'); if (rEl && (pref || city)) rEl.textContent = [pref, city].filter(Boolean).join(' ');
             }
@@ -486,7 +486,7 @@
         if (p1 !== p2) { m.style.color = '#c0314b'; m.textContent = 'パスワードが一致しません。'; return; }
         A.client().auth.updateUser({ password: p1 }).then(function (res) {
           if (res && res.error) { m.style.color = '#c0314b'; m.textContent = '更新に失敗しました。'; }
-          else { m.style.color = '#1f8a5b'; m.textContent = 'パスワードを更新しました。'; $('mp-pw1').value = ''; $('mp-pw2').value = ''; }
+          else { m.style.color = '#f0435c'; m.textContent = 'パスワードを更新しました。'; $('mp-pw1').value = ''; $('mp-pw2').value = ''; }
         });
       });
 

@@ -31,7 +31,7 @@
 <style>
   /* アプリのオンボーディング画面に配色をそろえる。
      ブランドはコーラル #f0435c、見出しはネイビー #21315b。
-     以前は青（#2270e0）が主役で、アプリと別サービスに見えていた */
+     以前は青（#f0435c）が主役で、アプリと別サービスに見えていた */
   *{box-sizing:border-box;}
   :root{
     --brand:#f0435c; --brand-dark:#d33a52; --brand-soft:#fdedef;
@@ -177,8 +177,8 @@
   </div>
 
   <script src="supabase-lite.js?v=20260731"></script>
-  <script src="cities.js"></script>
-  <script src="shared.js"></script>
+  <script src="cities.js?v=20260731"></script>
+  <script src="shared.js?v=20260731"></script>
   <script>
   (function(){
     var A = window.ChibiAuth;
@@ -199,7 +199,7 @@
     function msg(type, text){
       var m=$('lg-msg'); m.style.display='block'; m.textContent=text;
       if(type==='err'){ m.style.background='#fdecee'; m.style.color='#c0314b'; }
-      else { m.style.background='#eafaf0'; m.style.color='#1f8a5b'; }
+      else { m.style.background='#e7f6ec'; m.style.color='#2fa85c'; }
     }
     function clearMsg(){ $('lg-msg').style.display='none'; }
 
