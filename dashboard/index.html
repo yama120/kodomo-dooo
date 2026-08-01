@@ -2652,8 +2652,14 @@ function rpEntryGate(){
   document.querySelectorAll("nav.tabbar, header.top, main, footer, .demo-bar").forEach(function(el){ el.style.display="none"; });
   const gate=document.getElementById("entry-gate"); if(gate)gate.style.display="block";
   const t=document.getElementById("eg-title"), s=document.getElementById("eg-sub"), a=document.getElementById("eg-actions");
-  const btn=(label,href,primary)=>'<a href="'+href+'" style="text-decoration:none;font-size:.85rem;font-weight:800;border-radius:999px;padding:11px 22px;'
+  /* 待機画面は履歴に残さない。普通のリンクだと ?demo=1 から戻ったときに
+     またこの画面に着いてしまい、前のページへ帰れなくなる（location.replaceで置き換える） */
+  const btn=(label,href,primary)=>'<a href="'+href+'" onclick="location.replace(this.href);return false;" style="text-decoration:none;font-size:.85rem;font-weight:800;border-radius:999px;padding:11px 22px;'
     +(primary?'background:#e8455f;color:#fff;':'background:#fff;color:#3b4654;border:1.5px solid #d7dbe0;')+'">'+label+'</a>';
+  // 直前のページがある場合は、そこへ戻れる導線も出す（行き止まりにしない）
+  const backLink=document.referrer && !/\/dashboard\//.test(document.referrer)
+    ? '<div style="flex-basis:100%;text-align:center;margin-top:4px;"><a href="'+document.referrer.replace(/"/g,"&quot;")+'" style="color:#8a93a0;font-size:12.5px;font-weight:700;text-decoration:underline;">← 前のページに戻る</a></div>'
+    : '';
   let uid=null;
   try{
     const sess=JSON.parse(localStorage.getItem("sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth")||"null");
@@ -2665,7 +2671,7 @@ function rpEntryGate(){
     if(t)t.textContent="ログインすると、あなたのクラブの数字が表示されます";
     if(s)s.textContent="クラブアカウントでログインしてから、もう一度開いてください。中身だけ先に見たい場合はサンプルをどうぞ。";
     // クラブのログインはマイページ側にある（login.htmlは保護者向け）
-    if(a)a.innerHTML=btn("クラブログイン","/club-mypage.html",true)+btn("サンプルを見る","?demo=1");
+    if(a)a.innerHTML=btn("クラブログイン","/club-mypage.html",true)+btn("サンプルを見る","?demo=1")+backLink;
     return false;
   }
   const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ";
@@ -2682,12 +2688,12 @@ function rpEntryGate(){
       }
       if(t)t.textContent="このアカウントには、まだクラブが登録されていません";
       if(s)s.textContent="クラブを登録すると、掲載ページの閲覧数や申込の推移がここに出ます。";
-      if(a)a.innerHTML=btn("クラブを登録する","/register.html",true)+btn("サンプルを見る","?demo=1");
+      if(a)a.innerHTML=btn("クラブを登録する","/register.html",true)+btn("サンプルを見る","?demo=1")+backLink;
     })
     .catch(function(){
       if(t)t.textContent="クラブを読み込めませんでした";
       if(s)s.textContent="通信環境をご確認のうえ、もう一度お試しください。";
-      if(a)a.innerHTML=btn("マイページへ","/club-mypage.html",true)+btn("サンプルを見る","?demo=1");
+      if(a)a.innerHTML=btn("マイページへ","/club-mypage.html",true)+btn("サンプルを見る","?demo=1")+backLink;
     });
   return false;
 }
