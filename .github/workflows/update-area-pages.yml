@@ -1,0 +1,46 @@
+# 地域ページ（/area/…）と sitemap.xml を毎日作り直す。
+#
+# クラブを承認しても、生成し直さないと地域ページにもサイトマップにも出ない。
+# 手で流し忘れる前提で自動化する。
+#
+# 費用：Publicリポジトリの標準ランナーは無料・分数上限なし。
+# 生成物はデータが同じなら毎回同じ内容になるので、差分が無い日は何もコミットしない。
+#
+# ローマ字の対応表（seo-romaji.mjs）に無い市区町村・種目のクラブが増えると
+# ここで失敗する。これは意図的で、失敗通知で気づいて追記するための設計。
+name: 地域ページとサイトマップを更新
+
+on:
+  schedule:
+    - cron: "0 21 * * *"    # UTC 21:00 = 日本時間 6:00
+  workflow_dispatch:         # 手動実行ボタン（急ぎで反映したいとき）
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # 生成物をコミットするために必要
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 地域ページを生成
+        run: node build-area-pages.mjs
+
+      - name: サイトマップを生成
+        run: node build-sitemap.mjs
+
+      - name: 差分があればコミットする
+        run: |
+          git add area sitemap.xml
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットしません。"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "地域ページとサイトマップを自動更新"
+          git push
