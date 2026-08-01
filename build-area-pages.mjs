@@ -31,7 +31,7 @@ const KEY =
 
 const COLS =
   "id,name,sport,pref,city,address,age_groups,age_min,days,fee,fee_num,trial," +
-  "girls_welcome,female_instructor,description,photo_url,plan,plan_expires_at,created_at";
+  "girls_welcome,female_instructor,description,photo_url,plan,plan_expires_at,created_at,owner_hash";
 
 const esc = (s) =>
   String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -385,7 +385,18 @@ for (const [key, list] of byCitySport) {
     description: `全国${byPref.size}都道府県・${byCity.size}市区町村の子ども向けスポーツクラブ${clubs.length}件を掲載。地域と種目から探せます。`,
     h1: `地域から子ども向けスポーツクラブを探す`,
     lead: `チビスポに掲載中の${clubs.length}件を、${byPref.size}都道府県・${byCity.size}市区町村・${new Set(clubs.map((c) => c.sport)).size}種目から探せます。`,
-    list: clubs.slice(0, 12),
+    // 入口は「どんなクラブが載っているか」を見せる場所。系列校が並ぶと
+    // 同じ名前ばかりになるので、トップページと同じく運営者ごとに1校だけ出す
+    list: (function () {
+      const seen = new Set(), out = [];
+      for (const c of clubs) {
+        const key = c.owner_hash || c.id;
+        if (seen.has(key)) continue;
+        seen.add(key); out.push(c);
+        if (out.length === 12) break;
+      }
+      return out;
+    })(),
     crumbs: [home, { name: "地域から探す", href: url }],
     searchHref: "/search.html",
     related: linkList("都道府県から探す", rows.map(([pref, l]) => ({
