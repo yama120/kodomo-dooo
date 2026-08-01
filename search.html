@@ -769,6 +769,28 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     else if(st.city && elCity){ elCity.value=st.city; }
     // 雰囲気(moods)は実データ未対応のためURLからの初期反映は行わない
 
+    /* 地域ページ（/area/…）の「条件から絞る」リンクから飛んで来たときに、
+       サイドバーの条件も入った状態で開く。パラメータ名は地図ページ（map.html）と揃える。
+       操作できる検索はこのページ1つだけにして、地域ページ側には持たせない。 */
+    ['trial','heijitsu','doyo','girls'].forEach(function(k){
+      // 体験は taiken でも受ける（地図ページが taiken を使っているため）
+      var on = _p.get(k)==='1' || (k==='trial' && _p.get('taiken')==='1');
+      if(!on) return;
+      st.chk[k]=true;
+      var b=document.querySelector('.sr-chk[data-k="'+k+'"]'); if(b) b.classList.add('on');
+    });
+    if(_p.get('age')){
+      _p.get('age').split(',').forEach(function(a){
+        a=a.trim(); if(!a) return;
+        st.ages[a]=true;
+        var b=document.querySelector('.sr-age[data-age="'+a+'"]'); if(b) b.classList.add('on');
+      });
+    }
+    if(_p.get('fee') && ['3','5','8','10','none'].indexOf(_p.get('fee'))>=0){
+      st.fee=_p.get('fee');
+      document.querySelectorAll('.sr-fee').forEach(function(b){ b.classList.toggle('on', b.dataset.v===st.fee); });
+    }
+
     // --- イベント結線（操作したら即絞り込み）---
     if(elKw) elKw.addEventListener('input', function(){ st.kw=elKw.value.trim(); apply(); });
     if(elPref) elPref.addEventListener('change', function(){ st.pref=elPref.value; st.city=''; if(elCity) elCity.value=''; refreshCities(); apply(); });

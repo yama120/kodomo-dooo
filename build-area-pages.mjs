@@ -204,9 +204,24 @@ ${crumbs.map((c, i) =>
 ${list.map(cardHtml).join("\n")}
   </ul>
 
-  <p style="margin-top:20px;">
-    <a href="${esc(searchHref)}" style="display:inline-block;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 22px;">条件を追加して探す →</a>
-  </p>
+  <!-- 条件から絞る。Airbnbのランディングと同じで、絞り込みUIはここには置かず、
+       条件付きのURLで検索ページ（search.html）に渡す。
+       操作できる検索はサイトに1つだけ、という状態を保つため -->
+  <section style="margin-top:24px;">
+    <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">条件から絞る</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+${[
+    ["体験あり", "trial=1"], ["土日開催", "doyo=1"], ["平日開催", "heijitsu=1"],
+    ["女の子歓迎", "girls=1"], ["未就学から", "age=" + encodeURIComponent("未就学")],
+    ["月謝3,000円以下", "fee=3"], ["月謝5,000円以下", "fee=5"],
+  ].map(([label, q]) =>
+    `      <a href="${esc(searchHref)}${searchHref.includes("?") ? "&" : "?"}${q}" style="border:1px solid #cfd9e6;background:#f5f9ff;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;color:#2270e0;text-decoration:none;">${label}</a>`
+  ).join("\n")}
+    </div>
+    <p style="margin:12px 0 0;">
+      <a href="${esc(searchHref)}" style="display:inline-block;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 22px;">すべての条件で絞り込む →</a>
+    </p>
+  </section>
 
 ${related}
 </div>
