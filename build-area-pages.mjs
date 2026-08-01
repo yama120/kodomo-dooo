@@ -1,23 +1,28 @@
 /* 地域ページを静的HTMLで生成する。
    実行： node build-area-pages.mjs
 
-   なぜ作るのか：
-     クラブ詳細は club.html?id=<UUID> の1ファイル使い回しで、中身もJS描画のため、
-     「岡山市 サッカー 子ども」のような検索の受け皿がサイトに存在しなかった。
+   ■ 何をしているか
+   検索ページ（search.html）をそのまま型として読み込み、
+     ・タイトル / 説明文 / canonical / 構造化データ を地域ごとに差し替え
+     ・検索結果のカードを HTML に焼き込む（Googleに中身を届けるため）
+     ・window.__AREA_INIT で地域・種目の初期条件を渡す
+   だけを行う。サイドバーも絞り込みも search.html のものがそのまま動く。
 
-   URLの形（Airbnbの /okayama-japan/stays/pet-friendly と同じ考え方。パス階層・日本語なし）：
-     /area/                                  全国の入口
-     /area/okayama/                          都道府県
-     /area/okayama/okayama/                  市区町村
-     /area/okayama/sport/soccer/             都道府県 × 種目
-     /area/okayama/okayama/sport/soccer/     市区町村 × 種目
+   ■ なぜこの形か
+   ユーザーから見える画面は「検索ページ」1つだけにしたい。
+   けれど「岡山市 サッカー」のような検索に応えるには、URLが分かれている必要がある
+   （1つのURLは1つの話題でしか評価されないため）。
+   そこで「画面は1つ・URLは230通り」にする。UIの定義は search.html だけにあり、
+   ここではコピーしない。search.html を直せば230ページすべてに反映される。
 
-   絞り込みUI（search.html）は Airbnb の /s/... と同じく noindex にして、
-   検索エンジンにはこちらの地域ページを見せる。
-
-   クラブが0件の組み合わせはページを作らない（存在しないURLは404のまま）。
-   Airbnbも該当なしのカテゴリは410を返していて、空ページは作らない。 */
-import { writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
+   ■ URL
+     /area/                                全国（条件なし）
+     /area/okayama/                        都道府県
+     /area/okayama/okayama/                市区町村
+     /area/okayama/sport/soccer/           都道府県 × 種目
+     /area/okayama/okayama/sport/soccer/   市区町村 × 種目
+   クラブが0件の組み合わせはページを作らない（存在しないURLは404のまま）。 */
+import { writeFileSync, mkdirSync, rmSync, existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join, dirname } from "node:path";
 import { slug, splitMulti } from "./seo-romaji.mjs";
@@ -31,13 +36,16 @@ const KEY =
 
 const COLS =
   "id,name,sport,pref,city,address,age_groups,age_min,days,fee,fee_num,trial," +
-  "girls_welcome,female_instructor,description,photo_url,plan,plan_expires_at,created_at,owner_hash";
+  "girls_welcome,female_instructor,description,photo_url,photo_positions,plan,plan_expires_at,created_at,owner_hash";
 
-const esc = (s) =>
-  String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-const jsonEsc = (s) => JSON.stringify(String(s ?? ""));
+/* カードの描画は club-card.js に一本化してある（search.html と共用）。
+   ブラウザ向けの素のスクリプトなので、window を渡して評価して使う */
+const cardLib = {};
+new Function("window", readFileSync(join(ROOT, "club-card.js"), "utf8"))(cardLib);
+const { card, esc } = cardLib.ChibiCard;
+
 const stripPref = (p) => String(p || "").replace(/[都道府県]$/, "");
+const PER_PAGE = 12;   // search.html のページングと同じ。1ページ目だけ焼き込む
 
 /* 掲載プラン順（プロ→スタンダード→フリー）。shared.js の ChibiPlan.rank と同じ基準 */
 const planRank = (c) => {
@@ -47,27 +55,20 @@ const planRank = (c) => {
 };
 
 const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
-const feeText = (c) =>
-  c.fee_num != null
-    ? (Number(c.fee_num) === 0 ? "無料" : `${yen(c.fee_num)}〜`)
-    : (c.fee || "要問合せ");
 
-/* ---------- 実データから紹介文を作る（同じ文が並ばないよう、数字で差をつける） ---------- */
+/* 実データから紹介文を作る（同じ文が並ばないよう、数字で差をつける） */
 function leadText(list, areaLabel, sportLabel) {
   const n = list.length;
-  // 文頭が「子どもが通える」なので、ここで「子ども向け」を重ねない
   const what = sportLabel ? `${sportLabel}のクラブ・スクール` : "スポーツクラブ・習い事";
   const fees = list.map((c) => c.fee_num).filter((v) => v != null).map(Number);
   const trial = list.filter((c) => c.trial).length;
   const ages = [...new Set(list.flatMap((c) => c.age_groups || []))];
   const weekend = list.filter((c) => (c.days || []).some((d) => d === "土" || d === "日")).length;
   const girls = list.filter((c) => c.girls_welcome).length;
-
   const parts = [`${areaLabel}で子どもが通える${what}を${n}件掲載しています。`];
   if (fees.length) {
     const lo = Math.min(...fees), hi = Math.max(...fees);
-    parts.push(lo === hi
-      ? `月謝は${lo === 0 ? "無料" : yen(lo)}。`
+    parts.push(lo === hi ? `月謝は${lo === 0 ? "無料" : yen(lo)}。`
       : `月謝は${lo === 0 ? "無料" : yen(lo)}〜${yen(hi)}。`);
   }
   if (trial) parts.push(`${n}件中${trial}件が体験・見学を受け付けています。`);
@@ -77,158 +78,93 @@ function leadText(list, areaLabel, sportLabel) {
   return parts.join("");
 }
 
-/* ---------- クラブカード（HTMLに中身を書く。JS描画では検索エンジンに届きにくい） ---------- */
-function cardHtml(c) {
-  const area = [c.pref, c.city].filter(Boolean).join("・");
-  const img = c.photo_url
-    ? `<img src="${esc(c.photo_url)}" alt="${esc(c.name)}の活動写真" loading="lazy" decoding="async" width="132" height="99" style="width:132px;height:99px;object-fit:cover;border-radius:10px;display:block;flex:0 0 auto;">`
-    : `<div style="width:132px;height:99px;border-radius:10px;background:#eef1f4;flex:0 0 auto;"></div>`;
-  const badges = [
-    c.trial ? "体験あり" : null,
-    c.girls_welcome ? "女の子歓迎" : null,
-    c.female_instructor ? "女性指導者" : null,
-  ].filter(Boolean).map((t) =>
-    `<span style="font-size:11px;font-weight:700;color:#1f8a5b;background:#eaf6f0;border-radius:999px;padding:3px 9px;">${t}</span>`).join("");
-  const desc = String(c.description || "").replace(/\s+/g, " ").trim().slice(0, 78);
-  return `      <li style="list-style:none;">
-        <a href="/club.html?id=${esc(c.id)}" style="display:flex;gap:13px;background:#fff;border:1px solid #e6e9ed;border-radius:14px;padding:13px;text-decoration:none;color:inherit;">
-          ${img}
-          <div style="min-width:0;flex:1;">
-            <div style="font-size:11.5px;color:#8a93a0;font-weight:700;">${esc(c.sport || "スポーツ")}・${esc(area)}</div>
-            <h3 style="margin:3px 0 5px;font-size:15px;font-weight:800;color:#28323f;line-height:1.4;">${esc(c.name)}</h3>
-            <div style="font-size:12px;color:#54606e;line-height:1.7;">
-              月謝 ${esc(feeText(c))}${(c.age_groups || []).length ? `／対象 ${esc((c.age_groups || []).join("・"))}` : ""}${(c.days || []).length ? `／${esc((c.days || []).join("・"))}曜` : ""}
-            </div>
-            ${desc ? `<p style="margin:5px 0 0;font-size:12px;color:#7b8492;line-height:1.7;">${esc(desc)}…</p>` : ""}
-            ${badges ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:7px;">${badges}</div>` : ""}
-          </div>
-        </a>
-      </li>`;
-}
-
-/* ---------- 構造化データ。Airbnbの ItemList + ListItem + 施設 と同じ構成 ---------- */
+/* 構造化データ。パンくずと一覧をGoogleに渡す */
 function jsonLd({ url, crumbs, list, title }) {
   const breadcrumb = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
     itemListElement: crumbs.map((c, i) => ({
       "@type": "ListItem", position: i + 1, name: c.name, item: ORIGIN + c.href,
     })),
   };
   const items = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: title,
-    url: ORIGIN + url,
-    numberOfItems: list.length,
-    itemListElement: list.map((c, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
+    "@context": "https://schema.org", "@type": "ItemList",
+    name: title, url: ORIGIN + url, numberOfItems: list.length,
+    itemListElement: list.slice(0, PER_PAGE).map((c, i) => ({
+      "@type": "ListItem", position: i + 1,
       item: {
         "@type": "SportsActivityLocation",
-        name: c.name,
-        url: `${ORIGIN}/club.html?id=${c.id}`,
+        name: c.name, url: `${ORIGIN}/club.html?id=${c.id}`,
         ...(c.photo_url ? { image: c.photo_url } : {}),
         ...(c.description ? { description: String(c.description).replace(/\s+/g, " ").trim().slice(0, 160) } : {}),
         address: {
-          "@type": "PostalAddress",
-          addressCountry: "JP",
-          addressRegion: c.pref || undefined,
-          addressLocality: c.city || undefined,
+          "@type": "PostalAddress", addressCountry: "JP",
+          addressRegion: c.pref || undefined, addressLocality: c.city || undefined,
           streetAddress: c.address || undefined,
         },
       },
     })),
   };
-  return `<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
-<script type="application/ld+json">${JSON.stringify(items)}</script>`;
+  return `<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>\n` +
+         `<script type="application/ld+json">${JSON.stringify(items)}</script>`;
 }
 
 function linkList(title, links) {
   if (!links.length) return "";
-  return `    <section style="margin-top:26px;">
-      <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">${esc(title)}</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-${links.map((l) => `        <a href="${esc(l.href)}" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">${esc(l.label)}${l.n ? `<span style="color:#9aa3ad;font-size:11.5px;">（${l.n}）</span>` : ""}</a>`).join("\n")}
-      </div>
-    </section>`;
+  return `<section style="margin:26px 0 0;">
+  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">${esc(title)}</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+${links.map((l) => `    <a href="${esc(l.href)}" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">${esc(l.label)}${l.n ? `<span style="color:#9aa3ad;font-size:11.5px;">（${l.n}）</span>` : ""}</a>`).join("\n")}
+  </div>
+</section>`;
 }
 
-function pageHtml({ url, title, description, h1, lead, list, crumbs, related, searchHref }) {
-  return `<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- shared.js のヘッダー・フッターは相対リンク（index.html など）で書かれている。
-     このページは階層が深いので base で解決先をルートに固定する -->
-<base href="/">
-<title>${esc(title)}</title>
-<meta name="description" content="${esc(description)}">
-<link rel="canonical" href="${ORIGIN}${url}">
-<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="チビスポ">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
-<meta property="og:url" content="${ORIGIN}${url}">
-<meta property="og:image" content="${ORIGIN}/assets/ogp.jpg?v=1">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-${jsonLd({ url, crumbs, list, title })}
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans JP',system-ui,sans-serif;background:#f7f8fa;color:#28323f;line-height:1.75;-webkit-font-smoothing:antialiased;}
-  .ar-wrap{max-width:1080px;margin:0 auto;padding:18px 20px 70px;}
-  .ar-crumb{font-size:12px;color:#8a93a0;margin-bottom:12px;}
-  .ar-crumb a{color:#8a93a0;text-decoration:none;}
-  .ar-crumb a:hover{text-decoration:underline;}
-  h1{font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;line-height:1.4;margin-bottom:10px;}
-  .ar-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px;padding:0;}
-  @media (max-width:760px){ .ar-wrap{padding:14px 14px 70px;} h1{font-size:20px;} .ar-list{grid-template-columns:1fr;} }
-</style>
-</head>
-<body>
-<div class="ar-wrap">
-  <nav class="ar-crumb" aria-label="パンくず">
-${crumbs.map((c, i) =>
-    i === crumbs.length - 1
-      ? `    <span>${esc(c.name)}</span>`
-      : `    <a href="${esc(c.href)}">${esc(c.name)}</a> ›`).join("\n")}
-  </nav>
-  <h1>${esc(h1)}</h1>
-  <p style="font-size:14px;color:#54606e;">${esc(lead)}</p>
+/* ============ search.html を型にして1ページ組み立てる ============ */
+const TEMPLATE = readFileSync(join(ROOT, "search.html"), "utf8");
 
-  <ul class="ar-list">
-${list.map(cardHtml).join("\n")}
-  </ul>
+function pageHtml({ url, title, description, h1, lead, list, crumbs, related, init }) {
+  let s = TEMPLATE;
 
-  <!-- 条件から絞る。Airbnbのランディングと同じで、絞り込みUIはここには置かず、
-       条件付きのURLで検索ページ（search.html）に渡す。
-       操作できる検索はサイトに1つだけ、という状態を保つため -->
-  <section style="margin-top:24px;">
-    <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">条件から絞る</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-${[
-    ["体験あり", "trial=1"], ["土日開催", "doyo=1"], ["平日開催", "heijitsu=1"],
-    ["女の子歓迎", "girls=1"], ["未就学から", "age=" + encodeURIComponent("未就学")],
-    ["月謝3,000円以下", "fee=3"], ["月謝5,000円以下", "fee=5"],
-  ].map(([label, q]) =>
-    `      <a href="${esc(searchHref)}${searchHref.includes("?") ? "&" : "?"}${q}" style="border:1px solid #cfd9e6;background:#f5f9ff;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;color:#2270e0;text-decoration:none;">${label}</a>`
-  ).join("\n")}
-    </div>
-    <p style="margin:12px 0 0;">
-      <a href="${esc(searchHref)}" style="display:inline-block;background:#2270e0;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 22px;">すべての条件で絞り込む →</a>
-    </p>
-  </section>
+  // 検索ページは noindex。生成した地域ページは検索対象なので必ず外す
+  s = s.replace(/<!--[\s\S]{0,300}?絞り込み結果はURL[\s\S]*?-->\s*/, "");
+  s = s.replace(/<meta name="robots"[^>]*>\s*/, "");
+  if (/noindex/.test(s)) throw new Error(`noindexが残っています: ${url}`);
 
-${related}
-</div>
-<script src="/shared.js?v=20260801"></script>
-</body>
-</html>
-`;
+  // 階層が深いので、相対で書かれた読み込み（cities.js など）の起点をルートに固定する
+  s = s.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');
+  if (!s.includes('<base href="/">')) throw new Error(`baseを差し込めませんでした: ${url}`);
+
+  // タイトル・説明・canonical・構造化データ
+  s = s.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>\n` +
+    `<meta name="description" content="${esc(description)}">\n` +
+    `<link rel="canonical" href="${ORIGIN}${url}">\n` +
+    jsonLd({ url, crumbs, list, title }));
+  s = s.replace(/(<meta property="og:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
+  s = s.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${ORIGIN}${url}$2`);
+  s = s.replace(/(<meta name="twitter:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
+
+  // 見出しを地域ごとの内容にする（「検索結果」のままではSEOにならない）
+  s = s.replace(/(<h1 style="margin:0;font-size:22px;font-weight:800;">)検索結果(<\/h1>)/,
+    `$1${esc(h1)}$2`);
+
+  // パンくずと紹介文を見出しの直後に置く
+  const intro = `<nav style="font-size:12px;color:#8a93a0;margin:0 0 10px;" aria-label="パンくず">` +
+    crumbs.map((c, i) => i === crumbs.length - 1
+      ? `<span>${esc(c.name)}</span>`
+      : `<a href="${esc(c.href)}" style="color:#8a93a0;text-decoration:none;">${esc(c.name)}</a> › `).join("") +
+    `</nav>\n    <p style="font-size:14px;color:#54606e;line-height:1.9;margin:0 0 16px;">${esc(lead)}</p>`;
+  s = s.replace("<!-- 条件検索ボタン（タブレット以下） -->", `${intro}\n\n    <!-- 条件検索ボタン（タブレット以下） -->`);
+
+  // 検索結果のカードを焼き込む（JSが動く前に中身が読める状態にする）
+  const baked = list.slice(0, PER_PAGE).map(card).join("\n");
+  s = s.replace(/(<div class="sr-cards"[^>]*>)/, `$1\n${baked}\n`);
+  s = s.replace(/(<div class="sr-count"[^>]*>検索結果：<span[^>]*>)\d+(<\/span>)/, `$1${list.length}$2`);
+
+  // 関連リンクを一覧の下に置く（クローラーの回遊路 兼 ユーザーの探し直し）
+  s = s.replace('<div id="sr-pagination"', `${related}\n        <div id="sr-pagination"`);
+
+  // 地域・種目の初期条件を渡す（search.html 側が window.__AREA_INIT を読む）
+  s = s.replace("</head>", `<script>window.__AREA_INIT=${JSON.stringify(init)};</script>\n</head>`);
+  return s;
 }
 
 /* ============================ 生成 ============================ */
@@ -260,7 +196,7 @@ for (const c of clubs) {
 // 消えたクラブのページが残らないよう、毎回まるごと作り直す
 if (existsSync(OUT)) rmSync(OUT, { recursive: true });
 const written = [];
-const write = (urlPath, html) => {          // urlPath は "/area/okayama/" の形
+const write = (urlPath, html) => {
   const dir = join(ROOT, urlPath);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, "index.html"), html);
@@ -268,14 +204,13 @@ const write = (urlPath, html) => {          // urlPath は "/area/okayama/" の�
 };
 
 const home = { name: "チビスポ", href: "/" };
-const areaTop = { name: "地域から探す", href: "/area/" };
+const areaTop = { name: "クラブを探す", href: "/area/" };
 const sportsOf = (arr) => [...new Set(arr.flatMap((c) => c.sportList))];
 const citiesOf = (arr) => [...new Set(arr.flatMap((c) => c.cityList))];
 
 /* --- 都道府県 --- */
 for (const [pref, list] of byPref) {
   const p = slug("pref", pref), url = `/area/${p}/`;
-  const cities = citiesOf(list), sports = sportsOf(list);
   write(url, pageHtml({
     url,
     title: `${pref}の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
@@ -283,17 +218,17 @@ for (const [pref, list] of byPref) {
     h1: `${pref}の子ども向けスポーツクラブ・習い事（${list.length}件）`,
     lead: leadText(list, pref, null),
     list, crumbs: [home, areaTop, { name: pref, href: url }],
-    searchHref: `/search.html?pref=${encodeURIComponent(stripPref(pref))}`,
+    init: { pref: stripPref(pref) },
     related:
-      linkList(`${pref}の種目から探す`, sports.map((s) => ({
+      linkList(`${pref}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byPrefSport.get(`${pref} ${s}`).length,
         href: `/area/${p}/sport/${slug("sport", s)}/`,
       }))) +
-      linkList(`${pref}の市区町村から探す`, cities.map((ci) => ({
+      linkList(`${pref}の市区町村から探す`, citiesOf(list).map((ci) => ({
         label: ci, n: byCity.get(`${pref} ${ci}`).length,
         href: `/area/${p}/${slug("city", ci)}/`,
       }))) +
-      linkList("他の都道府県から探す", [...byPref.keys()].filter((x) => x !== pref).slice(0, 20)
+      linkList("他の都道府県から探す", [...byPref.keys()].filter((x) => x !== pref)
         .map((x) => ({ label: x, n: byPref.get(x).length, href: `/area/${slug("pref", x)}/` }))),
   }));
 }
@@ -302,7 +237,6 @@ for (const [pref, list] of byPref) {
 for (const [key, list] of byPrefSport) {
   const [pref, sport] = key.split(" ");
   const p = slug("pref", pref), s = slug("sport", sport), url = `/area/${p}/sport/${s}/`;
-  const cities = citiesOf(list);
   write(url, pageHtml({
     url,
     title: `${pref}の子ども向け${sport}クラブ・スクール${list.length}件｜チビスポ`,
@@ -311,9 +245,9 @@ for (const [key, list] of byPrefSport) {
     lead: leadText(list, pref, sport),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` }, { name: sport, href: url }],
-    searchHref: `/search.html?pref=${encodeURIComponent(stripPref(pref))}&sport=${encodeURIComponent(sport)}`,
+    init: { pref: stripPref(pref), sport },
     related:
-      linkList(`${pref}で${sport}を市区町村から探す`, cities.map((ci) => ({
+      linkList(`${pref}で${sport}を市区町村から探す`, citiesOf(list).map((ci) => ({
         label: ci, n: (byCitySport.get(`${pref} ${ci} ${sport}`) || []).length,
         href: `/area/${p}/${slug("city", ci)}/sport/${s}/`,
       }))) +
@@ -322,7 +256,7 @@ for (const [key, list] of byPrefSport) {
         href: `/area/${p}/sport/${slug("sport", x)}/`,
       }))) +
       linkList(`他の地域の${sport}`, [...byPrefSport.keys()]
-        .filter((k) => k.endsWith(` ${sport}`) && k !== key).slice(0, 20)
+        .filter((k) => k.endsWith(` ${sport}`) && k !== key)
         .map((k) => {
           const op = k.split(" ")[0];
           return { label: op, n: byPrefSport.get(k).length, href: `/area/${slug("pref", op)}/sport/${s}/` };
@@ -334,7 +268,6 @@ for (const [key, list] of byPrefSport) {
 for (const [key, list] of byCity) {
   const [pref, city] = key.split(" ");
   const p = slug("pref", pref), ci = slug("city", city), url = `/area/${p}/${ci}/`;
-  const sports = sportsOf(list);
   write(url, pageHtml({
     url,
     title: `${city}（${pref}）の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
@@ -343,9 +276,9 @@ for (const [key, list] of byCity) {
     lead: leadText(list, city, null),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` }, { name: city, href: url }],
-    searchHref: `/search.html?pref=${encodeURIComponent(stripPref(pref))}&city=${encodeURIComponent(city)}`,
+    init: { pref: stripPref(pref), city },
     related:
-      linkList(`${city}の種目から探す`, sports.map((s) => ({
+      linkList(`${city}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byCitySport.get(`${pref} ${city} ${s}`).length,
         href: `/area/${p}/${ci}/sport/${slug("sport", s)}/`,
       }))) +
@@ -370,17 +303,17 @@ for (const [key, list] of byCitySport) {
     list,
     crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` },
       { name: city, href: `/area/${p}/${ci}/` }, { name: sport, href: url }],
-    searchHref: `/search.html?pref=${encodeURIComponent(stripPref(pref))}&city=${encodeURIComponent(city)}&sport=${encodeURIComponent(sport)}`,
+    init: { pref: stripPref(pref), city, sport },
     related:
       linkList(`${city}の他の種目`, sportsOf(byCity.get(`${pref} ${city}`)).filter((x) => x !== sport)
         .map((x) => ({
           label: x, n: byCitySport.get(`${pref} ${city} ${x}`).length,
           href: `/area/${p}/${ci}/sport/${slug("sport", x)}/`,
         }))) +
-      linkList(`${pref}で${sport}を探す`, [`${pref}全体`].map(() => ({
-        label: `${pref}全体（${byPrefSport.get(`${pref} ${sport}`).length}件）`,
+      linkList(`${pref}全体で${sport}を探す`, [{
+        label: `${pref}全体`, n: byPrefSport.get(`${pref} ${sport}`).length,
         href: `/area/${p}/sport/${s}/`,
-      }))) +
+      }]) +
       linkList(`${pref}の他の市区町村で${sport}`, [...byCitySport.keys()]
         .filter((k) => k.startsWith(`${pref} `) && k.endsWith(` ${sport}`) && k !== key)
         .map((k) => {
@@ -390,34 +323,38 @@ for (const [key, list] of byCitySport) {
   }));
 }
 
-/* --- /area/ 全国の入口。ここから全ページへ辿れるようにする（クロールの起点） --- */
+/* --- /area/ 全国の入口。条件なしの検索画面そのもの --- */
 {
   const url = "/area/";
   const rows = [...byPref.entries()].sort((a, b) => b[1].length - a[1].length);
+  const sports = [...new Set(clubs.flatMap((c) => c.sportList))];
+  // 入口は「どんなクラブが載っているか」を見せる場所。系列校が並ぶと同じ名前ばかりに
+  // なるので、トップページと同じく運営者ごとに1校だけ焼き込む
+  const seen = new Set(), showcase = [];
+  for (const c of clubs) {
+    const k = c.owner_hash || c.id;
+    if (seen.has(k)) continue;
+    seen.add(k); showcase.push(c);
+    if (showcase.length === PER_PAGE) break;
+  }
   write(url, pageHtml({
     url,
-    title: `地域から子ども向けスポーツクラブを探す｜チビスポ`,
-    description: `全国${byPref.size}都道府県・${byCity.size}市区町村の子ども向けスポーツクラブ${clubs.length}件を掲載。地域と種目から探せます。`,
-    h1: `地域から子ども向けスポーツクラブを探す`,
-    lead: `チビスポに掲載中の${clubs.length}件を、${byPref.size}都道府県・${byCity.size}市区町村・${new Set(clubs.map((c) => c.sport)).size}種目から探せます。`,
-    // 入口は「どんなクラブが載っているか」を見せる場所。系列校が並ぶと
-    // 同じ名前ばかりになるので、トップページと同じく運営者ごとに1校だけ出す
-    list: (function () {
-      const seen = new Set(), out = [];
-      for (const c of clubs) {
-        const key = c.owner_hash || c.id;
-        if (seen.has(key)) continue;
-        seen.add(key); out.push(c);
-        if (out.length === 12) break;
-      }
-      return out;
-    })(),
-    crumbs: [home, { name: "地域から探す", href: url }],
-    searchHref: "/search.html",
-    related: linkList("都道府県から探す", rows.map(([pref, l]) => ({
-      label: pref, n: l.length, href: `/area/${slug("pref", pref)}/`,
-    }))),
+    title: `子ども向けスポーツクラブ・習い事を探す｜チビスポ`,
+    description: `全国${byPref.size}都道府県・${byCity.size}市区町村の子ども向けスポーツクラブ${clubs.length}件を掲載。地域・種目・条件から探せます。`,
+    h1: `子ども向けスポーツクラブ・習い事を探す（${clubs.length}件）`,
+    lead: `チビスポに掲載中の${clubs.length}件を、${byPref.size}都道府県・${byCity.size}市区町村・${sports.length}種目から探せます。`,
+    list: showcase, crumbs: [home, { name: "クラブを探す", href: url }],
+    init: {},
+    related:
+      linkList("都道府県から探す", rows.map(([pref, l]) => ({
+        label: pref, n: l.length, href: `/area/${slug("pref", pref)}/`,
+      }))) +
+      linkList("種目から探す", sports.map((s) => ({
+        label: s, n: clubs.filter((c) => c.sportList.includes(s)).length,
+        href: `/area/${slug("pref", clubs.find((c) => c.sportList.includes(s)).pref)}/sport/${slug("sport", s)}/`,
+      }))),
   }));
+  // 件数は全87件を出したいので、焼き込んだ枚数ではなく総数で上書きしている
 }
 
 console.log(`地域ページを ${written.length}枚 生成しました`);
