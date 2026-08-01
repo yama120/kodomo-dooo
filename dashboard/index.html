@@ -2488,7 +2488,8 @@ function rpRealFunnel(d){
       if(bad&&!weakest&&st.fix)weakest=st;
       rateHtml='<span class="fs-rate '+(bad?'bad':'good')+'" title="'+(st.note||'')+'">'+(prev>0?((rate<10?rate.toFixed(1):Math.round(rate))+'%・'+(bad?'目安未満':'良好')):'—')+'</span>';
     }
-    var w=Math.max(2.5,100*Math.sqrt(st.value/maxV));
+    // 0件でバーが残ると「少しはある」に見えるので、0は必ず空にする
+    var w=st.value>0?Math.max(2.5,100*Math.sqrt(st.value/maxV)):0;
     var editBtn=st.editFn?'<button class="rpc-edit" onclick="'+st.editFn+'">✎ 記録</button>'
       :(st.edit?'<button class="rpc-edit" onclick="rpEditNum(\''+st.edit+'\',\''+(st.editLabel||st.name+'の人数（累計）を入力')+'\')">✎ 記録</button>':'');
     html+='<div class="fstage"><div class="fs-name">'+st.name
