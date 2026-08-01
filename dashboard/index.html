@@ -732,7 +732,10 @@ document.querySelectorAll(".tab").forEach(b=>{
 const qch=new URLSearchParams(location.search).get("ch");
 if(qch){state.postCh=qch;
   document.querySelectorAll("#post-ch-seg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ch===qch));}
-const h0=location.hash.slice(1)==="ana"?"shu":location.hash.slice(1);
+/* タブ指定はクエリでも受ける。アプリから開くときは、ハッシュに
+   ログイン情報を載せるのでタブをハッシュに置けない */
+const qtab=new URLSearchParams(location.search).get("tab");
+const h0=qtab || (location.hash.slice(1)==="ana"?"shu":location.hash.slice(1));
 if(["shu","post","input"].includes(h0))switchTab(h0);
 
 // アプリ設定画面からの深いリンク（?goto=shu-survey 等）。
