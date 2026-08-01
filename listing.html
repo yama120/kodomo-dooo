@@ -75,7 +75,8 @@
     <div style="font-family:'Pacifico',cursive;font-size:18px;color:#1f8a5b;">Why Chibispo</div>
     <h2 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:26px;font-weight:900;">チビスポに掲載するメリット</h2>
   </div>
-  <div class="ls-grid3">
+  <!-- 4枚あるので ls-grid4。820px以下で2列、480px以下で1列に落ちる -->
+  <div class="ls-grid4">
     <div style="background:#fff;border:1px solid #e6e9ed;border-radius:14px;padding:24px;">
       <div style="font-size:30px;">📣</div>
       <h3 style="margin:8px 0 7px;font-size:16px;font-weight:800;">入会を考える保護者に届く</h3>
@@ -87,9 +88,14 @@
       <p style="margin:0;font-size:13.5px;line-height:1.9;color:#54606e;">活動の様子やコーチの人柄まで掲載。文字だけでは伝わらない「空気感」で選ばれます。</p>
     </div>
     <div style="background:#fff;border:1px solid #e6e9ed;border-radius:14px;padding:24px;">
+      <div style="font-size:30px;">💬</div>
+      <h3 style="margin:8px 0 7px;font-size:16px;font-weight:800;">申込のあと、すぐ話せる</h3>
+      <p style="margin:0;font-size:13.5px;line-height:1.9;color:#54606e;">体験の日程調整も持ち物の連絡も、アプリのメッセージで完結。電話がつながらない、メールが埋もれる、がなくなります。</p>
+    </div>
+    <div style="background:#fff;border:1px solid #e6e9ed;border-radius:14px;padding:24px;">
       <div style="font-size:30px;">🆓</div>
       <h3 style="margin:8px 0 7px;font-size:16px;font-weight:800;">基本掲載は無料</h3>
-      <p style="margin:0;font-size:13.5px;line-height:1.9;color:#54606e;">初期費用・月額0円から。体験申込の受付やお問い合わせ導線もそのまま使えます。</p>
+      <p style="margin:0;font-size:13.5px;line-height:1.9;color:#54606e;">初期費用・月額0円から。体験申込の受付もメッセージも、無料のまま使えます。</p>
     </div>
   </div>
 </section>
@@ -102,7 +108,7 @@
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>クラブ紹介・活動写真</div>
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>対象年齢・活動エリア</div>
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>コース・月謝・活動日</div>
-      <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>体験申込・お問い合わせ</div>
+      <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>体験申込・メッセージ</div>
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>コーチの想い・方針</div>
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>公式HP・SNSリンク</div>
       <div style="display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3b4654;"><span style="color:#1f8a5b;font-weight:900;">✓</span>こだわり条件タグ</div>
@@ -167,6 +173,12 @@
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>クラブ詳細ページの掲載</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>写真1枚・コース・体験申込</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>検索結果・地図に表示</div>
+          <!-- 課金の境目は Worker の /api/dashboard と SNS連携だけ。
+               メッセージ・アプリ・スタッフ登録はフリーでも使えるので、
+               有料側に書かないこと（払わないと使えないと誤解される） -->
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>保護者とメッセージでやり取り</strong></div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>クラブ運営アプリ（申込の通知・返信）</div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>スタッフ・通知先の登録（人数制限なし）</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>情報更新はいつでも無料</div>
         </div>
         <a class="pl-buy" data-plan="free" href="register.html?plan=free" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">無料で申し込む</a>
@@ -183,7 +195,10 @@
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>写真を7枚まで掲載</strong></div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>検索結果で上位に表示</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>「注目のクラブ」枠に掲載</div>
-          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>月次アクセスレポート</div>
+          <!-- スタンダードは「チビスポで何回見られたか」まで。
+               自分の広報（QR・ポスター・SNS）の分析はプロ -->
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>ページが何回見られたか分かる</strong></div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>保護者アンケート（QR配布・自動集計）</div>
         </div>
         <a class="pl-buy" data-plan="pr" href="register.html?plan=pr" style="display:block;margin-top:18px;background:#1f8a5b;color:#fff;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:12px 0;">このプランで申し込む</a>
       </div>
@@ -192,13 +207,16 @@
         <div style="font-size:14px;font-weight:800;color:#7b8492;">プロ</div>
         <div style="margin:10px 0 2px;font-family:'Zen Maru Gothic',sans-serif;font-size:32px;font-weight:900;"><span class="pc-main">¥10,000</span><span class="pc-unit" style="font-size:14px;font-weight:700;color:#9aa3ad;">/月</span></div>
         <div class="pc-sub" style="min-height:22px;margin-bottom:4px;"></div>
-        <div style="font-size:12px;color:#54606e;margin-bottom:16px;">探されなくても届ける</div>
+        <div style="font-size:12px;color:#54606e;margin-bottom:16px;">広報の効果が見える</div>
         <div style="text-align:left;font-size:13px;line-height:1.6;color:#3b4654;display:flex;flex-direction:column;gap:9px;flex:1;">
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>スタンダードのすべて</div>
-          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>最上位に固定＋トップページ露出</div>
-          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>公式SNSで月1回紹介</strong></div>
+          <!-- 「詳細レポート」では中身が伝わらない。
+               自分でやっている広報を全部つないで横並びで見られる、が価値 -->
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>SNS連携（Instagram・Threads）</strong></div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span><strong>投稿・ポスター・QRの効果をまとめて分析</strong></div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>どの発信から申込につながったか分かる</div>
+          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>公式SNSで月1回紹介</div>
           <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>写真を15枚まで掲載</div>
-          <div style="display:flex;gap:8px;"><span style="color:#1f8a5b;font-weight:900;">✓</span>詳細アクセスレポート</div>
         </div>
         <a class="pl-buy" data-plan="pr-plus" href="register.html?plan=pr-plus" style="display:block;margin-top:18px;background:#fff;color:#1f8a5b;border:1.5px solid #1f8a5b;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:11px 0;">このプランで申し込む</a>
       </div>
@@ -238,11 +256,18 @@
           <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">写真の掲載枚数</td><td style="text-align:center;font-weight:700;color:#3b4654;">1枚</td><td style="text-align:center;font-weight:700;color:#3b4654;">7枚</td><td style="text-align:center;font-weight:700;color:#3b4654;">15枚〜</td></tr>
           <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">検索結果・地図に表示</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
           <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">情報更新（いつでも無料）</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
-          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">検索結果で上位表示</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;font-weight:700;color:#3b4654;">最上位</td></tr>
-          <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">「注目のクラブ」枠に掲載</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
-          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">トップページに露出</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <!-- 保護者との接点はプラン差をつけない。
+               「まず無料で載せて申込を受け取れる」が入口なので -->
+          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">体験・見学の申込を受け取る</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">保護者とメッセージでやり取り</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">クラブ運営アプリ（申込の通知・返信）</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">スタッフ・通知先の登録</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">検索結果で上位表示</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">トップページの「注目のクラブ」に掲載</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">保護者アンケート（QR配布・自動集計）</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
           <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">公式SNSで月1回紹介</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
-          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">アクセスレポート</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;font-weight:700;color:#3b4654;">閲覧数</td><td style="text-align:center;font-weight:700;color:#3b4654;">詳細</td></tr>
+          <tr style="border-top:1px solid #eef0f2;"><td style="padding:13px 16px;">SNS連携（Instagram・Threads）</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;color:#1f8a5b;font-weight:900;">✓</td></tr>
+          <tr style="border-top:1px solid #eef0f2;background:#fbfcfd;"><td style="padding:13px 16px;">アクセスの分析</td><td style="text-align:center;color:#cbd2da;">−</td><td style="text-align:center;font-weight:700;color:#3b4654;">閲覧数</td><td style="text-align:center;font-weight:700;color:#3b4654;">広報ぜんぶ</td></tr>
           <tr style="border-top:2px solid #e6e9ed;">
             <td style="padding:14px 16px;font-weight:800;color:#28323f;">料金</td>
             <td style="text-align:center;font-weight:900;color:#1f8a5b;">¥0<span style="font-size:10px;color:#9aa3ad;">/月</span></td>
