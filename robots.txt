@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# 管理・マイページ・申込フローは検索結果に出す必要がない
+Disallow: /dashboard/
+Disallow: /admin.html
+Disallow: /mypage.html
+Disallow: /club-mypage.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /reset-password.html
+Disallow: /account-delete.html
+Disallow: /join.html
+Disallow: /join-club.html
+# 営業用のサンプルLP（実在しない団体の内容なので検索結果に出さない）
+Disallow: /pr-sample.html
+Disallow: /pr-sample-cafe.html
+Disallow: /pr-sample-design.html
+Disallow: /pr-sample-sports.html
+Disallow: /team-lp.html
+Disallow: /redesign-preview.html
+
+Sitemap: https://chibispo.com/sitemap.xml

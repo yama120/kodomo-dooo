@@ -12,6 +12,9 @@
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/area/…）と中身が重複する。
+     Airbnbも絞り込みUI（/s/…）を noindex にして、SEOは地域ページ側に寄せている -->
+<meta name="robots" content="noindex,follow">
 <title>検索結果｜チビスポ</title>
 <!-- OGP / SNS共有カード -->
 <meta property="og:type" content="website">

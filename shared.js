@@ -191,7 +191,7 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.9"/><circle cx="12" cy="16.6" r=".6" fill="#b04ae8"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">よくある質問</span>
         </a>
-        <a href="search.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
+        <a href="area/" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">地域から探す</span>
         </a>
