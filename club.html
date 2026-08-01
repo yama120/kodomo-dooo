@@ -650,6 +650,43 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     if(window._cdFavSync) window._cdFavSync(t);
 
     document.title=(t.name||'クラブ')+'｜チビスポ';
+    /* クラブ詳細は club.html?id=… の1ファイル使い回しなので、静的HTMLには
+       このクラブ固有の情報が何も無い。canonical・説明文・構造化データを
+       ここで入れて、検索結果に個別ページとして出せるようにする。
+       （本命はクラブごとの静的HTML化。それまでの繋ぎ） */
+    (function seoTags(){
+      var head=document.head, esc=function(x){return String(x==null?'':x);};
+      var area=[t.pref,t.city].filter(Boolean).join('・');
+      var desc=[
+        esc(t.name)+'（'+area+'）の',esc(t.sport||'スポーツ')+'クラブ。',
+        (t.age_groups&&t.age_groups.length)?'対象は'+t.age_groups.join('・')+'。':'',
+        (t.fee_num!=null)?(Number(t.fee_num)===0?'月謝は無料。':'月謝は¥'+Number(t.fee_num).toLocaleString()+'〜。'):'',
+        (t.days&&t.days.length)?t.days.join('・')+'曜に活動。':'',
+        t.trial?'体験・見学を受け付けています。':''
+      ].join('').slice(0,150);
+      function meta(sel,attr,val,content){
+        var el=head.querySelector(sel);
+        if(!el){ el=document.createElement('meta'); el.setAttribute(attr,val); head.appendChild(el); }
+        el.setAttribute('content',content);
+      }
+      var canon=document.createElement('link');
+      canon.rel='canonical'; canon.href='https://chibispo.com/club.html?id='+encodeURIComponent(t.id);
+      head.appendChild(canon);
+      meta('meta[name="description"]','name','description',desc);
+      meta('meta[property="og:title"]','property','og:title',esc(t.name)+'｜チビスポ');
+      meta('meta[property="og:description"]','property','og:description',desc);
+      meta('meta[property="og:url"]','property','og:url',canon.href);
+      if(t.photo_url) meta('meta[property="og:image"]','property','og:image',t.photo_url);
+      var ld={'@context':'https://schema.org','@type':'SportsActivityLocation',
+        name:t.name, url:canon.href, description:desc,
+        address:{'@type':'PostalAddress',addressCountry:'JP',addressRegion:t.pref||undefined,
+                 addressLocality:t.city||undefined,streetAddress:t.address||undefined}};
+      if(t.photo_url) ld.image=t.photo_url;
+      if(t.website_url) ld.sameAs=[t.website_url];
+      if(t.fee_num!=null) ld.priceRange=Number(t.fee_num)===0?'無料':'¥'+Number(t.fee_num).toLocaleString()+'〜/月';
+      var sc=document.createElement('script'); sc.type='application/ld+json';
+      sc.textContent=JSON.stringify(ld); head.appendChild(sc);
+    })();
     setText('cd-name',t.name); setText('cd-bc-name',t.name);
     setText('cd-sport',t.sport);
     // 種目アイコン（オレンジ丸→競技アイコン）

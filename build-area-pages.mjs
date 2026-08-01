@@ -55,7 +55,8 @@ const feeText = (c) =>
 /* ---------- 実データから紹介文を作る（同じ文が並ばないよう、数字で差をつける） ---------- */
 function leadText(list, areaLabel, sportLabel) {
   const n = list.length;
-  const what = sportLabel ? `${sportLabel}のクラブ・スクール` : "子ども向けスポーツクラブ・習い事";
+  // 文頭が「子どもが通える」なので、ここで「子ども向け」を重ねない
+  const what = sportLabel ? `${sportLabel}のクラブ・スクール` : "スポーツクラブ・習い事";
   const fees = list.map((c) => c.fee_num).filter((v) => v != null).map(Number);
   const trial = list.filter((c) => c.trial).length;
   const ages = [...new Set(list.flatMap((c) => c.age_groups || []))];
