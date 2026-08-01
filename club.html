@@ -794,7 +794,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     // ===== 近いエリア（同じ都道府県の他クラブ）を実データで生成 =====
     if(t.pref){
       var prefStripped=String(t.pref).replace(/[都道府県]$/,'');
-      db.from('teams').select('id,name,city,sport,photo_url').eq('status','approved').eq('pref',t.pref).then(function(r2){
+      db.from('teams').select('id,name,city,sport,photo_url,plan,plan_expires_at').eq('status','approved').eq('pref',t.pref).then(function(r2){
         var others=((r2&&r2.data)||[]).filter(function(o){ return o.id!==t.id; });
         // エリアタグ：同pref・他の市区町村（重複除外）→ 検索へ
         var cities=[]; others.forEach(function(o){ if(o.city && o.city!==t.city && cities.indexOf(o.city)<0) cities.push(o.city); });
@@ -811,7 +811,9 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         // 近いエリアの他クラブ：同pref（同cityを優先）→ 詳細へ
         var clubEl=document.getElementById('cd-club');
         if(clubEl){
-          var sorted=others.slice().sort(function(a,b){ return (b.city===t.city?1:0)-(a.city===t.city?1:0); });
+          // 同じ市区町村を優先し、その中では掲載プラン順（プロ→スタンダード→フリー）
+          var pr=function(o){ return (window.ChibiPlan&&window.ChibiPlan.rank) ? window.ChibiPlan.rank(o) : 0; };
+          var sorted=others.slice().sort(function(a,b){ return (b.city===t.city?1:0)-(a.city===t.city?1:0) || pr(b)-pr(a); });
           if(sorted.length){
             clubEl.innerHTML=sorted.slice(0,12).map(function(o){
               var media = o.photo_url ? '<img src="'+esc(o.photo_url)+'" alt="" style="width:158px;height:96px;display:block;border-radius:8px;object-fit:cover;">' : sportPlaceholder(o.sport,'width:158px;height:96px;border-radius:8px;',46);

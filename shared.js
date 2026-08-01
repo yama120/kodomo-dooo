@@ -7,6 +7,24 @@
 (function () {
   'use strict';
 
+  /* ---------- 掲載プランによる表示順（クラブ一覧を出す全ページで共通） ----------
+     プロ＝最上位、スタンダード＝上位、フリー＝通常。期限切れはフリー扱い。
+     teams.plan の実値は free / pr / pr-plus の3つだけ。
+     並べ替えは安定ソートなので、同じランクの中の並び（新着順・距離順）は
+     呼び出し側のまま保たれる。順序を変えたい一覧は必ずここを通すこと。 */
+  window.ChibiPlan = {
+    rank: function (t) {
+      if (!t || !t.plan || t.plan === 'free') return 0;
+      if (t.plan_expires_at && new Date(t.plan_expires_at) < new Date()) return 0;
+      return t.plan === 'pr-plus' ? 2 : 1;
+    },
+    sort: function (list) {
+      return (list || []).slice().sort(function (a, b) {
+        return window.ChibiPlan.rank(b) - window.ChibiPlan.rank(a);
+      });
+    }
+  };
+
   /* ---------- 共通CSS（ヘッダー・メニュー・下部バー・フッターのレスポンシブ） ---------- */
   var CSS = `
     /* ログイン状態でヘッダーの導線を出し分け */

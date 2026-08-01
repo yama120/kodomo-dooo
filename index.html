@@ -1679,6 +1679,8 @@
     if(t.plan_expires_at && new Date(t.plan_expires_at) < new Date()) return false;
     return true;
   }
+  // プロ＝2、スタンダード＝1、フリー＝0。shared.jsのChibiPlan.rankと同じ基準
+  function planRank(t){ return isPaid(t) ? (t.plan==='pr-plus' ? 2 : 1) : 0; }
   function card(t){
     var a=sportArt(t.sport);
     var media = t.photo_url
@@ -1732,8 +1734,10 @@
       });
 
       /* 有料プランは「上位表示」「注目のクラブ枠に掲載」と明示して売っているので、
-         ランダム化の対象にしつつも無料より前に出す。同じ層の中だけで毎回入れ替える */
-      var picks = shuffle(uniq.filter(isPaid)).concat(shuffle(uniq.filter(function(t){ return !isPaid(t); })));
+         ランダム化の対象にしつつも無料より前に出す。同じ層の中だけで毎回入れ替える。
+         プロは「最上位」と明示しているので、スタンダードより更に前に置く */
+      var byRank = function(r){ return shuffle(uniq.filter(function(t){ return planRank(t)===r; })); };
+      var picks = byRank(2).concat(byRank(1), byRank(0));
 
       sc.innerHTML = picks.slice(0,8).map(card).join('');
       sc.dispatchEvent(new Event('scroll')); // 中央強調を再計算

@@ -549,7 +549,10 @@ html,body{overflow-x:hidden}
       fFee:(t.fee_num!=null?Number(t.fee_num):null),
       fText:[t.name,t.sport,t.pref,t.city,t.address].filter(Boolean).join(' ').toLowerCase(),
       _hidden:false,
-      pr:effectivePlan(t)!=='free', n:'', likes:0, count:0 };
+      pr:effectivePlan(t)!=='free',
+      // 一覧の並び順。プロ＝2、スタンダード＝1、フリー＝0（boot()で降順に並べ替える）
+      rank:effectivePlan(t)==='pr-plus'?2:(effectivePlan(t)==='free'?0:1),
+      n:'', likes:0, count:0 };
   }
   var PINS = [];
 
@@ -898,6 +901,9 @@ html,body{overflow-x:hidden}
   // ---- 実データ読込→ジオコーディング→描画 ----
   function boot(){
     var lbl=document.querySelector('.cc-sheet-label');
+    // 掲載プラン順に並べ替えてからマーカーを作る（markersはPINSと添字を共有するので、
+    // 並べ替えはmarkers生成前＝ここでしか行えない）
+    PINS.sort(function(a,b){ return (b.rank||0)-(a.rank||0); });
     if(!PINS.length){ if(lbl) lbl.textContent='クラブが見つかりませんでした'; renderCards(); return; }
     if(lbl) lbl.textContent='クラブ '+PINS.length+'件';
     state.detailIdx=0;
