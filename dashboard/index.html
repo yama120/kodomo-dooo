@@ -41,6 +41,10 @@
 
   .demo-bar{background:var(--surface-2);border-bottom:1px solid var(--grid);color:var(--ink-2);font-size:.74rem;text-align:center;padding:6px 12px}
   .demo-bar b{color:var(--brand-dark)}
+  /* デモ表示は最上部に固定する。スクロールで帯が消えると、
+     架空クラブの数字を自分のクラブの実績と取り違える */
+  .demo-bar.is-demo{position:sticky;top:0;z-index:60;background:#fff4d6;border-bottom:1px solid #e8c98a;color:#7a5300;font-size:.78rem;font-weight:700;padding:8px 12px}
+  .demo-bar.is-demo b{color:#a8410f}
 
   header.top{max-width:1080px;margin:0 auto;padding:16px 14px 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .logo{font-weight:900;font-size:1.1rem;color:var(--brand);white-space:nowrap}
@@ -288,6 +292,14 @@
 </head>
 <body>
 <div class="demo-bar">🔍 <b>プレビュー版</b>：架空クラブ「サンプルFC」のデモデータです。本導入時はあなたのクラブの実データが自動で表示されます。</div>
+<!-- club= も demo= も無いときの待機画面。自分のクラブへ飛ばすか、ログインを促す。
+     デモは ?demo=1 を明示したときだけ見せる（実データと取り違えないため） -->
+<div id="entry-gate" style="display:none;max-width:520px;margin:14vh auto 0;padding:0 20px;text-align:center;font-family:system-ui,sans-serif;">
+  <div style="font-size:2rem">📊</div>
+  <div id="eg-title" style="font-size:1.05rem;font-weight:900;color:#28323f;margin-top:10px">クラブを読み込んでいます…</div>
+  <div id="eg-sub" style="font-size:.85rem;color:#7b8492;line-height:1.9;margin-top:8px"></div>
+  <div id="eg-actions" style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"></div>
+</div>
 
 <header class="top">
   <a class="logo" href="/" style="text-decoration:none">チビスポ<span>クラブ分析</span></a>
@@ -2620,7 +2632,69 @@ function rpApplyRealMode(){
   if(fg)fg.innerHTML=`<li>この画面の問いは1つ：<b>「何を・どれだけ投稿すれば反応が伸びるか」</b>（すべて連携アカウントの実データ・毎日自動更新）</li><li>①でどのタイプが反応されているかを掴み、②で実際の当たり投稿を確認します</li><li>投稿の目標は①右の「変更」からSNSごとに設定できます</li>`;
 }
 
+/* デモ／実データの入口を決める。
+   ?demo=1 …… サンプルFCのデモ表示（帯を固定して明示する）
+   ?club=…  …… そのクラブの実データ
+   どちらも無い …… 自分のクラブへ回す（未ログインならログインへ）。
+   以前はどちらも無いとデモのまま開いていて、契約済みのクラブが
+   架空クラブの数字を自分の実績と取り違える経路になっていた */
+function rpEntryGate(){
+  const p=new URLSearchParams(location.search);
+  const club=(p.get("club")||"").trim();
+  const bar=document.querySelector(".demo-bar");
+  if(club) { if(bar)bar.style.display="none"; return true; }   // 実データ経路へ
+  if(p.has("demo")){
+    if(bar)bar.classList.add("is-demo");
+    return false;                                              // デモのまま見せる
+  }
+  // 待機画面を出し、本体を隠す
+  // フッターにも「サンプルデータ：架空クラブ」と出るので一緒に隠す
+  document.querySelectorAll("nav.tabbar, header.top, main, footer, .demo-bar").forEach(function(el){ el.style.display="none"; });
+  const gate=document.getElementById("entry-gate"); if(gate)gate.style.display="block";
+  const t=document.getElementById("eg-title"), s=document.getElementById("eg-sub"), a=document.getElementById("eg-actions");
+  const btn=(label,href,primary)=>'<a href="'+href+'" style="text-decoration:none;font-size:.85rem;font-weight:800;border-radius:999px;padding:11px 22px;'
+    +(primary?'background:#e8455f;color:#fff;':'background:#fff;color:#3b4654;border:1.5px solid #d7dbe0;')+'">'+label+'</a>';
+  let uid=null;
+  try{
+    const sess=JSON.parse(localStorage.getItem("sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth")||"null");
+    const tk=sess&&sess.access_token;
+    // JWTのペイロードからユーザーIDを取り出す（サーバーには問い合わせない）
+    if(tk)uid=JSON.parse(atob(tk.split(".")[1].replace(/-/g,"+").replace(/_/g,"/"))).sub||null;
+  }catch(e){}
+  if(!uid){
+    if(t)t.textContent="ログインすると、あなたのクラブの数字が表示されます";
+    if(s)s.textContent="クラブアカウントでログインしてから、もう一度開いてください。中身だけ先に見たい場合はサンプルをどうぞ。";
+    // クラブのログインはマイページ側にある（login.htmlは保護者向け）
+    if(a)a.innerHTML=btn("クラブログイン","/club-mypage.html",true)+btn("サンプルを見る","?demo=1");
+    return false;
+  }
+  const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ";
+  fetch("https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name&user_id=eq."+encodeURIComponent(uid)+"&order=created_at.asc",
+    {headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      if(Array.isArray(rows)&&rows.length===1){ location.replace("?club="+encodeURIComponent(rows[0].id)); return; }
+      if(Array.isArray(rows)&&rows.length>1){
+        if(t)t.textContent="どのクラブの数字を見ますか？";
+        if(s)s.textContent="";
+        if(a)a.innerHTML=rows.map(function(x){ return btn(x.name,"?club="+encodeURIComponent(x.id),true); }).join("");
+        return;
+      }
+      if(t)t.textContent="このアカウントには、まだクラブが登録されていません";
+      if(s)s.textContent="クラブを登録すると、掲載ページの閲覧数や申込の推移がここに出ます。";
+      if(a)a.innerHTML=btn("クラブを登録する","/register.html",true)+btn("サンプルを見る","?demo=1");
+    })
+    .catch(function(){
+      if(t)t.textContent="クラブを読み込めませんでした";
+      if(s)s.textContent="通信環境をご確認のうえ、もう一度お試しください。";
+      if(a)a.innerHTML=btn("マイページへ","/club-mypage.html",true)+btn("サンプルを見る","?demo=1");
+    });
+  return false;
+}
+const RP_HAS_CLUB=rpEntryGate();
+
 (async function connectRealData(){
+  if(!RP_HAS_CLUB)return;
   const q=(new URLSearchParams(location.search).get("club")||"").trim();
   if(!q)return; // 実データ指定なし＝プレビュー（デモ）のまま
   const isUuid=/^[0-9a-f-]{8,}$/i.test(q);
