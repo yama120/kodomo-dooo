@@ -1518,9 +1518,17 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
   (function(){
+    var PANES=['inbox','info','grow','settings'];
+    /* URLでタブを指定できるようにする（例：club-mypage.html?tab=grow）。
+       アプリの設定から「SNS連携」を開くのに必要。無いと前回開いていたタブが
+       出るだけで、目的の場所に着かない */
+    var want='';
+    try{ want = new URLSearchParams(location.search).get('tab') || location.hash.replace('#',''); }catch(e){}
+    if(PANES.indexOf(want)>=0){ setMpPane(want); return; }
+
     var saved='inbox';
     try{ saved = localStorage.getItem('cc_mp_pane') || 'inbox'; }catch(e){}
-    if(['inbox','info','grow','settings'].indexOf(saved)<0) saved='inbox';
+    if(PANES.indexOf(saved)<0) saved='inbox';
     setMpPane(saved);
   })();
 
