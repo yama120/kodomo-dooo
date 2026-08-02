@@ -16,20 +16,24 @@
    ここではコピーしない。search.html を直せば230ページすべてに反映される。
 
    ■ URL
-     /area/                                全国（条件なし）
-     /area/okayama/                        都道府県
-     /area/okayama/okayama/                市区町村
-     /area/okayama/sport/soccer/           都道府県 × 種目
-     /area/okayama/okayama/sport/soccer/   市区町村 × 種目
+     /clubs/                                全国（条件なし）
+     /clubs/okayama/                        都道府県
+     /clubs/okayama/okayama/                市区町村
+     /clubs/okayama/sport/soccer/           都道府県 × 種目
+     /clubs/okayama/okayama/sport/soccer/   市区町村 × 種目
    クラブが0件の組み合わせはページを作らない（存在しないURLは404のまま）。 */
 import { writeFileSync, mkdirSync, rmSync, existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join, dirname } from "node:path";
-import { slug, splitMulti } from "./seo-romaji.mjs";
+/* ローマ字の対応表。検索ページ（URLの書き換え）と共用するため、
+   ブラウザでも読める素のスクリプトにしてある */
+const romajiLib = {};
+new Function("window", readFileSync(new URL("./romaji.js", import.meta.url), "utf8"))(romajiLib);
+const { slug, splitMulti } = romajiLib.ChibiRomaji;
 
 const ORIGIN = "https://chibispo.com";
 const ROOT = dirname(fileURLToPath(import.meta.url));
-const OUT = join(ROOT, "area");
+const OUT = join(ROOT, "clubs");
 const SB = "https://emkpkomrgknzrmxqbrvx.supabase.co";
 const KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ";
@@ -127,7 +131,10 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   // 検索ページは noindex。生成した地域ページは検索対象なので必ず外す
   s = s.replace(/<!--[\s\S]{0,300}?絞り込み結果はURL[\s\S]*?-->\s*/, "");
   s = s.replace(/<meta name="robots"[^>]*>\s*/, "");
-  if (/noindex/.test(s)) throw new Error(`noindexが残っています: ${url}`);
+  // __SEARCH_PAGE は「このページは常にnoindex」の目印。生成ページには不要
+  s = s.replace(/<script>window\.__SEARCH_PAGE=1;<\/script>\s*/, "");
+  // JS内の文字列にも noindex が出てくるので、metaタグだけを見る
+  if (/<meta[^>]*name="robots"[^>]*noindex/i.test(s)) throw new Error(`noindexが残っています: ${url}`);
 
   // 階層が深いので、相対で書かれた読み込み（cities.js など）の起点をルートに固定する
   s = s.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');
@@ -143,7 +150,7 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   s = s.replace(/(<meta name="twitter:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
 
   /* 見出しを地域ごとの内容にする（「検索結果」のままではSEOにならない）。
-     ただし全国の入口（/area/）は条件が何も付いていないので、
+     ただし全国の入口（/clubs/）は条件が何も付いていないので、
      「検索結果」のままにして紹介文も出さない（検索件数と重複して冗長なため） */
   if (!plain) {
     s = s.replace(/(<h1 style="margin:0;font-size:22px;font-weight:800;">)検索結果(<\/h1>)/,
@@ -208,13 +215,13 @@ const write = (urlPath, html) => {
 };
 
 const home = { name: "チビスポ", href: "/" };
-const areaTop = { name: "クラブを探す", href: "/area/" };
+const areaTop = { name: "クラブを探す", href: "/clubs/" };
 const sportsOf = (arr) => [...new Set(arr.flatMap((c) => c.sportList))];
 const citiesOf = (arr) => [...new Set(arr.flatMap((c) => c.cityList))];
 
 /* --- 都道府県 --- */
 for (const [pref, list] of byPref) {
-  const p = slug("pref", pref), url = `/area/${p}/`;
+  const p = slug("pref", pref), url = `/clubs/${p}/`;
   write(url, pageHtml({
     url,
     title: `${pref}の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
@@ -226,21 +233,21 @@ for (const [pref, list] of byPref) {
     related:
       linkList(`${pref}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byPrefSport.get(`${pref} ${s}`).length,
-        href: `/area/${p}/sport/${slug("sport", s)}/`,
+        href: `/clubs/${p}/sport/${slug("sport", s)}/`,
       }))) +
       linkList(`${pref}の市区町村から探す`, citiesOf(list).map((ci) => ({
         label: ci, n: byCity.get(`${pref} ${ci}`).length,
-        href: `/area/${p}/${slug("city", ci)}/`,
+        href: `/clubs/${p}/${slug("city", ci)}/`,
       }))) +
       linkList("他の都道府県から探す", [...byPref.keys()].filter((x) => x !== pref)
-        .map((x) => ({ label: x, n: byPref.get(x).length, href: `/area/${slug("pref", x)}/` }))),
+        .map((x) => ({ label: x, n: byPref.get(x).length, href: `/clubs/${slug("pref", x)}/` }))),
   }));
 }
 
 /* --- 都道府県 × 種目 --- */
 for (const [key, list] of byPrefSport) {
   const [pref, sport] = key.split(" ");
-  const p = slug("pref", pref), s = slug("sport", sport), url = `/area/${p}/sport/${s}/`;
+  const p = slug("pref", pref), s = slug("sport", sport), url = `/clubs/${p}/sport/${s}/`;
   write(url, pageHtml({
     url,
     title: `${pref}の子ども向け${sport}クラブ・スクール${list.length}件｜チビスポ`,
@@ -248,22 +255,22 @@ for (const [key, list] of byPrefSport) {
     h1: `${pref}の子ども向け${sport}クラブ・スクール（${list.length}件）`,
     lead: leadText(list, pref, sport),
     list,
-    crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` }, { name: sport, href: url }],
+    crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: sport, href: url }],
     init: { pref: stripPref(pref), sport },
     related:
       linkList(`${pref}で${sport}を市区町村から探す`, citiesOf(list).map((ci) => ({
         label: ci, n: (byCitySport.get(`${pref} ${ci} ${sport}`) || []).length,
-        href: `/area/${p}/${slug("city", ci)}/sport/${s}/`,
+        href: `/clubs/${p}/${slug("city", ci)}/sport/${s}/`,
       }))) +
       linkList(`${pref}の他の種目`, sportsOf(byPref.get(pref)).filter((x) => x !== sport).map((x) => ({
         label: x, n: byPrefSport.get(`${pref} ${x}`).length,
-        href: `/area/${p}/sport/${slug("sport", x)}/`,
+        href: `/clubs/${p}/sport/${slug("sport", x)}/`,
       }))) +
       linkList(`他の地域の${sport}`, [...byPrefSport.keys()]
         .filter((k) => k.endsWith(` ${sport}`) && k !== key)
         .map((k) => {
           const op = k.split(" ")[0];
-          return { label: op, n: byPrefSport.get(k).length, href: `/area/${slug("pref", op)}/sport/${s}/` };
+          return { label: op, n: byPrefSport.get(k).length, href: `/clubs/${slug("pref", op)}/sport/${s}/` };
         })),
   }));
 }
@@ -271,7 +278,7 @@ for (const [key, list] of byPrefSport) {
 /* --- 市区町村 --- */
 for (const [key, list] of byCity) {
   const [pref, city] = key.split(" ");
-  const p = slug("pref", pref), ci = slug("city", city), url = `/area/${p}/${ci}/`;
+  const p = slug("pref", pref), ci = slug("city", city), url = `/clubs/${p}/${ci}/`;
   write(url, pageHtml({
     url,
     title: `${city}（${pref}）の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
@@ -279,16 +286,16 @@ for (const [key, list] of byCity) {
     h1: `${city}の子ども向けスポーツクラブ・習い事（${list.length}件）`,
     lead: leadText(list, city, null),
     list,
-    crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` }, { name: city, href: url }],
+    crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: city, href: url }],
     init: { pref: stripPref(pref), city },
     related:
       linkList(`${city}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byCitySport.get(`${pref} ${city} ${s}`).length,
-        href: `/area/${p}/${ci}/sport/${slug("sport", s)}/`,
+        href: `/clubs/${p}/${ci}/sport/${slug("sport", s)}/`,
       }))) +
       linkList(`${pref}の他の市区町村`, citiesOf(byPref.get(pref)).filter((x) => x !== city).map((x) => ({
         label: x, n: byCity.get(`${pref} ${x}`).length,
-        href: `/area/${p}/${slug("city", x)}/`,
+        href: `/clubs/${p}/${slug("city", x)}/`,
       }))),
   }));
 }
@@ -297,7 +304,7 @@ for (const [key, list] of byCity) {
 for (const [key, list] of byCitySport) {
   const [pref, city, sport] = key.split(" ");
   const p = slug("pref", pref), ci = slug("city", city), s = slug("sport", sport);
-  const url = `/area/${p}/${ci}/sport/${s}/`;
+  const url = `/clubs/${p}/${ci}/sport/${s}/`;
   write(url, pageHtml({
     url,
     title: `${city}の子ども向け${sport}クラブ・スクール${list.length}件｜チビスポ`,
@@ -305,31 +312,31 @@ for (const [key, list] of byCitySport) {
     h1: `${city}の子ども向け${sport}クラブ・スクール（${list.length}件）`,
     lead: leadText(list, city, sport),
     list,
-    crumbs: [home, areaTop, { name: pref, href: `/area/${p}/` },
-      { name: city, href: `/area/${p}/${ci}/` }, { name: sport, href: url }],
+    crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` },
+      { name: city, href: `/clubs/${p}/${ci}/` }, { name: sport, href: url }],
     init: { pref: stripPref(pref), city, sport },
     related:
       linkList(`${city}の他の種目`, sportsOf(byCity.get(`${pref} ${city}`)).filter((x) => x !== sport)
         .map((x) => ({
           label: x, n: byCitySport.get(`${pref} ${city} ${x}`).length,
-          href: `/area/${p}/${ci}/sport/${slug("sport", x)}/`,
+          href: `/clubs/${p}/${ci}/sport/${slug("sport", x)}/`,
         }))) +
       linkList(`${pref}全体で${sport}を探す`, [{
         label: `${pref}全体`, n: byPrefSport.get(`${pref} ${sport}`).length,
-        href: `/area/${p}/sport/${s}/`,
+        href: `/clubs/${p}/sport/${s}/`,
       }]) +
       linkList(`${pref}の他の市区町村で${sport}`, [...byCitySport.keys()]
         .filter((k) => k.startsWith(`${pref} `) && k.endsWith(` ${sport}`) && k !== key)
         .map((k) => {
           const oc = k.split(" ")[1];
-          return { label: oc, n: byCitySport.get(k).length, href: `/area/${p}/${slug("city", oc)}/sport/${s}/` };
+          return { label: oc, n: byCitySport.get(k).length, href: `/clubs/${p}/${slug("city", oc)}/sport/${s}/` };
         })),
   }));
 }
 
-/* --- /area/ 全国の入口。条件なしの検索画面そのもの --- */
+/* --- /clubs/ 全国の入口。条件なしの検索画面そのもの --- */
 {
-  const url = "/area/";
+  const url = "/clubs/";
   const rows = [...byPref.entries()].sort((a, b) => b[1].length - a[1].length);
   const sports = [...new Set(clubs.flatMap((c) => c.sportList))];
   // 入口は「どんなクラブが載っているか」を見せる場所。系列校が並ぶと同じ名前ばかりに
@@ -351,11 +358,11 @@ for (const [key, list] of byCitySport) {
     init: {}, plain: true,
     related:
       linkList("都道府県から探す", rows.map(([pref, l]) => ({
-        label: pref, n: l.length, href: `/area/${slug("pref", pref)}/`,
+        label: pref, n: l.length, href: `/clubs/${slug("pref", pref)}/`,
       }))) +
       linkList("種目から探す", sports.map((s) => ({
         label: s, n: clubs.filter((c) => c.sportList.includes(s)).length,
-        href: `/area/${slug("pref", clubs.find((c) => c.sportList.includes(s)).pref)}/sport/${slug("sport", s)}/`,
+        href: `/clubs/${slug("pref", clubs.find((c) => c.sportList.includes(s)).pref)}/sport/${slug("sport", s)}/`,
       }))),
   }));
   // 件数は全87件を出したいので、焼き込んだ枚数ではなく総数で上書きしている

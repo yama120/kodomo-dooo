@@ -12,9 +12,10 @@
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/area/…）と中身が重複する。
+<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/clubs/…）と中身が重複する。
      Airbnbも絞り込みUI（/s/…）を noindex にして、SEOは地域ページ側に寄せている -->
 <meta name="robots" content="noindex,follow">
+<script>window.__SEARCH_PAGE=1;</script>
 <title>検索結果｜チビスポ</title>
 <!-- OGP / SNS共有カード -->
 <meta property="og:type" content="website">
@@ -479,6 +480,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 <!-- 条件検索のフィルタ処理は下部のSupabaseローダー内（実データ）で一元管理 -->
 <!-- 全国の都道府県・市区町村データ（kodomo-doooと共通） -->
 <script src="club-card.js?v=20260802"></script>
+<script src="romaji.js?v=20260802"></script>
 <script src="cities.js?v=20260731b"></script>
 <!-- Supabaseから承認済みクラブ(teams)を読み込んでカードを実データ化（読めなければ静的カードのまま） -->
 <script src="supabase-lite.js?v=20260731"></script>
@@ -534,7 +536,29 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     var hasCities = (typeof CITIES!=='undefined');
     var prefList = hasCities ? Object.keys(CITIES) : uniqSorted(teams.map(function(t){return t.pref;}));
     fillSelect(elPref, prefList, '都道府県を選択');
-    fillSelect(elSport, uniqSorted(teams.map(function(t){return t.sport;})), 'すべての種目');
+    /* 種目は「いま選んでいる地域にあるものだけ」を件数つきで出す。
+       全国の29種目を常に並べると、選んでも0件になる種目が混ざって不親切なため。
+       地域を変えるたびに refreshSports() で作り直す。 */
+    function refreshSports(){
+      if(!elSport) return;
+      var inArea = teams.filter(function(t){
+        if(st.pref && stripPref(t.pref)!==stripPref(st.pref)) return false;
+        if(st.city && t.city!==st.city) return false;
+        return true;
+      });
+      var count={};
+      inArea.forEach(function(t){ if(t.sport) count[t.sport]=(count[t.sport]||0)+1; });
+      var names=Object.keys(count).sort(function(a,b){return a.localeCompare(b,'ja');});
+      // いま選んでいる種目が0件でも選択は消さない（勝手に外すと何が起きたか分からない）
+      if(st.sport && names.indexOf(st.sport)<0) names.push(st.sport);
+      var cur=st.sport;
+      elSport.innerHTML='<option value="">すべての種目</option>'+names.map(function(v){
+        var n=count[v]||0;
+        return '<option value="'+v.replace(/"/g,'')+'">'+v+'（'+n+'）</option>';
+      }).join('');
+      elSport.value=cur;
+    }
+    refreshSports();
     function refreshCities(){
       if(!elCity) return;
       if(!st.pref){ elCity.innerHTML='<option value="">市区町村を選択</option>'; elCity.disabled=true; st.city=''; return; }
@@ -628,9 +652,56 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       if(st.fee && st.fee!=='none') q.push('fee='+encodeURIComponent(st.fee));
       mapBtn.href = 'map.html'+(q.length?('?'+q.join('&')):'');
     }
+    /* 絞り込んだ状態をURLに反映する。
+       地域・市区町村・種目は /clubs/osaka/sakai/sport/soccer/ のパスに、
+       それ以外の条件（体験・曜日・月謝・年齢・キーワード）はクエリに乗せる。
+       こうすると、どう操作しても共有できるURLが正規のパスのままになる。
+       0件のときはそのパスのページが存在しないので /clubs/ + クエリに落とす。
+       クエリが付いた状態は検索結果に出したくないので noindex を足す。 */
+    function syncUrl(hits){
+      if(!window.history || !history.replaceState || !window.ChibiRomaji) return;
+      var R=window.ChibiRomaji, path='/clubs/';
+      try{
+        if(hits>0 && st.pref){
+          var pk=Object.keys(R.PREF).filter(function(k){return stripPref(k)===stripPref(st.pref);})[0];
+          if(pk){
+            path+=R.PREF[pk]+'/';
+            if(st.city && R.CITY[st.city]) path+=R.CITY[st.city]+'/';
+            if(st.sport && R.SPORT[st.sport]) path+='sport/'+R.SPORT[st.sport]+'/';
+          }
+        }
+      }catch(e){ path='/clubs/'; }
+      var q=[];
+      // パスに乗らなかった条件はクエリに回す
+      if(path==='/clubs/'){
+        // 北海道は stripPref すると「北海」になってしまう。URLには正式名称を出す
+        if(st.pref) q.push('pref='+encodeURIComponent(st.pref));
+        if(st.city) q.push('city='+encodeURIComponent(st.city));
+        if(st.sport) q.push('sport='+encodeURIComponent(st.sport));
+      } else if(st.sport && path.indexOf('/sport/')<0){
+        q.push('sport='+encodeURIComponent(st.sport));
+      }
+      if(st.kw) q.push('kw='+encodeURIComponent(st.kw));
+      ['trial','heijitsu','doyo','girls'].forEach(function(k){ if(st.chk[k]) q.push(k+'=1'); });
+      var ages=Object.keys(st.ages).filter(function(k){return st.ages[k];});
+      if(ages.length) q.push('age='+encodeURIComponent(ages.join(',')));
+      if(st.fee && st.fee!=='none') q.push('fee='+st.fee);
+      var url=path+(q.length?('?'+q.join('&')):'');
+      if(url!==location.pathname+location.search) history.replaceState(null,'',url);
+      // 条件付きのURLは正規ページと中身が重なるので、検索結果には出さない
+      var m=document.querySelector('meta[name="robots"]');
+      if(q.length){
+        if(!m){ m=document.createElement('meta'); m.name='robots'; document.head.appendChild(m); }
+        m.content='noindex,follow';
+      } else if(m && m.content.indexOf('noindex')>=0 && !window.__SEARCH_PAGE){
+        m.remove();
+      }
+    }
+
     function apply(){
       var matched=teams.filter(matchTeam); curPage=1;
       updateMapLink();
+      syncUrl(matched.length);
       if(countEl) countEl.textContent=matched.length;
       if(matched.length){
         if(emptyEl) emptyEl.style.display='none';
@@ -682,7 +753,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       curList=planSort(fb); renderPage();
     }
 
-    /* 地域ページ（/area/…）は、このファイルを型にして生成される。
+    /* 地域ページ（/clubs/…）は、このファイルを型にして生成される。
        生成時に window.__AREA_INIT で地域・種目が渡ってくるので、
        クエリパラメータと同じ扱いで初期条件にする。
        ページの中身（サイドバー・カード・絞り込み）は完全に同じものを使う。 */
@@ -708,9 +779,11 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     refreshCities();
     if(_p.get('city')){ st.city=_p.get('city'); if(elCity) elCity.value=st.city; }
     else if(st.city && elCity){ elCity.value=st.city; }
+    // URLや地域ページの初期条件が入ったあとに、種目の候補を作り直す
+    refreshSports();
     // 雰囲気(moods)は実データ未対応のためURLからの初期反映は行わない
 
-    /* 地域ページ（/area/…）の「条件から絞る」リンクから飛んで来たときに、
+    /* 地域ページ（/clubs/…）の「条件から絞る」リンクから飛んで来たときに、
        サイドバーの条件も入った状態で開く。パラメータ名は地図ページ（map.html）と揃える。
        操作できる検索はこのページ1つだけにして、地域ページ側には持たせない。 */
     ['trial','heijitsu','doyo','girls'].forEach(function(k){
@@ -734,9 +807,10 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 
     // --- イベント結線（操作したら即絞り込み）---
     if(elKw) elKw.addEventListener('input', function(){ st.kw=elKw.value.trim(); apply(); });
-    if(elPref) elPref.addEventListener('change', function(){ st.pref=elPref.value; st.city=''; if(elCity) elCity.value=''; refreshCities(); apply(); });
-    if(elCity) elCity.addEventListener('change', function(){ st.city=elCity.value; apply(); });
-    if(elSport) elSport.addEventListener('change', function(){ st.sport=elSport.value; apply(); });
+    if(elPref) elPref.addEventListener('change', function(){ st.pref=elPref.value; st.city=''; if(elCity) elCity.value=''; refreshCities(); refreshSports(); apply(); });
+    if(elCity) elCity.addEventListener('change', function(){ st.city=elCity.value; refreshSports(); apply(); });
+    // 種目を変えたら候補も作り直す（0件で残していた種目の行を消すため）
+    if(elSport) elSport.addEventListener('change', function(){ st.sport=elSport.value; refreshSports(); apply(); });
     document.querySelectorAll('.sr-age').forEach(function(b){ b.addEventListener('click',function(){ var a=b.dataset.age; st.ages[a]=!st.ages[a]; b.classList.toggle('on',st.ages[a]); apply(); }); });
     document.querySelectorAll('#sr-mood-list .sr-mood').forEach(function(b){ b.addEventListener('click',function(){ var m=b.dataset.mood; st.moods[m]=!st.moods[m]; b.classList.toggle('on',st.moods[m]); apply(); }); });
     document.querySelectorAll('.sr-chk').forEach(function(b){ b.addEventListener('click',function(){ var k=b.dataset.k; st.chk[k]=!st.chk[k]; b.classList.toggle('on',st.chk[k]); apply(); }); });

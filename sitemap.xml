@@ -6,7 +6,7 @@
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/</loc>
+    <loc>https://chibispo.com/clubs/</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -61,1147 +61,1147 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/ama/</loc>
+    <loc>https://chibispo.com/clubs/aichi/ama/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/ama/sport/gymnastics-school/</loc>
+    <loc>https://chibispo.com/clubs/aichi/ama/sport/gymnastics-school/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/inazawa/</loc>
+    <loc>https://chibispo.com/clubs/aichi/inazawa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/inazawa/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/inazawa/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/</loc>
+    <loc>https://chibispo.com/clubs/aichi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kariya/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kariya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kariya/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kariya/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kasugai/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kasugai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kasugai/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kasugai/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kiyosu/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kiyosu/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/kiyosu/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/aichi/kiyosu/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/nagakute/</loc>
+    <loc>https://chibispo.com/clubs/aichi/nagakute/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/nagakute/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/nagakute/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/nagoya/</loc>
+    <loc>https://chibispo.com/clubs/aichi/nagoya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/nagoya/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/nagoya/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/obu/</loc>
+    <loc>https://chibispo.com/clubs/aichi/obu/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/obu/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/obu/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/okazaki/</loc>
+    <loc>https://chibispo.com/clubs/aichi/okazaki/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/okazaki/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/okazaki/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/okazaki/sport/table-tennis/</loc>
+    <loc>https://chibispo.com/clubs/aichi/okazaki/sport/table-tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/sport/gymnastics-school/</loc>
+    <loc>https://chibispo.com/clubs/aichi/sport/gymnastics-school/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/sport/multi/</loc>
+    <loc>https://chibispo.com/clubs/aichi/sport/multi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/aichi/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/sport/table-tennis/</loc>
+    <loc>https://chibispo.com/clubs/aichi/sport/table-tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/toyota/</loc>
+    <loc>https://chibispo.com/clubs/aichi/toyota/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/toyota/sport/multi/</loc>
+    <loc>https://chibispo.com/clubs/aichi/toyota/sport/multi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/tsushima/</loc>
+    <loc>https://chibispo.com/clubs/aichi/tsushima/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aichi/tsushima/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/aichi/tsushima/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aomori/aomori/</loc>
+    <loc>https://chibispo.com/clubs/aomori/aomori/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aomori/aomori/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/aomori/aomori/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aomori/</loc>
+    <loc>https://chibispo.com/clubs/aomori/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/aomori/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/aomori/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/chiba/</loc>
+    <loc>https://chibispo.com/clubs/chiba/chiba/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/chiba/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/chiba/chiba/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/funabashi/</loc>
+    <loc>https://chibispo.com/clubs/chiba/funabashi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/funabashi/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/chiba/funabashi/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/</loc>
+    <loc>https://chibispo.com/clubs/chiba/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/inzai/</loc>
+    <loc>https://chibispo.com/clubs/chiba/inzai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/inzai/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/chiba/inzai/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/kashiwa/</loc>
+    <loc>https://chibispo.com/clubs/chiba/kashiwa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/kashiwa/sport/baton/</loc>
+    <loc>https://chibispo.com/clubs/chiba/kashiwa/sport/baton/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/kisarazu/</loc>
+    <loc>https://chibispo.com/clubs/chiba/kisarazu/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/kisarazu/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/chiba/kisarazu/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/shiroi/</loc>
+    <loc>https://chibispo.com/clubs/chiba/shiroi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/shiroi/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/chiba/shiroi/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/sport/baton/</loc>
+    <loc>https://chibispo.com/clubs/chiba/sport/baton/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/chiba/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/chiba/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/chiba/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/chiba/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ehime/imabari/</loc>
+    <loc>https://chibispo.com/clubs/ehime/imabari/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ehime/imabari/sport/tennis/</loc>
+    <loc>https://chibispo.com/clubs/ehime/imabari/sport/tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ehime/</loc>
+    <loc>https://chibispo.com/clubs/ehime/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ehime/sport/tennis/</loc>
+    <loc>https://chibispo.com/clubs/ehime/sport/tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukui/fukui/</loc>
+    <loc>https://chibispo.com/clubs/fukui/fukui/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukui/fukui/sport/karate/</loc>
+    <loc>https://chibispo.com/clubs/fukui/fukui/sport/karate/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukui/</loc>
+    <loc>https://chibispo.com/clubs/fukui/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukui/sport/karate/</loc>
+    <loc>https://chibispo.com/clubs/fukui/sport/karate/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/iizuka/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/iizuka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/iizuka/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/iizuka/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/kasuga/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/kasuga/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/kasuga/sport/gymnastics/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/kasuga/sport/gymnastics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/kasuga/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/kasuga/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/ogori/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/ogori/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/ogori/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/ogori/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/sport/gymnastics/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/sport/gymnastics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/fukuoka/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/fukuoka/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/fukuyama/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/fukuyama/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/fukuyama/sport/flag-football/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/fukuyama/sport/flag-football/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/hiroshima/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/hiroshima/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/hiroshima/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/hiroshima/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hiroshima/sport/flag-football/</loc>
+    <loc>https://chibispo.com/clubs/hiroshima/sport/flag-football/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/obihiro/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/obihiro/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/obihiro/sport/exercise-class/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/obihiro/sport/exercise-class/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sapporo/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sapporo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sapporo/sport/bjj/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sapporo/sport/bjj/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sapporo/sport/rhythm-training/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sapporo/sport/rhythm-training/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sport/bjj/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sport/bjj/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sport/exercise-class/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sport/exercise-class/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hokkaido/sport/rhythm-training/</loc>
+    <loc>https://chibispo.com/clubs/hokkaido/sport/rhythm-training/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/himeji/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/himeji/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/himeji/sport/kendo/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/himeji/sport/kendo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/itami/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/itami/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/itami/sport/double-dutch/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/itami/sport/double-dutch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/kobe/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/kobe/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/kobe/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/kobe/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/nishinomiya/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/nishinomiya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/nishinomiya/sport/double-dutch/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/nishinomiya/sport/double-dutch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/sport/double-dutch/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/sport/double-dutch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/hyogo/sport/kendo/</loc>
+    <loc>https://chibispo.com/clubs/hyogo/sport/kendo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/itako/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/itako/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/itako/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/itako/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/mito/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/mito/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/mito/sport/tennis/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/mito/sport/tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/ibaraki/sport/tennis/</loc>
+    <loc>https://chibispo.com/clubs/ibaraki/sport/tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/amami/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/amami/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/amami/sport/wrestling/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/amami/sport/wrestling/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/satsumasendai/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/satsumasendai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/satsumasendai/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/satsumasendai/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kagoshima/sport/wrestling/</loc>
+    <loc>https://chibispo.com/clubs/kagoshima/sport/wrestling/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/kamakura/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/kamakura/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/kamakura/sport/multi/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/kamakura/sport/multi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/kawasaki/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/kawasaki/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/kawasaki/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/kawasaki/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/kawasaki/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/kawasaki/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sagamihara/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sagamihara/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sagamihara/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sagamihara/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sport/gymnastics-school/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/gymnastics-school/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sport/multi/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/multi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/yamato/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/yamato/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kanagawa/yamato/sport/gymnastics-school/</loc>
+    <loc>https://chibispo.com/clubs/kanagawa/yamato/sport/gymnastics-school/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/kumamoto/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/kumamoto/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/kumamoto/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/kumamoto/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/kumamoto/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/kumamoto/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/sport/athletics/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/sport/athletics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kumamoto/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kumamoto/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/kyoto/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/kyoto/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/kyoto/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/kyoto/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/kyoto/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/kyoto/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/kyoto/sport/kids-sports/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/kyoto/sport/kids-sports/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/sport/kids-sports/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/sport/kids-sports/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/yawata/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/yawata/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/kyoto/yawata/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/kyoto/yawata/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/mie/</loc>
+    <loc>https://chibispo.com/clubs/mie/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/mie/nabari/</loc>
+    <loc>https://chibispo.com/clubs/mie/nabari/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/mie/nabari/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/mie/nabari/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/mie/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/mie/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/haebaru/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/haebaru/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/haebaru/sport/athletic-ability/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/haebaru/sport/athletic-ability/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/itoman/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/itoman/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/itoman/sport/athletic-ability/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/itoman/sport/athletic-ability/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/naha/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/naha/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/naha/sport/basic-exercise/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/naha/sport/basic-exercise/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/nanjo/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/nanjo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/nanjo/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/nanjo/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/okinawa/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/okinawa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/okinawa/sport/onigokko/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/okinawa/sport/onigokko/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/sport/athletic-ability/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/sport/athletic-ability/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/sport/basic-exercise/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/sport/basic-exercise/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/sport/onigokko/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/sport/onigokko/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/okinawa/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/okinawa/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/ikeda/</loc>
+    <loc>https://chibispo.com/clubs/osaka/ikeda/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/ikeda/sport/karate/</loc>
+    <loc>https://chibispo.com/clubs/osaka/ikeda/sport/karate/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/</loc>
+    <loc>https://chibispo.com/clubs/osaka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/izumisano/</loc>
+    <loc>https://chibispo.com/clubs/osaka/izumisano/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/izumisano/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/osaka/izumisano/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/minoh/</loc>
+    <loc>https://chibispo.com/clubs/osaka/minoh/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/minoh/sport/karate/</loc>
+    <loc>https://chibispo.com/clubs/osaka/minoh/sport/karate/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/osaka/</loc>
+    <loc>https://chibispo.com/clubs/osaka/osaka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/osaka/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/osaka/osaka/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/osaka/sport/double-dutch/</loc>
+    <loc>https://chibispo.com/clubs/osaka/osaka/sport/double-dutch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/osaka/sport/personal/</loc>
+    <loc>https://chibispo.com/clubs/osaka/osaka/sport/personal/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/osaka/sport/physical-education/</loc>
+    <loc>https://chibispo.com/clubs/osaka/osaka/sport/physical-education/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sakai/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sakai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sakai/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sakai/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sakai/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sakai/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/double-dutch/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/double-dutch/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/karate/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/karate/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/personal/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/personal/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/physical-education/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/physical-education/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/osaka/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/takatsuki/</loc>
+    <loc>https://chibispo.com/clubs/osaka/takatsuki/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/osaka/takatsuki/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/osaka/takatsuki/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/saitama/</loc>
+    <loc>https://chibispo.com/clubs/saitama/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/saitama/iruma/</loc>
+    <loc>https://chibispo.com/clubs/saitama/iruma/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/saitama/iruma/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/saitama/iruma/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/saitama/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/saitama/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shiga/</loc>
+    <loc>https://chibispo.com/clubs/shiga/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shiga/kusatsu/</loc>
+    <loc>https://chibispo.com/clubs/shiga/kusatsu/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shiga/kusatsu/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/shiga/kusatsu/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shiga/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/shiga/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shizuoka/fujieda/</loc>
+    <loc>https://chibispo.com/clubs/shizuoka/fujieda/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shizuoka/fujieda/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/shizuoka/fujieda/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shizuoka/</loc>
+    <loc>https://chibispo.com/clubs/shizuoka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/shizuoka/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/shizuoka/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/akiruno/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/akiruno/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/akiruno/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/akiruno/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/edogawa/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/edogawa/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/edogawa/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/edogawa/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/edogawa/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/edogawa/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/hachioji/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/hachioji/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/hachioji/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/hachioji/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/itabashi/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/itabashi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/itabashi/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/itabashi/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/katsushika/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/katsushika/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/katsushika/sport/swimming/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/katsushika/sport/swimming/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/minato/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/minato/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/minato/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/minato/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/shibuya/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/shibuya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/shibuya/sport/cheer-dance/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/shibuya/sport/cheer-dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/baseball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/basketball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/cheer-dance/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/cheer-dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/dance/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/swimming/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/swimming/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/tokyo/sport/volleyball/</loc>
+    <loc>https://chibispo.com/clubs/tokyo/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/sanyo-onoda/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/sanyo-onoda/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/sanyo-onoda/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/sanyo-onoda/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/sport/soccer/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/sport/taekwondo/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/sport/taekwondo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/yamaguchi/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/yamaguchi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/area/yamaguchi/yamaguchi/sport/taekwondo/</loc>
+    <loc>https://chibispo.com/clubs/yamaguchi/yamaguchi/sport/taekwondo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

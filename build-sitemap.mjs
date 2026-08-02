@@ -15,7 +15,7 @@ const KEY =
    priority は相対的な重み付けで、Googleは参考程度にしか見ない */
 const STATIC = [
   ["/", 1.0, "daily"],
-  ["/area/", 0.9, "daily"],
+  ["/clubs/", 0.9, "daily"],
   // search.html は noindex（絞り込み結果は地域ページと重複するため）なので載せない
   ["/map.html", 0.8, "weekly"],
   ["/magazine.html", 0.8, "weekly"],
@@ -53,7 +53,7 @@ const res = await fetch(
 if (!res.ok) throw new Error(`teams取得に失敗: HTTP ${res.status}`);
 const clubs = await res.json();
 
-/* build-area-pages.mjs が書き出した地域ページを拾う。
+/* build-area-pages.mjs が書き出したクラブ一覧ページを拾う。
    ここで走査するので、地域ページを作り直したら sitemap も流し直すこと */
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const areaDirs = [];
@@ -62,10 +62,10 @@ const areaDirs = [];
     if (e.isDirectory()) walk(join(dir, e.name));
     else if (e.name === "index.html") {
       const rel = relative(ROOT, dir).split(sep).join("/");
-      if (rel !== "area") areaDirs.push(`/${rel}/`);   // /area/ 自体は STATIC 側で入れている
+      if (rel !== "clubs") areaDirs.push(`/${rel}/`);   // /clubs/ 自体は STATIC 側で入れている
     }
   }
-})(existsSync(join(ROOT, "area")) ? join(ROOT, "area") : ROOT);
+})(existsSync(join(ROOT, "clubs")) ? join(ROOT, "clubs") : ROOT);
 
 const rows = [
   ...STATIC.map(([p, pr, cf]) => url(p, pr, cf)),
