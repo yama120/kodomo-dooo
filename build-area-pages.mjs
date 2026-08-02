@@ -170,8 +170,10 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   s = s.replace(/(<div class="sr-cards"[^>]*>)/, `$1\n${baked}\n`);
   s = s.replace(/(<div class="sr-count"[^>]*>検索結果：<span[^>]*>)\d+(<\/span>)/, `$1${list.length}$2`);
 
-  // 関連リンクを一覧の下に置く（クローラーの回遊路 兼 ユーザーの探し直し）
-  s = s.replace('<div id="sr-pagination"', `${related}\n        <div id="sr-pagination"`);
+  /* 関連リンクはページの最下部（マガジン・地域企業PRより下）に置く。
+     都道府県と種目のリンクは数が多く、上に置くと広告枠が画面外まで押し下げられる。
+     クローラーの回遊路としては位置を問わないので、収益面を優先する */
+  s = s.replace('<div id="sr-related"></div>', `<div id="sr-related">${related}</div>`);
 
   // 地域・種目の初期条件を渡す（search.html 側が window.__AREA_INIT を読む）
   s = s.replace("</head>", `<script>window.__AREA_INIT=${JSON.stringify(init)};</script>\n</head>`);

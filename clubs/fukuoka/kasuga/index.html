@@ -358,19 +358,6 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
         </div>
 
         <!-- pagination（JSで動的生成） -->
-        <section style="margin:26px 0 0;">
-  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">春日市の種目から探す</h2>
-  <div style="display:flex;flex-wrap:wrap;gap:8px;">
-    <a href="/clubs/fukuoka/kasuga/sport/gymnastics/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">体操<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/fukuoka/kasuga/sport/soccer/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">サッカー<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-  </div>
-</section><section style="margin:26px 0 0;">
-  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">福岡県の他の市区町村</h2>
-  <div style="display:flex;flex-wrap:wrap;gap:8px;">
-    <a href="/clubs/fukuoka/iizuka/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">飯塚市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/fukuoka/ogori/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">小郡市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-  </div>
-</section>
         <div id="sr-pagination" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:26px 0 6px;font-size:14px;"></div>
 
         <!-- magazine -->
@@ -457,30 +444,22 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       </div>
 
 
-    <!-- ============ STATION / AREA ============ -->
-    
-      <div style="margin-top:18px;">
-        <div style="background:#f5f6f8;border:1px solid #e9ebef;border-radius:12px;padding:18px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:#28323f;margin-bottom:13px;">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5b6573" stroke-width="1.8"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>エリアから探す
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">名古屋市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">豊田市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">岡崎市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">一宮市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">春日井市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">刈谷市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">安城市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">豊橋市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">東海市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">津島市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">半田市</a>
-<a href="#" style="background:#fff;border:1px solid #dde1e6;border-radius:6px;padding:6px 13px;font-size:12.5px;color:#3b4654;cursor:pointer;text-decoration:none;">その他のエリア</a>
-          </div>
-        </div>
-      </div>
-    
+    <!-- 地域・種目のリンクはここに入る（生成時に実データで差し込む）。
+         以前は愛知県の市名がハードコードされていて、リンク先が href="#" で
+         押しても何も起きなかった。掲載の無い市も並んでいた -->
+    <div id="sr-related"><section style="margin:26px 0 0;">
+  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">春日市の種目から探す</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="/clubs/fukuoka/kasuga/sport/gymnastics/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">体操<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+    <a href="/clubs/fukuoka/kasuga/sport/soccer/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">サッカー<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+  </div>
+</section><section style="margin:26px 0 0;">
+  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">福岡県の他の市区町村</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="/clubs/fukuoka/iizuka/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">飯塚市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+    <a href="/clubs/fukuoka/ogori/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">小郡市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+  </div>
+</section></div>
 
   </div>
 </div>
