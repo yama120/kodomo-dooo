@@ -607,6 +607,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
 </script>
 <!-- ?id のクラブをSupabaseから読み込んで詳細を実データ化（idが無ければ静的デモのまま） -->
 <script src="supabase-lite.js?v=20260731"></script>
+<script src="comment-guard.js?v=20260802"></script>
 <script>
 (function(){
   var id=new URLSearchParams(location.search).get('id');
@@ -1144,6 +1145,9 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         el('cd-cmt-submit').addEventListener('click', function(){
           var body=el('cd-cmt-body').value.trim(); var msg=el('cd-cmt-msg');
           if(!body){ msg.style.color='#c0314b'; msg.textContent='コメントを入力してください。'; return; }
+          // 投稿前の内容チェック（中傷・個人情報・URL）。判定は comment-guard.js に集約
+          var ng = window.ChibiCommentGuard && window.ChibiCommentGuard.check(body);
+          if(ng){ msg.style.color='#c0314b'; msg.textContent=ng; return; }
           el('cd-cmt-submit').disabled=true;
           // 投稿が自動で非表示になったかを見たいので status を返させる
           db.from('comments').insert({ team_id:TEAM_ID, user_id:myUserId, nickname:myNick, body:body },{returning:'id,status'}).then(function(res){

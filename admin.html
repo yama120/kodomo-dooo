@@ -219,6 +219,22 @@
     <div class="section-title">🏆 クラブ別申込みランキング</div>
     <div id="trialRanking"><div class="empty">読み込み中...</div></div>
 
+    <!-- 通報の確認。App Storeの審査（ガイドライン1.2）は、通報を受け付けるだけでなく
+         迅速に対応できることを求めるので、ここから非表示にできるようにする -->
+    <div class="section-title" style="margin-top:40px;">🚨 コメントの通報</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statRepPending">-</div><div class="stat-label">未対応</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRepTotal">-</div><div class="stat-label">累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRepHidden">-</div><div class="stat-label">非表示にした数</div></div>
+    </div>
+    <div class="tab-bar" id="reportTabs">
+      <button class="tab-btn active" data-rep-tab="pending" onclick="setReportTab('pending')">未対応</button>
+      <button class="tab-btn" data-rep-tab="reviewed" onclick="setReportTab('reviewed')">対応済み</button>
+      <button class="tab-btn" data-rep-tab="dismissed" onclick="setReportTab('dismissed')">問題なし</button>
+      <button class="tab-btn" data-rep-tab="all" onclick="setReportTab('all')">すべて</button>
+    </div>
+    <div id="reportList"><div class="empty">読み込み中...</div></div>
+
     <div class="section-title" style="margin-top:40px;">📋 チーム管理</div>
 
     <div class="tab-bar" id="teamTabs">
@@ -447,10 +463,115 @@ function showDashboard() {
   document.getElementById('dashboard').style.display = 'block';
   loadTeams();
   loadTrialRequests();
+  loadReports();
 }
 
 let allTrialRequests = [];
 let currentTrialTab = 'all';
+
+// HTMLエスケープ（既存の escaped は関数内のローカル定義なので、ここで用意する）
+function escapeHtml(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===================== コメントの通報 =====================
+   通報（comment_reports）は溜まる仕組みだけあって、確認する場所が無かった。
+   App Store の審査（ガイドライン1.2）は、通報を受け付けるだけでなく
+   迅速に対応できることを求めるので、ここで非表示にできるようにする。
+   権限は sql/moderation-admin.sql（is_admin() のポリシー）で付与している。 */
+let allReports = [];      // 通報 ＋ 対象コメント ＋ クラブ名 を突き合わせたもの
+let currentRepTab = 'pending';
+
+const REPORT_REASON = {
+  inappropriate: '不適切な内容', spam: 'スパム・宣伝',
+  privacy: '個人情報', harassment: '誹謗中傷', other: 'その他'
+};
+
+async function loadReports() {
+  const box = document.getElementById('reportList');
+  const { data: reps, error } = await db.from('comment_reports')
+    .select('*').order('created_at', { ascending: false });
+  if (error) {
+    box.innerHTML = '<div class="empty">通報の読み込みに失敗しました。sql/moderation-admin.sql を実行してください。</div>';
+    return;
+  }
+  const list = reps || [];
+  // コメント本文とクラブ名は別テーブル。supabase-lite は結合できないので個別に引いて突き合わせる
+  const cids = [...new Set(list.map(r => r.comment_id).filter(Boolean))];
+  const comments = {};
+  for (const id of cids) {
+    const { data } = await db.from('comments').select('*').eq('id', id);
+    if (data && data[0]) comments[id] = data[0];
+  }
+  const tids = [...new Set(list.map(r => r.team_id).filter(Boolean))];
+  const teams = {};
+  for (const id of tids) {
+    const { data } = await db.from('teams').select('id,name').eq('id', id);
+    if (data && data[0]) teams[id] = data[0].name;
+  }
+  allReports = list.map(r => ({ ...r, comment: comments[r.comment_id] || null, teamName: teams[r.team_id] || '' }));
+  updateReportStats();
+  renderReportTab();
+}
+
+function updateReportStats() {
+  document.getElementById('statRepPending').textContent = allReports.filter(r => r.status === 'pending').length;
+  document.getElementById('statRepTotal').textContent = allReports.length;
+  document.getElementById('statRepHidden').textContent =
+    allReports.filter(r => r.comment && r.comment.status !== 'visible').length;
+}
+
+function setReportTab(tab) {
+  currentRepTab = tab;
+  document.querySelectorAll('#reportTabs .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.repTab === tab);
+  });
+  renderReportTab();
+}
+
+function renderReportTab() {
+  const box = document.getElementById('reportList');
+  const rows = currentRepTab === 'all' ? allReports : allReports.filter(r => r.status === currentRepTab);
+  if (!rows.length) { box.innerHTML = '<div class="empty">該当する通報はありません。</div>'; return; }
+  box.innerHTML = rows.map(r => {
+    const c = r.comment;
+    const hidden = c && c.status !== 'visible';
+    const body = c ? escapeHtml(c.body || '').replace(/\n/g, '<br>') : '<span style="color:#c33">※コメントは削除済みです</span>';
+    const when = new Date(r.created_at).toLocaleString('ja-JP');
+    return `<div class="card" style="border-left:4px solid ${r.status === 'pending' ? '#e8455f' : '#d7dbe0'};">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#e8455f;">${REPORT_REASON[r.reason] || escapeHtml(r.reason)}</b>
+        <span>${escapeHtml(r.teamName)}</span>
+        <span>${when}</span>
+        ${hidden ? '<span style="background:#fde7eb;color:#d33b57;border-radius:4px;padding:2px 7px;font-weight:800;">非表示中</span>' : ''}
+      </div>
+      ${r.detail ? `<div style="font-size:12.5px;color:#54606e;margin-top:6px;">通報者のコメント：${escapeHtml(r.detail)}</div>` : ''}
+      <div style="background:#f7f8fa;border-radius:8px;padding:11px 13px;margin-top:9px;font-size:13.5px;line-height:1.8;">
+        ${c && c.nickname ? `<div style="font-weight:800;font-size:12px;color:#8a93a0;">${escapeHtml(c.nickname)}</div>` : ''}
+        ${body}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
+        ${c ? (hidden
+          ? `<button class="btn" style="background:#1f8a5b;" onclick="setCommentVisible('${r.comment_id}', true)">表示に戻す</button>`
+          : `<button class="btn" style="background:#e8455f;" onclick="setCommentVisible('${r.comment_id}', false)">コメントを非表示にする</button>`) : ''}
+        ${r.status === 'pending' ? `
+          <button class="btn" onclick="setReportStatus('${r.id}','reviewed')">対応済みにする</button>
+          <button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','dismissed')">問題なし</button>
+        ` : `<button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','pending')">未対応に戻す</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setCommentVisible(commentId, visible) {
+  const { error } = await db.from('comments').update({ status: visible ? 'visible' : 'hidden' }).eq('id', commentId);
+  if (error) { alert('変更に失敗しました：' + error.message); return; }
+  await loadReports();
+}
+
+async function setReportStatus(reportId, status) {
+  const { error } = await db.from('comment_reports').update({ status }).eq('id', reportId);
+  if (error) { alert('変更に失敗しました：' + error.message); return; }
+  await loadReports();
+}
 
 async function loadTrialRequests() {
   const { data, error } = await db.from('trial_requests').select('*').order('created_at', { ascending: false });
