@@ -191,14 +191,6 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.9"/><circle cx="12" cy="16.6" r=".6" fill="#b04ae8"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">よくある質問</span>
         </a>
-        <a href="clubs/#sr-sport" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8784a" stroke-width="1.8"><circle cx="14" cy="5" r="2"/><path d="M13 8l-4 3 3 3 1 5M9 11l-4 1M12 14l4 1"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">種目（スポーツ）から探す</span>
-        </a>
-        <a href="clubs/" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.8"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">条件から探す</span>
-        </a>
         <a href="partner.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><path d="M5 21V5l7-2 7 2v16"/><path d="M9 9h2M9 13h2M14 9h1M14 13h1"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">掲載をお考えの方へ</span>
@@ -252,9 +244,7 @@
       <div style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">クラブを探す</div>
-          <a href="clubs/" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">エリアから探す</a>
-          <a href="clubs/" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">種目から探す</a>
-          <a href="clubs/" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">雰囲気から探す</a>
+          <a href="clubs/" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">クラブを探す</a>
         </div>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">マガジン</div>
