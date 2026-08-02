@@ -191,10 +191,6 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.9"/><circle cx="12" cy="16.6" r=".6" fill="#b04ae8"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">よくある質問</span>
         </a>
-        <a href="clubs/" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">地域から探す</span>
-        </a>
         <a href="clubs/#sr-sport" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8784a" stroke-width="1.8"><circle cx="14" cy="5" r="2"/><path d="M13 8l-4 3 3 3 1 5M9 11l-4 1M12 14l4 1"/></svg>
           <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">種目（スポーツ）から探す</span>
@@ -218,13 +214,13 @@
   /* ---------- 下部タブバー（モバイル） ---------- */
   var BOTTOMBAR = `
   <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:78px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around; padding-bottom:12px; box-sizing:border-box;">
-    <a href="clubs/" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/></svg>
-      <span style="font-size:10px; font-weight:600;">クラブを探す</span>
+    <a href="index.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></svg>
+      <span style="font-size:10px; font-weight:600;">ホーム</span>
     </a>
     <a href="clubs/" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
-      <span style="font-size:10px; font-weight:600;">条件から探す</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      <span style="font-size:10px; font-weight:600;">クラブを探す</span>
     </a>
     <a href="login.html" class="cc-auth-out" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
