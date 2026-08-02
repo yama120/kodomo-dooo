@@ -755,10 +755,33 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       }
     }
 
+    /* 見出しとタブのタイトルを、いまの条件に合わせて書き換える。
+       文言は build-area-pages.mjs が焼き込むものと同じにしてある
+       （URLだけ変わって見出しが古いままだと、どこを見ているのか分からなくなる）。 */
+    function updateHeading(hits){
+      var h1=document.querySelector('h1'); if(!h1) return;
+      var area=st.city || st.pref || '';
+      var label, title;
+      if(!area && !st.sport){
+        label='検索結果';
+        title='子ども向けスポーツクラブ・習い事を探す｜チビスポ';
+      } else if(st.sport){
+        var a=area||'全国';
+        label=a+'の子ども向け'+st.sport+'クラブ・スクール（'+hits+'件）';
+        title=a+'の子ども向け'+st.sport+'クラブ・スクール'+hits+'件｜チビスポ';
+      } else {
+        label=area+'の子ども向けスポーツクラブ・習い事（'+hits+'件）';
+        title=area+'の子ども向けスポーツクラブ・習い事'+hits+'件｜チビスポ';
+      }
+      if(h1.textContent!==label) h1.textContent=label;
+      if(document.title!==title) document.title=title;
+    }
+
     function apply(){
       var matched=teams.filter(matchTeam); curPage=1;
       updateMapLink();
       syncUrl(matched.length);
+      updateHeading(matched.length);
       if(countEl) countEl.textContent=matched.length;
       if(matched.length){
         if(emptyEl) emptyEl.style.display='none';
