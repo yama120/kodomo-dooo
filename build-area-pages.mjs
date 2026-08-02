@@ -121,7 +121,7 @@ ${links.map((l) => `    <a href="${esc(l.href)}" style="border:1px solid #dde2e7
 /* ============ search.html を型にして1ページ組み立てる ============ */
 const TEMPLATE = readFileSync(join(ROOT, "search.html"), "utf8");
 
-function pageHtml({ url, title, description, h1, lead, list, crumbs, related, init }) {
+function pageHtml({ url, title, description, h1, lead, list, crumbs, related, init, plain }) {
   let s = TEMPLATE;
 
   // 検索ページは noindex。生成した地域ページは検索対象なので必ず外す
@@ -142,16 +142,20 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   s = s.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${ORIGIN}${url}$2`);
   s = s.replace(/(<meta name="twitter:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
 
-  // 見出しを地域ごとの内容にする（「検索結果」のままではSEOにならない）
-  s = s.replace(/(<h1 style="margin:0;font-size:22px;font-weight:800;">)検索結果(<\/h1>)/,
-    `$1${esc(h1)}$2`);
+  /* 見出しを地域ごとの内容にする（「検索結果」のままではSEOにならない）。
+     ただし全国の入口（/area/）は条件が何も付いていないので、
+     「検索結果」のままにして紹介文も出さない（検索件数と重複して冗長なため） */
+  if (!plain) {
+    s = s.replace(/(<h1 style="margin:0;font-size:22px;font-weight:800;">)検索結果(<\/h1>)/,
+      `$1${esc(h1)}$2`);
+  }
 
   // パンくずと紹介文を見出しの直後に置く
   const intro = `<nav style="font-size:12px;color:#8a93a0;margin:0 0 10px;" aria-label="パンくず">` +
     crumbs.map((c, i) => i === crumbs.length - 1
       ? `<span>${esc(c.name)}</span>`
       : `<a href="${esc(c.href)}" style="color:#8a93a0;text-decoration:none;">${esc(c.name)}</a> › `).join("") +
-    `</nav>\n    <p style="font-size:14px;color:#54606e;line-height:1.9;margin:0 0 16px;">${esc(lead)}</p>`;
+    `</nav>` + (plain ? "" : `\n    <p style="font-size:14px;color:#54606e;line-height:1.9;margin:0 0 16px;">${esc(lead)}</p>`);
   s = s.replace("<!-- 条件検索ボタン（タブレット以下） -->", `${intro}\n\n    <!-- 条件検索ボタン（タブレット以下） -->`);
 
   // 検索結果のカードを焼き込む（JSが動く前に中身が読める状態にする）
@@ -344,7 +348,7 @@ for (const [key, list] of byCitySport) {
     h1: `子ども向けスポーツクラブ・習い事を探す（${clubs.length}件）`,
     lead: `チビスポに掲載中の${clubs.length}件を、${byPref.size}都道府県・${byCity.size}市区町村・${sports.length}種目から探せます。`,
     list: showcase, crumbs: [home, { name: "クラブを探す", href: url }],
-    init: {},
+    init: {}, plain: true,
     related:
       linkList("都道府県から探す", rows.map(([pref, l]) => ({
         label: pref, n: l.length, href: `/area/${slug("pref", pref)}/`,
