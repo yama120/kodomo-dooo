@@ -698,7 +698,13 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
        こうすると、どう操作しても共有できるURLが正規のパスのままになる。
        0件のときはそのパスのページが存在しないので /clubs/ + クエリに落とす。
        クエリが付いた状態は検索結果に出したくないので noindex を足す。 */
+    /* 初回の描画ではURLを書き換えない。
+       保存した地域設定（localStorage）が初期値に入るため、「クラブを探す」を押しただけで
+       /clubs/aomori/aomori/ に飛んだように見えてしまう。
+       ユーザーが自分で条件を触ったときだけURLに反映する。 */
+    var urlSyncReady=false;
     function syncUrl(hits){
+      if(!urlSyncReady) return;
       if(!window.history || !history.replaceState || !window.ChibiRomaji) return;
       var R=window.ChibiRomaji, path='/clubs/';
       try{
@@ -867,6 +873,13 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
       st.fee=_p.get('fee');
       document.querySelectorAll('.sr-fee').forEach(function(b){ b.classList.toggle('on', b.dataset.v===st.fee); });
     }
+
+    /* URLへの反映は「ユーザーが操作したとき」だけ有効にする。
+       初期表示のあとにも、いいね数・コメント数の取得で再描画が走るので、
+       時間で判断すると保存地域がURLに載ってしまう。操作を検知して解禁する。 */
+    ['change','click','input'].forEach(function(ev){
+      document.addEventListener(ev, function(){ urlSyncReady=true; }, true);
+    });
 
     // --- イベント結線（操作したら即絞り込み）---
     if(elKw) elKw.addEventListener('input', function(){ st.kw=elKw.value.trim(); apply(); });
