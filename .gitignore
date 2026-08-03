@@ -2,3 +2,9 @@ db-*.sql
 install-ga4.mjs
 .DS_Store
 test-club-credentials.local.txt
+
+# 秘密鍵はリポジトリに入れない（このリポジトリは公開）
+*.p8
+*.p12
+.env
+.env.*

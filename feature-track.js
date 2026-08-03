@@ -12,7 +12,7 @@
  *  と書けば、読み込み時に計測リンクへ自動変換される。
  * ============================================================ */
 (function () {
-  var TRACK = "https://chibispo-tracking.hyogo120.workers.dev";
+  var TRACK = "https://api.chibispo.com";
   var SLUG = "chibispo-feature"; // ダッシュボードで「チビスポ特集・マガジン」として認識される予約スラッグ
   function rewrite() {
     var links = document.querySelectorAll('a[href*="club.html?id="], a[href*="club.html?id="i]');

@@ -2275,7 +2275,7 @@ function rpMarkSample(id,note){
 var RP_RESERVED={"chibispo-feature":"チビスポ特集・マガジン"};
 function rpChannelName(c){return RP_RESERVED[c.slug]||c.name||c.slug;}
 // ===== 集客タブ実データ化（媒体別クリック＝link_clicks・媒体作成＝計測リンク/QR発行） =====
-var RP_TRACK='https://chibispo-tracking.hyogo120.workers.dev';
+var RP_TRACK='https://api.chibispo.com';
 // ---- ログインセッション（club-mypageのsupabase-liteと同じlocalStorageを共有）----
 // アクセストークンは約1時間で失効する。supabase-lite同様にrefresh_tokenで自動更新しないと
 // 時間が経ったタブで401→サンプル表示に落ちるため、ここでも更新処理を持つ。
@@ -2553,7 +2553,7 @@ function rpConnectSns(platform){
   if(platform!=="instagram"&&platform!=="threads")return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   if(!club||!rpToken()){alert("ログインが必要です");return;}
-  var W='https://chibispo-tracking.hyogo120.workers.dev';
+  var W='https://api.chibispo.com';
   rpAuthFetch(W+'/auth/'+platform+'/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club})})
     .then(function(r){return r?r.json().then(function(j){return {ok:r.ok,data:j};}):{ok:false,data:{}};})
     .then(function(result){
@@ -2583,7 +2583,7 @@ function rpRenderConnectBar(connected){
 }
 function rpConnectBar(){
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
-  var W='https://chibispo-tracking.hyogo120.workers.dev';
+  var W='https://api.chibispo.com';
   // まずはデータ有無で暫定表示
   var connected={};
   [].concat((window.__realStats||[]).map(function(s){return String(s.platform).toLowerCase();}),(window.__realPosts||[]).map(function(p){return String(p.platform).toLowerCase();})).forEach(function(k){connected[k]=true;});
@@ -2602,7 +2602,7 @@ function rpConnectYouTube(){
   if(!ch)return;
   var club=(new URLSearchParams(location.search).get("club")||"").trim();
   var token=rpToken(); if(!token){alert("ログインが必要です");return;}
-  rpAuthFetch('https://chibispo-tracking.hyogo120.workers.dev/auth/youtube/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,channel:ch})})
+  rpAuthFetch('https://api.chibispo.com/auth/youtube/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:club,channel:ch})})
     .then(function(r){return r?r.json():{error:'session_expired'};})
     .then(function(j){
       if(j&&j.ok){ alert('YouTube「'+j.name+'」を連携しました。動画データは毎日自動で取り込まれます。'); location.reload(); }
@@ -2708,7 +2708,7 @@ const RP_HAS_CLUB=rpEntryGate();
 
   // 本番経路：認証付きAPI（Worker）。club-mypageのログインセッションを同一オリジンのlocalStorageから読む。
   // ローカル/開発経路：静的ファイル data/clubs/<uuid>.json にフォールバック。
-  const API_BASE="https://chibispo-tracking.hyogo120.workers.dev";
+  const API_BASE="https://api.chibispo.com";
   const SESSION_KEY="sb-lite-emkpkomrgknzrmxqbrvx.supabase.co-auth";
   let club=null,rng={},apiClicks=null;
   if(isUuid){
