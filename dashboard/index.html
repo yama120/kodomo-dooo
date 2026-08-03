@@ -148,6 +148,13 @@
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:860px){.grid-2{grid-template-columns:1fr}}
+  /* ★グリッド／フレックスの子は既定が min-width:auto で、中身（グラフSVGは幅520px、
+     テーブルは min-width:560px）より狭くならない。スマホでは列がその幅まで広がり、
+     ページ全体が横スクロールしていた（2026-08-03）。
+     0 を指定して縮めるようにすると、.plot / .tbl-wrap 側の overflow-x:auto が効き、
+     はみ出すのはグラフや表の中だけになる */
+  .grid-2>*,.kpi-grid>*,.action-grid>*,.settings-grid>*,.sv-grid>*{min-width:0}
+  .card{min-width:0}
   .chart-title{font-size:.9rem;font-weight:800}
   .chart-sub{font-size:.73rem;color:var(--muted)}
   .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
