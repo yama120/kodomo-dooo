@@ -338,12 +338,19 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
   function resizeToDataURL(file, cb){
     var img=new Image(), url=URL.createObjectURL(file);
     img.onload=function(){
-      var max=1280, w=img.width, h=img.height;
+      var max=1200, w=img.width, h=img.height;
       if(w>max){ h=Math.round(h*max/w); w=max; }
       var c=document.createElement('canvas'); c.width=w; c.height=h;
       c.getContext('2d').drawImage(img,0,0,w,h);
       URL.revokeObjectURL(url);
-      try{ cb(c.toDataURL('image/jpeg',0.85)); }
+      /* WebPが使えるならWebP（JPEGより3割前後軽い）。
+         非対応の環境は toDataURL が image/png を返すので、その時はJPEGにする。
+         ★アプリ・マイページと条件を揃えること（1200px / 品質0.82） */
+      try{
+        var d=c.toDataURL('image/webp',0.82);
+        if(d.indexOf('data:image/webp')!==0) d=c.toDataURL('image/jpeg',0.82);
+        cb(d);
+      }
       catch(e){ var r=new FileReader(); r.onload=function(ev){ cb(ev.target.result); }; r.readAsDataURL(file); }
     };
     img.onerror=function(){ URL.revokeObjectURL(url); var r=new FileReader(); r.onload=function(ev){ cb(ev.target.result); }; r.readAsDataURL(file); };
@@ -507,8 +514,10 @@ var STRIPE_LINKS={ pr:'https://buy.stripe.com/cNi00j5SJ2dK6wG66V00000', 'pr-plus
       teamId=tr.data && tr.data[0] ? tr.data[0].id : null;
       if(teamId && photos.length){
         var blob=dataURLtoBlob(photos[0].src);
-        var path=userId+'/'+teamId+'.jpg';
-        var up=await db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:'image/jpeg'});
+        /* ★ファイル名に時刻を入れること。固定名のままだと、写真を差し替えても
+           URLが同じなので1年キャッシュに古い画像が残り続ける */
+        var path=userId+'/'+teamId+'-'+Date.now()+'.'+(blob.type==='image/webp'?'webp':'jpg');
+        var up=await db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:blob.type||'image/jpeg',cacheControl:'31536000'});
         if(!up.error){ var pub=db.storage.from('team-photos').getPublicUrl(path); await db.from('teams').update({photo_url:pub.data.publicUrl}).eq('id',teamId); }
       }
     }catch(_){}

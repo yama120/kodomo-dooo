@@ -1053,19 +1053,28 @@
 
   function msgPhoto(ok,text){ msg($('mp-photo-msg'),ok,text); }
 
+  /* 長辺1200pxへ縮小して書き出す。いちばん大きく出るのは検索結果のカード
+     （全幅4:3・スマホで約343pt）で、DPR3でも1030pxあれば足りる。
+     WebPが使えるならWebP。同じ見た目でJPEGより3割前後軽い。
+     ★アプリ側（chibispo-app/src/lib/api.ts の resizeToJpeg）と条件を揃えること */
   function resizeImage(file, cb){
     var img=new Image(); var url=URL.createObjectURL(file);
     img.onload=function(){
-      var max=1280, w=img.width, h=img.height;
+      var max=1200, w=img.width, h=img.height;
       if(w>max){ h=Math.round(h*max/w); w=max; }
       var c=document.createElement('canvas'); c.width=w; c.height=h;
       c.getContext('2d').drawImage(img,0,0,w,h);
       URL.revokeObjectURL(url);
-      c.toBlob(function(b){ cb(b||file); }, 'image/jpeg', 0.85);
+      c.toBlob(function(b){
+        if(b && b.type==='image/webp'){ cb(b); return; }
+        c.toBlob(function(j){ cb(j||file); }, 'image/jpeg', 0.82);
+      }, 'image/webp', 0.82);
     };
     img.onerror=function(){ URL.revokeObjectURL(url); cb(file); };
     img.src=url;
   }
+  // blobの形式から拡張子を決める（contentTypeと必ず揃える）
+  function imgExt(b){ return (b && b.type==='image/webp') ? 'webp' : 'jpg'; }
 
   function savePhotos(cb){
     var payload={ photos:photoList.slice(), photo_url:photoList[0]||null, photo_positions:photoPos.slice() };
@@ -2000,8 +2009,8 @@
     if(file.size>5*1024*1024){ msgPhoto(false,'5MB以下の画像を選んでください。'); return; }
     photoBusy=true; msgPhoto(true,'アップロード中...');
     resizeImage(file, function(blob){
-      var path=currentUserId+'/'+team.id+'-'+Date.now()+'.jpg';
-      db.storage.from('team-photos').upload(path, blob, {upsert:true, contentType:'image/jpeg'}).then(function(res){
+      var path=currentUserId+'/'+team.id+'-'+Date.now()+'.'+imgExt(blob);
+      db.storage.from('team-photos').upload(path, blob, {upsert:true, contentType:blob.type||'image/jpeg', cacheControl:'31536000'}).then(function(res){
         if(res.error){ photoBusy=false; msgPhoto(false,'アップロードに失敗しました：'+(res.error.message||'')); return; }
         var url=db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
         photoList.push(url); photoPos.push('50% 50%');
@@ -2071,8 +2080,8 @@
     if(file.size>5*1024*1024){ msg($('mp-logo-msg'),false,'5MB以下の画像を選んでください。'); return; }
     logoBusy=true; msg($('mp-logo-msg'),true,'アップロード中...');
     resizeImage(file,function(blob){
-      var path=currentUserId+'/'+team.id+'-logo-'+Date.now()+'.jpg';
-      db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:'image/jpeg'}).then(function(res){
+      var path=currentUserId+'/'+team.id+'-logo-'+Date.now()+'.'+imgExt(blob);
+      db.storage.from('team-photos').upload(path,blob,{upsert:true,contentType:blob.type||'image/jpeg',cacheControl:'31536000'}).then(function(res){
         if(res.error){ logoBusy=false; msg($('mp-logo-msg'),false,'アップロードに失敗しました：'+(res.error.message||'')); return; }
         var url=db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
         db.from('teams').update({logo_url:url,logo_position:'50% 50%'}).eq('id',team.id).then(function(r){
