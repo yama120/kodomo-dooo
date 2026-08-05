@@ -420,16 +420,16 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
 </section><section style="margin:26px 0 0;">
   <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">愛知県の他の市区町村</h2>
   <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="/clubs/aichi/ama/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">あま市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/aichi/kariya/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">刈谷市<span style="color:#9aa3ad;font-size:11.5px;">（2）</span></a>
+    <a href="/clubs/aichi/kiyosu/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">清須市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/aichi/nagoya/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">名古屋市<span style="color:#9aa3ad;font-size:11.5px;">（8）</span></a>
+    <a href="/clubs/aichi/kasugai/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">春日井市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+    <a href="/clubs/aichi/inazawa/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">稲沢市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/aichi/obu/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">大府市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/aichi/okazaki/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">岡崎市<span style="color:#9aa3ad;font-size:11.5px;">（2）</span></a>
-    <a href="/clubs/aichi/tsushima/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">津島市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/aichi/inazawa/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">稲沢市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/aichi/kasugai/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">春日井市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/aichi/nagakute/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">長久手市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/aichi/kiyosu/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">清須市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
-    <a href="/clubs/aichi/ama/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">あま市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+    <a href="/clubs/aichi/tsushima/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">津島市<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
   </div>
 </section></div>
 
@@ -477,7 +477,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     location.href = 'club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
   });
 
-  db.from('teams').select('id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
+  db.from('teams').select('id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
     if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); if(window._srVeilOff) window._srVeilOff(); return; }
     var teams=(res.data||[]);
     if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); if(window._srVeilOff) window._srVeilOff(); return; }

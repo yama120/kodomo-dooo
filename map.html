@@ -930,7 +930,9 @@ html,body{overflow-x:hidden}
     if(window.L){ go(); } else { var w=setInterval(function(){ if(window.L){ clearInterval(w); go(); } },60); }
   }
   function loadTeams(){
-    var SB='https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at&status=eq.approved';
+    /* 地図は全ピンを出すので全件が要る。取る列は buildPin() が使う分だけ。
+       ★列を足すときは、ここが全クラブぶん流れることを意識すること（212KB→152KB） */
+    var SB='https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=id,name,sport,pref,city,address,description,photo_url,age_groups,days,fee,fee_num,girls_welcome,moods,trial,plan,plan_expires_at&status=eq.approved';
     var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
     fetch(SB,{headers:{apikey:KEY,Authorization:'Bearer '+KEY}}).then(function(r){return r.json();}).then(function(teams){
       if(!Array.isArray(teams)||!teams.length){ boot(); return; }

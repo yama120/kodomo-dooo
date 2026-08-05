@@ -46,6 +46,16 @@ const CITY = {
   "葛飾区": "katsushika", "薩摩川内市": "satsumasendai", "藤枝市": "fujieda",
   "西宮市": "nishinomiya", "豊田市": "toyota", "那覇市": "naha", "鎌倉市": "kamakura",
   "長久手市": "nagakute", "青森市": "aomori", "飯塚市": "iizuka", "高槻市": "takatsuki",
+  /* 2026-08-05追記。掲載が増えたぶんが未登録で、23地域のページが作られていなかった。
+     ★新しい市区町村のクラブが承認されると build-area-pages.mjs がここで落ちる。
+       生成が止まったら、まずこの表に追記すること */
+  "さいたま市": "saitama", "つくば市": "tsukuba", "ふじみ野市": "fujimino",
+  "佐倉市": "sakura", "北区": "kita", "八千代市": "yachiyo", "大田区": "ota",
+  "多摩市": "tama", "市川市": "ichikawa", "川越市": "kawagoe", "新宿区": "shinjuku",
+  "春日部市": "kasukabe", "杉並区": "suginami", "松戸市": "matsudo",
+  "武蔵野市": "musashino", "横浜市": "yokohama", "海老名市": "ebina",
+  "稲毛区": "inage", "立川市": "tachikawa", "練馬区": "nerima",
+  "藤沢市": "fujisawa", "足立区": "adachi", "鶴ヶ島市": "tsurugashima",
 };
 
 /* 種目。既存の sport-*.html のスラッグと合わせられるものは合わせている

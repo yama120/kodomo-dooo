@@ -231,6 +231,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/chiba/chiba/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/chiba/chiba/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -242,6 +247,26 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/funabashi/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/ichikawa/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/ichikawa/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/inage/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/inage/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -281,6 +306,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/chiba/matsudo/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/matsudo/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/sakura/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/sakura/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/chiba/shiroi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -307,6 +352,16 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/sport/volleyball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/yachiyo/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/yachiyo/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -586,6 +641,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/ibaraki/tsukuba/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/ibaraki/tsukuba/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/kagoshima/amami/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -617,6 +682,26 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/kagoshima/sport/wrestling/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/ebina/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/ebina/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/fujisawa/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/fujisawa/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -692,6 +777,16 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/kanagawa/yamato/sport/gymnastics-school/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/yokohama/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/yokohama/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -996,6 +1091,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/saitama/fujimino/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/fujimino/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/saitama/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1011,7 +1116,47 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/saitama/kasukabe/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/kasukabe/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/kawagoe/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/kawagoe/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/saitama/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/saitama/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/saitama/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/tsurugashima/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/tsurugashima/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1052,6 +1197,16 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/shizuoka/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/adachi/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/adachi/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1101,6 +1256,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/tokyo/itabashi/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/tokyo/itabashi/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -1116,6 +1276,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/tokyo/kita/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/kita/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/tokyo/minato/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1126,12 +1296,52 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/tokyo/musashino/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/musashino/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/nerima/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/nerima/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/ota/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/ota/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/tokyo/shibuya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/tokyo/shibuya/sport/cheer-dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/shinjuku/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/shinjuku/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1167,6 +1377,36 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/tokyo/sport/volleyball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/suginami/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/suginami/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/tachikawa/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/tachikawa/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/tama/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/tama/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1344,6 +1584,198 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=671efc7b-90fb-4552-8834-cddfba3b105f</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=ed64c82a-ce26-4480-9213-d1a64ce8a85a</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=3b9a3273-fdba-46b2-9f79-69da75cdfc51</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=83934720-d19e-4782-b459-1fc10f3db5bc</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=1dfa582f-8c9f-413c-932c-21f3ce4830cc</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=7fa55466-48f8-42bc-8bef-472fe0aaa646</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=dbcdccf2-7379-4702-836c-77cbc90d5b19</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=ea300e36-1b9b-4304-a8f8-aaec6722d842</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=c2c97739-2be8-4e32-8554-72d37286d22e</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=b1465129-07df-41a4-ab9d-3dd273ee9adf</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=6d6d9f9e-f8df-4383-b600-af72279f0d90</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=90a1b8c5-9f59-4ac6-9439-a68ee2a5b36d</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=fbbd0047-6de8-4f78-b331-adda8b141ea5</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=5a3c4481-45b6-4323-9923-5d9b5e080fac</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=f78040da-ccfa-4caf-8cbc-d37ae08602c8</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=a7bace3c-34fb-4377-81c1-bf4087d4214d</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=ee5a1731-5312-4805-ac22-0a12dcc626ae</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=a51e6223-b002-4a88-9753-21c625324cd3</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=fff6c245-1bc7-4ce5-9e45-439b07dc1b59</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=4f508938-0a1e-4a45-ac00-6ae10e611934</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=5917210c-cd77-4d44-aaa5-f0fa9ad0a73a</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=9fcbdb6d-909a-414e-bf12-fb8bef7c2f40</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=9ebb1359-69b9-44c2-a64e-5d6cafcaf9ab</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=a7df97de-c7e6-4c51-a4e3-5375b24757aa</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=4313a882-db41-46dc-b1ec-8d0b9fe11ca8</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=716aa394-b0be-4307-bb6a-b85ce0c6f208</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=2a1b1e8a-3eaa-45f5-a9c9-f04c3a719c83</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=ca7e5de9-273a-4a4f-a35d-e8b8ebc5590a</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=fccbea9c-e898-4197-826e-932a8de4618f</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=36b8c942-8f88-472a-8ed6-48d65b8479a2</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=c3bef7ae-dc8a-4f0a-80f6-86526604c1a9</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=7c55811c-7c67-4001-9216-bb2d5b847b30</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=0bdd9323-8a96-4f88-8f70-b606f4c9f0f3</loc>

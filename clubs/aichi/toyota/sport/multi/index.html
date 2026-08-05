@@ -463,7 +463,7 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     location.href = 'club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
   });
 
-  db.from('teams').select('id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
+  db.from('teams').select('id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
     if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); if(window._srVeilOff) window._srVeilOff(); return; }
     var teams=(res.data||[]);
     if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); if(window._srVeilOff) window._srVeilOff(); return; }

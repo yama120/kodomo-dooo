@@ -429,8 +429,8 @@ https://lin.ee/XweO3TH</div><div style="display:flex;align-items:center;gap:14px
     <div id="sr-related"><section style="margin:26px 0 0;">
   <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">京都市の他の種目</h2>
   <div style="display:flex;flex-wrap:wrap;gap:8px;">
-    <a href="/clubs/kyoto/kyoto/sport/dance/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">ダンス<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
     <a href="/clubs/kyoto/kyoto/sport/basketball/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">バスケットボール<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
+    <a href="/clubs/kyoto/kyoto/sport/dance/" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">ダンス<span style="color:#9aa3ad;font-size:11.5px;">（1）</span></a>
   </div>
 </section><section style="margin:26px 0 0;">
   <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">京都府全体でキッズ運動スクールを探す</h2>
@@ -483,7 +483,7 @@ https://lin.ee/XweO3TH</div><div style="display:flex;align-items:center;gap:14px
     location.href = 'club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
   });
 
-  db.from('teams').select('id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
+  db.from('teams').select('id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
     if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); if(window._srVeilOff) window._srVeilOff(); return; }
     var teams=(res.data||[]);
     if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); if(window._srVeilOff) window._srVeilOff(); return; }
