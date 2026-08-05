@@ -86,7 +86,7 @@
   gtag('config', 'G-5ZBBNYC37Y');
 </script>
 <!-- /GA4 -->
-<script>window.__AREA_INIT={"pref":"大阪","city":"大阪市","sport":"体育"};</script>
+<script>window.__AREA_INIT={"pref":"大阪","prefFull":"大阪府","city":"大阪市","sport":"体育"};</script>
 </head>
 <body>
 <!-- 読み込み中ベール（サンプル表示のチラつき防止。実データ描画完了で消える） -->
@@ -467,9 +467,50 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     location.href = 'club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
   });
 
-  db.from('teams').select('id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at').eq('status','approved').order('created_at',{ascending:false}).then(function(res){
+  var TEAM_COLS='id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at';
+
+  /* ★このファイルは /clubs/… の地域ページ278枚のテンプレートでもある。
+     全ページが全クラブを取ってからJSで捨てていたので、Googleが1周するだけで
+     278×160KB＝44MB流れていた。地域ページは生成時に自分の地域が決まっている
+     （window.__AREA_INIT）ので、最初からその地域ぶんだけ取る。
+     地域を指定せずに開く search.html 本体だけが従来どおり全件を取る。
+     ユーザーがサイドバーで別の地域に変えたときは loadAll() で取り直す。 */
+  var _area = window.__AREA_INIT || {};
+  function teamsQuery(){
+    var q = db.from('teams').select(TEAM_COLS).eq('status','approved');
+    /* prefFull は「神奈川県」まで入った値（生成時に付ける）。
+       表示用の _area.pref は「神奈川」なので、絞り込みにはこちらを使う。
+       ★supabase-lite に前方一致は無い。増やすと ?v= のキャッシュを跨いで
+         古いファイルが読まれ、search.html が丸ごと落ちる。eq だけで済ませる */
+    if(_area.prefFull) q = q.eq('pref', _area.prefFull);
+    if(_area.city) q = q.eq('city', _area.city);
+    return q.order('created_at',{ascending:false});
+  }
+
+  teamsQuery().then(function(res){
     if(res.error){ console.warn('[chibispo] teams読込エラー（SupabaseのRLSで anon の SELECT を許可してください）:', res.error); if(window._srVeilOff) window._srVeilOff(); return; }
     var teams=(res.data||[]);
+    /* 地域を絞って取っているあいだは true。ユーザーが範囲の外を見ようとしたら
+       一度だけ全件を取り直して false にする（それ以降は今までどおり全部クライアント側） */
+    var scoped = !!(_area.prefFull || _area.city);
+    var loadingAll = false;
+    function outOfScope(){
+      if(!scoped) return false;
+      if(_area.city) return !st.city || st.city !== _area.city || (st.pref && stripPref(st.pref)!==stripPref(_area.pref||st.pref));
+      return !st.pref || stripPref(st.pref) !== stripPref(_area.pref);
+    }
+    function loadAll(after){
+      if(!scoped || loadingAll) return false;
+      loadingAll = true;
+      db.from('teams').select(TEAM_COLS).eq('status','approved').order('created_at',{ascending:false}).then(function(r2){
+        loadingAll = false;
+        if(r2.error || !r2.data){ return; }   // 取れなければ絞り込み済みのまま（表示は消さない）
+        scoped = false; teams = r2.data;
+        refreshCities(); refreshSports();
+        if(typeof after === 'function') after();
+      });
+      return true;
+    }
     if(!teams.length){ console.info('[chibispo] 承認済みクラブが0件のため、静的サンプルを表示中'); if(window._srVeilOff) window._srVeilOff(); return; }
     // ===== 条件検索（実データを使ったライブ絞り込み）=====
     function stripPref(p){ return String(p||'').replace(/[都道府県]$/,''); }
@@ -688,6 +729,9 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
     }
 
     function apply(){
+      /* 地域ページで、その地域の外を見ようとされたら全件を取り直してからやり直す。
+         取得中は絞り込み済みのまま描いておく（完了後にもう一度ここへ来る） */
+      if(outOfScope() && loadAll(apply)) return;
       var matched=teams.filter(matchTeam); curPage=1;
       updateMapLink();
       syncUrl(matched.length);
@@ -706,6 +750,9 @@ setTimeout(function(){ if(window._srVeilOff) window._srVeilOff(); },3000);
          いきなり0件になる。「条件をゆるめて」と言われても、本人は条件を
          付けた覚えがないので、地域が原因だと分からず「クラブが無い」と
          受け取られる。地域だけが理由のときは県名を出して言い切る。 */
+      /* 0件のときの「近いクラブ」は他の地域からも出すので、
+         地域ぶんしか持っていないなら、ここで全件を取り直す */
+      if(loadAll(apply)) return;
       var prefCount = st.pref
         ? teams.filter(function(t){ return stripPref(t.pref)===stripPref(st.pref); }).length
         : -1;

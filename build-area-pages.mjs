@@ -231,7 +231,7 @@ for (const [pref, list] of byPref) {
     h1: `${pref}の子ども向けスポーツクラブ・習い事（${list.length}件）`,
     lead: leadText(list, pref, null),
     list, crumbs: [home, areaTop, { name: pref, href: url }],
-    init: { pref: stripPref(pref) },
+    init: { pref: stripPref(pref), prefFull: pref },
     related:
       linkList(`${pref}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byPrefSport.get(`${pref} ${s}`).length,
@@ -258,7 +258,7 @@ for (const [key, list] of byPrefSport) {
     lead: leadText(list, pref, sport),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: sport, href: url }],
-    init: { pref: stripPref(pref), sport },
+    init: { pref: stripPref(pref), prefFull: pref, sport },
     related:
       linkList(`${pref}で${sport}を市区町村から探す`, citiesOf(list).map((ci) => ({
         label: ci, n: (byCitySport.get(`${pref} ${ci} ${sport}`) || []).length,
@@ -289,7 +289,7 @@ for (const [key, list] of byCity) {
     lead: leadText(list, city, null),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: city, href: url }],
-    init: { pref: stripPref(pref), city },
+    init: { pref: stripPref(pref), prefFull: pref, city },
     related:
       linkList(`${city}の種目から探す`, sportsOf(list).map((s) => ({
         label: s, n: byCitySport.get(`${pref} ${city} ${s}`).length,
@@ -316,7 +316,7 @@ for (const [key, list] of byCitySport) {
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` },
       { name: city, href: `/clubs/${p}/${ci}/` }, { name: sport, href: url }],
-    init: { pref: stripPref(pref), city, sport },
+    init: { pref: stripPref(pref), prefFull: pref, city, sport },
     related:
       linkList(`${city}の他の種目`, sportsOf(byCity.get(`${pref} ${city}`)).filter((x) => x !== sport)
         .map((x) => ({
