@@ -56,6 +56,10 @@ const CITY = {
   "武蔵野市": "musashino", "横浜市": "yokohama", "海老名市": "ebina",
   "稲毛区": "inage", "立川市": "tachikawa", "練馬区": "nerima",
   "藤沢市": "fujisawa", "足立区": "adachi", "鶴ヶ島市": "tsurugashima",
+  /* 2026-08-09追記。8/4以降このワークフローが毎日失敗していた（結城市で停止）。
+     承認済み128クラブを総当たりして、未登録だった5件をまとめて追加 */
+  "結城市": "yuki", "仙台市": "sendai", "大和郡山市": "yamatokoriyama",
+  "枚方市": "hirakata", "成田市": "narita",
 };
 
 /* 種目。既存の sport-*.html のスラッグと合わせられるものは合わせている
