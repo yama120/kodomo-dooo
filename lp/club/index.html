@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>クラブの無料掲載｜チビスポ</title>
+<meta name="description" content="地域のスポーツクラブを無料で掲載できます。128クラブが掲載中。写真がなくても、文章が苦手でも大丈夫。掲載も更新も費用はかかりません。">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://chibispo.com/lp/club/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="クラブの無料掲載｜チビスポ">
+<meta property="og:description" content="地域のスポーツクラブを無料で掲載できます。写真がなくても、文章が苦手でも大丈夫。">
+<meta property="og:url" content="https://chibispo.com/lp/club/">
+<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --pink:#e8386d; --pink-d:#c92457; --navy:#1f3b5c; --ink:#26313d;
+  --muted:#6b7885; --line:#e7ecf0; --bg:#f7f9fb; --mint:#22b8a6; --amber:#ffb020;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.8;-webkit-text-size-adjust:100%}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:640px;margin:0 auto;background:#fff}
+
+/* ヒーロー */
+.hero{position:relative;background:#eef6fa;overflow:hidden}
+.hero img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:50% 32%}
+.hero-in{padding:26px 20px 24px;background:#fff}
+.eyebrow{display:inline-block;background:#fdeef3;color:var(--pink-d);font-size:12.5px;
+  font-weight:800;padding:5px 13px;border-radius:999px;margin-bottom:12px}
+h1{margin:0 0 12px;font-size:clamp(23px,6.4vw,31px);font-weight:900;line-height:1.42;color:var(--navy)}
+h1 .mk{background:linear-gradient(transparent 62%,#ffd9a3 62%)}
+.lead{margin:0;font-size:15.5px;color:#3e4c59}
+.stats{display:flex;gap:10px;margin:20px 0 0}
+.stat{flex:1;background:#f4f8fb;border:1px solid var(--line);border-radius:10px;padding:12px 6px;text-align:center}
+.stat b{display:block;font-size:clamp(21px,6vw,26px);font-weight:900;color:var(--pink);line-height:1.2}
+.stat span{font-size:11.5px;color:var(--muted);font-weight:700}
+
+/* CTAボタン */
+.cta{padding:22px 20px}
+.btn{display:block;background:var(--pink);color:#fff;text-align:center;text-decoration:none;
+  border-radius:12px;padding:19px 14px;font-size:clamp(17px,4.6vw,19px);font-weight:900;
+  box-shadow:0 4px 0 var(--pink-d);transition:.12s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-d)}
+.btn small{display:block;font-size:12px;font-weight:700;opacity:.92;margin-top:3px}
+.cta .note{margin:11px 0 0;text-align:center;font-size:12.5px;color:var(--muted)}
+
+/* セクション共通 */
+section{padding:30px 20px}
+.sec-h{text-align:center;margin:0 0 20px}
+.sec-h small{display:block;color:var(--pink);font-size:12px;font-weight:800;letter-spacing:.08em;margin-bottom:5px}
+.sec-h b{font-size:clamp(19px,5.2vw,23px);font-weight:900;color:var(--navy);line-height:1.45}
+
+/* 不安つぶし */
+.qa{background:#fff;border:1px solid var(--line);border-radius:12px;padding:17px 17px 15px;margin-bottom:12px}
+.qa h3{margin:0 0 8px;font-size:16px;font-weight:800;color:var(--navy);display:flex;gap:9px;align-items:flex-start}
+.qa h3 i{flex:none;font-style:normal;width:23px;height:23px;background:var(--navy);color:#fff;
+  border-radius:6px;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.qa p{margin:0;font-size:14.5px;color:#41505d}
+.qa .ok{color:var(--mint);font-weight:800}
+
+/* 3ステップ */
+.steps{background:#f4f8fb;padding:30px 20px}
+.step{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:12px;
+  padding:16px 16px;margin-bottom:11px;border:1px solid var(--line)}
+.step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--pink);color:#fff;
+  font-weight:900;display:flex;align-items:center;justify-content:center;font-size:16px}
+.step b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:3px}
+.step p{margin:0;font-size:14px;color:#4a5865}
+
+/* 掲載でできること */
+.feat{display:grid;gap:11px}
+.f{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+.f b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:5px}
+.f p{margin:0;font-size:14px;color:#4a5865}
+.f .tag{display:inline-block;background:#eefaf8;color:#12897b;font-size:11.5px;
+  font-weight:800;padding:3px 9px;border-radius:999px;margin-bottom:7px}
+
+/* 声（掲載クラブの実例） */
+.kinds{background:#fff;border:1px dashed #cdd9e2;border-radius:12px;padding:17px}
+.kinds p{margin:0 0 9px;font-size:14px;color:#4a5865}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
+.chips li{background:#f4f8fb;border:1px solid var(--line);border-radius:999px;
+  padding:5px 11px;font-size:12.5px;font-weight:700;color:#41505d}
+
+footer{background:var(--navy);color:#c5d4e3;padding:24px 20px 30px;text-align:center;font-size:12.5px}
+footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)}
+.fnav{margin-top:10px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <img src="../../assets/threads/top.jpg" alt="チビスポに掲載されているクラブの一覧">
+    <div class="hero-in">
+      <span class="eyebrow">クラブ掲載は無料です</span>
+      <h1>指導のじゃまを<br>せずに、<span class="mk">見つけてもらう</span>。</h1>
+      <p class="lead">
+        チラシやSNSだけだと、いま探している保護者には届きにくい。
+        チビスポは、地域と種目で探している人の目に入る場所です。
+      </p>
+      <div class="stats">
+        <div class="stat"><b>128</b><span>掲載クラブ</span></div>
+        <div class="stat"><b>24</b><span>都道府県</span></div>
+        <div class="stat"><b>29</b><span>種目</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="cta">
+    <a class="btn" href="/register.html?from=lp_club">無料でクラブを掲載する<small>費用は一切かかりません</small></a>
+    <p class="note">※掲載も更新も無料です</p>
+  </div>
+
+  <!-- 不安つぶし -->
+  <section>
+    <div class="sec-h"><small>BEFORE YOU START</small><b>よくいただく質問</b></div>
+
+    <div class="qa">
+      <h3><i>Q</i>本当に無料ですか？</h3>
+      <p><span class="ok">無料です。</span>掲載も、情報の更新も費用はかかりません。あとから請求することもありません。有料の広告メニューはありますが、こちらからお願いすることはしていません。</p>
+    </div>
+
+    <div class="qa">
+      <h3><i>Q</i>写真がないのですが</h3>
+      <p><span class="ok">なくても掲載できます。</span>種目のイラストが自動で入ります。あとから写真を追加することもできますし、どんな写真がいいか迷ったら相談してください。</p>
+    </div>
+
+    <div class="qa">
+      <h3><i>Q</i>文章を書くのが苦手です</h3>
+      <p><span class="ok">箇条書きで大丈夫です。</span>活動日、対象年齢、月謝を入れるだけで形になります。伝わりにくいところは、こちらで整えます。</p>
+    </div>
+
+    <div class="qa">
+      <h3><i>Q</i>掲載したあと、営業の連絡が来ますか？</h3>
+      <p><span class="ok">来ません。</span>掲載後にこちらから電話することはありません。連絡は、保護者からの体験申込みやメッセージが届いたときだけです。</p>
+    </div>
+
+    <div class="qa">
+      <h3><i>Q</i>更新の手間はかかりますか？</h3>
+      <p><span class="ok">放っておいても大丈夫です。</span>掲載した情報はそのまま残ります。募集状況が変わったときだけ、管理画面から直せます。</p>
+    </div>
+
+    <div class="qa">
+      <h3><i>Q</i>小さいクラブでも載せていいですか？</h3>
+      <p><span class="ok">むしろ歓迎です。</span>少人数のクラブほど「うちの子に合いそう」で選ばれています。規模も種目も問いません。</p>
+    </div>
+  </section>
+
+  <!-- 3ステップ -->
+  <div class="steps">
+    <div class="sec-h"><small>3 STEPS</small><b>掲載までの流れ</b></div>
+    <div class="step">
+      <div class="n">1</div>
+      <div><b>フォームに入力する</b><p>クラブ名・種目・地域・活動日など。分かる範囲で構いません。3分ほどで終わります。</p></div>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <div><b>こちらで確認する</b><p>内容を見て、伝わりにくいところがあれば整えます。写真の入れ方も相談できます。</p></div>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <div><b>掲載されます</b><p>地域・種目・雰囲気で探している保護者に表示されます。体験申込みもそのまま受けられます。</p></div>
+    </div>
+  </div>
+
+  <!-- 掲載でできること -->
+  <section>
+    <div class="sec-h"><small>WHAT YOU GET</small><b>掲載するとできること</b></div>
+    <div class="feat">
+      <div class="f"><span class="tag">見つけてもらう</span>
+        <b>地域 × 種目 × 雰囲気で探せる</b>
+        <p>「◯◯市 サッカー 子ども」で探している保護者に届きます。地図から探すこともできます。</p></div>
+      <div class="f"><span class="tag">伝える</span>
+        <b>写真で"らしさ"が伝わる</b>
+        <p>設備ではなく、練習の雰囲気やコーチの人柄が伝わる作りにしています。</p></div>
+      <div class="f"><span class="tag">つながる</span>
+        <b>体験申込みをそのまま受けられる</b>
+        <p>気になった保護者が、その場で申し込めます。サイト内のメッセージでやりとりもできます。</p></div>
+      <div class="f"><span class="tag">知ってもらう</span>
+        <b>理学療法士監修のマガジン</b>
+        <p>子どもの体づくりや習い事選びの記事から、クラブページに人が流れてきます。</p></div>
+    </div>
+  </section>
+
+  <!-- どんなクラブが載っているか -->
+  <section style="padding-top:0">
+    <div class="kinds">
+      <p>いま載っているクラブの種目です。メジャーな競技だけではありません。</p>
+      <ul class="chips">
+        <li>サッカー</li><li>野球</li><li>バスケットボール</li><li>バレーボール</li>
+        <li>水泳</li><li>陸上</li><li>体操</li><li>ダンス</li><li>チアダンス</li>
+        <li>空手</li><li>剣道</li><li>テコンドー</li><li>レスリング</li>
+        <li>ブラジリアン柔術</li><li>ダブルダッチ</li><li>バトントワーリング</li>
+        <li>フラッグフットボール</li><li>卓球</li><li>テニス</li>
+        <li>スポーツ鬼ごっこ</li><li>スポーツリズムトレーニング</li>
+        <li>キッズ運動スクール</li><li>マルチスポーツ</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="cta" style="padding-top:6px">
+    <a class="btn" href="/register.html?from=lp_club_bottom">無料でクラブを掲載する<small>3分で終わります</small></a>
+    <p class="note">掲載も更新も無料。営業の連絡はしません。</p>
+  </div>
+
+  <footer>
+    <div><b style="color:#fff">チビスポ</b>｜地域スポーツを、もっと身近に。</div>
+    <div class="fnav">
+      <a href="/legal.html">運営者情報</a>
+      <a href="/contact.html">お問い合わせ</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // 流入元(UTM)を申し込みフォームまで引き継ぐ
+  var cur = new URLSearchParams(location.search);
+  var keep = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  document.querySelectorAll('a[href^="/register.html"]').forEach(function(a){
+    var u = new URL(a.getAttribute('href'), location.origin);
+    keep.forEach(function(k){ if(cur.get(k)) u.searchParams.set(k, cur.get(k)); });
+    a.setAttribute('href', u.pathname + u.search);
+    a.addEventListener('click', function(){
+      if(window.gtag){ gtag('event','club_register_click',{
+        position: u.searchParams.get('from') || '', utm_source: cur.get('utm_source') || '(direct)'
+      }); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
