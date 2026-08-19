@@ -25,7 +25,7 @@ export const PREF = {
    （港区は東京・大阪・名古屋にあるが、県が違えば別パスになる） */
 export const CITY = {
   "あきる野市": "akiruno", "あま市": "ama", "京都市": "kyoto", "今治市": "imabari",
-  "伊丹市": "itami", "入間市": "iruma", "八幡市": "yawata", "八王子市": "hachioji",
+  "伊丹市": "itami", "入間市": "iruma", "岩倉市": "iwakura", "八幡市": "yawata", "八王子市": "hachioji",
   "刈谷市": "kariya", "千葉市": "chiba", "南城市": "nanjo", "南風原町": "haebaru",
   "糸満市": "itoman", "印西市": "inzai", "名古屋市": "nagoya", "名張市": "nabari",
   "堺市": "sakai", "大和市": "yamato", "大府市": "obu", "大阪市": "osaka",

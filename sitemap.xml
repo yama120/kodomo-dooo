@@ -86,6 +86,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/aichi/iwakura/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/aichi/iwakura/sport/soccer/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/aichi/kariya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -122,6 +132,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/aichi/nagakute/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/aichi/nagakute/sport/multi/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1669,6 +1684,18 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=d82b9837-d829-4725-853f-40bb18896334</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=d8a72594-e62a-49f3-a5e8-b531df2468bb</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=52b69c20-eaab-414b-90e6-88b3fb8b2322</loc>
