@@ -1311,6 +1311,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/tokyo/adachi/sport/soccer/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/tokyo/akiruno/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1684,6 +1689,12 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=cb016b1f-df71-4420-9e25-d8d3f4f277f9</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=d82b9837-d829-4725-853f-40bb18896334</loc>
