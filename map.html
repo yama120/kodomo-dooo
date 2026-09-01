@@ -594,7 +594,9 @@ html,body{overflow-x:hidden}
   function initMap(){
     var el=$('cc-leaflet'); if(!el||map||el._leaflet_id) return;
     map=L.map(el,{zoomControl:false}).setView(CENTER,14);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,crossOrigin:true,subdomains:'abcd',attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(map);
+    // 地理院タイル（淡色）：APIキー不要・商用可・日本全域。出典表示が条件
+    // ※CARTOのbasemapsはAPIキー必須になり、キー無しだとタイルに「API KEY REQUIRED」が焼き込まれる
+    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',{minZoom:5,maxZoom:20,maxNativeZoom:18,crossOrigin:true,attribution:'<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">地理院タイル</a>'}).addTo(map);
     markers=PINS.map(function(p,i){
       var mk=L.marker([p.lat,p.lng],{icon:makeIcon(p,i===state.selected),zIndexOffset:i===state.selected?200:0,riseOnHover:true}).addTo(map);
       mk.on('click',function(){select(i, true);}); // ピンは今のズーム感のまま移動

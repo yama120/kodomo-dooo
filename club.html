@@ -163,7 +163,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
 
       <button id="cd-trial-open-top" style="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#ea3b7e;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.28);" style-hover="width:100%;margin-top:14px;padding:19px 0;border:none;border-radius:40px;background:#d62d6f;color:#fff;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(234,59,126,.34);">体験申込をする（無料）</button>
 
-      <div style="display:flex;margin-top:16px;border:1px solid #e5e8ec;border-radius:12px;overflow:hidden;">
+      <div id="cd-links-hero" style="display:flex;margin-top:16px;border:1px solid #e5e8ec;border-radius:12px;overflow:hidden;">
         <a id="cd-hp" target="_blank" rel="noopener" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 0;font-size:15px;font-weight:700;color:#2b3340;text-decoration:none;cursor:pointer;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式HP</a>
         <div style="width:1px;background:#e5e8ec;"></div>
@@ -209,7 +209,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
           <div style="display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#3a4550;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.6" style="flex:0 0 19px;margin-top:1px;"><path d="M4 12l5 5 11-12"/></svg>大会出場や交流試合で実力を伸ばせる環境</div>
         </div>
         <h2 id="cd-desc-title" style="margin:0 0 12px;font-size:18px;font-weight:900;color:#2b3340;">紹介文</h2>
-        <p id="cd-desc" style="margin:0;font-size:14.5px;line-height:1.95;color:#4a5560;text-wrap:pretty;white-space:pre-wrap;">港北ジュニアバスケットボールクラブは、「楽しい！」を大切にしながら、バスケットボールの技術向上はもちろん、仲間との絆、感謝の気持ちやあきらめない心を育てることを目指しています。初心者から経験者まで、それぞれのレベルに合わせた指導を行っています。</p>
+        <p id="cd-desc" style="margin:0;font-size:14.5px;line-height:1.95;color:#4a5560;white-space:pre-wrap;overflow-wrap:anywhere;">港北ジュニアバスケットボールクラブは、「楽しい！」を大切にしながら、バスケットボールの技術向上はもちろん、仲間との絆、感謝の気持ちやあきらめない心を育てることを目指しています。初心者から経験者まで、それぞれのレベルに合わせた指導を行っています。</p>
       </div>
 
       <!-- course table -->
@@ -326,10 +326,10 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
         <button class="cd-fav-toggle" style="width:100%;margin-top:11px;padding:14px 0;border:1.5px solid #d8dde2;border-radius:40px;background:#fff;color:#374151;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
           <svg class="cd-fav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M12 21s-7-4.5-9.5-9C1 8.5 2.5 5 6 5c2 0 3 1 4 2.5C11 6 12 5 14 5c3.5 0 5 3.5 3.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="cd-fav-label" data-fav-label="suffix">お気に入りに追加</span>
         </button>
-        <div style="display:flex;flex-direction:column;gap:14px;margin-top:20px;">
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#2563eb;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式サイトを見る</a>
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#e1306c;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagramで見る</a>
-          <a style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#06c755;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINEで問い合わせる</a>
+        <div id="cd-links-cta" style="display:flex;flex-direction:column;gap:14px;margin-top:20px;">
+          <a data-link="cd-hp" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#2563eb;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>公式サイトを見る</a>
+          <a data-link="cd-ig" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#e1306c;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.2" fill="#e1306c" stroke="none"/></svg>Instagramで見る</a>
+          <a data-link="cd-line" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:700;color:#06c755;text-decoration:none;cursor:pointer;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#06c755"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.5 7.9.3 0 .8.2.9.5.1.3 0 .8 0 1.1l-.1 1c-.1.3-.2 1.2 1.1.6 1.3-.5 6.9-4 9.4-6.9C23 13.4 22 12.2 22 11c0-4.4-4.5-8-10-8z"/></svg>LINEで問い合わせる</a>
         </div>
       </div>
     </div>
@@ -615,7 +615,7 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
   var db=supabase.createClient('https://emkpkomrgknzrmxqbrvx.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
   var FALLBACK='assets/img-1401.png';
   function setText(idn,v){ var e=document.getElementById(idn); if(e&&v!=null) e.textContent=v; }
-  function linkOrHide(idn,href){ var a=document.getElementById(idn); if(!a)return; if(href){ a.setAttribute('href',href); } else { a.style.display='none'; } }
+  function linkOrHide(idn,href){ var list=document.querySelectorAll('#'+idn+',[data-link="'+idn+'"]'); for(var i=0;i<list.length;i++){ var a=list[i]; if(href){ a.setAttribute('href',href); } else { a.style.display='none'; } } }
   function sportArt(sp){
     sp=sp||'';
     function has(){ for(var i=0;i<arguments.length;i++){ if(sp.indexOf(arguments[i])>=0) return true; } return false; }
@@ -760,6 +760,20 @@ setTimeout(function(){ if(window._cdVeilOff) window._cdVeilOff(); },3000);
     linkOrHide('cd-hp', t.website_url||'');
     linkOrHide('cd-ig', t.instagram?('https://instagram.com/'+t.instagram):'');
     linkOrHide('cd-line', t.line_url||'');
+    // 表示されているリンクだけで枠を整える（空の囲み・宙に浮く区切り線を残さない）
+    ['cd-links-hero','cd-links-cta'].forEach(function(wid){
+      var w=document.getElementById(wid); if(!w) return;
+      var kids=w.children, shown=[], j;
+      for(j=0;j<kids.length;j++){
+        if(kids[j].tagName==='A'){ if(kids[j].style.display!=='none') shown.push(j); }
+        else kids[j].style.display='none';               // 区切り線はいったん全部消す
+      }
+      if(!shown.length){ w.style.display='none'; return; }
+      for(j=1;j<shown.length;j++){                        // 残ったリンクの「間」だけ線を戻す
+        var d=kids[shown[j]-1];
+        if(d && d.tagName!=='A') d.style.display='';
+      }
+    });
 
     // ギャラリー（plan=freeは1枚／有料は最大7枚。今はphoto_url 1枚。将来 photos[] があれば対応）
     var photos=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
