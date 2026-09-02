@@ -116,6 +116,8 @@ html,body{overflow-x:hidden}
   .cc-sheet-handle .cc-grabber{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:42px;height:5px;border-radius:3px;background:#cfd4da}
   .cc-sheet-label{font-size:13.5px;font-weight:700;color:#3a4452}
   .cc-sheet-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px}
+  /* CARTO/OSMの帰属表示は規約上の必須条件。畳んだシート（50px）の裏に隠さない */
+  .leaflet-bottom{bottom:52px}
   .cc-carousel{max-width:none !important;margin:6px 0 0 !important;padding:0 12px !important}
   #cc-cards-next{display:none !important}
   /* スマホ：左から出る詳細パネルを小さく */
@@ -591,12 +593,15 @@ html,body{overflow-x:hidden}
   function makeIcon(p,sel){ var sz=sel?42:32; return L.divIcon({html:iconHtml(p,sel),className:'',iconSize:[sz,sz],iconAnchor:[sz/2,sz]}); }
   function starIcon(){ return L.divIcon({html:'<div style="width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#e6197e;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px rgba(0,0,0,.32)"><svg width="19" height="19" viewBox="0 0 24 24" fill="#ffd23f" style="transform:rotate(45deg)"><path d="m12 2 2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.6 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg></div>',className:'',iconSize:[38,38],iconAnchor:[19,38]}); }
 
+  // CARTO Basemaps のキー（フロント公開前提・無料枠500万タイル/月・chibispo.com 用）
+  var CARTO_KEY='cb1_2rh9_1_cb6090ce97731703d5bb0c9b';
+
   function initMap(){
     var el=$('cc-leaflet'); if(!el||map||el._leaflet_id) return;
     map=L.map(el,{zoomControl:false}).setView(CENTER,14);
-    // 地理院タイル（淡色）：APIキー不要・商用可・日本全域。出典表示が条件
-    // ※CARTOのbasemapsはAPIキー必須になり、キー無しだとタイルに「API KEY REQUIRED」が焼き込まれる
-    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',{minZoom:5,maxZoom:20,maxNativeZoom:18,crossOrigin:true,attribution:'<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">地理院タイル</a>'}).addTo(map);
+    // CARTO Voyager：2025年にAPIキー必須化。キー無しだとタイルに「API KEY REQUIRED」が焼き込まれる
+    // CARTO と OpenStreetMap の帰属表示は規約上の必須条件。消さないこと
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+CARTO_KEY,{maxZoom:20,crossOrigin:true,subdomains:'abcd',attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'}).addTo(map);
     markers=PINS.map(function(p,i){
       var mk=L.marker([p.lat,p.lng],{icon:makeIcon(p,i===state.selected),zIndexOffset:i===state.selected?200:0,riseOnHover:true}).addTo(map);
       mk.on('click',function(){select(i, true);}); // ピンは今のズーム感のまま移動
