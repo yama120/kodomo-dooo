@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STUDIO BOUNCE｜堺市・なかもずのキッズダンススタジオ（3歳〜中学生）</title>
+<meta name="description" content="堺市北区なかもず駅徒歩4分のキッズダンススタジオ。3歳から中学生まで、HIPHOP・JAZZ・BREAKIN'・K-POPを未経験から。無料体験レッスン受付中。">
+<meta property="og:title" content="STUDIO BOUNCE｜堺のキッズダンススタジオ">
+<meta property="og:description" content="踊るたびに、好きが増えていく。3歳からはじめるキッズダンス。無料体験レッスン受付中。">
+<meta property="og:image" content="assets/px-6261908.webp">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ローディング -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__word"><span>B</span><span>O</span><span>U</span><span>N</span><span>C</span><span>E</span></div>
+  <div class="loader__sub">KIDS DANCE STUDIO — SAKAI</div>
+</div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ヘッダー -->
+<header class="header" id="header">
+  <div class="header__in">
+    <a href="#top" class="logo" aria-label="STUDIO BOUNCE トップへ"><span class="logo__mark">B</span><span class="logo__txt">STUDIO BOUNCE</span></a>
+    <nav class="nav" aria-label="メイン">
+      <a href="#about">ABOUT</a>
+      <a href="#class">CLASS</a>
+      <a href="#teacher">TEACHER</a>
+      <a href="#schedule">SCHEDULE</a>
+      <a href="#price">PRICE</a>
+      <a href="#access">ACCESS</a>
+    </nav>
+    <a href="#trial" class="btn btn--sm header__cta" data-magnet>無料体験を予約</a>
+    <button class="burger" id="burger" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- モバイルメニュー -->
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu__nav">
+    <a href="#about"><em>01</em>ABOUT<small>スタジオについて</small></a>
+    <a href="#class"><em>02</em>CLASS<small>クラス紹介</small></a>
+    <a href="#teacher"><em>03</em>TEACHER<small>講師</small></a>
+    <a href="#schedule"><em>04</em>SCHEDULE<small>時間割</small></a>
+    <a href="#price"><em>05</em>PRICE<small>料金</small></a>
+    <a href="#access"><em>06</em>ACCESS<small>アクセス</small></a>
+  </nav>
+  <a href="#trial" class="btn btn--lime btn--block">無料体験レッスンを予約する</a>
+  <div class="menu__foot">なかもず駅 徒歩4分 ／ 火〜土 15:00–21:00</div>
+</div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__bg">
+    <picture>
+      <source media="(max-width:760px)" srcset="assets/px-6261908-800.webp">
+      <img src="assets/px-6261908.webp" alt="スタジオの前でポーズをとる子どもたち" fetchpriority="high">
+    </picture>
+    <div class="hero__shade"></div>
+  </div>
+  <div class="hero__in">
+    <div class="hero__tag reveal"><span class="dot"></span>無料体験 受付中 ／ 入会金0円キャンペーンは 9/30 まで</div>
+    <h1 class="hero__title">
+      <span class="hero__line" data-split>MOVE</span>
+      <span class="hero__line" data-split>YOUR</span>
+      <span class="hero__line hero__line--accent" data-split>BEAT.</span>
+    </h1>
+    <p class="hero__copy reveal" style="--d:.9s">踊るたびに、<br class="sp">好きが増えていく。</p>
+    <p class="hero__sub reveal" style="--d:1.05s">3歳からはじめる、堺・なかもずのキッズダンススタジオ。<br>未経験でも、まずはリズムに乗るところから。</p>
+    <div class="hero__cta reveal" style="--d:1.2s">
+      <a href="#trial" class="btn btn--lime btn--lg" data-magnet>無料体験レッスンを予約する</a>
+      <a href="#class" class="btn btn--ghost btn--lg">クラスを見る</a>
+    </div>
+  </div>
+  <div class="hero__scroll" aria-hidden="true"><span></span>SCROLL</div>
+  <div class="marquee marquee--hero" aria-hidden="true">
+    <div class="marquee__track">
+      <span>HIPHOP</span><i>●</i><span>JAZZ</span><i>●</i><span>BREAKIN'</span><i>●</i><span>K-POP</span><i>●</i><span>LITTLE (3-5歳)</span><i>●</i><span>CHEER</span><i>●</i>
+      <span>HIPHOP</span><i>●</i><span>JAZZ</span><i>●</i><span>BREAKIN'</span><i>●</i><span>K-POP</span><i>●</i><span>LITTLE (3-5歳)</span><i>●</i><span>CHEER</span><i>●</i>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<div class="news">
+  <div class="wrap news__in">
+    <span class="news__label">NEWS</span>
+    <ul class="news__list">
+      <li><time>09.01</time><a href="#price">秋の入会キャンペーン：9/30まで入会金0円・体験無料</a></li>
+      <li><time>08.20</time><a href="#class">木曜18:00「K-POPキッズ」クラスを新設しました</a></li>
+      <li><time>07.15</time><a href="#movie">発表会「BOUNCE SHOWCASE 2026」ダイジェスト公開</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="sec about" id="about">
+  <div class="giant" data-giant aria-hidden="true">ABOUT</div>
+  <div class="wrap about__grid">
+    <div class="about__photos">
+      <figure class="ph ph--a" data-parallax="0.12"><img src="assets/px-7337604-800.webp" alt="レッスン中の子どもたち" loading="lazy"></figure>
+      <figure class="ph ph--b" data-parallax="-0.08"><img src="assets/px-8638862-800.webp" alt="ヘッドホンをして踊る子ども" loading="lazy"></figure>
+      <figure class="ph ph--c" data-parallax="0.05"><img src="assets/px-5149654-800.webp" alt="講師と生徒" loading="lazy"></figure>
+      <div class="about__badge" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#circ">SINCE 2016 · KIDS DANCE STUDIO · SAKAI · </textPath></text></svg><b>B</b></div>
+    </div>
+    <div class="about__body">
+      <div class="eyebrow reveal">ABOUT US</div>
+      <h2 class="h2 reveal">未経験から、<br><em>踊れる</em>ようになる</h2>
+      <p class="lead reveal">はじめは、うまく踊れなくて大丈夫です。音に合わせて体を動かしているうちに、先週できなかったステップが踊れるようになります。STUDIO BOUNCE は、堺市なかもずで2016年から続くキッズ専門のダンススタジオです。</p>
+      <ul class="feat reveal">
+        <li><span class="feat__ic">01</span><div><b>未経験からのカリキュラム</b><p>最初の3か月は「リズム・アイソレーション・基本ステップ」だけ。振付は追いかけません。</p></div></li>
+        <li><span class="feat__ic">02</span><div><b>見学はいつでもOK</b><p>待合スペースからレッスンが全部見えます。初日から保護者と離れるのが不安な子も安心。</p></div></li>
+        <li><span class="feat__ic">03</span><div><b>年1回の発表会</b><p>ホールを借りて全クラスが出演。「人前で踊れた」が1年のゴールです。</p></div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap stats reveal">
+    <div class="stat"><span class="stat__num" data-count="180">0</span><span class="stat__unit">名</span><span class="stat__label">在籍生徒</span></div>
+    <div class="stat"><span class="stat__num" data-count="8">0</span><span class="stat__unit">名</span><span class="stat__label">講師</span></div>
+    <div class="stat"><span class="stat__num" data-count="24">0</span><span class="stat__unit">クラス</span><span class="stat__label">週あたり</span></div>
+    <div class="stat"><span class="stat__num" data-count="9">0</span><span class="stat__unit">年目</span><span class="stat__label">2016年開講</span></div>
+  </div>
+</section>
+
+<!-- ============ CLASS ============ -->
+<section class="sec cls" id="class">
+  <div class="giant" data-giant aria-hidden="true">CLASS</div>
+  <div class="wrap cls__head">
+    <div>
+      <div class="eyebrow reveal">CLASS</div>
+      <h2 class="h2 reveal">年齢とレベルに合わせた、<br class="sp"><em>6つ</em>のクラス</h2>
+    </div>
+    <p class="cls__note reveal">好きなジャンルから選べます。年齢とレベルに合ったクラスをご案内しますので、どのクラスでもお気軽に無料体験してください。</p>
+  </div>
+  <div class="cls__hint" aria-hidden="true"><span>SCROLL</span><i>→</i></div>
+  <div class="cls__track" id="clsTrack">
+    <article class="card reveal" style="--d:.0s">
+      <div class="card__img"><img src="assets/px-6716659-800.webp" alt="" loading="lazy"><span class="card__age">3〜5歳</span></div>
+      <div class="card__body"><span class="card__genre">LITTLE</span><h3>リトルダンス</h3><p>音に合わせて走る・止まる・ジャンプ。45分。保護者は見学OK、最初は一緒に入っても大丈夫。</p><span class="card__meta">火・土 15:00 ／ 45分</span></div>
+    </article>
+    <article class="card reveal" style="--d:.08s">
+      <div class="card__img"><img src="assets/px-7337604-800.webp" alt="" loading="lazy"><span class="card__age">小1〜小3</span></div>
+      <div class="card__body"><span class="card__genre">HIPHOP</span><h3>キッズHIPHOP</h3><p>いちばん人数の多い、はじめての方向けのクラス。基本ステップとリズムトレーニングが中心。60分。</p><span class="card__meta">水・金 16:30 ／ 60分</span></div>
+    </article>
+    <article class="card reveal" style="--d:.16s">
+      <div class="card__img"><img src="assets/px-6224441-800.webp" alt="" loading="lazy"><span class="card__age">小4〜中学生</span></div>
+      <div class="card__body"><span class="card__genre">HIPHOP</span><h3>ジュニアHIPHOP</h3><p>振付を覚えて踊り込む。発表会ではオリジナルナンバーを担当。60分。</p><span class="card__meta">水・金 18:00 ／ 60分</span></div>
+    </article>
+    <article class="card reveal" style="--d:.24s">
+      <div class="card__img"><img src="assets/px-22691136-800.webp" alt="" loading="lazy"><span class="card__age">小3〜中学生</span></div>
+      <div class="card__body"><span class="card__genre">JAZZ</span><h3>ジャズ</h3><p>柔軟・体幹・ターンとジャンプ。姿勢がきれいになると言われるクラス。60分。</p><span class="card__meta">木 17:00 ／ 60分</span></div>
+    </article>
+    <article class="card reveal" style="--d:.32s">
+      <div class="card__img"><img src="assets/px-36624452-800.webp" alt="" loading="lazy"><span class="card__age">小2〜中学生</span></div>
+      <div class="card__body"><span class="card__genre">BREAKIN'</span><h3>ブレイキン</h3><p>フットワークからフリーズまで。マットあり。男子が多いですが女子も歓迎。60分。</p><span class="card__meta">土 16:00 ／ 60分</span></div>
+    </article>
+    <article class="card reveal" style="--d:.4s">
+      <div class="card__img"><img src="assets/px-22691130-800.webp" alt="" loading="lazy"><span class="card__age">小3〜中学生</span></div>
+      <div class="card__body"><span class="card__genre">K-POP</span><h3>K-POPキッズ<span class="new">NEW</span></h3><p>今月の1曲を1か月かけて完コピ。振付動画を持ち帰って家でも復習できます。60分。</p><span class="card__meta">木 18:00 ／ 60分</span></div>
+    </article>
+    <div class="card card--more">
+      <a href="#trial"><span>どのクラスでも</span><b>無料体験</b><i>→</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOVIE ============ -->
+<section class="movie" id="movie">
+  <div class="movie__sticky">
+    <div class="movie__frame" id="movieFrame">
+      <video id="movieVideo" src="assets/airflare.webm" poster="assets/px-36624452.webp" muted loop playsinline preload="metadata" aria-label="レッスン風景のダイジェスト動画"></video>
+      <div class="movie__label"><span class="rec"></span>SHOWCASE 2026 DIGEST ／ 0:09</div>
+      <button class="movie__sound" id="soundToggle" aria-pressed="false" aria-label="音声を切り替え">🔇</button>
+    </div>
+    <div class="movie__text">
+      <div class="eyebrow eyebrow--light">MOVIE</div>
+      <h2 class="h2 h2--light">レッスンの様子を、<br>動画でご覧ください</h2>
+      <p>発表会と普段のレッスン、両方の映像を毎月更新しています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEACHER ============ -->
+<section class="sec tch" id="teacher">
+  <div class="giant" data-giant aria-hidden="true">TEACHER</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">TEACHER</div>
+    <h2 class="h2 reveal">ジャンルごとに、<br class="sp"><em>専門</em>の講師が担当します</h2>
+    <p class="lead reveal">経験豊富な講師が、年齢とレベルに合わせて指導します。全員がキッズ指導歴3年以上。発表会の振付は担当講師がクラスごとに作ります。</p>
+    <div class="tch__grid">
+      <article class="tcard reveal" data-tilt>
+        <div class="tcard__img"><img src="assets/px-31454976-800.webp" alt="" loading="lazy"></div>
+        <div class="tcard__body"><span class="tcard__genre">HIPHOP / DIRECTOR</span><h3>MIKU</h3><p>スタジオ代表。指導歴12年。リトル・キッズHIPHOP担当。</p></div>
+        <div class="tcard__more"><p>大阪のダンスチームで活動後、2016年にBOUNCEを開講。未経験の子が最初の3か月で基本ステップを踊れるようになるカリキュラムを担当。</p></div>
+      </article>
+      <article class="tcard reveal" data-tilt style="--d:.08s">
+        <div class="tcard__img"><img src="assets/px-9176793-800.webp" alt="" loading="lazy"></div>
+        <div class="tcard__body"><span class="tcard__genre">BREAKIN'</span><h3>KENTO</h3><p>現役B-BOY。バトル出場中。ブレイキン担当。</p></div>
+        <div class="tcard__more"><p>関西のバトルシーンで活動中。倒立やフリーズは必ずマットと補助付きで段階的に進めます。ケガをしない体の使い方から教えます。</p></div>
+      </article>
+      <article class="tcard reveal" data-tilt style="--d:.16s">
+        <div class="tcard__img"><img src="assets/px-34587567-800.webp" alt="" loading="lazy"></div>
+        <div class="tcard__body"><span class="tcard__genre">JAZZ</span><h3>SAKI</h3><p>テーマパークダンサー出身。ジャズ担当。</p></div>
+        <div class="tcard__more"><p>テーマパークダンサーを経て指導へ。柔軟・体幹・姿勢を基礎から。上達した点はレッスン後に保護者へお伝えしています。</p></div>
+      </article>
+      <article class="tcard reveal" data-tilt style="--d:.24s">
+        <div class="tcard__img"><img src="assets/px-32162525-800.webp" alt="" loading="lazy"></div>
+        <div class="tcard__body"><span class="tcard__genre">K-POP / HIPHOP</span><h3>RYO</h3><p>アイドルのバックダンサー経験。K-POP・ジュニアHIPHOP担当。</p></div>
+        <div class="tcard__more"><p>ジュニアHIPHOPとK-POPキッズを担当。復習用の振付動画を毎週配信しているので、家でも練習できます。</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAFE（保護者の安心） ============ -->
+<section class="sec safe" id="safe">
+  <div class="giant" data-giant aria-hidden="true">PARENTS</div>
+  <div class="wrap">
+    <div class="eyebrow eyebrow--light reveal">FOR PARENTS</div>
+    <h2 class="h2 h2--light reveal"><em>安心</em>して通っていただくために</h2>
+    <div class="safe__grid">
+      <div class="sbox sbox--wide reveal"><b>見学・体験はいつでも</b><p>待合スペースはガラス張り。予約なしの見学もOKです。体験は1クラス無料（キャンペーン中）。</p></div>
+      <div class="sbox reveal" style="--d:.06s"><b>振替できます</b><p>お休みは月1回まで他クラスへ振替可。翌月まで持ち越せます。</p></div>
+      <div class="sbox reveal" style="--d:.12s"><b>スポーツ保険加入</b><p>全員がスポーツ安全保険に加入（年1,100円）。レッスン中・行き帰りが対象。</p></div>
+      <div class="sbox reveal" style="--d:.18s"><b>あいさつから教えます</b><p>入室のあいさつ・靴をそろえる・片づけ。ダンスの前にやること。</p></div>
+      <div class="sbox reveal" style="--d:.24s"><b>駅から徒歩4分</b><p>なかもず駅（南海・御堂筋線・泉北高速）徒歩4分。駐輪場あり。</p></div>
+      <div class="sbox sbox--wide reveal" style="--d:.3s"><b>発表会は年1回、衣装は貸出あり</b><p>参加費と衣装代は合わせて1万円台に収まるようにしています。出演は自由（毎年約9割が参加）。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section class="sec sch" id="schedule">
+  <div class="giant" data-giant aria-hidden="true">SCHEDULE</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">SCHEDULE</div>
+    <h2 class="h2 reveal">レッスン<em>スケジュール</em></h2>
+    <div class="tabs reveal" role="tablist" aria-label="曜日">
+      <button role="tab" aria-selected="true" data-day="tue">火</button>
+      <button role="tab" aria-selected="false" data-day="wed">水</button>
+      <button role="tab" aria-selected="false" data-day="thu">木</button>
+      <button role="tab" aria-selected="false" data-day="fri">金</button>
+      <button role="tab" aria-selected="false" data-day="sat">土</button>
+      <span class="tabs__ink" aria-hidden="true"></span>
+    </div>
+    <div class="sch__panel reveal" id="schPanel" role="tabpanel"></div>
+    <p class="sch__note">月・日曜は休講。祝日はカレンダーどおり開講します。2026年9月時点のスケジュールです。</p>
+  </div>
+</section>
+
+<!-- ============ PRICE ============ -->
+<section class="sec price" id="price">
+  <div class="giant" data-giant aria-hidden="true">PRICE</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">PRICE</div>
+    <h2 class="h2 reveal"><em>料金</em>のご案内</h2>
+    <p class="lead reveal">表示価格はすべて税込です。入会金・月謝のほかにかかる費用は、下の表にまとめています。</p>
+    <div class="price__grid">
+      <div class="pcard reveal">
+        <span class="pcard__tag">入会時</span>
+        <h3>入会金</h3>
+        <div class="pcard__num"><s>5,500</s><b data-count="0">0</b><small>円</small></div>
+        <p>9/30までの入会で0円。<br>スポーツ保険 年1,100円のみ別途。</p>
+      </div>
+      <div class="pcard pcard--main reveal" style="--d:.08s">
+        <span class="pcard__tag">人気No.1</span>
+        <h3>月謝｜週1回</h3>
+        <div class="pcard__num"><b data-count="7700">0</b><small>円/月</small></div>
+        <p>キッズHIPHOP・ジュニア・ジャズ・ブレイキン・K-POP。<br>月4回。5週目はお休み。</p>
+      </div>
+      <div class="pcard reveal" style="--d:.16s">
+        <span class="pcard__tag">2クラス</span>
+        <h3>月謝｜週2回</h3>
+        <div class="pcard__num"><b data-count="12100">0</b><small>円/月</small></div>
+        <p>ジャンルを2つ取る子はこちら。<br>兄弟姉妹は2人目から月謝10%オフ。</p>
+      </div>
+      <div class="pcard reveal" style="--d:.24s">
+        <span class="pcard__tag">3〜5歳</span>
+        <h3>月謝｜リトル</h3>
+        <div class="pcard__num"><b data-count="6600">0</b><small>円/月</small></div>
+        <p>45分×月4回。<br>保護者同伴OK。</p>
+      </div>
+    </div>
+    <div class="price__more reveal">
+      <div><b>体験レッスン</b><span><s>1,100円</s> → キャンペーン中 <em>無料</em></span></div>
+      <div><b>発表会（年1回・任意）</b><span>参加費8,800円 ＋ 衣装レンタル3,300円〜</span></div>
+      <div><b>用意するもの</b><span>動きやすい服・室内シューズ・飲み物。Tシャツは入会時にプレゼント</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE ============ -->
+<section class="sec voice" id="voice">
+  <div class="giant" data-giant aria-hidden="true">VOICE</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">VOICE</div>
+    <h2 class="h2 reveal">保護者の<em>声</em></h2>
+  </div>
+  <div class="voice__track">
+    <blockquote class="vcard reveal"><p>体験のとき「今日は見てるだけでいい」と言われて、逆に本人が入りたがった。半年たって、家でも鏡の前で踊ってます。</p><footer>小1女子の母 ／ キッズHIPHOP</footer></blockquote>
+    <blockquote class="vcard reveal" style="--d:.08s"><p>ブレイキンは正直ケガが心配だった。先生が「ここまでは補助付き」と段階を説明してくれたので任せられた。</p><footer>小3男子の父 ／ ブレイキン</footer></blockquote>
+    <blockquote class="vcard reveal" style="--d:.16s"><p>発表会で舞台に立った顔が忘れられない。人見知りだったのに。費用も最初に全部言ってもらえたのが安心だった。</p><footer>小5女子の母 ／ ジャズ</footer></blockquote>
+    <blockquote class="vcard reveal" style="--d:.24s"><p>3歳で始めて、最初の2か月はほぼ走り回ってるだけ。それでいいと言ってもらえたのが良かった。</p><footer>年中男子の母 ／ リトル</footer></blockquote>
+  </div>
+</section>
+
+<!-- ============ FLOW ============ -->
+<section class="sec flow" id="flow">
+  <div class="giant" data-giant aria-hidden="true">FLOW</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">FLOW</div>
+    <h2 class="h2 reveal">入会までの<em>3ステップ</em></h2>
+    <ol class="flow__list">
+      <li class="reveal"><span>01</span><b>体験を予約する</b><p>下のフォームかLINEで、希望のクラスと日程をお送りください。翌営業日までにご返信します。</p></li>
+      <li class="reveal" style="--d:.1s"><span>02</span><b>無料体験に参加する</b><p>動きやすい服と飲み物だけお持ちください。保護者の方は待合スペースから見学できます。</p></li>
+      <li class="reveal" style="--d:.2s"><span>03</span><b>入会する</b><p>その場で決めていただく必要はありません。1週間以内にLINEでお返事いただければ、体験した月から入会できます。</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec faq" id="faq">
+  <div class="giant" data-giant aria-hidden="true">QUESTION</div>
+  <div class="wrap wrap--narrow">
+    <div class="eyebrow reveal">FAQ</div>
+    <h2 class="h2 reveal">よくある<em>質問</em></h2>
+    <div class="acc reveal">
+      <details><summary>まったくの未経験でも大丈夫ですか？</summary><p>ほぼ全員が未経験から始めています。最初の3か月は振付を追わず、リズムと基本ステップだけをやります。</p></details>
+      <details><summary>人見知りで、最初は親から離れられないかもしれません。</summary><p>リトルクラスは保護者が一緒に入れます。他のクラスもガラス越しに見えるので、「見えるところにいる」だけで落ち着く子が多いです。</p></details>
+      <details><summary>男の子でも大丈夫ですか？</summary><p>在籍の約4割が男子です。ブレイキンは男子が多め、HIPHOPは半々くらいです。</p></details>
+      <details><summary>お休みしたら振替できますか？</summary><p>月1回まで、同じ月か翌月の他クラスに振替できます。LINEで前日までに連絡してください。</p></details>
+      <details><summary>発表会は必ず出ないといけませんか？</summary><p>任意です。毎年9割くらいの子が参加しています。参加費と衣装は合わせて1万円台に収めています。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS ============ -->
+<section class="sec access" id="access">
+  <div class="giant" data-giant aria-hidden="true">ACCESS</div>
+  <div class="wrap access__grid">
+    <div class="access__body">
+      <div class="eyebrow reveal">ACCESS</div>
+      <h2 class="h2 reveal">なかもず駅から、<em>徒歩4分</em></h2>
+      <dl class="access__dl reveal">
+        <dt>住所</dt><dd>〒591-0000 大阪府堺市北区中百舌鳥町0-0-0 BOUNCEビル 2F</dd>
+        <dt>アクセス</dt><dd>南海高野線・Osaka Metro御堂筋線・泉北高速「なかもず駅」徒歩4分。駐輪場あり（無料）。お車は近隣コインパーキングをご利用ください。</dd>
+        <dt>開講時間</dt><dd>火〜土 15:00–21:00（月・日 休講）</dd>
+        <dt>設備</dt><dd>スタジオ2面（鏡・リノリウム床・ブレイキン用マット）／ガラス張り待合スペース／更衣室／トイレ</dd>
+      </dl>
+      <figure class="access__photo reveal"><img src="assets/px-6713390-800.webp" alt="スタジオ内観" loading="lazy"><figcaption>スタジオA（鏡面 8m）</figcaption></figure>
+    </div>
+    <div class="access__map reveal">
+      <iframe title="地図" src="https://www.google.com/maps?q=%E3%81%AA%E3%81%8B%E3%82%82%E3%81%9A%E9%A7%85&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRIAL ============ -->
+<section class="trial" id="trial">
+  <div class="trial__bg" aria-hidden="true"><img src="assets/px-11007735.webp" alt="" loading="lazy"></div>
+  <div class="wrap trial__in">
+    <div class="trial__lead">
+      <div class="eyebrow eyebrow--light reveal">TRIAL LESSON</div>
+      <h2 class="h2 h2--light reveal">まずは<em>無料体験</em>から。<br>お待ちしています</h2>
+      <p class="reveal">無料体験はお一人1クラス。入会は体験のあとにご検討ください。<br>LINEからも気軽にご質問いただけます。</p>
+      <a href="#" class="btn btn--line reveal" data-demo="LINE友だち追加（デモ）">LINEで相談・予約する</a>
+    </div>
+    <form class="form reveal" id="trialForm" novalidate>
+      <div class="form__row">
+        <label>保護者のお名前<input type="text" name="parent" placeholder="山田 花子" required></label>
+        <label>お子さまの年齢<select name="age" required><option value="">選択</option><option>3歳</option><option>4歳</option><option>5歳</option><option>小1</option><option>小2</option><option>小3</option><option>小4</option><option>小5</option><option>小6</option><option>中学生</option></select></label>
+      </div>
+      <div class="form__row">
+        <label>体験したいクラス<select name="cls"><option>迷っている（おまかせ）</option><option>リトルダンス</option><option>キッズHIPHOP</option><option>ジュニアHIPHOP</option><option>ジャズ</option><option>ブレイキン</option><option>K-POPキッズ</option></select></label>
+        <label>希望日（第1希望）<input type="date" name="date"></label>
+      </div>
+      <label>連絡先（メール or 電話）<input type="text" name="contact" placeholder="example@mail.com" required></label>
+      <label>気になっていること（任意）<textarea name="memo" rows="3" placeholder="人見知りです／ケガが心配です　など"></textarea></label>
+      <button type="submit" class="btn btn--lime btn--lg btn--block" data-magnet>無料体験を予約する</button>
+      <p class="form__note">送信後、翌営業日までにご返信します。体験後の入会は任意です。</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <div class="footer__brand">
+      <a href="#top" class="logo logo--light"><span class="logo__mark">B</span><span class="logo__txt">STUDIO BOUNCE</span></a>
+      <p>堺・なかもずのキッズダンススタジオ<br>火〜土 15:00–21:00</p>
+      <div class="sns"><a href="#" data-demo="Instagram（デモ）">Instagram</a><a href="#" data-demo="YouTube（デモ）">YouTube</a><a href="#" data-demo="LINE（デモ）">LINE</a></div>
+    </div>
+    <nav class="footer__nav" aria-label="フッター">
+      <a href="#about">スタジオについて</a><a href="#class">クラス</a><a href="#teacher">講師</a><a href="#schedule">時間割</a><a href="#price">料金</a><a href="#access">アクセス</a><a href="#faq">よくある質問</a><a href="#trial">無料体験</a>
+    </nav>
+  </div>
+  <div class="wrap footer__bottom">
+    <p class="footer__demo">※ このサイトは <a href="https://chibispo.com/listing.html#service" target="_blank" rel="noopener">チビスポ「クラブ向けホームページ制作」</a> の制作見本です。STUDIO BOUNCE は架空のスタジオで、所在地・料金・講師・生徒の声はすべて架空です。</p>
+    <p class="footer__credit">Photos: Pexels（Pexels License）／ Video: "Airflare" by B2fr, Wikimedia Commons, CC BY-SA 4.0</p>
+    <p class="footer__copy">© 2026 STUDIO BOUNCE ／ Web: <a href="https://chibispo.com" target="_blank" rel="noopener">チビスポ</a></p>
+  </div>
+</footer>
+
+<!-- モバイル固定CTA -->
+<div class="fixbar" id="fixbar">
+  <a href="#" class="fixbar__line" data-demo="LINE（デモ）">LINE</a>
+  <a href="#trial" class="fixbar__cta">無料体験を予約する</a>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js" defer></script>
+<script src="theme-picker.js?v=2" defer data-themes='[{"id": "a", "name": "ライム", "sw": ["#0b0b0c", "#d4ff3b"]}, {"id": "b", "name": "マゼンタ", "sw": ["#0b0b0c", "#ff2d95"]}, {"id": "c", "name": "シアン", "sw": ["#0b0b0c", "#33e6ff"]}]'></script>
+
+</body>
+</html>

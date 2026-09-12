@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ひなた体操クラブ｜貝塚市・3歳〜小学生の体操教室（マット・跳び箱・鉄棒）</title>
+<meta name="description" content="大阪府貝塚市の子ども向け体操教室。3歳から小学生まで、マット・跳び箱・鉄棒を年齢別の3クラスで。1クラス8人まで、保護者は見学だけ。体験は無料です。">
+<meta property="og:title" content="ひなた体操クラブ｜3歳〜小学生の体操教室">
+<meta property="og:description" content="あそぶ。できる。好きになる。マット・跳び箱・鉄棒を年齢別の3クラスで。体験は無料です。">
+<meta property="og:image" content="assets/hero.webp">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#234d79">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23f7aa55'/%3E%3Ctext x='32' y='44' font-size='34' font-weight='700' text-anchor='middle' fill='%23234d79' font-family='sans-serif'%3Eひ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="ひなた体操クラブ トップへ"><span class="brand__mark" aria-hidden="true">ひ</span><span class="brand__name">ひなた<small>GYMNASTICS CLUB</small></span></a>
+  <nav class="nav__links" aria-label="メイン"><a href="#about">クラブについて</a><a href="#classes">クラス</a><a href="#lesson">レッスンの流れ</a><a href="#coach">コーチ</a><a href="#parents">保護者の方へ</a><a href="#price">料金</a><a href="#access">アクセス</a></nav>
+  <a href="#trial" class="nav__cta">体験レッスン</a>
+  <button class="nav__burger" id="burger" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+</header>
+<div class="menu" id="menu" aria-hidden="true"><a href="#about">クラブについて</a><a href="#classes">クラス</a><a href="#lesson">レッスンの流れ</a><a href="#coach">コーチ</a><a href="#parents">保護者の方へ</a><a href="#price">曜日と料金</a><a href="#faq">よくある質問</a><a href="#access">アクセス</a><a href="#trial" class="menu__cta">体験レッスンを予約する</a></div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <picture class="hero__bg" aria-hidden="true">
+    <source media="(max-width:760px)" srcset="assets/hero-800.webp">
+    <img src="assets/hero.webp" alt="" fetchpriority="high" width="1536" height="1024">
+  </picture>
+  <div class="hero__shade" aria-hidden="true"></div>
+  <div class="wrap hero__in">
+    <p class="hero__eyebrow reveal">こころも、からだも、のびのびと</p>
+    <h1 class="hero__title"><span class="line"><span>あそぶ。</span></span><span class="line"><span style="--d:.12s">できる。</span></span><span class="line"><span style="--d:.24s"><em>好きになる</em></span></span></h1>
+    <p class="hero__lead reveal" style="--d:.35s">はじめの一歩は、「たのしい！」から。<br class="pc">小さな挑戦を、大きな自信に育てる、まちの体操クラブです。</p>
+    <div class="hero__cta reveal" style="--d:.45s">
+      <a href="#trial" class="btn btn--main">体験レッスンを予約する</a>
+      <a href="#classes" class="btn btn--ghost">クラスを見る</a>
+    </div>
+    <ul class="hero__chips reveal" style="--d:.55s"><li>3歳〜小学生</li><li>マット・跳び箱・鉄棒</li><li>貝塚市</li></ul>
+  </div>
+  <div class="hero__note reveal" style="--d:.6s" aria-hidden="true">きょうの「できた！」が、<br>あしたの「やってみたい」に</div>
+  <button class="motion" id="motion" type="button" aria-pressed="false">動きを止める</button>
+</section>
+
+<div class="wrap news reveal"><span class="news__lab">お知らせ</span><time datetime="2026-09-01">2026.09.01</time><a href="#trial">秋の体験レッスン、受付を始めました <b>→</b></a></div>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sec-head sec-head--c">
+      <span class="tag reveal"><i>HELLO, HINATA</i>クラブについて</span>
+      <h2 class="h2 reveal">うまくできるより、<br>夢中になれること</h2>
+      <p class="about__lead reveal">とんで、まわって、ぴたっと止まって。からだを動かす楽しさは、子どもの数だけあります。<br class="pc">だれかと比べるより、その子らしい「やってみたい」を大切に。一人ひとりのペースで進めて、小さな成長をいっしょに喜びます。</p>
+    </div>
+    <div class="values">
+      <div class="value reveal"><span class="value__no">01</span><h3>はじめてに、やさしく</h3><p>緊張する日も、見ているだけの日も。慣れるところから、ゆっくりと。</p></div>
+      <div class="value reveal" style="--d:.1s"><span class="value__no">02</span><h3>小さな「できた」を大切に</h3><p>昨日より一歩。それぞれの挑戦を、先生がそばで見守ります。</p></div>
+      <div class="value reveal" style="--d:.2s"><span class="value__no">03</span><h3>からだも、こころも育つ</h3><p>順番を待つこと、応援すること。友だちとの時間も、学びです。</p></div>
+    </div>
+    <div class="nums reveal">
+      <div class="num"><b data-count="72">0</b><small>名</small><span>在籍</span></div>
+      <div class="num"><b data-count="7">0</b><small>割</small><span>はじめての習い事</span></div>
+      <div class="num"><b data-count="8">0</b><small>人</small><span>1クラスの上限</span></div>
+      <div class="num"><b data-count="2019" data-plain>0</b><small>年</small><span>から貝塚市で</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLASSES ============ -->
+<section class="classes" id="classes">
+  <div class="wrap">
+    <div class="sec-head sec-head--row">
+      <div><span class="tag reveal"><i>OUR CLASSES</i>クラス</span><h2 class="h2 reveal">小さな一歩から、<br>大きな「できた！」へ</h2></div>
+      <p class="sub reveal">年齢と経験に合わせた、3つの体操クラス。<br class="pc">はじめての子も、もっと挑戦したい子も。</p>
+    </div>
+    <div class="cards">
+      <article class="card card--peach reveal">
+        <figure class="card__photo"><img src="assets/first-step-800.webp" srcset="assets/first-step-800.webp 800w, assets/first-step.webp 1200w" sizes="(max-width:760px) 92vw, 360px" alt="先生と一緒にマットでバランス運動に取り組む幼児" loading="lazy" width="1200" height="800"><span class="card__lab">01 / FIRST STEP</span></figure>
+        <div class="card__body">
+          <span class="pill">3〜4歳</span><h3>はじめて体操</h3>
+          <p>あそびながら、体操の第一歩。マットの上で、のびのびからだづくり。</p>
+          <details><summary>クラスを詳しく見る<span>＋</span></summary><p>くま歩き、ジャンプ、バランス運動など、あそびを通して体操の基礎に親しみます。先生のまねっこから、少しずつ挑戦します。</p><dl><div><dt>曜日</dt><dd>火・木・土</dd></div><div><dt>時間</dt><dd>50分</dd></div><div><dt>月謝</dt><dd>6,600円</dd></div></dl></details>
+        </div>
+      </article>
+      <article class="card card--blue reveal" style="--d:.1s">
+        <figure class="card__photo"><img src="assets/kids-800.webp" srcset="assets/kids-800.webp 800w, assets/kids.webp 1200w" sizes="(max-width:760px) 92vw, 360px" alt="低い跳び箱で先生の補助を受けながら練習する子ども" loading="lazy" width="1200" height="800"><span class="card__lab">02 / KIDS</span></figure>
+        <div class="card__body">
+          <span class="pill">年中〜年長</span><h3>キッズ体操</h3>
+          <p>マット・跳び箱・鉄棒にチャレンジ。小さな成功を、自信につなげます。</p>
+          <details><summary>クラスを詳しく見る<span>＋</span></summary><p>前転や跳び箱の踏み切り、鉄棒のぶら下がりなどを練習。年齢だけでなく、経験や習熟度に合わせて段階的に進めます。</p><dl><div><dt>曜日</dt><dd>水・土</dd></div><div><dt>時間</dt><dd>50分</dd></div><div><dt>月謝</dt><dd>7,150円</dd></div></dl></details>
+        </div>
+      </article>
+      <article class="card card--sky reveal" style="--d:.2s">
+        <figure class="card__photo"><img src="assets/junior-800.webp" srcset="assets/junior-800.webp 800w, assets/junior.webp 1200w" sizes="(max-width:760px) 92vw, 360px" alt="青いマットで先生と体操の姿勢を練習する小学生" loading="lazy" width="1200" height="800"><span class="card__lab">03 / JUNIOR</span></figure>
+        <div class="card__body">
+          <span class="pill">小学1〜6年生</span><h3>ジュニア体操</h3>
+          <p>ひとつ先の技へ、もう一歩。挑戦する楽しさを、仲間といっしょに。</p>
+          <details><summary>クラスを詳しく見る<span>＋</span></summary><p>基礎を大切にしながら、開脚跳びや逆上がり、側転などに挑戦します。一人ひとりの目標に合わせて、先生が練習をサポートします。</p><dl><div><dt>曜日</dt><dd>火・金・土</dd></div><div><dt>時間</dt><dd>60分</dd></div><div><dt>月謝</dt><dd>8,250円</dd></div></dl></details>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSON ============ -->
+<section class="lesson" id="lesson">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag reveal"><i>LESSON</i>レッスンの流れ</span>
+      <h2 class="h2 reveal">あいさつから、<br class="sp">ふりかえりまで</h2>
+      <p class="sub reveal">50分のレッスンの流れです（キッズ体操の例）。順番が決まっていると、小さい子も安心して動けます。</p>
+    </div>
+    <ol class="flow" id="flow">
+      <li class="flow__step reveal"><span class="flow__t">0<small>分</small></span><b>あいさつ・準備体操</b><p>輪になって座り、ひとりずつ名前を言ってから、からだをほぐします。</p></li>
+      <li class="flow__step reveal" style="--d:.08s"><span class="flow__t">8<small>分</small></span><b>からだづくり</b><p>くま歩き・かえる跳び・ブリッジ。体操に必要な力とやわらかさを、あそびで。</p></li>
+      <li class="flow__step reveal" style="--d:.16s"><span class="flow__t">15<small>分</small></span><b>きょうの種目</b><p>マット・跳び箱・鉄棒から2つ。先生が横について、ひとりずつ見ます。</p></li>
+      <li class="flow__step reveal" style="--d:.24s"><span class="flow__t">40<small>分</small></span><b>チャレンジタイム</b><p>その子の「あと少し」に挑戦する時間。できた瞬間は、みんなで拍手。</p></li>
+      <li class="flow__step reveal" style="--d:.32s"><span class="flow__t">47<small>分</small></span><b>ふりかえり</b><p>今日できたことを、先生がひとりずつ言葉にして終わります。</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ COACH ============ -->
+<section class="coach" id="coach">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag reveal"><i>COACH</i>コーチ</span>
+      <h2 class="h2 reveal">3人のコーチが、<br class="sp">見ています</h2>
+      <p class="sub reveal">全員が体操の指導資格を持ち、救命講習を毎年受けています。1クラスに2人が入ります。</p>
+    </div>
+    <div class="coaches">
+      <article class="cc reveal"><figure><img src="assets/coach1.webp" alt="" loading="lazy" width="400" height="400"></figure><span class="cc__role">代表 ／ はじめて体操</span><h3>さとう先生</h3><p>体操指導歴14年。「泣いていた子が、自分から跳び箱に走っていく日」をつくるのが仕事です。</p></article>
+      <article class="cc reveal" style="--d:.1s"><figure><img src="assets/coach2.webp" alt="" loading="lazy" width="400" height="400"></figure><span class="cc__role">キッズ・ジュニア</span><h3>たなか先生</h3><p>元・体操競技選手。跳び箱と鉄棒の担当。逆上がりの「あと少し」を見つけるのが得意です。</p></article>
+      <article class="cc reveal" style="--d:.2s"><figure><img src="assets/coach3.webp" alt="" loading="lazy" width="400" height="400"></figure><span class="cc__role">ジュニア・はじめて体操</span><h3>やまもと先生</h3><p>保育士の資格も持っています。はじめての日に固まってしまった子の、隣に座る係です。</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARENTS ============ -->
+<section class="parents" id="parents">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag--w reveal"><i>FOR PARENTS</i>保護者の方へ</span>
+      <h2 class="h2 reveal">通いやすいように、<br class="sp">決めていること</h2>
+    </div>
+    <ul class="promise">
+      <li class="reveal"><i></i><b>保護者の方は見学だけ</b><p>付き添いも当番もありません。ガラス越しに見えます。買い物に行っていただいても大丈夫です。</p></li>
+      <li class="reveal" style="--d:.06s"><i></i><b>持ち物は、飲み物とタオルだけ</b><p>マット・跳び箱・鉄棒はクラブのものを使います。服は動きやすいもので、裸足か靴下で参加します。</p></li>
+      <li class="reveal" style="--d:.12s"><i></i><b>お休みは振替できます</b><p>月2回まで、他の曜日に振替できます。前日までにLINEで一言ください。</p></li>
+      <li class="reveal" style="--d:.18s"><i></i><b>泣いてしまっても大丈夫</b><p>最初の数回は、マットの端で見ているだけの子もいます。先生が隣に座ります。</p></li>
+      <li class="reveal" style="--d:.24s"><i></i><b>スポーツ保険に入っています</b><p>全員が加入（年会費に含む）。クラブの中と、行き帰りが対象です。</p></li>
+      <li class="reveal" style="--d:.3s"><i></i><b>駅から徒歩6分・駐車場あり</b><p>南海本線 貝塚駅 徒歩6分。建物の裏に10台停められます。</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE & PRICE ============ -->
+<section class="price" id="price">
+  <div class="wrap price__in">
+    <div class="price__text">
+      <span class="tag reveal"><i>SCHEDULE &amp; PRICE</i>曜日と料金</span>
+      <h2 class="h2 reveal">週1回から、<br class="sp">無理なく</h2>
+      <p class="sub reveal">表示はすべて税込です。ユニフォームや道具の購入はありません。曜日は都合に合わせて選べます。</p>
+      <table class="tbl reveal">
+        <thead><tr><th>クラス</th><th>曜日・時間</th><th>月謝</th></tr></thead>
+        <tbody>
+          <tr><th>はじめて体操<small>3〜4歳</small></th><td>火・木・土<small>50分</small></td><td>6,600円</td></tr>
+          <tr><th>キッズ体操<small>年中〜年長</small></th><td>水・土<small>50分</small></td><td>7,150円</td></tr>
+          <tr><th>ジュニア体操<small>小1〜小6</small></th><td>火・金・土<small>60分</small></td><td>8,250円</td></tr>
+        </tbody>
+      </table>
+      <dl class="plist reveal">
+        <div><dt>入会金</dt><dd>5,500円<small>兄弟姉妹は2人目から無料</small></dd></div>
+        <div><dt>年会費</dt><dd>3,300円/年<small>スポーツ保険料を含む</small></dd></div>
+        <div><dt>体験</dt><dd>無料<small>何回でも。持ち物は飲み物とタオルだけ</small></dd></div>
+      </dl>
+    </div>
+    <div class="ycard reveal" style="--d:.1s">
+      <span class="ycard__lab">初年度の合計（キッズ体操の目安）</span>
+      <div class="ycard__num"><em data-count="94600">0</em><b>円</b></div>
+      <ul class="ycard__rows"><li><span>入会金</span><b>5,500</b></li><li><span>月謝 × 12か月</span><b>85,800</b></li><li><span>年会費</span><b>3,300</b></li></ul>
+      <p class="ycard__note">2年目からは月謝と年会費のみ。途中でやめるときの違約金はありません。開講時刻と空き状況は、体験のときにお伝えします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE ============ -->
+<section class="voice" id="voice">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag reveal"><i>VOICE</i>保護者の声</span>
+      <h2 class="h2 reveal">通っている家庭から</h2>
+    </div>
+    <div class="voices">
+      <div class="vc reveal"><p>最初の3回は、マットの端に座っているだけでした。先生が隣にいてくれて、4回目に自分から跳び箱に走っていきました。あの日の顔は忘れません。</p><span>年中男子の母</span></div>
+      <div class="vc reveal" style="--d:.1s"><p>逆上がりが1年かかりました。できた日に、先生が動画を撮ってLINEで送ってくれました。本人はいま、側転を練習中です。</p><span>小2女子の父</span></div>
+      <div class="vc reveal" style="--d:.2s"><p>持ち物が飲み物とタオルだけなのが助かります。仕事帰りにそのまま送って、ガラス越しに見て、迎えて帰る。それだけです。</p><span>年長女子の母</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap wrap--narrow">
+    <div class="sec-head"><span class="tag reveal"><i>Q&amp;A</i>よくある質問</span><h2 class="h2 reveal">はじめての、気になること</h2></div>
+    <div class="qa">
+      <details class="reveal"><summary>運動が苦手な子でも大丈夫ですか？</summary><p>大丈夫です。在籍の7割がここがはじめての習い事で、「運動が得意」で入る子のほうが少ないです。できたことをその場で言葉にするので、苦手な子ほど変わります。</p></details>
+      <details class="reveal" style="--d:.05s"><summary>3歳でも参加できますか？</summary><p>できます。はじめて体操（3〜4歳）は、先生2人で6人までにしています。最初は保護者の方と一緒に入っていただいても構いません。</p></details>
+      <details class="reveal" style="--d:.1s"><summary>保護者は見学できますか？</summary><p>いつでもできます。レッスン室はガラス張りで、待合いのベンチから見えます。席を外していただいても大丈夫です。</p></details>
+      <details class="reveal" style="--d:.15s"><summary>体験には何を持っていけばいいですか？</summary><p>動きやすい服装と、飲み物、タオルだけです。長い髪は結んでください。裸足か靴下で参加します。</p></details>
+      <details class="reveal" style="--d:.2s"><summary>お休みした場合、振替できますか？</summary><p>月2回まで、同じクラスの他の曜日に振替できます。前日までにLINEで連絡してください。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS ============ -->
+<section class="access" id="access">
+  <div class="wrap access__in">
+    <div>
+      <span class="tag reveal"><i>ACCESS</i>アクセス</span>
+      <h2 class="h2 reveal">駅から歩いて、<br class="sp">6分</h2>
+      <p class="sub reveal">雨の日も室内なので、レッスンはいつも通りです。</p>
+    </div>
+    <dl class="acc reveal">
+      <div><dt>住所</dt><dd>〒597-0000 大阪府貝塚市◯◯町0-0<br>ひなたスポーツスタジオ 2F</dd></div>
+      <div><dt>電車</dt><dd>南海本線 貝塚駅 東口から徒歩6分</dd></div>
+      <div><dt>車</dt><dd>建物の裏に駐車場10台。自転車置き場もあります</dd></div>
+      <div><dt>電話</dt><dd><a href="#" data-demo="電話（デモ）">072-000-0000</a><small>受付 火〜土 10:00〜18:00</small></dd></div>
+      <div><dt>地図</dt><dd><a href="#" data-demo="地図（デモ）">Googleマップで開く →</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ TRIAL ============ -->
+<section class="trial" id="trial">
+  <div class="wrap trial__in">
+    <div class="trial__text">
+      <span class="tag tag--w reveal"><i>TRIAL</i>体験レッスン</span>
+      <h2 class="h2 reveal">「ちょっとやってみたい」<br>その気持ちを、ひなたで</h2>
+      <p class="reveal">体験は何回でも無料です。持ち物は飲み物とタオルだけ。保護者の方はガラス越しに見ていてください。泣いてしまっても、途中で帰っても大丈夫です。</p>
+      <ol class="trial__steps reveal"><li>予約</li><li>見学と、先生にごあいさつ</li><li>レッスンに参加</li><li>ご相談（入会は任意）</li></ol>
+      <a href="#" class="btn btn--line reveal" data-demo="LINE友だち追加（デモ）">LINEで相談・予約する</a>
+    </div>
+    <form class="tform reveal" id="trialForm" novalidate style="--d:.1s">
+      <label>保護者のお名前<input type="text" name="parent" placeholder="山田 花子" required></label>
+      <label>お子さまの年齢・学年<select name="grade" required><option value="">選択</option><option>3歳</option><option>4歳</option><option>年中</option><option>年長</option><option>小1</option><option>小2</option><option>小3</option><option>小4</option><option>小5</option><option>小6</option></select></label>
+      <label>希望の曜日<select name="day"><option>火曜</option><option>水曜</option><option>木曜</option><option>金曜</option><option>土曜</option><option>相談したい</option></select></label>
+      <label>連絡先（メール or 電話）<input type="text" name="contact" placeholder="example@mail.com" required></label>
+      <label>気になっていること（任意）<input type="text" name="memo" placeholder="人見知りです／運動が苦手です　など"></label>
+      <button type="submit" class="btn btn--main btn--block">体験レッスンを予約する</button>
+      <p class="tform__note">翌営業日までにご返信します。体験後の入会は任意です。</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <div>
+      <a href="#top" class="brand brand--f"><span class="brand__mark" aria-hidden="true">ひ</span><span class="brand__name">ひなた<small>GYMNASTICS CLUB</small></span></a>
+      <p class="footer__tag">あそぶ。できる。好きになる。</p>
+      <p class="footer__addr">〒597-0000 大阪府貝塚市◯◯町0-0 ひなたスポーツスタジオ 2F（南海本線 貝塚駅 徒歩6分・駐車場10台）<br>火・水・木・金・土</p>
+      <div class="footer__sns"><a href="#" data-demo="Instagram（デモ）">Instagram</a><a href="#" data-demo="LINE（デモ）">LINE</a></div>
+    </div>
+    <nav class="footer__nav" aria-label="フッター"><a href="#about">クラブについて</a><a href="#classes">クラス</a><a href="#lesson">レッスンの流れ</a><a href="#coach">コーチ</a><a href="#parents">保護者の方へ</a><a href="#price">曜日と料金</a><a href="#faq">よくある質問</a><a href="#access">アクセス</a><a href="#trial">体験レッスン</a></nav>
+  </div>
+  <div class="wrap footer__bottom">
+    <p class="footer__demo">※ このサイトは <a href="https://chibispo.com/listing.html#service" target="_blank" rel="noopener">チビスポ「クラブ向けホームページ制作」</a> の制作見本（デザイン03 あたたかい）です。ひなた体操クラブは架空のクラブで、所在地・料金・コーチ・保護者の声はすべて架空です。写真はAI生成のイメージです。</p>
+    <p>© 2026 ひなた体操クラブ ／ Web: <a href="https://chibispo.com" target="_blank" rel="noopener">チビスポ</a></p>
+  </div>
+</footer>
+
+<div class="fixbar" id="fixbar"><a href="#" class="fixbar__line" data-demo="LINE（デモ）">LINE</a><a href="#trial" class="fixbar__cta">体験レッスンを予約する</a></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js" defer></script>
+<script src="theme-picker.js?v=2" defer data-themes='[{"id": "a", "name": "テラコッタ", "sw": ["#234d79", "#cf582a"]}, {"id": "b", "name": "マスタード", "sw": ["#1f5a4a", "#d9a441"]}, {"id": "c", "name": "コーラル", "sw": ["#4b2a52", "#e26a5a"]}]'></script>
+
+</body>
+</html>

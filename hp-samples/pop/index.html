@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POP! KIDS STUDIO｜和泉市・チア・新体操・バトン・キッズダンスのキッズスタジオ</title>
+<meta name="description" content="大阪府和泉市のキッズスタジオ。チア・新体操・バトン・キッズダンスの4スタイルから選べます。4歳から小学生まで、1クラス10人まで。発表会は年1回で参加は自由。体験は無料です。">
+<meta property="og:title" content="POP! KIDS STUDIO｜好きって、最強">
+<meta property="og:description" content="チア・新体操・バトン・キッズダンス。4歳から小学生までのキッズスタジオ。体験は無料です。">
+<meta property="og:image" content="assets/hero.webp">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff83b8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ff83b8'/%3E%3Ctext x='32' y='46' font-size='38' font-weight='900' text-anchor='middle' fill='%23282044' font-family='Arial Black,sans-serif'%3EP!%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="POP! KIDS STUDIO トップへ">POP!<small>KIDS STUDIO</small></a>
+  <nav class="nav__links" aria-label="メイン"><a href="#about">わたしたちについて</a><a href="#classes">クラス</a><a href="#lesson">レッスン</a><a href="#stage">発表会</a><a href="#teachers">先生</a><a href="#parents">保護者の方へ</a><a href="#guide">料金</a><a href="#access">アクセス</a></nav>
+  <a href="#trial" class="btn btn--pink nav__cta">体験してみる <span>↗</span></a>
+  <button class="nav__burger" id="burger" aria-label="メニュー" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+</header>
+<div class="menu" id="menu" aria-hidden="true"><a href="#about">わたしたちについて</a><a href="#classes">クラスを見つける</a><a href="#lesson">レッスンの流れ</a><a href="#stage">発表会</a><a href="#teachers">先生</a><a href="#parents">保護者の方へ</a><a href="#guide">曜日と料金</a><a href="#voice">保護者の声</a><a href="#faq">よくある質問</a><a href="#access">アクセス</a><a href="#trial" class="menu__cta">無料体験を予約する</a></div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__type">
+    <p class="kicker hero__kicker">DANCE. CHEER. EXPRESS YOURSELF.</p>
+    <h1 class="hero__h1"><span class="hero__l1"><i>好</i><i>き</i><i>っ</i><i>て</i><i>、</i></span><span class="hero__l2"><i>最</i><i>強</i></span></h1>
+    <p class="hero__msg">はじける笑顔。夢中のじかん。<br>わたしだけの「好き」を、ここで見つけよう。</p>
+    <div class="hero__cta">
+      <a class="btn btn--yellow" href="#trial">無料体験を予約する <span>↗</span></a>
+      <a class="btn btn--ghost" href="#classes">クラスを見つける</a>
+    </div>
+    <span class="hero__tiny">4 STYLES. 4歳〜小学生. 和泉市</span>
+  </div>
+  <div class="hero__photo">
+    <picture>
+      <source media="(max-width:760px)" srcset="assets/hero-800.webp">
+      <img src="assets/hero.webp" alt="カラフルなポンポンを持ってチアを楽しむ子どもたち" fetchpriority="high" width="1440" height="1080">
+    </picture>
+    <div class="sticker">LET’S<br><b>POP!</b></div>
+    <div class="hero__caption">きょうの一歩が、きらめきになる</div>
+  </div>
+  <button class="motion" id="motion" type="button" aria-pressed="false">動きを止める</button>
+</section>
+
+<div class="ticker-wrap" aria-hidden="true"><div class="ticker"><div class="ticker__t"><span>MOVE YOUR BODY. BE YOURSELF.</span><i>✳</i><span>CHEER</span><i>✳</i><span>RHYTHMIC</span><i>✳</i><span>BATON</span><i>✳</i><span>KIDS DANCE</span><i>✳</i><span>MOVE YOUR BODY. BE YOURSELF.</span><i>✳</i><span>CHEER</span><i>✳</i><span>RHYTHMIC</span><i>✳</i><span>BATON</span><i>✳</i><span>KIDS DANCE</span><i>✳</i></div></div></div>
+
+<!-- ============ FACTS ============ -->
+<section class="facts">
+  <div class="wrap facts__in">
+    <div class="fact reveal"><b data-count="4" data-plain>0</b><span>つのスタイルから選べます</span></div>
+    <div class="fact reveal" style="--d:.08s"><b data-count="10" data-plain>0</b><span>人までの少人数クラス</span></div>
+    <div class="fact reveal" style="--d:.16s"><b data-count="1" data-plain>0</b><span>年に一度の発表会（出る出ないは自由）</span></div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap">
+    <p class="label reveal">01 — OUR VIBE</p>
+    <div class="about__grid">
+      <h2 class="h2 reveal">じょうず、よりも<br><mark>「やってみたい！」</mark></h2>
+      <div class="about__text reveal">
+        <p>音が鳴ったら、からだが動く。リボンが舞ったら、こころも弾む。</p>
+        <p>POP!は、2020年に和泉市ではじめた子どものためのスタジオです。チア・新体操・バトン・キッズダンスの4つから、気になるものを選べます。はじめてのドキドキも、できたときのうれしさも、先生と仲間でひとつずつ分かち合います。</p>
+        <p class="about__last">だれかのまねから、<strong>自分だけの表現へ</strong></p>
+      </div>
+    </div>
+    <div class="principles">
+      <div class="reveal"><b>TRY!</b><h3>はじめて、大歓迎</h3><p>リズムに乗るところから。経験がなくても大丈夫。</p></div>
+      <div class="reveal" style="--d:.1s"><b>SMILE!</b><h3>その子のペースで</h3><p>小さな「できた」を見つけて、いっしょに喜びます。</p></div>
+      <div class="reveal" style="--d:.2s"><b>SHINE!</b><h3>仲間と、もっと楽しく</h3><p>応援し合える仲間と、自分を表現する楽しさを。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLASSES ============ -->
+<section class="classes" id="classes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label reveal">02 — FIND YOUR STYLE</p><h2 class="h2 reveal">どの「好き」で、<br>はじけよう？</h2></div>
+      <p class="sub reveal">気になるスタイルを、タップ。ぴったりの一歩を見つけよう。</p>
+    </div>
+    <div class="cards">
+      <article class="card card--pink reveal">
+        <figure class="card__ph"><img src="assets/cheer-800.webp" srcset="assets/cheer-800.webp 800w, assets/cheer.webp 1536w" sizes="(max-width:760px) 92vw, 560px" alt="ポンポンを使うチアクラスの練習風景" loading="lazy" width="1536" height="1024"><span class="no">01</span></figure>
+        <div class="card__b">
+          <p class="card__age">4歳〜小学生・50分</p>
+          <h3>CHEER<span>チア</span></h3>
+          <p>笑顔も、元気も、みんなに届け。ポンポンを持ったら、主役はあなた！</p>
+          <details><summary>クラスを詳しく<b>＋</b></summary><p>基本のアームモーション、ステップ、リズム練習からスタート。仲間と動きを合わせ、応援する楽しさを学びます。はじめてクラスではリフトなどの組み技は行いません。</p><dl><div><dt>曜日</dt><dd>火・土</dd></div><div><dt>月謝</dt><dd>7,150円</dd></div></dl></details>
+        </div>
+      </article>
+      <article class="card card--lav reveal" style="--d:.1s">
+        <figure class="card__ph"><img src="assets/ribbon-800.webp" srcset="assets/ribbon-800.webp 800w, assets/ribbon.webp 1536w" sizes="(max-width:760px) 92vw, 560px" alt="リボンを使って新体操を練習する子ども" loading="lazy" width="1536" height="1024"><span class="no">02</span></figure>
+        <div class="card__b">
+          <p class="card__age">4歳〜小学生・50分</p>
+          <h3>RHYTHMIC<span>新体操</span></h3>
+          <p>リボンで描く、わたしだけの世界。しなやかに、のびやかに、音楽といっしょに。</p>
+          <details><summary>クラスを詳しく<b>＋</b></summary><p>基本姿勢や柔軟運動、リズムに合わせた動きを練習。リボンやフープに親しみながら、自分らしく表現する楽しさを育てます。</p><dl><div><dt>曜日</dt><dd>水・土</dd></div><div><dt>月謝</dt><dd>7,700円</dd></div></dl></details>
+        </div>
+      </article>
+      <article class="card card--lemon reveal" style="--d:.2s">
+        <figure class="card__ph"><img src="assets/baton-800.webp" srcset="assets/baton-800.webp 800w, assets/baton.webp 1536w" sizes="(max-width:760px) 92vw, 560px" alt="バトンを手に基本姿勢を練習する子どもたち" loading="lazy" width="1536" height="1024"><span class="no">03</span></figure>
+        <div class="card__b">
+          <p class="card__age">年長〜小学生・50分</p>
+          <h3>BATON<span>バトン</span></h3>
+          <p>くるりと回る、小さなきらめき。指先から生まれる「できた！」を楽しもう。</p>
+          <details><summary>クラスを詳しく<b>＋</b></summary><p>バトンの持ち方や基本の回し方を、一つずつ、ゆっくり。音楽に合わせたステップと組み合わせて、表現の幅を広げます。</p><dl><div><dt>曜日</dt><dd>木・土</dd></div><div><dt>月謝</dt><dd>6,600円</dd></div></dl></details>
+        </div>
+      </article>
+      <article class="card card--mint reveal" style="--d:.3s">
+        <figure class="card__ph"><img src="assets/dance-800.webp" srcset="assets/dance-800.webp 800w, assets/dance.webp 1536w" sizes="(max-width:760px) 92vw, 560px" alt="カラフルな服でダンスのステップを楽しむ子どもたち" loading="lazy" width="1536" height="1024"><span class="no">04</span></figure>
+        <div class="card__b">
+          <p class="card__age">4歳〜小学生・50分</p>
+          <h3>KIDS DANCE<span>キッズダンス</span></h3>
+          <p>好きなビートで、思いきり自由に。きみらしい動きが、いちばんかっこいい。</p>
+          <details><summary>クラスを詳しく<b>＋</b></summary><p>リズムあそび、からだの使い方、基本ステップから。ヒップホップを中心に、音楽に合わせて踊る楽しさを体験します。</p><dl><div><dt>曜日</dt><dd>金・土</dd></div><div><dt>月謝</dt><dd>7,150円</dd></div></dl></details>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSON ============ -->
+<section class="lesson" id="lesson">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label reveal">03 — 50 MINUTES</p><h2 class="h2 reveal">あいさつから、<br class="sp">ふりかえりまで</h2></div>
+      <p class="sub reveal">50分のレッスンの流れです（チアクラスの例）。毎回ほぼ同じ順番なので、小さい子も先が分かって動けます。</p>
+    </div>
+    <ol class="flow" id="flow">
+      <li class="flow__s reveal"><span class="flow__t">0<small>分</small></span><b>あいさつ</b><p>輪になって、ひとりずつ名前とポーズ。</p></li>
+      <li class="flow__s reveal" style="--d:.08s"><span class="flow__t">5<small>分</small></span><b>ウォームアップ</b><p>音楽に合わせてジャンプとストレッチ。</p></li>
+      <li class="flow__s reveal" style="--d:.16s"><span class="flow__t">15<small>分</small></span><b>きょうの動き</b><p>アームモーションとステップを、ひとつずつ。</p></li>
+      <li class="flow__s reveal" style="--d:.24s"><span class="flow__t">32<small>分</small></span><b>みんなで通す</b><p>曲に合わせて、最初から最後まで踊ります。</p></li>
+      <li class="flow__s reveal" style="--d:.32s"><span class="flow__t">45<small>分</small></span><b>ふりかえり</b><p>今日できたことを、先生がひとりずつ言葉にして終わります。</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ STAGE ============ -->
+<section class="stage" id="stage">
+  <div class="wrap">
+    <div class="sec-head sec-head--c">
+      <p class="label reveal">04 — SHOWTIME</p>
+      <h2 class="h2 reveal">めざすのは、<br class="sp">年に一度の発表会</h2>
+      <p class="sub reveal">次は2027年3月、和泉市のホール。出る・出ないは、その年ごとに選べます。出ない年も、レッスンの内容は変わりません。</p>
+    </div>
+  </div>
+  <div class="gal" aria-hidden="true"><div class="gal__t">
+    <figure><img src="assets/cheer-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/ribbon-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/baton-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/dance-800.webp" alt="" loading="lazy"></figure>
+    <figure><img src="assets/cheer-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/ribbon-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/baton-800.webp" alt="" loading="lazy"></figure><figure><img src="assets/dance-800.webp" alt="" loading="lazy"></figure>
+  </div></div>
+  <div class="wrap">
+    <dl class="cost">
+      <div class="reveal"><dt>参加費</dt><dd>16,500円<small>会場費・照明・写真代を含みます</small></dd></div>
+      <div class="reveal" style="--d:.08s"><dt>衣装代</dt><dd>6,000〜12,000円<small>1着あたりの目安。クラスで着る数が変わります</small></dd></div>
+      <div class="reveal" style="--d:.16s"><dt>出ない場合</dt><dd>0円<small>月謝だけです。レッスンはいつも通り受けられます</small></dd></div>
+    </dl>
+    <p class="stage__note reveal">※ 金額は2026年の実績をもとにした目安です。決まりしだい、半年前にお知らせします。</p>
+  </div>
+</section>
+
+<!-- ============ TEACHERS ============ -->
+<section class="teachers" id="teachers">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label reveal">05 — TEACHERS</p><h2 class="h2 reveal">先生は2人と、<br class="sp">アシスタント2人</h2></div>
+      <p class="sub reveal">全員が指導歴8年以上で、毎年、救命講習を受けています。1クラスに大人が2人入ります。</p>
+    </div>
+    <div class="tc tc--2">
+      <article class="tcard reveal"><figure><img src="assets/coach1.webp" alt="" loading="lazy" width="560" height="560"></figure><div><span class="tcard__role">主宰 ／ チア・バトン</span><h3>まつもと先生</h3><p>チアの全国大会に8年出ていました。「最初の1回目は、見ているだけでいい」が口ぐせです。</p></div></article>
+      <article class="tcard reveal" style="--d:.1s"><figure><img src="assets/coach2.webp" alt="" loading="lazy" width="560" height="560"></figure><div><span class="tcard__role">新体操・バトン</span><h3>いのうえ先生</h3><p>新体操の選手歴12年。バトンもリボンも、うまく回らない日は、何度でも隣に立ちます。</p></div></article>
+    </div>
+    <p class="tc__note reveal">ほかに、スタジオの卒業生のアシスタントが2人。小さい子の着替えと、はじめての日の付き添いを担当します。</p>
+  </div>
+</section>
+
+<!-- ============ PARENTS ============ -->
+<section class="parents" id="parents">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="label reveal">06 — FOR PARENTS</p><h2 class="h2 reveal">通いやすいように、<br class="sp">決めていること</h2></div>
+    </div>
+    <ul class="promise">
+      <li class="reveal"><i>✓</i><b>当番はありません</b><p>発表会の日のお手伝いも、できる方だけで回しています。</p></li>
+      <li class="reveal" style="--d:.06s"><i>✓</i><b>見学はいつでもできます</b><p>スタジオの後ろに椅子があります。送って、そのまま帰っていただいても大丈夫です。</p></li>
+      <li class="reveal" style="--d:.12s"><i>✓</i><b>道具は貸します</b><p>ポンポン・リボン・バトンはスタジオのものを使います。買うのは続けると決めてからで十分です。</p></li>
+      <li class="reveal" style="--d:.18s"><i>✓</i><b>お休みは振替できます</b><p>月2回まで、他の曜日に振替できます。前日までにLINEで一言ください。</p></li>
+      <li class="reveal" style="--d:.24s"><i>✓</i><b>費用は先にお伝えします</b><p>発表会の参加費と衣装代の目安は、半年前にお知らせします。追加のお願いはしません。</p></li>
+      <li class="reveal" style="--d:.3s"><i>✓</i><b>スポーツ保険に入っています</b><p>全員が加入（年会費に含む）。スタジオの中と、行き帰りが対象です。</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ GUIDE / PRICE ============ -->
+<section class="guide" id="guide">
+  <div class="wrap guide__in">
+    <div class="guide__text">
+      <p class="label reveal">07 — LESSON GUIDE</p>
+      <h2 class="h2 reveal">週1回から、<br class="sp">自分のペースで</h2>
+      <p class="sub reveal">表示はすべて税込です。曜日は都合に合わせて選べます。</p>
+      <div class="table-wrap reveal">
+        <table class="tbl">
+          <thead><tr><th>クラス</th><th>曜日</th><th>時間</th><th>月謝</th></tr></thead>
+          <tbody>
+            <tr><th><i class="dot dot--pink"></i>チア</th><td>火・土</td><td>50分</td><td>7,150円</td></tr>
+            <tr><th><i class="dot dot--lav"></i>新体操</th><td>水・土</td><td>50分</td><td>7,700円</td></tr>
+            <tr><th><i class="dot dot--lemon"></i>バトン</th><td>木・土</td><td>50分</td><td>6,600円</td></tr>
+            <tr><th><i class="dot dot--mint"></i>キッズダンス</th><td>金・土</td><td>50分</td><td>7,150円</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <dl class="plist reveal">
+        <div><dt>入会金</dt><dd>5,500円<small>兄弟姉妹は2人目から無料</small></dd></div>
+        <div><dt>年会費</dt><dd>3,300円/年<small>スポーツ保険料を含む</small></dd></div>
+        <div><dt>2つ目のスタイル</dt><dd>＋3,300円/月<small>2つのクラスに通う場合</small></dd></div>
+        <div><dt>体験</dt><dd>無料<small>何回でも。動きやすい服と飲み物だけ</small></dd></div>
+      </dl>
+    </div>
+    <div class="ycard reveal" style="--d:.1s">
+      <span class="ycard__lab">初年度の合計（チア・発表会に出ない年）</span>
+      <div class="ycard__num"><em data-count="94600">0</em><b>円</b></div>
+      <ul class="ycard__rows"><li><span>入会金</span><b>5,500</b></li><li><span>月謝 × 12か月</span><b>85,800</b></li><li><span>年会費</span><b>3,300</b></li></ul>
+      <p class="ycard__note">発表会に出る年は、参加費と衣装代が加わります。やめるときの違約金はありません。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE ============ -->
+<section class="voice" id="voice">
+  <div class="wrap">
+    <div class="sec-head sec-head--c"><p class="label reveal">08 — VOICES</p><h2 class="h2 reveal">通っている家庭から</h2></div>
+    <div class="voices">
+      <div class="vc reveal"><p>4歳で入って、最初の月はずっと壁ぎわに座っていました。先生が毎回となりに来てくれて、いまは一番前で踊っています。</p><span>年中女子の母</span></div>
+      <div class="vc reveal" style="--d:.1s"><p>発表会の費用を、入る前に紙で見せてもらえたのが大きかったです。あとから追加のお願いが来たことは一度もありません。</p><span>小2女子の父</span></div>
+      <div class="vc reveal" style="--d:.2s"><p>当番がないので、下の子を連れて送迎できています。うしろの椅子で待つ日もあれば、買い物に出る日もあります。</p><span>小4男子の母</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap faq__in">
+    <div><p class="label reveal">09 — Q &amp; A</p><h2 class="h2 reveal">はじめのドキドキ、<br>ここで解決</h2></div>
+    <div class="qa">
+      <details class="reveal"><summary>ダンスや運動の経験がなくても大丈夫？<b>＋</b></summary><p>大丈夫です。入ってくる子のほとんどが、はじめての習い事です。最初は見ながら、少しずつ参加しても構いません。</p></details>
+      <details class="reveal" style="--d:.05s"><summary>男の子も参加できますか？<b>＋</b></summary><p>すべてのクラスで参加できます。キッズダンスに数人、バトンにも在籍しています。</p></details>
+      <details class="reveal" style="--d:.1s"><summary>体験には何を持っていけばいい？<b>＋</b></summary><p>動きやすい服装と飲み物だけです。ポンポン・リボン・バトンは貸し出します。</p></details>
+      <details class="reveal" style="--d:.15s"><summary>発表会には必ず出ないといけませんか？<b>＋</b></summary><p>その年ごとに選べます。出ない年も、レッスンの内容と月謝は変わりません。</p></details>
+      <details class="reveal" style="--d:.2s"><summary>2つのスタイルを習えますか？<b>＋</b></summary><p>習えます。2つ目は月3,300円です。チアと新体操、バトンとダンスの組み合わせが多いです。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS ============ -->
+<section class="access" id="access">
+  <div class="wrap access__in">
+    <div><p class="label reveal">10 — ACCESS</p><h2 class="h2 reveal">駅から歩いて5分</h2><p class="sub reveal">スタジオは2階です。1階に自転車を停められます。</p></div>
+    <dl class="acc reveal">
+      <div><dt>住所</dt><dd>〒594-0000 大阪府和泉市◯◯町0-0<br>POP!スタジオ 2F</dd></div>
+      <div><dt>電車</dt><dd>泉北高速鉄道 和泉中央駅から徒歩5分</dd></div>
+      <div><dt>車</dt><dd>建物の裏に駐車場6台。満車のときは近くのコインパーキングへ</dd></div>
+      <div><dt>電話</dt><dd><a href="#" data-demo="電話（デモ）">0725-00-0000</a><small>受付 火〜土 13:00〜19:00</small></dd></div>
+      <div><dt>地図</dt><dd><a href="#" data-demo="地図（デモ）">Googleマップで開く →</a></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ TRIAL ============ -->
+<section class="trial" id="trial">
+  <div class="trial__word" aria-hidden="true">YOUR TURN!</div>
+  <div class="wrap trial__in">
+    <div class="trial__text">
+      <p class="label reveal">つぎに、はじけるのはあなた</p>
+      <h2 class="h2 reveal">「やってみたい」を、<br>いっしょに始めよう</h2>
+      <p class="reveal">体験は何回でも無料です。持ち物は、動きやすい服と飲み物だけ。道具は貸します。保護者の方はうしろの椅子で見ていてください。</p>
+      <ol class="trial__steps reveal"><li>クラスを選ぶ</li><li>先生とごあいさつ</li><li>レッスンを体験</li><li>ご相談（入会は任意）</li></ol>
+      <a href="#" class="btn btn--line reveal" data-demo="LINE友だち追加（デモ）">LINEで相談・予約する</a>
+    </div>
+    <form class="tform reveal" id="trialForm" novalidate style="--d:.1s">
+      <label>保護者のお名前<input type="text" name="parent" placeholder="山田 花子" required></label>
+      <label>お子さまの年齢・学年<select name="grade" required><option value="">選択</option><option>4歳</option><option>5歳</option><option>年長</option><option>小1</option><option>小2</option><option>小3</option><option>小4</option><option>小5</option><option>小6</option></select></label>
+      <label>気になるスタイル<select name="cls"><option>チア</option><option>新体操</option><option>バトン</option><option>キッズダンス</option><option>相談したい</option></select></label>
+      <label>連絡先（メール or 電話）<input type="text" name="contact" placeholder="example@mail.com" required></label>
+      <label>気になっていること（任意）<input type="text" name="memo" placeholder="人見知りです／運動が苦手です　など"></label>
+      <button type="submit" class="btn btn--yellow btn--block">無料体験を予約する <span>↗</span></button>
+      <p class="tform__note">翌営業日までにご返信します。体験後の入会は任意です。</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__in">
+    <div>
+      <a href="#top" class="logo logo--f">POP!<small>KIDS STUDIO</small></a>
+      <p class="footer__tag">好きって、最強</p>
+      <p class="footer__addr">〒594-0000 大阪府和泉市◯◯町0-0 POP!スタジオ 2F（泉北高速鉄道 和泉中央駅 徒歩5分・駐車場6台）<br>火・水・木・金・土</p>
+      <div class="footer__sns"><a href="#" data-demo="Instagram（デモ）">Instagram</a><a href="#" data-demo="LINE（デモ）">LINE</a></div>
+    </div>
+    <nav class="footer__nav" aria-label="フッター"><a href="#about">わたしたちについて</a><a href="#classes">クラス</a><a href="#lesson">レッスンの流れ</a><a href="#stage">発表会</a><a href="#teachers">先生</a><a href="#parents">保護者の方へ</a><a href="#guide">曜日と料金</a><a href="#voice">保護者の声</a><a href="#faq">よくある質問</a><a href="#access">アクセス</a><a href="#trial">無料体験</a></nav>
+  </div>
+  <div class="wrap footer__bottom">
+    <p class="footer__demo">※ このサイトは <a href="https://chibispo.com/listing.html#service" target="_blank" rel="noopener">チビスポ「クラブ向けホームページ制作」</a> の制作見本（デザイン05 ポップ）です。POP! KIDS STUDIO は架空のスタジオで、所在地・料金・先生・保護者の声はすべて架空です。写真はAI生成のイメージです。</p>
+    <p>© 2026 POP! KIDS STUDIO ／ Web: <a href="https://chibispo.com" target="_blank" rel="noopener">チビスポ</a></p>
+  </div>
+</footer>
+
+<div class="fixbar" id="fixbar"><a href="#" class="fixbar__line" data-demo="LINE（デモ）">LINE</a><a href="#trial" class="fixbar__cta">無料体験を予約する</a></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js" defer></script>
+<script src="theme-picker.js?v=2" defer data-themes='[{"id": "a", "name": "ピンク", "sw": ["#ff83b8", "#6843ca"]}, {"id": "b", "name": "ソーダ", "sw": ["#8fd0f5", "#2b3a8a"]}, {"id": "c", "name": "レモン", "sw": ["#edff72", "#e0457b"]}]'></script>
+
+</body>
+</html>
