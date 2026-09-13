@@ -48,7 +48,7 @@ S['reels']=r
 p=S['picks']
 p=re.sub(r'<div class="grid">.*?</div>\n  </div>\n</section>','<div class="grid" id="tp-picks"></div>\n  </div>\n</section>',p,flags=re.S)
 p=p.replace('<span class="more">もっと見る ›</span>','<a class="more" href="search.html">もっと見る ›</a>')
-p=p.replace('ここが気になった、という理由があるクラブだけ。その理由を、見出しにしています。','写真と紹介文がそろっていて、雰囲気が伝わるクラブ。クラブの言葉を、そのまま見出しにしています。')
+p=p.replace('ここが気になった、という理由があるクラブだけ。その理由を、見出しにしています。','いま知ってほしいクラブを、編集部がピックアップ。')
 S['picks']=p
 # ---- 新しく載ったクラブ（実データ） ----
 n=S['new']
