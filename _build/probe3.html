@@ -1,0 +1,7 @@
+<!DOCTYPE html><meta charset="utf-8"><pre id="o">pending</pre>
+<script>
+const q=new URLSearchParams(location.search),p=q.get('p'),sel=q.get('s');
+const f=document.createElement('iframe');f.style.cssText='width:390px;height:6000px;border:0';f.src='../'+p;document.body.appendChild(f);
+f.onload=()=>setTimeout(()=>{const d=f.contentDocument;const els=[...d.querySelectorAll(sel)];
+document.getElementById('o').textContent=els.map(e=>Math.round(e.getBoundingClientRect().top)+' | '+(e.textContent||'').trim().slice(0,20)).join('\n')||'none';},3500);
+</script>

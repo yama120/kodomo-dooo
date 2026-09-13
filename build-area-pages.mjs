@@ -114,12 +114,12 @@ function jsonLd({ url, crumbs, list, title }) {
 
 function linkList(title, links) {
   if (!links.length) return "";
-  return `<section style="margin:26px 0 0;">
-  <h2 style="margin:0 0 10px;font-size:15px;font-weight:800;color:#28323f;">${esc(title)}</h2>
-  <div style="display:flex;flex-wrap:wrap;gap:8px;">
-${links.map((l) => `    <a href="${esc(l.href)}" style="border:1px solid #dde2e7;border-radius:8px;padding:8px 14px;font-size:13px;color:#3b4654;text-decoration:none;background:#fff;">${esc(l.label)}${l.n ? `<span style="color:#9aa3ad;font-size:11.5px;">（${l.n}）</span>` : ""}</a>`).join("\n")}
+  return `<div class="seo2">
+  <h3>${esc(title)}</h3>
+  <div class="row">
+${links.map((l) => `    <a href="${esc(l.href)}">${esc(l.label)}${l.n ? `<small>（${l.n}）</small>` : ""}</a>`).join("\n")}
   </div>
-</section>`;
+</div>`;
 }
 
 /* ============ search.html を型にして1ページ組み立てる ============ */
@@ -153,22 +153,23 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
      ただし全国の入口（/clubs/）は条件が何も付いていないので、
      「検索結果」のままにして紹介文も出さない（検索件数と重複して冗長なため） */
   if (!plain) {
-    s = s.replace(/(<h1 style="margin:0;font-size:22px;font-weight:800;">)検索結果(<\/h1>)/,
-      `$1${esc(h1)}$2`);
+    s = s.replace(/(<h1 id="sr-h1">)検索結果(<\/h1>)/, `$1${h1}$2`);   // h1 は <em> 入りの HTML（search.html の JS と同じ形）
   }
 
   // パンくずと紹介文を見出しの直後に置く
-  const intro = `<nav style="font-size:12px;color:#8a93a0;margin:0 0 10px;" aria-label="パンくず">` +
+  /* パンくずは見出しの上、紹介文は見出しの下（search.html の目印を差し替える） */
+  const crumbHtml = `<nav class="bc" aria-label="パンくず">` +
     crumbs.map((c, i) => i === crumbs.length - 1
       ? `<span>${esc(c.name)}</span>`
-      : `<a href="${esc(c.href)}" style="color:#8a93a0;text-decoration:none;">${esc(c.name)}</a> › `).join("") +
-    `</nav>` + (plain ? "" : `\n    <p style="font-size:14px;color:#54606e;line-height:1.9;margin:0 0 16px;">${esc(lead)}</p>`);
-  s = s.replace("<!-- 条件検索ボタン（タブレット以下） -->", `${intro}\n\n    <!-- 条件検索ボタン（タブレット以下） -->`);
+      : `<a href="${esc(c.href)}">${esc(c.name)}</a><span>›</span>`).join("") + `</nav>`;
+  s = s.replace("<!-- __CRUMBS__ -->", crumbHtml);
+  if (!plain) s = s.replace('<div class="sr-count" hidden>', `<p class="s-lead">${esc(lead)}</p>\n    <div class="sr-count" hidden>`);
 
   // 検索結果のカードを焼き込む（JSが動く前に中身が読める状態にする）
   const baked = list.slice(0, PER_PAGE).map(card).join("\n");
-  s = s.replace(/(<div class="sr-cards"[^>]*>)/, `$1\n${baked}\n`);
+  s = s.replace(/(<div class="[^"]*sr-cards"[^>]*>)/, `$1\n${baked}\n`);
   s = s.replace(/(<div class="sr-count"[^>]*>検索結果：<span[^>]*>)\d+(<\/span>)/, `$1${list.length}$2`);
+  s = s.replace(/(<b class="sr-n">)\d+(<\/b>)/, `$1${list.length}$2`);
 
   /* 関連リンクはページの最下部（マガジン・地域企業PRより下）に置く。
      都道府県と種目のリンクは数が多く、上に置くと広告枠が画面外まで押し下げられる。
@@ -228,7 +229,7 @@ for (const [pref, list] of byPref) {
     url,
     title: `${pref}の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
     description: leadText(list, pref, null).slice(0, 120),
-    h1: `${pref}の子ども向けスポーツクラブ・習い事（${list.length}件）`,
+    h1: `${esc(pref)}の<em>スポーツ</em>クラブ`,
     lead: leadText(list, pref, null),
     list, crumbs: [home, areaTop, { name: pref, href: url }],
     init: { pref: stripPref(pref), prefFull: pref },
@@ -254,7 +255,7 @@ for (const [key, list] of byPrefSport) {
     url,
     title: `${pref}の子ども向け${sport}クラブ・スクール${list.length}件｜チビスポ`,
     description: leadText(list, pref, sport).slice(0, 120),
-    h1: `${pref}の子ども向け${sport}クラブ・スクール（${list.length}件）`,
+    h1: `${esc(pref)}の<em>${esc(sport)}</em>クラブ`,
     lead: leadText(list, pref, sport),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: sport, href: url }],
@@ -285,7 +286,7 @@ for (const [key, list] of byCity) {
     url,
     title: `${city}（${pref}）の子ども向けスポーツクラブ・習い事${list.length}件｜チビスポ`,
     description: leadText(list, city, null).slice(0, 120),
-    h1: `${city}の子ども向けスポーツクラブ・習い事（${list.length}件）`,
+    h1: `${esc(city)}の<em>スポーツ</em>クラブ`,
     lead: leadText(list, city, null),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` }, { name: city, href: url }],
@@ -311,7 +312,7 @@ for (const [key, list] of byCitySport) {
     url,
     title: `${city}の子ども向け${sport}クラブ・スクール${list.length}件｜チビスポ`,
     description: leadText(list, city, sport).slice(0, 120),
-    h1: `${city}の子ども向け${sport}クラブ・スクール（${list.length}件）`,
+    h1: `${esc(city)}の<em>${esc(sport)}</em>クラブ`,
     lead: leadText(list, city, sport),
     list,
     crumbs: [home, areaTop, { name: pref, href: `/clubs/${p}/` },
@@ -354,7 +355,7 @@ for (const [key, list] of byCitySport) {
     url,
     title: `子ども向けスポーツクラブ・習い事を探す｜チビスポ`,
     description: `全国${byPref.size}都道府県・${byCity.size}市区町村の子ども向けスポーツクラブ${clubs.length}件を掲載。地域・種目・条件から探せます。`,
-    h1: `子ども向けスポーツクラブ・習い事を探す（${clubs.length}件）`,
+    h1: `子どもの<em>スポーツクラブ</em>を探す`,
     lead: `チビスポに掲載中の${clubs.length}件を、${byPref.size}都道府県・${byCity.size}市区町村・${sports.length}種目から探せます。`,
     list: showcase, crumbs: [home, { name: "クラブを探す", href: url }],
     init: {}, plain: true,

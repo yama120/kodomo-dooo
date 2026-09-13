@@ -1,0 +1,12 @@
+{
+  "appStoreUrl": "https://apps.apple.com/jp/app/id6797169414",
+  "assets": {
+    "backgroundDesktop": "hero-background-desktop-1920x1080.webp",
+    "backgroundMobile": "hero-background-mobile-750x422.webp",
+    "phoneHome": "phone-home-transparent.webp",
+    "phoneMap": "phone-map-transparent.webp",
+    "appIcon": "app-icon-512.webp",
+    "referenceDesktop": "reference-desktop.png",
+    "referenceMobile": "reference-mobile.png"
+  }
+}

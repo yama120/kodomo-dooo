@@ -29,6 +29,8 @@ const PREF = {
 /* 市区町村。同じ名前が複数の県にあっても、URLは /clubs/<県>/<市>/ なので衝突しない
    （港区は東京・大阪・名古屋にあるが、県が違えば別パスになる） */
 const CITY = {
+  "北名古屋市": "kitanagoya",
+  "鴻巣市": "konosu",
   "あきる野市": "akiruno", "あま市": "ama", "京都市": "kyoto", "今治市": "imabari",
   "伊丹市": "itami", "入間市": "iruma", "岩倉市": "iwakura", "八幡市": "yawata", "八王子市": "hachioji",
   "刈谷市": "kariya", "千葉市": "chiba", "南城市": "nanjo", "南風原町": "haebaru",
@@ -66,6 +68,7 @@ const CITY = {
    （sport-soccer.html ↔ soccer）。表記ゆれ（体操教室／運動教室／運動基礎など）は
    クラブが自分で入力した値なので、いまは統合せずそのまま面にする。 */
 const SPORT = {
+  "和太鼓": "wadaiko",
   "サッカー": "soccer", "ダンス": "dance", "ダブルダッチ": "double-dutch",
   "野球": "baseball", "バレーボール": "volleyball", "空手": "karate",
   "陸上": "athletics", "バスケットボール": "basketball", "テニス": "tennis",

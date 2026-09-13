@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -11,36 +12,114 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>チビスポとは｜チビスポ</title>
-<!-- OGP / SNS共有カード -->
+<meta name="description" content="チビスポは「地域スポーツを、もっと身近に。」を掲げる、子どものスポーツクラブと保護者をつなぐメディアです。なぜ始めたのか、決めていること、運営者の想い。">
+<link rel="canonical" href="https://chibispo.com/about.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
 <meta property="og:title" content="チビスポとは｜チビスポ">
+<meta property="og:description" content="チビスポは「地域スポーツを、もっと身近に。」を掲げる、子どものスポーツクラブと保護者をつなぐメディアです。なぜ始めたのか、決めていること、運営者の想い。">
 <meta property="og:url" content="https://chibispo.com/about.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="チビスポとは｜チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20260913">
 <style>
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#fff;-webkit-font-smoothing:antialiased;}
-  a{color:inherit;}
-  .ab-wrap{max-width:1040px;margin:0 auto;padding:0 20px;}
-  .ab-narrow{max-width:720px;margin:0 auto;padding:0 20px;}
-  .ab-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-  @media (max-width:720px){ .ab-grid2{grid-template-columns:1fr;} }
-  /* Our Story本文：web/タブレットは中央（親から継承）、スマホは左寄せで読みやすく */
-  @media (max-width:720px){ .ab-story{ text-align:left; } }
+.abt{--m:'Zen Old Mincho','Hiragino Mincho ProN',serif}
+.abt-open{position:relative;min-height:min(92vh,760px);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#111;color:#fff}
+.abt-open img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08);opacity:.62}
+.abt-open::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.55))}
+.abt-open .in{position:relative;z-index:1;padding:80px 20px}
+.abt-ey{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:22px}
+.abt-open h1{font-family:var(--m);font-weight:600;font-size:clamp(34px,7.2vw,86px);line-height:1.25;letter-spacing:.04em;margin:0;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+.abt-open .sub{font-family:var(--m);font-size:clamp(13px,1.6vw,17px);letter-spacing:.14em;margin-top:26px;opacity:.9}
+.abt-open .sc{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.3em;opacity:.7}
+.abt-open .sc::after{content:"";display:block;width:1px;height:34px;background:#fff;margin:8px auto 0;animation:abt-sc 1.8s infinite}
+@keyframes abt-sc{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* 宣言（1文1行・中央） */
+.abt-st{padding:96px 20px;text-align:center}
+.abt-st .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:34px}
+.abt-st p{font-family:var(--m);font-weight:600;font-size:clamp(16px,2.4vw,24px);line-height:2.3;letter-spacing:.06em;margin:0 auto;max-width:760px}
+.abt-st p+p{margin-top:38px}
+.abt-st .big{font-size:clamp(22px,3.6vw,40px);line-height:1.6;margin-top:56px;letter-spacing:.04em}
+.abt-st .big em{font-style:normal;color:var(--accent)}
+/* 黒：なぜつくったのか */
+.abt-why{position:relative;background:#0d0d0d;color:#fff;padding:120px 20px;overflow:hidden}
+.abt-why img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);opacity:.22}
+.abt-why .in{position:relative;max-width:820px;margin:0 auto;text-align:center}
+.abt-why .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:26px}
+.abt-why h2{font-family:var(--m);font-weight:600;font-size:clamp(26px,4.4vw,48px);line-height:1.5;letter-spacing:.04em;margin:0 0 40px}
+.abt-why p{font-family:var(--m);font-size:clamp(14px,1.8vw,17px);line-height:2.4;letter-spacing:.05em;margin:0 auto;max-width:740px;opacity:.92}
+.abt-why p+p{margin-top:28px}
+/* 決めていること */
+.abt-val{padding:110px 0 80px}
+.abt-val .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);text-align:center;margin-bottom:12px}
+.abt-val h2{font-family:var(--m);font-weight:600;font-size:clamp(24px,4vw,40px);text-align:center;letter-spacing:.06em;margin:0 0 70px;line-height:1.5}
+.abt-v{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--ink)}
+.abt-v>div{border-bottom:1px solid var(--ink);padding:38px 0 42px;display:grid;gap:14px}
+.abt-v .en{font-family:'Anton',sans-serif;font-size:clamp(30px,5vw,54px);line-height:1;letter-spacing:.02em;color:var(--ink);opacity:.14}
+.abt-v .no{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.24em;color:var(--accent)}
+.abt-v h3{font-family:var(--m);font-weight:600;font-size:clamp(21px,2.5vw,28px);letter-spacing:.05em;margin:0;line-height:1.45}
+.abt-v p{margin:0;font-size:14px;font-weight:700;line-height:2.1;color:var(--ink);max-width:560px}
+.abt-v p b{color:var(--accent);font-weight:900}
+/* 三者 */
+.abt-tri{background:#fff;padding:100px 20px}
+body[data-skin="stadium"] .abt-tri{background:var(--card)}
+.abt-tri .in{max-width:1000px;margin:0 auto;display:grid;gap:40px;align-items:center}
+.abt-tri .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:14px}
+.abt-tri h2{font-family:var(--m);font-weight:600;font-size:clamp(24px,3.6vw,38px);letter-spacing:.05em;line-height:1.5;margin:0 0 20px}
+.abt-tri p{font-size:14px;font-weight:700;line-height:2.1;margin:0 0 12px}
+.abt-dg{position:relative;width:min(100%,380px);aspect-ratio:1;margin:0 auto}
+.abt-dg svg{position:absolute;inset:0;width:100%;height:100%}
+.abt-dg .nd{position:absolute;width:112px;height:112px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--m);font-weight:600;font-size:15px;letter-spacing:.06em;transform:translate(-50%,-50%)}
+.abt-dg .nd small{font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
+.abt-dg .nd.c{background:var(--accent);color:#fff;border-color:var(--accent);width:96px;height:96px;font-size:17px}
+.abt-dg .nd.c small{color:#fff;opacity:.85}
+/* 運営者より（手紙） */
+.abt-let{padding:110px 20px}
+.abt-let .in{max-width:720px;margin:0 auto;border:1px solid var(--ink);padding:56px clamp(22px,6vw,72px) 52px;background:var(--card);position:relative}
+.abt-let .in::before{content:"";position:absolute;inset:6px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);pointer-events:none}
+.abt-let .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:14px}
+.abt-let h2{font-family:var(--m);font-weight:600;font-size:clamp(22px,3.2vw,30px);letter-spacing:.06em;margin:0 0 30px;line-height:1.5}
+.abt-let p{font-family:var(--m);font-size:15px;line-height:2.3;letter-spacing:.04em;margin:0 0 22px}
+.abt-let .sg{margin-top:34px;text-align:right;font-family:var(--m);font-size:14px;letter-spacing:.1em}
+.abt-let .sg small{display:block;font-size:11.5px;font-weight:700;color:var(--sub);letter-spacing:.06em;margin-top:6px;font-family:var(--f)}
+/* ビジョン＋CTA */
+.abt-vis{position:relative;background:#0d0d0d;color:#fff;padding:120px 20px 110px;text-align:center;overflow:hidden}
+.abt-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);opacity:.3}
+.abt-vis .in{position:relative;max-width:820px;margin:0 auto}
+.abt-vis .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:26px}
+.abt-vis h2{font-family:var(--m);font-weight:600;font-size:clamp(26px,4.6vw,52px);line-height:1.5;letter-spacing:.04em;margin:0 0 30px}
+.abt-vis p{font-family:var(--m);font-size:clamp(14px,1.8vw,17px);line-height:2.3;letter-spacing:.06em;margin:0 auto 54px;max-width:640px;opacity:.92}
+.abt-cta{display:grid;gap:10px;max-width:960px;margin:0 auto}
+.abt-cta a{display:block;text-align:left;border:1px solid rgba(255,255,255,.35);padding:22px 22px 20px;color:#fff;background:rgba(255,255,255,.04);transition:background .2s,border-color .2s}
+.abt-cta a:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.abt-cta a.pri{background:var(--accent);border-color:var(--accent)}
+.abt-cta .k2{font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.24em;opacity:.8}
+.abt-cta b{display:block;font-family:var(--m);font-weight:600;font-size:20px;letter-spacing:.06em;margin:6px 0 4px}
+.abt-cta span{font-size:12.5px;font-weight:700;opacity:.8;line-height:1.7}
+.abt-cta i{display:block;font-style:normal;font-weight:900;margin-top:12px;font-size:13px}
+@media(max-width:599px){
+  .abt-st p br,.abt-why p br,.abt-vis p br{display:none}
+  .abt-st{padding:72px 22px}.abt-st p{font-size:16px;line-height:2.15;letter-spacing:.03em}.abt-st p+p{margin-top:26px}.abt-st .big{font-size:24px;line-height:1.7;margin-top:44px;letter-spacing:.02em}
+  .abt-why{padding:88px 22px}.abt-why p{letter-spacing:.03em;line-height:2.2}
+  .abt-vis{padding:88px 22px 80px}.abt-vis p{letter-spacing:.03em}
+  .abt-open h1{font-size:36px}
+}
+/* 出現 */
+.abt .rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
+.abt .rv.in{opacity:1;transform:none}
+.abt.noanim .rv{opacity:1;transform:none;transition:none}
+@media(min-width:760px){
+  .abt-v{grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .abt-v>div{padding:44px 40px 48px;border-right:1px solid var(--ink)}
+  .abt-tri .in{grid-template-columns:1fr 1fr;gap:60px}
+  .abt-cta{grid-template-columns:1fr 1fr 1fr}
+}
 </style>
-<!-- GA4 (auto-managed by install-ga4.mjs) -->
+<link rel="stylesheet" href="quiz.css?v=20260913">
+<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -48,96 +127,151 @@
   gtag('js', new Date());
   gtag('config', 'G-5ZBBNYC37Y');
 </script>
-<!-- /GA4 -->
 </head>
 <body>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img src="assets/logo-sm.png" alt="チビスポ"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
 
-<!-- ===== HERO ===== -->
-<section style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0e1a13 0%,#11241a 100%);color:#fff;">
-  <img src="assets/cta-bg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;">
-  <div class="ab-wrap" style="position:relative;z-index:1;padding:64px 20px 58px;text-align:center;">
-    <div style="font-family:'Pacifico',cursive;font-size:22px;background:linear-gradient(90deg,#e8455f,#e8784a,#2a6fdb,#1f8a5b);-webkit-background-clip:text;background-clip:text;color:transparent;">About Chibispo</div>
-    <h1 style="margin:14px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(26px,7vw,32px);font-weight:900;line-height:1.5;"><span style="display:inline-block;">子どもの</span><br><span style="display:inline-block;">「やってみたい」が、</span><br><span style="display:inline-block;">地域で見つかる。</span></h1>
-    <p style="margin:18px auto 0;font-size:15px;line-height:2;opacity:.92;max-width:600px;"><span style="display:inline-block;">クラブの雰囲気、コーチの想い、</span><span style="display:inline-block;">子どもたちの表情まで。</span><br><span style="display:inline-block;">「うちの子に合いそう」が見つかって、</span><span style="display:inline-block;">スポーツを通した成長のヒントも届く。</span><span style="display:inline-block;">そんなメディアです。</span></p>
+<div class="abt">
+<section class="abt-open">
+  <img src="assets/preview-video/jp-soccer-run.jpg" alt="">
+  <div class="in">
+    <div class="abt-ey">ABOUT CHIBISPO</div>
+    <h1>地域スポーツを、<br>もっと身近に。</h1>
+    <div class="sub">子どもの「やってみたい」が、地域で見つかる。</div>
+  </div>
+  <div class="sc">SCROLL</div>
+</section>
+
+<section class="abt-st">
+  <div class="k rv">OUR STATEMENT</div>
+  <p class="rv">「うちの子に合うクラブを見つけたい」。<br>その気持ちに、ちゃんと寄り添える場所を作りたい。</p>
+  <p class="rv">スポーツが育てるのは、運動能力だけじゃありません。<br>仲間との関わり、挑戦する心、<br>うまくいかない日の悔しさ、できた瞬間の笑顔。<br>そして、自分らしさ。</p>
+  <p class="rv">それを大切にしてくれるクラブとの出会いを、<br>もっと届けたい。</p>
+  <p class="big rv">近所のいいクラブが、<br>知られていないのは<em>もったいない</em>。</p>
+</section>
+
+<section class="abt-why">
+  <img src="assets/preview-video/px-3448250.jpg" alt="">
+  <div class="in">
+    <div class="k rv">WHY WE STARTED</div>
+    <h2 class="rv">なぜ、チビスポを<br>つくったのか。</h2>
+    <p class="rv">普段は医療の現場で、子どものからだの発達や動きづくりに向き合っています。<br>「この時期に、どんな運動をするか」が、その子の未来にどれだけ大きいか。<br>それを毎日、目の前で見てきました。</p>
+    <p class="rv">けれど、いざ探そうとすると情報は散らばっていて、<br>近所にいいクラブがあるのに、届いていない。<br>クラブの側も、伝え方に困っている。</p>
+    <p class="rv">その「もったいなさ」をなくしたくて、チビスポを始めました。</p>
   </div>
 </section>
 
-<!-- ===== 想い ===== -->
-<section class="ab-narrow" style="padding:56px 20px 10px;text-align:center;">
-  <div style="font-family:'Pacifico',cursive;font-size:18px;color:#e8455f;">Our Story</div>
-  <h2 style="margin:8px 0 22px;font-family:'Zen Maru Gothic',sans-serif;font-size:25px;font-weight:900;line-height:1.5;">なぜ、チビスポを<br>つくったのか</h2>
-  <p class="ab-story" style="margin:0;font-size:15px;line-height:2.1;color:#3b4654;">
-    <span style="display:inline-block;">「うちの子に合うクラブを見つけたい」——</span><br>
-    <span style="display:inline-block;">その気持ちに、</span><span style="display:inline-block;">ちゃんと寄り添える場所を作りたい。</span><br><br>
-    <span style="display:inline-block;">スポーツが育てるのは、</span><span style="display:inline-block;">運動能力だけじゃありません。</span><span style="display:inline-block;">仲間との関わり、</span><span style="display:inline-block;">挑戦する心、</span><span style="display:inline-block;">うまくいかない日の悔しさ、</span><span style="display:inline-block;">できた瞬間の笑顔。</span><br><span style="display:inline-block;">そして「自分らしさ」。</span><br><br>
-    <span style="display:inline-block;">それを大切にしてくれるクラブとの出会いを、</span><span style="display:inline-block;">もっと届けたい。</span><span style="display:inline-block;">情報が探しにくくて、</span><span style="display:inline-block;">近所にいいクラブがあるのに知られていない——</span><br><span style="display:inline-block;">そんなもったいなさをなくしたくて、</span><span style="display:inline-block;">チビスポを始めました。</span>
-  </p>
-</section>
-
-<!-- ===== 大切にしていること ===== -->
-<section class="ab-wrap" style="padding:44px 20px 10px;">
-  <div class="ab-grid2">
-    <div style="background:#fff7f8;border:1px solid #f6d6dd;border-radius:16px;padding:26px;">
-      <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#e8455f;">「合いそう」で選べること</h3>
-      <p style="margin:0;font-size:14px;line-height:1.95;color:#54606e;">条件検索だけでなく、雰囲気・指導方針・子どもたちの様子から、感覚的に「うちの子に合いそう」を感じて選べます。</p>
-    </div>
-    <div style="background:#f2f7ff;border:1px solid #cfe0fb;border-radius:16px;padding:26px;">
-      <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#2a6fdb;">写真で伝わること</h3>
-      <p style="margin:0;font-size:14px;line-height:1.95;color:#54606e;">活動の一場面やコーチの人柄まで。文字だけでは分からない「空気感」を、写真でそのまま伝えます。</p>
-    </div>
-    <div style="background:#fff7f1;border:1px solid #f6dcc9;border-radius:16px;padding:26px;">
-      <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#e8784a;">地域とつながること</h3>
-      <p style="margin:0;font-size:14px;line-height:1.95;color:#54606e;">地域ごとの特集や、子どもの健康を支える地元のお店とも連動。スポーツを軸に、地域でつながります。</p>
-    </div>
-    <div style="background:#f1faf4;border:1px solid #c5e8d3;border-radius:16px;padding:26px;">
-      <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#1f8a5b;">続けられること</h3>
-      <p style="margin:0;font-size:14px;line-height:1.95;color:#54606e;">クラブは基本無料で掲載でき、保護者は無料で探せる。続く仕組みだから、情報が増え、出会いが生まれます。</p>
+<section class="abt-val">
+  <div class="wrap">
+    <div class="k rv">OUR PRINCIPLES</div>
+    <h2 class="rv">私たちが、決めていること。</h2>
+    <div class="abt-v">
+      <div class="rv"><div class="en">HONEST</div><div class="no">01</div><h3>合う子・合わない子を、正直に。</h3><p>誰にでも良いクラブは、ありません。だから紹介では<b>「合う子」と「合わない子」</b>を並べて書きます。褒めるだけの紹介は、選ぶ助けになりません。</p></div>
+      <div class="rv"><div class="en">NOT BY PRICE</div><div class="no">02</div><h3>月謝で、並べない。</h3><p>いちばん大きく出すのは、値段ではなくクラブの見出しです。クラブ同士を<b>値下げで競わせない</b>。それは子どもに返ってこないと考えているからです。</p></div>
+      <div class="rv"><div class="en">ATMOSPHERE</div><div class="no">03</div><h3>空気感を、そのまま。</h3><p>コーチの声のかけ方、練習前のざわめき、子どもたちの表情。文字では伝わらない空気感を、<b>写真と動画</b>でそのまま届けます。見に行く前に、少しだけ感じられるように。</p></div>
+      <div class="rv"><div class="en">TOGETHER</div><div class="no">04</div><h3>地域で、続ける。</h3><p>クラブは基本無料で載せられ、保護者は無料で探せます。続けるための費用は、<b>子どもの健康を支える地域のお店</b>と一緒に。善意だけでは続かないから、続く仕組みにしました。</p></div>
     </div>
   </div>
 </section>
 
-<!-- ===== 運営者の声 ===== -->
-<section class="ab-narrow" style="padding:48px 20px 10px;">
-  <div style="background:#f6f7f9;border-radius:18px;padding:30px 28px;">
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-      <!-- 「チ」の1文字ではなく、アプリと同じマスコットを出す -->
-      <div style="width:54px;height:54px;border-radius:50%;background:#fdedef;border:1px solid #f6d6dd;display:flex;align-items:center;justify-content:center;flex:0 0 54px;">
-        <img src="assets/logo-mark.svg" alt="" aria-hidden="true" style="width:40px;height:40px;display:block;">
+<section class="abt-tri">
+  <div class="in">
+    <div class="rv">
+      <div class="k">THREE CIRCLES</div>
+      <h2>まんなかに、<br>子どもがいる。</h2>
+      <p>保護者は、うちの子に合うクラブと出会う。クラブは、想いをそのまま伝えて、来てほしい子に届ける。地域のお店は、子どもの健康を支えながら、街の家族に知ってもらう。</p>
+      <p>三つの輪がゆるやかに重なる、そのまんなかに子どもがいる。それがチビスポの形です。</p>
+    </div>
+    <div class="abt-dg rv">
+      <svg viewBox="0 0 380 380" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><path d="M190 60 L320 300 L60 300 Z"/><circle cx="190" cy="220" r="150" stroke-dasharray="3 6"/></svg>
+      <div class="nd" style="left:50%;top:16%"><small>PARENTS</small>保護者</div>
+      <div class="nd" style="left:16%;top:79%"><small>CLUBS</small>クラブ</div>
+      <div class="nd" style="left:84%;top:79%"><small>LOCAL</small>地域のお店</div>
+      <div class="nd c" style="left:50%;top:58%"><small>KIDS</small>子ども</div>
+    </div>
+  </div>
+</section>
+
+<section class="abt-let">
+  <div class="in rv">
+    <div class="k">A LETTER</div>
+    <h2>運営者より</h2>
+    <p>チビスポは、大きな会社が作ったサービスではありません。子どものからだに毎日向き合っている一人が、「探せない」「伝わらない」をなんとかしたくて始めた、小さな場所です。</p>
+    <p>専門知識は、押しつけるためのものではありません。保護者が安心して一歩を踏み出せるように。現場感とエビデンスの両方を、やさしい言葉でお届けしていきます。</p>
+    <p>クラブの方へ。あなたの練習の空気は、文章より雄弁です。まずは一枚の写真から、載せてみてください。</p>
+    <div class="sg">チビスポ 運営者<small>理学療法士／子どもの運動発達にたずさわる</small></div>
+  </div>
+</section>
+
+<section class="abt-vis">
+  <img src="assets/preview-video/wm-kidsrun-1.jpg" alt="">
+  <div class="in">
+    <div class="k rv">VISION</div>
+    <h2 class="rv">子どもとスポーツの出会いを、<br>もっとなめらかに。</h2>
+    <p class="rv">クラブ・保護者・地域のお店がゆるやかにつながり、<br>子どもたちが「やってみたい」に出会える場所を、<br>地域ごとに広げていきます。</p>
+    <div class="abt-cta rv">
+      <a class="pri" href="search.html"><div class="k2">FOR PARENTS</div><b>クラブを探す</b><span>地域・種目・雰囲気から、お子さんに合うクラブを。</span><i>さがしてみる ›</i></a>
+      <a href="index.html#shindan" data-quiz><div class="k2">QUIZ</div><b>3つの質問で提案してもらう</b><span>種目が決まっていなくても、1分で。</span><i>質問に答える ›</i></a>
+      <a href="partner.html"><div class="k2">FOR CLUBS</div><b>クラブを載せる</b><span>指導者の方へ。基本無料で掲載できます。</span><i>掲載について ›</i></a>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
       </div>
-      <div>
-        <div style="font-size:15px;font-weight:800;">運営者より</div>
-        <div style="font-size:12px;color:#9aa3ad;">理学療法士／子どもの運動発達にたずさわる</div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a>
       </div>
     </div>
-    <p style="margin:0;font-size:14px;line-height:2;color:#3b4654;">普段は医療・リハビリの現場で、からだの発達や動きづくりに向き合っています。だからこそ「この時期にどんな運動をするか」が、子どもの未来にとってどれだけ大切かを実感しています。<br><br>専門知識は、押しつけるためのものではありません。保護者が安心して一歩を踏み出せるように。チビスポでは、現場感とエビデンスの両方を、やさしい言葉でお届けしていきます。</p>
   </div>
-</section>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="club-card.js?v=20260913"></script>
+<script src="site.js?v=20260913"></script>
+<script src="quiz.js?v=20260913"></script>
+<script src="shared.js?v=20260913"></script>
 
-<!-- ===== これから ===== -->
-<section class="ab-narrow" style="padding:48px 20px 10px;text-align:center;">
-  <div style="font-family:'Pacifico',cursive;font-size:18px;color:#1f8a5b;">Vision</div>
-  <h2 style="margin:8px 0 16px;font-family:'Zen Maru Gothic',sans-serif;font-size:24px;font-weight:900;">これから目指すこと</h2>
-  <p style="margin:0;font-size:15px;line-height:2.05;color:#3b4654;"><span style="display:inline-block;">子どもとスポーツの出会いを、</span><span style="display:inline-block;">もっとなめらかに。</span><br><span style="display:inline-block;">そして、</span><span style="display:inline-block;">クラブ・保護者・地域のお店が</span><span style="display:inline-block;">ゆるやかにつながり、</span><span style="display:inline-block;">子どもたちが「やってみたい」に</span><span style="display:inline-block;">出会える場所を、</span><span style="display:inline-block;">地域ごとに広げていきます。</span></p>
-</section>
-
-<!-- ===== CTA ===== -->
-<section style="padding:44px 0 60px;">
-  <div class="ab-wrap">
-    <div class="ab-grid2">
-      <a href="search.html" style="text-decoration:none;display:block;background:linear-gradient(135deg,#2a6fdb,#1f8a5b);color:#fff;border-radius:18px;padding:30px 28px;">
-        <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;">クラブを探す</h3>
-        <p style="margin:0 0 14px;font-size:13.5px;opacity:.92;line-height:1.8;">地域・種目・雰囲気から、お子さまに合うクラブを。</p>
-        <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:800;">さがしてみる<span style="width:22px;height:22px;border-radius:50%;background:#fff;color:#1f2a37;display:inline-flex;align-items:center;justify-content:center;font-size:12px;">→</span></span>
-      </a>
-      <a href="listing.html" style="text-decoration:none;display:block;background:#fff;border:1.5px solid #e6e9ed;border-radius:18px;padding:30px 28px;">
-        <h3 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:20px;font-weight:900;color:#1f2a37;">クラブを掲載する</h3>
-        <p style="margin:0 0 14px;font-size:13.5px;color:#54606e;line-height:1.8;">指導者の方へ。基本無料で掲載できます。</p>
-        <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#e8455f;">掲載について<span style="width:22px;height:22px;border-radius:50%;background:#e8455f;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;">→</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<script src="shared.js?v=20260731b"></script>
+<script>
+(function(){
+  var root=document.querySelector('.abt'); if(!root) return;
+  if(/noanim=1/.test(location.search)){root.classList.add('noanim');return}
+  var els=root.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
 </body>
 </html>

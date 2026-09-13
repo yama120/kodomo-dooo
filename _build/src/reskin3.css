@@ -1,0 +1,63 @@
+<style id="reskin3">
+/* ================= 地図ページ v2：検索結果（マガジン調）と道具立てを揃える ================= */
+/* --- 条件検索：箱をやめて罫線＋番号の紙面型 --- */
+.cc-side{background:var(--bg)!important;border-right:1px solid var(--line)!important;padding:22px 22px 30px!important;counter-reset:f}
+.cc-side > div:first-child{flex-wrap:wrap!important;border-top:2px solid var(--ink)!important;padding-top:12px!important;margin-bottom:6px!important;gap:6px!important}
+.cc-side > div:first-child::before{content:"FILTER";flex:1 1 100%;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.cc-side > div:first-child > svg{display:none!important}
+.cc-side span[style*="font-size:18px"]{font-size:18px!important}
+.cc-side div[style*="font-size:13px;font-weight:700"]{counter-increment:f;display:flex!important;align-items:baseline;gap:8px;font-size:11.5px!important;letter-spacing:.08em!important;color:var(--ink)!important;margin:0 0 4px!important;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.cc-side div[style*="font-size:13px;font-weight:700"]::before{content:counter(f,decimal-leading-zero);font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent)}
+.cc-side > div[style*="margin-bottom:22px"],.cc-side > div[style*="margin-bottom:24px"]{margin-bottom:20px!important}
+.cc-side input,.cc-side select{background:transparent!important;border:0!important;border-bottom:1px solid var(--ink)!important;border-radius:0!important;padding:10px 24px 10px 0!important;font-weight:700!important;color:var(--ink)!important}
+.cc-side select:disabled{color:var(--sub)!important;border-bottom-color:var(--line)!important}
+.cc-side span[style*="right:11px"]{right:2px!important}
+.cc-side span[style*="right:11px"] svg{stroke:var(--ink)!important}
+.cc-side div[style*="font-size:11px;color"]{font-size:10.5px!important;margin-top:5px!important}
+.cc-side div[style*="display:flex;gap:8px"]{gap:0!important;border:1px solid var(--ink)}
+.cc-age{border:0!important;border-right:1px solid var(--ink)!important;border-radius:0!important;background:transparent!important;padding:10px 0!important;font-size:12.5px!important}
+.cc-age:last-child{border-right:0!important}
+.cc-age[style*="border-color: var(--accent)"],.cc-age[style*="border-color:var(--accent)"]{background:var(--ink)!important;color:var(--bg)!important}
+.cc-cond,.cc-fee{padding:9px 0!important;border-bottom:1px solid var(--line)!important}
+.cc-cond span[style*="font-size:14px"],.cc-fee span[style*="font-size:14px"]{font-size:13px!important}
+.cc-cond-box{width:15px!important;height:15px!important;border-radius:0!important;border:1px solid var(--ink)!important;background:transparent!important}
+.cc-cond-box[style*="background:var(--accent)"]{background:var(--ink)!important;border-color:var(--ink)!important}
+.cc-cond-box .cc-check{width:11px!important;height:11px!important;stroke:var(--bg)!important}
+.cc-fee-dot{width:15px!important;height:15px!important;background:transparent!important;border:1px solid var(--ink)!important}
+.cc-fee-dot[style*="border:5px solid"]{background:var(--accent)!important;border:1px solid var(--accent)!important;box-shadow:inset 0 0 0 3px var(--bg)!important}
+#cc-apply{background:var(--ink)!important;color:var(--bg)!important;border-radius:0!important;letter-spacing:.06em!important;margin-top:8px!important}
+body[data-skin="stadium"] #cc-apply{color:#0b0c0f!important}
+body[data-skin="bright"] #cc-apply,body[data-skin="stadium"] #cc-apply{border-radius:var(--r-s)!important}
+#cc-clear{border:0!important;border-radius:0!important;color:var(--sub)!important;text-decoration:underline;text-underline-offset:4px;font-size:12.5px!important;padding:10px!important}
+#cc-clear svg{display:none}
+#cc-side-close{background:transparent!important;border:1px solid var(--ink)!important;border-radius:0!important;width:30px!important;height:30px!important}
+#cc-side-close svg{stroke:var(--ink)!important}
+/* --- 地図の枠とボタン：角型・黒罫（BRIGHT／STADIUM は丸のまま） --- */
+body[data-skin="magazine"] #cc-map,body[data-skin="editorial"] #cc-map{border-radius:0!important;border:1px solid var(--line)!important;border-top:2px solid var(--ink)!important}
+body[data-skin="magazine"] #cc-back,body[data-skin="magazine"] #cc-filter-open,body[data-skin="magazine"] .cc-recenter,body[data-skin="magazine"] #cc-research,body[data-skin="magazine"] #cc-cards-next,body[data-skin="magazine"] .cc-maphint,
+body[data-skin="editorial"] #cc-back,body[data-skin="editorial"] #cc-filter-open,body[data-skin="editorial"] .cc-recenter,body[data-skin="editorial"] #cc-research,body[data-skin="editorial"] #cc-cards-next,body[data-skin="editorial"] .cc-maphint{border-radius:0!important;border:1px solid var(--ink)!important;box-shadow:0 2px 0 var(--ink)!important;font-family:var(--fh)!important;font-weight:900!important;font-size:12.5px!important;letter-spacing:.02em}
+body[data-skin="magazine"] div[style*="right:18px;bottom:74px"],body[data-skin="editorial"] div[style*="right:18px;bottom:74px"]{border-radius:0!important;border:1px solid var(--ink)!important;box-shadow:0 2px 0 var(--ink)!important}
+body[data-skin="magazine"] #cc-zoomin,body[data-skin="editorial"] #cc-zoomin{border-bottom:1px solid var(--ink)!important}
+#cc-zoomin svg,#cc-zoomout svg{stroke:var(--ink)!important}
+body[data-skin="magazine"] #cc-panel,body[data-skin="editorial"] #cc-panel{border-radius:0!important;border:1px solid var(--ink)!important;box-shadow:6px 6px 0 var(--ink)!important}
+body[data-skin="magazine"] #cc-close,body[data-skin="editorial"] #cc-close{border-radius:0!important;border:1px solid var(--ink)!important}
+body[data-skin="magazine"] #cc-detail-link,body[data-skin="editorial"] #cc-detail-link,body[data-skin="magazine"] #cc-detail-trial,body[data-skin="editorial"] #cc-detail-trial{border-radius:0!important}
+#cc-detail-trial{background:var(--accent)!important;color:var(--onaccent)!important;font-family:var(--fh)!important;font-weight:900!important;border:0!important}
+#cc-detail-link{background:transparent!important;color:var(--ink)!important;border:1px solid var(--ink)!important;box-shadow:none!important}
+#cc-hover > div:first-child{border-radius:0!important;border:1px solid var(--ink)!important;box-shadow:3px 3px 0 var(--ink)!important}
+#cc-hover div[style*="color:#1668d9"],#cc-hover div[style*="color:var(--accent)"]{color:var(--accent)!important;font-weight:900!important}
+/* --- 地図の下のカード：検索結果のカードと同じ幅・比率 --- */
+.cc-card{width:220px!important}
+body[data-skin="magazine"] .cc-card,body[data-skin="editorial"] .cc-card{border-radius:0!important}
+.cc-card > div:first-child img,.cc-card > div:first-child > div{height:132px!important}
+.cc-card > div:last-child > div:nth-child(2){font-size:14.5px!important}
+@media (min-width:861px){
+  .cc-carousel::before{content:"CLUBS IN THIS AREA";display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin:6px 4px 10px;padding-left:32px;background:linear-gradient(var(--accent),var(--accent)) 0 50%/22px 2px no-repeat}
+}
+/* --- 下部セクション（マガジン／他のクラブ／地域企業）の見出し：検索結果の収益枠と同じ控えめ型 --- */
+.mx-extra h3{border-top:0!important;padding-top:0!important;padding-bottom:12px!important;border-bottom:1px solid var(--line)!important;margin:40px 0 16px!important;font-size:clamp(18px,4.2vw,24px)!important}
+.mx-extra h3::before{content:"";display:block;width:22px;height:2px;background:var(--accent);margin-bottom:10px}
+/* --- ヘッダーのナビアイコンを単色に（マガジン調では色付きアイコンが浮く） --- */
+header[data-screen-label="ヘッダー"] .cc-nav svg{stroke:var(--ink)!important}
+header[data-screen-label="ヘッダー"] .cc-nav svg path[fill]{fill:var(--ink)!important}
+</style>

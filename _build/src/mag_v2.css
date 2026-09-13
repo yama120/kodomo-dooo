@@ -1,0 +1,44 @@
+/* ===== マガジン一覧 v2（検索結果v2と同じ道具立て・背景の英字は無し） ===== */
+.mhead{padding:26px 0 0;overflow:visible}
+.mhead .big{font-family:'Anton',sans-serif;font-size:clamp(54px,16vw,150px);line-height:.9;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1.5px var(--ink);margin-bottom:14px}
+body[data-skin="stadium"] .mhead .big{-webkit-text-stroke-color:var(--accent)}
+.mhead .s-h1 h1{font-size:clamp(22px,5.4vw,38px)}
+.mhead .s-cnt b{font-size:clamp(22px,4vw,32px)}
+.s-h1{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 24px;flex-wrap:wrap}
+.s-h1 h1{font-family:var(--fh);margin:0;font-size:clamp(28px,7.2vw,54px);font-weight:900;letter-spacing:-.01em;line-height:1.15}
+.s-h1 h1 em{font-style:normal;color:var(--accent)}
+body[data-skin="editorial"] .s-h1 h1{font-weight:600;letter-spacing:.06em}
+.s-cnt{display:flex;align-items:baseline;gap:14px;font-family:'Anton',sans-serif;letter-spacing:.04em;color:var(--ink);padding-bottom:6px}
+.s-cnt b{font-size:clamp(26px,5vw,40px);font-weight:400;line-height:1}
+.s-cnt small{font-size:10.5px;letter-spacing:.2em;color:var(--sub);margin-left:6px}
+.s-cnt .sep{width:1px;height:26px;background:var(--line);align-self:center}
+.mhead .ld{margin-top:10px;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9}
+.mhead .cats{margin-top:18px;padding:14px 0 0;border-top:2px solid var(--ink)}
+.cats .chip{border-color:var(--ink)}
+/* 特集：番号と英字ラベル */
+.feat{margin-top:22px}
+body[data-skin="magazine"] .feat,body[data-skin="editorial"] .feat{border-radius:0}
+.feat .no{position:absolute;right:18px;top:14px;z-index:2;font-family:'Anton',sans-serif;font-size:46px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.75)}
+.feat .t .c{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;padding-left:32px;background:linear-gradient(currentColor,currentColor) 0 50%/22px 2px no-repeat}
+/* 一覧：通し番号・罫線 */
+.mgrid.mag{counter-reset:m 1;margin-top:14px}
+.mgrid.mag .mi{counter-increment:m;border-top:1px solid var(--line);padding-top:14px}
+body[data-skin="magazine"] .mi img,body[data-skin="editorial"] .mi img{border-radius:0}
+.mgrid.mag .mi .c{display:flex;justify-content:space-between;align-items:baseline}
+.mgrid.mag .mi .c::after{content:counter(m,decimal-leading-zero);font-family:'Anton',sans-serif;font-size:12.5px;letter-spacing:.08em;color:var(--sub);opacity:.75}
+.mgrid.mag .mi h3{font-size:16px;line-height:1.5}
+.mgrid.mag .mi .d{display:flex;gap:10px}
+.mgrid.mag .mi .d b{color:var(--ink)}
+/* 見出し帯（LATEST）・ページ送り */
+.mh2{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:44px;padding-bottom:4px}
+.mh2 .ey{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:8px}
+.mh2 .ey::before{content:"";width:22px;height:2px;background:var(--accent)}
+.mh2 h2{font-family:var(--fh);margin:0;font-size:clamp(19px,4.6vw,26px);font-weight:900;letter-spacing:-.01em;line-height:1.3}
+.mh2 h2 em{font-style:normal;color:var(--accent)}
+.mh2 .more{font-size:12px;font-weight:700;color:var(--sub);white-space:nowrap}
+.mgrid.mag+.pager{margin-top:40px}
+.pager{display:flex;justify-content:center;gap:18px}
+.pager a{padding:4px 2px;font-family:'Anton',sans-serif;font-size:16px;letter-spacing:.08em;color:var(--sub);border-bottom:2px solid transparent}
+.pager a.on{color:var(--ink);border-bottom-color:var(--accent)}
+@media(min-width:760px){.mhead{padding-top:38px}.feat .no{font-size:64px;right:28px;top:20px}.mgrid.mag{margin-top:18px}}
+@media(max-width:520px){.mh2 .more{display:none}}

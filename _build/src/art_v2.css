@@ -1,0 +1,55 @@
+/* ===== 記事 v2（マガジン調） ===== */
+#rprog{position:fixed;left:0;top:0;height:3px;width:0;background:var(--accent);z-index:120;transition:width .1s linear}
+.ahead{max-width:900px;padding-top:30px}
+.ahead .ey{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+.ahead .ey::before{content:"";width:22px;height:2px;background:var(--accent)}
+.ahead .ey small{font-family:var(--f);font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--sub);margin-left:4px}
+.ahead h1{font-size:clamp(26px,6.2vw,46px);line-height:1.3;letter-spacing:-.01em;margin-bottom:16px}
+.ahead .by{gap:12px;padding-top:12px;border-top:1px solid var(--line);max-width:760px}
+.ahead .by b{color:var(--ink)}
+.ahead .by .rt{margin-left:auto;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--sub)}
+.akv{margin-top:22px}
+body[data-skin="magazine"] .akv,body[data-skin="editorial"] .akv{border-radius:0}
+.akv .cap{font-size:11px;font-weight:700;color:var(--sub);margin-top:8px;text-align:right}
+/* 本文 */
+.art-body{counter-reset:h}
+.art-body .lead{font-size:16.5px;line-height:2;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:18px 0}
+.art-body h2{counter-increment:h;border-left:0;padding:0 0 10px;border-bottom:1px solid var(--line);margin:46px 0 18px;font-size:clamp(19px,4.8vw,26px);letter-spacing:-.01em}
+.art-body h2::before{content:counter(h,decimal-leading-zero);display:block;font-family:'Anton',sans-serif;font-size:24px;line-height:1;letter-spacing:.06em;color:var(--accent);margin-bottom:8px}
+.art-body blockquote{background:transparent;padding:6px 0 0 0;margin:34px 0;font-size:clamp(18px,4.6vw,24px);line-height:1.65;letter-spacing:-.005em}
+.art-body blockquote::before{content:"“";display:block;font-family:'Anton',sans-serif;font-size:64px;line-height:.55;color:var(--accent);margin-bottom:10px}
+.art-body blockquote::after{content:"";display:block;width:22px;height:2px;background:var(--accent);margin-top:14px}
+body[data-skin="magazine"] .art-body figure img,body[data-skin="editorial"] .art-body figure img{border-radius:0}
+.art-body figcaption{padding-left:12px;border-left:2px solid var(--accent);line-height:1.6}
+.acta{border:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ink) 3%,var(--bg));padding:24px 18px 22px}
+.acta .ey{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:8px}
+body[data-skin="magazine"] .acta .btn,body[data-skin="editorial"] .acta .btn{border-radius:0}
+.share{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);align-items:center}
+.share .lb{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--sub);margin-right:6px}
+body[data-skin="magazine"] .share a,body[data-skin="editorial"] .share a{border-radius:0;border-color:var(--ink);color:var(--ink)}
+/* 右カラム */
+.toc{border:0;border-top:2px solid var(--ink);padding:14px 0 0;background:transparent}
+.toc .t{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:6px}
+.toc ol{list-style:none;padding:0;counter-reset:t}
+.toc li{counter-increment:t;display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;line-height:1.6}
+.toc li::before{content:counter(t,decimal-leading-zero);font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent);flex:none}
+.toc li.on a{color:var(--accent)}
+.aside .blk h2{border-top:0;padding:0 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px;font-size:18px;letter-spacing:-.01em}
+.aside .blk h2[data-en]::before{content:attr(data-en);display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:8px;padding-left:32px;background:linear-gradient(var(--accent),var(--accent)) 0 50%/22px 2px no-repeat}
+.aside .arts{grid-template-columns:1fr!important;gap:10px}
+body[data-skin="magazine"] .art>img,body[data-skin="editorial"] .art>img{border-radius:0}
+body[data-skin="magazine"] .art,body[data-skin="editorial"] .art{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.aside .rel .c .n{font-size:14px}
+/* 次に読む（本文の下・全幅） */
+.anext{margin-top:44px;border-top:2px solid var(--ink);padding-top:18px;display:grid;grid-template-columns:1fr;gap:14px}
+.anext .ey{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.anext .c{display:grid;grid-template-columns:1fr 120px;gap:16px;align-items:center;cursor:pointer}
+.anext .c img{width:120px;height:84px;object-fit:cover;display:block}
+.anext .c .k{font-size:10.5px;font-weight:900;letter-spacing:.1em;color:var(--sub);margin-bottom:6px}
+.anext .c h3{font-family:var(--fh);margin:0;font-size:clamp(17px,4.4vw,22px);font-weight:900;line-height:1.45}
+@media(min-width:900px){.anext .c{grid-template-columns:1fr 220px}.anext .c img{width:220px;height:140px}}
+@media(min-width:760px){.aside .art{height:96px}.aside .art>img{width:104px;height:96px}.aside .art h3{font-size:13px}}
+/* 目次だけ追従させると下のブロックが重なる → 右カラムごと追従（画面が低いときは追従しない） */
+.toc{position:static!important}
+.alay{align-items:start}
+@media(min-width:900px) and (min-height:1040px){.aside{position:sticky;top:76px}}

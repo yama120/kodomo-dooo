@@ -8,3 +8,19 @@ test-club-credentials.local.txt
 *.p12
 .env
 .env.*
+
+# ---- 新デザインのプレビュー（本番には出さない。生成元は _build/src） ----
+*-preview.html
+*-preview-v*.html
+preview-index.html
+preview-quiz.css
+preview-quiz.js
+editorial-preview.html
+redesign-preview.html
+assets/preview-video/*.webm
+assets/editorial/
+assets/app-hero/_cmp-tmp.png
+assets/logo (1)のコピー.png
+supabase/.temp/
+.wrangler/
+_build/src/__pycache__/

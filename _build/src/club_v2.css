@@ -1,0 +1,52 @@
+/* ===== クラブ詳細 v2（マガジン調・検索結果v2と同じ道具立て） ===== */
+/* クラブ名の帯（背景の英字は無し） */
+.sec.chead-sec{padding:0 0 6px;overflow:visible}
+.chead-sec .bgw{display:none}
+.chead{margin-top:-26px}
+.chead h1{font-size:clamp(26px,6.4vw,44px);letter-spacing:-.01em;line-height:1.15}
+.chead .tx{padding-top:34px}
+@media(min-width:760px){.chead{margin-top:-38px}.chead .tx{padding-top:52px}}
+/* 基本情報：箱をやめて罫線の表に */
+body[data-skin="magazine"] .spec,body[data-skin="editorial"] .spec{background:transparent;border:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);border-radius:0;gap:0;margin-top:22px}
+body[data-skin="magazine"] .spec div,body[data-skin="editorial"] .spec div{background:transparent;padding:14px 12px 13px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+body[data-skin="magazine"] .spec div:nth-child(2n),body[data-skin="editorial"] .spec div:nth-child(2n){border-right:0}
+body[data-skin="magazine"] .spec div:nth-last-child(-n+2),body[data-skin="editorial"] .spec div:nth-last-child(-n+2){border-bottom:0}
+@media(min-width:760px){
+  body[data-skin="magazine"] .spec div:nth-child(2n),body[data-skin="editorial"] .spec div:nth-child(2n){border-right:1px solid var(--line)}
+  body[data-skin="magazine"] .spec div:nth-child(3n),body[data-skin="editorial"] .spec div:nth-child(3n){border-right:0}
+  body[data-skin="magazine"] .spec div:nth-last-child(-n+3),body[data-skin="editorial"] .spec div:nth-last-child(-n+3){border-bottom:0}
+}
+.spec dt{font-size:10.5px;letter-spacing:.1em}
+.spec dd{font-size:18px}
+/* 見出し：短い赤線＋英字ラベル＋見出し＋細い下罫（検索結果の収益枠と同じ型） */
+.blk h2{border-top:0;padding:0 0 11px;border-bottom:1px solid var(--line);margin-bottom:14px;font-size:clamp(19px,4.6vw,25px);letter-spacing:-.01em;line-height:1.3}
+.blk h2[data-en]::before{content:attr(data-en);display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:9px;padding-left:32px;background:linear-gradient(var(--accent),var(--accent)) 0 50%/22px 2px no-repeat}
+.blk .sub{margin:-6px 0 14px}
+.blk h2 .pr-lb{vertical-align:2px}
+/* 口コミ・スタッフ・リンク：箱をやめて罫線に（MAGAZINE／EDITORIAL） */
+body[data-skin="magazine"] .rev,body[data-skin="editorial"] .rev{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:14px 0;margin:0}
+body[data-skin="magazine"] .staff .s,body[data-skin="editorial"] .staff .s{border:0;border-radius:0;background:transparent;padding:4px 0}
+body[data-skin="magazine"] .links a,body[data-skin="editorial"] .links a{border:1px solid var(--ink);border-radius:0;font-family:var(--fh)}
+body[data-skin="magazine"] .links a:hover,body[data-skin="editorial"] .links a:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+body[data-skin="magazine"] .cta1 .fav,body[data-skin="editorial"] .cta1 .fav{border:1px solid var(--ink);border-radius:0}
+body[data-skin="magazine"] .cta1 .go,body[data-skin="editorial"] .cta1 .go,body[data-skin="magazine"] .cta2 .go,body[data-skin="editorial"] .cta2 .go{border-radius:0;letter-spacing:.04em}
+body[data-skin="magazine"] .mapb,body[data-skin="editorial"] .mapb{border-radius:0;border:0;border-top:1px solid var(--ink)}
+body[data-skin="magazine"] .ctable th,body[data-skin="editorial"] .ctable th{background:transparent;border:0;border-bottom:2px solid var(--ink);color:var(--ink)}
+body[data-skin="magazine"] .ctable td,body[data-skin="editorial"] .ctable td{border:0;border-bottom:1px solid var(--line)}
+/* 収益枠（検索結果 v2 と同じ節） */
+.rec{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 10px}
+@media(min-width:760px){.rec{grid-template-columns:repeat(4,1fr);gap:24px 20px}}
+.sec.pr .bgw{display:none}
+.sec.pr{padding:36px 0 40px;margin-top:44px}
+.sec.pr .wrap{position:relative;z-index:1}
+body .sec.pr .eyebrow{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin:0 0 10px}
+.sec.pr .eyebrow::before{content:"";width:22px;height:2px;background:var(--accent)}
+body .sec.pr .sec-h{border-top:0;padding:0 0 12px;margin:0 0 18px;border-bottom:1px solid var(--line);align-items:baseline}
+body .sec.pr .sec-h::before{display:none}
+body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-spacing:-.01em}
+.sec.pr .sec-h .pr-lb{margin-left:10px;vertical-align:2px}
+.sec.pr .sec-h .more{font-size:12px}
+.sec.pr .ads{margin-top:0}
+.sec.pr .ads-more{margin-top:14px}
+.sec.pr+.wrap .blk{margin-top:40px}
+@media(max-width:520px){.sec.pr .sec-h{flex-wrap:wrap}.sec.pr .sec-h h2{flex:1 1 100%}.sec.pr .sec-h .more{display:none}}

@@ -1,0 +1,11 @@
+<!DOCTYPE html><meta charset="utf-8"><style>html,body{margin:0;background:#888;overflow:hidden}iframe{display:block;border:0;background:#fff}</style>
+<script>
+const q=new URLSearchParams(location.search),p=q.get('p'),h=q.get('h')||'2600',w=q.get('w')||'390',y=q.get('y')||'0';
+window.SHOT_INIT=function(fr){
+  const d=fr.contentDocument,s=new URLSearchParams(location.search);
+  const sk=s.get('skin'); if(sk) d.body.dataset.skin=sk;
+  if(s.get('open')==='1'){const go=()=>{const sh=d.getElementById('sheet'),bd=d.getElementById('shBd');
+    if(!sh){setTimeout(go,100);return} sh.style.transition='none';bd.style.transition='none';sh.classList.add('on');bd.classList.add('on')};go()}
+};
+document.write('<iframe id="f" src="../'+p+'" style="width:'+w+'px;height:'+h+'px;margin-top:-'+y+'px" onload="SHOT_INIT(this)"></iframe>');
+</script>

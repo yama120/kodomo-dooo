@@ -1,0 +1,195 @@
+# チビスポとは v3：会社の想いを体現するページ。他ページと違い明朝・全幅写真・1文1行の宣言型
+# 参考：スノーピーク（全幅写真＋宣言1行→明朝の短文を中央に→黒い理念の節）／YAMAP（宣言＋詩的短文→代表メッセージ→3カード）／クラシコム（英字大見出し＋日本語3語）
+css='''
+.abt{--m:'Zen Old Mincho','Hiragino Mincho ProN',serif}
+.abt-open{position:relative;min-height:min(92vh,760px);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#111;color:#fff}
+.abt-open img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08);opacity:.62}
+.abt-open::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.55))}
+.abt-open .in{position:relative;z-index:1;padding:80px 20px}
+.abt-ey{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:22px}
+.abt-open h1{font-family:var(--m);font-weight:600;font-size:clamp(34px,7.2vw,86px);line-height:1.25;letter-spacing:.04em;margin:0;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+.abt-open .sub{font-family:var(--m);font-size:clamp(13px,1.6vw,17px);letter-spacing:.14em;margin-top:26px;opacity:.9}
+.abt-open .sc{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.3em;opacity:.7}
+.abt-open .sc::after{content:"";display:block;width:1px;height:34px;background:#fff;margin:8px auto 0;animation:abt-sc 1.8s infinite}
+@keyframes abt-sc{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* 宣言（1文1行・中央） */
+.abt-st{padding:96px 20px;text-align:center}
+.abt-st .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:34px}
+.abt-st p{font-family:var(--m);font-weight:600;font-size:clamp(16px,2.4vw,24px);line-height:2.3;letter-spacing:.06em;margin:0 auto;max-width:760px}
+.abt-st p+p{margin-top:38px}
+.abt-st .big{font-size:clamp(22px,3.6vw,40px);line-height:1.6;margin-top:56px;letter-spacing:.04em}
+.abt-st .big em{font-style:normal;color:var(--accent)}
+/* 黒：なぜつくったのか */
+.abt-why{position:relative;background:#0d0d0d;color:#fff;padding:120px 20px;overflow:hidden}
+.abt-why img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);opacity:.22}
+.abt-why .in{position:relative;max-width:820px;margin:0 auto;text-align:center}
+.abt-why .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:26px}
+.abt-why h2{font-family:var(--m);font-weight:600;font-size:clamp(26px,4.4vw,48px);line-height:1.5;letter-spacing:.04em;margin:0 0 40px}
+.abt-why p{font-family:var(--m);font-size:clamp(14px,1.8vw,17px);line-height:2.4;letter-spacing:.05em;margin:0 auto;max-width:740px;opacity:.92}
+.abt-why p+p{margin-top:28px}
+/* 決めていること */
+.abt-val{padding:110px 0 80px}
+.abt-val .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);text-align:center;margin-bottom:12px}
+.abt-val h2{font-family:var(--m);font-weight:600;font-size:clamp(24px,4vw,40px);text-align:center;letter-spacing:.06em;margin:0 0 70px;line-height:1.5}
+.abt-v{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--ink)}
+.abt-v>div{border-bottom:1px solid var(--ink);padding:38px 0 42px;display:grid;gap:14px}
+.abt-v .en{font-family:'Anton',sans-serif;font-size:clamp(30px,5vw,54px);line-height:1;letter-spacing:.02em;color:var(--ink);opacity:.14}
+.abt-v .no{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.24em;color:var(--accent)}
+.abt-v h3{font-family:var(--m);font-weight:600;font-size:clamp(21px,2.5vw,28px);letter-spacing:.05em;margin:0;line-height:1.45}
+.abt-v p{margin:0;font-size:14px;font-weight:700;line-height:2.1;color:var(--ink);max-width:560px}
+.abt-v p b{color:var(--accent);font-weight:900}
+/* 三者 */
+.abt-tri{background:#fff;padding:100px 20px}
+body[data-skin="stadium"] .abt-tri{background:var(--card)}
+.abt-tri .in{max-width:1000px;margin:0 auto;display:grid;gap:40px;align-items:center}
+.abt-tri .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:14px}
+.abt-tri h2{font-family:var(--m);font-weight:600;font-size:clamp(24px,3.6vw,38px);letter-spacing:.05em;line-height:1.5;margin:0 0 20px}
+.abt-tri p{font-size:14px;font-weight:700;line-height:2.1;margin:0 0 12px}
+.abt-dg{position:relative;width:min(100%,380px);aspect-ratio:1;margin:0 auto}
+.abt-dg svg{position:absolute;inset:0;width:100%;height:100%}
+.abt-dg .nd{position:absolute;width:112px;height:112px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--m);font-weight:600;font-size:15px;letter-spacing:.06em;transform:translate(-50%,-50%)}
+.abt-dg .nd small{font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
+.abt-dg .nd.c{background:var(--accent);color:#fff;border-color:var(--accent);width:96px;height:96px;font-size:17px}
+.abt-dg .nd.c small{color:#fff;opacity:.85}
+/* 運営者より（手紙） */
+.abt-let{padding:110px 20px}
+.abt-let .in{max-width:720px;margin:0 auto;border:1px solid var(--ink);padding:56px clamp(22px,6vw,72px) 52px;background:var(--card);position:relative}
+.abt-let .in::before{content:"";position:absolute;inset:6px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);pointer-events:none}
+.abt-let .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:14px}
+.abt-let h2{font-family:var(--m);font-weight:600;font-size:clamp(22px,3.2vw,30px);letter-spacing:.06em;margin:0 0 30px;line-height:1.5}
+.abt-let p{font-family:var(--m);font-size:15px;line-height:2.3;letter-spacing:.04em;margin:0 0 22px}
+.abt-let .sg{margin-top:34px;text-align:right;font-family:var(--m);font-size:14px;letter-spacing:.1em}
+.abt-let .sg small{display:block;font-size:11.5px;font-weight:700;color:var(--sub);letter-spacing:.06em;margin-top:6px;font-family:var(--f)}
+/* ビジョン＋CTA */
+.abt-vis{position:relative;background:#0d0d0d;color:#fff;padding:120px 20px 110px;text-align:center;overflow:hidden}
+.abt-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);opacity:.3}
+.abt-vis .in{position:relative;max-width:820px;margin:0 auto}
+.abt-vis .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:26px}
+.abt-vis h2{font-family:var(--m);font-weight:600;font-size:clamp(26px,4.6vw,52px);line-height:1.5;letter-spacing:.04em;margin:0 0 30px}
+.abt-vis p{font-family:var(--m);font-size:clamp(14px,1.8vw,17px);line-height:2.3;letter-spacing:.06em;margin:0 auto 54px;max-width:640px;opacity:.92}
+.abt-cta{display:grid;gap:10px;max-width:960px;margin:0 auto}
+.abt-cta a{display:block;text-align:left;border:1px solid rgba(255,255,255,.35);padding:22px 22px 20px;color:#fff;background:rgba(255,255,255,.04);transition:background .2s,border-color .2s}
+.abt-cta a:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.abt-cta a.pri{background:var(--accent);border-color:var(--accent)}
+.abt-cta .k2{font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.24em;opacity:.8}
+.abt-cta b{display:block;font-family:var(--m);font-weight:600;font-size:20px;letter-spacing:.06em;margin:6px 0 4px}
+.abt-cta span{font-size:12.5px;font-weight:700;opacity:.8;line-height:1.7}
+.abt-cta i{display:block;font-style:normal;font-weight:900;margin-top:12px;font-size:13px}
+@media(max-width:599px){
+  .abt-st p br,.abt-why p br,.abt-vis p br{display:none}
+  .abt-st{padding:72px 22px}.abt-st p{font-size:16px;line-height:2.15;letter-spacing:.03em}.abt-st p+p{margin-top:26px}.abt-st .big{font-size:24px;line-height:1.7;margin-top:44px;letter-spacing:.02em}
+  .abt-why{padding:88px 22px}.abt-why p{letter-spacing:.03em;line-height:2.2}
+  .abt-vis{padding:88px 22px 80px}.abt-vis p{letter-spacing:.03em}
+  .abt-open h1{font-size:36px}
+}
+/* 出現 */
+.abt .rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease}
+.abt .rv.in{opacity:1;transform:none}
+.abt.noanim .rv{opacity:1;transform:none;transition:none}
+@media(min-width:760px){
+  .abt-v{grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .abt-v>div{padding:44px 40px 48px;border-right:1px solid var(--ink)}
+  .abt-tri .in{grid-template-columns:1fr 1fr;gap:60px}
+  .abt-cta{grid-template-columns:1fr 1fr 1fr}
+}
+'''
+body='''
+<div class="abt">
+<section class="abt-open">
+  <img src="assets/preview-video/jp-soccer-run.jpg" alt="">
+  <div class="in">
+    <div class="abt-ey">ABOUT CHIBISPO</div>
+    <h1>地域スポーツを、<br>もっと身近に。</h1>
+    <div class="sub">子どもの「やってみたい」が、地域で見つかる。</div>
+  </div>
+  <div class="sc">SCROLL</div>
+</section>
+
+<section class="abt-st">
+  <div class="k rv">OUR STATEMENT</div>
+  <p class="rv">「うちの子に合うクラブを見つけたい」。<br>その気持ちに、ちゃんと寄り添える場所を作りたい。</p>
+  <p class="rv">スポーツが育てるのは、運動能力だけじゃありません。<br>仲間との関わり、挑戦する心、<br>うまくいかない日の悔しさ、できた瞬間の笑顔。<br>そして、自分らしさ。</p>
+  <p class="rv">それを大切にしてくれるクラブとの出会いを、<br>もっと届けたい。</p>
+  <p class="big rv">近所のいいクラブが、<br>知られていないのは<em>もったいない</em>。</p>
+</section>
+
+<section class="abt-why">
+  <img src="assets/preview-video/px-3448250.jpg" alt="">
+  <div class="in">
+    <div class="k rv">WHY WE STARTED</div>
+    <h2 class="rv">なぜ、チビスポを<br>つくったのか。</h2>
+    <p class="rv">普段は医療の現場で、子どものからだの発達や動きづくりに向き合っています。<br>「この時期に、どんな運動をするか」が、その子の未来にどれだけ大きいか。<br>それを毎日、目の前で見てきました。</p>
+    <p class="rv">けれど、いざ探そうとすると情報は散らばっていて、<br>近所にいいクラブがあるのに、届いていない。<br>クラブの側も、伝え方に困っている。</p>
+    <p class="rv">その「もったいなさ」をなくしたくて、チビスポを始めました。</p>
+  </div>
+</section>
+
+<section class="abt-val">
+  <div class="wrap">
+    <div class="k rv">OUR PRINCIPLES</div>
+    <h2 class="rv">私たちが、決めていること。</h2>
+    <div class="abt-v">
+      <div class="rv"><div class="en">HONEST</div><div class="no">01</div><h3>合う子・合わない子を、正直に。</h3><p>誰にでも良いクラブは、ありません。だから紹介では<b>「合う子」と「合わない子」</b>を並べて書きます。褒めるだけの紹介は、選ぶ助けになりません。</p></div>
+      <div class="rv"><div class="en">NOT BY PRICE</div><div class="no">02</div><h3>月謝で、並べない。</h3><p>いちばん大きく出すのは、値段ではなくクラブの見出しです。クラブ同士を<b>値下げで競わせない</b>。それは子どもに返ってこないと考えているからです。</p></div>
+      <div class="rv"><div class="en">ATMOSPHERE</div><div class="no">03</div><h3>空気感を、そのまま。</h3><p>コーチの声のかけ方、練習前のざわめき、子どもたちの表情。文字では伝わらない空気感を、<b>写真と動画</b>でそのまま届けます。見に行く前に、少しだけ感じられるように。</p></div>
+      <div class="rv"><div class="en">TOGETHER</div><div class="no">04</div><h3>地域で、続ける。</h3><p>クラブは基本無料で載せられ、保護者は無料で探せます。続けるための費用は、<b>子どもの健康を支える地域のお店</b>と一緒に。善意だけでは続かないから、続く仕組みにしました。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="abt-tri">
+  <div class="in">
+    <div class="rv">
+      <div class="k">THREE CIRCLES</div>
+      <h2>まんなかに、<br>子どもがいる。</h2>
+      <p>保護者は、うちの子に合うクラブと出会う。クラブは、想いをそのまま伝えて、来てほしい子に届ける。地域のお店は、子どもの健康を支えながら、街の家族に知ってもらう。</p>
+      <p>三つの輪がゆるやかに重なる、そのまんなかに子どもがいる。それがチビスポの形です。</p>
+    </div>
+    <div class="abt-dg rv">
+      <svg viewBox="0 0 380 380" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><path d="M190 60 L320 300 L60 300 Z"/><circle cx="190" cy="220" r="150" stroke-dasharray="3 6"/></svg>
+      <div class="nd" style="left:50%;top:16%"><small>PARENTS</small>保護者</div>
+      <div class="nd" style="left:16%;top:79%"><small>CLUBS</small>クラブ</div>
+      <div class="nd" style="left:84%;top:79%"><small>LOCAL</small>地域のお店</div>
+      <div class="nd c" style="left:50%;top:58%"><small>KIDS</small>子ども</div>
+    </div>
+  </div>
+</section>
+
+<section class="abt-let">
+  <div class="in rv">
+    <div class="k">A LETTER</div>
+    <h2>運営者より</h2>
+    <p>チビスポは、大きな会社が作ったサービスではありません。子どものからだに毎日向き合っている一人が、「探せない」「伝わらない」をなんとかしたくて始めた、小さな場所です。</p>
+    <p>専門知識は、押しつけるためのものではありません。保護者が安心して一歩を踏み出せるように。現場感とエビデンスの両方を、やさしい言葉でお届けしていきます。</p>
+    <p>クラブの方へ。あなたの練習の空気は、文章より雄弁です。まずは一枚の写真から、載せてみてください。</p>
+    <div class="sg">チビスポ 運営者<small>理学療法士／子どもの運動発達にたずさわる</small></div>
+  </div>
+</section>
+
+<section class="abt-vis">
+  <img src="assets/preview-video/wm-kidsrun-1.jpg" alt="">
+  <div class="in">
+    <div class="k rv">VISION</div>
+    <h2 class="rv">子どもとスポーツの出会いを、<br>もっとなめらかに。</h2>
+    <p class="rv">クラブ・保護者・地域のお店がゆるやかにつながり、<br>子どもたちが「やってみたい」に出会える場所を、<br>地域ごとに広げていきます。</p>
+    <div class="abt-cta rv">
+      <a class="pri" href="search-preview.html"><div class="k2">FOR PARENTS</div><b>クラブを探す</b><span>地域・種目・雰囲気から、お子さんに合うクラブを。</span><i>さがしてみる ›</i></a>
+      <a href="shindan-preview.html" data-quiz><div class="k2">QUIZ</div><b>3つの質問で提案してもらう</b><span>種目が決まっていなくても、1分で。</span><i>質問に答える ›</i></a>
+      <a href="partner-preview.html"><div class="k2">FOR CLUBS</div><b>クラブを載せる</b><span>指導者の方へ。基本無料で掲載できます。</span><i>掲載について ›</i></a>
+    </div>
+  </div>
+</section>
+</div>
+'''
+js=r'''
+<script>
+(function(){
+  var root=document.querySelector('.abt'); if(!root) return;
+  if(/noanim=1/.test(location.search)){root.classList.add('noanim');return}
+  var els=root.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>'''
+page('about-preview.html','チビスポとは｜チビスポ',body,css,extra_js=js)

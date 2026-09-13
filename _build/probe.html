@@ -1,0 +1,7 @@
+<!DOCTYPE html><meta charset="utf-8"><pre id="o">pending</pre>
+<script>
+const f=document.createElement('iframe');f.style.cssText='width:1440px;height:2600px;border:0';f.src='map-stadium.html';document.body.appendChild(f);
+f.onload=()=>setTimeout(()=>{const d=f.contentDocument,w=f.contentWindow;const a=d.querySelector('.mx-extra a[href="recruit-pr.html"]');if(!a){document.getElementById('o').textContent='no band';return;}
+const dv=a.querySelector(':scope > div'),sp=dv&&dv.querySelector('span');const cs=e=>w.getComputedStyle(e);
+document.getElementById('o').textContent=['band bg='+cs(a).backgroundColor,'div color='+cs(dv).color+' size='+cs(dv).fontSize+' visible='+(dv.getBoundingClientRect().height>0),'div text='+JSON.stringify(dv.childNodes[0].textContent.trim()),'span color='+cs(sp).color,'child count='+dv.childNodes.length].join('\n');},3500);
+</script>

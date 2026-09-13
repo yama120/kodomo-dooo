@@ -1,5 +1,7 @@
 /* =========================================================================
-   チビスポ 共通ヘッダー / フッター コンポーネント
+   チビスポ 共通ヘッダー / フッター コンポーネント（v2・2026-09-13 新デザイン）
+   ★ヘッダー・フッター・メニューの HTML は _build/src/prod_shared.py が生成して埋め込む。
+     文言やリンクを変えるときは header_v2.py / prod_common.py を直して python3 prod_shared.py を流す。
    - 全ページ共通。このファイル1つを直せば全ページのヘッダー・フッターが変わる。
    - 各ページは <script src="shared.js"></script> を </body> 直前に置くだけ。
    - ヘッダー / ボトムシートメニュー / 下部タブバー / フッター を body に注入する。
@@ -27,259 +29,19 @@
 
   /* ---------- 共通CSS（ヘッダー・メニュー・下部バー・フッターのレスポンシブ） ---------- */
   var CSS = `
-    /* ログイン状態でヘッダーの導線を出し分け */
     .cc-hidden{ display:none !important; }
-    /* ページ内アンカー移動をゆっくりスクロールに（全ページ共通） */
     html{ scroll-behavior:smooth; }
-    /* iOS Safari対策：入力欄のフォントが16px未満だとフォーカス時に画面が自動ズームし、
-       そのまま戻らずスクロール不能になる。モバイルでは16pxを強制してズーム自体を防ぐ。 */
     @media (max-width: 768px){
-      input:not([type="checkbox"]):not([type="radio"]),
-      select, textarea { font-size:16px !important; }
-    }
-    /* ボトムシート開閉（クラス方式） */
-    #cc-menu{ box-sizing:border-box; }
-    #cc-menu.cc-open{ transform:translateY(0) !important; transition:transform .33s cubic-bezier(.32,.72,0,1) !important; }
-    #cc-backdrop.cc-open{ display:block !important; }
-    #cc-menu a[style*="flex-direction:column"]{ box-sizing:border-box; min-width:0; }
-    #cc-menu a[style*="flex-direction:column"] svg{ flex:0 0 auto; }
-    #cc-menu a[style*="flex-direction:column"] span{ overflow-wrap:anywhere; max-width:100%; }
-    /* デスクトップ（1001px以上）はモバイル専用UIを無効化 */
-    @media (min-width: 1001px){
-      #cc-menu, #cc-backdrop { display:none !important; }
-      .cc-burger { display:none !important; }
-    }
-    /* ヘッダー：ナビ文字・アクションラベルは途中で折り返さない */
-    .cc-nav a { white-space:nowrap; }
-    .cc-actions { flex-shrink:0; }
-    .cc-actions .cc-icontop { flex-shrink:0; }
-    .cc-actions .cc-icontop span { white-space:nowrap; }
-    /* ヘッダー：中間幅は文字・アイコン・余白を縮小して全項目を表示 */
-    @media (max-width: 1360px){
-      header[data-screen-label="ヘッダー"] .cc-head-inner { gap:12px !important; padding-left:16px !important; padding-right:16px !important; }
-      .cc-nav { gap:14px !important; }
-      .cc-nav a { font-size:12.5px !important; white-space:nowrap !important; }
-      .cc-nav a svg { width:16px !important; height:16px !important; }
-      .cc-divider { margin:0 2px !important; }
-      .cc-actions { gap:12px !important; }
-      .cc-actions .cc-icontop span { font-size:10px !important; }
-      .cc-actions .cc-icontop svg { width:20px !important; height:20px !important; }
-      .cc-publish { padding:9px 15px !important; font-size:12.5px !important; }
-    }
-    /* モバイル：ヘッダーはロゴのみ、操作は下部タブバー＋ボトムシートに集約 */
-    @media (max-width: 1000px){
-      .cc-nav { display:none !important; }
-      .cc-divider { display:none !important; }
-      .cc-actions { display:none !important; }
-      .cc-burger { display:none !important; }
-      .cc-bottombar { display:flex !important; }
-      body { padding-bottom:78px; }
-      #cc-menu { bottom:78px !important; }
-      header[data-screen-label="ヘッダー"] .cc-head-inner { padding:0 16px !important; gap:10px !important; }
-      /* ロゴを小さめにしてサブタイトルが下に回り込まないようにする */
-      .cc-logo-img { height:34px !important; }
-      .cc-head-inner a[href="index.html"] span { white-space:nowrap !important; }
-    }
-    /* スマホ狭幅：タイルと下部バーの詰めすぎ・はみ出しを調整 */
-    @media (max-width: 480px){
-      .cc-logo-img { height:30px !important; }
-      .cc-head-inner a[href="index.html"] span { font-size:9.5px !important; }
-      #cc-menu { padding-left:12px !important; padding-right:12px !important; }
-      #cc-menu > div[style*="grid-template-columns"]{ gap:8px !important; }
-      #cc-menu a[style*="flex-direction:column"]{ padding:12px 2px !important; }
-      #cc-menu a[style*="flex-direction:column"] span{ font-size:10px !important; line-height:1.25 !important; }
-      .cc-bottombar > *{ flex:1 1 0; min-width:0; padding:0 2px; }
-      .cc-bottombar span{ font-size:10.5px !important; white-space:nowrap; }
-      .cc-publish { padding:9px 15px !important; font-size:12.5px !important; }
-    }
-    /* フッター：中間幅以下はリンクを2列に */
-    @media (max-width: 820px){
-      footer[data-screen-label="フッター"] [style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns:repeat(2,1fr) !important; }
-    }
-    @media (max-width: 560px){
-      footer[data-screen-label="フッター"] > div { gap:28px !important; }
-      footer[data-screen-label="フッター"] [style*="flex: 1 1 520px"]{ flex:1 1 100% !important; }
+      input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size:16px !important; }
     }
   `;
 
-  /* ---------- ヘッダー ---------- */
-  var HEADER = `
-  <header data-screen-label="ヘッダー" style="position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.92); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); border-bottom: 1px solid #eeeeee;">
-    <div class="cc-head-inner" style="max-width: 1320px; margin: 0 auto; padding: 0 24px; height: 74px; display: flex; align-items: center; gap: 22px;">
-
-      <a href="index.html" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; flex: 0 0 auto; line-height: 1;">
-        <img class="cc-logo-img" src="assets/logo.png" alt="チビスポ" style="height: 36px; width: auto; display: block;">
-        <span style="font-size: 10px; font-weight: 700; color: #9aa3ae; letter-spacing: 0.02em; white-space: nowrap;">地域スポーツを、もっと身近に。</span>
-      </a>
-
-      <nav class="cc-nav" style="display: flex; align-items: center; gap: 24px; margin-left: auto;">
-        <a href="clubs/" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; color:#2b2b2b; text-decoration:none;" style-hover="color:#2a6fdb;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>クラブを探す
-        </a>
-        <a href="map.html" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; color:#2b2b2b; text-decoration:none;" style-hover="color:#e8455f;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8455f" stroke-width="1.9"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>地図から探す
-        </a>
-        <a href="magazine.html" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; color:#2b2b2b; text-decoration:none;" style-hover="color:#1f8a5b;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.9"><path d="M3 5h7v15H5a2 2 0 0 1-2-2z"/><path d="M21 5h-7v15h5a2 2 0 0 0 2-2z"/></svg>マガジン
-        </a>
-        <a href="about.html" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; color:#2b2b2b; text-decoration:none;" style-hover="color:#e8784a;">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 4 L21 20 L12 20 Z" fill="#7cb342"/><path d="M12 4 L3 20 L12 20 Z" fill="#f5c518"/></svg>チビスポとは
-        </a>
-        <a href="partner.html" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; color:#2b2b2b; text-decoration:none;" style-hover="color:#2a6fdb;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.9"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg>掲載・広告
-        </a>
-      </nav>
-
-      <span class="cc-divider" style="width:1px; height:28px; background:#e2e5ea; flex:0 0 auto; margin:0 6px;"></span>
-
-      <div class="cc-actions" style="display:flex; align-items:center; gap:20px;">
-        <a class="cc-icontop" href="mypage.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e8455f" stroke-width="1.8"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">お気に入り</span>
-        </a>
-        <a class="cc-icontop cc-auth-out" href="club-mypage.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="1.8"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-5h4v5"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">クラブログイン</span>
-        </a>
-        <a class="cc-icontop cc-auth-out" href="login.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">一般ログイン</span>
-        </a>
-        <a class="cc-icontop cc-auth-in cc-hidden" href="mypage.html" style="display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:#54606e;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-          <span style="font-size:10.5px; font-weight:700;">マイページ</span>
-        </a>
-        <a class="cc-publish" href="listing.html" style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:900; color:#ffffff; text-decoration:none; background:#e8455f; border-radius:999px; padding:11px 22px; box-shadow:0 6px 16px rgba(232,69,95,0.28);" style-hover="background:#d23b53;">クラブを掲載する</a>
-      </div>
-
-      <button class="cc-burger" aria-label="メニュー" style="flex:0 0 auto; width:44px; height:44px; border-radius:50%; border:1.5px solid #e2e5ea; background:#fff; cursor:pointer; color:#2b2b2b; display:flex; align-items:center; justify-content:center;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-
-    </div>
-  </header>`;
-
-  /* ---------- 背景幕 + ボトムシートメニュー ---------- */
-  var MENU = `
-    <div id="cc-backdrop" style="display:none; position:fixed; inset:0; background:rgba(15,21,30,.4); z-index:1290;"></div>
-
-    <div class="cc-menu" id="cc-menu" style="position:fixed; left:0; right:0; bottom:0; margin:0 auto; width:100%; max-width:560px; background:#ffffff; border-radius:22px 22px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,.18); padding:12px 18px 26px; z-index:1300; max-height:88vh; overflow-y:auto; transform:translateY(120%); transition:transform .55s cubic-bezier(.32,.72,0,1); will-change:transform;">
-      <div style="width:44px; height:5px; border-radius:3px; background:#dfe3e8; margin:2px auto 16px;"></div>
-
-      <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px;">
-        <a href="clubs/" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2a6fdb" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">クラブを探す</span>
-        </a>
-        <a href="map.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8455f" stroke-width="1.9"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">地図から探す</span>
-        </a>
-        <a href="magazine.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1f8a5b" stroke-width="1.9"><path d="M4 5h7v15H6a2 2 0 0 1-2-2z"/><path d="M20 5h-7v15h5a2 2 0 0 0 2-2z"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">マガジン</span>
-        </a>
-        <a href="about.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 4 L21 20 L12 20 Z" fill="#7cb342"/><path d="M12 4 L3 20 L12 20 Z" fill="#f5c518"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">チビスポとは</span>
-        </a>
-        <a href="mypage.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8455f" stroke-width="1.8"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">お気に入り</span>
-        </a>
-        <a href="faq.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.8.35-1.1.9-1.1 1.9"/><circle cx="12" cy="16.6" r=".6" fill="#b04ae8"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">よくある質問</span>
-        </a>
-        <a href="partner.html" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 4px; border:1px solid #eef0f2; border-radius:14px; text-decoration:none; color:#3a4452;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b04ae8" stroke-width="1.8"><path d="M5 21V5l7-2 7 2v16"/><path d="M9 9h2M9 13h2M14 9h1M14 13h1"/></svg>
-          <span style="font-size:11px; font-weight:700; text-align:center; line-height:1.3;">掲載をお考えの方へ</span>
-        </a>
-      </div>
-
-      <a href="listing.html" style="display:block; text-align:center; background:#e8455f; color:#fff; font-size:15px; font-weight:800; border-radius:999px; padding:15px 0; margin-top:20px; text-decoration:none; box-shadow:0 6px 16px rgba(232,69,95,0.26);">チーム・クラブを掲載する</a>
-      <a href="login.html" class="cc-auth-out" style="display:block; text-align:center; border:1.5px solid #e8455f; color:#e8455f; font-size:15px; font-weight:800; border-radius:999px; padding:14px 0; margin-top:11px; text-decoration:none;">一般（保護者）ログイン / 会員登録</a>
-      <a href="club-mypage.html" class="cc-auth-out" style="display:block; text-align:center; border:1.5px solid #2a6fdb; color:#2a6fdb; font-size:14px; font-weight:800; border-radius:999px; padding:13px 0; margin-top:9px; text-decoration:none;">クラブ運営者ログイン（掲載・管理）</a>
-      <a href="mypage.html" class="cc-auth-in cc-hidden" style="display:block; text-align:center; background:#2270e0; color:#fff; font-size:15px; font-weight:800; border-radius:999px; padding:14px 0; margin-top:11px; text-decoration:none;">マイページ</a>
-    </div>`;
-
-  /* ---------- 下部タブバー（モバイル） ---------- */
-  var BOTTOMBAR = `
-  <nav class="cc-bottombar" style="display:none; position:fixed; left:0; right:0; bottom:0; height:78px; background:#ffffff; border-top:1px solid #eef0f2; box-shadow:0 -2px 12px rgba(0,0,0,.06); z-index:1310; align-items:center; justify-content:space-around; padding-bottom:12px; box-sizing:border-box;">
-    <a href="index.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></svg>
-      <span style="font-size:10px; font-weight:600;">ホーム</span>
-    </a>
-    <a href="clubs/" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
-      <span style="font-size:10px; font-weight:600;">クラブを探す</span>
-    </a>
-    <a href="login.html" class="cc-auth-out" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-      <span style="font-size:10px; font-weight:600;">一般ログイン</span>
-    </a>
-    <a href="mypage.html" class="cc-auth-in cc-hidden" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg>
-      <span style="font-size:10px; font-weight:600;">マイページ</span>
-    </a>
-    <a href="mypage.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:3px; color:#54606e;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>
-      <span style="font-size:10px; font-weight:600;">お気に入り</span>
-    </a>
-    <button class="cc-open-menu" aria-label="メニュー" style="background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; color:#e8455f;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      <span style="font-size:10px; font-weight:700;">メニュー</span>
-    </button>
-  </nav>`;
-
-  /* ---------- フッター ---------- */
-  var FOOTER = `
-  <footer data-screen-label="フッター" style="background: #f4f4f2; padding: 52px 32px 32px;">
-    <div style="max-width: 1120px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start;">
-      <div style="flex: 0 0 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px;">
-        <a href="index.html" style="align-self: flex-start; text-decoration: none; display: block;"><img src="assets/logo.png" alt="チビスポ" style="height: 36px; width: auto; display: block;"></a>
-        <div style="font-size: 11px; font-weight: 700; color: #777777;">地域スポーツを、もっと身近に。</div>
-      </div>
-
-      <div style="flex: 1 1 520px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">クラブを探す</div>
-          <a href="clubs/" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">クラブを探す</a>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">マガジン</div>
-          <a href="magazine.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">クラブのらしさ</a>
-          <a href="magazine.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">コーチの想い</a>
-          <a href="magazine.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">子どもの一歩</a>
-          <a href="magazine.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">はじめてのスポーツ選び</a>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">サポート</div>
-          <a href="faq.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">よくある質問</a>
-          <a href="contact.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">お問い合わせ</a>
-          <a href="legal.html#terms" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">利用規約</a>
-          <a href="legal.html#privacy" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">プライバシーポリシー</a>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 13px; font-weight: 900; color: #2b2b2b;">運営について</div>
-          <a href="about.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">チビスポとは</a>
-          <a href="partner.html" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">掲載・広告のご案内</a>
-          <a href="listing.html#service" style="font-size: 12px; color: #777777; text-decoration: none; font-weight: 500;">ホームページ・SNS制作代行</a>
-        </div>
-      </div>
-
-      <!-- SNSアイコン：チビスポ公式（Threads / Instagram） -->
-      <div style="flex: 0 0 auto; display: flex; gap: 12px; align-items: center;">
-        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener" aria-label="チビスポ公式Instagram" style="width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="#ffffff" stroke="none"/></svg>
-        </a>
-        <a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener" aria-label="チビスポ公式Threads" style="width: 40px; height: 40px; border-radius: 50%; background: #000000; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
-          <svg width="20" height="20" viewBox="0 0 192 192" fill="#ffffff"><path d="M141.537 88.988c-.827-.396-1.667-.777-2.518-1.143-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.397-35.12 18.036l13.779 9.452c5.73-8.694 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.451 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.141-23.82 1.372-39.134 15.265-38.105 34.569.522 9.792 5.4 18.216 13.735 23.719 7.048 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.631-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.94c22.975.171 40.526 7.521 52.171 21.848 5.71 7.026 10.015 15.861 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.194 47.292 9.642 32.788 28.079 19.882 44.486 13.224 67.316 13.001 95.932L13 96l.001.068c.223 28.616 6.881 51.446 19.787 67.853 14.504 18.437 36.094 27.885 64.169 28.079h.113c24.96-.173 42.554-6.708 57.048-21.189 18.963-18.945 18.392-42.695 12.142-57.27-4.484-10.454-13.033-18.945-24.723-24.553zm-43.096 40.519c-10.44.588-21.286-4.098-21.821-14.135-.397-7.442 5.296-15.746 22.461-16.735 1.966-.114 3.895-.169 5.79-.169 6.235 0 12.068.606 17.371 1.765-1.978 24.702-13.58 28.713-23.801 29.274z"/></svg>
-        </a>
-      </div>
-    </div>
-    <div style="text-align: center; font-size: 11px; color: #999999; margin-top: 40px; font-weight: 500;">© 2026 Chibispo All Rights Reserved.</div>
-  </footer>`;
+  /* ---------- ヘッダー・メニュー・フッター（生成物：_build/src/prod_shared.py。直接編集しない） ---------- */
+  var CHROME_V = "20260913";
+  var FONT_URL = "https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap";
+  var HEADER = "<header class=\"site-hd\">\n  <div class=\"wrap hd\">\n    <a class=\"logo\" href=\"index.html\"><img src=\"assets/logo-sm.png\" alt=\"チビスポ\"><span class=\"logo-tg\">地域スポーツを、もっと身近に。</span></a>\n    <nav class=\"hd-nav\">\n      <a href=\"search.html\">クラブを探す</a>\n      <a href=\"map.html\">地図から探す</a>\n      <a href=\"about.html\">チビスポとは</a>\n      <a href=\"partner.html\">クラブ・事業者の方へ</a>\n    </nav>\n    <div class=\"hd-r\">\n      <a class=\"hd-ic\" href=\"mypage.html#fav\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z\"/></svg><span>お気に入り</span></a>\n      <a class=\"hd-ic hd-out\" href=\"club-mypage.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M3 20h18\"/><path d=\"M5 20V9l7-5 7 5v11\"/><path d=\"M10 20v-5h4v5\"/></svg><span>クラブログイン</span></a>\n      <a class=\"hd-ic hd-out\" href=\"login.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"8\" r=\"3.6\"/><path d=\"M4.5 20a7.5 7.5 0 0 1 15 0\"/></svg><span>ログイン</span></a>\n      <a class=\"hd-ic hd-in\" href=\"mypage.html\"><span class=\"hd-av\">M</span><span>マイページ</span></a>\n      <a class=\"hd-cta\" href=\"listing.html\">クラブを載せる</a>\n      <button class=\"hd-burger\" type=\"button\" aria-label=\"メニューを開く\"><span></span><span></span><span></span></button>\n    </div>\n  </div>\n</header>";
+  var SHEET = "<div class=\"sh-bd\" id=\"shBd\"></div><div class=\"sheet\" id=\"sheet\" role=\"dialog\" aria-label=\"メニュー\"><div class=\"sh-hd\"><img src=\"assets/logo-sm.png\" alt=\"チビスポ\"><button class=\"sh-x\" type=\"button\" aria-label=\"閉じる\">&times;</button></div><div class=\"sh-grid\"><a href=\"search.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M16 16l4.5 4.5\"/></svg><span>クラブを探す</span></a><a href=\"map.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z\"/><circle cx=\"12\" cy=\"10\" r=\"2.6\"/></svg><span>地図から探す</span></a><a href=\"magazine.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 5h7a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H4z\"/><path d=\"M20 5h-7a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5H20z\"/></svg><span>マガジン</span></a><a href=\"mypage.html#fav\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z\"/></svg><span>お気に入り</span></a><a href=\"about.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v5\"/><circle cx=\"12\" cy=\"8\" r=\".6\"/></svg><span>チビスポとは</span></a><a href=\"faq.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 5h16v11H9l-5 4z\"/><path d=\"M12 8v3\"/><circle cx=\"12\" cy=\"13.5\" r=\".6\"/></svg><span>よくある質問</span></a><a href=\"contact.html\"><svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg><span>お問い合わせ</span></a><a href=\"partner.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16\"/><path d=\"M15 10h4a1 1 0 0 1 1 1v10\"/><path d=\"M8 8h3M8 12h3M8 16h3M4 21h16\"/></svg><span>クラブ・<br>事業者の方へ</span></a></div><a class=\"sh-btn pri\" href=\"listing.html\">クラブを載せる（無料から）</a><a class=\"sh-btn hd-out\" href=\"login.html\">一般（保護者）ログイン / 会員登録</a><a class=\"sh-btn hd-out\" href=\"club-mypage.html\">クラブ運営者ログイン（掲載・管理）</a><a class=\"sh-btn hd-in\" href=\"mypage.html\">マイページ</a><div class=\"sh-ft\"><a href=\"legal.html#terms\">利用規約</a><a href=\"legal.html#privacy\">プライバシーポリシー</a></div></div>";
+  var FOOTER = "<footer class=\"site-ft\">\n  <div class=\"wrap ft\">\n    <div class=\"ft-l\">\n      <div class=\"ft-logo\">チビ<span>スポ</span></div>\n      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>\n      <div class=\"ft-sns\">\n        <a href=\"https://www.instagram.com/chibi_spo\" target=\"_blank\" rel=\"noopener\">Instagram</a><a href=\"https://www.threads.com/@chibi_spo\" target=\"_blank\" rel=\"noopener\">Threads</a>\n      </div>\n    </div>\n    <div class=\"ft-r\">\n      <div class=\"ft-app\">\n        <img src=\"assets/app-hero/app-icon-512.webp\" alt=\"チビスポ\">\n        <div class=\"tx\">アプリなら新着の<br>クラブ情報が早く届く！</div>\n        <a class=\"btn\" href=\"https://apps.apple.com/jp/app/id6797169414\" target=\"_blank\" rel=\"noopener\" data-app-store-cta>アプリを開く</a>\n      </div>\n      <div class=\"ft-links\">\n        <a href=\"about.html\">チビスポとは</a><a href=\"faq.html\">よくある質問</a><a href=\"legal.html#terms\">利用規約</a><a href=\"legal.html#privacy\">プライバシーポリシー</a><a href=\"contact.html\">お問い合わせ</a><a href=\"partner.html\">クラブ・事業者の方へ</a>\n      </div>\n    </div>\n  </div>\n  <div class=\"wrap ft-note\">© 2026 Chibispo All Rights Reserved.</div>\n</footer>";
 
   /* =======================================================================
      チビスポ Phase1：地域パーソナライズ ＋ お気に入り（localStorage・無料）
@@ -469,55 +231,61 @@
   // カードの「♡＋数字（いいね）」を、お気に入りトグルにする（右上の角ハートは廃止）。
   // すべての .club-card で共通。地図の詳細パネル（cc-detail-fav）と同じ挙動。
   function decorateFavs() {
-    document.querySelectorAll('a.club-card').forEach(function (card) {
+    /* 新カード（club-card.js v2 / a.nc）：右上の♡と下の♡数の両方でお気に入りを切り替える */
+    document.querySelectorAll('a.nc[data-id]').forEach(function (card) {
+      if (card.__favBound) return;
+      var id = card.getAttribute('data-id');
+      var nameEl = card.querySelector('.nc-name');
+      var name = card.getAttribute('data-name') || (nameEl ? nameEl.textContent.trim() : '');
+      var favBtn = card.querySelector('.nc-fav'), lk = card.querySelector('.nc-foot .lk');
+      var img = card.querySelector('img');
+      function render() {
+        var on = Chibi.isFav(id);
+        if (favBtn) favBtn.classList.toggle('on', on);
+        if (lk) lk.classList.toggle('on', on);
+      }
+      function toggle(e) {
+        e.preventDefault(); e.stopPropagation();
+        Chibi.toggleFav({ id: id, name: name, area: card.getAttribute('data-area') || '', href: card.getAttribute('href') || '#', img: img ? (img.getAttribute('src') || '') : '' });
+        render();
+      }
+      if (favBtn) { favBtn.setAttribute('title', 'お気に入り'); favBtn.addEventListener('click', toggle); }
+      if (lk) { lk.style.cursor = 'pointer'; lk.addEventListener('click', toggle); }
+      card.__favBound = true; card.__favRender = render; render();
+    });
+    /* 旧カード（まだ置き換えていないページ用） */
+    document.querySelectorAll('a.club-card:not(.nc)').forEach(function (card) {
       if (card.__favBound) return;
       var h = card.querySelector('h3');
       var name = h ? h.textContent.trim() : '';
       if (!name) return;
-
-      // いいねハート svg（ハートpath "M12 20.3..." を持つもの）を探す
       var heartSvg = null, svgs = card.querySelectorAll('svg');
       for (var i = 0; i < svgs.length; i++) {
         var p = svgs[i].querySelector('path');
         if (p && (p.getAttribute('d') || '').indexOf('M12 20.3') === 0) { heartSvg = svgs[i]; break; }
       }
-      if (!heartSvg) return; // ♡＋数字が無いカードは対象外
-      var likeEl = heartSvg.parentElement; // <span><svg/>342</span>
-
+      if (!heartSvg) return;
+      var likeEl = heartSvg.parentElement;
       var img = card.querySelector('img');
       var area = '';
       card.querySelectorAll('span').forEach(function (el) {
-        if (!area && el.children.length === 0) {
-          var t = el.textContent.trim();
-          if (/[都道府県市区町村]/.test(t) && t.length <= 30) area = t;
-        }
+        if (!area && el.children.length === 0) { var t = el.textContent.trim(); if (/[都道府県市区町村]/.test(t) && t.length <= 30) area = t; }
       });
-      // お気に入りIDはクラブのUUID（href ?id=）で統一。無ければ名前ベース
       var hrefVal = card.getAttribute('href') || '';
       var idMatch = /[?&]id=([^&]+)/.exec(hrefVal);
       var id = idMatch ? decodeURIComponent(idMatch[1]) : ('club-' + encodeURIComponent(name));
-
       function render() {
         var fav = Chibi.isFav(id);
-        if (fav) { heartSvg.setAttribute('fill', '#ff5fa2'); heartSvg.removeAttribute('stroke'); }
+        if (fav) { heartSvg.setAttribute('fill', '#E43B4D'); heartSvg.removeAttribute('stroke'); }
         else { heartSvg.setAttribute('fill', 'none'); heartSvg.setAttribute('stroke', '#9aa3ad'); heartSvg.setAttribute('stroke-width', '1.9'); }
-        // 数字はDBのいいね実数（search/map側で描画）。フィードバックはハートの色で行う
       }
-
-      likeEl.style.cursor = 'pointer';
-      likeEl.setAttribute('title', 'お気に入り');
+      likeEl.style.cursor = 'pointer'; likeEl.setAttribute('title', 'お気に入り');
       likeEl.addEventListener('click', function (e) {
         e.preventDefault(); e.stopPropagation();
-        Chibi.toggleFav({
-          id: id, name: name, area: area,
-          href: card.getAttribute('href') || '#',
-          img: img ? img.getAttribute('src') : ''
-        });
+        Chibi.toggleFav({ id: id, name: name, area: area, href: hrefVal || '#', img: img ? img.getAttribute('src') : '' });
         render();
       });
-      card.__favBound = true;
-      card.__favRender = render; // お気に入り変更時に他カードも同期できるよう保持
-      render();
+      card.__favBound = true; card.__favRender = render; render();
     });
   }
   // 非同期でカードが増えても自動でお気に入りを結線
@@ -530,12 +298,12 @@
   }
   // お気に入りが変わったら、表示中の全カードのハートを更新
   document.addEventListener('chibi:favs', function () {
-    document.querySelectorAll('a.club-card').forEach(function (c) { if (c.__favRender) c.__favRender(); });
+    document.querySelectorAll('a.club-card, a.nc').forEach(function (c) { if (c.__favRender) c.__favRender(); });
   });
 
   // カード上の雰囲気タグ（.cc-mood-tag[data-mood]）をクリック → その雰囲気で検索
   function bindMoodTags() {
-    document.querySelectorAll('.cc-mood-tag[data-mood]').forEach(function (el) {
+    document.querySelectorAll('.cc-mood-tag[data-mood], .nc-tags span[data-mood]').forEach(function (el) {
       if (el.__moodBound) return;
       el.__moodBound = true;
       el.style.cursor = 'pointer';
@@ -582,46 +350,45 @@
     });
   }
 
-  function init() {
-    // CSS注入
-    var style = document.createElement('style');
-    style.id = 'cc-shared-style';
-    style.textContent = CSS;
-    document.head.appendChild(style);
-
-    // ヘッダー・メニュー・下部バーを body 先頭へ（順序維持のため逆順で afterbegin 挿入）
-    document.body.insertAdjacentHTML('afterbegin', BOTTOMBAR);
-    document.body.insertAdjacentHTML('afterbegin', MENU);
-    document.body.insertAdjacentHTML('afterbegin', HEADER);
-    // フッターを body 末尾へ
-    document.body.insertAdjacentHTML('beforeend', FOOTER);
-
-    // ホバー再現（ヘッダー・フッター内のみ）
-    /* ページ本文にも style-hover が書かれているのに、ヘッダーとフッターにしか
-       当てていなかった。index.html だけで42箇所、club.html に5箇所あり、
-       どのボタンもホバーが無反応のままだった。
-       ヘッダー・フッターは挿入済みなので document 全体を一度で拾う */
-    bindHover(document);
-
-    // ボトムシート開閉
-    var menu = document.getElementById('cc-menu');
-    var backdrop = document.getElementById('cc-backdrop');
-    var isOpen = false;
-    function setOpen(v) {
-      isOpen = v;
-      if (menu) menu.classList.toggle('cc-open', v);
-      if (backdrop) backdrop.classList.toggle('cc-open', v);
-    }
-    document.querySelectorAll('.cc-burger, .cc-open-menu').forEach(function (b) {
-      b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); setOpen(!isOpen); });
+  /* ---------- ボトムシート（ハンバーガー） ---------- */
+  function bindSheet() {
+    var bd = document.getElementById('shBd'), sh = document.getElementById('sheet'), open = false;
+    if (!bd || !sh) return;
+    function set(v) { open = v; bd.classList.toggle('on', v); sh.classList.toggle('on', v); document.documentElement.style.overflow = v ? 'hidden' : ''; }
+    document.querySelectorAll('.hd-burger').forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); set(!open); }); });
+    bd.addEventListener('click', function () { set(false); });
+    var x = sh.querySelector('.sh-x'); if (x) x.addEventListener('click', function () { set(false); });
+    sh.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  }
+  /* いま開いているページのナビに下線。地域ページ（/clubs/…）は「クラブを探す」 */
+  function markActiveNav() {
+    var here = (location.pathname.split('/').pop() || 'index.html');
+    if (/^\/clubs\//.test(location.pathname)) here = 'search.html';
+    document.querySelectorAll('.hd-nav a').forEach(function (a) {
+      if ((a.getAttribute('href') || '').split('?')[0].split('#')[0] === here) a.classList.add('on');
     });
-    if (backdrop) backdrop.addEventListener('click', function () { setOpen(false); });
-    if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+  }
+  function ensureChrome() {
+    var head = document.head;
+    if (!document.querySelector('link[href^="site.css"]') && !document.getElementById('cc-chrome-css')) {
+      var l = document.createElement('link'); l.id = 'cc-chrome-css'; l.rel = 'stylesheet'; l.href = 'chrome.css?v=' + CHROME_V; head.appendChild(l);
+    }
+    if (!document.querySelector('link[href*="Zen+Kaku+Gothic+New"]')) {
+      var f = document.createElement('link'); f.rel = 'stylesheet'; f.href = FONT_URL; head.appendChild(f);
+    }
+    var style = document.createElement('style'); style.id = 'cc-shared-style'; style.textContent = CSS; head.appendChild(style);
+  }
 
-    // Phase1 機能（地域・お気に入り）
+  function init() {
+    ensureChrome();
+    if (!document.querySelector('header.site-hd')) document.body.insertAdjacentHTML('afterbegin', HEADER);
+    if (!document.querySelector('footer.site-ft')) document.body.insertAdjacentHTML('beforeend', FOOTER);
+    if (!document.getElementById('sheet')) document.body.insertAdjacentHTML('beforeend', SHEET);
+    bindSheet();
+    markActiveNav();
+    bindHover(document);
     initFeatures();
-
-    // ログイン状態でヘッダーの「ログイン」導線を「マイページ」に切替
     updateAuthUI();
   }
 
@@ -638,27 +405,19 @@
   function applyAuthUI(prof) {
     var loggedIn = !!prof;
     var target = (prof && prof.role === 'club') ? 'club-mypage.html' : 'mypage.html';
-    // アバター（ニックネーム頭文字＋名前から安定した色）
     var name = loggedIn ? (prof.display_name || (prof.email ? prof.email.split('@')[0] : 'M')) : '';
     var h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
     var col = AUTH_AV_COLORS[h % AUTH_AV_COLORS.length];
     var ini = (name.charAt(0) || 'M').toUpperCase().replace(/[<>&"]/g, '');
-    // ログアウト時の導線（一般ログイン・クラブログイン）
-    document.querySelectorAll('.cc-auth-out').forEach(function (el) { el.classList.toggle('cc-hidden', loggedIn); });
-    // ログイン時の導線：アバターアイコンに差し替え（role で行き先を振り分け）
-    document.querySelectorAll('.cc-auth-in').forEach(function (el) {
-      el.classList.toggle('cc-hidden', !loggedIn);
+    document.body.classList.toggle('auth-in', loggedIn);
+    document.querySelectorAll('.hd-in').forEach(function (el) {
       el.setAttribute('href', target);
-      if (!loggedIn) return;
-      el.setAttribute('title', 'マイページ');
-      if (el.classList.contains('cc-icontop')) {
-        // PCヘッダー：アバターアイコンのみ
-        el.innerHTML = '<span style="width:36px;height:36px;border-radius:50%;background:' + col[0] + ';color:' + col[1] + ';display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;box-shadow:inset 0 0 0 1.5px ' + col[1] + '22;">' + ini + '</span>';
-      } else if (el.closest('.cc-bottombar')) {
-        // モバイル下部バー：アバター＋小ラベル
-        el.innerHTML = '<span style="width:25px;height:25px;border-radius:50%;background:' + col[0] + ';color:' + col[1] + ';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;">' + ini + '</span><span style="font-size:10px;font-weight:600;">マイページ</span>';
-      }
+      var av = el.querySelector('.hd-av');
+      if (av && loggedIn) { av.textContent = ini; av.style.background = col[0]; av.style.color = col[1]; }
     });
+    /* まだ置き換えていないページ本文の導線（cc-auth-out / cc-auth-in） */
+    document.querySelectorAll('.cc-auth-out').forEach(function (el) { el.classList.toggle('cc-hidden', loggedIn); });
+    document.querySelectorAll('.cc-auth-in').forEach(function (el) { el.classList.toggle('cc-hidden', !loggedIn); el.setAttribute('href', target); });
   }
   function updateAuthUI() {
     if (!window.ChibiAuth) return;
