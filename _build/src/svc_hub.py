@@ -441,7 +441,7 @@ hub_js='''<script>
  var tabs=document.getElementById('sttabs');
  if(tabs){tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;tabs.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});document.querySelectorAll('.st-p').forEach(function(p){p.classList.toggle('on',p.dataset.st===b.dataset.st)})});}
  var sm=location.search.match(/st=([abcd])/);if(sm&&tabs){var tb=tabs.querySelector('[data-st="'+sm[1]+'"]');if(tb)tb.click()}
- document.querySelectorAll('.soon-f').forEach(function(f){f.addEventListener('submit',function(ev){ev.preventDefault();var em=f.querySelector('input').value.trim();if(!em)return;try{var a=JSON.parse(localStorage.getItem('chibispo_waitlist')||'[]');a.push({email:em,topic:f.dataset.topic||'video',at:new Date().toISOString()});localStorage.setItem('chibispo_waitlist',JSON.stringify(a))}catch(e){}f.hidden=true;var ok=f.parentElement.querySelector('.soon-ok');if(ok)ok.hidden=false})});
+ /* 「お知らせを受け取る」の保存は shared.js に集約（waitlist テーブルへ） */
  if(/noanim=1/.test(location.search)){
    var st=document.createElement('style');
    st.textContent='*{transition:none!important;animation:none!important}.hub-hero h1 span,.idx a{opacity:1!important;transform:none!important}.hub-hero .bg{transform:none!important}';

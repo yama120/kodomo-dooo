@@ -195,6 +195,58 @@ BOOT = """(function () {
 src=src.replace("(function () {\n  'use strict';\n", BOOT, 1)
 assert 'chibi_region_boot' in src
 
+
+# 3.6) 準備中サービスの「お知らせを受け取る」を waitlist に保存する（端末内に貯めるだけだった）
+WL_API = """      ready: function () { return !!db(); },
+      client: db,
+      // 準備中サービスの「お知らせを受け取る」。unique(email,topic) なので重複は成功扱い
+      joinWaitlist: function (email, topic, source) {
+        return fetch(SB_URL + '/rest/v1/waitlist', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ email: email, topic: topic || 'video', source: source || location.pathname })
+        }).then(function (r) {
+          if (r.ok || r.status === 409) return true;
+          throw new Error('waitlist ' + r.status);
+        });
+      },
+"""
+src=src.replace("      ready: function () { return !!db(); },\n      client: db,\n", WL_API, 1)
+assert 'joinWaitlist' in src
+
+WL_FORM = """  /* ---------- 準備中サービスの「お知らせを受け取る」 ----------
+     どのページの .soon-f でも、ここ1か所で waitlist に保存する。
+     通信できなかったときだけ端末に控える（あとから拾えるように）。 */
+  document.addEventListener('submit', function (e) {
+    var f = e.target && e.target.closest ? e.target.closest('.soon-f') : null;
+    if (!f) return;
+    e.preventDefault();
+    var input = f.querySelector('input[type="email"]') || f.querySelector('input');
+    var em = ((input && input.value) || '').trim();
+    if (!em) return;
+    var topic = f.getAttribute('data-topic') || 'video';
+    var btn = f.querySelector('button'); if (btn) btn.disabled = true;
+    function done() {
+      f.hidden = true;
+      var ok = f.parentElement && f.parentElement.querySelector('.soon-ok');
+      if (ok) ok.hidden = false;
+    }
+    function keepLocal() {
+      try {
+        var a = JSON.parse(localStorage.getItem('chibispo_waitlist') || '[]');
+        a.push({ email: em, topic: topic, at: new Date().toISOString() });
+        localStorage.setItem('chibispo_waitlist', JSON.stringify(a));
+      } catch (x) {}
+    }
+    if (window.ChibiAuth && ChibiAuth.joinWaitlist) {
+      ChibiAuth.joinWaitlist(em, topic, location.pathname).then(done).catch(function () { keepLocal(); done(); });
+    } else { keepLocal(); done(); }
+  }, true);
+
+  if (document.readyState === 'loading') {"""
+src=src.replace("  if (document.readyState === 'loading') {", WL_FORM, 1)
+assert 'soon-f' in src
+
 src=src.replace('''/* =========================================================================
    チビスポ 共通ヘッダー / フッター コンポーネント''','''/* =========================================================================
    チビスポ 共通ヘッダー / フッター コンポーネント（v2・2026-09-13 新デザイン）

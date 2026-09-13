@@ -435,7 +435,7 @@ sl_body='''
     <div class="boost">
       <div class="bo hot rv soon-on"><span class="lp-pin">MAIN</span>
         <div class="soon"><div class="soon-in"><div class="k">COMING SOON</div><div class="t">撮影・動画制作は、<br>準備中です。</div><p>いま1本目の見本をつくっています。募集を始めるときに、メールでお知らせします。</p>
-          <form class="soon-f" onsubmit="return false"><input type="email" placeholder="you@example.com" required><button type="submit">お知らせを受け取る</button></form>
+          <form class="soon-f" data-topic="video" onsubmit="return false"><input type="email" placeholder="you@example.com" required><button type="submit">お知らせを受け取る</button></form>
           <div class="soon-ok" hidden>受け付けました。準備ができたらお知らせします。</div>
           <div class="soon-nt">お知らせ以外には使いません。いつでも解除できます。</div></div></div>
         <div class="im"><img src="assets/preview-video/px-3448250.jpg" alt=""><span class="pl2">▶ 0:30</span></div>
@@ -482,7 +482,7 @@ sl_js='''<script>
  if(m)setHero(m[1]);
  hs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setHero(b.dataset.h)});
  /* 準備中：お知らせ登録（プレビューは端末内に保存） */
- document.querySelectorAll('.soon-f').forEach(function(f){f.addEventListener('submit',function(){var em=f.querySelector('input').value.trim();if(!em)return;try{var a=JSON.parse(localStorage.getItem('chibispo_waitlist')||'[]');a.push({email:em,topic:'video',at:new Date().toISOString()});localStorage.setItem('chibispo_waitlist',JSON.stringify(a))}catch(e){}f.hidden=true;var ok=f.parentElement.querySelector('.soon-ok');if(ok)ok.hidden=false})});
+ /* 「お知らせを受け取る」の保存は shared.js に集約（waitlist テーブルへ） */
  /* 数字のカウント */
  document.querySelectorAll('[data-cnt]').forEach(function(b){var to=+b.dataset.cnt,t0=null;function f(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/900);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)}setTimeout(function(){requestAnimationFrame(f)},400)});
  /* スマホ追従バー：ヒーローを過ぎたら */
