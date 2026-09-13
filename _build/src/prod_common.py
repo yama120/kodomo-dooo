@@ -7,7 +7,7 @@ P=os.path.dirname(os.path.abspath(__file__))+'/'
 sys.path.insert(0,P)
 import header_v2 as H
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
-V='20260924'   # キャッシュ破り（site.css / chrome.css / shared.js / club-card.js）
+V='20260925'   # キャッシュ破り（site.css / chrome.css / shared.js / club-card.js）
 LINKS=dict(home='index.html',search='search.html',map='map.html',about='about.html',partner='partner.html',fav='mypage.html#fav',clubmy='club-mypage.html',login='login.html',mypage='mypage.html',listing='listing.html',magazine='magazine.html',faq='faq.html',contact='contact.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.webp?v=2',logow='assets/logo-wide.webp?v=2')
 
 top=open(D+'video-hero-preview.html',encoding='utf-8').read()
