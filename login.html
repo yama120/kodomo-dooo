@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -11,73 +12,89 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ログイン / 新規登録｜チビスポ</title>
-<!-- OGP / SNS共有カード -->
+<meta name="description" content="チビスポの保護者アカウント。登録すると、体験の申込みとクラブとのやり取り、お気に入り、診断の保存、新着のお知らせが使えます。無料・1分。">
+<link rel="canonical" href="https://chibispo.com/login.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
 <meta property="og:title" content="ログイン / 新規登録｜チビスポ">
+<meta property="og:description" content="チビスポの保護者アカウント。登録すると、体験の申込みとクラブとのやり取り、お気に入り、診断の保存、新着のお知らせが使えます。無料・1分。">
 <meta property="og:url" content="https://chibispo.com/login.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ログイン / 新規登録｜チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20260913">
 <style>
-  /* アプリのオンボーディング画面に配色をそろえる。
-     ブランドはコーラル #f0435c、見出しはネイビー #21315b。
-     以前は青（#2270e0）が主役で、アプリと別サービスに見えていた */
-  *{box-sizing:border-box;}
-  :root{
-    --brand:#f0435c; --brand-dark:#d33a52; --brand-soft:#fdedef;
-    --ink:#21315b; --ink-2:#4a5468; --muted:#7a8299;
-    --bg:#fafbfc; --border:#edf0f4; --border-2:#e1e5ec;
-  }
-  html,body{margin:0;padding:0;font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink);}
-  .lg-wrap{max-width:440px;margin:40px auto 60px;padding:0 18px;}
-  .lg-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:30px 26px 26px;box-shadow:0 4px 20px rgba(20,28,38,.06);}
+.lg-lay{display:grid;grid-template-columns:1fr;gap:26px;padding:26px 0 0}
+.lg-why{position:relative;background:#101215;color:#fff;padding:26px 22px;overflow:hidden}
+.lg-why .bg{position:absolute;inset:0;background:url(assets/preview-video/jp-soccer-keep.jpg) center 30%/cover;opacity:.35}
+.lg-why::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,18,21,.55),rgba(16,18,21,.95))}
+.lg-why>*{position:relative;z-index:1}
+.lg-why .ey{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:10px}
+.lg-why .ey::before{content:"";width:22px;height:2px;background:var(--accent)}
+.lg-why h1{font-family:var(--fh);margin:0 0 10px;font-size:clamp(24px,6vw,36px);font-weight:900;line-height:1.25;letter-spacing:-.01em}
+.lg-why h1 em{font-style:normal;color:#111;background:#fff;padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.lg-why p{margin:0 0 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,.78);line-height:1.9}
+.lg-why ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lg-why li{position:relative;padding-left:34px;font-size:13px;font-weight:900;line-height:1.5}
+.lg-why li small{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.65);margin-top:2px}
+.lg-why li i{position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-style:normal;font-family:'Anton',sans-serif;font-size:11px;display:flex;align-items:center;justify-content:center}
+.lg-why .free{margin-top:20px;display:inline-block;border:1px solid rgba(255,255,255,.5);padding:6px 10px;font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.2em}
+.lg-box{border:1px solid var(--ink);background:var(--card)}
+.lg-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink)}
+.lg-tabs button{background:transparent;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:16px 10px 13px;font-family:var(--fh);font-size:14.5px;font-weight:900;color:var(--sub);cursor:pointer}
+.lg-tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.lg-p{display:none;padding:18px 18px 20px}
+.lg-p.on{display:block}
+.lg-g{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-family:var(--fh);font-size:14px;font-weight:900;padding:13px;box-sizing:border-box}
+.lg-g svg{width:18px;height:18px}
+.lg-or{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;font-weight:900;color:var(--sub);letter-spacing:.1em}
+.lg-or::before,.lg-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.lg-f{display:grid;gap:5px;margin-bottom:12px}
+.lg-f label{font-size:12px;font-weight:900;display:flex;align-items:center;gap:6px}
+.lg-f label .req{font-size:9.5px;letter-spacing:.08em;background:var(--ink);color:var(--bg);padding:1px 5px}
+.lg-f label .opt{font-size:9.5px;letter-spacing:.08em;border:1px solid var(--line);color:var(--sub);padding:1px 5px}
+.lg-f label .pv{margin-left:auto;font-size:10px;font-weight:700;color:var(--sub)}
+.lg-f .hint{font-size:11px;font-weight:700;color:var(--sub);line-height:1.6}
+.lg-in{width:100%;border:1px solid var(--ink);background:#fff;font-family:var(--f);font-size:14px;font-weight:700;padding:11px 12px;color:var(--ink);box-sizing:border-box}
+.lg-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lg-pw{position:relative}
+.lg-pw .eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:900;color:var(--sub);cursor:pointer}
+.lg-btn{display:block;width:100%;text-align:center;background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:14px;margin-top:6px;box-shadow:0 8px 24px rgba(232,69,95,.3)}
+.lg-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:12px;font-weight:700;color:var(--sub)}
+.lg-links a{font-weight:900;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.lg-agree{font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.7;margin-top:10px}
+.lg-agree a{font-weight:900;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.lg-child{display:grid;grid-template-columns:1fr;gap:8px}
+.lg-chip{display:flex;gap:6px;flex-wrap:wrap}
+.lg-chip span{font-size:12px;font-weight:900;border:1px solid var(--ink);padding:7px 10px;background:#fff;cursor:pointer}
+.lg-chip span.on{background:var(--ink);color:var(--bg)}
+.lg-app{margin-top:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);padding:12px 14px;background:var(--card)}
+.lg-app img{width:40px;height:40px}
+.lg-app b{display:block;font-family:var(--fh);font-size:13px;font-weight:900}
+.lg-app small{font-size:11px;font-weight:700;color:var(--sub)}
+.lg-app a{font-size:12px;font-weight:900;border:1.5px solid var(--ink);padding:8px 12px;white-space:nowrap}
+@media(min-width:900px){
+  .lg-lay{grid-template-columns:1fr 440px;gap:40px;padding:36px 0 0;align-items:start}
+  .lg-why{padding:40px 36px;min-height:520px;display:flex;flex-direction:column;justify-content:center}
+  .lg-box{position:sticky;top:80px}
+  .lg-p{padding:22px 24px 24px}
+}
 
-  /* アプリの初回登録画面と同じマスコット＋ロゴタイプ */
-  .lg-brand{display:flex;flex-direction:column;align-items:center;margin-bottom:6px;}
-  .lg-brand svg{width:56px;height:56px;}
-  .lg-logo{text-align:center;font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:23px;
-           color:var(--brand);margin:6px 0 4px;letter-spacing:.02em;}
-  .lg-sub{text-align:center;font-size:12.5px;color:var(--muted);margin:0 0 22px;}
-
-  .lg-tabs{display:flex;background:#eef0f3;border-radius:999px;padding:5px;margin-bottom:20px;}
-  .lg-tab{flex:1;text-align:center;padding:10px 0;font-size:13.5px;font-weight:800;color:#6b7280;border-radius:999px;cursor:pointer;transition:all .14s;}
-  .lg-tab.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.10);}
-
-  .lg-label{display:block;font-size:12px;font-weight:800;color:var(--ink-2);margin:14px 0 6px;}
-  .lg-input{width:100%;border:1px solid var(--border-2);border-radius:12px;padding:13px 14px;font-size:16px;
-            font-family:inherit;color:var(--ink);outline:none;background:#fff;transition:border-color .14s;}
-  .lg-input:focus{border-color:var(--brand);}
-
-  .lg-btn{width:100%;border:none;border-radius:14px;height:52px;font-size:15px;font-weight:900;
-          font-family:inherit;cursor:pointer;margin-top:20px;}
-  .lg-btn-primary{background:var(--brand);color:#fff;}
-  .lg-btn-primary:hover{background:var(--brand-dark);}
-  .lg-btn-primary:disabled{background:#f3a8b4;cursor:default;}
-
-  .lg-or{display:flex;align-items:center;gap:12px;margin:20px 0;color:#9aa1b2;font-size:12px;}
-  .lg-or::before,.lg-or::after{content:"";flex:1;height:1px;background:var(--border);}
-  .lg-google{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;height:50px;
-             border:1px solid var(--border-2);background:#fff;border-radius:14px;font-size:14px;
-             font-weight:800;font-family:inherit;color:var(--ink-2);cursor:pointer;}
-  .lg-google:hover{background:#f7f8fa;}
-  .lg-msg{display:none;margin-top:14px;border-radius:12px;padding:11px 13px;font-size:13px;line-height:1.6;}
-  .lg-link{display:block;text-align:center;margin-top:16px;font-size:12.5px;color:var(--brand);cursor:pointer;text-decoration:none;font-weight:700;}
-  .lg-foot{text-align:center;font-size:11.5px;color:#9aa1b2;margin-top:18px;line-height:1.8;}
-  .lg-loggedin{text-align:center;}
-  .lg-loggedin .lg-avatar{width:56px;height:56px;border-radius:50%;background:var(--brand-soft);color:var(--brand-dark);
-             display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;margin:0 auto 12px;}
+.lg-g{cursor:pointer;font-family:var(--f);width:100%;background:var(--card)}
+.lg-btn{cursor:pointer;border:0;width:100%;font-family:var(--fh)}
+.lg-msg{margin:0 0 12px;padding:10px 12px;border-radius:calc(var(--r) - 4px);font-size:12.5px;font-weight:800;line-height:1.6}
+.lg-msg.err{background:#fff0f2;color:#b3232e}.lg-msg.ok{background:#eafaf0;color:#1f8a5b}
+.lg-chip span{cursor:pointer}
+.lg-done{text-align:center;padding:34px 24px}
+.lg-done-av{width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.lg-done-name{font-family:var(--fh);font-size:20px;font-weight:900}
+.lg-done-mail{font-size:12.5px;font-weight:700;color:var(--sub);margin:2px 0 10px}
+.lg-done p{font-size:13px;font-weight:700;margin:0 0 14px}
+select.lg-in{appearance:none;-webkit-appearance:none}
 </style>
-<!-- GA4 (auto-managed by install-ga4.mjs) -->
+<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -85,216 +102,163 @@
   gtag('js', new Date());
   gtag('config', 'G-5ZBBNYC37Y');
 </script>
-<!-- /GA4 -->
 </head>
 <body>
-  <div class="lg-wrap">
-    <div class="lg-card">
-      <div class="lg-brand" role="img" aria-label="チビスポ">
-        <svg viewBox="0 0 88 92" fill="none" aria-hidden="true">
-          <path fill="#EF5D71" d="M10.5 66.8C5.3 53 8.3 39.8 16.3 29.8C23.4 20.8 34 15.8 45.2 16.1C47.8 12.9 50.7 9.8 54.8 7.4C54.5 11.4 53.8 14.7 52.5 17.8C59.1 16.2 66 16 72.6 17C69.8 21.1 67 24.4 63.6 27.4C69 27 74.1 27.1 79.2 27.9C75.5 32.7 71.7 36.6 67.3 40.4C70.9 46 72.5 52.7 71.5 59C70.8 63.3 69.1 67.3 66.4 70.8C60.6 78.4 50.8 82.8 39.7 82.8C28.1 82.8 17 77.8 10.5 66.8Z" />
-          <path fill="#FFFFFF" d="M42.2 77.4C37.4 77.6 32.7 77.2 28.3 75.7C23.2 74 18.8 70.8 15.8 66.3C13.3 62.5 12.4 57.7 13.0 52.7C13.7 46.8 16.3 41.6 20.5 38.2C24.2 35.3 28.7 34.3 33.1 35.4C35.2 36.0 36.9 37.1 38.3 38.8C39.5 37.0 41.2 35.7 43.1 35.1C47.3 33.7 51.9 34.5 56.0 37.2C60.8 40.4 64.0 45.9 64.6 52.4C65.1 57.6 64.1 62.8 61.4 66.7C58.2 71.2 53.4 74.3 47.9 75.9C46.0 76.5 44.1 77.0 42.2 77.4Z" />
-          <ellipse cx="28.8" cy="54.5" rx="3.2" ry="4.3" fill="#2F3340" />
-          <ellipse cx="46.5" cy="54.5" rx="3.2" ry="4.3" fill="#2F3340" />
-          <circle cx="20.7" cy="61.8" r="2.2" fill="#F8CDD3" />
-          <circle cx="54.3" cy="61.8" r="2.2" fill="#F8CDD3" />
-          <path d="M32.6 63.4C33.9 65.9 35.9 67.2 37.7 67.2C39.5 67.2 41.5 65.9 42.8 63.4"
-            fill="none" stroke="#2F3340" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img src="assets/logo-sm.png" alt="チビスポ"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main><div class="wrap">
+    <div class="lg-lay">
+    <div class="lg-why"><div class="bg"></div>
+      <div class="ey">FOR PARENTS ・ FREE</div>
+      <h1>うちの子に合うクラブを、<br><em>逃さない</em>。</h1>
+      <p>登録しておくと、条件に合う新しいクラブや体験の募集がすぐ届きます。申込はお子さんの情報が自動で入るので、1分で済みます。</p>
+      <ul>
+        <li><i>1</i>新しいクラブをいち早くキャッチ<small>条件に合うクラブが載ったら、アプリとメールでお知らせ</small></li>
+        <li><i>2</i>体験の申込が1分で済む<small>お子さんの情報は入力ずみ。クラブの返信もここに届きます</small></li>
+        <li><i>3</i>気になるクラブを並べて比べる<small>♡ で残したクラブを、あとからまとめて見られます</small></li>
+        <li><i>4</i>診断の結果から、次の可能性を見つける<small>合いそうな種目と近くのクラブを、いつでも見返せます</small></li>
+      </ul>
+      <span class="free">FREE ・ 1 MIN</span>
+    </div>
+    <div class="lg-box" id="lg-auth">
+      <div class="lg-tabs" id="lgTabs"><button type="button" data-m="login" class="on">ログイン</button><button type="button" data-m="signup">新規登録（無料）</button></div>
+      <div class="lg-msg" id="lg-msg" hidden></div>
+      <div class="lg-p on" data-m="login">
+        <button type="button" class="lg-g" id="lg-google"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4c-.2 1.2-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.7 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.4 2 12s.4 3.2 1.1 4.6L6.4 14z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C17 3 14.7 2 12 2 8.1 2 4.7 4.2 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg> Googleでログイン</button>
+        <div class="lg-or">または メールで</div>
+        <div class="lg-f"><label>メールアドレス</label><input class="lg-in" id="lg-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="lg-f"><label>パスワード</label><div class="lg-pw"><input class="lg-in" id="lg-pw" type="password" placeholder="••••••••" autocomplete="current-password"><span class="eye">表示</span></div></div>
+        <button type="button" class="lg-btn" id="lg-submit">ログイン ›</button>
+        <div class="lg-links"><a href="#" id="lg-forgot">パスワードを忘れた方</a><span>はじめての方は <a href="#" data-m="signup">新規登録</a></span></div>
+        <div class="lg-app"><img src="assets/icon-192.png" alt="" onerror="this.style.display='none'"><div><b>アプリなら通知がすぐ届きます</b><small>体験の返信・新着クラブ・お知らせ</small></div><a href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener">アプリを開く</a></div>
       </div>
-      <h1 class="lg-logo">チビスポ</h1>
-      <p class="lg-sub">気になるクラブを保存・比較できます</p>
-
-      <!-- ===== 未ログイン時：ログイン/登録フォーム ===== -->
-      <div id="lg-auth">
-        <div class="lg-tabs">
-          <div class="lg-tab on" data-tab="login">ログイン</div>
-          <div class="lg-tab" data-tab="signup">新規登録</div>
-        </div>
-
-        <div id="lg-name-wrap" style="display:none;">
-          <label class="lg-label">ニックネーム（サイトに表示される名前）</label>
-          <input id="lg-display" class="lg-input" type="text" placeholder="例）たろうママ">
-          <div style="font-size:11px;color:#aab1bb;margin-top:6px;">ニックネームはクラブへのコメント等で公開されます。本名は公開されません。</div>
-
-          <label class="lg-label">お名前（本名・サイトには表示されません）</label>
-          <div style="display:flex;gap:8px;">
-            <input id="lg-lastname" class="lg-input" type="text" placeholder="姓（例）山田" style="flex:1;" autocomplete="family-name">
-            <input id="lg-firstname" class="lg-input" type="text" placeholder="名（例）太郎" style="flex:1;" autocomplete="given-name">
-          </div>
-
-          <label class="lg-label">お住まいの地域（任意）</label>
-          <div style="display:flex;gap:8px;">
-            <select id="lg-pref" class="lg-input" style="flex:1;"><option value="">都道府県</option></select>
-            <select id="lg-city" class="lg-input" style="flex:1;" disabled><option value="">市区町村</option></select>
-          </div>
-          <div style="font-size:11px;color:#aab1bb;margin-top:6px;">登録すると、クラブ検索で自動的にこの地域が選ばれます</div>
-        </div>
-
-        <label class="lg-label">メールアドレス</label>
-        <input id="lg-email" class="lg-input" type="email" placeholder="you@example.com" autocomplete="email">
-
-        <label class="lg-label">パスワード</label>
-        <input id="lg-pw" class="lg-input" type="password" placeholder="6文字以上" autocomplete="current-password">
-
-        <div id="lg-pw2-wrap" style="display:none;">
-          <label class="lg-label">パスワード（確認）</label>
-          <input id="lg-pw2" class="lg-input" type="password" placeholder="もう一度入力" autocomplete="new-password">
-        </div>
-
-        <button id="lg-submit" class="lg-btn lg-btn-primary">ログイン</button>
-
-        <div id="lg-forgot" class="lg-link">パスワードを忘れた方</div>
-
-        <div class="lg-or">または</div>
-        <button id="lg-google" class="lg-google">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-          Googleで続ける
-        </button>
-
-        <div id="lg-msg" class="lg-msg"></div>
-
-        <!-- 入口の分離を明確化：ここは一般（保護者）用 -->
-        <!-- クラブ運営者への振り分け。保護者向けの主導線と競合しないよう、
-             ブランドカラーは使わず控えめな枠線ボタンにする -->
-        <div style="margin-top:18px;border-top:1px solid var(--border);padding-top:16px;">
-          <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.8;text-align:center;">こちらは<strong style="color:var(--ink);">一般（保護者）の方</strong>のログインです。<br>クラブを掲載・管理する方は、専用ページからログインしてください。</p>
-          <a href="club-mypage.html" style="display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border:1px solid var(--border-2);background:#fff;color:var(--ink-2);font-weight:800;font-size:13.5px;text-decoration:none;border-radius:14px;">🏫 クラブ運営者ログインはこちら →</a>
-        </div>
-
-        <p class="lg-foot" style="margin-top:16px;">登録 = <a href="legal.html#terms" target="_blank" style="color:#8a93a0;text-decoration:underline;">利用規約</a>・<a href="legal.html#privacy" target="_blank" style="color:#8a93a0;text-decoration:underline;">プライバシーポリシー</a>への同意</p>
+      <div class="lg-p" data-m="signup">
+        <button type="button" class="lg-g" id="sg-google"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4c-.2 1.2-.9 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6C4.7 19.8 8.1 22 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1C2.4 8.8 2 10.4 2 12s.4 3.2 1.1 4.6L6.4 14z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.8 1.5l2.8-2.8C17 3 14.7 2 12 2 8.1 2 4.7 4.2 3.1 7.4L6.4 10c.8-2.3 3-4.1 5.6-4.1z"/></svg> Googleで登録</button>
+        <div class="lg-or">または メールで</div>
+        <div class="lg-f"><label>ニックネーム <span class="req">必須</span><span class="pv">サイトに表示されます</span></label><input class="lg-in" id="sg-display" placeholder="例：はなまま"><div class="hint">口コミやコメントに出る名前です</div></div>
+        <div class="lg-f"><label>お名前 <span class="req">必須</span><span class="pv">サイトには表示されません</span></label><div class="lg-row"><input class="lg-in" id="sg-last" placeholder="姓（例：山田）" autocomplete="family-name"><input class="lg-in" id="sg-first" placeholder="名（例：花子）" autocomplete="given-name"></div><div class="hint">体験を申し込むときに、クラブにだけ伝わります</div></div>
+        <div class="lg-f"><label>お住まいの地域 <span class="opt">任意</span></label><div class="lg-row"><select class="lg-in" id="sg-pref"><option value="">都道府県</option></select><select class="lg-in" id="sg-city" disabled><option value="">市区町村</option></select></div><div class="hint">近くのクラブと、地域の新着のお知らせに使います</div></div>
+        <div class="lg-f"><label>お子さんの学年 <span class="opt">任意</span></label><div class="lg-chip" id="sg-grade"><span data-v="未就学">未就学</span><span data-v="年長">年長</span><span data-v="小1〜2">小1〜2</span><span data-v="小3〜4">小3〜4</span><span data-v="小5〜6">小5〜6</span><span data-v="中学生">中学生</span></div><div class="hint">診断と体験申込のフォームに、自動で入ります。あとから変えられます</div></div>
+        <div class="lg-f"><label>メールアドレス <span class="req">必須</span></label><input class="lg-in" id="sg-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="lg-f"><label>パスワード <span class="req">必須</span></label><div class="lg-row"><input class="lg-in" id="sg-pw" type="password" placeholder="8文字以上" autocomplete="new-password"><input class="lg-in" id="sg-pw2" type="password" placeholder="もう一度" autocomplete="new-password"></div></div>
+        <button type="button" class="lg-btn" id="sg-submit">無料で登録する ›</button>
+        <div class="lg-agree">登録すると <a href="legal.html#terms">利用規約</a> と <a href="legal.html#privacy">プライバシーポリシー</a> に同意したことになります。お知らせはいつでも止められます。</div>
+        <div class="lg-links"><span>すでに登録している方は <a href="#" data-m="login">ログイン</a></span></div>
       </div>
-
-      <!-- ===== ログイン済み時 ===== -->
-      <div id="lg-done" class="lg-loggedin" style="display:none;">
-        <div class="lg-avatar" id="lg-done-initial">✓</div>
-        <div id="lg-done-name" style="font-size:17px;font-weight:800;margin-bottom:2px;"></div>
-        <div id="lg-done-email" style="font-size:12.5px;color:#8a93a0;margin-bottom:20px;"></div>
-        <a id="lg-done-mypage" href="mypage.html" class="lg-btn lg-btn-primary" style="display:block;text-align:center;text-decoration:none;">マイページへ</a>
-        <div id="lg-logout" class="lg-link" style="margin-top:18px;">ログアウト</div>
+    </div>
+    <div class="lg-box lg-done" id="lg-done" hidden>
+      <div class="lg-done-av" id="lg-done-initial">M</div>
+      <div class="lg-done-name" id="lg-done-name">さん</div>
+      <div class="lg-done-mail" id="lg-done-email"></div>
+      <p>ログイン済みです。</p>
+      <a class="lg-btn" id="lg-done-mypage" href="mypage.html">マイページへ ›</a>
+      <div class="lg-links"><a href="#" id="lg-logout">ログアウト</a></div>
+    </div>
+  </div>
+  <div style="height:40px"></div>
+</div></main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a>
       </div>
     </div>
   </div>
-
-  <script src="supabase-lite.js?v=20260731"></script>
-  <script src="cities.js?v=20260731b"></script>
-  <script src="shared.js?v=20260731b"></script>
-  <script>
-  (function(){
-    var A = window.ChibiAuth;
-    var mode = 'login';
-    function $(id){ return document.getElementById(id); }
-
-    // 地域セレクト（cities.js）
-    (function(){
-      if(typeof CITIES==='undefined') return;
-      var pf=$('lg-pref'), ct=$('lg-city');
-      pf.innerHTML='<option value="">都道府県</option>'+Object.keys(CITIES).map(function(p){return '<option value="'+p+'">'+p+'</option>';}).join('');
-      pf.addEventListener('change',function(){
-        if(!pf.value){ ct.innerHTML='<option value="">市区町村</option>'; ct.disabled=true; return; }
-        ct.innerHTML='<option value="">市区町村</option>'+(CITIES[pf.value]||[]).map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');
-        ct.disabled=false;
-      });
-    })();
-    function msg(type, text){
-      var m=$('lg-msg'); m.style.display='block'; m.textContent=text;
-      if(type==='err'){ m.style.background='#fdecee'; m.style.color='#c0314b'; }
-      else { m.style.background='#eafaf0'; m.style.color='#1f8a5b'; }
-    }
-    function clearMsg(){ $('lg-msg').style.display='none'; }
-
-    // タブ切替（ログイン / 新規登録）
-    document.querySelectorAll('.lg-tab').forEach(function(t){
-      t.addEventListener('click', function(){
-        mode = t.dataset.tab;
-        document.querySelectorAll('.lg-tab').forEach(function(x){ x.classList.toggle('on', x===t); });
-        $('lg-name-wrap').style.display = (mode==='signup') ? 'block' : 'none';
-        $('lg-pw2-wrap').style.display = (mode==='signup') ? 'block' : 'none';
-        $('lg-submit').textContent = (mode==='signup') ? '新規登録する' : 'ログイン';
-        $('lg-pw').setAttribute('autocomplete', mode==='signup'?'new-password':'current-password');
-        $('lg-forgot').style.display = (mode==='signup') ? 'none' : 'block';
-        clearMsg();
-      });
-    });
-
-    // 送信（ログイン or 新規登録）
-    $('lg-submit').addEventListener('click', function(){
-      clearMsg();
-      var email=$('lg-email').value.trim(), pw=$('lg-pw').value;
-      if(!email) return msg('err','メールアドレスを入力してください。');
-      if(!pw || pw.length<6) return msg('err','パスワードは6文字以上で入力してください。');
-      if(mode==='signup' && pw !== $('lg-pw2').value) return msg('err','パスワードが一致しません。もう一度ご確認ください。');
-      $('lg-submit').disabled=true;
-      var p;
-      if(mode==='signup'){
-        var lastName=$('lg-lastname').value.trim(), firstName=$('lg-firstname').value.trim();
-        var displayName=$('lg-display').value.trim() || [lastName,firstName].filter(Boolean).join(' ');
-        var pref=$('lg-pref').value, city=$('lg-city').value;
-        // 地域をローカルにも保存（検索のプリフィル用）
-        if(window.Chibi && (pref||city)) Chibi.setRegionParts(pref, city);
-        p = A.signUp(email, pw, { role:'parent', last_name:lastName, first_name:firstName, display_name:displayName, pref:pref, city:city })
-          .then(function(res){
-            if(res.error) throw res.error;
-            if(res.data && res.data.session){ location.href='mypage.html'; return; }
-            // メール確認が有効な場合はセッションが無い
-            msg('ok','確認メールを送信しました。メール内のリンクをクリックすると登録完了です。');
-            $('lg-submit').disabled=false;
-          });
-      } else {
-        p = A.signIn(email, pw).then(function(res){
-          if(res.error) throw res.error;
-          // role を見て行き先を振り分け（クラブのメールでもここからログイン可）
-          return A.getProfile().then(function(prof){
-            location.href = (prof && prof.role==='club') ? 'club-mypage.html' : 'mypage.html';
-          }).catch(function(){ location.href='mypage.html'; });
-        });
-      }
-      p.catch(function(e){
-        $('lg-submit').disabled=false;
-        var t=(e&&(e.message||e.error_description||e.msg))||'エラーが発生しました。';
-        if(/Invalid login/i.test(t)) t='メールアドレスまたはパスワードが正しくありません。';
-        if(/already registered|already been registered|User already/i.test(t)) t='このメールアドレスは既に登録されています。上部の「ログイン」タブからログインしてください。（クラブとして登録済みの場合もこのままログインできます）';
-        msg('err', t);
-      });
-    });
-
-    // Googleログイン（Supabaseで Google プロバイダ有効化が必要）
-    $('lg-google').addEventListener('click', function(){
-      clearMsg();
-      A.signInWithGoogle(location.origin + '/mypage.html').catch(function(e){
-        msg('err','Googleログインは現在準備中です（Supabaseでの設定が必要）。');
-      });
-    });
-
-    // パスワードリセット
-    $('lg-forgot').addEventListener('click', function(){
-      var email=$('lg-email').value.trim();
-      if(!email){ msg('err','メールアドレスを入力してから押してください。'); return; }
-      A.resetPassword(email, location.origin + '/login.html').then(function(){
-        msg('ok','パスワード再設定メールを送信しました。');
-      }).catch(function(){ msg('err','送信に失敗しました。'); });
-    });
-
-    // ログアウト
-    $('lg-logout').addEventListener('click', function(){
-      A.signOut().then(function(){ location.reload(); });
-    });
-
-    // 既ログインなら「ログイン済み」表示に切替
-    function showLoggedIn(prof){
-      $('lg-auth').style.display='none';
-      $('lg-done').style.display='block';
-      var name = (prof && prof.display_name) || (prof && prof.email && prof.email.split('@')[0]) || 'ゲスト';
-      $('lg-done-name').textContent = name + ' さん';
-      $('lg-done-email').textContent = (prof && prof.email) || '';
-      $('lg-done-initial').textContent = name.charAt(0).toUpperCase();
-      // クラブアカウントならクラブマイページへ誘導
-      if(prof && prof.role==='club'){ $('lg-done-mypage').href='club-mypage.html'; $('lg-done-mypage').textContent='クラブマイページへ'; }
-    }
-    if(A && A.ready()){
-      A.getProfile().then(function(prof){ if(prof) showLoggedIn(prof); }).catch(function(){});
-    }
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="supabase-lite.js?v=20260731"></script>
+<script src="cities.js?v=20260731b"></script>
+<script src="site.js?v=20260913"></script>
+<script src="shared.js?v=20260913"></script>
+<script>
+(function(){
+  var A=window.ChibiAuth; function $(id){ return document.getElementById(id); }
+  var tabs=$('lgTabs'), mode='login';
+  function show(m){ mode=m; document.querySelectorAll('.lg-p').forEach(function(p){ p.classList.toggle('on',p.dataset.m===m); }); tabs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on',b.dataset.m===m); }); clearMsg(); }
+  tabs.addEventListener('click',function(e){ var b=e.target.closest('button'); if(b){ show(b.dataset.m); history.replaceState(null,'','?mode='+b.dataset.m+(next?'&next='+encodeURIComponent(next):'')); } });
+  document.addEventListener('click',function(e){ var a=e.target.closest('a[data-m]'); if(a){ e.preventDefault(); show(a.dataset.m); }
+    var c=e.target.closest('.lg-chip span'); if(c){ c.parentNode.querySelectorAll('span').forEach(function(x){ x.classList.toggle('on',x===c); }); }
+    var ey=e.target.closest('.eye'); if(ey){ var i=ey.parentNode.querySelector('input'); i.type=i.type==='password'?'text':'password'; ey.textContent=i.type==='password'?'表示':'隠す'; } });
+  var q=new URLSearchParams(location.search), next=q.get('next')||'';
+  if(q.get('mode')==='signup') show('signup');
+  function safeNext(){ return (next && /^[a-z0-9\-_.\/]+(\?.*)?$/i.test(next) && next.indexOf('//')<0) ? next : ''; }
+  function msg(type,text){ var m=$('lg-msg'); m.hidden=false; m.className='lg-msg '+type; m.textContent=text; m.scrollIntoView({block:'nearest'}); }
+  function clearMsg(){ var m=$('lg-msg'); m.hidden=true; m.textContent=''; }
+  (function(){ if(typeof CITIES==='undefined') return; var pf=$('sg-pref'), ct=$('sg-city');
+    pf.innerHTML='<option value="">都道府県</option>'+Object.keys(CITIES).map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('');
+    pf.addEventListener('change',function(){ if(!pf.value){ ct.innerHTML='<option value="">市区町村</option>'; ct.disabled=true; return; } ct.innerHTML='<option value="">市区町村</option>'+(CITIES[pf.value]||[]).map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join(''); ct.disabled=false; });
+    var rp=window.Chibi&&Chibi.getRegionPref&&Chibi.getRegionPref(); if(rp&&CITIES[rp]){ pf.value=rp; pf.dispatchEvent(new Event('change')); var rc=Chibi.getRegionCity&&Chibi.getRegionCity(); if(rc) ct.value=rc; }
   })();
-  </script>
+  function afterLogin(){ var n=safeNext(); if(n){ location.href=n; return; } A.getProfile().then(function(prof){ location.href=(prof&&prof.role==='club')?'club-mypage.html':'mypage.html'; }).catch(function(){ location.href='mypage.html'; }); }
+  function errText(e){ var t=(e&&(e.message||e.error_description||e.msg))||'エラーが発生しました。'; if(/Invalid login/i.test(t)) t='メールアドレスまたはパスワードが正しくありません。'; if(/already registered|already been registered|User already/i.test(t)) t='このメールアドレスは既に登録されています。「ログイン」からログインしてください。（クラブとして登録済みの場合もこのままログインできます）'; if(/Email not confirmed/i.test(t)) t='メールアドレスの確認が済んでいません。届いているメールのリンクを開いてください。'; return t; }
+  if(!A){ msg('err','読み込みに失敗しました。ページを再読み込みしてください。'); return; }
+  $('lg-submit').addEventListener('click',function(){ clearMsg();
+    var email=$('lg-email').value.trim(), pw=$('lg-pw').value;
+    if(!email) return msg('err','メールアドレスを入力してください。'); if(!pw||pw.length<6) return msg('err','パスワードは6文字以上で入力してください。');
+    var b=$('lg-submit'); b.disabled=true;
+    A.signIn(email,pw).then(function(res){ if(res.error) throw res.error; afterLogin(); }).catch(function(e){ b.disabled=false; msg('err',errText(e)); });
+  });
+  $('sg-submit').addEventListener('click',function(){ clearMsg();
+    var email=$('sg-email').value.trim(), pw=$('sg-pw').value, pw2=$('sg-pw2').value;
+    var display=$('sg-display').value.trim(), ln=$('sg-last').value.trim(), fn=$('sg-first').value.trim();
+    var pref=$('sg-pref').value, city=$('sg-city').value; var gc=document.querySelector('#sg-grade span.on'); var grade=gc?gc.dataset.v:'';
+    if(!display) return msg('err','ニックネームを入力してください。'); if(!ln||!fn) return msg('err','お名前（姓・名）を入力してください。');
+    if(!email) return msg('err','メールアドレスを入力してください。'); if(!pw||pw.length<8) return msg('err','パスワードは8文字以上で入力してください。'); if(pw!==pw2) return msg('err','パスワードが一致しません。もう一度ご確認ください。');
+    var b=$('sg-submit'); b.disabled=true;
+    if(window.Chibi&&(pref||city)) Chibi.setRegionParts(pref,city);
+    try{ if(grade) localStorage.setItem('chibispo_child_grade',grade); }catch(e){}
+    A.signUp(email,pw,{role:'parent',last_name:ln,first_name:fn,display_name:display,pref:pref,city:city}).then(function(res){
+      if(res.error) throw res.error;
+      if(res.data&&res.data.session){
+        var d=A.client(); var u=res.data.session.user;
+        var done=function(){ location.href=safeNext()||'mypage.html'; };
+        if(grade&&d&&u){ d.from('profiles').update({child_grade:grade}).eq('id',u.id).then(done).catch(done); } else done();
+        return;
+      }
+      msg('ok','確認メールを送信しました。メール内のリンクをクリックすると登録完了です。'); b.disabled=false;
+    }).catch(function(e){ b.disabled=false; msg('err',errText(e)); });
+  });
+  function google(){ clearMsg(); var to=location.origin+'/'+(safeNext()||'mypage.html'); A.signInWithGoogle(to).catch(function(){ msg('err','Googleログインは現在準備中です。メールでのログインをご利用ください。'); }); }
+  $('lg-google').addEventListener('click',google); $('sg-google').addEventListener('click',google);
+  $('lg-forgot').addEventListener('click',function(e){ e.preventDefault(); var email=$('lg-email').value.trim(); if(!email){ msg('err','メールアドレスを入力してから押してください。'); return; }
+    A.resetPassword(email,location.origin+'/reset-password.html').then(function(){ msg('ok','パスワード再設定メールを送信しました。'); }).catch(function(){ msg('err','送信に失敗しました。'); }); });
+  $('lg-logout').addEventListener('click',function(e){ e.preventDefault(); A.signOut().then(function(){ location.reload(); }); });
+  function showLoggedIn(prof){ $('lg-auth').hidden=true; $('lg-done').hidden=false; var name=(prof&&prof.display_name)||(prof&&prof.email&&prof.email.split('@')[0])||'ゲスト';
+    $('lg-done-name').textContent=name+' さん'; $('lg-done-email').textContent=(prof&&prof.email)||''; $('lg-done-initial').textContent=name.charAt(0).toUpperCase();
+    if(prof&&prof.role==='club'){ $('lg-done-mypage').href='club-mypage.html'; $('lg-done-mypage').textContent='クラブのマイページへ ›'; } }
+  if(A.ready()){ A.getProfile().then(function(prof){ if(prof){ if(safeNext()){ location.href=safeNext(); return; } showLoggedIn(prof); } }).catch(function(){}); }
+})();
+</script>
 </body>
 </html>
