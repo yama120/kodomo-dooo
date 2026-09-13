@@ -40,7 +40,7 @@ body.auth-in .sh-btn.hd-in{display:block!important}
 .sheet.on{transform:translateY(0)}
 body[data-skin="magazine"] .sheet,body[data-skin="editorial"] .sheet{border-radius:0}
 .sh-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sh-hd img{height:34px;width:auto;display:block}
+.sh-hd img{height:30px;width:auto;display:block}
 body[data-skin="stadium"] .sh-hd img{background:#fff;padding:3px 6px;border-radius:6px}
 .sh-x{border:0;background:transparent;font-size:24px;line-height:1;color:var(--sub);cursor:pointer;padding:4px 6px;font-family:inherit}
 .sh-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -55,7 +55,7 @@ body[data-skin="magazine"] .sh-btn,body[data-skin="editorial"] .sh-btn{border-ra
 @media(max-width:1279px){.hd-nav{gap:16px}}
 @media(max-width:1139px){.hd-nav{display:none}.hd-burger{display:flex}}
 @media(max-width:759px){.logo .lg-w{display:none}.logo .lg-s{display:block}}
-@media(max-width:759px){.hd-ic{display:none}.hd{height:56px;gap:10px}.logo img{height:26px}.hd-cta{padding:7px 11px;font-size:12px;margin-left:0}.hd-burger{margin-left:0}}
+@media(max-width:759px){.hd-ic{display:none}.hd{height:56px;gap:10px}.logo .lg-s{height:27px}.hd-cta{padding:7px 11px;font-size:12px;margin-left:0}.hd-burger{margin-left:0}}
 @media(max-width:380px){.sh-grid{gap:6px}.sh-grid a{padding:12px 2px;font-size:10px}}
 '''
 
@@ -73,12 +73,12 @@ I={
  'club':'<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg>',
 }
 
-PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.png',logow='assets/logo-wide.webp')
+PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.webp?v=2',logow='assets/logo-wide.webp?v=2')
 import json as _json
 def sheet_html(L):
     return ('<div class="sh-bd" id="shBd"></div>'
     '<div class="sheet" id="sheet" role="dialog" aria-label="メニュー">'
-    '<div class="sh-hd"><img src="%(logow)s" alt="チビスポ"><button class="sh-x" type="button" aria-label="閉じる">&times;</button></div>'
+    '<div class="sh-hd"><img src="%(logo)s" alt="チビスポ" width="336" height="96"><button class="sh-x" type="button" aria-label="閉じる">&times;</button></div>'
     '<div class="sh-grid">'
     '<a href="%(search)s">'+I['search']+'<span>クラブを探す</span></a>'
     '<a href="%(map)s">'+I['map']+'<span>地図から探す</span></a>'
@@ -97,7 +97,7 @@ def sheet_html(L):
     '</div>')%L
 def header_html(L,wrap='wrap'):
     return ('<header class="site-hd">\n  <div class="'+wrap+' hd">\n'
-    '    <a class="logo" href="%(home)s"><img class="lg-w" src="%(logow)s" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="%(logo)s" alt="チビスポ" width="300" height="72"></a>\n'
+    '    <a class="logo" href="%(home)s"><img class="lg-w" src="%(logow)s" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="%(logo)s" alt="チビスポ" width="336" height="96"></a>\n'
     '    <nav class="hd-nav">\n'
     '      <a href="%(search)s">クラブを探す</a>\n'
     '      <a href="%(map)s">地図から探す</a>\n'

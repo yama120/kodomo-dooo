@@ -53,3 +53,5 @@ body[data-skin="magazine"] .art,body[data-skin="editorial"] .art{border:0;border
 .toc{position:static!important}
 .alay{align-items:start}
 @media(min-width:900px) and (min-height:1040px){.aside{position:sticky;top:76px}}
+/* 目次はスマホ・タブレット（1カラム）では出さない：本文の下に落ちて読み返しの邪魔になる */
+@media(max-width:899px){.toc{display:none!important}}

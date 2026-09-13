@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20260915">
+<link rel="stylesheet" href="site.css?v=20260916">
 <style>
 .ahead{padding:26px 0 0;max-width:760px}
 .ahead .c{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--accent);margin-bottom:10px}
@@ -102,6 +102,8 @@
 .toc{position:static!important}
 .alay{align-items:start}
 @media(min-width:900px) and (min-height:1040px){.aside{position:sticky;top:76px}}
+/* 目次はスマホ・タブレット（1カラム）では出さない：本文の下に落ちて読み返しの邪魔になる */
+@media(max-width:899px){.toc{display:none!important}}
 
 .anext{display:block;color:inherit}.art{color:inherit}
 .art-body img{max-width:100%;height:auto}
@@ -129,7 +131,7 @@
 <body>
 <header class="site-hd">
   <div class="wrap hd">
-    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.png" alt="チビスポ" width="300" height="72"></a>
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=2" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=2" alt="チビスポ" width="336" height="96"></a>
     <nav class="hd-nav">
       <a href="search.html">クラブを探す</a>
       <a href="map.html">地図から探す</a>
@@ -225,9 +227,9 @@
   </div>
   <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
 </footer>
-<script src="site.js?v=20260915"></script>
+<script src="site.js?v=20260916"></script>
 <script src="feature-track.js"></script>
-<script src="shared.js?v=20260915"></script>
+<script src="shared.js?v=20260916"></script>
 <script>
 (function(){var bar=document.getElementById('rprog'),art=document.querySelector('.art-body'),hs=[].slice.call(document.querySelectorAll('.art-body h2[id]')),lis=[].slice.call(document.querySelectorAll('.toc li'));
 function upd(){if(art&&bar){var r=art.getBoundingClientRect(),h=r.height-innerHeight,p=h>0?Math.min(1,Math.max(0,-r.top/h)):1;bar.style.width=(p*100).toFixed(1)+'%'}

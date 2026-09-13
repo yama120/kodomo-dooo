@@ -1,6 +1,6 @@
 # ポップアップ診断の JS/CSS を生成して ~/kodomo-dooo-deploy/ に置く（プレビュー用）
 import os,sys,json
-P='/private/tmp/claude-501/-Users-hyogoyamada-claudecode-project/5ae8baa4-4330-4bf8-b599-64aa8ac5ef83/scratchpad/'
+P=(os.path.dirname(os.path.abspath(__file__))+'/') if '__file__' in globals() else P   # 部品は _build/src/ から読む
 sys.path.insert(0,P); import cards
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
 # タイプ別の「近くのクラブ」2枚（サンプル）

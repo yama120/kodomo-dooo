@@ -217,7 +217,7 @@ input,select,button{font-family:var(--f)}
 .note{position:relative;z-index:2}
 </style>
 '''
-RESKIN3=open(P+'reskin3.css',encoding='utf-8').read() if 'P' in globals() else open('/private/tmp/claude-501/-Users-hyogoyamada-claudecode-project/5ae8baa4-4330-4bf8-b599-64aa8ac5ef83/scratchpad/reskin3.css',encoding='utf-8').read()
+RESKIN3=open(P+'reskin3.css',encoding='utf-8').read() if 'P' in globals() else open(os.path.dirname(os.path.abspath(__file__))+'/reskin3.css',encoding='utf-8').read()
 head=head.replace('</title>','</title>'+extra+RESKIN2+RESKIN3,1)
 
 # ---------- 4) body 属性・設計メモ・スキン切替 ----------

@@ -42,15 +42,11 @@
   function badge(sp){ var a=sportArt(sp); return '<span class="sb" style="background:'+a.c+'"><svg viewBox="0 0 24 24">'+a.i+'</svg></span>'; }
   function isPaid(t){ if(!t||!t.plan||t.plan==='free') return false; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date()) return false; return true; }
   function isNew(t){ if(!t||!t.created_at) return false; var d=(Date.now()-new Date(t.created_at).getTime())/86400000; return d>=0 && d<=14; }
-  /* 「小学生 ・ 週2（火木） ・ 月謝8,000円」の1行 */
+  /* 「週2（火木）」の1行。対象学年と月謝はカードに出さない（詳細ページで見せる） */
   function meta(t){
     var p=[];
-    var ag=Array.isArray(t.age_groups)?t.age_groups.filter(Boolean):[];
-    if(ag.length) p.push(ag.join('・'));
     var ds=Array.isArray(t.days)?t.days.filter(Boolean):[];
     if(ds.length) p.push('週'+ds.length+'（'+ds.join('')+'）');
-    var fee=(t.fee||'').trim();
-    if(fee){ if(/^月[0-9０-９]/.test(fee)) fee='月謝'+fee.slice(1); p.push(fee); }
     return p.join(' ・ ');
   }
   function tags(t){
@@ -81,7 +77,7 @@
         +'<h3 class="nc-name">'+esc(t.name)+'</h3>'
         +'<div class="nc-area">'+PIN+esc(area)+'</div>'
         +(desc?'<div class="nc-desc">'+esc(desc)+'</div>':'')
-        +'<div class="nc-meta">'+esc(meta(t))+'</div>'
+        +(meta(t)?'<div class="nc-meta">'+esc(meta(t))+'</div>':'')
         +(tg.length?'<div class="nc-tags">'+tg.map(function(x){return '<span'+(x.m?' data-mood="'+esc(x.m)+'"':'')+'>'+esc(x.t)+'</span>';}).join('')+'</div>':'')
         +'<div class="nc-foot"><span class="lk">'+HEART+(t.likes||0)+'</span><span class="cm sr-cmt-btn" data-id="'+esc(t.id)+'" title="コメントを見る・書く">'+CMT+(t.comments||0)+'</span></div>'
       +'</div></a>';

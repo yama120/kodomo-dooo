@@ -1,7 +1,9 @@
 import re,os,sys
-sys.path.insert(0,'/private/tmp/claude-501/-Users-hyogoyamada-claudecode-project/5ae8baa4-4330-4bf8-b599-64aa8ac5ef83/scratchpad/')
+# 部品（*.css / *.py）の置き場＝このファイルと同じ _build/src/。
+# 以前は一時ディレクトリを指していて、_build/src/ を直しても本番に反映されなかった。
+P=(os.path.dirname(os.path.abspath(__file__))+'/') if '__file__' in globals() else P
+sys.path.insert(0,P)
 import cards
-P='/private/tmp/claude-501/-Users-hyogoyamada-claudecode-project/5ae8baa4-4330-4bf8-b599-64aa8ac5ef83/scratchpad/'
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
 top=open(D+'video-hero-preview.html',encoding='utf-8').read()
 BASE_CSS=top[top.index('<style>')+7:top.index('</style>')]
