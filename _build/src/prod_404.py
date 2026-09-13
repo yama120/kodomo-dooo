@@ -38,4 +38,4 @@ JS=r'''<script>
   if(e) e.textContent='アドレスが変わったか、削除された可能性があります。（'+location.pathname+'）';
 })();
 </script>'''
-C.prodpage('404.html','ページが見つかりません｜チビスポ','お探しのページは見つかりませんでした。クラブを探す・トップ・お問い合わせからお進みください。',BODY,css=CSS,js=JS,noindex=True,scripts=('site.js?v='+C.V,))
+C.prodpage('404.html','ページが見つかりません｜チビスポ','お探しのページは見つかりませんでした。クラブを探す・トップ・お問い合わせからお進みください。',BODY,css=CSS,js=JS,noindex=True,base_root=True,scripts=('site.js?v='+C.V,))

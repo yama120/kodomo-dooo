@@ -10,7 +10,10 @@ SEMANTIC_GREEN=['#1f8a5b']   # club-mypage / admin では「成功」の意味�
 FONT_SUB={"'Zen Maru Gothic'":"'Zen Kaku Gothic New'","'Noto Sans JP'":"'Zen Kaku Gothic New'","'M PLUS Rounded 1c'":"'Zen Kaku Gothic New'",'Zen+Maru+Gothic':'Zen+Kaku+Gothic+New','Noto+Sans+JP':'Zen+Kaku+Gothic+New','M+PLUS+Rounded+1c':'Zen+Kaku+Gothic+New'}
 def reskin(fname,keep_green=False,extra_css=''):
     s=open(D+fname,encoding='utf-8').read()
-    if '<!-- reskin v2 -->' in s: return
+    if '<!-- reskin v2 -->' in s:   # 済みでも版番号だけ追従させる（共通CSS/JSの更新を確実に届ける）
+        s2=re.sub(r'shared\.js\?v=\d+','shared.js?v='+C.V,s)
+        if s2!=s: open(D+fname,'w',encoding='utf-8').write(s2); print('bump',fname)
+        return
     head_end=s.index('</head>')
     for k,v in FONT_SUB.items(): s=s.replace(k,v)
     for c in BRAND: s=re.sub(re.escape(c),ACC,s,flags=re.I)

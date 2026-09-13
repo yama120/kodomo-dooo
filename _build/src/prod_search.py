@@ -494,9 +494,8 @@ js=r'''<script>
 </script>'''
 anon=re.search(r"SB_KEY = '([^']+)'",open(C.D+'shared.js',encoding='utf-8').read()).group(1)
 js=js.replace('__ANON__',anon)
-head='''<base href="/">
-<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/clubs/…）と中身が重複する。
+head='''<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/clubs/…）と中身が重複する。
      Airbnbも絞り込みUI（/s/…）を noindex にして、SEOは地域ページ側に寄せている -->
 <script>window.__SEARCH_PAGE=1;</script>
 '''
-C.prodpage('search.html','検索結果｜チビスポ','地域・種目・条件から、お子さんに合う子ども向けスポーツクラブ・習い事を探せます。',body,css=css,js=js,head=head,supabase=True,noindex=True,scripts=('club-card.js?v='+C.V,'romaji.js?v=20260802','cities.js?v=20260731b','site.js?v='+C.V))
+C.prodpage('search.html','検索結果｜チビスポ','地域・種目・条件から、お子さんに合う子ども向けスポーツクラブ・習い事を探せます。',body,css=css,js=js,head=head,supabase=True,noindex=True,base_root=True,scripts=('club-card.js?v='+C.V,'romaji.js?v=20260802','cities.js?v=20260731b','site.js?v='+C.V))
