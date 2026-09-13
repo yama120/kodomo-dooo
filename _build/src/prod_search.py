@@ -87,7 +87,7 @@ body='''<div id="sr-veil"><i></i></div>
     <div id="sr-empty" hidden>
       <div class="t" id="sr-empty-title">条件に合うクラブが見つかりませんでした</div>
       <p id="sr-empty-cond"></p>
-      <a class="btn" id="sr-empty-clear" href="search.html">条件をクリアして探す</a>
+      <a class="btn" id="sr-empty-clear" href="/search.html">条件をクリアして探す</a>
       <button class="btn ghost" id="sr-empty-region" type="button">地域を変える</button>
     </div>
     <div id="sr-near-label" hidden><span class="t" id="sr-near-title">条件に近いクラブ</span><span class="s" id="sr-near-sub">条件を一部ゆるめて表示しています</span></div>
@@ -153,7 +153,7 @@ js=r'''<script>
   grid.addEventListener('click', function(e){
     var b = e.target.closest && e.target.closest('.sr-cmt-btn'); if(!b) return;
     e.preventDefault(); e.stopPropagation();
-    location.href = 'club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
+    location.href = '/club.html?id=' + encodeURIComponent(b.getAttribute('data-id')) + '#comments';
   });
 
   var TEAM_COLS='id,name,sport,pref,city,address,age_groups,days,fee,fee_num,trial,girls_welcome,female_instructor,description,photo_url,photo_positions,moods,plan,plan_expires_at,created_at,video_url';
@@ -294,7 +294,7 @@ js=r'''<script>
       if(ages.length) q.push('ages='+encodeURIComponent(ages.join(',')));
       if(st.chk.trial) q.push('trial=1'); if(st.chk.girls) q.push('girls=1'); if(st.chk.heijitsu) q.push('heijitsu=1'); if(st.chk.doyo) q.push('doyo=1');
       if(st.fee && st.fee!=='none') q.push('fee='+encodeURIComponent(st.fee));
-      mapBtn.href = 'map.html'+(q.length?('?'+q.join('&')):'');
+      mapBtn.href = '/map.html'+(q.length?('?'+q.join('&')):'');
     }
     var urlSyncReady=false;
     function syncUrl(hits){
@@ -494,7 +494,8 @@ js=r'''<script>
 </script>'''
 anon=re.search(r"SB_KEY = '([^']+)'",open(C.D+'shared.js',encoding='utf-8').read()).group(1)
 js=js.replace('__ANON__',anon)
-head='''<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/clubs/…）と中身が重複する。
+head='''<base href="/">
+<!-- 絞り込み結果はURLの組み合わせが無限に増え、地域ページ（/clubs/…）と中身が重複する。
      Airbnbも絞り込みUI（/s/…）を noindex にして、SEOは地域ページ側に寄せている -->
 <script>window.__SEARCH_PAGE=1;</script>
 '''

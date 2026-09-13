@@ -26,7 +26,7 @@
   function renderFavs(){
     var favs=(window.Chibi&&Chibi.getFavs())||[]; var wrap=$('mpFavs'), empty=$('mpFavEmpty'); $('mpFavN').textContent=favs.length;
     if(!favs.length){ wrap.innerHTML=''; empty.hidden=false; return; } empty.hidden=true;
-    wrap.innerHTML=favs.map(function(f){ return '<a class="nc" href="'+esc(f.href||('club.html?id='+f.id))+'"><div class="nc-img">'+(f.img?'<img src="'+esc(f.img)+'" alt="">':'<div class="nc-ph"></div>')+'<button class="rm" type="button" data-id="'+esc(f.id)+'" aria-label="外す">&times;</button></div><div class="nc-b"><h3 class="nc-name">'+esc(f.name)+'</h3>'+(f.area?'<div class="nc-area">'+esc(f.area)+'</div>':'')+'</div></a>'; }).join('');
+    wrap.innerHTML=favs.map(function(f){ return '<a class="nc" href="'+esc(f.href||('/club.html?id='+f.id))+'"><div class="nc-img">'+(f.img?'<img src="'+esc(f.img)+'" alt="">':'<div class="nc-ph"></div>')+'<button class="rm" type="button" data-id="'+esc(f.id)+'" aria-label="外す">&times;</button></div><div class="nc-b"><h3 class="nc-name">'+esc(f.name)+'</h3>'+(f.area?'<div class="nc-area">'+esc(f.area)+'</div>':'')+'</div></a>'; }).join('');
     wrap.querySelectorAll('.rm').forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); if(window.Chibi) Chibi.removeFav(b.getAttribute('data-id')); }); });
   }
   document.addEventListener('chibi:favs',function(){ renderFavs(); renderHome(); });

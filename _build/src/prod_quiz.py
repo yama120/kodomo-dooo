@@ -23,9 +23,9 @@ s=s.replace(old_nx,'''if(q.type==='area'){
  var nx=box.querySelector('.cq-next');if(nx)nx.addEventListener('click',function(){if(q.type==='area'){var pf=box.querySelector('#cq-pref'),ct=box.querySelector('#cq-city');ans.areaPref=pf?pf.value:'';ans.areaCity=ct?ct.value:'';ans.area=[ans.areaCity||ans.areaPref||'']}cur++;render()});''')
 # 3) 結果：地域名・種目リンク・クラブは実データ・記事とマイページは本番
 s=s.replace("var cond=['世田谷区',age,day]","var areaLabel=(ans.areaCity||ans.areaPref||'全国'),qs=(ans.areaPref?'&pref='+encodeURIComponent(ans.areaPref):'')+(ans.areaCity?'&city='+encodeURIComponent(ans.areaCity):'');\n var cond=[areaLabel,age,day]")
-s=s.replace('''return '<a href="search-preview.html"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>世田谷区の'+h(x[0])+'を見る ›</i></a>\'''','''return '<a href="search.html?sport='+encodeURIComponent(x[0])+qs+'"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>'+h(areaLabel)+'の'+h(x[0])+'を見る ›</i></a>\'''')
+s=s.replace('''return '<a href="search-preview.html"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>世田谷区の'+h(x[0])+'を見る ›</i></a>\'''','''return '<a href="/search.html?sport='+encodeURIComponent(x[0])+qs+'"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>'+h(areaLabel)+'の'+h(x[0])+'を見る ›</i></a>\'''')
 s=s.replace(''' s+='<h3>世田谷区で、いま募集しているクラブ</h3><div class="cards">'+(CARDS[r.type]||'')+'</div>';''',''' s+='<div id="cq-clubs" hidden><h3>'+h(areaLabel)+'で、いま載っているクラブ</h3><div class="cards" id="cq-cards"></div></div>';''')
-s=s.replace('href="article-preview.html"','href="magazine-4.html"').replace('''<a class="b2" href="search-preview.html">一覧で見る</a>''','''<a class="b2" href="search.html?x='+qs+'">一覧で見る</a>''').replace("location.href='mypage-preview.html?saved=1'","location.href='mypage.html?saved=1'")
+s=s.replace('href="article-preview.html"','href="/magazine-4.html"').replace('''<a class="b2" href="search-preview.html">一覧で見る</a>''','''<a class="b2" href="/search.html?x='+qs+'">一覧で見る</a>''').replace("location.href='mypage-preview.html?saved=1'","location.href='/mypage.html?saved=1'")
 # 結果描画のあとに実データを取る
 old_tail=''' box.querySelector('.cq-redo').addEventListener('click',function(e){e.preventDefault();cur=0;render()});'''
 assert old_tail in s
@@ -44,6 +44,11 @@ s=s.replace(old_tail,old_tail+'''
      g.innerHTML=hit.slice(0,3).map(function(t){return ChibiCard.card(t)}).join(''); wrap.hidden=false;
    }).catch(function(){});
  })();''')
+# 内部リンクはルート起点に（検索ページは条件を変えるとURLが /clubs/… に変わるため）
+for _a,_b in [("href:'category-","href:'/category-"),("href='mypage.html?saved=1'","href='/mypage.html?saved=1'"),
+              ('href="magazine-4.html"','href="/magazine-4.html"'),('href="search.html','href="/search.html'),
+              ("href='search.html","href='/search.html")]:
+    s=s.replace(_a,_b)
 anon=re.search(r"SB_KEY = '([^']+)'",open(D+'shared.js',encoding='utf-8').read()).group(1)
 s=s.replace('__ANON__',anon)
 s=s.replace('demo(){open();ans={area:[\'世田谷区\'],','demo(){open();ans={areaPref:\'東京都\',areaCity:\'世田谷区\',area:[\'世田谷区\'],')

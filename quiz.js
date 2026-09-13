@@ -13,10 +13,10 @@ var Q=[
  {id:'cond',type:'multi',ey:'EXTRA',t:'あれば、こだわりを。',ld:'なくても、そのまま結果へ。',o:[['女の子です','女の子歓迎のクラブ'],['女性の指導者がいる'],['入会金がない'],['まず体験したい','体験OKのクラブ']]}
 ];
 var TYPES={
- royal:{name:'王道スポーツ',em:'王道',why:'友だちと一緒に盛り上がるのが好きで、ボールを追いかける遊びが得意。チームで勝ち負けを味わえる種目が合いそうです。',sports:[['サッカー','週1から始めやすい。地域に最も多い'],['バスケットボール','室内・少人数。ミニバスは未就学から'],['野球','土日中心。親子で通う家庭が多い']],href:'category-royal.html'},
- personal:{name:'個人スポーツ',em:'個人',why:'自分のペースで集中するのが得意。できることが一つずつ増えるのが見える種目が合いそうです。',sports:[['水泳','全身を使い、けがが少ない'],['体操','走る・跳ぶ・回るの土台になる'],['空手・剣道','礼儀と集中を身につけたい子に']],href:'category-personal.html'},
- outdoor:{name:'自然・アウトドア',em:'アウトドア',why:'外で思いきり体を動かすのが好き。季節や場所が変わる種目のほうが、飽きずに続きます。',sports:[['陸上','走る・跳ぶを外で。運動会が楽しみになる'],['スキー・スノーボード','冬だけの集中プログラムも'],['カヌー・サーフィン','水と外の両方が好きな子に']],href:'category-outdoor.html'},
- minor:{name:'マイナースポーツ',em:'マイナー',why:'みんながやっていないことに興味がある子。始める人が少ないぶん、伸びるのが早く、大会にも出やすい種目です。',sports:[['ラクロス','女の子の入部が多い。中学から始める子も'],['ダブルダッチ','音楽に合わせて跳ぶ。チームで'],['マルチスポーツ','いろいろ試してから決められる']],href:'category-minor.html'}
+ royal:{name:'王道スポーツ',em:'王道',why:'友だちと一緒に盛り上がるのが好きで、ボールを追いかける遊びが得意。チームで勝ち負けを味わえる種目が合いそうです。',sports:[['サッカー','週1から始めやすい。地域に最も多い'],['バスケットボール','室内・少人数。ミニバスは未就学から'],['野球','土日中心。親子で通う家庭が多い']],href:'/category-royal.html'},
+ personal:{name:'個人スポーツ',em:'個人',why:'自分のペースで集中するのが得意。できることが一つずつ増えるのが見える種目が合いそうです。',sports:[['水泳','全身を使い、けがが少ない'],['体操','走る・跳ぶ・回るの土台になる'],['空手・剣道','礼儀と集中を身につけたい子に']],href:'/category-personal.html'},
+ outdoor:{name:'自然・アウトドア',em:'アウトドア',why:'外で思いきり体を動かすのが好き。季節や場所が変わる種目のほうが、飽きずに続きます。',sports:[['陸上','走る・跳ぶを外で。運動会が楽しみになる'],['スキー・スノーボード','冬だけの集中プログラムも'],['カヌー・サーフィン','水と外の両方が好きな子に']],href:'/category-outdoor.html'},
+ minor:{name:'マイナースポーツ',em:'マイナー',why:'みんながやっていないことに興味がある子。始める人が少ないぶん、伸びるのが早く、大会にも出やすい種目です。',sports:[['ラクロス','女の子の入部が多い。中学から始める子も'],['ダブルダッチ','音楽に合わせて跳ぶ。チームで'],['マルチスポーツ','いろいろ試してから決められる']],href:'/category-minor.html'}
 };
 var ans={},cur=0,ov,box;
 function h(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -62,10 +62,10 @@ function result(){
  var cond=[areaLabel,age,day].concat((ans.cond||[]).map(function(i){return label('cond',i)}));if(r.tag.mood)cond.push(r.tag.mood);
  var s='<div class="cq-res"><div class="k">RESULT</div><div class="tp">お子さんに合いそうなのは、<em>'+h(T.name)+'</em>。</div><p class="why">'+h(T.why)+'</p>';
  s+='<div class="cond">'+cond.map(function(c){return '<span>'+h(c)+'</span>'}).join('')+'<a href="#" class="cq-redo">条件を変える</a></div>';
- s+='<h3>まず見てほしい種目</h3><div class="sp">'+T.sports.map(function(x){return '<a href="search.html?sport='+encodeURIComponent(x[0])+qs+'"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>'+h(areaLabel)+'の'+h(x[0])+'を見る ›</i></a>'}).join('')+'</div>';
+ s+='<h3>まず見てほしい種目</h3><div class="sp">'+T.sports.map(function(x){return '<a href="/search.html?sport='+encodeURIComponent(x[0])+qs+'"><b>'+h(x[0])+'</b><small>'+h(x[1])+'</small><i>'+h(areaLabel)+'の'+h(x[0])+'を見る ›</i></a>'}).join('')+'</div>';
  s+='<div id="cq-clubs" hidden><h3>'+h(areaLabel)+'で、いま載っているクラブ</h3><div class="cards" id="cq-cards"></div></div>';
- s+='<div class="save"><div class="t">この結果を、マイページに保存しますか。</div><p>保存すると、この条件に合う新しいクラブが載ったとき・体験の募集が始まったときにお知らせします。あとから条件も変えられます。</p><div class="row"><button class="b1 cq-save">保存する（無料）</button><a class="b2" href="search.html?x='+qs+'">一覧で見る</a></div></div>';
- s+='<div class="alt">はじめてのクラブ選びなら：<a href="magazine-4.html">「うちの子に合うクラブ」の見つけ方・5つの視点</a>／<a href="'+T.href+'">'+h(T.name)+'の種目をぜんぶ見る</a></div></div>';
+ s+='<div class="save"><div class="t">この結果を、マイページに保存しますか。</div><p>保存すると、この条件に合う新しいクラブが載ったとき・体験の募集が始まったときにお知らせします。あとから条件も変えられます。</p><div class="row"><button class="b1 cq-save">保存する（無料）</button><a class="b2" href="/search.html?x='+qs+'">一覧で見る</a></div></div>';
+ s+='<div class="alt">はじめてのクラブ選びなら：<a href="/magazine-4.html">「うちの子に合うクラブ」の見つけ方・5つの視点</a>／<a href="'+T.href+'">'+h(T.name)+'の種目をぜんぶ見る</a></div></div>';
  box.innerHTML=s;box.scrollTop=0;
  box.querySelector('.cq-redo').addEventListener('click',function(e){e.preventDefault();cur=0;render()});
  (function(){
@@ -82,7 +82,7 @@ function result(){
      g.innerHTML=hit.slice(0,3).map(function(t){return ChibiCard.card(t)}).join(''); wrap.hidden=false;
    }).catch(function(){});
  })();
- box.querySelector('.cq-save').addEventListener('click',function(){try{localStorage.setItem('chibispo_quiz',JSON.stringify({type:r.type,typeName:T.name,cond:cond,sports:T.sports.map(function(x){return x[0]}),at:new Date().toISOString()}))}catch(e){}location.href='mypage.html?saved=1'});
+ box.querySelector('.cq-save').addEventListener('click',function(){try{localStorage.setItem('chibispo_quiz',JSON.stringify({type:r.type,typeName:T.name,cond:cond,sports:T.sports.map(function(x){return x[0]}),at:new Date().toISOString()}))}catch(e){}location.href='/mypage.html?saved=1'});
 }
 window.ChibiQuiz={open:open,close:close};
 document.addEventListener('click',function(e){var a=e.target.closest('[data-quiz]');if(a){e.preventDefault();open()}});

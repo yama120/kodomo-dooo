@@ -69,7 +69,7 @@
     var desc=(t.description||'').replace(/\s+/g,' ').trim();
     var tg=tags(t);
     var moods=(Array.isArray(t.moods)?t.moods:[]).join(',');
-    return '<a href="club.html?id='+esc(t.id)+'" class="club-card nc" data-id="'+esc(t.id)+'" data-name="'+esc(t.name)+'" data-area="'+esc(area)+'" data-pref="'+esc((t.pref||'').replace(/[都道府県]$/,''))+'" data-city="'+esc(t.city||'')+'" data-sport="'+esc(t.sport)+'" data-mood="'+esc(moods)+'">'
+    return '<a href="/club.html?id='+esc(t.id)+'" class="club-card nc" data-id="'+esc(t.id)+'" data-name="'+esc(t.name)+'" data-area="'+esc(area)+'" data-pref="'+esc((t.pref||'').replace(/[都道府県]$/,''))+'" data-city="'+esc(t.city||'')+'" data-sport="'+esc(t.sport)+'" data-mood="'+esc(moods)+'">'
       +'<div class="nc-img">'+media
         +((opts.isNew!=null?opts.isNew:isNew(t))?'<span class="nc-new">新着</span>':'')
         +((opts.pr!=null?opts.pr:isPaid(t))?'<span class="nc-pr">PR</span>':'')

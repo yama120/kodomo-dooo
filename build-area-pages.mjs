@@ -137,7 +137,7 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   if (/<meta[^>]*name="robots"[^>]*noindex/i.test(s)) throw new Error(`noindexが残っています: ${url}`);
 
   // 階層が深いので、相対で書かれた読み込み（cities.js など）の起点をルートに固定する
-  s = s.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');
+  if (!s.includes('<base href="/">')) s = s.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');
   if (!s.includes('<base href="/">')) throw new Error(`baseを差し込めませんでした: ${url}`);
 
   // タイトル・説明・canonical・構造化データ

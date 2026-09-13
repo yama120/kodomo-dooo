@@ -306,7 +306,7 @@
     var reels=document.getElementById('tp-reels');
     if(reels){
       reels.innerHTML=uniq.slice(0,5).map(function(t){
-        return '<a class="card" href="club.html?id='+esc(t.id)+'"><div class="card-v"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy"><span class="badge ph">PHOTO</span>'
+        return '<a class="card" href="/club.html?id='+esc(t.id)+'"><div class="card-v"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy"><span class="badge ph">PHOTO</span>'
           +'<div class="card-cap"><div class="hl">'+esc(oneline(t.description,30))+'</div></div></div>'
           +'<div class="card-meta"><span class="card-name">'+esc(t.name)+'</span><span class="tag">'+esc(t.sport)+'</span>'+(t.city?'<span class="tag">'+esc(t.city)+'</span>':'')+'</div></a>';
       }).join('');
@@ -319,7 +319,7 @@
       picks.innerHTML=pool.map(function(t){
         var days=Array.isArray(t.days)?t.days.length:0;
         var m=[t.sport, days?'週'+days:'', t.trial?'体験OK':(t.girls_welcome?'女の子歓迎':'')].filter(Boolean).join(' / ');
-        return '<a class="g-item" href="club.html?id='+esc(t.id)+'"><div class="g-thumb"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy">'+(t.video_url?'<span class="g-vid">動画あり</span>':'')+'</div>'
+        return '<a class="g-item" href="/club.html?id='+esc(t.id)+'"><div class="g-thumb"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy">'+(t.video_url?'<span class="g-vid">動画あり</span>':'')+'</div>'
           +'<div class="g-title">'+esc(oneline(t.description,24))+'</div><div class="g-meta">'+esc(t.name)+(t.city?'（'+esc(t.city)+'）':'')+'<br>'+esc(m)+'</div></a>';
       }).join('');
     }
@@ -339,7 +339,7 @@
     }
     /* テーマ（写真のマーキー） */
     var th=document.getElementById('tp-themes');
-    if(th){ var ph=uniq.slice(0,12); if(ph.length){ var one=ph.map(function(t){ return '<a class="m" href="club.html?id='+esc(t.id)+'" title="'+esc(t.name)+'"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy"></a>'; }).join(''); th.innerHTML=one+one; } }
+    if(th){ var ph=uniq.slice(0,12); if(ph.length){ var one=ph.map(function(t){ return '<a class="m" href="/club.html?id='+esc(t.id)+'" title="'+esc(t.name)+'"><img src="'+esc(t.photo_url)+'" alt="" loading="lazy"></a>'; }).join(''); th.innerHTML=one+one; } }
   }).catch(function(){});
 })();
 </script>

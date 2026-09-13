@@ -451,9 +451,9 @@ body.cd-lock{overflow:hidden}
     var mw=el('cd-map-link-wrap'), ml=el('cd-map-link'); var q=addrFull||area;
     if(mw&&ml&&q){ ml.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q); mw.hidden=false; }
     (function(){ var prefS=String(t.pref||'').replace(/[都道府県]$/,''); var bp=el('cd-bc-pref'),bc=el('cd-bc-city'),s2=el('cd-bc-sep2');
-      if(bp){ if(t.pref){ bp.textContent=t.pref; bp.href='search.html?pref='+encodeURIComponent(prefS); } else bp.hidden=true; }
-      if(bc){ if(t.city){ bc.textContent=t.city; bc.href='search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.hidden=true; if(s2) s2.hidden=true; } }
-      var nm=el('cd-near-more'); if(nm&&t.pref) nm.href='search.html?pref='+encodeURIComponent(prefS)+(t.city?'&city='+encodeURIComponent(t.city):'');
+      if(bp){ if(t.pref){ bp.textContent=t.pref; bp.href='/search.html?pref='+encodeURIComponent(prefS); } else bp.hidden=true; }
+      if(bc){ if(t.city){ bc.textContent=t.city; bc.href='/search.html?pref='+encodeURIComponent(prefS)+'&city='+encodeURIComponent(t.city); } else { bc.hidden=true; if(s2) s2.hidden=true; } }
+      var nm=el('cd-near-more'); if(nm&&t.pref) nm.href='/search.html?pref='+encodeURIComponent(prefS)+(t.city?'&city='+encodeURIComponent(t.city):'');
     })();
     /* ---- 編集部の一言（有料・登録があるときだけ） ---- */
     if(paid&&t.editor_headline){ setText('cd-epick-h',t.editor_headline); setText('cd-epick-p',t.editor_note||''); el('cd-epick').hidden=false; }
@@ -548,7 +548,7 @@ body.cd-lock{overflow:hidden}
       return d.auth.getSession().then(function(r){ var ses=r&&r.data&&r.data.session; if(!ses) return null; window._cdMyToken=ses.access_token; window._cdMyUid=ses.user&&ses.user.id; window._cdMyEmail=ses.user&&ses.user.email; return ses; }).catch(function(){ return null; }); }
     openBtns.forEach(function(btn){ btn.addEventListener('click',function(e){ e.preventDefault();
       var tm=window._cdTeam||{}; el('cd-trial-team').textContent=tm.name?tm.name+' への体験申込みです。':'';
-      loadMe().then(function(ses){ if(!ses){ alert('体験申込にはログインが必要です。クラブとのやり取りをお届けするために、会員登録（無料）をお願いします。'); location.href='login.html?next='+encodeURIComponent(location.pathname+location.search); return; } var w=el('tr-email-wrap'); if(w) w.style.display='none'; show(true); });
+      loadMe().then(function(ses){ if(!ses){ alert('体験申込にはログインが必要です。クラブとのやり取りをお届けするために、会員登録（無料）をお願いします。'); location.href='/login.html?next='+encodeURIComponent(location.pathname+location.search); return; } var w=el('tr-email-wrap'); if(w) w.style.display='none'; show(true); });
     }); });
     el('cd-trial-close').addEventListener('click',function(){ show(false); });
     el('cd-trial-done-close').addEventListener('click',function(){ show(false); });
@@ -560,7 +560,7 @@ body.cd-lock{overflow:hidden}
       var qw=el('cd-ask-quick'); qw.innerHTML=QUICK.map(function(q){ return '<button type="button" data-q="'+q+'">'+q+'</button>'; }).join('');
       qw.querySelectorAll('[data-q]').forEach(function(b){ b.addEventListener('click',function(){ var ta=el('cd-ask-body'); var v=b.getAttribute('data-q'); ta.value=ta.value?(ta.value+'\n'+v):v; }); });
       function showAsk(o){ modal('cd-ask-modal',o); if(o){ el('cd-ask-form').style.display='block'; el('cd-ask-done').style.display='none'; } }
-      ab.addEventListener('click',function(e){ e.preventDefault(); loadMe().then(function(ses){ if(!ses){ alert('質問にはログインが必要です。クラブからの返信をお届けするために、会員登録（無料）をお願いします。'); location.href='login.html?next='+encodeURIComponent(location.pathname+location.search); return; } showAsk(true); }); });
+      ab.addEventListener('click',function(e){ e.preventDefault(); loadMe().then(function(ses){ if(!ses){ alert('質問にはログインが必要です。クラブからの返信をお届けするために、会員登録（無料）をお願いします。'); location.href='/login.html?next='+encodeURIComponent(location.pathname+location.search); return; } showAsk(true); }); });
       el('cd-ask-close').addEventListener('click',function(){ showAsk(false); });
       am.addEventListener('click',function(e){ if(e.target===am) showAsk(false); });
       el('cd-ask-send').addEventListener('click',function(){
