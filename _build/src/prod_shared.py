@@ -149,6 +149,12 @@ NEW_AUTH='''  function applyAuthUI(prof) {
     var col = AUTH_AV_COLORS[h % AUTH_AV_COLORS.length];
     var ini = (name.charAt(0) || 'M').toUpperCase().replace(/[<>&"]/g, '');
     document.body.classList.toggle('auth-in', loggedIn);
+    /* ログイン中で、まだ地域を選んでいなければ、登録した地域を既定にする */
+    try {
+      if (loggedIn && (prof.pref || prof.city) && !Chibi.getRegionPref() && !Chibi.getRegionCity()) {
+        Chibi.setRegionParts(prof.pref || '', prof.city || '');
+      }
+    } catch (e) {}
     document.querySelectorAll('.hd-in').forEach(function (el) {
       el.setAttribute('href', target);
       var av = el.querySelector('.hd-av');
@@ -160,6 +166,34 @@ NEW_AUTH='''  function applyAuthUI(prof) {
   }
 '''
 src=cut(src,'  function applyAuthUI(prof) {','  function updateAuthUI() {',NEW_AUTH)
+
+
+# 3.5) 未ログインのブラウザに地域を持ち越さない（検索の既定を「全国」に戻す）
+BOOT = """(function () {
+  'use strict';
+
+  /* ---------- 地域の持ち越しをやめる（タブを開くたびに1回だけ判定） ----------
+     未ログインなら、前に選んだ地域（localStorage）を消して「全国」から始める。
+     ログイン中はそのまま。開いている間に選んだ地域は、そのセッションでは残る。 */
+  (function () {
+    try {
+      if (sessionStorage.getItem('chibi_region_boot')) return;
+      sessionStorage.setItem('chibi_region_boot', '1');
+      var signedIn = false, i, k;
+      for (i = 0; i < localStorage.length; i++) {
+        k = localStorage.key(i);
+        if (k && /^sb-.*-auth(-token)?$/.test(k)) { signedIn = true; break; }
+      }
+      if (!signedIn) {
+        localStorage.removeItem('chibi_region_pref');
+        localStorage.removeItem('chibi_region_city');
+        localStorage.removeItem('chibi_region');
+      }
+    } catch (e) {}
+  })();
+"""
+src=src.replace("(function () {\n  'use strict';\n", BOOT, 1)
+assert 'chibi_region_boot' in src
 
 src=src.replace('''/* =========================================================================
    チビスポ 共通ヘッダー / フッター コンポーネント''','''/* =========================================================================

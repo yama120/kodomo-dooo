@@ -9,6 +9,26 @@
 (function () {
   'use strict';
 
+  /* ---------- 地域の持ち越しをやめる（タブを開くたびに1回だけ判定） ----------
+     未ログインなら、前に選んだ地域（localStorage）を消して「全国」から始める。
+     ログイン中はそのまま。開いている間に選んだ地域は、そのセッションでは残る。 */
+  (function () {
+    try {
+      if (sessionStorage.getItem('chibi_region_boot')) return;
+      sessionStorage.setItem('chibi_region_boot', '1');
+      var signedIn = false, i, k;
+      for (i = 0; i < localStorage.length; i++) {
+        k = localStorage.key(i);
+        if (k && /^sb-.*-auth(-token)?$/.test(k)) { signedIn = true; break; }
+      }
+      if (!signedIn) {
+        localStorage.removeItem('chibi_region_pref');
+        localStorage.removeItem('chibi_region_city');
+        localStorage.removeItem('chibi_region');
+      }
+    } catch (e) {}
+  })();
+
   /* ---------- 掲載プランによる表示順（クラブ一覧を出す全ページで共通） ----------
      プロ＝最上位、スタンダード＝上位、フリー＝通常。期限切れはフリー扱い。
      teams.plan の実値は free / pr / pr-plus の3つだけ。
@@ -37,7 +57,7 @@
   `;
 
   /* ---------- ヘッダー・メニュー・フッター（生成物：_build/src/prod_shared.py。直接編集しない） ---------- */
-  var CHROME_V = "20260920";
+  var CHROME_V = "20260923";
   var FONT_URL = "https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap";
   var HEADER = "<header class=\"site-hd\">\n  <div class=\"wrap hd\">\n    <a class=\"logo\" href=\"index.html\"><img class=\"lg-w\" src=\"assets/logo-wide.webp?v=2\" alt=\"チビスポ｜地域スポーツを、もっと身近に。\" width=\"700\" height=\"220\"><img class=\"lg-s\" src=\"assets/logo-sm.webp?v=2\" alt=\"チビスポ\" width=\"336\" height=\"96\"><span class=\"logo-tg\">地域スポーツを、もっと身近に。</span></a>\n    <nav class=\"hd-nav\">\n      <a href=\"search.html\">クラブを探す</a>\n      <a href=\"map.html\">地図から探す</a>\n      <a href=\"about.html\">チビスポとは</a>\n      <a href=\"partner.html\">クラブ・事業者の方へ</a>\n    </nav>\n    <div class=\"hd-r\">\n      <a class=\"hd-ic\" href=\"mypage.html#fav\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z\"/></svg><span>お気に入り</span></a>\n      <a class=\"hd-ic hd-out\" href=\"club-mypage.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M3 20h18\"/><path d=\"M5 20V9l7-5 7 5v11\"/><path d=\"M10 20v-5h4v5\"/></svg><span>クラブログイン</span></a>\n      <a class=\"hd-ic hd-out\" href=\"login.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"8\" r=\"3.6\"/><path d=\"M4.5 20a7.5 7.5 0 0 1 15 0\"/></svg><span>ログイン</span></a>\n      <a class=\"hd-ic hd-in\" href=\"mypage.html\"><span class=\"hd-av\">M</span><span>マイページ</span></a>\n      <a class=\"hd-cta\" href=\"listing.html\">クラブを載せる</a>\n      <button class=\"hd-burger\" type=\"button\" aria-label=\"メニューを開く\"><span></span><span></span><span></span></button>\n    </div>\n  </div>\n</header>";
   var SHEET = "<div class=\"sh-bd\" id=\"shBd\"></div><div class=\"sheet\" id=\"sheet\" role=\"dialog\" aria-label=\"メニュー\"><div class=\"sh-hd\"><img src=\"assets/logo-sm.webp?v=2\" alt=\"チビスポ\" width=\"336\" height=\"96\"><button class=\"sh-x\" type=\"button\" aria-label=\"閉じる\">&times;</button></div><div class=\"sh-grid\"><a href=\"search.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M16 16l4.5 4.5\"/></svg><span>クラブを探す</span></a><a href=\"map.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z\"/><circle cx=\"12\" cy=\"10\" r=\"2.6\"/></svg><span>地図から探す</span></a><a href=\"magazine.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 5h7a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H4z\"/><path d=\"M20 5h-7a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5H20z\"/></svg><span>マガジン</span></a><a href=\"mypage.html#fav\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z\"/></svg><span>お気に入り</span></a><a href=\"about.html\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v5\"/><circle cx=\"12\" cy=\"8\" r=\".6\"/></svg><span>チビスポとは</span></a><a href=\"faq.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 5h16v11H9l-5 4z\"/><path d=\"M12 8v3\"/><circle cx=\"12\" cy=\"13.5\" r=\".6\"/></svg><span>よくある質問</span></a><a href=\"contact.html\"><svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg><span>お問い合わせ</span></a><a href=\"partner.html\"><svg viewBox=\"0 0 24 24\"><path d=\"M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16\"/><path d=\"M15 10h4a1 1 0 0 1 1 1v10\"/><path d=\"M8 8h3M8 12h3M8 16h3M4 21h16\"/></svg><span>クラブ・<br>事業者の方へ</span></a></div><a class=\"sh-btn pri\" href=\"listing.html\">クラブを載せる（無料から）</a><a class=\"sh-btn hd-out\" href=\"login.html\">一般（保護者）ログイン / 会員登録</a><a class=\"sh-btn hd-out\" href=\"club-mypage.html\">クラブ運営者ログイン（掲載・管理）</a><a class=\"sh-btn hd-in\" href=\"mypage.html\">マイページ</a><div class=\"sh-ft\"><a href=\"legal.html#terms\">利用規約</a><a href=\"legal.html#privacy\">プライバシーポリシー</a></div></div>";
@@ -410,6 +430,12 @@
     var col = AUTH_AV_COLORS[h % AUTH_AV_COLORS.length];
     var ini = (name.charAt(0) || 'M').toUpperCase().replace(/[<>&"]/g, '');
     document.body.classList.toggle('auth-in', loggedIn);
+    /* ログイン中で、まだ地域を選んでいなければ、登録した地域を既定にする */
+    try {
+      if (loggedIn && (prof.pref || prof.city) && !Chibi.getRegionPref() && !Chibi.getRegionCity()) {
+        Chibi.setRegionParts(prof.pref || '', prof.city || '');
+      }
+    } catch (e) {}
     document.querySelectorAll('.hd-in').forEach(function (el) {
       el.setAttribute('href', target);
       var av = el.querySelector('.hd-av');

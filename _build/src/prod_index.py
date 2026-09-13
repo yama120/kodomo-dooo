@@ -127,7 +127,13 @@ S['seo']='''<section class="sec sec-alt seo">
   </div>
 </section>'''%(pref_links,sport_links,cond_links)
 
-order=['hero','reels','picks','new','sports','quiz','themes','beg','feat','app','svc','cta','seo']   # moments は出さない（材料がまだ無い）
+# TOP に出さないセクション。材料がそろったら、この集合から外すだけで復活する
+#   moments … まだ材料が無い
+#   themes  … 「テーマから探す」。特集を組むまで非表示（2026-09-13・ユーザー指示）
+HIDDEN={'moments','themes'}
+ALL=['hero','reels','picks','new','sports','quiz','themes','beg','feat','app','svc','cta','seo']
+order=[k for k in ALL if k not in HIDDEN]
+print('非表示のセクション:',sorted(HIDDEN))
 BODY='<main>\n'+'\n'.join(S[k] for k in order)+'\n</main>'
 assert 'preview' not in BODY.replace('assets/preview-video','') , [m for m in re.findall(r'[a-z-]*preview[a-z-]*\.html',BODY)]
 
