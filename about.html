@@ -36,7 +36,7 @@
 .abt-ey{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:22px;text-shadow:0 1px 10px rgba(0,0,0,.8)}
 .abt-open h1{font-family:var(--m);font-weight:600;font-size:clamp(34px,7.2vw,86px);line-height:1.25;letter-spacing:.04em;margin:0;text-shadow:0 2px 30px rgba(0,0,0,.45)}
 .abt-open .sub{font-family:var(--m);font-size:clamp(13px,1.6vw,17px);letter-spacing:.14em;margin-top:26px;opacity:.9}
-.abt-open .sc{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.3em;opacity:.7}
+.abt-open .sc{position:absolute;left:50%;bottom:22px;z-index:2;transform:translateX(-50%);font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.3em;color:#fff;opacity:.8;text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .abt-open .sc::after{content:"";display:block;width:1px;height:34px;background:#fff;margin:8px auto 0;animation:abt-sc 1.8s infinite}
 @keyframes abt-sc{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 /* 宣言（1文1行・中央） */
@@ -68,11 +68,12 @@
 /* 三者 */
 .abt-tri{background:#fff;padding:100px 20px}
 body[data-skin="stadium"] .abt-tri{background:var(--card)}
-.abt-tri .in{max-width:1000px;margin:0 auto;display:grid;gap:40px;align-items:center}
+.abt-tri .in{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:40px;align-items:center}
 .abt-tri .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:14px}
-.abt-tri h2{font-family:var(--m);font-weight:600;font-size:clamp(24px,3.6vw,38px);letter-spacing:.05em;line-height:1.5;margin:0 0 20px}
+.abt-tri h2{font-family:var(--m);font-weight:600;font-size:clamp(22px,3.4vw,38px);letter-spacing:.05em;line-height:1.5;margin:0 0 20px}
+.abt-tri h2 span{display:block;white-space:nowrap}
 .abt-tri p{font-size:14px;font-weight:700;line-height:2.1;margin:0 0 12px}
-.abt-dg{position:relative;width:min(100%,380px);aspect-ratio:1;margin:0 auto}
+.abt-dg{position:relative;width:min(100%,380px);max-width:100%;aspect-ratio:1;margin:0 auto;justify-self:center;min-width:0}
 .abt-dg svg{position:absolute;inset:0;width:100%;height:100%}
 .abt-dg .nd{position:absolute;width:112px;height:112px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--m);font-weight:600;font-size:15px;letter-spacing:.06em;transform:translate(-50%,-50%)}
 .abt-dg .nd small{font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
@@ -114,10 +115,10 @@ body[data-skin="stadium"] .abt-tri{background:var(--card)}
 .abt .rv.in{opacity:1;transform:none}
 .abt.noanim .rv{opacity:1;transform:none;transition:none}
 @media(min-width:760px){
-  .abt-v{grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .abt-v{grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
   .abt-v>div{padding:44px 40px 48px;border-right:1px solid var(--ink)}
-  .abt-tri .in{grid-template-columns:1fr 1fr;gap:60px}
-  .abt-cta{grid-template-columns:1fr 1fr 1fr}
+  .abt-tri .in{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px}
+  .abt-cta{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 <link rel="stylesheet" href="quiz.css?v=20260914">
@@ -198,7 +199,7 @@ body[data-skin="stadium"] .abt-tri{background:var(--card)}
   <div class="in">
     <div class="rv">
       <div class="k">THREE CIRCLES</div>
-      <h2>まんなかに、<br>子どもがいる。</h2>
+      <h2><span>まんなかに、</span><span>子どもがいる。</span></h2>
       <p>保護者は、うちの子に合うクラブと出会う。クラブは、想いをそのまま伝えて、来てほしい子に届ける。地域の企業は、撮影・コンディショニング・栄養・道具と、それぞれの得意なことで子どものスポーツを支える。</p>
       <p>三つの輪がゆるやかに重なる、そのまんなかに子どもがいる。それがチビスポの形です。</p>
     </div>
