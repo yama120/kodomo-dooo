@@ -24,7 +24,8 @@ const STATIC = [
   ["/faq.html", 0.5, "monthly"],
   ["/contact.html", 0.4, "yearly"],
   ["/partner.html", 0.4, "monthly"],
-  ["/recruit-pr.html", 0.4, "monthly"],
+  ["/service-ads.html", 0.4, "monthly"],
+  ["/service-sns.html", 0.4, "monthly"],
   ["/legal.html", 0.2, "yearly"],
   ["/trial.html", 0.5, "monthly"],
 ];

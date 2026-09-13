@@ -46,7 +46,12 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/recruit-pr.html</loc>
+    <loc>https://chibispo.com/service-ads.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/service-sns.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -116,6 +121,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/aichi/kitanagoya/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/aichi/kitanagoya/sport/gymnastics/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/aichi/kiyosu/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -177,6 +192,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/aichi/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/aichi/sport/gymnastics/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -327,6 +347,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/matsudo/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/matsudo/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -611,6 +636,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/hyogo/kobe/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/hyogo/nishinomiya/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -622,6 +652,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/hyogo/sport/athletics/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/hyogo/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1236,6 +1271,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/saitama/konosu/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/konosu/sport/wadaiko/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/saitama/saitama/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1247,6 +1292,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/saitama/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/sport/wadaiko/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1689,6 +1739,36 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=ce2d3c26-921a-4b46-894c-919ca51410d7</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=a9c071fb-7e12-467e-82f3-4b550149914b</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=e2b5e2fa-a137-4cdb-b5dc-73714d4731d8</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=736cc8b1-3fb2-446c-ab4e-83ff8c3ff981</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=91c64655-59bf-4c46-9d9b-b86afc3af9ed</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=cb016b1f-df71-4420-9e25-d8d3f4f277f9</loc>

@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="クラブ分析ダッシュボード（プレビュー版）| チビスポ">
 <meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
     /* アプリ（chibispo-app/src/index.css の @theme）と同じコーラル×ネイビー。
@@ -29,14 +29,14 @@
     --page:#fafbfc; --surface:#ffffff; --surface-2:#f2f4f7;
     --ink:#21315b; --ink-2:#4a5468; --muted:#7a8299;
     --grid:#e1e5ec; --baseline:#9aa1b2; --border:#edf0f4;
-    --brand:#f0435c; --brand-dark:#d33a52;
+    --brand:#E43B4D; --brand-dark:#d33a52;
     --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s4:#008300; --s5:#4a3aa7; --s6:#e34948;
     --good:#0ca30c; --good-text:#006300; --warn:#b97f00; --critical:#d03b3b;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans JP',system-ui,sans-serif;background:var(--page);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  .logo{font-family:'Zen Maru Gothic','Noto Sans JP',sans-serif}
-  h1,h2,h3{font-family:'Noto Sans JP',sans-serif;letter-spacing:.01em}
+  body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif;background:var(--page);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .logo{font-family:'Zen Kaku Gothic New','Zen Kaku Gothic New',sans-serif}
+  h1,h2,h3{font-family:'Zen Kaku Gothic New',sans-serif;letter-spacing:.01em}
   main{max-width:1080px;margin:0 auto;padding:0 14px 80px}
 
   .demo-bar{background:var(--surface-2);border-bottom:1px solid var(--grid);color:var(--ink-2);font-size:.74rem;text-align:center;padding:6px 12px}
@@ -48,7 +48,7 @@
 
   header.top{max-width:1080px;margin:0 auto;padding:16px 14px 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .logo{font-weight:900;font-size:1.1rem;color:var(--brand);white-space:nowrap}
-  .logo span{font-family:'Noto Sans JP';color:var(--ink);font-size:.82rem;font-weight:700;margin-left:8px;letter-spacing:.06em}
+  .logo span{font-family:'Zen Kaku Gothic New';color:var(--ink);font-size:.82rem;font-weight:700;margin-left:8px;letter-spacing:.06em}
   .club{display:flex;align-items:center;gap:9px;margin-left:auto}
   .club .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#ffc07a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;flex:none}
   .club{min-width:0}
@@ -296,6 +296,8 @@
   #tt .r{display:flex;gap:8px}
   #tt .r .v{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700}
 </style>
+<!-- reskin v2 -->
+<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
 </head>
 <body>
 <div class="demo-bar">🔍 <b>プレビュー版</b>：架空クラブ「サンプルFC」のデモデータです。本導入時はあなたのクラブの実データが自動で表示されます。</div>
@@ -778,7 +780,7 @@ if(gotoParam){
         if(!el)return;
         el.scrollIntoView({behavior:"smooth",block:"start"});
         el.style.transition="box-shadow .3s";
-        el.style.boxShadow="0 0 0 3px var(--primary,#2270e0)";
+        el.style.boxShadow="0 0 0 3px var(--primary,#E43B4D)";
         clearTimeout(el.__gotoFade);
         el.__gotoFade=setTimeout(function(){el.style.boxShadow="";},1600);
       };
@@ -1437,7 +1439,7 @@ const RP_STYLE=`<style>
     #real-posts .rpc-goal b{font-size:1.02rem}
     #real-posts .rpc-goal .ok{color:#1a9e57;font-weight:800}
     #real-posts .rpc-goal .miss{color:#b06a00;font-weight:700}
-    #real-posts .rpc-streak{color:var(--brand,#f0435c);font-weight:800}
+    #real-posts .rpc-streak{color:var(--brand,#E43B4D);font-weight:800}
     #real-posts .rpc-edit{background:none;border:1px solid #ddd;border-radius:7px;padding:3px 11px;font-size:.75rem;color:#666;cursor:pointer;margin-left:auto}
     #real-post-block>section{margin-top:16px}
     .rp-list{display:flex;flex-direction:column;gap:6px}
@@ -1446,15 +1448,15 @@ const RP_STYLE=`<style>
     .rp-plat{font-weight:700;padding:1px 8px;border-radius:99px;color:#fff;font-size:.68rem}
     .rp-instagram{background:#c13584}.rp-threads{background:#111}.rp-youtube{background:#e0304a}.rp-tiktok{background:#111}.rp-x{background:#111}
     .rp-eng{color:#666;white-space:nowrap}
-    .rp-link{margin-left:auto;color:var(--brand,#f0435c);text-decoration:none;font-weight:700;white-space:nowrap}
+    .rp-link{margin-left:auto;color:var(--brand,#E43B4D);text-decoration:none;font-weight:700;white-space:nowrap}
     .rp-text{font-size:.82rem;line-height:1.5;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
-    .rp-rank{font-weight:900;color:var(--brand,#f0435c);font-size:.85rem;min-width:1.2em}
+    .rp-rank{font-weight:900;color:var(--brand,#E43B4D);font-size:.85rem;min-width:1.2em}
     .rp-type{background:#eef1fb;color:#4a5568;font-weight:700;padding:1px 8px;border-radius:99px;font-size:.67rem}
     .rp-types{display:flex;flex-direction:column;gap:9px}
     .rp-trow{display:flex;align-items:center;gap:10px;font-size:.85rem}
     .rp-tname{min-width:118px;font-weight:700;color:#333}
     .rp-tname small{color:#999;font-weight:400}
-    .rp-tbar{height:13px;background:var(--brand,#f0435c);border-radius:6px;min-width:3px}
+    .rp-tbar{height:13px;background:var(--brand,#E43B4D);border-radius:6px;min-width:3px}
     .rp-trow b{margin-left:auto;font-weight:800;min-width:2.2em;text-align:right}
     .rp-empty{color:#999;font-size:.85rem;padding:14px;text-align:center}
     .rp-more{margin-top:8px;width:100%;padding:8px;background:#f4f4f4;border:1px solid #e5e5e5;border-radius:8px;color:#555;font-weight:700;font-size:.8rem;cursor:pointer}
@@ -1693,7 +1695,7 @@ function rpProCard(title,body){
     +'<div style="font-size:1.5rem;line-height:1">🔒</div>'
     +'<div style="font-size:.9rem;font-weight:800;color:var(--ink-2);margin-top:8px">'+title+'</div>'
     +'<div class="chart-sub" style="margin-top:8px;line-height:1.8">'+body+'</div>'
-    +'<a href="/club-mypage.html?tab=grow" style="display:inline-block;margin-top:14px;background:#e8455f;color:#fff;text-decoration:none;font-size:.82rem;font-weight:800;border-radius:999px;padding:9px 20px">プロプランを見る</a>'
+    +'<a href="/club-mypage.html?tab=grow" style="display:inline-block;margin-top:14px;background:#E43B4D;color:#fff;text-decoration:none;font-size:.82rem;font-weight:800;border-radius:999px;padding:9px 20px">プロプランを見る</a>'
     +'</div></div>';
 }
 function rpApplyRealHome(d){
@@ -2582,7 +2584,7 @@ function rpRenderConnectBar(connected){
   box.innerHTML=RP_STYLE+'<div class="sec-head"><h2>連携アカウント</h2><span class="sub">連携すると投稿・反応が毎日自動で取り込まれます</span></div>'+
     '<div style="display:flex;gap:8px;flex-wrap:wrap">'+plats.map(function(p){
       var on=connected[p.k], right;
-      if(on) right='<span style="color:#1f8a5b;font-weight:800;font-size:.8rem;white-space:nowrap">連携済み ✓</span>';
+      if(on) right='<span style="color:#E43B4D;font-weight:800;font-size:.8rem;white-space:nowrap">連携済み ✓</span>';
       else if(p.soon) right='<span style="color:#aaa;font-size:.78rem;white-space:nowrap">準備中</span>';
       else if(p.fn) right='<a href="javascript:void(0)" onclick="'+p.fn+'" style="color:var(--brand);font-weight:800;font-size:.8rem;text-decoration:none;white-space:nowrap">連携する →</a>';
       return '<div style="flex:1;min-width:132px;background:#fff;border:1px solid #ececec;border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-size:.85rem">'+p.n+'</b>'+right+'</div>';
@@ -2662,7 +2664,7 @@ function rpEntryGate(){
   /* 待機画面は履歴に残さない。普通のリンクだと ?demo=1 から戻ったときに
      またこの画面に着いてしまい、前のページへ帰れなくなる（location.replaceで置き換える） */
   const btn=(label,href,primary)=>'<a href="'+href+'" onclick="location.replace(this.href);return false;" style="text-decoration:none;font-size:.85rem;font-weight:800;border-radius:999px;padding:11px 22px;'
-    +(primary?'background:#e8455f;color:#fff;':'background:#fff;color:#3b4654;border:1.5px solid #d7dbe0;')+'">'+label+'</a>';
+    +(primary?'background:#E43B4D;color:#fff;':'background:#fff;color:#3b4654;border:1.5px solid #d7dbe0;')+'">'+label+'</a>';
   // 直前のページがある場合は、そこへ戻れる導線も出す（行き止まりにしない）
   const backLink=document.referrer && !/\/dashboard\//.test(document.referrer)
     ? '<div style="flex-basis:100%;text-align:center;margin-top:4px;"><a href="'+document.referrer.replace(/"/g,"&quot;")+'" style="color:#8a93a0;font-size:12.5px;font-weight:700;text-decoration:underline;">← 前のページに戻る</a></div>'

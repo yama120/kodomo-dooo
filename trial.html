@@ -22,7 +22,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -35,9 +35,9 @@
       --border: #fed7aa;
       --radius: 14px;
       --shadow: 0 1px 3px rgba(0,0,0,.06), 0 6px 20px rgba(255,140,26,.08);
-      --primary: #2563eb;
+      --primary: #E43B4D;
     }
-    body { font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+    body { font-family: 'Zen Kaku Gothic New', 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
     header { background: var(--orange); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 16px; }
     header a { color: #fff; text-decoration: none; font-size: .9rem; opacity: .9; font-weight: 700; }
     header a:hover { opacity: 1; }
@@ -54,7 +54,7 @@
     h2.section-title { font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: var(--text); border-left: 4px solid var(--orange); padding-left: 10px; }
     .form-group { margin-bottom: 18px; }
     label { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-    .required { color: #ef4444; margin-left: 4px; font-weight: 700; }
+    .required { color: #E43B4D; margin-left: 4px; font-weight: 700; }
     input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
       width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: .95rem; font-family: inherit; background: #fff; transition: border-color .15s;
     }
@@ -70,7 +70,7 @@
     .btn-submit { display: block; width: 100%; margin-top: 24px; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: opacity .15s; font-family: inherit; }
     .btn-submit:hover:not(:disabled) { opacity: .9; }
     .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
-    .err-msg { color: #ef4444; font-size: .85rem; margin-top: 6px; }
+    .err-msg { color: #E43B4D; font-size: .85rem; margin-top: 6px; }
     .success-card { text-align: center; padding: 40px 28px; }
     .success-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--orange-dark); }
     .success-card p { color: var(--muted); margin-bottom: 18px; }
@@ -96,6 +96,8 @@
       .mode-tab-desc { font-size: .68rem; }
     }
   </style>
+<!-- reskin v2 -->
+<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
 </head>
 <body>
 
@@ -149,7 +151,7 @@ function renderError(msg) {
   document.getElementById('root').innerHTML = `
     <div class="card">
       <h2 class="section-title">エラー</h2>
-      <p style="color:#ef4444;margin-bottom:20px;">${msg}</p>
+      <p style="color:#E43B4D;margin-bottom:20px;">${msg}</p>
       <a class="btn-back" href="/">トップへ戻る</a>
     </div>
   `;

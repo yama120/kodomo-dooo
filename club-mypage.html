@@ -27,21 +27,21 @@
 <meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;overflow-x:clip;}
-  body{font-family:'Noto Sans JP',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
-  a{color:#2270e0;}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
+  a{color:#E43B4D;}
   .mp-wrap{max-width:680px;margin:0 auto;padding:0 20px;}
   .mp-card{background:#fff;border:1px solid #e6e9ed;border-radius:16px;padding:24px 22px;margin-bottom:18px;}
   .mp-label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#28323f;}
   .mp-input{width:100%;border:1px solid #d7dbe0;border-radius:10px;padding:12px 13px;font-size:14px;font-family:inherit;color:#1f2a37;outline:none;background:#fff;}
-  .mp-input:focus{border-color:#1f8a5b;}
+  .mp-input:focus{border-color:#E43B4D;}
   .mp-chk{display:inline-flex;align-items:center;gap:7px;border:1px solid #d7dbe0;border-radius:10px;padding:9px 13px;font-size:13px;color:#3b4654;cursor:pointer;background:#fff;}
-  .mp-chk input{accent-color:#1f8a5b;width:16px;height:16px;}
+  .mp-chk input{accent-color:#E43B4D;width:16px;height:16px;}
   .hint{font-size:11.5px;color:#9aa3ad;margin-top:6px;line-height:1.6;}
-  .mp-btn{width:100%;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:14px 0;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(31,138,91,.28);}
+  .mp-btn{width:100%;background:#E43B4D;color:#fff;border:none;border-radius:999px;padding:14px 0;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(31,138,91,.28);}
   .mp-group{margin-bottom:16px;}
   .ed-btn{background:#fff;border:1px solid #d7dbe0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;color:#3b4654;cursor:pointer;}
   .ed-btn:hover{background:#f3f5f7;}
@@ -62,7 +62,7 @@
   .tr-state{display:flex;align-items:center;gap:8px;margin-top:12px;}
   .tr-state span{font-size:11.5px;font-weight:800;padding:4px 11px;border-radius:999px;}
 
-  .tr-msg{width:100%;height:44px;margin-top:12px;background:#fff;border:1.5px solid #f0435c;color:#f0435c;
+  .tr-msg{width:100%;height:44px;margin-top:12px;background:#fff;border:1.5px solid #E43B4D;color:#E43B4D;
           border-radius:11px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer;
           display:inline-flex;align-items:center;justify-content:center;gap:6px;}
   .tr-msg:hover{background:#fff5f7;}
@@ -72,8 +72,8 @@
           border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;
           padding:0 14px;white-space:nowrap;}
   .tr-btn:disabled{opacity:.55;cursor:default;}
-  .tr-btn.is-primary{flex:1 1 auto;background:#f0435c;color:#fff;}
-  .tr-btn.is-good{flex:1 1 auto;background:#1f8a5b;color:#fff;}
+  .tr-btn.is-primary{flex:1 1 auto;background:#E43B4D;color:#fff;}
+  .tr-btn.is-good{flex:1 1 auto;background:#E43B4D;color:#fff;}
   /* 否定的な選択は主ボタンより控えめに、幅も固定して主従を明確にする */
   .tr-btn.is-ghost{flex:0 0 auto;min-width:104px;background:#fff;color:#5a6472;border-color:#d7dbe0;}
   .tr-btn.is-ghost:hover{background:#f5f7f9;}
@@ -98,7 +98,7 @@
           border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;}
   .mp-tab[aria-selected="true"]{background:#fff;color:#1f2a37;box-shadow:0 1px 4px rgba(0,0,0,.10);}
   .mp-tab .mp-tab-badge{display:inline-block;min-width:18px;margin-left:5px;padding:1px 5px;border-radius:999px;
-          background:#f0435c;color:#fff;font-size:10.5px;font-weight:800;vertical-align:1px;}
+          background:#E43B4D;color:#fff;font-size:10.5px;font-weight:800;vertical-align:1px;}
 </style>
 <!-- GA4 (auto-managed by install-ga4.mjs) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -109,20 +109,22 @@
   gtag('config', 'G-5ZBBNYC37Y');
 </script>
 <!-- /GA4 -->
+<!-- reskin v2 -->
+<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
 </head>
 <body>
 <!-- 起動時ローディング（ログイン判定＋チーム取得の間だけ・3秒で保険解除） -->
 <div id="mp-veil" style="position:fixed;inset:0;background:#fff;z-index:2600;display:flex;align-items:center;justify-content:center;transition:opacity .25s;">
-  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#1f8a5b;border-radius:50%;animation:mpspin .8s linear infinite;"></div>
+  <div style="width:34px;height:34px;border:3.5px solid #e6e9ed;border-top-color:#E43B4D;border-radius:50%;animation:mpspin .8s linear infinite;"></div>
 </div>
 <style>@keyframes mpspin{to{transform:rotate(360deg)}}</style>
 <script>setTimeout(function(){var v=document.getElementById('mp-veil');if(v){v.style.opacity='0';setTimeout(function(){v.remove();},260);}},3000);</script>
 
 <!-- ===== HERO ===== -->
-<section style="background:linear-gradient(135deg,#1f8a5b,#2a6fdb);color:#fff;padding:40px 0 34px;">
+<section style="background:linear-gradient(135deg,#E43B4D,#E43B4D);color:#fff;padding:40px 0 34px;">
   <div class="mp-wrap">
     <div style="font-family:'Pacifico',cursive;font-size:20px;opacity:.95;">My Page</div>
-    <h1 style="margin:6px 0 0;font-family:'Zen Maru Gothic',sans-serif;font-size:26px;font-weight:900;">クラブ マイページ</h1>
+    <h1 style="margin:6px 0 0;font-family:'Zen Kaku Gothic New',sans-serif;font-size:26px;font-weight:900;">クラブ マイページ</h1>
     <p style="margin:10px 0 0;font-size:13.5px;line-height:1.85;opacity:.95;">ログインして、チームの情報や写真を編集できます。</p>
   </div>
 </section>
@@ -131,8 +133,8 @@
 
   <!-- ログイン -->
   <div id="mp-login" class="mp-card" style="display:none;">
-    <div style="display:inline-flex;align-items:center;gap:7px;background:#f2f7ff;color:#2a6fdb;font-size:12px;font-weight:800;border-radius:999px;padding:5px 12px;margin-bottom:10px;">🏫 クラブ運営者ログイン</div>
-    <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブ運営者ログイン</h2>
+    <div style="display:inline-flex;align-items:center;gap:7px;background:#f2f7ff;color:#E43B4D;font-size:12px;font-weight:800;border-radius:999px;padding:5px 12px;margin-bottom:10px;">🏫 クラブ運営者ログイン</div>
+    <h2 style="margin:0 0 4px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">クラブ運営者ログイン</h2>
     <p class="hint" style="margin:0 0 14px;">掲載クラブの情報編集・プラン管理はこちらから。</p>
     <div class="mp-group"><label class="mp-label">メールアドレス</label><input class="mp-input" id="mp-email" type="email" placeholder="team@example.com" autocomplete="username"></div>
     <div class="mp-group"><label class="mp-label">パスワード</label><input class="mp-input" id="mp-password" type="password" placeholder="パスワード" autocomplete="current-password"></div>
@@ -141,7 +143,7 @@
     <p class="hint" style="text-align:center;margin-top:12px;">アカウントが無い方は <a href="register.html">チーム登録</a> から。</p>
     <div style="margin-top:14px;border-top:1px solid #eef0f2;padding-top:14px;text-align:center;">
       <p style="margin:0 0 8px;font-size:12px;color:#8a93a0;">クラブ運営者でない方（保護者・一般）は</p>
-      <a href="login.html" style="display:inline-block;border:1.5px solid #e8c9d4;background:#fffafc;color:#e8455f;font-weight:800;font-size:13.5px;text-decoration:none;border-radius:10px;padding:11px 22px;">一般（保護者）ログインはこちら →</a>
+      <a href="login.html" style="display:inline-block;border:1.5px solid #e8c9d4;background:#fffafc;color:#E43B4D;font-weight:800;font-size:13.5px;text-decoration:none;border-radius:10px;padding:11px 22px;">一般（保護者）ログインはこちら →</a>
     </div>
   </div>
 
@@ -155,7 +157,7 @@
         <select id="mp-team-select" style="display:none;font-family:inherit;font-size:14px;font-weight:800;color:#1f2a37;border:1.5px solid #d7dbe0;border-radius:10px;padding:9px 12px;background:#fff;min-width:200px;max-width:100%;"></select>
         <span id="mp-team-single" style="font-size:14px;font-weight:800;color:#1f2a37;"></span>
       </div>
-      <a id="mp-team-add" href="register.html?add=true" style="background:#fff;border:1.5px solid #1f8a5b;color:#1f8a5b;font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;">＋ 別のチームを追加</a>
+      <a id="mp-team-add" href="register.html?add=true" style="background:#fff;border:1.5px solid #E43B4D;color:#E43B4D;font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;">＋ 別のチームを追加</a>
     </div>
 
     <!-- 承認待ちバナー（status が pending / rejected のとき表示） -->
@@ -193,7 +195,7 @@
 
     <!-- 募集の状態（定員が埋まったとき用。掲載の削除は取り消せないので、その手前の受け皿） -->
     <div id="mp-recruit" class="mp-card" data-pane="settings" style="display:none;">
-      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">募集の状態</h2>
+      <h2 style="margin:0 0 6px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">募集の状態</h2>
       <p class="hint" style="margin-top:0;margin-bottom:14px;">定員が埋まったときや長期休みのあいだは、掲載を消さずに募集だけ止められます。止めているあいだは検索・地図に出ず、体験申込みも届きません。</p>
       <div id="mp-recruit-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
@@ -206,7 +208,7 @@
          1件しか登録できないと、担当者が交代したときに申込の通知が
          誰にも届かなくなる。フリープランでも複数登録できるようにする -->
     <div id="mp-notify" class="mp-card" data-pane="settings" style="display:none;">
-      <h2 style="margin:0 0 6px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">スタッフと通知先</h2>
+      <h2 style="margin:0 0 6px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">スタッフと通知先</h2>
       <p class="hint" style="margin-top:0;margin-bottom:12px;">
         クラブに関わる人を登録します。権限によってできることが変わります。<span id="mp-notify-limit" style="font-weight:700;"></span>
       </p>
@@ -261,23 +263,23 @@
         <div id="mp-plan-name" style="font-size:18px;font-weight:900;color:#1f2a37;">無料掲載プラン</div>
         <div id="mp-plan-sub" style="font-size:11.5px;color:#9aa3ad;margin-top:2px;"></div>
       </div>
-      <a id="mp-upgrade" href="#" style="background:#e8455f;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:11px 20px;border-radius:999px;">有料プランにアップグレード</a>
+      <a id="mp-upgrade" href="#" style="background:#E43B4D;color:#fff;font-size:13.5px;font-weight:800;text-decoration:none;padding:11px 20px;border-radius:999px;">有料プランにアップグレード</a>
       <a id="mp-portal" href="#" style="display:none;background:#fff;border:1.5px solid #d7dbe0;color:#3b4654;font-size:13px;font-weight:700;text-decoration:none;padding:10px 18px;border-radius:999px;">プランの変更・解約</a>
     </div>
 
     <!-- 分析ダッシュボード導線（有料クラブのみ表示・?club=team.id で本人のクラブを開く） -->
     <a id="mp-dashboard" class="mp-card" href="#" data-pane="grow" style="display:none;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;">
       <div>
-        <div style="font-size:12px;font-weight:700;color:#1f8a5b;">有料プラン特典</div>
+        <div style="font-size:12px;font-weight:700;color:#E43B4D;">有料プラン特典</div>
         <div style="font-size:16px;font-weight:900;color:#1f2a37;">📊 分析ダッシュボードを見る</div>
         <div style="font-size:11.5px;color:#9aa3ad;margin-top:2px;">GA4の実データで、ページ閲覧・流入元・日別の動きを可視化</div>
       </div>
-      <span style="background:#1f8a5b;color:#fff;font-size:13px;font-weight:800;padding:11px 20px;border-radius:999px;white-space:nowrap;">開く →</span>
+      <span style="background:#E43B4D;color:#fff;font-size:13px;font-weight:800;padding:11px 20px;border-radius:999px;white-space:nowrap;">開く →</span>
     </a>
 
     <!-- SNS連携（有料クラブのみ・分析ダッシュボードの投稿分析に使う） -->
     <div id="mp-sns" class="mp-card" data-pane="grow" style="display:none;">
-      <div style="font-size:12px;font-weight:700;color:#1f8a5b;">分析ダッシュボード用</div>
+      <div style="font-size:12px;font-weight:700;color:#E43B4D;">分析ダッシュボード用</div>
       <div style="font-size:16px;font-weight:900;color:#1f2a37;margin:1px 0 3px;">SNSアカウントを連携</div>
       <div style="font-size:11.5px;color:#9aa3ad;margin-bottom:13px;">連携すると、投稿数・反応・タイプ分析が自動で取り込まれます（毎日更新）</div>
       <div id="mp-sns-msg" style="display:none;font-size:12.5px;font-weight:700;border-radius:9px;padding:9px 12px;margin-bottom:11px;"></div>
@@ -295,7 +297,7 @@
     <!-- ネイティブ プラン管理（有料クラブが「プランの変更・解約」を押すと開く） -->
     <div id="mp-manage" class="mp-card" data-pane="grow" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;">
-        <h2 style="margin:0;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">プランの管理</h2>
+        <h2 style="margin:0;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">プランの管理</h2>
         <button id="mp-manage-close" type="button" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">閉じる</button>
       </div>
       <div id="mp-manage-cur" style="font-size:13px;color:#54606e;margin-bottom:14px;">読み込み中…</div>
@@ -314,7 +316,7 @@
     <div class="mp-card" data-pane="inbox">
       <!-- 体験申込みと質問（type='question'）の両方がここに入る。
            「体験申込み」だけだと、質問が来たときに置き場所が無いように見える -->
-      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">申込み・質問 <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
+      <h2 style="margin:0 0 4px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">申込み・質問 <span id="mp-tr-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
       <p style="margin:0 0 14px;font-size:12px;color:#9aa3ad;">保護者から届いた体験申込みと質問です。メッセージでやり取りし、対応状況を更新してください。</p>
 
       <!-- 対応中／完了のタブ。件数が増えると終わった申込に埋もれるため -->
@@ -372,7 +374,7 @@
 
     <!-- クラブへのコメント -->
     <div class="mp-card" data-pane="inbox">
-      <h2 style="margin:0 0 4px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブへのコメント <span id="mp-cmt-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
+      <h2 style="margin:0 0 4px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">クラブへのコメント <span id="mp-cmt-count" style="font-size:14px;font-weight:700;color:#9aa3ad;">0</span></h2>
       <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いたコメントです（非表示中のものも含めて確認できます）。</p>
       <div id="mp-cmt-list" style="display:flex;flex-direction:column;gap:12px;"></div>
       <div id="mp-cmt-empty" style="display:none;text-align:center;color:#9aa3ad;font-size:13px;padding:20px;">まだコメントはありません。</div>
@@ -380,7 +382,7 @@
 
     <!-- クラブ情報の編集 -->
     <div class="mp-card" data-pane="info">
-      <h2 style="margin:0 0 16px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">クラブ情報の編集</h2>
+      <h2 style="margin:0 0 16px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">クラブ情報の編集</h2>
       <div class="mp-group">
         <label class="mp-label">ロゴ<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（任意）</span></label>
         <div style="display:flex;align-items:center;gap:14px;">
@@ -447,7 +449,7 @@
         <div id="f-mood-selected" style="margin-bottom:8px;"></div>
         <div style="display:flex;gap:8px;">
           <input id="f-mood-input" class="mp-input" type="text" maxlength="15" placeholder="例）親子で参加OK" style="flex:1;">
-          <button id="f-mood-add" type="button" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer;">追加</button>
+          <button id="f-mood-add" type="button" style="flex:0 0 auto;background:#E43B4D;color:#fff;border:none;border-radius:10px;padding:0 18px;font-size:13px;font-weight:800;cursor:pointer;">追加</button>
         </div>
         <div style="margin-top:12px;background:#f6f7f9;border:1px solid #eef0f2;border-radius:12px;padding:13px 14px;">
           <div style="font-size:12px;color:#7b8492;margin-bottom:9px;">思いつかない場合は、こちらから選べます</div>
@@ -496,47 +498,47 @@
 
     <!-- 有料プラン誘導（フリー会員向け・2プラン） -->
     <div id="mp-upsell" class="mp-card" data-pane="grow" style="border:1.5px solid #f3c9da;background:#fffafc;">
-      <h2 style="margin:0 0 7px;font-family:'Zen Maru Gothic',sans-serif;font-size:17px;font-weight:900;color:#e8455f;">もっと見てもらうには</h2>
+      <h2 style="margin:0 0 7px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;font-weight:900;color:#E43B4D;">もっと見てもらうには</h2>
       <p style="margin:0 0 16px;font-size:13px;line-height:1.9;color:#5b6573;">有料プランにすると、<strong>検索結果で上位に表示</strong>され、<strong>写真も増やせます</strong>。同じ情報でも、見られる回数と体験申込の数が大きく変わります。</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <!-- スタンダード -->
         <div style="flex:1 1 230px;border:1.5px solid #e6e9ed;border-radius:14px;padding:16px 15px;background:#fff;">
-          <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">スタンダード</div>
+          <div style="font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:15px;color:#28323f;">スタンダード</div>
           <div style="font-size:12px;color:#7b8492;margin:3px 0 13px;line-height:1.6;">上位表示・注目枠・写真7枚・アクセスレポート</div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;">
             <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>月額 ¥3,000</strong><br><span style="font-size:10.5px;color:#9aa3ad;font-weight:600;">初回30日無料</span></span>
-            <a id="mp-std-monthly" href="#" style="flex:0 0 auto;background:#e8455f;color:#fff;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;">申し込む</a>
+            <a id="mp-std-monthly" href="#" style="flex:0 0 auto;background:#E43B4D;color:#fff;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;">申し込む</a>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
-            <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>年額 ¥30,000</strong><br><span style="font-size:10.5px;color:#1f8a5b;font-weight:700;">2ヶ月分お得</span></span>
-            <a id="mp-std-annual" href="#" style="flex:0 0 auto;border:1.5px solid #e8455f;background:#fff;color:#e8455f;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:8px 17px;white-space:nowrap;">申し込む</a>
+            <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>年額 ¥30,000</strong><br><span style="font-size:10.5px;color:#E43B4D;font-weight:700;">2ヶ月分お得</span></span>
+            <a id="mp-std-annual" href="#" style="flex:0 0 auto;border:1.5px solid #E43B4D;background:#fff;color:#E43B4D;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:8px 17px;white-space:nowrap;">申し込む</a>
           </div>
           <a href="listing.html#price" style="display:block;text-align:center;color:#8a93a0;text-decoration:underline;font-size:12.5px;font-weight:700;padding:4px;">プランの詳細を見る →</a>
         </div>
         <!-- プロ -->
-        <div style="flex:1 1 230px;border:2px solid #e8455f;border-radius:14px;padding:16px 15px;background:#fff;position:relative;">
-          <div style="position:absolute;top:-11px;left:15px;background:#e8455f;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 10px;">いちばん届く</div>
-          <div style="font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:15px;color:#28323f;">プロ</div>
+        <div style="flex:1 1 230px;border:2px solid #E43B4D;border-radius:14px;padding:16px 15px;background:#fff;position:relative;">
+          <div style="position:absolute;top:-11px;left:15px;background:#E43B4D;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 10px;">いちばん届く</div>
+          <div style="font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:15px;color:#28323f;">プロ</div>
           <div style="font-size:12px;color:#7b8492;margin:3px 0 13px;line-height:1.6;">SNS連携＋広報ぜんぶの分析＋公式SNS月1回紹介＋写真15枚</div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;">
             <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>月額 ¥10,000</strong></span>
-            <a id="mp-pro-monthly" href="#" style="flex:0 0 auto;background:#e8455f;color:#fff;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;">申し込む</a>
+            <a id="mp-pro-monthly" href="#" style="flex:0 0 auto;background:#E43B4D;color:#fff;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;">申し込む</a>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
-            <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>年額 ¥100,000</strong><br><span style="font-size:10.5px;color:#1f8a5b;font-weight:700;">2ヶ月分お得</span></span>
-            <a id="mp-pro-annual" href="#" style="flex:0 0 auto;border:1.5px solid #e8455f;background:#fff;color:#e8455f;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:8px 17px;white-space:nowrap;">申し込む</a>
+            <span style="font-size:13px;color:#28323f;line-height:1.35;"><strong>年額 ¥100,000</strong><br><span style="font-size:10.5px;color:#E43B4D;font-weight:700;">2ヶ月分お得</span></span>
+            <a id="mp-pro-annual" href="#" style="flex:0 0 auto;border:1.5px solid #E43B4D;background:#fff;color:#E43B4D;text-decoration:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:8px 17px;white-space:nowrap;">申し込む</a>
           </div>
           <a href="listing.html#price" style="display:block;text-align:center;color:#8a93a0;text-decoration:underline;font-size:12.5px;font-weight:700;padding:4px;">プランの詳細を見る →</a>
         </div>
       </div>
       <p class="hint" style="margin:13px 0 0;text-align:center;">「申し込む」からそのままお支払いに進めます（月額は初回30日無料）。内容を比べたい方は「プランの詳細を見る」へ。いつでも解約OK。</p>
       <!-- サンプルは ?demo=1 のときだけ出る。実データと取り違えないよう明示する -->
-      <p style="margin:10px 0 0;text-align:center;"><a href="dashboard/index.html?demo=1" style="color:#1f8a5b;font-size:12.5px;font-weight:800;text-decoration:underline;">📊 プロプランの分析画面をサンプルで見る →</a></p>
+      <p style="margin:10px 0 0;text-align:center;"><a href="dashboard/index.html?demo=1" style="color:#E43B4D;font-size:12.5px;font-weight:800;text-decoration:underline;">📊 プロプランの分析画面をサンプルで見る →</a></p>
     </div>
 
     <!-- パスワード変更 -->
     <div class="mp-card" data-pane="settings">
-      <h2 style="margin:0 0 14px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;">パスワードの変更</h2>
+      <h2 style="margin:0 0 14px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">パスワードの変更</h2>
       <div class="mp-group"><label class="mp-label">新しいパスワード<span style="font-weight:500;color:#9aa3ad;font-size:11px;margin-left:5px;">（6文字以上）</span></label><input class="mp-input" id="pw-new" type="password" autocomplete="new-password"></div>
       <div class="mp-group"><label class="mp-label">新しいパスワード（確認）</label><input class="mp-input" id="pw-new2" type="password" autocomplete="new-password"></div>
       <div id="pw-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
@@ -545,14 +547,14 @@
 
     <!-- 掲載削除 -->
     <div class="mp-card" data-pane="settings" style="border-color:#f1c6cf;">
-      <h2 style="margin:0 0 8px;font-family:'Zen Maru Gothic',sans-serif;font-size:18px;font-weight:900;color:#c0314b;">掲載の削除</h2>
+      <h2 style="margin:0 0 8px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;color:#c0314b;">掲載の削除</h2>
       <p class="hint" style="margin-top:0;margin-bottom:14px;">クラブの掲載情報をチビスポから完全に削除します。<strong>この操作は取り消せません。</strong>削除後はサイトに表示されなくなります。</p>
       <div id="del-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px;"></div>
-      <button id="mp-delete" style="width:100%;background:#fff;border:1.5px solid #e8455f;color:#c0314b;border-radius:999px;padding:13px 0;font-size:14px;font-weight:800;cursor:pointer;">このクラブの掲載を削除する</button>
+      <button id="mp-delete" style="width:100%;background:#fff;border:1.5px solid #E43B4D;color:#c0314b;border-radius:999px;padding:13px 0;font-size:14px;font-weight:800;cursor:pointer;">このクラブの掲載を削除する</button>
     </div>
 
     <div style="text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;">
-      <a href="mypage.html" style="color:#2270e0;font-size:13px;font-weight:700;text-decoration:none;">一般会員のマイページへ切り替える</a>
+      <a href="mypage.html" style="color:#E43B4D;font-size:13px;font-weight:700;text-decoration:none;">一般会員のマイページへ切り替える</a>
       <button id="mp-logout" style="background:none;border:none;color:#9aa3ad;font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;">ログアウト</button>
     </div>
   </div>
@@ -573,7 +575,7 @@
     <div style="padding:12px 18px calc(18px + env(safe-area-inset-bottom));border-top:1px solid #eef0f2;display:flex;gap:8px;background:#fff;">
       <input id="cc-chat-input" type="text" placeholder="メッセージを入力" maxlength="1000"
         style="flex:1;min-width:0;border:1px solid #d7dbe0;border-radius:999px;padding:12px 16px;font-size:15px;font-family:inherit;outline:none;">
-      <button id="cc-chat-send" style="flex:0 0 auto;border:none;border-radius:999px;background:#f0435c;color:#fff;font-size:14px;font-weight:800;padding:0 20px;cursor:pointer;">送信</button>
+      <button id="cc-chat-send" style="flex:0 0 auto;border:none;border-radius:999px;background:#E43B4D;color:#fff;font-size:14px;font-weight:800;padding:0 20px;cursor:pointer;">送信</button>
     </div>
   </div>
 </div>
@@ -599,7 +601,7 @@
     var cb=mQ('mp-cancel-btn'); if(!cb) return;
     if(manageCanceling){
       cb.textContent='解約を取り消す';
-      cb.style.borderColor='#bfe3cd'; cb.style.color='#1f8a5b';
+      cb.style.borderColor='#bfe3cd'; cb.style.color='#E43B4D';
     } else {
       cb.textContent='このプランを解約する';
       cb.style.borderColor='#f1c6cf'; cb.style.color='#c0314b';
@@ -619,10 +621,10 @@
     var host=mQ('mp-plan-opts'); if(!host) return;
     host.innerHTML=MANAGE_PLANS.map(function(p){
       var cur=(manageCurrent===p.key);
-      return '<div style="border:1.5px solid '+(cur?'#1f8a5b':'#e6e9ed')+';border-radius:12px;padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;'+(cur?'background:#f3fbf6;':'')+'">'
-        +'<div style="min-width:0;"><div style="font-size:13.5px;font-weight:900;color:#28323f;">'+p.name+' <span style="font-weight:700;color:#1f8a5b;">'+p.price+'</span></div><div style="font-size:11.5px;color:#8a93a0;line-height:1.5;margin-top:2px;">'+p.desc+'</div></div>'
-        +(cur?'<span style="flex:0 0 auto;font-size:12px;font-weight:800;color:#1f8a5b;">利用中</span>'
-             :'<button type="button" class="mp-switch-btn" data-plan="'+p.key+'" style="flex:0 0 auto;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;">変更</button>')
+      return '<div style="border:1.5px solid '+(cur?'#E43B4D':'#e6e9ed')+';border-radius:12px;padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;'+(cur?'background:#f3fbf6;':'')+'">'
+        +'<div style="min-width:0;"><div style="font-size:13.5px;font-weight:900;color:#28323f;">'+p.name+' <span style="font-weight:700;color:#E43B4D;">'+p.price+'</span></div><div style="font-size:11.5px;color:#8a93a0;line-height:1.5;margin-top:2px;">'+p.desc+'</div></div>'
+        +(cur?'<span style="flex:0 0 auto;font-size:12px;font-weight:800;color:#E43B4D;">利用中</span>'
+             :'<button type="button" class="mp-switch-btn" data-plan="'+p.key+'" style="flex:0 0 auto;background:#E43B4D;color:#fff;border:none;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;">変更</button>')
         +'</div>';
     }).join('');
     host.querySelectorAll('.mp-switch-btn').forEach(function(b){ b.addEventListener('click',function(){ doSwitch(b.getAttribute('data-plan'), b); }); });
@@ -772,7 +774,7 @@
   var selMoods=[];
   function renderMoods(){
     var sel=$('f-mood-selected'); if(!sel) return;
-    sel.innerHTML = selMoods.length ? selMoods.map(function(n){ return '<span style="display:inline-flex;align-items:center;gap:6px;background:#eafaf0;border:1px solid #bfe6cf;color:#1f8a5b;font-size:12.5px;font-weight:700;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;">'+n+'<button type="button" data-rm="'+n+'" style="border:none;background:none;color:#1f8a5b;cursor:pointer;font-size:14px;line-height:1;padding:0;">×</button></span>'; }).join('') : '<span style="font-size:12px;color:#b6bcc5;">まだタグがありません</span>';
+    sel.innerHTML = selMoods.length ? selMoods.map(function(n){ return '<span style="display:inline-flex;align-items:center;gap:6px;background:#eafaf0;border:1px solid #bfe6cf;color:#1f8a5b;font-size:12.5px;font-weight:700;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;">'+n+'<button type="button" data-rm="'+n+'" style="border:none;background:none;color:#E43B4D;cursor:pointer;font-size:14px;line-height:1;padding:0;">×</button></span>'; }).join('') : '<span style="font-size:12px;color:#b6bcc5;">まだタグがありません</span>';
     sel.querySelectorAll('[data-rm]').forEach(function(b){ b.onclick=function(){ var n=b.getAttribute('data-rm'); selMoods=selMoods.filter(function(t){return t!==n;}); renderMoods(); }; });
   }
   function addMood(name){ name=(name||'').trim(); if(!name) return; if(name.length>15){ alert('タグは15文字以内で入力してください'); return; } if(selMoods.indexOf(name)>=0) return; if(selMoods.length>=3){ alert('タグは最大3つまでです'); return; } selMoods.push(name); renderMoods(); }
@@ -865,9 +867,9 @@
     $('mp-recruit-state').textContent = paused ? '現在：募集停止中（サイトに表示されていません）' : '現在：募集中（サイトに表示されています）';
     var btn=$('mp-recruit-toggle');
     btn.textContent = paused ? '募集を再開する' : '募集を一時停止する';
-    btn.style.background = paused ? '#1f8a5b' : '#fff';
+    btn.style.background = paused ? '#E43B4D' : '#fff';
     btn.style.color = paused ? '#fff' : '#c0314b';
-    btn.style.border = paused ? 'none' : '1.5px solid #e8455f';
+    btn.style.border = paused ? 'none' : '1.5px solid #E43B4D';
     btn.onclick = function(){
       var next = paused ? 'approved' : 'paused';
       if(!paused && !confirm('募集を一時停止します。\n検索・地図に表示されなくなり、新しい体験申込みも届かなくなります。\nクラブ情報と過去の申込みは残ります。')) return;
@@ -983,9 +985,9 @@
     if(!photoList.length){ host.innerHTML='<span style="font-size:12px;color:#b6bcc5;margin-right:8px;">写真が登録されていません</span>'; }
     photoList.forEach(function(url,i){
       var cell=document.createElement('div');
-      cell.style.cssText='position:relative;width:108px;height:80px;border-radius:8px;overflow:hidden;border:2px solid '+(i===editIdx?'#1f8a5b':'#e6e9ed')+';cursor:pointer;';
+      cell.style.cssText='position:relative;width:108px;height:80px;border-radius:8px;overflow:hidden;border:2px solid '+(i===editIdx?'#E43B4D':'#e6e9ed')+';cursor:pointer;';
       cell.title='クリックで表示位置を調整';
-      cell.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;object-position:'+(photoPos[i]||'50% 50%')+';display:block;">'+(i===0?'<span style="position:absolute;left:5px;top:5px;background:#1f8a5b;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'');
+      cell.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;object-position:'+(photoPos[i]||'50% 50%')+';display:block;">'+(i===0?'<span style="position:absolute;left:5px;top:5px;background:#E43B4D;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;">カバー</span>':'');
       cell.onclick=function(){ openEditor(i); };
       var del=document.createElement('button'); del.textContent='×'; del.title='削除';
       del.style.cssText='position:absolute;right:4px;top:4px;width:20px;height:20px;border:none;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:13px;line-height:1;cursor:pointer;';
@@ -1027,7 +1029,7 @@
         +(i<photoList.length-1?'<button id="ed-right" class="ed-btn">次へ →</button>':'')
         +'<button id="ed-reset" class="ed-btn">中央に戻す</button>'
         +'<button id="ed-del" class="ed-btn" style="color:#c0314b;border-color:#f1c6cf;">削除</button>'
-        +'<button id="ed-save" style="margin-left:auto;background:#1f8a5b;color:#fff;border:none;border-radius:999px;padding:10px 22px;font-size:13px;font-weight:900;cursor:pointer;">この位置で保存</button>'
+        +'<button id="ed-save" style="margin-left:auto;background:#E43B4D;color:#fff;border:none;border-radius:999px;padding:10px 22px;font-size:13px;font-weight:900;cursor:pointer;">この位置で保存</button>'
       +'</div></div>';
     var frame=$('ed-frame'), dEl=$('ed-prev-detail'), cEl=$('ed-prev-card');
     var cx=px, cy=py, dragging=false, sx=0, sy=0, ox=0, oy=0;
@@ -1229,7 +1231,7 @@
         });
         document.querySelectorAll('[data-unread]').forEach(function(sp){
           var n=unread[sp.getAttribute('data-unread')]||0;
-          sp.innerHTML = n ? '<span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#f0435c;color:#fff;font-size:11px;font-weight:900;margin-left:6px;">'+n+'</span>' : '';
+          sp.innerHTML = n ? '<span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#E43B4D;color:#fff;font-size:11px;font-weight:900;margin-left:6px;">'+n+'</span>' : '';
         });
       });
     });
@@ -1244,7 +1246,7 @@
       var hm=(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
       var esc=function(x){ return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
       return '<div style="display:flex;justify-content:'+(mine?'flex-end':'flex-start')+';margin-bottom:12px;"><div style="max-width:78%;">'
-        + '<div style="background:'+(mine?'#f0435c':'#fff')+';color:'+(mine?'#fff':'#1f2a37')+';border:1px solid '+(mine?'#f0435c':'#e6e9ed')+';border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;">'+esc(m.body)+'</div>'
+        + '<div style="background:'+(mine?'#E43B4D':'#fff')+';color:'+(mine?'#fff':'#1f2a37')+';border:1px solid '+(mine?'#E43B4D':'#e6e9ed')+';border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word;">'+esc(m.body)+'</div>'
         + '<div style="font-size:10.5px;color:#aab1bb;margin-top:4px;text-align:'+(mine?'right':'left')+';">'+hm+'</div>'
         + '</div></div>';
     }).join('');
@@ -1359,7 +1361,7 @@
       + '</div>';
     }
     if(r.status==='attended'){
-      return state('体験参加済み','#eef4ff','#2270e0')
+      return state('体験参加済み','#eef4ff','#E43B4D')
         + '<div class="tr-actions">'
           + B('joined','入会した','tr-btn is-good')
           + B('lost','見送り','tr-btn is-ghost')
@@ -1486,8 +1488,8 @@
         return '<div class="tr-card'+(isNew?' is-new':'')+'">'
           + '<div class="tr-head">'
             + '<span class="tr-name">'+ce(r.parent_name)+' さん'
-              +(isQ?' <span class="tr-tag" style="background:#eef4ff;color:#2270e0;">質問</span>':'')
-              +(isNew?' <span class="tr-tag" style="background:#ea3b7e;color:#fff;">NEW</span>':'')+'</span>'
+              +(isQ?' <span class="tr-tag" style="background:#eef4ff;color:#E43B4D;">質問</span>':'')
+              +(isNew?' <span class="tr-tag" style="background:#E43B4D;color:#fff;">NEW</span>':'')+'</span>'
             + '<span class="tr-date">'+fmt(r.created_at)+'</span>'
           + '</div>'
           + (lines.length?('<div class="tr-meta">'+lines.join('<br>')+'</div>'):'')
@@ -1625,7 +1627,7 @@
            以前は「通知のみ」と書いていたため、どの通知の話なのか読み取れず、
            しかも通知をオフにしても「通知のみ」と出て実態と食い違っていた。
            通知のオン/オフは隣のチェックボックスが担う */
-        var state = isOwner ? pill('代表','#eef4ff','#2270e0')
+        var state = isOwner ? pill('代表','#eef4ff','#E43B4D')
                   : joined  ? pill('ログインできる','#e9f7ef','#1f7a4d')
                   : pending ? pill('招待中'+(r.invite_expires_at?('（'+mmdd(r.invite_expires_at)+'まで）'):''),'#fff6df','#a9781c')
                   : expired ? pill('招待の期限切れ','#fdeaee','#c0314b')
@@ -1792,7 +1794,7 @@
   function paintTrialTabs(){
     document.querySelectorAll('.mp-tr-tab').forEach(function(b){
       var on = b.getAttribute('data-tab') === window.__ccTrTab;
-      b.style.background = on ? '#f0435c' : '#f1f3f6';
+      b.style.background = on ? '#E43B4D' : '#f1f3f6';
       b.style.color = on ? '#fff' : '#6b7280';
     });
   }
@@ -2104,6 +2106,6 @@
   $('mp-logout').addEventListener('click',function(){ db.auth.signOut().then(function(){ team=null; showLogin(); }); });
 })();
 </script>
-<script src="shared.js?v=20260731b"></script>
+<script src="shared.js?v=20260913"></script>
 </body>
 </html>
