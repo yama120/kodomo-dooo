@@ -5,7 +5,7 @@ P='/private/tmp/claude-501/-Users-hyogoyamada-claudecode-project/5ae8baa4-4330-4
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
 top=open(D+'video-hero-preview.html',encoding='utf-8').read()
 BASE_CSS=top[top.index('<style>')+7:top.index('</style>')]
-header=top[top.index('<header>'):top.index('</header>')+9]
+header=top[top.index('<header'):top.index('</header>')+9]
 footer=top[top.index('<footer>'):top.index('</footer>')+9]
 tail=top[top.index('<div id="skins">'):top.index('</body>')]
 club_css=open(P+'page.css',encoding='utf-8').read()   # クラブ詳細の部品（.nc .art .rel .cta2 など）

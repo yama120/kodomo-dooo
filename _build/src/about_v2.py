@@ -99,7 +99,7 @@ body[data-skin="stadium"] .abt-tri{background:var(--card)}
 body='''
 <div class="abt">
 <section class="abt-open">
-  <img src="assets/preview-video/jp-soccer-run.jpg" alt="">
+  <img src="assets/about-hero.webp" srcset="assets/about-hero-sp.webp 900w, assets/about-hero.webp 1800w" sizes="100vw" alt="" fetchpriority="high">
   <div class="in">
     <div class="abt-ey">ABOUT CHIBISPO</div>
     <h1>地域スポーツを、<br>もっと身近に。</h1>

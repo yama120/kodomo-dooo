@@ -7,11 +7,13 @@ top=open(f,encoding='utf-8').read()
 
 CSS='''/* ===================== HEADER ===================== */
 header{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;height:62px}
-.logo{display:flex;align-items:center;gap:10px;flex:0 0 auto;color:var(--ink)}
-.logo img{height:30px;width:auto;display:block}
-.logo-tg{font-size:10.5px;font-weight:800;color:var(--sub);letter-spacing:.06em;white-space:nowrap}
-body[data-skin="stadium"] .logo img{background:#fff;padding:3px 7px;border-radius:6px;height:28px}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;height:68px}
+.logo{display:flex;align-items:center;flex:0 0 auto;color:var(--ink)}
+.logo img{width:auto;display:block}
+.logo .lg-w{height:44px}
+.logo .lg-s{height:28px;display:none}
+.logo-tg{display:none}
+body[data-skin="stadium"] .logo img{background:#fff;padding:3px 7px;border-radius:6px}
 .hd-nav{display:flex;align-items:center;gap:22px;margin-left:6px;flex:1 1 auto;min-width:0}
 .hd-nav a{font-size:13.5px;font-weight:800;color:var(--ink);white-space:nowrap;position:relative;padding:6px 0}
 .hd-nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .18s}
@@ -38,7 +40,7 @@ body.auth-in .sh-btn.hd-in{display:block!important}
 .sheet.on{transform:translateY(0)}
 body[data-skin="magazine"] .sheet,body[data-skin="editorial"] .sheet{border-radius:0}
 .sh-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sh-hd img{height:24px;width:auto;display:block}
+.sh-hd img{height:34px;width:auto;display:block}
 body[data-skin="stadium"] .sh-hd img{background:#fff;padding:3px 6px;border-radius:6px}
 .sh-x{border:0;background:transparent;font-size:24px;line-height:1;color:var(--sub);cursor:pointer;padding:4px 6px;font-family:inherit}
 .sh-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -51,7 +53,8 @@ body[data-skin="stadium"] .sh-btn.pri{color:#0b0c0f}
 body[data-skin="magazine"] .sh-btn,body[data-skin="editorial"] .sh-btn{border-radius:0}
 .sh-ft{display:flex;justify-content:center;gap:18px;margin-top:14px;font-size:11.5px;font-weight:700;color:var(--sub)}
 @media(max-width:1279px){.hd-nav{gap:16px}}
-@media(max-width:1139px){.hd-nav{display:none}.hd-burger{display:flex}.logo-tg{display:none}}
+@media(max-width:1139px){.hd-nav{display:none}.hd-burger{display:flex}}
+@media(max-width:759px){.logo .lg-w{display:none}.logo .lg-s{display:block}}
 @media(max-width:759px){.hd-ic{display:none}.hd{height:56px;gap:10px}.logo img{height:26px}.hd-cta{padding:7px 11px;font-size:12px;margin-left:0}.hd-burger{margin-left:0}}
 @media(max-width:380px){.sh-grid{gap:6px}.sh-grid a{padding:12px 2px;font-size:10px}}
 '''
@@ -70,12 +73,12 @@ I={
  'club':'<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg>',
 }
 
-PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.png')
+PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.png',logow='assets/logo-wide.webp')
 import json as _json
 def sheet_html(L):
     return ('<div class="sh-bd" id="shBd"></div>'
     '<div class="sheet" id="sheet" role="dialog" aria-label="メニュー">'
-    '<div class="sh-hd"><img src="%(logo)s" alt="チビスポ"><button class="sh-x" type="button" aria-label="閉じる">&times;</button></div>'
+    '<div class="sh-hd"><img src="%(logow)s" alt="チビスポ"><button class="sh-x" type="button" aria-label="閉じる">&times;</button></div>'
     '<div class="sh-grid">'
     '<a href="%(search)s">'+I['search']+'<span>クラブを探す</span></a>'
     '<a href="%(map)s">'+I['map']+'<span>地図から探す</span></a>'
@@ -94,7 +97,7 @@ def sheet_html(L):
     '</div>')%L
 def header_html(L,wrap='wrap'):
     return ('<header class="site-hd">\n  <div class="'+wrap+' hd">\n'
-    '    <a class="logo" href="%(home)s"><img src="%(logo)s" alt="チビスポ"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>\n'
+    '    <a class="logo" href="%(home)s"><img class="lg-w" src="%(logow)s" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="%(logo)s" alt="チビスポ" width="300" height="72"></a>\n'
     '    <nav class="hd-nav">\n'
     '      <a href="%(search)s">クラブを探す</a>\n'
     '      <a href="%(map)s">地図から探す</a>\n'
@@ -192,9 +195,12 @@ _OLD_HEADER='''<header>
 </header>'''
 
 def patch_preview():
+    global top
+    top=open(f,encoding='utf-8').read()
     # --- CSS 差し替え：HEADER ブロック（/* === HEADER === */ から /* === HERO === */ の手前まで）
     a=top.index('/* ===================== HEADER ===================== */')
-    b=top.index('/* ===================== HERO ===================== */')
+    # HEADER の次に来るブロックまで（QUIZ BAND が入っていることがある）
+    b=min(i for i in [top.find('/* ===================== QUIZ BAND'),top.find('/* ===================== HERO')] if i>a)
     old_block=top[a:b]
     # 520px の共通メディア行（.sec-h の分）はヘッダー分だけ削って残す
     m=re.search(r'@media\(max-width:520px\)\{[^\n]*\}\n',old_block)
@@ -206,7 +212,7 @@ def patch_preview():
     top=top[:a]+CSS+keep+top[b:]
 
     # --- 旧 .logo span 由来の他所参照は無し（確認済み）。markup 差し替え
-    h1=top.index('<header>'); h2=top.index('</header>')+9
+    h1=top.index('<header'); h2=top.index('</header>')+9
     top=top[:h1]+HEADER+top[h2:]
     open(f,'w',encoding='utf-8').write(top)
     print('patched: css',len(CSS),'bytes; header',len(HEADER),'bytes')

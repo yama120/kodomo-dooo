@@ -4,7 +4,7 @@ sys.path.insert(0,P); import cards
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
 top=open(D+'video-hero-preview.html',encoding='utf-8').read()
 BASE_CSS=top[top.index('<style>')+7:top.index('</style>')]
-header=top[top.index('<header>'):top.index('</header>')+9]
+header=top[top.index('<header'):top.index('</header>')+9]
 footer=top[top.index('<footer>'):top.index('</footer>')+9]
 tail=top[top.index('<div id="skins">'):top.index('</body>')]
 FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">'
