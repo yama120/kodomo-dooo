@@ -28,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20260923">
+<link rel="stylesheet" href="site.css?v=20260924">
 <style>
 .fbar{position:sticky;top:60px;z-index:40;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin:0 -20px;padding:10px 20px}
 .fbar .row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -195,6 +195,11 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
 #sr-empty p{margin:0 0 14px;font-size:12.5px;font-weight:700;color:var(--sub);line-height:1.85}
 #sr-empty .btn{font-size:13px;padding:11px 18px;margin:2px 4px;cursor:pointer;border:0}
 #sr-empty[hidden],#sr-near-label[hidden],#sr-rec-sec[hidden],#sr-comp-sec[hidden],#sr-mood-wrap[hidden]{display:none}
+/* 雰囲気タグ：4行までにして、続きは「もっと見る」で開く */
+#sr-mood-list.cl{overflow:hidden;position:relative}
+#sr-mood-list.cl::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+#sr-mood-more{display:block;margin:6px 0 2px;padding:0;border:0;background:transparent;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);cursor:pointer;letter-spacing:.02em}
+#sr-mood-more[hidden]{display:none}
 .news.mag{counter-reset:c 0}
 #sr-near-label{display:flex;flex-direction:column;gap:2px;margin:0 0 14px;padding-left:12px;border-left:3px solid var(--accent)}
 #sr-near-label .t{font-family:var(--fh);font-weight:900;font-size:15px}
@@ -281,7 +286,7 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
     <div class="lb">地域</div><select id="sr-pref"><option value="">都道府県を選択</option></select><select id="sr-city" disabled><option value="">市区町村を選択</option></select>
     <div class="lb">種目（カテゴリ）</div><select id="sr-sport"><option value="">すべての種目</option></select>
     <div class="lb">対象年齢</div><div class="ages"><span class="sr-age" data-age="未就学">未就学</span><span class="sr-age" data-age="小学生">小学生</span><span class="sr-age" data-age="中学生">中学生</span></div>
-    <div id="sr-mood-wrap" hidden><div class="lb">雰囲気</div><div id="sr-mood-list"></div></div>
+    <div id="sr-mood-wrap" hidden><div class="lb">雰囲気</div><div id="sr-mood-list"></div><button type="button" id="sr-mood-more" aria-expanded="false" hidden>もっと見る</button></div>
     <div class="lb">こだわり条件</div>
     <label class="sr-chk" data-k="trial"><i></i>体験OK</label><label class="sr-chk" data-k="heijitsu"><i></i>平日開催</label><label class="sr-chk" data-k="doyo"><i></i>土日開催</label><label class="sr-chk" data-k="girls"><i></i>女の子歓迎</label>
     <div class="lb">月謝</div>
@@ -404,11 +409,11 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
   <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
 </footer>
 <script src="supabase-lite.js?v=20260731"></script>
-<script src="club-card.js?v=20260923"></script>
+<script src="club-card.js?v=20260924"></script>
 <script src="romaji.js?v=20260802"></script>
 <script src="cities.js?v=20260731b"></script>
-<script src="site.js?v=20260923"></script>
-<script src="shared.js?v=20260923"></script>
+<script src="site.js?v=20260924"></script>
+<script src="shared.js?v=20260924"></script>
 <script>
 (function(){
   function veilOff(){ var v=document.getElementById('sr-veil'); if(!v) return; v.style.opacity='0'; setTimeout(function(){ v.remove(); },260); }
@@ -516,6 +521,34 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
       if(!names.length || !wrap || !list) return;
       list.innerHTML=names.map(function(m){ return '<span class="chip sr-mood" data-mood="'+esc(m)+'">'+esc(m)+'</span>'; }).join('');
       wrap.hidden=false;
+      /* 4行までにして、続きは「もっと見る」で開く（行の高さは実測する） */
+      var more=document.getElementById('sr-mood-more'), open=false, maxH=0;
+      function measure(){
+        list.classList.remove('cl'); list.style.maxHeight='';
+        var tops=[], kids=list.children, i, t;
+        for(i=0;i<kids.length;i++){ t=kids[i].offsetTop; if(tops.indexOf(t)<0) tops.push(t); }
+        tops.sort(function(a,b){ return a-b; });
+        if(tops.length<=4 || !more){ if(more) more.hidden=true; return; }
+        maxH = tops[3]-tops[0] + (kids[0].offsetHeight||30);
+        var n=0; for(i=0;i<kids.length;i++){ if(kids[i].offsetTop>tops[3]) n++; }
+        more.hidden=false; more.textContent = open ? '閉じる' : 'もっと見る（あと'+n+'）';
+        if(!open){ list.style.maxHeight=maxH+'px'; list.classList.add('cl'); }
+      }
+      if(more){
+        more.addEventListener('click',function(){
+          open=!open;
+          if(open){ list.classList.remove('cl'); list.style.maxHeight=''; more.textContent='閉じる'; }
+          else { list.style.maxHeight=maxH+'px'; list.classList.add('cl'); }
+          more.setAttribute('aria-expanded', open?'true':'false');
+          if(!open) measure();
+        });
+      }
+      measure();
+      /* 書体が当たると1行に入る数が変わるので、読み込み後にもう一度測る */
+      try{ if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure); }catch(e){}
+      var rt; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(measure,180); });
+      /* URL で指定された雰囲気が畳んだ先にあるときは開いておく */
+      if(_p.get('mood') && more && !more.hidden){ more.click(); }
     })();
 
     function matchTeam(t){
