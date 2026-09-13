@@ -42,13 +42,6 @@
   function badge(sp){ var a=sportArt(sp); return '<span class="sb" style="background:'+a.c+'"><svg viewBox="0 0 24 24">'+a.i+'</svg></span>'; }
   function isPaid(t){ if(!t||!t.plan||t.plan==='free') return false; if(t.plan_expires_at && new Date(t.plan_expires_at)<new Date()) return false; return true; }
   function isNew(t){ if(!t||!t.created_at) return false; var d=(Date.now()-new Date(t.created_at).getTime())/86400000; return d>=0 && d<=14; }
-  /* 「週2（火木）」の1行。対象学年と月謝はカードに出さない（詳細ページで見せる） */
-  function meta(t){
-    var p=[];
-    var ds=Array.isArray(t.days)?t.days.filter(Boolean):[];
-    if(ds.length) p.push('週'+ds.length+'（'+ds.join('')+'）');
-    return p.join(' ・ ');
-  }
   function tags(t){
     var a=[];
     if(t.trial) a.push({t:'体験OK'});
@@ -77,10 +70,9 @@
         +'<h3 class="nc-name">'+esc(t.name)+'</h3>'
         +'<div class="nc-area">'+PIN+esc(area)+'</div>'
         +(desc?'<div class="nc-desc">'+esc(desc)+'</div>':'')
-        +(meta(t)?'<div class="nc-meta">'+esc(meta(t))+'</div>':'')
         +(tg.length?'<div class="nc-tags">'+tg.map(function(x){return '<span'+(x.m?' data-mood="'+esc(x.m)+'"':'')+'>'+esc(x.t)+'</span>';}).join('')+'</div>':'')
         +'<div class="nc-foot"><span class="lk">'+HEART+(t.likes||0)+'</span><span class="cm sr-cmt-btn" data-id="'+esc(t.id)+'" title="コメントを見る・書く">'+CMT+(t.comments||0)+'</span></div>'
       +'</div></a>';
   }
-  root.ChibiCard = { esc: esc, sportArt: sportArt, sportPlaceholder: sportPlaceholder, badge: badge, meta: meta, isPaid: isPaid, isNew: isNew, card: card, HEART: HEART, CMT: CMT, PIN: PIN };
+  root.ChibiCard = { esc: esc, sportArt: sportArt, sportPlaceholder: sportPlaceholder, badge: badge, isPaid: isPaid, isNew: isNew, card: card, HEART: HEART, CMT: CMT, PIN: PIN };
 })(typeof window !== 'undefined' ? window : globalThis);
