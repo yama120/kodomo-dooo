@@ -104,6 +104,18 @@
 @media(min-width:900px) and (min-height:1040px){.aside{position:sticky;top:76px}}
 
 .anext{display:block;color:inherit}.art{color:inherit}
+.art-body img{max-width:100%;height:auto}
+/* 参考にした指針・提言 */
+.art-src{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:16px 18px;margin:30px 0 0}
+.art-src .t{font-family:var(--fh);font-size:12.5px;font-weight:900;color:var(--sub);letter-spacing:.04em;margin-bottom:8px}
+.art-src ul{margin:0;padding-left:18px}
+.art-src li{font-size:12px;font-weight:700;color:var(--sub);line-height:2}
+/* 著者（チビスポ編集部） */
+.art-au{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:16px 18px;margin:14px 0 0}
+.art-au .av{width:50px;height:50px;flex:0 0 50px;border-radius:50%;background:color-mix(in srgb,var(--accent) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent) 25%,#fff);display:flex;align-items:center;justify-content:center}
+.art-au .av img{width:34px;height:34px;display:block}
+.art-au b{display:block;font-family:var(--fh);font-size:14px;font-weight:900}
+.art-au p{margin:2px 0 0;font-size:12px;font-weight:700;color:var(--sub);line-height:1.75}
 </style>
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -140,7 +152,7 @@
   <div class="ahead">
     <div class="ey">MAGAZINE<small>コーチの想い</small></div>
     <h1>コーチに聞く「チームで伸びる子」の共通点</h1>
-    <div class="by"><img src="assets/app-hero/app-icon-512.webp" alt=""><span><b>チビスポ編集部</b> ・ 2026.06.01</span><span class="rt">4 MIN READ</span></div>
+    <div class="by"><img src="assets/app-hero/app-icon-512.webp" alt=""><span><b>チビスポ編集部</b> ・ 2026.06.01</span><span class="rt">3 MIN READ</span></div>
   </div>
   <div class="akv"><img src="assets/mag-7.jpg" alt="" fetchpriority="high"></div>
   <div class="alay">
@@ -172,28 +184,8 @@
   <h2 id="s11">よくある悩みへの向き合い方</h2>
   <p><strong>「レギュラーになれず落ち込んでいます」</strong>──今の序列は、体格差や経験差の影響が大きく、固定ではありません。出場時間よりも「先週できなかったことが今週できたか」に目を向けさせると、本人の軸が「他人との比較」から「自分の成長」に戻ります。指導者に練習での役割や課題を聞いてみるのも有効です。</p>
   <p><strong>「辞めたいと言い出しました」</strong>──まず理由を聞き切ることが先です。競技が嫌なのか、環境（コーチ・仲間・移動）が嫌なのかで、答えは変わります。環境が理由なら、競技を続けたままクラブを変えるという選択肢もあります。「一度決めたら最後まで」と縛るより、「合う場所を一緒に探そう」のほうが、結果的にスポーツを長く続けられます。</p>
-  <blockquote>「いまの上手さ」より「伸びる姿勢」。失敗を恐れない、よく見て学ぶ、仲間を応援する、自分で考える──そのどれもが、家庭での関わりで育てられます。だからこそ入口のクラブ選びでは、“どんな空気で子どもを育ててくれるか”を、いちばん大切にしたいですね。</blockquote></div>
-
-  <!-- 出典 -->
-  <div>
-    <div>参考にした研究・知見</div>
-    <ul>
-      <li>ジュニアスポーツにおける相対年齢効果（relative age effect）に関する国内外の研究報告</li>
-      <li>Dweck C. 成長マインドセット理論</li>
-    </ul>
-  </div>
-
-  <!-- 著者 -->
-  <div>
-    <!-- 「チ」の1文字ではなく、アプリと同じマスコットを出す -->
-    <div>
-      <img src="assets/logo-mark.svg" alt="" aria-hidden="true">
-    </div>
-    <div>
-      <div>チビスポ編集部</div>
-      <div>理学療法士の監修のもと、現場とエビデンスの両面から発信しています。</div>
-    </div>
-  
+  <blockquote>「いまの上手さ」より「伸びる姿勢」。失敗を恐れない、よく見て学ぶ、仲間を応援する、自分で考える──そのどれもが、家庭での関わりで育てられます。だからこそ入口のクラブ選びでは、“どんな空気で子どもを育ててくれるか”を、いちばん大切にしたいですね。</blockquote>
+<div class="art-src"><div class="t">参考にした指針・提言</div><ul><li>ジュニアスポーツにおける相対年齢効果（relative age effect）に関する国内外の研究報告</li><li>Dweck C. 成長マインドセット理論</li></ul></div><div class="art-au"><span class="av"><img src="assets/logo-mark.svg" alt="" aria-hidden="true"></span><div><b>チビスポ編集部</b><p>理学療法士の監修のもと、現場とエビデンスの両面から発信しています。</p></div></div>
       <div class="acta"><div class="ey">FIND A CLUB</div><div class="t">近くのクラブを、地域と種目から探す</div><p>体験OK・未就学から・土日など、条件で絞れます。</p><a class="btn" href="search.html">クラブを探す</a></div>
       <div class="share"><span class="lb">SHARE</span><a href="https://x.com/intent/tweet?url=https://chibispo.com/magazine-7.html&text=コーチに聞く「チームで伸びる子」の共通点" target="_blank" rel="noopener">X</a><a href="https://social-plugins.line.me/lineit/share?url=https://chibispo.com/magazine-7.html" target="_blank" rel="noopener">LINE</a><a href="#" id="copyLink">リンクをコピー</a></div>
       <a class="anext" href="magazine-1.html"><div class="ey">NEXT</div><div class="c"><div><div class="k">はじめてのスポーツ選び ・ 2026.06.20</div><h3>6歳までの運動が、脳を育てる。幼児期に大切にしたい「多様な動き」</h3></div><img src="assets/mag-1.jpg" alt="" loading="lazy"></div></a>

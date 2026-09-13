@@ -3,10 +3,12 @@
 css='''
 .abt{--m:'Zen Old Mincho','Hiragino Mincho ProN',serif}
 .abt-open{position:relative;min-height:min(92vh,760px);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#111;color:#fff}
-.abt-open img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08);opacity:.62}
-.abt-open::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.55))}
+.abt-open img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.04) saturate(1.02);transform:scale(1.06);animation:abt-zoom 20s ease-out forwards;will-change:transform}
+@keyframes abt-zoom{from{transform:scale(1.06)}to{transform:scale(1.18)}}
+@media(prefers-reduced-motion:reduce){.abt-open img{animation:none;transform:scale(1.06)}}
+.abt-open::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,14,.66),rgba(8,10,14,.5) 42%,rgba(8,10,14,.78)),radial-gradient(110% 75% at 50% 48%,rgba(0,0,0,.34),rgba(0,0,0,.6))}
 .abt-open .in{position:relative;z-index:1;padding:80px 20px}
-.abt-ey{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:22px}
+.abt-ey{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--accent);margin-bottom:22px;text-shadow:0 1px 10px rgba(0,0,0,.8)}
 .abt-open h1{font-family:var(--m);font-weight:600;font-size:clamp(34px,7.2vw,86px);line-height:1.25;letter-spacing:.04em;margin:0;text-shadow:0 2px 30px rgba(0,0,0,.45)}
 .abt-open .sub{font-family:var(--m);font-size:clamp(13px,1.6vw,17px);letter-spacing:.14em;margin-top:26px;opacity:.9}
 .abt-open .sc{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.3em;opacity:.7}
@@ -118,7 +120,7 @@ body='''
   <div class="in">
     <div class="k rv">WHY WE STARTED</div>
     <h2 class="rv">なぜ、チビスポを<br>つくったのか。</h2>
-    <p class="rv">普段は医療の現場で、子どものからだの発達や動きづくりに向き合っています。<br>「この時期に、どんな運動をするか」が、その子の未来にどれだけ大きいか。<br>それを毎日、目の前で見てきました。</p>
+    <p class="rv">子どもにとって、からだを動かすことは、成長の大切なきっかけのひとつです。<br>「この時期に、どんな運動をするか」が、その子の未来にどれだけ大きいか。<br>だからこそ、子どもが自分に合った運動と出会えることは、とても大切だと考えています。</p>
     <p class="rv">けれど、いざ探そうとすると情報は散らばっていて、<br>近所にいいクラブがあるのに、届いていない。<br>クラブの側も、伝え方に困っている。</p>
     <p class="rv">その「もったいなさ」をなくしたくて、チビスポを始めました。</p>
   </div>
@@ -130,9 +132,9 @@ body='''
     <h2 class="rv">私たちが、決めていること。</h2>
     <div class="abt-v">
       <div class="rv"><div class="en">HONEST</div><div class="no">01</div><h3>合う子・合わない子を、正直に。</h3><p>誰にでも良いクラブは、ありません。だから紹介では<b>「合う子」と「合わない子」</b>を並べて書きます。褒めるだけの紹介は、選ぶ助けになりません。</p></div>
-      <div class="rv"><div class="en">NOT BY PRICE</div><div class="no">02</div><h3>月謝で、並べない。</h3><p>いちばん大きく出すのは、値段ではなくクラブの見出しです。クラブ同士を<b>値下げで競わせない</b>。それは子どもに返ってこないと考えているからです。</p></div>
+      <div class="rv"><div class="en">NOT A PRICE RACE</div><div class="no">02</div><h3>安さで、競わせない。</h3><p>月謝は判断の材料なので、はっきり載せます。ただし<b>安い順には並べません</b>。値下げで競わせた分は、子どもに返ってこないと考えているからです。</p></div>
       <div class="rv"><div class="en">ATMOSPHERE</div><div class="no">03</div><h3>空気感を、そのまま。</h3><p>コーチの声のかけ方、練習前のざわめき、子どもたちの表情。文字では伝わらない空気感を、<b>写真と動画</b>でそのまま届けます。見に行く前に、少しだけ感じられるように。</p></div>
-      <div class="rv"><div class="en">TOGETHER</div><div class="no">04</div><h3>地域で、続ける。</h3><p>クラブは基本無料で載せられ、保護者は無料で探せます。続けるための費用は、<b>子どもの健康を支える地域のお店</b>と一緒に。善意だけでは続かないから、続く仕組みにしました。</p></div>
+      <div class="rv"><div class="en">TOGETHER</div><div class="no">04</div><h3>地域で、支える。</h3><p>撮影、コンディショニング、栄養、道具。子どものスポーツは、<b>地域の企業と一緒に</b>支えられています。クラブは基本無料で載せられ、企業も同じ場所で関われる。地域のスポーツを、みんなで盛り上げていく仕組みです。</p></div>
     </div>
   </div>
 </section>
@@ -142,14 +144,14 @@ body='''
     <div class="rv">
       <div class="k">THREE CIRCLES</div>
       <h2>まんなかに、<br>子どもがいる。</h2>
-      <p>保護者は、うちの子に合うクラブと出会う。クラブは、想いをそのまま伝えて、来てほしい子に届ける。地域のお店は、子どもの健康を支えながら、街の家族に知ってもらう。</p>
+      <p>保護者は、うちの子に合うクラブと出会う。クラブは、想いをそのまま伝えて、来てほしい子に届ける。地域の企業は、撮影・コンディショニング・栄養・道具と、それぞれの得意なことで子どものスポーツを支える。</p>
       <p>三つの輪がゆるやかに重なる、そのまんなかに子どもがいる。それがチビスポの形です。</p>
     </div>
     <div class="abt-dg rv">
       <svg viewBox="0 0 380 380" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><path d="M190 60 L320 300 L60 300 Z"/><circle cx="190" cy="220" r="150" stroke-dasharray="3 6"/></svg>
       <div class="nd" style="left:50%;top:16%"><small>PARENTS</small>保護者</div>
       <div class="nd" style="left:16%;top:79%"><small>CLUBS</small>クラブ</div>
-      <div class="nd" style="left:84%;top:79%"><small>LOCAL</small>地域のお店</div>
+      <div class="nd" style="left:84%;top:79%"><small>LOCAL</small>地域の企業</div>
       <div class="nd c" style="left:50%;top:58%"><small>KIDS</small>子ども</div>
     </div>
   </div>
@@ -171,7 +173,7 @@ body='''
   <div class="in">
     <div class="k rv">VISION</div>
     <h2 class="rv">子どもとスポーツの出会いを、<br>もっとなめらかに。</h2>
-    <p class="rv">クラブ・保護者・地域のお店がゆるやかにつながり、<br>子どもたちが「やってみたい」に出会える場所を、<br>地域ごとに広げていきます。</p>
+    <p class="rv">クラブ・保護者・地域の企業がゆるやかにつながり、<br>子どもたちが「やってみたい」に出会える場所を、<br>地域ごとに広げていきます。</p>
     <div class="abt-cta rv">
       <a class="pri" href="search-preview.html"><div class="k2">FOR PARENTS</div><b>クラブを探す</b><span>地域・種目・雰囲気から、お子さんに合うクラブを。</span><i>さがしてみる ›</i></a>
       <a href="shindan-preview.html" data-quiz><div class="k2">QUIZ</div><b>3つの質問で提案してもらう</b><span>種目が決まっていなくても、1分で。</span><i>質問に答える ›</i></a>
