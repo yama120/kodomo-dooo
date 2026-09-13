@@ -133,6 +133,8 @@ body.auth-in .sh-btn.hd-in{display:block!important}
 .hero h1{font-family:var(--fh);margin:0 0 8px;color:#fff;font-size:clamp(25px,6.4vw,46px);font-weight:900;line-height:1.42;letter-spacing:var(--ls);text-shadow:0 2px 22px rgba(0,0,0,.5)}
 .hero h1 em{font-style:normal;color:var(--hl);text-shadow:0 2px 20px rgba(0,0,0,.45)}
 .hero .lead{margin:0 0 30px;line-height:1.95;color:rgba(255,255,255,.94);font-size:clamp(12.5px,3.3vw,15.5px);font-weight:700;letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+/* スマホ：1文＝1行（27字）に収まる大きさへ。左右の余白20pxぶんを引いて字送りを出す */
+@media(max-width:759px){.hero .lead{font-size:min(calc(3.6vw - 1.6px),15.5px);letter-spacing:0;line-height:1.9}}
 .searchbox{max-width:640px;margin:0 auto}
 .sb-label{display:flex;align-items:center;justify-content:center;gap:7px;color:#fff;font-size:13.5px;font-weight:900;margin-bottom:11px;letter-spacing:.05em;text-shadow:0 1px 8px rgba(0,0,0,.55)}
 .sb-label svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
