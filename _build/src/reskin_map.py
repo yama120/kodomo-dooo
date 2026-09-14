@@ -126,7 +126,8 @@ body[data-skin="magazine"] .cc-age,body[data-skin="editorial"] .cc-age{border-ra
 #cc-detail-name{font-family:var(--fh)!important;font-size:16px!important;font-weight:900!important;line-height:1.4!important;letter-spacing:var(--ls);color:var(--ink)!important}
 #cc-detail-sport,#cc-detail-area,#cc-detail-age,#cc-panel div[style*="font-size:11px;color"]{color:var(--sub)!important;font-weight:700!important}
 #cc-detail-desc{color:var(--ink)!important;line-height:1.85!important}
-#cc-detail-tags span{border:1px solid var(--line)!important;background:var(--card)!important;color:var(--ink)!important;border-radius:999px!important;font-size:10.5px!important;font-weight:900!important;padding:4px 9px!important}
+#cc-detail-tags:empty{display:none!important}
+#cc-detail-tags span{flex:0 0 auto!important;border:1px solid var(--line)!important;background:var(--card)!important;color:var(--ink)!important;border-radius:999px!important;font-size:10.5px!important;font-weight:900!important;padding:4px 9px!important}
 body[data-skin="magazine"] #cc-detail-tags span,body[data-skin="editorial"] #cc-detail-tags span{border-radius:0!important}
 #cc-detail-link{background:var(--accent)!important;color:var(--onaccent)!important;font-family:var(--fh)!important;font-weight:900!important;border-radius:var(--r-s)!important;padding:13px!important;font-size:13.5px!important;text-align:center!important}
 #cc-detail-pr{background:rgba(0,0,0,.72)!important;font-family:'Anton',sans-serif!important;font-weight:400!important;letter-spacing:.12em!important;border-radius:3px!important}

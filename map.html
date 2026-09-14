@@ -191,7 +191,8 @@ body[data-skin="magazine"] .cc-age,body[data-skin="editorial"] .cc-age{border-ra
 #cc-detail-name{font-family:var(--fh)!important;font-size:16px!important;font-weight:900!important;line-height:1.4!important;letter-spacing:var(--ls);color:var(--ink)!important}
 #cc-detail-sport,#cc-detail-area,#cc-detail-age,#cc-panel div[style*="font-size:11px;color"]{color:var(--sub)!important;font-weight:700!important}
 #cc-detail-desc{color:var(--ink)!important;line-height:1.85!important}
-#cc-detail-tags span{border:1px solid var(--line)!important;background:var(--card)!important;color:var(--ink)!important;border-radius:999px!important;font-size:10.5px!important;font-weight:900!important;padding:4px 9px!important}
+#cc-detail-tags:empty{display:none!important}
+#cc-detail-tags span{flex:0 0 auto!important;border:1px solid var(--line)!important;background:var(--card)!important;color:var(--ink)!important;border-radius:999px!important;font-size:10.5px!important;font-weight:900!important;padding:4px 9px!important}
 body[data-skin="magazine"] #cc-detail-tags span,body[data-skin="editorial"] #cc-detail-tags span{border-radius:0!important}
 #cc-detail-link{background:var(--accent)!important;color:var(--onaccent)!important;font-family:var(--fh)!important;font-weight:900!important;border-radius:var(--r-s)!important;padding:13px!important;font-size:13.5px!important;text-align:center!important}
 #cc-detail-pr{background:rgba(0,0,0,.72)!important;font-family:'Anton',sans-serif!important;font-weight:400!important;letter-spacing:.12em!important;border-radius:3px!important}
@@ -578,7 +579,6 @@ html,body{overflow-x:hidden}
             <span id="cc-detail-pr" style="position:absolute;left:14px;top:14px;background:var(--accent2);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:var(--r-xs);font-family:var(--fh)">PR</span>
           </div>
           <div style="padding:9px 13px 11px">
-            <div id="cc-detail-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px"></div>
             <div style="font-size:11px;color:var(--sub);margin-bottom:1px"><span id="cc-detail-sport"></span></div>
             <div id="cc-detail-name" style="font-size:15px;font-weight:800;margin-bottom:5px;font-family:var(--fh);line-height:1.3"></div>
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;font-size:12.5px;font-weight:700;color:var(--ink)">
@@ -589,6 +589,7 @@ html,body{overflow-x:hidden}
               <div style="display:flex;gap:8px"><span style="color:var(--sub);width:58px;flex-shrink:0">所在地</span><span id="cc-detail-area"></span></div>
               <div style="display:flex;gap:8px"><span style="color:var(--sub);width:58px;flex-shrink:0">対象年齢</span><span id="cc-detail-age"></span></div>
             </div>
+            <div id="cc-detail-tags" style="display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden;white-space:nowrap;margin-top:8px"></div>
             <div id="cc-detail-desc" style="margin-top:6px;font-size:11px;line-height:1.5;color:var(--sub);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden"></div>
             <div style="display:flex;gap:7px;margin-top:8px">
               <a id="cc-detail-link" href="club.html" style="flex:1;text-align:center;padding:7px 6px;background:var(--card);color:var(--accent);border:1.5px solid var(--accent);border-radius:var(--r-s);font-size:11.5px;font-weight:700;text-decoration:none">詳細を見る</a>
@@ -1307,6 +1308,6 @@ html,body{overflow-x:hidden}
 
 })();
 </script>
-<script src="shared.js?v=20260929"></script>
+<script src="shared.js?v=20260930"></script>
 </body>
 </html>
