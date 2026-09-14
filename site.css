@@ -307,7 +307,11 @@ body.auth-in .sh-btn.hd-in{display:block!important}
 .svc-h .c .a{font-size:12px;font-weight:900;color:var(--accent)}
 /* --- service: クラブ向け（3列×2・6マス） --- */
 .svc-g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.svc-g .c{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:0 0 15px;display:flex;flex-direction:column;overflow:hidden}
+.svc-g .c{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:0 0 15px;display:flex;flex-direction:column;overflow:hidden;color:inherit;transition:border-color .15s,box-shadow .15s,transform .15s}
+/* カードのどこを押しても飛べる（「詳しく見る」だけではない） */
+a.c:hover{border-color:var(--ink);box-shadow:0 10px 26px rgba(15,21,30,.10);transform:translateY(-2px)}
+a.c:hover .a{text-decoration:underline}
+a.c.cta:hover{border-color:var(--accent);filter:brightness(1.04)}
 .svc-g .c>img{width:100%;aspect-ratio:16/10;object-fit:cover;margin-bottom:12px}
 .svc-g .c>.n,.svc-g .c>h3,.svc-g .c>p,.svc-g .c>.a{padding-left:14px;padding-right:14px}
 .svc-g .c.cta{padding:22px 0}
