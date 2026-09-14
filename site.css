@@ -148,11 +148,15 @@ body.auth-in .sh-btn.hd-in{display:block!important}
 .hero-blk+.hero-blk{margin-top:16px}
 .hero-mini{margin-top:9px;color:rgba(255,255,255,.82);font-size:11.5px;font-weight:700;letter-spacing:.02em;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .sb-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
-.sb-tab{background:var(--card);color:var(--ink);border-radius:calc(var(--r) - 4px);padding:12px 4px;font-size:13px;font-weight:900;box-shadow:var(--shadow);cursor:pointer;transition:.15s}
+/* ヒーローの検索欄は写真の上に透かして置く（白いカードだと写真が隠れる） */
+.sb-tab{background:rgba(10,12,16,.30);color:#fff;border:1px solid rgba(255,255,255,.34);border-radius:calc(var(--r) - 4px);padding:12px 4px;font-size:13px;font-weight:900;cursor:pointer;transition:.15s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.sb-tab:hover{background:rgba(10,12,16,.42)}
 .sb-tab .ic{display:block;font-size:16px;margin-bottom:3px}
 .sb-tab:hover{transform:translateY(-2px)}
 .sb-row{display:flex;gap:8px}
-.sb-row input{flex:1;min-width:0;border:0;border-radius:calc(var(--r) - 4px);padding:15px 14px;font-size:15px;font-family:var(--f);box-shadow:var(--shadow);background:var(--card);color:var(--ink)}
+.sb-row input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.34);border-radius:calc(var(--r) - 4px);padding:15px 14px;font-size:15px;font-family:var(--f);font-weight:700;background:rgba(10,12,16,.30);color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sb-row input::placeholder{color:rgba(255,255,255,.72)}
+.sb-row input:focus{outline:none;background:rgba(10,12,16,.46);border-color:rgba(255,255,255,.5)}
 .sb-row button{border:0;border-radius:calc(var(--r) - 4px);background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:0 24px;cursor:pointer;box-shadow:var(--shadow);letter-spacing:.05em}
 .hero-hr{max-width:640px;height:1px;background:rgba(255,255,255,.34);margin:24px auto 20px}
 .hero-2nd{max-width:640px;margin:0 auto}
