@@ -311,7 +311,7 @@ sl_body='''
       <div class="ey">FOR CLUBS ・ SERVICE 01</div>
       <h1><span>クラブの</span><span><em>空気</em>ごと、</span><span>届ける。</span></h1>
       <p class="ld">検索・地図・新着・診断・アプリ通知。登録は1〜2分、写真1枚から。まず無料で載せて、もっと見てほしくなったらプランを足せます。</p>
-      <div class="cta"><a class="b1" href="#">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div>
+      <div class="cta"><a class="b1" href="register.html">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div>
       <div class="stats"><div><b data-cnt="0">0</b><small>YEN / START</small></div><div><b data-cnt="2">0</b><small>MIN TO POST</small></div><div><b data-cnt="5">0</b><small>PLACES SHOWN</small></div></div>
     </div>
     <div class="hv hv-a"><div class="card-wrap"><span class="lp-tag">NEW CLUB</span>__CARD__<span class="lp-tag2">♡ 24 ・ 体験申込 3件</span></div></div>
@@ -339,7 +339,7 @@ sl_body='''
         <a href="search-preview.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg><span><b>検索結果</b><small>地域×種目×こだわり</small></span></a>
         <a href="map-preview.html"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>地図</b><small>現在地から近い順</small></span></a>
         <a href="video-hero-preview.html"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M9 10v9"/></svg><span><b>トップの新着</b><small>公開直後に並ぶ</small></span></a>
-        <a href="#" data-quiz><svg viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1.1 1 1.6h5c.1-.5.4-1.1 1-1.6A6 6 0 0 0 12 3z"/></svg><span><b>診断の結果</b><small>合う保護者に提案</small></span></a>
+        <a href="search.html" data-quiz><svg viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1.1 1 1.6h5c.1-.5.4-1.1 1-1.6A6 6 0 0 0 12 3z"/></svg><span><b>診断の結果</b><small>合う保護者に提案</small></span></a>
         <a href="mypage-preview.html"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg><span><b>アプリ通知</b><small>条件を保存した人に届く</small></span></a>
       </div>
     </div>
@@ -428,7 +428,7 @@ sl_body='''
     <div class="pl-note">プランを使わなくても、検索・地図・新着・診断・アプリ通知への掲載は変わりません。</div>
   </section>
 
-  <section class="sec2">
+  <section class="sec2" id="service">
     <div class="ey rv">BOOST</div>
     <h2 class="rv d1">さらに広報するために、<em>つくる</em>。</h2>
     <p class="sub rv d2">掲載とプランは「見つけてもらう」ため。ここから先は「選ばれる」ための制作です。見積りは無料、金額は個別にご案内します。</p>
@@ -449,7 +449,7 @@ sl_body='''
       <div class="bo rv d2"><div class="im"><img src="assets/svc-4.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="b"><div class="n">04 ・ WEBSITE</div><h3>ホームページ制作</h3><p>クラブの公式サイトを1ページで。チビスポの掲載情報と同じ内容から作るので、二重管理になりません。</p>
         <details><summary>できること</summary><ul><li>1ページ構成（スケジュール・コーチ・料金・体験）</li><li>体験申込はチビスポのフォームにつなぐ</li><li>年1回の情報更新</li></ul></details>
-        <a class="lp-go" href="#">見本サイトを見る ›</a></div></div>
+        <a class="lp-go" href="hp-samples/">見本サイトを見る ›</a></div></div>
     </div>
   </section>
 
@@ -463,11 +463,11 @@ sl_body='''
     </div>
   </section>
 
-  <div class="svcta"><div class="big">GET LISTED</div><div class="in"><div class="ey">GET LISTED</div><h2>まず、無料で載せてみてください。</h2><p>写真1枚と紹介文があれば、今日から。迷ったら登録の前に相談もできます。</p><div class="row"><a class="b1" href="#">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div></div></div>
-  <div class="svnav"><span class="cur">01 クラブを載せる</span><a href="#">02 撮影・動画制作</a><a href="service-sns-preview.html">03 SNS運用サポート</a><a href="#">04 ホームページ制作</a><a href="service-ads-preview.html">05 地域の広告掲載</a></div>
+  <div class="svcta"><div class="big">GET LISTED</div><div class="in"><div class="ey">GET LISTED</div><h2>まず、無料で載せてみてください。</h2><p>写真1枚と紹介文があれば、今日から。迷ったら登録の前に相談もできます。</p><div class="row"><a class="b1" href="register.html">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div></div></div>
+  <div class="svnav"><span class="cur">01 クラブを載せる</span><a href="#">02 撮影・動画制作</a><a href="service-sns-preview.html">03 SNS運用サポート</a><a href="hp-samples/">04 ホームページ制作</a><a href="service-ads-preview.html">05 地域の広告掲載</a></div>
   <div style="height:40px"></div>
 </div>
-<div class="sbar" id="sbar"><div class="t">クラブを無料で載せる<small>1〜2分・写真1枚から</small></div><a class="lp-go" href="#">無料で掲載する</a></div>
+<div class="sbar" id="sbar"><div class="t">クラブを無料で載せる<small>1〜2分・写真1枚から</small></div><a class="lp-go" href="register.html">無料で掲載する</a></div>
 </main>
 '''.replace('__CARD__',hero_card)
 sl_js='''<script>

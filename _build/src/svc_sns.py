@@ -393,7 +393,7 @@ sns_body='''
     </div>
   </section>
 
-  <section class="sec2">
+  <section class="sec2" id="flow">
     <div class="ey rv">FLOW</div>
     <h2 class="rv d1">納品まで、<em>2週間</em>。</h2>
     <p class="sub rv d2">最初の3本を出すところまでが、このパックの範囲です。</p>
@@ -442,7 +442,7 @@ sns_body='''
   </section>
 
   <div class="svcta"><div class="big">SNS</div><div class="in"><div class="ey">SNS SUPPORT</div><h2>投稿を、<br>見学につなげる形に。</h2><p>¥40,000（税抜）・買い切り。型と頻度表とテンプレートを渡して、クラブ自身が回せるように。</p><div class="row"><a class="b1" href="#apply">相談する</a><a class="b2" href="#flow">回し方を見る</a></div></div></div>
-  <div class="svnav"><a href="service-listing-preview.html">01 クラブを載せる</a><a href="#">02 撮影・動画制作</a><span class="cur">03 SNS運用サポート</span><a href="#">04 ホームページ制作</a><a href="service-ads-preview.html">05 地域の広告掲載</a></div>
+  <div class="svnav"><a href="service-listing-preview.html">01 クラブを載せる</a><a href="#">02 撮影・動画制作</a><span class="cur">03 SNS運用サポート</span><a href="hp-samples/">04 ホームページ制作</a><a href="service-ads-preview.html">05 地域の広告掲載</a></div>
   <div style="height:40px"></div>
 </div>
 <div class="sbar" id="sbar"><div class="t">SNS立ち上げパック<small>¥40,000・買い切り・月額なし</small></div><a class="go" href="#apply">相談する</a></div>

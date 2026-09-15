@@ -389,7 +389,7 @@ ad_body='''
   </section>
 
   <div class="svcta"><div class="big">LOCAL AD</div><div class="in"><div class="ey">LOCAL PARTNERS</div><h2>その地域の子育て世帯に、<br>お店をまるごと届ける。</h2><p>年¥50,000（税抜）。取材・記事制作・1年間の掲載込み。まず相談だけでも。</p><div class="row"><a class="b1" href="#apply">掲載を申し込む</a><a class="b2" href="pr-sample.html" target="_blank">見本の記事を見る</a></div></div></div>
-  <div class="svnav"><a href="service-listing-preview.html">01 クラブを載せる</a><a href="#">02 撮影・動画制作</a><a href="service-sns-preview.html">03 SNS運用サポート</a><a href="#">04 ホームページ制作</a><span class="cur">05 地域の広告掲載</span></div>
+  <div class="svnav"><a href="service-listing-preview.html">01 クラブを載せる</a><a href="#">02 撮影・動画制作</a><a href="service-sns-preview.html">03 SNS運用サポート</a><a href="hp-samples/">04 ホームページ制作</a><span class="cur">05 地域の広告掲載</span></div>
   <div style="height:40px"></div>
 </div>
 <div class="sbar" id="sbar"><div class="t">地域の広告掲載<small>年¥50,000・制作費込み・2〜3営業日で連絡</small></div><a class="go" href="#apply">申し込む</a></div>
