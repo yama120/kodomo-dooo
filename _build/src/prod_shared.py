@@ -206,8 +206,16 @@ WL_API = """      ready: function () { return !!db(); },
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
           body: JSON.stringify({ email: email, topic: topic || 'video', source: source || location.pathname })
         }).then(function (r) {
-          if (r.ok || r.status === 409) return true;
-          throw new Error('waitlist ' + r.status);
+          if (!r.ok && r.status !== 409) throw new Error('waitlist ' + r.status);
+          /* 運営に知らせる。届かなくても登録は保存済み */
+          if (r.status !== 409) {
+            fetch(SB_URL + '/functions/v1/notify-inquiry', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SB_KEY },
+              body: JSON.stringify({ type: 'waitlist', topic: topic || 'video', email: email, source: source || location.pathname })
+            }).catch(function () {});
+          }
+          return true;
         });
       },
 """

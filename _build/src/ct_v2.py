@@ -183,7 +183,7 @@ ct_js=r'''<script>
  function done(d,pl,saved){
    var sum=document.getElementById('ctSum');
    var rows=[['相手',d.whoLabel],['相談したいこと',d.topic],['クラブ・会社名',d.org||'—'],['お名前',d.name],['メール',d.email],['電話',d.phone||'—'],['内容',pl.message.replace(/\n/g,' ／ ')]];
-   sum.innerHTML='<div class="st">送った内容（inquiries に保存される項目）'+(saved==='db'?' ・ 保存先：Supabase':' ・ 保存先：この端末（DBがまだ無いため）')+'</div>'+rows.map(function(r){return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'}).join('');
+   sum.innerHTML='<div class="st">送った内容</div>'+rows.map(function(r){return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'}).join('');
    document.body.classList.add('done');window.scrollTo(0,0);history.replaceState(null,'','?done=1');
  }
  document.getElementById('ctSend').addEventListener('click',function(e){
@@ -191,7 +191,11 @@ ct_js=r'''<script>
    if(err){eb.textContent=err;eb.hidden=false;return}eb.hidden=true;
    var pl=payload(d);
    fetch(SB+'/rest/v1/inquiries',{method:'POST',headers:{'apikey':ANON,'Authorization':'Bearer '+ANON,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(pl)})
-     .then(function(r){if(r.status===201){done(d,pl,'db')}else{throw new Error(r.status)}})
+     .then(function(r){if(r.status!==201)throw new Error(r.status);
+       /* 運営に知らせる。失敗しても申込は保存済みなので画面は進める */
+       fetch(SB+'/functions/v1/notify-inquiry',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON},
+         body:JSON.stringify({type:'inquiry',kind:pl.kind,who:d.who,topic:d.topic,name:pl.name,org:pl.org,email:pl.email,phone:pl.phone,message:pl.message})}).catch(function(){});
+       done(d,pl,'db')})
      .catch(function(){try{var a=JSON.parse(localStorage.getItem('chibispo_inquiries')||'[]');a.push(Object.assign({at:new Date().toISOString()},pl));localStorage.setItem('chibispo_inquiries',JSON.stringify(a))}catch(e){}done(d,pl,'local')});
  });
  if(/done=1/.test(location.search)&&!document.getElementById('ctSum').innerHTML){document.body.classList.add('done')}
