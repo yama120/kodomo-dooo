@@ -237,6 +237,21 @@
     </div>
     <div id="reportList"><div class="empty">読み込み中...</div></div>
 
+    <div class="section-title" style="margin-top:40px;">📨 お問い合わせ・お知らせ登録</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statInqNew">-</div><div class="stat-label">未対応</div></div>
+      <div class="stat-card"><div class="stat-num" id="statInqTotal">-</div><div class="stat-label">問い合わせ累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statWait">-</div><div class="stat-label">お知らせ登録</div></div>
+    </div>
+    <div class="tab-bar" id="inboxTabs">
+      <button class="tab-btn active" data-inbox-tab="new" onclick="setInboxTab('new')">未対応</button>
+      <button class="tab-btn" data-inbox-tab="doing" onclick="setInboxTab('doing')">対応中</button>
+      <button class="tab-btn" data-inbox-tab="done" onclick="setInboxTab('done')">完了</button>
+      <button class="tab-btn" data-inbox-tab="all" onclick="setInboxTab('all')">すべて</button>
+      <button class="tab-btn" data-inbox-tab="waitlist" onclick="setInboxTab('waitlist')">お知らせ登録</button>
+    </div>
+    <div id="inboxList"><div class="empty">読み込み中...</div></div>
+
     <div class="section-title" style="margin-top:40px;">📋 チーム管理</div>
 
     <div class="tab-bar" id="teamTabs">
@@ -466,6 +481,7 @@ function showDashboard() {
   loadTeams();
   loadTrialRequests();
   loadReports();
+  loadInbox();
 }
 
 let allTrialRequests = [];
@@ -486,6 +502,86 @@ const REPORT_REASON = {
   inappropriate: '不適切な内容', spam: 'スパム・宣伝',
   privacy: '個人情報', harassment: '誹謗中傷', other: 'その他'
 };
+
+/* ===== お問い合わせ（inquiries）とお知らせ登録（waitlist） ===== */
+let allInquiries = [], allWaitlist = [], currentInboxTab = 'new';
+const INQ_STATUS = { new: '未対応', doing: '対応中', done: '完了' };
+
+async function loadInbox() {
+  const box = document.getElementById('inboxList');
+  const [inq, wait] = await Promise.all([
+    db.from('inquiries').select('*').order('created_at', { ascending: false }),
+    db.from('waitlist').select('*').order('created_at', { ascending: false })
+  ]);
+  if (inq.error) {
+    box.innerHTML = '<div class="empty">お問い合わせの読み込みに失敗しました。管理者アカウントでログインしているか確認してください。</div>';
+    return;
+  }
+  allInquiries = inq.data || [];
+  allWaitlist = (wait && wait.data) || [];
+  document.getElementById('statInqNew').textContent = allInquiries.filter(r => (r.status || 'new') === 'new').length;
+  document.getElementById('statInqTotal').textContent = allInquiries.length;
+  document.getElementById('statWait').textContent = allWaitlist.length;
+  renderInboxTab();
+}
+
+function setInboxTab(tab) {
+  currentInboxTab = tab;
+  document.querySelectorAll('#inboxTabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.inboxTab === tab));
+  renderInboxTab();
+}
+
+function renderInboxTab() {
+  const box = document.getElementById('inboxList');
+  if (currentInboxTab === 'waitlist') {
+    if (!allWaitlist.length) { box.innerHTML = '<div class="empty">お知らせ登録はまだありません。</div>'; return; }
+    box.innerHTML = allWaitlist.map(w => `<div class="card" style="border-left:4px solid #d7dbe0;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#E43B4D;">${escapeHtml(w.topic || '')}</b>
+        <span>${new Date(w.created_at).toLocaleString('ja-JP')}</span>
+        ${w.source ? `<span>${escapeHtml(w.source)}</span>` : ''}
+      </div>
+      <div style="margin-top:6px;font-size:14px;font-weight:700;"><a href="mailto:${escapeHtml(w.email)}">${escapeHtml(w.email)}</a></div>
+      <div style="margin-top:10px;"><button class="btn" style="background:#8a93a0;" onclick="deleteWaitlist('${w.id}')">削除</button></div>
+    </div>`).join('');
+    return;
+  }
+  const rows = currentInboxTab === 'all' ? allInquiries : allInquiries.filter(r => (r.status || 'new') === currentInboxTab);
+  if (!rows.length) { box.innerHTML = '<div class="empty">該当するお問い合わせはありません。</div>'; return; }
+  box.innerHTML = rows.map(r => {
+    const st = r.status || 'new';
+    return `<div class="card" style="border-left:4px solid ${st === 'new' ? '#E43B4D' : '#d7dbe0'};">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#E43B4D;">${escapeHtml(r.plan || r.kind || '')}</b>
+        <span>${new Date(r.created_at).toLocaleString('ja-JP')}</span>
+        <span style="background:#f1f3f5;border-radius:4px;padding:2px 7px;font-weight:800;">${INQ_STATUS[st] || escapeHtml(st)}</span>
+      </div>
+      <div style="margin-top:6px;font-size:14px;font-weight:700;">${escapeHtml(r.org || '')}${r.org && r.name ? ' ・ ' : ''}${escapeHtml(r.name || '')}</div>
+      <div style="font-size:12.5px;color:#54606e;margin-top:2px;">
+        <a href="mailto:${escapeHtml(r.email)}">${escapeHtml(r.email)}</a>${r.phone ? ' ・ ' + escapeHtml(r.phone) : ''}
+      </div>
+      <div style="background:#f7f8fa;border-radius:8px;padding:11px 13px;margin-top:9px;font-size:13.5px;line-height:1.8;">${escapeHtml(r.message || '').replace(/\n/g, '<br>')}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
+        ${st !== 'doing' ? `<button class="btn" style="background:#2a6fdb;" onclick="setInquiryStatus('${r.id}','doing')">対応中にする</button>` : ''}
+        ${st !== 'done' ? `<button class="btn" style="background:#1f8a5b;" onclick="setInquiryStatus('${r.id}','done')">完了にする</button>` : ''}
+        ${st !== 'new' ? `<button class="btn" style="background:#8a93a0;" onclick="setInquiryStatus('${r.id}','new')">未対応に戻す</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setInquiryStatus(id, status) {
+  const { error } = await db.from('inquiries').update({ status: status }).eq('id', id);
+  if (error) { alert('更新に失敗しました'); return; }
+  await loadInbox();
+}
+
+async function deleteWaitlist(id) {
+  if (!confirm('この登録を削除します。よろしいですか？')) return;
+  const { error } = await db.from('waitlist').delete().eq('id', id);
+  if (error) { alert('削除に失敗しました'); return; }
+  await loadInbox();
+}
 
 async function loadReports() {
   const box = document.getElementById('reportList');

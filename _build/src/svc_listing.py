@@ -476,11 +476,11 @@ sl_js='''<script>
  if(/noanim=1/.test(location.search)){var st=document.createElement('style');st.textContent='*{transition:none!important;animation:none!important}.ty span,.ty em,.fan img,.pm-ntf,.lp-tag2,.lp-hero h1 span,.ty2 span{opacity:1!important;transform:none!important}.fan2>*{opacity:1!important}.fan .f1{transform:translateX(-50%) rotate(-12deg) translateX(-70px)!important}.fan .f2{transform:translateX(-50%)!important}.fan .f3{transform:translateX(-50%) rotate(12deg) translateX(70px)!important}';document.head.appendChild(st);document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app]').forEach(function(el){el.classList.add('in')});document.querySelectorAll('[data-cnt]').forEach(function(b){b.textContent=b.dataset.cnt});document.querySelectorAll('.lp-hero h1 span').forEach(function(x){x.style.opacity=1;x.style.transform='none'});return}
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
  document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app]').forEach(function(el){io.observe(el)});
- /* ヒーロー案の切替（プレビュー専用） */
+ /* ヒーロー案の切替（プレビュー専用。本番では切替UIごと消えるので、無ければ何もしない） */
  var hero=document.querySelector('.lp-hero'),hs=document.getElementById('hsw'),m=location.search.match(/hero=([abcd])/);
- function setHero(k){hero.dataset.hero=k;hs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.h===k)})}
+ function setHero(k){if(hero)hero.dataset.hero=k;if(hs)hs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.h===k)})}
  if(m)setHero(m[1]);
- hs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setHero(b.dataset.h)});
+ if(hs)hs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setHero(b.dataset.h)});
  /* 準備中：お知らせ登録（プレビューは端末内に保存） */
  /* 「お知らせを受け取る」の保存は shared.js に集約（waitlist テーブルへ） */
  /* 数字のカウント */
