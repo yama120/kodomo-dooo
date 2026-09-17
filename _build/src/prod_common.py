@@ -104,7 +104,7 @@ GA='''<!-- GA4 -->
 </script>
 '''
 def esc(s): return (s or '').replace('&','&amp;').replace('"','&quot;').replace('<','&lt;')
-def prodpage(fname,title,desc,body,css='',js='',head='',supabase=False,noindex=False,base_root=False,og_image='https://chibispo.com/assets/ogp.jpg?v=1',canonical=None,bodyclass='',scripts=()):
+def prodpage(fname,title,desc,body,css='',js='',head='',supabase=False,noindex=False,base_root=False,og_image='https://chibispo.com/assets/ogp.jpg?v=2',canonical=None,bodyclass='',scripts=()):
     url='https://chibispo.com/'+('' if fname=='index.html' else fname)
     html=('<!DOCTYPE html>\n<html lang="ja">\n<head>\n'+HEAD_COMMON+('<base href="/">\n' if base_root else '')
       +'<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(desc)+'">\n'

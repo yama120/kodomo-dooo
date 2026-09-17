@@ -1,0 +1,52 @@
+<!-- OGP（SNSのリンク画像）の元：1200x630。作り直すときは ~/kodomo-dooo-deploy で python3 -m http.server 8899 を立てて、
+     Chrome headless --window-size=1200,630 --virtual-time-budget=6000 --screenshot=ogp.png file://…/ogp.html → sips で assets/ogp.jpg に。
+     画像は本番のものを 127.0.0.1:8899 から読む。承認版：2026-09-17（3スマホ＋誌面）。 -->
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Anton&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}body{width:1200px;height:630px;overflow:hidden;background:#fff;font-family:'Zen Kaku Gothic New',sans-serif;color:#1f2430}
+.og{position:relative;width:1200px;height:630px;display:flex}
+.dk{position:relative;width:690px;height:630px;background:#101215;overflow:hidden;color:#fff}
+.dk::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 20%,rgba(255,255,255,.07),rgba(255,255,255,0) 60%)}
+.gh{position:absolute;left:-8px;top:22px;font-family:Anton,sans-serif;font-size:200px;line-height:1;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.13);white-space:nowrap}
+.tag{position:absolute;left:34px;top:34px;background:#E43B4D;color:#fff;font-family:Anton,sans-serif;font-size:15px;letter-spacing:.24em;padding:8px 14px 7px;z-index:5}
+.fan2{position:absolute;left:50%;bottom:76px;width:214px;height:416px;margin-left:-107px}
+.fan2>*{position:absolute;inset:0;width:100%;height:100%;border-radius:18px;overflow:hidden;box-shadow:0 28px 54px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.16);transform-origin:50% 115%;background:#f2f0eb}
+.fan2>img{object-fit:cover;object-position:top;display:block}
+.fan2 .g1{transform:rotate(-11deg) translateX(-150px) translateY(12px);z-index:1}
+.fan2 .g2{transform:rotate(0deg) translateY(-8px);z-index:2}
+.fan2 .g3{transform:rotate(11deg) translateX(150px) translateY(12px);z-index:3}
+.fan2 .g3 img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+.g3 .ov{position:absolute;left:0;right:0;bottom:0;padding:80px 16px 18px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.84));color:#fff}
+.g3 .k{font-family:Anton,sans-serif;font-size:10px;letter-spacing:.24em;color:#E43B4D;margin-bottom:6px}
+.g3 .h{font-size:15px;font-weight:900;line-height:1.4;margin-bottom:6px}
+.g3 .m{font-size:10.5px;font-weight:700;opacity:.85}
+.g3 .pl{position:absolute;left:12px;top:12px;background:#E43B4D;color:#fff;font-size:11px;font-weight:900;padding:4px 9px;border-radius:6px}
+.g3 .hl{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.92);color:#1f2430;font-size:11px;font-weight:900;padding:4px 9px;border-radius:999px}
+.pills2{display:flex;gap:8px;margin-top:22px}
+.pills2 span{border:1.5px solid #1f2430;color:#1f2430;font-size:13.5px;font-weight:900;padding:8px 14px;border-radius:999px}
+.pills2 span.on{background:#E43B4D;border-color:#E43B4D;color:#fff}
+.pn{position:relative;width:510px;height:630px;padding:50px 36px 46px 56px;display:flex;flex-direction:column;background:#fff}
+.ghost{position:absolute;right:-8px;top:-26px;font-family:Anton,sans-serif;font-size:132px;line-height:1;letter-spacing:-.02em;color:rgba(228,59,77,.085);white-space:nowrap}
+.ey{font-size:20px;font-weight:900;letter-spacing:.1em;color:#1f2430;display:flex;align-items:center;gap:14px;margin-bottom:24px;white-space:nowrap}
+.ey::before{content:"";width:34px;height:3px;background:#E43B4D;flex:none}
+h1{position:relative;font-size:40px;font-weight:900;line-height:1.42;white-space:nowrap;letter-spacing:-.01em;margin-bottom:20px}
+h1 em{font-style:normal;color:#E43B4D}
+p{font-size:14px;font-weight:700;line-height:1.9;color:#54606e;white-space:nowrap}
+.ft{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between}
+.ft img{height:58px;width:auto;display:block}
+.url{font-family:Anton,sans-serif;font-size:19px;letter-spacing:.08em;color:#1f2430}
+</style>
+<div class="og">
+  <div class="dk"><div class="gh">CLUB</div><span class="tag">CHIBISPO MAGAZINE</span>
+    <div class="fan2"><img class="g1" src="http://127.0.0.1:8899/assets/preview-video/svc-shot-search.png" alt=""><img class="g2" src="http://127.0.0.1:8899/assets/preview-video/svc-shot-map.png" alt="">
+      <div class="g3"><img src="http://127.0.0.1:8899/assets/preview-video/jp-soccer-shoot.jpg" alt=""><div class="ov"><div class="k">EDITORS PICK</div><div class="h">全員が勝ちに<br>こだわるチームづくり</div><div class="m">わかばFC ・ 世田谷区</div></div><span class="pl">▶ 0:30</span><span class="hl">♡ 24</span></div>
+    </div>
+  </div>
+  <div class="pn"><div class="ghost">FIND</div>
+    <div class="ey">地域スポーツを、もっと身近に。</div>
+    <h1>子供の<br><em>「やってみたい」</em>が、<br>近くにある。</h1>
+    <p>クラブの雰囲気、コーチの想い、子供達の表情まで。<br>「うちの子に合いそう」と感じられるクラブと出会えます。</p>
+    <div class="pills2"><span>掲載無料</span><span>体験申込も無料</span><span class="on">無料プランで完結</span></div>
+    <div class="ft"><img src="http://127.0.0.1:8899/assets/logo-wide.webp" alt=""><span class="url">chibispo.com</span></div>
+  </div>
+</div>
