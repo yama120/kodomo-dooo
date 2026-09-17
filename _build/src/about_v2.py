@@ -54,6 +54,21 @@ body[data-skin="stadium"] .abt-tri{background:var(--card)}
 .abt-dg .nd small{font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.2em;color:var(--accent);margin-bottom:4px}
 .abt-dg .nd.c{background:var(--accent);color:#fff;border-color:var(--accent);width:96px;height:96px;font-size:17px}
 .abt-dg .nd.c small{color:#fff;opacity:.85}
+/* 三つの輪の出現：三角形の線が描かれ、点線の輪が一周し、3つの円が順に浮かび、最後にまんなかの子どもが灯る */
+.abt-dg .tri,.abt-dg .rm{stroke-dasharray:1;stroke-dashoffset:0}
+.abt-dg.in .tri{animation:abt-draw 1.4s cubic-bezier(.4,0,.2,1) .1s both}
+.abt-dg.in .rm{animation:abt-draw 1.8s cubic-bezier(.4,0,.2,1) .35s both}
+@keyframes abt-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.abt-dg.in .nd{animation:abt-pop .6s cubic-bezier(.2,.9,.3,1.25) both}
+.abt-dg.in .nd:nth-of-type(1){animation-delay:.95s}
+.abt-dg.in .nd:nth-of-type(2){animation-delay:1.15s}
+.abt-dg.in .nd:nth-of-type(3){animation-delay:1.35s}
+.abt-dg.in .nd.c{animation-delay:1.75s}
+@keyframes abt-pop{from{opacity:0;transform:translate(-50%,-50%) scale(.55)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.abt-dg .nd.c::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--accent);opacity:0;pointer-events:none}
+.abt-dg.in .nd.c::after{animation:abt-pulse 1.5s ease-out 2.25s 2}
+@keyframes abt-pulse{0%{transform:scale(.92);opacity:.7}100%{transform:scale(1.55);opacity:0}}
+@media(prefers-reduced-motion:reduce){.abt-dg.in .tri,.abt-dg.in .rm,.abt-dg.in .nd,.abt-dg.in .nd.c::after{animation:none}}
 /* 運営者より（手紙） */
 .abt-let{padding:110px 20px}
 .abt-let .in{max-width:720px;margin:0 auto;border:1px solid var(--ink);padding:56px clamp(22px,6vw,72px) 52px;background:var(--card);position:relative}
@@ -149,7 +164,7 @@ body='''
       <p>三つの輪がゆるやかに重なる、そのまんなかに子どもがいる。それがチビスポの形です。</p>
     </div>
     <div class="abt-dg rv">
-      <svg viewBox="0 0 380 380" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><path d="M190 60 L320 300 L60 300 Z"/><circle cx="190" cy="220" r="150" stroke-dasharray="3 6"/></svg>
+      <svg viewBox="0 0 380 380" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"><defs><mask id="abt-ring-m"><circle class="rm" cx="190" cy="220" r="150" fill="none" stroke="#fff" stroke-width="6" pathLength="1" transform="rotate(-90 190 220)"/></mask></defs><path class="tri" d="M190 60 L320 300 L60 300 Z" pathLength="1"/><circle class="ring" cx="190" cy="220" r="150" stroke-dasharray="3 6" mask="url(#abt-ring-m)"/></svg>
       <div class="nd" style="left:50%;top:16%"><small>PARENTS</small>保護者</div>
       <div class="nd" style="left:16%;top:79%"><small>CLUBS</small>クラブ</div>
       <div class="nd" style="left:84%;top:79%"><small>LOCAL</small>地域の企業</div>

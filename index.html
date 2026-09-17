@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20261002">
+<link rel="stylesheet" href="site.css?v=20261003">
 <style>
 .soon-note{display:block;margin-top:4px;font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.02em}
 .sec-dark .soon-note{color:rgba(255,255,255,.6)}
@@ -36,7 +36,7 @@
 .seo .row a{cursor:pointer}
 .g-item{cursor:pointer;color:inherit}
 </style>
-<link rel="stylesheet" href="quiz.css?v=20261002">
+<link rel="stylesheet" href="quiz.css?v=20261003">
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
 <script>
@@ -180,6 +180,7 @@
       <a class="tagpill" href="search.html?doyo=1">土日に活動</a><a class="tagpill" href="search.html?heijitsu=1">平日に活動</a></div></div>
     <div class="tagrow"><div class="lb">費用・体験</div><div class="tagwrap">
       <a class="tagpill" href="search.html?fee=3">月謝3,000円以下</a><a class="tagpill" href="search.html?fee=5">月謝5,000円以下</a><a class="tagpill" href="search.html?fee=10">月謝10,000円以下</a><a class="tagpill" href="search.html?trial=1">体験OK</a></div></div>
+    <div class="tagrow" id="tp-mood-row" hidden><div class="lb">雰囲気</div><div class="tagwrap" id="tp-moods"></div></div>
   </div>
 </section>
 <section class="sec">
@@ -276,11 +277,11 @@
   </div>
   <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
 </footer>
-<script src="club-card.js?v=20261002"></script>
+<script src="club-card.js?v=20261003"></script>
 <script src="cities.js?v=20260731b"></script>
-<script src="site.js?v=20261002"></script>
-<script src="quiz.js?v=20261002"></script>
-<script src="shared.js?v=20261002"></script>
+<script src="site.js?v=20261003"></script>
+<script src="quiz.js?v=20261003"></script>
+<script src="shared.js?v=20261003"></script>
 <script>
 (function(){
   var SB='https://emkpkomrgknzrmxqbrvx.supabase.co', KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
@@ -330,6 +331,13 @@
       var names=Object.keys(sc).sort(function(a,b){ return sc[b]-sc[a]; }).slice(0,16), max=sc[names[0]]||1;
       chips.innerHTML=names.map(function(s){ var r=sc[s]/max, cls=r>.6?'xl':r>.3?'l':r>.12?'m':'s'; return '<a class="chip '+cls+'" href="search.html?sport='+encodeURIComponent(s)+'">'+esc(s)+'<small>'+sc[s]+'</small></a>'; }).join('')
         +'<a class="chip more" href="search.html">すべての種目を見る ›</a>';
+    }
+    /* 雰囲気：クラブが登録している雰囲気タグ（多い順・14個まで） */
+    var mr=document.getElementById('tp-mood-row'), ml=document.getElementById('tp-moods');
+    if(mr&&ml){
+      var mc={}; teams.forEach(function(t){ (Array.isArray(t.moods)?t.moods:[]).forEach(function(m){ if(m) mc[m]=(mc[m]||0)+1; }); });
+      var mn=Object.keys(mc).sort(function(a,b){ return (mc[b]-mc[a])||a.localeCompare(b,'ja'); }).slice(0,14);
+      if(mn.length){ ml.innerHTML=mn.map(function(m){ return '<a class="tagpill" href="search.html?mood='+encodeURIComponent(m)+'">'+esc(m)+'</a>'; }).join(''); mr.hidden=false; }
     }
     /* テーマ（写真のマーキー） */
     var th=document.getElementById('tp-themes');

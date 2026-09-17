@@ -92,6 +92,7 @@ S['feat']='''<section class="sec sec-alt">
       <a class="tagpill" href="search.html?doyo=1">土日に活動</a><a class="tagpill" href="search.html?heijitsu=1">平日に活動</a></div></div>
     <div class="tagrow"><div class="lb">費用・体験</div><div class="tagwrap">
       <a class="tagpill" href="search.html?fee=3">月謝3,000円以下</a><a class="tagpill" href="search.html?fee=5">月謝5,000円以下</a><a class="tagpill" href="search.html?fee=10">月謝10,000円以下</a><a class="tagpill" href="search.html?trial=1">体験OK</a></div></div>
+    <div class="tagrow" id="tp-mood-row" hidden><div class="lb">雰囲気</div><div class="tagwrap" id="tp-moods"></div></div>
   </div>
 </section>'''
 # ---- 地図・アプリ ----
@@ -197,6 +198,13 @@ JS=r'''<script>
       var names=Object.keys(sc).sort(function(a,b){ return sc[b]-sc[a]; }).slice(0,16), max=sc[names[0]]||1;
       chips.innerHTML=names.map(function(s){ var r=sc[s]/max, cls=r>.6?'xl':r>.3?'l':r>.12?'m':'s'; return '<a class="chip '+cls+'" href="search.html?sport='+encodeURIComponent(s)+'">'+esc(s)+'<small>'+sc[s]+'</small></a>'; }).join('')
         +'<a class="chip more" href="search.html">すべての種目を見る ›</a>';
+    }
+    /* 雰囲気：クラブが登録している雰囲気タグ（多い順・14個まで） */
+    var mr=document.getElementById('tp-mood-row'), ml=document.getElementById('tp-moods');
+    if(mr&&ml){
+      var mc={}; teams.forEach(function(t){ (Array.isArray(t.moods)?t.moods:[]).forEach(function(m){ if(m) mc[m]=(mc[m]||0)+1; }); });
+      var mn=Object.keys(mc).sort(function(a,b){ return (mc[b]-mc[a])||a.localeCompare(b,'ja'); }).slice(0,14);
+      if(mn.length){ ml.innerHTML=mn.map(function(m){ return '<a class="tagpill" href="search.html?mood='+encodeURIComponent(m)+'">'+esc(m)+'</a>'; }).join(''); mr.hidden=false; }
     }
     /* テーマ（写真のマーキー） */
     var th=document.getElementById('tp-themes');
