@@ -200,6 +200,7 @@ body[data-skin="bright"] .pl,body[data-skin="stadium"] .pl{border-radius:var(--r
 .more-b .cols span{font-size:12px;font-weight:700;line-height:1.5}
 .more-b .cols span i{font-style:normal;font-size:9px;letter-spacing:.08em;color:var(--bg);background:var(--ink);padding:1px 5px;margin-left:5px;vertical-align:1px}
 .more-b p{margin:12px 0 0;font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.8}
+.pl .tr a{text-decoration:underline;text-underline-offset:3px}
 /* さらに広報するために */
 .boost{display:grid;grid-template-columns:1fr;gap:16px}
 .bo{position:relative;border:1px solid var(--ink);background:var(--card);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
@@ -408,13 +409,13 @@ sl_body='''
     <div class="plans">
       <div class="pl rv"><div class="n">FREE</div><h3>フリー</h3><div class="pr">¥0<small>/月</small></div><div class="for">まずは載せてみたいクラブに。</div>
         <ul><li>クラブページ・検索・地図に掲載</li><li>写真1枚・コース・体験申込</li><li>保護者とメッセージ</li><li>クラブ運営アプリ（通知・返信）</li><li>スタッフ登録・情報更新は無制限</li></ul>
-        <a class="lp-go" href="#">無料で申し込む</a></div>
+        <a class="lp-go" data-plan-go href="register.html">無料で申し込む</a></div>
       <div class="pl hot rv d1"><span class="lp-pin">人気 NO.1</span><div class="n">STANDARD</div><h3>スタンダード</h3><div class="pr">¥3,000<small>/月</small></div><div class="for">募集シーズンに、見つけてもらいやすく。</div>
         <ul><li>フリーのすべて</li><li>写真を7枚まで</li><li>検索結果で上位に表示</li><li>トップの「編集部おすすめ」枠に掲載</li><li>ページの閲覧数がわかる</li><li>保護者アンケート（QR配布・自動集計）</li></ul>
-        <a class="lp-go" href="#">30日無料で試す</a><div class="tr">年額 ¥30,000（2ヶ月分お得）</div></div>
+        <a class="lp-go" data-plan-go="pr" href="register.html?plan=pr">30日無料で試す</a><div class="tr"><a data-plan-go="pr-y" href="register.html?plan=pr-y">年額 ¥30,000（2ヶ月分お得）で申し込む ›</a></div></div>
       <div class="pl rv d2"><div class="n">PRO</div><h3>プロ</h3><div class="pr">¥10,000<small>/月</small></div><div class="for">広報の効果まで見たいクラブに。</div>
         <ul><li>スタンダードのすべて</li><li>写真を15枚まで</li><li>SNS連携（Instagram・Threads）</li><li>投稿・ポスター・QRの効果をまとめて分析</li><li>どの発信から申込につながったかわかる</li><li>公式SNSで月1回紹介</li></ul>
-        <a class="lp-go" href="#">プロで申し込む</a><div class="tr" style="color:var(--sub)">年額 ¥100,000（2ヶ月分お得）</div></div>
+        <a class="lp-go" data-plan-go="pr-plus" href="register.html?plan=pr-plus">プロで申し込む</a><div class="tr" style="color:var(--sub)"><a data-plan-go="pr-plus-y" href="register.html?plan=pr-plus-y" style="color:inherit">年額 ¥100,000（2ヶ月分お得）で申し込む ›</a></div></div>
     </div>
     <table class="cmp rv">
       <tr><th>&nbsp;</th><th>FREE</th><th class="hot">STANDARD</th><th>PRO</th></tr>
@@ -485,6 +486,9 @@ sl_js='''<script>
  /* 「お知らせを受け取る」の保存は shared.js に集約（waitlist テーブルへ） */
  /* 数字のカウント */
  document.querySelectorAll('[data-cnt]').forEach(function(b){var to=+b.dataset.cnt,t0=null;function f(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/900);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)}setTimeout(function(){requestAnimationFrame(f)},400)});
+ /* ログイン中のクラブ運営者が有料プランを押したら、新規登録ではなくマイページのプラン選択へ（二重登録を防ぐ） */
+ if(window.ChibiAuth&&ChibiAuth.ready&&ChibiAuth.ready()){ ChibiAuth.getProfile().then(function(p){ if(!p||p.role!=='club') return;
+   document.querySelectorAll('[data-plan-go]').forEach(function(a){ a.href='club-mypage.html#mp-upsell'; }); }).catch(function(){}); }
  /* スマホ追従バー：ヒーローを過ぎたら */
  var sb=document.getElementById('sbar'),hero=document.querySelector('.lp-hero');
  if(sb&&hero)new IntersectionObserver(function(e){sb.classList.toggle('on',!e[0].isIntersecting&&e[0].boundingClientRect.top<0)},{threshold:0}).observe(hero);
