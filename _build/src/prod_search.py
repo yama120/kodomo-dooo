@@ -26,6 +26,23 @@ css=search_css+v2+'''
 #sr-mood-list.cl::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
 #sr-mood-more{display:block;margin:6px 0 2px;padding:0;border:0;background:transparent;font-family:inherit;font-size:12px;font-weight:800;color:var(--accent);cursor:pointer;letter-spacing:.02em}
 #sr-mood-more[hidden]{display:none}
+/* 有料プランのクラブ＝検索結果の先頭に1カラムで大きく（PR 表示は必須） */
+.sr-cards .nc-feat{grid-column:1/-1;border:2px solid var(--accent)}
+.sr-cards .nc-feat .nc-img{aspect-ratio:16/9}
+.sr-cards .nc-feat .nc-pr{background:var(--accent);font-size:11px;padding:5px 10px}
+.sr-cards .nc-feat .nc-b{padding:14px 16px 16px}
+.sr-cards .nc-feat .nc-name{font-size:19px}
+.sr-cards .nc-feat .nc-desc{font-size:12.5px;-webkit-line-clamp:3}
+@media(min-width:760px){
+  .sr-cards .nc-feat{flex-direction:row}
+  .sr-cards .nc-feat .nc-img{width:46%;flex:none;aspect-ratio:16/10}
+  .sr-cards .nc-feat .nc-b{justify-content:center;padding:22px 28px}
+  .sr-cards .nc-feat .nc-top{font-size:12px}
+  .sr-cards .nc-feat .nc-name{font-size:24px;margin-bottom:8px}
+  .sr-cards .nc-feat .nc-area{font-size:12px}
+  .sr-cards .nc-feat .nc-desc{font-size:13.5px;line-height:1.8;margin:6px 0 10px}
+  .sr-cards .nc-feat .nc-tags span{font-size:11.5px;padding:4px 10px}
+}
 .news.mag{counter-reset:c 0}
 #sr-near-label{display:flex;flex-direction:column;gap:2px;margin:0 0 14px;padding-left:12px;border-left:3px solid var(--accent)}
 #sr-near-label .t{font-family:var(--fh);font-weight:900;font-size:15px}
@@ -295,7 +312,7 @@ js=r'''<script>
       var total=curList.length, pages=Math.max(1,Math.ceil(total/PER_PAGE));
       if(curPage>pages) curPage=pages;
       var start=(curPage-1)*PER_PAGE;
-      grid.innerHTML=curList.slice(start,start+PER_PAGE).map(function(t){ return card(t); }).join('');
+      grid.innerHTML=curList.slice(start,start+PER_PAGE).map(function(t){ var h=card(t); if(curPage===1&&window.ChibiCard&&ChibiCard.isPaid(t)) h=h.replace('class="club-card nc"','class="club-card nc nc-feat"'); return h; }).join('');
       var sec=document.querySelector('.sres'); if(sec && curPage>1){ sec.scrollIntoView({behavior:'smooth',block:'start'}); }
       renderPagination(pages);
     }

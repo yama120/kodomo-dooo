@@ -5,8 +5,9 @@
 #      おすすめ枠＝search.html showRec（検索ページは全国の有料クラブ・地域ページは地域に無ければ全国）／
 #      写真上限＝club-mypage・club_prod.js（1／7／15）／分析＝Worker /api/dashboard（std は clicks・posts を返さない）／
 #      SNS連携＝Worker /auth/*/start（pro 限定）／30日無料＝スタンダード月額のみ（Stripe 設定・ユーザー確認済）
-#      実画面のスクショ（assets/plans/real-*.webp）は、検証用クラブ（城東ベースボールクラブ）を
-#      ローカルのプロキシで「スタンダード・名古屋市」として描画して撮ったもの。本番DBは触っていない。
+#      実画面のスクショ（assets/plans/pc-*.webp）は、検証用クラブ（城東 18a23e5d…）をローカルのプロキシで
+#      架空の「わかばFC ジュニア（サッカー・名古屋市・スタンダード・写真7枚）」に書き換えて描画し、PC幅1280で撮ったもの。本番DBは触っていない。
+#      検索結果の先頭1カラム大カード＝prod_search.py の .nc-feat（有料クラブを1ページ目で拡大）
 pl_css=sl_css+r'''
 /* ===== 料金ページ固有 ===== */
 .pl-hero{position:relative;background:#101215;color:#fff;overflow:hidden}
@@ -27,22 +28,22 @@ pl_css=sl_css+r'''
 .pl-hero .prices b small{font-family:var(--f);font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:0;margin-left:3px}
 .pl-hero .prices small{font-size:10.5px;letter-spacing:.22em;color:rgba(255,255,255,.6)}
 .pl-hero .prices div.hot b{color:var(--accent)}
-/* ヒーロー右：検索結果の実画面（スマホ） */
-.pl-hero .hshot{position:relative;justify-self:center;width:100%;max-width:300px;opacity:0;transform:translateY(30px);animation:up .9s .35s cubic-bezier(.2,.7,.2,1) forwards}
-.pl-hero .hshot .ph{margin:0 auto;border-bottom:0;border-radius:30px 30px 0 0}
-.pl-hero .hshot .ph img{max-height:420px;object-fit:cover;object-position:top}
-.pl-hero .hshot .tag{position:absolute;left:-6px;top:26px;background:var(--accent);color:#fff;font-size:11.5px;font-weight:900;line-height:1.5;padding:8px 12px;box-shadow:0 8px 20px rgba(0,0,0,.4);transform:rotate(-3deg);max-width:200px}
+/* ヒーロー右：検索結果の実画面（PC・ブラウザ枠） */
+.pl-hero .hshot{position:relative;width:100%;opacity:0;transform:translateY(30px);animation:up .9s .35s cubic-bezier(.2,.7,.2,1) forwards;padding-bottom:0}
+.pl-hero .hshot .win{border-radius:10px 10px 0 0;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.pl-hero .hshot .win img{max-height:400px;object-fit:cover;object-position:top}
+.pl-hero .hshot .tag{position:absolute;left:-8px;top:-14px;z-index:2;background:var(--accent);color:#fff;font-size:12px;font-weight:900;line-height:1.5;padding:8px 12px;box-shadow:0 8px 20px rgba(0,0,0,.4);transform:rotate(-2deg);max-width:260px}
 .pl-hero .hshot .tag b{display:block;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.2em;font-weight:400;opacity:.85}
-/* 実画面の見せ方 */
-.ph{width:236px;border:7px solid #1b1d21;border-radius:30px;background:#fff;overflow:hidden;box-shadow:0 26px 50px rgba(0,0,0,.35);position:relative}
-.ph img{width:100%;display:block}
-.shot{width:100%;max-width:560px;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.14);background:#fff}
-.shot img{width:100%;display:block}
+/* 実画面の見せ方：ブラウザ枠 */
+.win{width:100%;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.14)}
+.win::before{content:"";display:block;height:22px;background:#e9ebef;border-bottom:1px solid #d9dde3;background-image:radial-gradient(circle at 12px 11px,#f06a6a 4px,transparent 4.5px),radial-gradient(circle at 28px 11px,#f5c04a 4px,transparent 4.5px),radial-gradient(circle at 44px 11px,#5fca70 4px,transparent 4.5px)}
+.win img{width:100%;display:block}
+.ft.dark .win{border-color:transparent;box-shadow:0 26px 50px rgba(0,0,0,.45)}
 .vi .cap{position:absolute;left:12px;bottom:12px;background:#111;color:#fff;font-size:10.5px;font-weight:900;padding:6px 10px;box-shadow:0 8px 20px rgba(0,0,0,.25);max-width:calc(100% - 24px);line-height:1.5}
 .ft.dark .vi .cap{background:#fff;color:#111}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:520px}
-.two .ph{width:100%;border-width:5px;border-radius:22px}
-.two .lb{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--sub);margin-bottom:6px;text-align:center}
+.vi .lb{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--sub);margin:0 0 6px}
+.ft.dark .vi .lb{color:rgba(255,255,255,.6)}
+.stack{display:grid;gap:16px;width:100%}
 /* プランの頭（帯） */
 .plan-head{position:relative;border:2px solid var(--ink);background:var(--card);padding:24px 20px 22px;display:grid;gap:14px;margin-bottom:22px;overflow:hidden}
 .plan-head.hot{border-color:var(--accent);box-shadow:8px 8px 0 var(--accent)}
@@ -72,19 +73,21 @@ pl_css=sl_css+r'''
 .plan-head.pro .pts{border-top-color:rgba(255,255,255,.2)}
 .plan-head .pts li{position:relative;padding-left:18px;font-size:12.5px;font-weight:700;line-height:1.6}
 .plan-head .pts li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
-/* 機能ブロック */
+/* 機能ブロック：見出し＋本文の下に、PC画面を横いっぱいに */
 .ft-list{display:grid;gap:18px}
 .ft{border:1px solid var(--ink);background:var(--card);display:grid;grid-template-columns:1fr;overflow:hidden}
-.ft .tx{padding:22px 20px 20px;display:grid;gap:10px;align-content:start}
+.ft .tx{padding:22px 20px 18px;display:grid;gap:10px;align-content:start}
 .ft .n{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--accent)}
 .ft h3{font-family:var(--fh);margin:0;font-size:19px;font-weight:900;line-height:1.35}
 .ft p{margin:0;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9}
 .ft .pts{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:5px}
 .ft .pts li{position:relative;padding-left:18px;font-size:12.5px;font-weight:700;line-height:1.6}
 .ft .pts li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
-.ft .vi{position:relative;background:#eef0f3;padding:22px 20px 34px;display:flex;align-items:center;justify-content:center;min-height:220px}
+.ft .vi{position:relative;background:#eef0f3;padding:18px 16px 44px;display:flex;flex-direction:column;align-items:stretch;justify-content:center}
 .ft.dark .vi{background:#101215}
-.ph.tall{max-height:440px}
+.ft.dark .tx{background:#101215;color:#fff}
+.ft.dark .tx p{color:rgba(255,255,255,.72)}
+.ft.dark{border-color:#101215;background:#101215}
 /* プロの箇条 */
 .pro-extra{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
 .pro-extra div{border:1px solid var(--ink);padding:14px 16px;font-size:13px;font-weight:900;line-height:1.6;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
@@ -116,20 +119,17 @@ pl_css=sl_css+r'''
 .free-note{margin-top:18px;border:1px dashed var(--line);padding:12px 14px;font-size:12px;font-weight:700;color:var(--sub);line-height:1.8}
 .free-note a{color:var(--accent);text-decoration:underline;font-weight:900}
 @media(min-width:900px){
-  .pl-hero .in{grid-template-columns:1.1fr .9fr;padding:70px 20px 0;gap:40px}
-  .pl-hero .hshot{max-width:340px}
-  .pl-hero .hshot .ph{width:300px}
-  .pl-hero .hshot .ph img{max-height:520px}
+  .pl-hero .in{grid-template-columns:.95fr 1.15fr;padding:70px 20px 0;gap:44px}
+  .pl-hero .hshot .win img{max-height:470px}
   .plan-head{grid-template-columns:1.1fr .9fr;gap:14px 30px;padding:30px 30px 26px}
   .plan-head .pts{grid-column:1/-1;grid-template-columns:repeat(3,1fr)}
   .plan-head .cta{grid-column:1}
   .plan-head .pr-row{grid-column:2;grid-row:1/4;align-self:start;justify-self:end;flex-direction:column;align-items:flex-end;gap:12px;text-align:right}
-  .ft{grid-template-columns:1.05fr .95fr}
-  .ft:nth-child(even){grid-template-columns:.95fr 1.05fr}
-  .ft:nth-child(even) .tx{order:2}
-  .ft .tx{padding:28px 28px 26px}
-  .ft .vi{min-height:300px;padding:26px 24px 40px}
-  .ft h3{font-size:22px}
+  .ft .tx{padding:28px 30px 22px;grid-template-columns:auto 1fr;gap:6px 22px;align-items:start}
+  .ft .tx .n{grid-row:1/4;padding-top:6px}
+  .ft .tx h3{font-size:22px}
+  .ft .tx p,.ft .tx .pts{max-width:860px}
+  .ft .vi{padding:24px 30px 48px}
   .pro-extra{grid-template-columns:repeat(3,1fr)}
   .bl-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -145,7 +145,7 @@ pl_body='''
       <div class="cta"><a class="b1" data-plan-go="pr" href="register.html?plan=pr">スタンダードを30日無料で試す</a><a class="b2" href="#pro">プロを見る</a></div>
       <div class="prices"><div class="hot"><b>¥3,000<small>/月</small></b><small>STANDARD ・ 30 DAYS FREE</small></div><div><b>¥10,000<small>/月</small></b><small>PRO</small></div></div>
     </div>
-    <div class="hshot"><div class="ph"><img src="assets/plans/real-search-sp.webp" alt="名古屋市で絞った検索結果。有料クラブが1番目に表示されている" loading="eager"></div><div class="tag"><b>REAL SCREEN</b>名古屋市で絞った検索結果。<br>有料クラブが1番目に</div></div>
+    <div class="hshot"><div class="tag"><b>REAL SCREEN</b>名古屋市で絞った検索結果。<br>有料クラブが1番目に、大きく</div><div class="win"><img src="assets/plans/pc-hero-search.webp" alt="名古屋市で絞った検索結果。有料クラブが1番目に大きく表示されている" loading="eager"></div></div>
   </div>
 </section>
 <div class="wrap">
@@ -156,21 +156,21 @@ pl_body='''
       <p class="for">募集の時期に「載っているのに見られない」を減らすプランです。お支払いが確認できた時点で、すべて自動で切り替わります。設定はいりません。</p>
       <div class="cta"><a class="lp-go b1" data-plan-go="pr" href="register.html?plan=pr">30日無料で試す</a><a class="lp-go" data-plan-go="pr-y" href="register.html?plan=pr-y">年額で申し込む</a></div>
       <div class="pr-row"><div><span class="badge30">初回30日は¥0</span><b>¥3,000<small>/月</small></b><small class="u">31日目から。いつでも解約できます</small></div><div class="y"><b>¥30,000<small>/年</small></b><small class="u">2ヶ月分お得（月あたり¥2,500）</small></div></div>
-      <ul class="pts"><li>地域で絞った検索で、最初に表示</li><li>ほかの地域の検索でも「おすすめクラブ」に</li><li>トップの「編集部おすすめ」・「近くのクラブ」でも先頭</li><li>写真を7枚まで</li><li>閲覧数・申込・入会が1画面でわかる</li><li>保護者アンケート（QR配布・自動集計）</li></ul>
+      <ul class="pts"><li>地域で絞った検索で、1番目に大きく表示</li><li>ほかの地域の検索でも「おすすめクラブ」に</li><li>トップの「編集部おすすめ」・「近くのクラブ」でも先頭</li><li>写真を7枚まで</li><li>閲覧数・申込・入会が1画面でわかる</li><li>保護者アンケート（QR配布・自動集計）</li></ul>
     </div>
     <div class="ft-list">
-      <div class="ft rv"><div class="tx"><div class="n">01</div><h3>地域で絞ると、最初に出ます。</h3><p>保護者は「都道府県 → 市区町村」で絞ってクラブを探します。その一覧で、同じ地域のフリーのクラブより先に表示されます。カードには小さく「PR」が付きます。市区町村ごとのクラブ一覧ページも同じ順番です。同じプラン同士は、いつもどおり新着順です。</p></div>
-        <div class="vi"><div class="shot"><img src="assets/plans/real-search-pc.webp" alt="名古屋市で絞った検索結果（PC）。有料クラブが1番目" loading="lazy"></div><div class="cap">実際の画面：愛知県 → 名古屋市で絞った検索結果（同じ地域の9クラブ中、1番目）</div></div></div>
+      <div class="ft rv"><div class="tx"><div class="n">01</div><h3>地域で絞ると、最初に、1カラムで大きく出ます。</h3><p>保護者は「都道府県 → 市区町村」で絞ってクラブを探します。その一覧のいちばん上に、有料プランのクラブだけが横いっぱいの大きなカードで出ます。写真も紹介文も、ほかのクラブより大きく見えます。カードには「PR」が付きます。市区町村ごとのクラブ一覧ページも同じです。同じプラン同士は新着順です。</p></div>
+        <div class="vi"><div class="win"><img src="assets/plans/pc-search-top.webp" alt="名古屋市で絞った検索結果。有料クラブが1番目に横いっぱいの大きなカードで表示" loading="lazy"></div><div class="cap">実際の画面：愛知県 → 名古屋市で絞った検索結果。9クラブ中の1番目に、大きなカードで</div></div></div>
       <div class="ft rv"><div class="tx"><div class="n">02</div><h3>近くの市や、ほかの県で探している保護者にも届きます。</h3><p>検索ページの「おすすめクラブ」枠は、有料プランのクラブだけが入る枠です。地域を絞る前の保護者にも、別の市や県で検索している保護者にも表示されます。隣の市から通ってくれる子は、ここから見つかります。</p><ul class="pts"><li>検索ページ：全国の有料クラブから表示</li><li>市区町村ページ：その地域に有料クラブがなければ、ほかの地域の有料クラブを表示</li></ul></div>
-        <div class="vi"><div class="ph"><img src="assets/plans/real-other-pickup.webp" alt="東京都で検索したときの「おすすめクラブ」枠に、名古屋市のクラブが表示されている" loading="lazy"></div><div class="cap">実際の画面：東京都で検索したときの「おすすめクラブ」枠に、名古屋市のクラブが出ている</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/pc-other-pickup.webp" alt="東京都で検索したときの「おすすめクラブ」枠に、名古屋市のクラブが表示されている" loading="lazy"></div><div class="cap">実際の画面：東京都で検索したときの「おすすめクラブ」枠に、名古屋市のクラブが出ている</div></div></div>
       <div class="ft rv"><div class="tx"><div class="n">03</div><h3>トップページと、ほかのクラブのページでも先頭です。</h3><p>トップページの「編集部おすすめ」は有料プランのクラブを先に並べます。同じ地域のほかのクラブページの下にある「近くのクラブ」でも、先頭に出ます。保護者がどこから入ってきても、先に目に入る位置です。</p></div>
-        <div class="vi"><div class="two"><div><div class="lb">TOP ・ 編集部おすすめ</div><div class="ph"><img src="assets/plans/real-top-picks.webp" alt="トップページの編集部おすすめ枠で先頭に表示" loading="lazy"></div></div><div><div class="lb">CLUB ・ 近くのクラブ</div><div class="ph"><img src="assets/plans/real-near-sp.webp" alt="ほかのクラブページの「近くのクラブ」で先頭に表示" loading="lazy"></div></div></div></div></div>
+        <div class="vi"><div class="stack"><div><div class="lb">TOP ・ 編集部おすすめ</div><div class="win"><img src="assets/plans/pc-top-picks.webp" alt="トップページの編集部おすすめ枠で先頭に表示" loading="lazy"></div></div><div><div class="lb">CLUB PAGE ・ 近くのクラブ</div><div class="win"><img src="assets/plans/pc-near.webp" alt="ほかのクラブページの「近くのクラブ」で先頭に表示" loading="lazy"></div></div></div></div></div>
       <div class="ft rv"><div class="tx"><div class="n">04</div><h3>写真が7枚まで。1枚目がカバーです。</h3><p>フリーは1枚のところ、練習の様子・コーチ・保護者が見守る場所・持ち物まで、雰囲気が伝わる順に7枚。表示位置の調整・並べ替え・削除は、クラブのマイページからいつでもできます。</p></div>
-        <div class="vi"><div class="shot"><img src="assets/plans/real-club-photos.webp" alt="クラブページの写真欄。横にスクロールして7枚まで見られる" loading="lazy"></div><div class="cap">実際の画面：クラブページの「写真」欄（横にスクロールで7枚）</div></div></div>
-      <div class="ft rv dark"><div class="tx"><div class="n">05</div><h3>何回見られて、何件申し込まれたかが、1画面で。</h3><p>クラブページの閲覧数（直近30日）、体験申込、入会、会員数をひとつの画面で。電話や紙の申込も「＋記録」から10秒で足せます。目標までの逆算と6ヶ月の推移、AIの「今週の一手」も一緒に見えます。スマホで開けます。</p></div>
-        <div class="vi"><div class="ph tall"><img src="assets/plans/dash-now.webp" alt="クラブ分析「いま」タブ" loading="lazy"></div><div class="cap">クラブ分析の画面（サンプルの数字）</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/pc-club-photos.webp" alt="クラブページの写真欄。7枚まで並ぶ" loading="lazy"></div><div class="cap">実際の画面：クラブページの「写真」欄（横にスクロールで7枚）</div></div></div>
+      <div class="ft rv dark"><div class="tx"><div class="n">05</div><h3>何回見られて、何件申し込まれたかが、1画面で。</h3><p>クラブページの閲覧数（直近30日）、体験申込、入会、会員数をひとつの画面で。電話や紙の申込も「＋記録」から10秒で足せます。目標までの逆算と6ヶ月の推移、AIの「今週の一手」も一緒に見えます。スマホでも開けます。</p></div>
+        <div class="vi"><div class="win"><img src="assets/plans/dash-now-pc.webp" alt="クラブ分析「いま」タブ" loading="lazy"></div><div class="cap">クラブ分析の画面（サンプルの数字）</div></div></div>
       <div class="ft rv dark"><div class="tx"><div class="n">06</div><h3>保護者アンケートが、配るだけで集計されます。</h3><p>QRを印刷して配るだけ。どこでクラブを知ったか、満足度、友人にすすめたい度（NPS）が自動で集計され、ほかのクラブの平均と並びます。結果からAIが改善のアドバイスを出します。</p></div>
-        <div class="vi"><div class="ph tall"><img src="assets/plans/dash-survey.webp" alt="保護者アンケートの集計画面" loading="lazy"></div><div class="cap">クラブ分析「保護者アンケート」（サンプルの数字）</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/dash-survey-pc.webp" alt="保護者アンケートの集計画面" loading="lazy"></div><div class="cap">クラブ分析「保護者アンケート」（サンプルの数字）</div></div></div>
     </div>
     <div class="free-note">無料掲載でできること（クラブページ・検索と地図への掲載・体験申込の受付）は <a href="service-listing-preview.html">クラブを載せる</a> のページにまとめています。</div>
   </section>
@@ -185,11 +185,11 @@ pl_body='''
     </div>
     <div class="ft-list">
       <div class="ft rv dark"><div class="tx"><div class="n">01</div><h3>QR・計測リンクで、「どこから来たか」を数えます。</h3><p>駅前のポスター、体験会のチラシ、紹介カード。配る場所ごとにQRを発行すると、読み取られた数と、そこからの体験申込が並びます。効いている場所を増やし、効いていない場所をやめられます。</p><ul class="pts"><li>QRは分析画面から何枚でも発行</li><li>チビスポのページに来た経路（SNS・検索・直接）も自動で</li></ul></div>
-        <div class="vi"><div class="ph tall"><img src="assets/plans/dash-sources.webp" alt="どこから来ているか" loading="lazy"></div><div class="cap">集客タブ「どこから来ているか」（サンプルの数字）</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/dash-sources-pc.webp" alt="どこから来ているか" loading="lazy"></div><div class="cap">集客タブ「どこから来ているか」（サンプルの数字）</div></div></div>
       <div class="ft rv dark"><div class="tx"><div class="n">02</div><h3>SNSをつなぐと、投稿の反応が毎朝たまります。</h3><p>Instagram・Threads・YouTubeを連携すると、投稿と反応（♥・コメント・表示回数）を毎朝6時に自動で取り込みます。どのタイプの投稿が反応されているか、当たり投稿の共通点、投稿が続いているかが見えます。</p><ul class="pts"><li>投稿のタイプ分け（試合・コーチ・練習・募集）はAIが自動</li><li>週ごとの本数で「続いているか」を確認</li></ul></div>
-        <div class="vi"><div class="ph tall"><img src="assets/plans/dash-post.webp" alt="投稿タブ" loading="lazy"></div><div class="cap">投稿タブ（サンプルの数字）</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/dash-post-pc.webp" alt="投稿タブ" loading="lazy"></div><div class="cap">投稿タブ（サンプルの数字）</div></div></div>
       <div class="ft rv dark"><div class="tx"><div class="n">03</div><h3>認知から入会まで、どの段階で減っているか。</h3><p>SNSで表示された回数 → ページに来た人 → 体験申込 → 体験参加 → 入会。5段階の数字と、子ども向けスポーツクラブの目安の率を並べて、いちばん弱い段階と直し方を示します。</p></div>
-        <div class="vi"><div class="ph tall"><img src="assets/plans/dash-funnel.webp" alt="ファネル" loading="lazy"></div><div class="cap">集客タブ「ファネル」（サンプルの数字）</div></div></div>
+        <div class="vi"><div class="win"><img src="assets/plans/dash-funnel-pc.webp" alt="ファネル" loading="lazy"></div><div class="cap">集客タブ「ファネル」（サンプルの数字）</div></div></div>
     </div>
     <div class="pro-extra rv">
       <div><i>04</i><span>写真が15枚まで<small>スタンダードの7枚から、さらに8枚</small></span></div>
@@ -204,7 +204,7 @@ pl_body='''
     <table class="cmp two-col rv">
       <tr><th>&nbsp;</th><th class="hot">STANDARD</th><th>PRO</th></tr>
       <tr class="sec"><td colspan="3">見つかり方</td></tr>
-      <tr><td>地域で絞った検索での順位</td><td class="hot">上位</td><td>最上位</td></tr>
+      <tr><td>地域で絞った検索で、先頭に大きなカードで表示</td><td class="hot">✓（2番目）</td><td>✓（1番目）</td></tr>
       <tr><td>「おすすめクラブ」枠（検索ページ・市区町村ページ）</td><td class="hot">✓</td><td>✓</td></tr>
       <tr><td>トップ「編集部おすすめ」・「近くのクラブ」で先頭</td><td class="hot">✓</td><td>✓</td></tr>
       <tr><td>写真の枚数</td><td class="hot"><b>7</b></td><td><b>15</b></td></tr>
@@ -242,7 +242,7 @@ pl_body='''
     <h2 class="rv d1">有料プランについて、<em>よく聞かれること</em>。</h2>
     <div class="plfaq rv">
       <details><summary>スタンダードとプロ、どちらから始めればいいですか。</summary><div class="a">募集の時期に見てもらいたいだけなら、スタンダードで足ります。ポスターやSNSに手をかけていて「どれが効いているか」を知りたいなら、プロです。プロには無料期間がないので、まずスタンダードの30日で分析画面に慣れてから、カスタマーポータルでプロに切り替えるのもおすすめです。</div></details>
-      <details><summary>「最初に出る」は、どういう並び順ですか。</summary><div class="a">同じ検索条件の中で、プロ → スタンダード → フリーの順に並びます。同じプランの中は、これまでどおり新着順です。検索結果・市区町村ページ・おすすめクラブ枠・編集部おすすめ・近くのクラブ、すべて同じルールです。</div></details>
+      <details><summary>「最初に出る」は、どういう並び順ですか。</summary><div class="a">同じ検索条件の中で、プロ → スタンダード → フリーの順に並びます。有料プランのクラブは一覧の先頭に、横いっぱいの大きなカードで出ます。同じプランの中は、これまでどおり新着順です。検索結果・市区町村ページ・おすすめクラブ枠・編集部おすすめ・近くのクラブ、すべて同じルールです。</div></details>
       <details><summary>ほかの地域の保護者にも見えるのは、どの画面ですか。</summary><div class="a">検索ページの「おすすめクラブ」枠です。この枠は有料プランのクラブだけが入り、検索している地域に関係なく表示されます。市区町村ページの同じ枠は、その地域に有料クラブがないときに、ほかの地域の有料クラブを表示します。</div></details>
       <details><summary>有料にすると、保護者からの見え方は変わりますか。</summary><div class="a">順番が上がり、写真が増え、おすすめ枠に入ります。クラブのカードには小さく「PR」と表示されます。それ以外の見た目や、体験申込の流れは変わりません。</div></details>
       <details><summary>お支払いが終わったあと、何かする必要はありますか。</summary><div class="a">ありません。お支払いが確認できた時点で、順位・写真の枚数・分析画面が自動で切り替わります。写真を増やすときだけ、クラブのマイページから追加してください。</div></details>
