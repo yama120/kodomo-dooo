@@ -124,7 +124,7 @@ function boot(){
   setBar('読み込んでいます…','ok');
   authFetch(API+'/api/dashboard?club='+encodeURIComponent(CLUB)).then(function(r){
     if(!r){gate('ログインが切れています','クラブアカウントでログインし直してから、もう一度開いてください。',btnA('クラブログイン','/club-mypage.html',true));return;}
-    if(r.status===402){gate('分析ダッシュボードは、有料プランの機能です','スタンダードはクラブページの閲覧数、プロは広報ぜんぶの分析が見られます。',btnA('プランを見る','/listing.html#plans',true)+btnA('マイページへ','/club-mypage.html'));return;}
+    if(r.status===402){gate('クラブ分析は、プロプランの機能です','閲覧数・体験申込・入会、QRやSNSからの流入、保護者アンケートが1つの画面にまとまります。',btnA('プロプランを見る','/plans.html#pro',true)+btnA('マイページへ','/club-mypage.html'));return;}
     if(r.status===401||r.status===403){gate('このクラブの数字は表示できません','ログイン中のアカウントがこのクラブの担当者ではないか、ログインが切れています。',btnA('マイページへ','/club-mypage.html',true));return;}
     return r.json().then(function(d){
       if(!d||!d.ok){gate('読み込みに失敗しました','時間をおいて、もう一度お試しください。',btnA('マイページへ','/club-mypage.html',true));return;}

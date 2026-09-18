@@ -186,6 +186,21 @@ body[data-skin="bright"] .pl,body[data-skin="stadium"] .pl{border-radius:var(--r
 .prod a .n{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--accent)}
 .prod a small{font-weight:700;color:var(--sub);font-size:11.5px}
 .prod a i{font-style:normal;color:var(--accent)}
+/* ===== プランを詳しく見る ===== */
+.pdl{display:grid;grid-template-columns:1fr;gap:14px}
+.pd{display:flex;flex-direction:column;gap:10px;border:2px solid var(--accent);background:var(--card);padding:22px 20px 20px;color:inherit;transition:transform .2s,box-shadow .2s}
+.pd:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--accent)}
+.pd.pro{background:#101215;color:#fff;border-color:#101215}
+.pd.pro:hover{box-shadow:8px 8px 0 var(--ink)}
+.pd .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--accent)}
+.pd h3{font-family:var(--fh);margin:0;font-size:20px;font-weight:900;line-height:1.35}
+.pd ul{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:grid;gap:6px;flex:1}
+.pd.pro ul{border-top-color:rgba(255,255,255,.2)}
+.pd li{position:relative;padding-left:18px;font-size:12.5px;font-weight:700;line-height:1.6}
+.pd li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+.pd .go{margin-top:6px;font-family:var(--fh);font-weight:900;font-size:14px;color:var(--accent)}
+.pd.pro .go{color:#fff}
+@media(min-width:760px){.pdl{grid-template-columns:1fr 1fr;gap:20px}}
 /* 凡例（追従）と「すべて見る」 */
 .lp-lgw{position:relative}
 .more{margin-top:14px;border:1px solid var(--ink)}
@@ -411,10 +426,10 @@ sl_body='''
         <ul><li>クラブページ・検索・地図に掲載</li><li>写真1枚・コース・体験申込</li><li>保護者とメッセージ</li><li>クラブ運営アプリ（通知・返信）</li><li>スタッフ登録・情報更新は無制限</li></ul>
         <a class="lp-go" data-plan-go href="register.html">無料で申し込む</a></div>
       <div class="pl hot rv d1"><span class="lp-pin">人気 NO.1</span><div class="n">STANDARD</div><h3>スタンダード</h3><div class="pr">¥3,000<small>/月</small></div><div class="for">募集シーズンに、見つけてもらいやすく。</div>
-        <ul><li>フリーのすべて</li><li>写真を7枚まで</li><li>検索結果で上位に表示</li><li>トップの「編集部おすすめ」枠に掲載</li><li>ページの閲覧数がわかる</li><li>保護者アンケート（QR配布・自動集計）</li></ul>
+        <ul><li>フリーのすべて</li><li>写真を7枚まで</li><li>地域で絞った検索で、先頭に大きく表示</li><li>検索ページの「おすすめクラブ」枠に掲載</li><li>トップの「編集部おすすめ」で先頭</li></ul>
         <a class="lp-go" data-plan-go="pr" href="register.html?plan=pr">30日無料で試す</a><div class="tr"><a data-plan-go="pr-y" href="register.html?plan=pr-y">年額 ¥30,000（2ヶ月分お得）で申し込む ›</a></div></div>
       <div class="pl rv d2"><div class="n">PRO</div><h3>プロ</h3><div class="pr">¥10,000<small>/月</small></div><div class="for">広報の効果まで見たいクラブに。</div>
-        <ul><li>スタンダードのすべて</li><li>写真を15枚まで</li><li>SNS連携（Instagram・Threads）</li><li>投稿・ポスター・QRの効果をまとめて分析</li><li>どの発信から申込につながったかわかる</li><li>公式SNSで月1回紹介</li></ul>
+        <ul><li>スタンダードのすべて</li><li>写真を15枚まで</li><li>クラブ分析（閲覧数・申込・入会が1画面）</li><li>QR・SNS連携で「どこから来たか」がわかる</li><li>保護者アンケート（QR配布・自動集計）</li><li>公式SNSで月1回紹介</li></ul>
         <a class="lp-go" data-plan-go="pr-plus" href="register.html?plan=pr-plus">プロで申し込む</a><div class="tr" style="color:var(--sub)"><a data-plan-go="pr-plus-y" href="register.html?plan=pr-plus-y" style="color:inherit">年額 ¥100,000（2ヶ月分お得）で申し込む ›</a></div></div>
     </div>
     <table class="cmp rv">
@@ -422,12 +437,21 @@ sl_body='''
       <tr><td>写真の枚数</td><td><b>1</b></td><td class="hot"><b>7</b></td><td><b>15</b></td></tr>
       <tr><td>検索で上位表示</td><td class="no">—</td><td class="hot">✓</td><td>✓</td></tr>
       <tr><td>「編集部おすすめ」枠</td><td class="no">—</td><td class="hot">✓</td><td>✓</td></tr>
-      <tr><td>保護者アンケート</td><td class="no">—</td><td class="hot">✓</td><td>✓</td></tr>
+      <tr><td>保護者アンケート</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
       <tr><td>SNS連携・公式SNSで紹介</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
-      <tr><td>アクセスの分析</td><td class="no">—</td><td class="hot">閲覧数</td><td>広報ぜんぶ</td></tr>
+      <tr><td>クラブ分析（閲覧数・申込・QR・SNS）</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
     </table>
     <div class="pl-note">プランを使わなくても、検索・地図・新着・診断・アプリ通知への掲載は変わりません。</div>
-    <p class="pl-note" style="margin-top:8px"><a href="service-plans-preview.html" style="color:var(--accent);text-decoration:underline;font-weight:900">各プランで何ができるか、実際の画面つきで詳しく見る ›</a></p>
+  </section>
+
+  <section class="sec2" id="plan-detail">
+    <div class="ey rv">SEE THE SCREENS</div>
+    <h2 class="rv d1">有料プランで、<em>見え方</em>はこう変わる。</h2>
+    <p class="sub rv d2">スタンダードとプロで何が起きるかを、実際のチビスポの画面で説明するページを用意しました。</p>
+    <div class="pdl">
+      <a class="pd rv" href="service-plans-preview.html#standard"><div class="k">STANDARD ・ ¥3,000/月</div><h3>地域で探されたとき、最初に出る。</h3><ul><li>地域で絞った検索で、先頭に大きなカード</li><li>ほかの地域の検索でも「おすすめクラブ」に</li><li>写真が7枚まで</li></ul><span class="go">スタンダードを詳しく見る ›</span></a>
+      <a class="pd pro rv d1" href="service-plans-preview.html#pro"><div class="k">PRO ・ ¥10,000/月</div><h3>見られた数から、効いた広報まで見える。</h3><ul><li>閲覧数・体験申込・入会が1画面</li><li>QR・SNS連携で「どこから来たか」</li><li>保護者アンケートを配るだけで集計</li></ul><span class="go">プロを詳しく見る ›</span></a>
+    </div>
   </section>
 
   <section class="sec2" id="service">

@@ -212,6 +212,21 @@ body[data-skin="bright"] .pl,body[data-skin="stadium"] .pl{border-radius:var(--r
 .prod a .n{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--accent)}
 .prod a small{font-weight:700;color:var(--sub);font-size:11.5px}
 .prod a i{font-style:normal;color:var(--accent)}
+/* ===== プランを詳しく見る ===== */
+.pdl{display:grid;grid-template-columns:1fr;gap:14px}
+.pd{display:flex;flex-direction:column;gap:10px;border:2px solid var(--accent);background:var(--card);padding:22px 20px 20px;color:inherit;transition:transform .2s,box-shadow .2s}
+.pd:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--accent)}
+.pd.pro{background:#101215;color:#fff;border-color:#101215}
+.pd.pro:hover{box-shadow:8px 8px 0 var(--ink)}
+.pd .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--accent)}
+.pd h3{font-family:var(--fh);margin:0;font-size:20px;font-weight:900;line-height:1.35}
+.pd ul{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:grid;gap:6px;flex:1}
+.pd.pro ul{border-top-color:rgba(255,255,255,.2)}
+.pd li{position:relative;padding-left:18px;font-size:12.5px;font-weight:700;line-height:1.6}
+.pd li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+.pd .go{margin-top:6px;font-family:var(--fh);font-weight:900;font-size:14px;color:var(--accent)}
+.pd.pro .go{color:#fff}
+@media(min-width:760px){.pdl{grid-template-columns:1fr 1fr;gap:20px}}
 /* 凡例（追従）と「すべて見る」 */
 .lp-lgw{position:relative}
 .more{margin-top:14px;border:1px solid var(--ink)}
