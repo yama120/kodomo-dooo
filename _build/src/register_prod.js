@@ -8,7 +8,7 @@
   if(!window.supabase){ return; }
   var db=supabase.createClient(SB,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ');
   var q=new URLSearchParams(location.search), planKey=(q.get('plan')&&PLAN_LABEL[q.get('plan')])?q.get('plan'):'free';
-  if(planKey!=='free'){ var hs=$('rg-hero-sub'); if(hs) hs.textContent=PLAN_LABEL[planKey]+' で申し込みます。登録内容を送ったあと、そのままお支払い手続きに進みます。'+(/-y$/.test(planKey)?'':'初回30日は無料です。');
+  if(planKey!=='free'){ var hs=$('rg-hero-sub'); if(hs) hs.textContent=PLAN_LABEL[planKey]+' で申し込みます。登録内容を送ったあと、そのままお支払い手続きに進みます。'+(planKey==='pr'?'初回30日は無料です。':'');
     $('rg-submit').textContent='申請してお支払いに進む ›'; $('rg-submit-note').innerHTML=PLAN_LABEL[planKey]+' で申請します。送信後、お支払い手続きに進みます。<br>スタイル・スタッフ・写真の追加は、承認後にマイページから。'; }
   /* ---- 種目 ---- */
   var SPORTS=['サッカー','野球','バスケットボール','バレーボール','テニス','卓球','水泳','体操','ダンス','チアダンス','空手','剣道','柔道','テコンドー','レスリング','陸上','バトントワーリング','ダブルダッチ','マルチスポーツ','ブラジリアン柔術','スキー','スノーボード','サーフィン','カヌー','和太鼓','運動教室'];

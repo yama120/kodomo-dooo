@@ -21,6 +21,7 @@ const STATIC = [
   ["/magazine.html", 0.8, "weekly"],
   ["/about.html", 0.6, "monthly"],
   ["/listing.html", 0.7, "monthly"],
+  ["/plans.html", 0.7, "monthly"],
   ["/faq.html", 0.5, "monthly"],
   ["/contact.html", 0.4, "yearly"],
   ["/partner.html", 0.4, "monthly"],

@@ -271,7 +271,7 @@
         <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
       </div>
       <div class="ft-links">
-        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a>
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a>
       </div>
     </div>
   </div>
@@ -309,8 +309,11 @@
     /* 編集部おすすめ（仮）：写真と紹介文がそろっているクラブ 8 */
     var picks=document.getElementById('tp-picks');
     if(picks){
-      var pool=uniq.filter(function(t){ return (t.description||'').length>=20; }).slice(5,13);
-      if(pool.length<8) pool=uniq.slice(0,8);
+      /* 有料プラン（プロ→スタンダード）を先頭に。残りは写真と紹介文がそろっているクラブ */
+      var paid=(window.ChibiCard&&ChibiPlan)?ChibiPlan.sort(uniq.filter(ChibiCard.isPaid)):[];
+      var rest=uniq.filter(function(t){ return paid.indexOf(t)<0 && (t.description||'').length>=20; }).slice(5,13);
+      var pool=paid.concat(rest).slice(0,8);
+      if(pool.length<8) pool=pool.concat(uniq.filter(function(t){ return pool.indexOf(t)<0; })).slice(0,8);
       picks.innerHTML=pool.map(function(t){
         var days=Array.isArray(t.days)?t.days.length:0;
         var m=[t.sport, days?'週'+days:'', t.trial?'体験OK':(t.girls_welcome?'女の子歓迎':'')].filter(Boolean).join(' / ');

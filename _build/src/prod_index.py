@@ -176,8 +176,11 @@ JS=r'''<script>
     /* 編集部おすすめ（仮）：写真と紹介文がそろっているクラブ 8 */
     var picks=document.getElementById('tp-picks');
     if(picks){
-      var pool=uniq.filter(function(t){ return (t.description||'').length>=20; }).slice(5,13);
-      if(pool.length<8) pool=uniq.slice(0,8);
+      /* 有料プラン（プロ→スタンダード）を先頭に。残りは写真と紹介文がそろっているクラブ */
+      var paid=(window.ChibiCard&&ChibiPlan)?ChibiPlan.sort(uniq.filter(ChibiCard.isPaid)):[];
+      var rest=uniq.filter(function(t){ return paid.indexOf(t)<0 && (t.description||'').length>=20; }).slice(5,13);
+      var pool=paid.concat(rest).slice(0,8);
+      if(pool.length<8) pool=pool.concat(uniq.filter(function(t){ return pool.indexOf(t)<0; })).slice(0,8);
       picks.innerHTML=pool.map(function(t){
         var days=Array.isArray(t.days)?t.days.length:0;
         var m=[t.sport, days?'週'+days:'', t.trial?'体験OK':(t.girls_welcome?'女の子歓迎':'')].filter(Boolean).join(' / ');

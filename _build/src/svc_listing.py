@@ -405,7 +405,7 @@ sl_body='''
   <section class="sec2" id="plans">
     <div class="ey rv">PLANS</div>
     <h2 class="rv d1">まず無料。<em>もっと見てほしい</em>ときに、足す。</h2>
-    <p class="sub rv d2">有料プランは無料掲載への追加です。初回30日は無料で試せます。表示は税抜の目安。</p>
+    <p class="sub rv d2">有料プランは無料掲載への追加です。初回30日は無料で試せます。表示の金額がそのままお支払い額です。</p>
     <div class="plans">
       <div class="pl rv"><div class="n">FREE</div><h3>フリー</h3><div class="pr">¥0<small>/月</small></div><div class="for">まずは載せてみたいクラブに。</div>
         <ul><li>クラブページ・検索・地図に掲載</li><li>写真1枚・コース・体験申込</li><li>保護者とメッセージ</li><li>クラブ運営アプリ（通知・返信）</li><li>スタッフ登録・情報更新は無制限</li></ul>
@@ -427,6 +427,7 @@ sl_body='''
       <tr><td>アクセスの分析</td><td class="no">—</td><td class="hot">閲覧数</td><td>広報ぜんぶ</td></tr>
     </table>
     <div class="pl-note">プランを使わなくても、検索・地図・新着・診断・アプリ通知への掲載は変わりません。</div>
+    <p class="pl-note" style="margin-top:8px"><a href="service-plans-preview.html" style="color:var(--accent);text-decoration:underline;font-weight:900">各プランで何ができるか、実際の画面つきで詳しく見る ›</a></p>
   </section>
 
   <section class="sec2" id="service">

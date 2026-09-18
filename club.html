@@ -359,7 +359,7 @@ body.cd-lock{overflow:hidden}
         <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
       </div>
       <div class="ft-links">
-        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a>
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a>
       </div>
     </div>
   </div>
@@ -430,7 +430,7 @@ body.cd-lock{overflow:hidden}
 
     /* ---- ヒーロー（動画があれば動画、なければ写真） ---- */
     var photos=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
-    var limit=paid?7:1; photos=photos.slice(0,limit);
+    var limit=paid?(t.plan==='pr-plus'?15:7):1; photos=photos.slice(0,limit);
     var positions=Array.isArray(t.photo_positions)?t.photo_positions:[];
     function posOf(i){ return positions[i]||'50% 50%'; }
     var hero=el('cd-hero');

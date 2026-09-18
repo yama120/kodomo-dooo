@@ -116,7 +116,7 @@ function renderSources(){
   var ga='<div class="card"><div class="sh" style="margin-bottom:6px"><div class="l"><b style="font-size:13.5px">チビスポのページに、どこから来たか</b><span class="hint">アクセス解析（過去30日・自動）</span></div></div>'
     +(rows.length?'<div class="tb">'+rows.map(function(r){var p=Math.round(r[1]/tot*100);return '<div class="r"><span>'+esc(r[0])+'</span><div class="b"><i style="width:'+p+'%;background:#1f2430"></i></div><span class="v num">'+fmtN(r[1])+' <span class="hint">'+p+'%</span></span></div>';}).join('')+'</div>':'<div class="empty">掲載ページが見られると、ここに内訳が出ます</div>')+'</div>';
   if(!isPro()){
-    el.innerHTML=ga+'<div class="lock" style="margin-top:10px"><div class="k">PRO ・ プロプランで見えるもの</div><h3>ポスター・チラシ・SNSごとの流入</h3><p>媒体ごとにQR・計測リンクを発行すると、どの発信が何人をクラブページまで運んだかが横並びで分かります。広報の当たり外れが数字で見えます。</p><a class="btn s a" href="/listing.html#plans">プロプランを見る</a></div>';
+    el.innerHTML=ga+'<div class="lock" style="margin-top:10px"><div class="k">PRO ・ プロプランで見えるもの</div><h3>ポスター・チラシ・SNSごとの流入</h3><p>媒体ごとにQR・計測リンクを発行すると、どの発信が何人をクラブページまで運んだかが横並びで分かります。広報の当たり外れが数字で見えます。</p><a class="btn s a" href="/plans.html#pro">プロプランを見る</a></div>';
     $('#addMediaBtn').style.display='none'; return;
   }
   var chans=(D&&D.clicks&&D.clicks.channels)||[], max=Math.max.apply(null,chans.map(function(c){return c.clicks;}).concat([1]));
@@ -152,7 +152,7 @@ function advHtml(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(
 /* ============ 描画：投稿 ============ */
 function renderConn(connected){
   var el=$('#conn');
-  if(!isPro()){el.innerHTML='<div class="lock"><div class="k">PRO ・ プロプランで見えるもの</div><h3>投稿の反応が、毎日自動でたまります</h3><p>Instagram・Threadsを連携すると、どのタイプの投稿が見られているか、当たり投稿、投稿の続き具合が分かります。ポスターやチビスポのページと横並びで広報の効果を比べられます。</p><a class="btn s a" href="/listing.html#plans">プロプランを見る</a></div>';
+  if(!isPro()){el.innerHTML='<div class="lock"><div class="k">PRO ・ プロプランで見えるもの</div><h3>投稿の反応が、毎日自動でたまります</h3><p>Instagram・Threadsを連携すると、どのタイプの投稿が見られているか、当たり投稿、投稿の続き具合が分かります。ポスターやチビスポのページと横並びで広報の効果を比べられます。</p><a class="btn s a" href="/plans.html#pro">プロプランを見る</a></div>';
     ['#postWeekly','#postTypes','#topPosts','#recent'].forEach(function(s){$(s).innerHTML='';$(s).style.display='none';});$('#chSeg').innerHTML='';return;}
   connected=connected||{};
   var ps=[{k:'instagram',n:'Instagram'},{k:'threads',n:'Threads'},{k:'youtube',n:'YouTube'}];

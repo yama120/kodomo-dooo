@@ -57,7 +57,7 @@
 
     /* ---- ヒーロー（動画があれば動画、なければ写真） ---- */
     var photos=(Array.isArray(t.photos)&&t.photos.length)?t.photos.slice():(t.photo_url?[t.photo_url]:[]);
-    var limit=paid?7:1; photos=photos.slice(0,limit);
+    var limit=paid?(t.plan==='pr-plus'?15:7):1; photos=photos.slice(0,limit);
     var positions=Array.isArray(t.photo_positions)?t.photo_positions:[];
     function posOf(i){ return positions[i]||'50% 50%'; }
     var hero=el('cd-hero');
