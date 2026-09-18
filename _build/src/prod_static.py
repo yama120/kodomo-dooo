@@ -15,7 +15,7 @@ PAGES={  # プレビューの出力名 → (本番名, description, options)
  'service-listing-preview.html':('listing.html','チビスポにクラブを載せる。掲載は無料。地域・種目・こだわりの検索に載り、体験の申込みがそのまま届きます。',{}),
  'service-ads-preview.html':('service-ads.html','地域の広告掲載。整骨院・スポーツ用品店・歯科など、地域のお店を「クラブを探している最中」の保護者に届けます。年額1本。',{}),
  'service-sns-preview.html':('service-sns.html','子どものスポーツクラブに特化したSNS運用サポート。投稿の型と頻度を決めて、最初の3本を一緒に出します。買い切り・月額なし。',{}),
- 'service-plans-preview.html':('plans.html','チビスポの料金プラン。フリー¥0・スタンダード¥3,000/月・プロ¥10,000/月で何が変わるかを、実際の画面つきで説明します。掲載と体験申込の受付はどのプランでも無料。',{}),
+ 'service-plans-preview.html':('plans.html','チビスポの有料プラン。スタンダード¥3,000/月・プロ¥10,000/月で、地域で絞った検索の最初に出る・ほかの地域でもおすすめに出る・写真7〜15枚・閲覧数と申込の分析。実際の画面で説明します。',{}),
  'contact-preview.html':('contact.html','チビスポへの相談・お問い合わせ。クラブ運営者・地域のお店・保護者・取材など、相手に合わせた窓口です。',{'supabase':False}),
 }
 def maphref(html):
