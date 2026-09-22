@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20261004">
+<link rel="stylesheet" href="site.css?v=20260922b">
 <style>/* ===== クラブ詳細 v2（マガジン調・検索結果v2と同じ道具立て） ===== */
 /* クラブ名の帯（背景の英字は無し） */
 .sec.chead-sec{padding:0 0 6px;overflow:visible}
@@ -446,7 +446,16 @@ body.cd-lock{overflow:hidden}
     var stSub=el('cd-sticky-sub'); if(stSub) stSub.textContent=t.trial?('体験'+(t.trial_fee?'は'+t.trial_fee:'は無料')+'・受付中'):'見学・体験は要相談';
     setText('cd-sport',t.sport||'');
     var si=el('cd-sport-icon'); if(si&&t.sport) si.outerHTML=ChibiCard.badge(t.sport);
-    var logo=el('cd-logo'); if(logo){ if(t.logo_url) logo.innerHTML='<img src="'+esc(t.logo_url)+'" alt="" style="object-position:'+esc(t.logo_position||'50% 50%')+'">'; else logo.textContent=(t.name||'ク').charAt(0); }
+    var logo=el('cd-logo'); if(logo){
+      if(t.logo_url){ logo.className='clogo'; logo.innerHTML='<img src="'+esc(t.logo_url)+'" alt="" style="object-position:'+esc(t.logo_position||'50% 50%')+'">'; }
+      else{ /* ロゴ未設定：競技色の丸＋頭文字。法人格などの接頭辞は飛ばして団体名の1文字目を出す */
+        var nm=String(t.name||'').replace(/^(一般社団法人|一般財団法人|公益社団法人|公益財団法人|特定非営利活動法人|NPO法人|株式会社|有限会社|合同会社|認定NPO法人)/,'').replace(/^[\s\u3000（(【「『［\[]+/,'');
+        var ini=Array.from(nm)[0]||'ク';
+        var art=window.ChibiCard?ChibiCard.sportArt(t.sport):null, c=art&&art.c||'';
+        var m=/^#([0-9a-f]{6})$/i.exec(c), lum=m?(0.299*parseInt(m[1].slice(0,2),16)+0.587*parseInt(m[1].slice(2,4),16)+0.114*parseInt(m[1].slice(4,6),16))/255:0;
+        logo.className='clogo ini'+(lum>0.72?' lt':''); if(c) logo.style.setProperty('--sc',c); logo.textContent=ini;
+      }
+    }
     setText('cd-area',area);
     var mw=el('cd-map-link-wrap'), ml=el('cd-map-link'); var q=addrFull||area;
     if(mw&&ml&&q){ ml.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q); mw.hidden=false; }

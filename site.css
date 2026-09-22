@@ -440,7 +440,10 @@ footer{padding:26px 0 30px;font-size:11.5px;color:var(--sub);line-height:1.95;bo
 .chero .ph img,.chero .ph video{width:100%;height:100%;object-fit:cover}
 .chero .vbadge{position:absolute;right:10px;bottom:10px;z-index:3;background:var(--accent);color:#fff;font-size:11.5px;font-weight:900;padding:5px 10px;border-radius:5px}
 .chead{display:flex;gap:13px;align-items:flex-start;margin-top:-26px;position:relative;z-index:3;padding:0 4px}
-.clogo{width:66px;height:66px;flex:none;border-radius:50%;background:var(--card);border:3px solid var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:24px;font-weight:900;color:var(--accent);overflow:hidden}
+.clogo{width:66px;height:66px;flex:none;border-radius:50%;background:var(--card);border:3px solid var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:24px;font-weight:900;color:var(--accent);overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+/* ロゴ未設定：競技色で塗った丸に頭文字（白）。写真の上でも「白い穴」にならない */
+.clogo.ini{color:#fff;background-color:var(--sc,var(--accent));background-image:linear-gradient(150deg,rgba(255,255,255,.24),rgba(255,255,255,0) 48%,rgba(0,0,0,.16));text-shadow:0 1px 2px rgba(0,0,0,.22);line-height:1;letter-spacing:0}
+.clogo.ini.lt{color:var(--dark);text-shadow:none}
 .chead .tx{padding-top:30px;min-width:0}
 .chead h1{font-family:var(--fh);margin:0 0 5px;font-size:clamp(20px,5vw,30px);font-weight:900;line-height:1.35;letter-spacing:var(--ls)}
 .cmeta{font-size:12.5px;font-weight:700;color:var(--sub);display:flex;flex-wrap:wrap;gap:4px 12px}
