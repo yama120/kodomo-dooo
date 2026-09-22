@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=20260922b">
+<link rel="stylesheet" href="site.css?v=20260922c">
 <style>/* ===== クラブ詳細 v2（マガジン調・検索結果v2と同じ道具立て） ===== */
 /* クラブ名の帯（背景の英字は無し） */
 .sec.chead-sec{padding:0 0 6px;overflow:visible}
@@ -81,7 +81,16 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
 .cta-ask a{text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .photos .rail .card{cursor:pointer}
 .photos .rail .card-v{aspect-ratio:4/3}
-.links a{cursor:pointer}
+/* 公式リンク：クラブ名の直下に各サービスの公式色アイコン＋名前のピル */
+.clinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.clinks a{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 13px 0 6px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:12.5px;font-weight:900;color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
+.clinks a:hover{border-color:var(--ink);transform:translateY(-1px)}
+.clinks i{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;flex:none;color:#fff}
+.clinks i svg{width:14px;height:14px;display:block}
+.clinks .ig i{background:linear-gradient(45deg,#F9A030 0%,#E1306C 50%,#8A3AB9 100%)}
+.clinks .ln i{background:#06C755}
+.clinks .xx i{background:#000}
+.clinks .web i{background:var(--dark)}
 .mapb .ph{aspect-ratio:16/9;background:var(--line)}
 .mapb .ph iframe{width:100%;height:100%;border:0;display:block}
 /* 口コミ（コメント） */
@@ -170,6 +179,7 @@ body.cd-lock{overflow:hidden}
       <h1 id="cd-name">クラブ</h1>
       <div class="cmeta"><span id="cd-sport-wrap"><span id="cd-sport-icon"></span><b id="cd-sport"></b></span><span id="cd-area"></span><span id="cd-map-link-wrap" hidden><a id="cd-map-link" href="#" target="_blank" rel="noopener">地図で見る</a></span></div>
       <div class="cstats"><span class="lk" id="cd-like-top" title="お気に入り"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg><span id="cd-like-n">0</span></span><span id="cd-cmt-top"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg><span id="cd-cmt-n">0</span></span></div>
+      <div class="clinks" id="cd-links" hidden></div>
     </div>
   </div>
   <div class="epick" id="cd-epick" hidden>
@@ -251,11 +261,6 @@ body.cd-lock{overflow:hidden}
     <div class="cmt-login" id="cd-cmt-login" hidden>コメントするには <a href="login.html">ログイン / 会員登録</a></div>
     <div id="cd-cmt-list"></div>
     <div class="cmt-empty" id="cd-cmt-empty" hidden>まだコメントはありません。最初のコメントを書いてみませんか？</div>
-  </div>
-
-  <div class="blk" id="cd-links-blk" hidden>
-    <h2 data-en="LINKS">公式リンク</h2>
-    <div class="links" id="cd-links"></div>
   </div>
 
   <div class="cta2" id="cta2">
@@ -524,8 +529,21 @@ body.cd-lock{overflow:hidden}
       var em=el('cd-map-embed'); if(em){ if(qq) em.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="地図" src="https://maps.google.com/maps?q='+encodeURIComponent(qq)+'&z=15&output=embed"></iframe>'; else em.textContent='住所が登録されていません'; }
       var gm=el('cd-map-gmap'); if(gm&&qq){ gm.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(qq); gm.hidden=false; } })();
     /* ---- 公式リンク ---- */
-    (function(){ var l=[]; if(t.website_url) l.push('<a href="'+esc(t.website_url)+'" target="_blank" rel="noopener">公式サイト</a>'); if(t.instagram) l.push('<a href="https://instagram.com/'+esc(String(t.instagram).replace(/^@/,''))+'" target="_blank" rel="noopener">Instagram</a>'); if(t.line_url) l.push('<a href="'+esc(t.line_url)+'" target="_blank" rel="noopener">LINE</a>'); if(t.twitter) l.push('<a href="https://x.com/'+esc(String(t.twitter).replace(/^@/,''))+'" target="_blank" rel="noopener">X</a>');
-      if(l.length){ el('cd-links').innerHTML=l.join(''); el('cd-links-blk').hidden=false; } })();
+    (function(){
+      var IC={
+        ig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>',
+        ln:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.9 3 2.8 6.4 2.8 10.6c0 3.7 3.3 6.9 7.8 7.5.3.1.7.2.8.5.1.2.1.6 0 .9l-.1.8c0 .2-.2.9.8.5s5.2-3.1 7.1-5.3c1.3-1.4 1.9-2.9 1.9-4.9C21.2 6.4 17.1 3 12 3zM8.4 13H6.6a.5.5 0 0 1-.5-.5V8.7a.5.5 0 0 1 1 0v3.3h1.3a.5.5 0 0 1 0 1zm1.7-.5a.5.5 0 0 1-1 0V8.7a.5.5 0 0 1 1 0v3.8zm4.4 0a.5.5 0 0 1-.9.3l-1.9-2.5v2.2a.5.5 0 0 1-1 0V8.7a.5.5 0 0 1 .9-.3l1.9 2.5V8.7a.5.5 0 0 1 1 0v3.8zm3-2.4a.5.5 0 0 1 0 1h-1.3v.9h1.3a.5.5 0 0 1 0 1h-1.8a.5.5 0 0 1-.5-.5V8.7a.5.5 0 0 1 .5-.5h1.8a.5.5 0 0 1 0 1h-1.3v.9h1.3z"/></svg>',
+        xx:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+        web:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg>'
+      };
+      function a(cls,href,label){ return '<a class="'+cls+'" href="'+esc(href)+'" target="_blank" rel="noopener"><i>'+IC[cls]+'</i>'+label+'</a>'; }
+      var l=[];
+      if(t.instagram) l.push(a('ig','https://instagram.com/'+String(t.instagram).replace(/^@/,''),'Instagram'));
+      if(t.line_url)  l.push(a('ln',t.line_url,'LINE'));
+      if(t.twitter)   l.push(a('xx','https://x.com/'+String(t.twitter).replace(/^@/,''),'X'));
+      if(t.website_url) l.push(a('web',t.website_url,'公式サイト'));
+      if(l.length){ el('cd-links').innerHTML=l.join(''); el('cd-links').hidden=false; }
+    })();
     veilOff();
 
     /* ---- 近くのクラブ（同じ都道府県・同じ市区町村を優先） ---- */
