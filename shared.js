@@ -410,6 +410,12 @@
   }
   function ensureChrome() {
     var head = document.head;
+    /* chrome.css は非同期で届くので、届くまでロゴが原寸（700px）で一瞬出る。サイズだけ先に同期で当てる */
+    if (!document.getElementById('cc-logo-critical')) {
+      var c = document.createElement('style'); c.id = 'cc-logo-critical';
+      c.textContent = ':where(.site-hd .logo img){width:auto;height:44px}:where(.site-hd .logo .lg-s,.site-hd .logo-tg){display:none}@media(max-width:759px){:where(.site-hd .logo .lg-w){display:none}:where(.site-hd .logo .lg-s){display:block;height:25px}:where(.site-hd .logo-tg){display:block;font-size:8.5px;line-height:1;white-space:nowrap}}';
+      head.appendChild(c);
+    }
     if (!document.querySelector('link[href^="site.css"]') && !document.getElementById('cc-chrome-css')) {
       var l = document.createElement('link'); l.id = 'cc-chrome-css'; l.rel = 'stylesheet'; l.href = 'chrome.css?v=' + CHROME_V; head.appendChild(l);
     }
