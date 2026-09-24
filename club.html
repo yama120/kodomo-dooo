@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css?v=20260922c">
-<style>/* ===== クラブ詳細 v2（マガジン調・検索結果v2と同じ道具立て） ===== */
+<style><!-- chibispo:enrich-v1 -->/* ===== クラブ詳細 v2（マガジン調・検索結果v2と同じ道具立て） ===== */
 /* クラブ名の帯（背景の英字は無し） */
 .sec.chead-sec{padding:0 0 6px;overflow:visible}
 .chead-sec .bgw{display:none}
@@ -135,6 +135,153 @@ body .sec.pr .sec-h h2{font-size:clamp(19px,4.6vw,26px);line-height:1.3;letter-s
 .cd-modal .quick button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;color:var(--ink)}
 body.cd-lock{overflow:hidden}
 .sticky .go{cursor:pointer}
+
+/* ===== クラブ詳細の充実化（2026-09-24）：マガジン型の見出し・章・アイコン・写真・アシスト ===== */
+.ul.rec{display:block}
+html{overflow-x:clip}
+body{overflow-x:clip!important}
+.blk h2{position:relative;z-index:1;border-bottom:1px solid var(--line);padding:0 0 12px;margin:0 0 18px;font-size:clamp(20px,4.8vw,27px);line-height:1.35;letter-spacing:-.01em}
+.blk h2::after{display:none}
+.blk h2[data-en]::before{display:none}
+.blk h2 em{font-style:normal;color:var(--accent)}
+.blk .sub{display:none}
+#cd-recommend{display:none!important}
+#cd-grid-rr{grid-template-columns:1fr!important}
+.d-hd{position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.d-hd>.no,.d-hd>.d-ic{position:relative;z-index:1}
+.d-hd .no{font-family:'Anton',sans-serif;font-size:24px;line-height:1;letter-spacing:.06em;color:var(--accent)}
+.d-ic{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#fdedef;color:var(--accent);flex:none}
+.d-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.d-ic.s{width:26px;height:26px}.d-ic.s svg{width:14px;height:14px}
+.d-bgw{position:absolute;left:-4px;top:-14px;z-index:0;font-family:'Anton',sans-serif;font-size:clamp(58px,11vw,118px);line-height:.9;letter-spacing:-.01em;color:color-mix(in srgb,var(--accent) 13%,transparent);-webkit-text-stroke:1px color-mix(in srgb,var(--accent) 22%,transparent);pointer-events:none;user-select:none;white-space:nowrap}
+.d-ch.alt .d-bgw{color:color-mix(in srgb,var(--accent) 11%,transparent)}
+.d-tagline{margin:6px 0 2px;font-size:14.5px;font-weight:700;color:var(--sub);line-height:1.6}
+.d-ch{margin:30px calc(50% - 50vw) 0;padding:34px calc(50vw - 50%) 38px}
+.d-ch.alt{background:#f4f5f8}
+.d-ch>*:first-child{margin-top:0!important}
+.d-ch>*+*{margin-top:44px!important}
+.d-nav{position:sticky;top:var(--hdh,62px);z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin:18px calc(50% - 50vw) 0;padding:0 calc(50vw - 50%)}
+.d-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.d-nav li{flex:none}
+.d-nav a{display:flex;align-items:center;gap:6px;padding:12px 14px 10px;font-size:13.5px;font-weight:900;color:var(--sub);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap}
+.d-nav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.d-nav a svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.d-story{display:grid;gap:18px}
+.d-story .lead{position:relative;font-size:clamp(17px,3.8vw,22px);font-weight:900;line-height:1.7;letter-spacing:-.005em;margin:6px 0 10px;padding-top:30px}
+.d-story .lead::before{content:"\201C";position:absolute;left:0;top:0;font-family:'Anton',sans-serif;font-size:64px;line-height:.55;color:var(--accent)}
+.d-story h3{font-size:16px;font-weight:900;margin:0 0 6px;padding-left:12px;border-left:4px solid var(--accent);line-height:1.5}
+.d-story p{margin:0;font-size:15px;line-height:1.95}
+.d-pol{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.d-pol>div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:14px 12px;background:var(--card)}
+.d-pol>div>div,.d-feat>div>div{display:block;min-width:0}
+.d-pol b{display:block;font-size:15px;font-weight:900;margin:2px 0 4px;line-height:1.4}
+.d-pol span{font-size:12.5px;color:var(--sub);line-height:1.6}
+@media (max-width:640px){.d-pol{grid-template-columns:1fr}}
+.spec dt{display:flex;align-items:center;gap:6px}
+.d-chips{display:flex;flex-wrap:wrap;gap:8px}
+.d-chips>span{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px 7px 9px;font-size:13.5px;font-weight:700;line-height:1.4}
+.d-chips .d-ic.s{width:20px;height:20px;background:var(--accent);color:#fff}.d-chips .d-ic.s svg{width:11px;height:11px;stroke-width:3}
+.d-feat{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.d-feat>div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--card)}
+.d-feat>div>.d-ic{margin-top:2px}
+.d-feat b{display:block;font-size:15.5px;font-weight:900;margin-bottom:6px}
+.d-feat p{margin:0;font-size:13.5px;line-height:1.75;color:var(--sub)}
+@media (max-width:640px){.d-feat{grid-template-columns:1fr}}
+.d-ch.alt .d-chips>span,.d-ch.alt .d-pol>div,.d-ch.alt .d-feat>div{background:#fff}
+.d-igbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:-4px 0 16px}
+.d-igbar p{margin:0;font-size:14px;color:var(--sub);line-height:1.7}
+.d-igbtn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--accent);color:var(--accent);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:900;text-decoration:none;white-space:nowrap}
+.d-igbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2}
+.d-igbtn:hover{background:var(--accent);color:#fff}
+.d-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.d-tiles a{position:relative;display:block;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#eee;box-shadow:0 8px 22px rgba(0,0,0,.08)}
+.d-tiles img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.d-tiles a:hover img{transform:scale(1.03)}
+.d-tiles .ig{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.d-tiles .ig svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2}
+.d-tiles .pl{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.d-tiles .pl::before{content:"";border-left:13px solid var(--ink);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px}
+@media (max-width:640px){.d-tiles{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:64%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.d-tiles a{scroll-snap-align:start}}
+.d-h3{font-size:16px;font-weight:900;margin:26px 0 10px}
+.d-log{display:grid;gap:10px}
+.d-log a{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--card);color:inherit;text-decoration:none}
+.d-log a:hover{border-color:var(--accent)}
+.d-log time{display:flex;align-items:center;gap:6px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.08em;color:var(--accent);white-space:nowrap;padding-top:2px}
+.d-log b{display:block;font-size:15px;font-weight:900;line-height:1.45}
+.d-log p{margin:4px 0 0;font-size:13px;line-height:1.7;color:var(--sub)}
+.d-log img{width:120px;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) - 6px)}
+@media (max-width:640px){.d-log a{grid-template-columns:auto 1fr}.d-log img{grid-column:1/-1;width:100%}}
+.d-greet{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+.d-greet.nophoto{grid-template-columns:1fr}
+.d-greet img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:calc(var(--r) + 4px);box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.d-greet .who{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.d-greet .who b{font-size:19px;font-weight:900}
+.d-greet .who span{font-size:12px;font-weight:900;color:var(--accent);letter-spacing:.04em}
+.d-greet p{margin:0;font-size:15px;line-height:2}
+.d-greet .q{border-left:3px solid var(--accent);padding-left:16px}
+@media (max-width:640px){.d-greet{grid-template-columns:1fr}.d-greet img{max-width:240px;aspect-ratio:1/1}}
+.d-achph{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 18px}
+.d-achph figure{margin:0}
+.d-achph img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r);display:block;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.d-achph figcaption{font-size:12.5px;font-weight:700;line-height:1.5;margin-top:7px}
+@media (max-width:640px){.d-achph{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory}.d-achph figure{scroll-snap-align:start}}
+.d-ach{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.d-ach li{display:flex;gap:10px;align-items:baseline;font-size:14px;line-height:1.6}
+.d-ach li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);transform:translateY(-1px)}
+.d-ach li.more{display:none}
+.d-ach.open li.more{display:flex}
+.d-more{margin-top:10px;background:none;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-family:var(--fh);font-weight:900;font-size:13px;cursor:pointer;color:var(--ink)}
+.d-connect{position:relative;margin:36px calc(50% - 50vw) 0;padding:64px calc(50vw - 50%) 60px;color:#fff;background:#1a1c22 center/cover no-repeat;overflow:hidden;isolation:isolate}
+.d-connect::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,18,.55),rgba(10,12,18,.72));z-index:-1}
+.d-connect .k{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.26em;color:rgba(255,255,255,.75);margin:0 0 10px}
+.d-connect h2{font-size:clamp(24px,5.6vw,38px);font-weight:900;line-height:1.35;letter-spacing:-.01em;margin:0 0 10px;color:#fff}
+.d-connect h2 em{font-style:normal;color:#ffd166}
+.d-connect p{margin:0 0 22px;font-size:14.5px;line-height:1.9;color:rgba(255,255,255,.85);max-width:560px}
+.d-cbtns{display:flex;flex-wrap:wrap;gap:10px}
+.d-cbtns a{display:inline-flex;align-items:center;gap:9px;border:2px solid rgba(255,255,255,.85);color:#fff;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:900;text-decoration:none;backdrop-filter:blur(6px);background:rgba(255,255,255,.08)}
+.d-cbtns a.pri{background:#fff;color:var(--ink);border-color:#fff}
+.d-cbtns a svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.d-cbtns a small{font-weight:700;opacity:.8}
+.d-connect .bgword{position:absolute;right:-10px;bottom:-22px;z-index:-1;font-family:'Anton',sans-serif;font-size:clamp(90px,18vw,220px);line-height:.9;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);pointer-events:none;white-space:nowrap}
+/* チビスポアシスト：ページで一か所だけ「黄」（ロゴ4色の #FFB929） */
+#d-sup-blk{--sun:#FFB929;--sun-soft:#FFF6E3;--sun-deep:#D98A00;--ink2:#21315b;margin-top:44px}
+#d-sup-blk>h2{display:none}
+.d-sup{position:relative;border:0;border-radius:24px;padding:26px 22px 22px;background:var(--sun-soft);overflow:hidden}
+.d-sup::before{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:color-mix(in srgb,var(--sun) 28%,transparent);pointer-events:none}
+.d-sup-k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.26em;color:var(--sun-deep);margin:0 0 4px}
+.d-sup .ttl{position:relative;display:flex;gap:14px;align-items:flex-start;margin:0 0 18px}
+.d-sup .ttl .d-ic{width:46px;height:46px;background:var(--sun);color:var(--ink2)}
+.d-sup .ttl .d-ic svg{width:24px;height:24px}
+.d-sup .ttl h3{margin:0 0 4px;font-size:clamp(19px,4.4vw,24px);font-weight:900;line-height:1.35;letter-spacing:-.01em;color:var(--ink)}
+.d-sup .ttl h3 em{font-style:normal;color:var(--sun-deep)}
+.d-sup .ttl p{margin:0;font-size:13.5px;line-height:1.8;color:var(--sub)}
+.d-sup .ttl p b{color:var(--ink);font-weight:900}
+@media (max-width:640px){.d-sup .ttl{gap:10px}.d-sup .ttl .d-ic{width:38px;height:38px}.d-sup .ttl .d-ic svg{width:20px;height:20px}}
+.d-amt{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:relative}
+.d-amt button{border:2px solid #fff;background:#fff;border-radius:14px;padding:12px 4px;font-family:var(--fh);font-weight:900;font-size:16px;cursor:pointer;color:var(--ink)}
+.d-amt button small{display:block;font-size:11px;font-weight:700;color:var(--sub);margin-top:2px}
+.d-amt button.on{border-color:var(--sun-deep);background:var(--sun);color:var(--ink2)}
+.d-amt button.on small{color:var(--ink2)}
+@media (max-width:640px){.d-amt{grid-template-columns:repeat(2,1fr)}}
+.d-custom{display:flex;align-items:center;gap:8px;margin-top:10px;background:#fff;border:2px solid var(--sun);border-radius:12px;padding:6px 12px;font-weight:900;font-size:18px;color:var(--ink2)}
+.d-custom input{flex:1;border:0;font:inherit;font-size:18px;font-weight:900;outline:none;min-width:0}
+.d-sup textarea{width:100%;margin-top:12px;border:2px solid #fff;border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;resize:vertical;background:#fff}
+.d-sup input#d-sup-nm{width:100%;margin-top:8px;border:2px solid #fff;border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;background:#fff}
+.d-sup label.anon{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:8px;color:var(--sub)}
+.d-sup .go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:14px;background:var(--sun);color:var(--ink2);border:0;border-radius:14px;padding:17px;font-family:var(--fh);font-weight:900;font-size:17px;box-shadow:0 10px 24px rgba(255,185,41,.45);cursor:pointer}
+.d-sup .go .d-ic{background:var(--ink2);color:#fff}
+.d-sup .go:disabled{cursor:wait;opacity:.6}
+.d-sup .note{margin:8px 0 0;font-size:11.5px;color:var(--sub);text-align:center;min-height:1em}
+.d-sup-stat{margin-top:16px;border-top:1px dashed color-mix(in srgb,var(--sun) 50%,transparent);padding-top:14px}
+.d-sup-stat .n{font-size:14px;color:var(--sub)}
+.d-sup-stat .n b{color:var(--ink);font-size:17px;font-weight:900}
+.d-sup-stat ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.d-sup-stat li{background:#fff;border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.6;display:flex;gap:10px;align-items:baseline}
+.d-sup-stat li b{flex:none;color:var(--sun-deep);font-weight:900}
+.d-sup-stat li span{color:var(--sub)}
+.d-sup-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.d-sup .about{font-size:12px;color:var(--sub);text-decoration:underline;text-underline-offset:3px}
+.d-sup .biz{font-size:13px;font-weight:900;color:var(--sun-deep);text-decoration:none}
 </style>
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -177,6 +324,7 @@ body.cd-lock{overflow:hidden}
     <div class="clogo" id="cd-logo">ク</div>
     <div class="tx">
       <h1 id="cd-name">クラブ</h1>
+      <p class="d-tagline" id="d-tagline" hidden></p>
       <div class="cmeta"><span id="cd-sport-wrap"><span id="cd-sport-icon"></span><b id="cd-sport"></b></span><span id="cd-area"></span><span id="cd-map-link-wrap" hidden><a id="cd-map-link" href="#" target="_blank" rel="noopener">地図で見る</a></span></div>
       <div class="cstats"><span class="lk" id="cd-like-top" title="お気に入り"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg><span id="cd-like-n">0</span></span><span id="cd-cmt-top"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg><span id="cd-cmt-n">0</span></span></div>
       <div class="clinks" id="cd-links" hidden></div>
@@ -208,6 +356,13 @@ body.cd-lock{overflow:hidden}
   <div class="cta-note">申込はチビスポからそのまま送れます。クラブから直接ご連絡が届きます。</div>
   <div class="cta-ask">申し込む前に聞きたいことがあれば、<a id="cd-ask-open">クラブに質問する</a></div>
 
+<nav class="d-nav" id="d-nav" hidden><ul>
+  <li><a href="#ch-about" data-ic="flag">クラブについて</a></li>
+  <li><a href="#ch-mood" data-ic="trophy">代表・成績</a></li>
+  <li><a href="#ch-coach" data-ic="coach">コーチ・費用</a></li>
+  <li><a href="#ch-access" data-ic="pin">アクセス・口コミ</a></li>
+  <li id="d-nav-sup" hidden><a href="#d-sup-blk" data-ic="heart">チビスポアシスト</a></li>
+</ul></nav>
   <div class="pair" id="cd-grid-rr">
     <div class="blk" id="cd-recommend" hidden>
       <h2 data-en="FOR KIDS WHO">こんなお子様におすすめ</h2>
@@ -218,6 +373,37 @@ body.cd-lock{overflow:hidden}
       <h2 data-en="HIGHLIGHTS">おすすめポイント</h2>
       <ul class="ul" id="cd-points-list"></ul>
     </div>
+  </div>
+
+  <div class="blk" id="d-story-blk" hidden>
+    <h2 data-en="STORY">このクラブが<em>大事</em>にしていること</h2>
+    <div class="d-story" id="d-story"></div>
+    <div class="d-pol" id="d-pol"></div>
+  </div>
+
+  <div class="blk" id="d-greet-blk" hidden>
+    <h2 data-en="MESSAGE"><span id="d-greet-h"></span></h2>
+    <div class="d-greet" id="d-greet"></div>
+  </div>
+
+  <div class="blk" id="d-log-blk" hidden>
+    <h2 data-en="PHOTOS">写真で見る、<em>ふだん</em>の様子</h2>
+    <div class="d-igbar"><p>毎日の投稿から、練習や試合の空気が伝わってきます。</p><a class="d-igbtn" id="d-follow" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg><span id="d-follow-h"></span> を見る</a></div>
+    <div class="d-tiles" id="d-tiles"></div>
+    <h3 class="d-h3" id="d-log-h" hidden>最近のできごと</h3>
+    <div class="d-log" id="d-log"></div>
+  </div>
+
+  <div class="blk" id="d-feat-blk" hidden>
+    <h2 data-en="FEATURES">ほかのクラブとの<em>違い</em></h2>
+    <div class="d-feat" id="d-feat"></div>
+  </div>
+
+  <div class="blk" id="d-ach-blk" hidden>
+    <h2 data-en="RECORDS">これまでの<em>成績</em></h2>
+    <div class="d-achph" id="d-achph"></div>
+    <ul class="d-ach" id="d-ach"></ul>
+    <button class="d-more" id="d-more" type="button" hidden>成績をすべて見る</button>
   </div>
 
   <div class="blk" id="cd-desc-blk" hidden>
@@ -261,6 +447,35 @@ body.cd-lock{overflow:hidden}
     <div class="cmt-login" id="cd-cmt-login" hidden>コメントするには <a href="login.html">ログイン / 会員登録</a></div>
     <div id="cd-cmt-list"></div>
     <div class="cmt-empty" id="cd-cmt-empty" hidden>まだコメントはありません。最初のコメントを書いてみませんか？</div>
+  </div>
+
+  <section class="d-connect" id="d-connect" hidden>
+    <div class="bgword">FOLLOW</div>
+    <div class="k">STAY CONNECTED</div>
+    <h2><span id="d-con-name">このクラブ</span>を、<em>もっと近く</em>で</h2>
+    <p>ふだんの練習や試合の様子は、クラブの発信でいちばん伝わります。気になったら、まずフォローや公式サイトのチェックから。</p>
+    <div class="d-cbtns" id="d-cbtns"></div>
+  </section>
+
+  <div class="blk" id="d-sup-blk" hidden>
+    <h2 data-en="SUPPORT">チビスポアシスト</h2>
+    <div class="d-sup">
+      <div class="ttl"><span class="d-ic"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg></span><div><div class="d-sup-k">CHIBISPO ASSIST</div><h3><em>500円</em>から、クラブの力に。</h3><p>練習を見かけた人、卒業生の家族、近所のお店。<b id="d-sup-name">このクラブ</b>に、ワンタップでそのまま届きます。</p></div></div>
+      <div class="d-amt" id="d-amt">
+        <button type="button" data-v="500">¥500<small>ワンアシスト</small></button>
+        <button type="button" data-v="1000" class="on">¥1,000<small>ナイスアシスト</small></button>
+        <button type="button" data-v="3000">¥3,000<small>スーパーアシスト</small></button>
+        <button type="button" data-v="0">好きな金額<small>でアシスト</small></button>
+      </div>
+      <div class="d-custom" id="d-custom" hidden><span>¥</span><input id="d-custom-in" type="number" inputmode="numeric" min="100" step="100" placeholder="例：2000"></div>
+      <textarea id="d-sup-msg" rows="2" maxlength="200" placeholder="ひとこと（任意）　例：いつも公園で元気な声が聞こえてきます"></textarea>
+      <input id="d-sup-nm" type="text" maxlength="40" placeholder="表示する名前（任意。空欄なら「アシスター」）">
+      <label class="anon"><input id="d-sup-anon" type="checkbox" checked> ページに名前を表示しない</label>
+      <button class="go" id="d-sup-go" type="button"><span class="d-ic s"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg></span>この金額でアシストする</button>
+      <p class="note" id="d-sup-note"></p>
+      <div class="d-sup-stat" id="d-sup-stat" hidden><div class="n"><b id="d-sup-cnt">0</b>件のアシスト ／ 合計 <b id="d-sup-total">¥0</b></div><ul id="d-sup-list"></ul></div>
+      <div class="d-sup-foot"><a class="about" href="assist.html" target="_blank">アシストのしくみ</a><a class="biz" id="d-sup-biz" href="sponsor.html">お店・企業のスポンサーになる →</a></div>
+    </div>
   </div>
 
   <div class="cta2" id="cta2">
@@ -378,6 +593,142 @@ body.cd-lock{overflow:hidden}
 <script>
 (function(){
   var id=new URLSearchParams(location.search).get('id');
+  /* ===== クラブ詳細の充実化（2026-09-24）：teams の新しい列を描く ===== */
+  var API_BASE='https://api.chibispo.com';
+  var ICO={
+    flag:'<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
+    star:'<path d="M12 3l2.4 5.6 6 .6-4.5 4 1.4 5.9L12 16l-5.3 3.1 1.4-5.9-4.5-4 6-.6z"/>',
+    spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+    chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+    camera:'<path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+    calendar:'<rect x="4" y="6" width="16" height="14" rx="3"/><path d="M4 11h16M8 3v4M16 3v4"/>',
+    trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',
+    coach:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/>',
+    yen:'<path d="M7 4l5 7 5-7M12 11v9M8 14h8M8 17h8"/>',
+    pin:'<path d="M12 21s6-6.5 6-11a6 6 0 0 0-12 0c0 4.5 6 11 6 11z"/><circle cx="12" cy="10" r="2.2"/>',
+    comments:'<path d="M3 5h13v9H8l-5 3z"/><path d="M16 9h5v9l-3-2h-6v-3"/>',
+    heart:'<path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 2.5C19 15.6 12 20 12 20z"/>',
+    check:'<path d="M5 12l4 4 10-10"/>',
+    kid:'<circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9 14.5c1.5 1.4 4.5 1.4 6 0"/>',
+    ticket:'<path d="M4 8a2 2 0 0 0 2-2h12a2 2 0 0 0 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 0-2 2H6a2 2 0 0 0-2-2v-3a2 2 0 0 0 0-4z"/><path d="M12 8v8"/>',
+    users:'<circle cx="9" cy="9" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-5-6.3"/>',
+    ig:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>'
+  };
+  function ico(n,small){ return '<span class="d-ic'+(small?' s':'')+'"><svg viewBox="0 0 24 24">'+(ICO[n]||ICO.spark)+'</svg></span>'; }
+  function renderExtra(t){
+    function E(x){ return document.getElementById(x); }
+    function es(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+    function arr(v){ return Array.isArray(v)?v.filter(Boolean):[]; }
+    function yen(n){ return '¥'+Number(n).toLocaleString('ja-JP'); }
+    /* ひとこと */
+    if(t.tagline){ E('d-tagline').textContent=t.tagline; E('d-tagline').hidden=false; }
+    /* ストーリー（[{heading,body}]・最初はリード）＋方針。あれば旧「クラブからの紹介文」は隠す */
+    var st=arr(t.story);
+    if(st.length){
+      E('d-story').innerHTML=st.map(function(b,i){ return (i===0&&!b.heading)?'<p class="lead">'+es(b.body)+'</p>':'<div>'+(b.heading?'<h3>'+es(b.heading)+'</h3>':'')+'<p>'+es(b.body)+'</p></div>'; }).join('');
+      var pol=arr(t.story_policies); E('d-pol').innerHTML=pol.map(function(p){ return '<div>'+ico('check')+'<div><b>'+es(p.title)+'</b><span>'+es(p.body)+'</span></div></div>'; }).join('');
+      E('d-story-blk').hidden=false; var od=E('cd-desc-blk'); if(od) od.hidden=true;
+    }
+    /* おすすめポイント → チップ。「こんなお子様に」はポイントと重複するので出さない */
+    (function(){ var ul=E('cd-points-list'); var items=[].map.call(ul?ul.querySelectorAll('li'):[],function(li){ return li.textContent; }); if(!items.length) return;
+      var d=document.createElement('div'); d.className='d-chips'; d.innerHTML=items.map(function(x){ return '<span>'+ico('check',true)+es(x)+'</span>'; }).join(''); ul.replaceWith(d); })();
+    /* 代表挨拶 */
+    var G=t.greeting&&typeof t.greeting==='object'?t.greeting:null;
+    if(G&&G.body){
+      E('d-greet-h').textContent=G.title||'代表からのメッセージ';
+      var gp=G.photo_url||''; E('d-greet').className='d-greet'+(gp?'':' nophoto');
+      E('d-greet').innerHTML=(gp?'<img src="'+es(gp)+'" alt="'+es(G.name||'代表')+'" loading="lazy">':'')+'<div>'+((G.name||G.role)?'<div class="who"><b>'+es(G.name||'')+'</b><span>'+es(G.role||'')+'</span></div>':'')+'<p class="q">'+es(G.body)+'</p></div>';
+      E('d-greet-blk').hidden=false;
+    }
+    /* 写真（Instagram の投稿リンクからクラブが登録）＋最近のできごと */
+    var handle=String(t.instagram||'').replace(/^@/,''); var prof=handle?'https://www.instagram.com/'+encodeURIComponent(handle)+'/':'';
+    var igs=arr(t.ig_photos).filter(function(p){ return p&&p.thumb; }).slice(0,6);
+    var log=arr(t.practice_log).slice().sort(function(a,b){ return String(b.date).localeCompare(String(a.date)); }).slice(0,3);
+    if(igs.length||log.length){
+      if(handle){ E('d-follow').href=prof; E('d-follow-h').textContent='@'+handle; E('d-follow').hidden=false; }
+      E('d-tiles').innerHTML=igs.map(function(p){ return '<a href="'+es(p.url||prof||'#')+'" target="_blank" rel="noopener"><img src="'+es(p.thumb)+'" alt="'+es(t.name+'のInstagram投稿')+'" loading="lazy">'+(p.kind==='reel'?'<span class="pl"></span>':'')+'<span class="ig"><svg viewBox="0 0 24 24">'+ICO.ig+'</svg></span></a>'; }).join('');
+      if(log.length){ E('d-log-h').hidden=false; E('d-log').innerHTML=log.map(function(p){ return '<a href="'+es(p.url||'#')+'" target="_blank" rel="noopener"><time>'+ico('calendar',true)+es(String(p.date||'').replace(/-/g,'.'))+'</time><div><b>'+es(p.title)+'</b><p>'+es(p.body)+'</p></div>'+(p.image?'<img src="'+es(p.image)+'" alt="" loading="lazy">':'')+'</a>'; }).join(''); }
+      E('d-log-blk').hidden=false;
+    }
+    /* 違い・成績 */
+    var ft=arr(t.features); if(ft.length){ E('d-feat').innerHTML=ft.map(function(f){ return '<div>'+ico('spark')+'<div><b>'+es(f.title)+'</b><p>'+es(f.body)+'</p></div></div>'; }).join(''); E('d-feat-blk').hidden=false; }
+    var AP=arr(t.achievement_photos).filter(function(a){ return a&&a.photo_url; }); var ach=arr(t.achievements);
+    if(AP.length) E('d-achph').innerHTML=AP.map(function(a){ return '<figure><img src="'+es(a.photo_url)+'" alt="'+es(a.caption)+'" loading="lazy"><figcaption>'+es(a.caption)+'</figcaption></figure>'; }).join('');
+    if(ach.length||AP.length){ E('d-ach').innerHTML=ach.map(function(a,i){ return '<li'+(i>=3?' class="more"':'')+'>'+es(a)+'</li>'; }).join(''); E('d-ach-blk').hidden=false;
+      if(ach.length>3){ var mb=E('d-more'); mb.hidden=false; mb.onclick=function(){ E('d-ach').classList.add('open'); mb.hidden=true; }; } }
+    /* 章に分けて背景を交互に。ナビは見ている章を追う */
+    var wrap=E('d-story-blk').parentNode;
+    function ch(id,alt,ids){ var sec=document.createElement('section'); sec.className='d-ch'+(alt?' alt':''); sec.id=id; ids.forEach(function(x){ var e=E(x); if(e) sec.appendChild(e); }); return sec; }
+    var anchor=E('cd-desc-blk');
+    var secs=[ch('ch-about',false,['d-story-blk','d-log-blk','cd-grid-rr','d-feat-blk','cd-desc-blk']), ch('ch-mood',true,['d-greet-blk','d-ach-blk']), ch('ch-coach',false,['cd-staff','cd-course','cd-fees']), ch('ch-access',true,['cd-map','cd-comments'])];
+    var nav=E('d-nav'); var ref=E('d-connect'); secs.forEach(function(sec){ wrap.insertBefore(sec,ref); });
+    secs.forEach(function(sec){ if(![].some.call(sec.children,function(c){ return !c.hidden; })) sec.hidden=true; });
+    [].forEach.call(nav.querySelectorAll('li'),function(li){ var a=li.querySelector('a'); var tgt=a&&document.querySelector(a.getAttribute('href')); if(tgt&&tgt.classList.contains('d-ch')&&tgt.hidden) li.hidden=true; });
+    var hd=document.querySelector('header.site-hd'); if(hd) document.documentElement.style.setProperty('--hdh',hd.offsetHeight+'px');
+    nav.hidden=false; var as=nav.querySelectorAll('a');
+    var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ [].forEach.call(as,function(a){ a.classList.toggle('on',a.getAttribute('href')==='#'+x.target.id); }); } }); },{rootMargin:'-40% 0px -55% 0px'});
+    secs.forEach(function(sec){ io.observe(sec); }); io.observe(E('d-sup-blk'));
+    [].forEach.call(as,function(a){ a.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24">'+ICO[a.dataset.ic]+'</svg>'); });
+    nav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; e.preventDefault(); var tgt=document.querySelector(a.getAttribute('href')); if(!tgt) return; var top=tgt.getBoundingClientRect().top+scrollY-(hd?hd.offsetHeight:0)-48; scrollTo({top:top,behavior:'smooth'}); });
+    /* 基本情報タイルのアイコン */
+    var SPEC={'月謝':'yen','入会金':'ticket','活動曜日':'calendar','対象年齢':'kid','体験':'flag','在籍':'users'};
+    [].forEach.call(document.querySelectorAll('#cd-spec dt'),function(dt){ var k=dt.textContent.trim(); if(SPEC[k]) dt.innerHTML=ico(SPEC[k],true)+es(k); });
+    /* 見出し：マガジン記事の「01 02…」番号＋背景の英字＋アイコン */
+    var HEAD={'d-story-blk':['flag',null],'d-log-blk':['camera',null],'cd-points':['star','おすすめ<em>ポイント</em>'],'d-feat-blk':['spark',null],'cd-desc-blk':['chat','クラブからの<em>紹介文</em>'],'d-greet-blk':['chat',null],'d-ach-blk':['trophy',null],'cd-staff':['coach','コーチ・<em>スタッフ</em>'],'cd-course':['clock','<em>コース</em>'],'cd-fees':['yen','費用の<em>内訳</em>'],'cd-map':['pin','地図・<em>アクセス</em>'],'cd-comments':['comments','口コミ・<em>コメント</em>']};
+    var BGW={'d-log-blk':'PHOTOS','cd-points':'POINTS','d-greet-blk':'MESSAGE','cd-desc-blk':'ABOUT'};
+    var n=0;
+    [].forEach.call(document.querySelectorAll('.d-ch .blk'),function(b){ if(b.hidden||!HEAD[b.id]) return; var h=b.querySelector('h2'); if(!h) return; n++;
+      if(HEAD[b.id][1]){ var keep=h.querySelector('.pr-lb'); h.innerHTML=HEAD[b.id][1]; if(keep) h.appendChild(keep); }
+      var word=BGW[b.id]||h.getAttribute('data-en')||'';
+      var hdv=document.createElement('div'); hdv.className='d-hd'; hdv.innerHTML=(word?'<span class="d-bgw" aria-hidden="true">'+es(word)+'</span>':'')+'<span class="no">'+('0'+n).slice(-2)+'</span>'+ico(HEAD[b.id][0]); h.parentNode.insertBefore(hdv,h); });
+    /* もっと近くで：写真背景（成績の写真→Instagram→ヒーロー）＋ フォロー・公式サイト・LINE・X */
+    (function(){
+      var con=E('d-connect');
+      var bg=(AP[0]&&AP[0].photo_url)||(igs[0]&&igs[0].thumb)||t.photo_url||'';
+      if(bg) con.style.backgroundImage='url("'+bg.replace(/["()]/g,'')+'")';
+      E('d-con-name').textContent=t.name||'このクラブ';
+      var web='<path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/><circle cx="12" cy="12" r="9"/>', ln='<path d="M4 11c0-3.9 3.6-7 8-7s8 3.1 8 7-3.6 7-8 7c-.6 0-1.2-.1-1.8-.2L7 20l.6-3.2C5.4 15.6 4 13.4 4 11z"/>', xx='<path d="M4 4l16 16M20 4L4 20"/>';
+      var btns=[];
+      if(handle) btns.push('<a class="pri" href="'+es(prof)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ICO.ig+'</svg>Instagramをフォロー <small>@'+es(handle)+'</small></a>');
+      if(t.website_url) btns.push('<a href="'+es(t.website_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+web+'</svg>公式サイトを見る</a>');
+      if(t.line_url) btns.push('<a href="'+es(t.line_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ln+'</svg>LINEで相談する</a>');
+      if(t.twitter) btns.push('<a href="https://x.com/'+es(String(t.twitter).replace(/^@/,''))+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+xx+'</svg>Xをフォロー</a>');
+      if(btns.length){ E('d-cbtns').innerHTML=btns.join(''); con.hidden=false; }
+    })();
+    /* チビスポアシスト：受け取り口座が有効なクラブにだけ出す */
+    (function(){
+      E('d-sup-name').textContent=t.name||'このクラブ';
+      E('d-sup-biz').href='sponsor.html?club='+encodeURIComponent(t.id);
+      var amount=1000;
+      E('d-amt').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(this.children,function(c){ c.classList.toggle('on',c===b); }); var v=+b.dataset.v; E('d-custom').hidden=!!v; if(v) amount=v; else { E('d-custom-in').focus(); amount=Math.round(+E('d-custom-in').value||0); } });
+      E('d-custom-in').addEventListener('input',function(){ amount=Math.round(+this.value||0); });
+      function loadStat(){
+        return fetch(API_BASE+'/api/assist/list?club='+encodeURIComponent(t.id)).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+          if(!j||!j.open) return false;
+          E('d-sup-blk').hidden=false; E('d-nav-sup').hidden=false;
+          if(j.count){ E('d-sup-cnt').textContent=j.count; E('d-sup-total').textContent=yen(j.total);
+            E('d-sup-list').innerHTML=j.items.map(function(x){ return '<li><b>'+yen(x.amount)+'</b><div>'+es(x.name||'アシスター')+(x.kind==='sponsor'?'（お店・企業）':'')+(x.message?'<br><span>'+es(x.message)+'</span>':'')+'</div></li>'; }).join('');
+            E('d-sup-stat').hidden=false; }
+          return true;
+        }).catch(function(){ return false; });
+      }
+      E('d-sup-go').addEventListener('click',function(){
+        var btn=this; if(amount<100){ E('d-sup-note').textContent='金額は100円以上で指定してください'; return; }
+        btn.disabled=true; var html=btn.innerHTML; btn.textContent='決済ページへ移動しています…';
+        fetch(API_BASE+'/api/assist/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({club:t.id,amount:amount,message:E('d-sup-msg').value.trim(),name:E('d-sup-nm').value.trim(),anon:E('d-sup-anon').checked})})
+          .then(function(r){ return r.json(); }).then(function(j){ if(j.error) throw new Error(j.error==='not_enabled'?'このクラブはいま受け付けていません':j.error==='not_configured'?'準備中です':'進めませんでした'); location.href=j.url; })
+          .catch(function(e){ E('d-sup-note').textContent=e.message; btn.disabled=false; btn.innerHTML=html; });
+      });
+      loadStat().then(function(open){
+        var q=new URLSearchParams(location.search); if(!open||q.get('assist')!=='ok'||!q.get('sid')) return;
+        fetch(API_BASE+'/api/assist/confirm?sid='+encodeURIComponent(q.get('sid'))).then(function(r){ return r.json(); }).then(function(j){
+          if(j.paid&&j.rec){ E('d-sup-note').textContent='アシストありがとうございます。'+yen(j.rec.amount)+'（クラブに届く額の目安 '+yen(j.rec.net_to_club)+'）'; loadStat(); setTimeout(function(){ E('d-sup-blk').scrollIntoView({behavior:'smooth',block:'start'}); },300); }
+        }).catch(function(){});
+      });
+    })();
+  }
+
   var SB='https://emkpkomrgknzrmxqbrvx.supabase.co', ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
   function veilOff(){ var v=document.getElementById('cd-veil'); if(!v) return; v.style.opacity='0'; setTimeout(function(){ v.remove(); },260); }
   setTimeout(veilOff,4000);
@@ -406,9 +757,12 @@ body.cd-lock{overflow:hidden}
   })();
 
   var COLS='id,name,sport,pref,city,address,venue,age_groups,age_min,days,fee,fee_num,admission_fee_num,trial,girls_welcome,female_instructor,description,photo_url,photos,photo_positions,logo_url,logo_position,website_url,line_url,instagram,twitter,moods,points,recommended_for,courses,plan,plan_expires_at,status,created_at,trial_fee,member_count,cost_items,style,staff,video_url,postal_code,address1,address2,editor_headline,editor_note';
-  db.from('teams').select(COLS).eq('id',id).eq('status','approved').single().then(function(res){
+  var COLS_NEW=COLS+',tagline,story,story_policies,features,greeting,achievements,achievement_photos,practice_log,ig_photos,assist_enabled';
+  function loadTeam(cols){ return db.from('teams').select(cols).eq('id',id).eq('status','approved').single(); }
+  loadTeam(COLS_NEW).then(function(res){ if(res&&res.error) return loadTeam(COLS); return res; },function(){ return loadTeam(COLS); }).then(function(res){
     if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); veilOff(); document.title='クラブが見つかりません｜チビスポ'; setText('cd-name','このクラブは見つかりませんでした'); return; }
     var t=res.data; window._cdTeam=t;
+    setTimeout(function(){ try{ renderExtra(t); }catch(e){ console.warn('[chibispo] renderExtra',e); } },0);
     favData.name=t.name||''; favData.area=[t.pref,t.city].filter(Boolean).join(' '); favData.img=t.photo_url||''; renderFav();
     var paid=window.ChibiCard&&ChibiCard.isPaid(t);
     var area=[t.pref,t.city].filter(Boolean).join(' ');

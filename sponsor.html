@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<title>お店・企業のスポンサーになる｜チビスポ</title>
+<meta name="description" content="地元のお店や企業として、子どものスポーツクラブのスポンサーに。クラブのページにお名前やロゴを掲載します。金額や掲載のかたちはご相談のうえ決めます。">
+<link rel="canonical" href="https://chibispo.com/sponsor.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="チビスポ"><meta property="og:title" content="お店・企業のスポンサーになる｜チビスポ"><meta property="og:description" content="地元のお店や企業として、子どものスポーツクラブのスポンサーに。クラブのページにお名前やロゴを掲載します。金額や掲載のかたちはご相談のうえ決めます。"><meta property="og:url" content="https://chibispo.com/sponsor.html"><meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>
+.asst{--ink:#2b2b2b;--ink2:#21315b;--sub:#6a7385;--line:#ececec;--bg:#f7f7f8;--card:#fff;--accent:#E43B4D;--sun:#FFB929;--sun-soft:#FFF6E3;--sun-deep:#D98A00;--r:14px;--f:'Zen Kaku Gothic New',system-ui,sans-serif}
+.asst{max-width:720px;margin:0 auto;padding:24px 16px 70px;line-height:1.8}
+.asst *{box-sizing:border-box}
+.asst{max-width:720px;margin:0 auto;padding:24px 16px 70px}
+.asst .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.26em;color:var(--sun-deep);margin:0 0 6px}
+.asst h1{font-size:clamp(22px,5.4vw,30px);font-weight:900;margin:0 0 6px;line-height:1.35;letter-spacing:-.01em}
+.asst h1 em{font-style:normal;color:var(--sun-deep)}
+.asst .lead{color:var(--sub);font-size:14px;margin:0 0 20px}
+.asst .club{display:flex;align-items:center;gap:12px;background:var(--sun-soft);border-radius:var(--r);padding:12px 14px;margin-bottom:18px}
+.asst .club .av{width:40px;height:40px;border-radius:50%;background:var(--sun);color:var(--ink2);display:flex;align-items:center;justify-content:center;font-weight:900;flex:none}
+.asst .club b{font-size:15px}
+.asst .club small{display:block;font-size:12px;color:var(--sub)}
+.asst .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 20px}
+.asst .steps div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 10px;font-size:12.5px;line-height:1.6;color:var(--sub)}
+.asst .steps i{display:block;font-style:normal;font-family:'Anton',sans-serif;font-size:16px;color:var(--sun-deep);margin-bottom:2px}
+.asst .steps b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+@media (max-width:600px){.asst .steps{grid-template-columns:1fr 1fr}}
+.asst .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;margin-bottom:14px}
+.asst .card h2{font-size:15px;font-weight:900;margin:0 0 12px}
+.asst label{display:block;font-size:13px;font-weight:900;margin:14px 0 6px}
+.asst label i{font-style:normal;background:var(--accent);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:1px}
+.asst input,.asst textarea,.asst select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;background:#fff}
+.asst input:focus,.asst textarea:focus,.asst select:focus{outline:none;border-color:var(--sun-deep)}
+.asst .opts{display:flex;flex-wrap:wrap;gap:8px}
+.asst .opts button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:var(--f);font-weight:900;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.asst .opts button.on{border-color:var(--sun-deep);background:var(--sun);color:var(--ink2)}
+.asst .split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.asst .split{grid-template-columns:1fr}}
+.asst .chk{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;font-weight:700}
+.asst .chk label{display:flex;align-items:center;gap:6px;margin:0;font-weight:700}
+.asst .chk input{width:auto}
+.asst .note{font-size:12.5px;color:var(--sub);margin:8px 0 0;line-height:1.7}
+.asst .agree{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:16px;color:var(--sub)}
+.asst .agree input{width:auto;margin-top:4px}
+.asst .go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:16px;background:var(--sun);color:var(--ink2);border:0;border-radius:14px;padding:16px;font-family:var(--f);font-weight:900;font-size:16px;box-shadow:0 10px 24px rgba(255,185,41,.45);cursor:pointer}
+.asst .go:disabled{opacity:.55;cursor:wait}
+.asst .err{font-size:13px;color:var(--accent);margin:10px 0 0;min-height:1em}
+.asst .done{display:none;text-align:center;padding:30px 10px}
+.asst .done h2{font-size:22px;margin:0 0 8px}
+.asst .done p{color:var(--sub);margin:0 0 18px}
+.asst .done a{color:var(--sun-deep);font-weight:900}
+.asst .back{font-size:13px;color:var(--sub);text-decoration:none}
+</style>
+</head>
+<body>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=2" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=2" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main><div class="asst">
+  <a class="back" id="back" href="#">← クラブのページに戻る</a>
+  <div class="k" style="margin-top:14px">CHIBISPO ASSIST ／ SPONSOR</div>
+  <h1>お店・企業として、クラブの<em>力に</em></h1>
+  <p class="lead">地元のお店や企業のスポンサーとして、クラブのページにお名前やロゴを掲載します。金額や掲載のかたちはご相談のうえ決めますので、まずは下のフォームからお知らせください。</p>
+
+  <div class="club"><span class="av">C</span><div><b id="club-name">クラブ</b><small>スポンサーになるクラブ（クラブのページから開いた場合、自動で入ります）</small></div></div>
+
+  <div class="steps">
+    <div><i>01</i><b>相談を送る</b>このフォームから。2〜3分で終わります</div>
+    <div><i>02</i><b>チビスポからご連絡</b>2営業日以内に、条件と掲載のかたちをご提案</div>
+    <div><i>03</i><b>契約・お支払い</b>チビスポと契約し、請求書で銀行振込</div>
+    <div><i>04</i><b>掲載開始</b>クラブのページに掲載。クラブへは協賛金として届きます</div>
+  </div>
+
+  <form id="f" class="card" autocomplete="on">
+    <h2>お店・企業の情報</h2>
+    <div class="split">
+      <div><label>会社名・店名<i>必須</i></label><input id="org" type="text" placeholder="例：〇〇整骨院" required></div>
+      <div><label>ご担当者名<i>必須</i></label><input id="person" type="text" placeholder="例：山田 太郎" required></div>
+    </div>
+    <div class="split">
+      <div><label>メールアドレス<i>必須</i></label><input id="email" type="email" placeholder="you@example.com" required></div>
+      <div><label>電話番号（任意）</label><input id="tel" type="tel" placeholder="03-0000-0000"></div>
+    </div>
+    <label>ウェブサイト・SNS（任意）</label><input id="site" type="url" placeholder="https://">
+
+    <h2 style="margin-top:22px">ご希望</h2>
+    <label>応援のかたち</label>
+    <div class="opts" id="term">
+      <button type="button" data-v="year" class="on">年間スポンサー</button>
+      <button type="button" data-v="once">単発（大会・遠征など）</button>
+      <button type="button" data-v="talk">まずは相談したい</button>
+    </div>
+    <label>ご予算の目安</label>
+    <div class="opts" id="budget">
+      <button type="button" data-v="10000">〜1万円</button>
+      <button type="button" data-v="30000" class="on">〜3万円</button>
+      <button type="button" data-v="100000">〜10万円</button>
+      <button type="button" data-v="more">10万円以上</button>
+      <button type="button" data-v="undecided">未定</button>
+    </div>
+    <label>掲載の希望（複数可）</label>
+    <div class="chk">
+      <label><input type="checkbox" name="show" value="name" checked> 名前の掲載</label>
+      <label><input type="checkbox" name="show" value="logo"> ロゴの掲載</label>
+      <label><input type="checkbox" name="show" value="link"> サイトへのリンク</label>
+      <label><input type="checkbox" name="show" value="message"> クラブへのメッセージ</label>
+      <label><input type="checkbox" name="show" value="other"> その他（下に記入）</label>
+    </div>
+    <label>ご要望・メッセージ（任意）</label><textarea id="message" rows="4" maxlength="600" placeholder="例：地域の子どもたちの活躍を応援したいです。ユニフォームへのロゴ掲載なども相談できますか"></textarea>
+    <p class="note">スポンサー枠の掲載契約はチビスポと結び、チビスポから請求書をお送りします。お受け取りした金額の90%を、協賛金としてクラブにお渡しします（10%はチビスポの運営費）。</p>
+    <label class="agree"><input id="agree" type="checkbox"> 入力内容がチビスポから相談の連絡に使われることに同意します</label>
+    <div class="err" id="err"></div>
+    <button class="go" id="go" type="submit">この内容で相談する</button>
+  </form>
+  <div class="done card" id="done">
+    <h2>ご相談を受け付けました</h2>
+    <p>2営業日以内に、チビスポから<span id="done-mail"></span>宛にご連絡します。</p>
+    <a id="done-link" href="#">クラブのページに戻る →</a>
+  </div>
+</div></main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="club-card.js?v=20261004"></script>
+<script src="site.js?v=20261004"></script>
+<script src="quiz.js?v=20261004"></script>
+<script src="shared.js?v=20261005"></script>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search); var club=q.get('club')||q.get('id')||'';
+  function el(x){ return document.getElementById(x); }
+  el('back').href='club.html?id='+encodeURIComponent(club);
+  el('done-link').href='club.html?id='+encodeURIComponent(club);
+  var clubName='';
+  fetch('https://emkpkomrgknzrmxqbrvx.supabase.co/rest/v1/teams?select=name&id=eq.'+encodeURIComponent(club),{headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ'}}).then(function(r){ return r.ok?r.json():null; }).then(function(a){ var j=a&&a[0]?{team_name:a[0].name}:null; if(j&&j.team_name){ clubName=j.team_name; el('club-name').textContent=j.team_name; el('club-name').parentNode.querySelector('small').textContent='スポンサーになるクラブ'; document.querySelector('.club .av').textContent=j.team_name.charAt(0); } }).catch(function(){});
+  function pick(id){ var box=el(id); box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(box.children,function(c){ c.classList.toggle('on',c===b); }); }); }
+  pick('term'); pick('budget');
+  function val(id){ var b=el(id).querySelector('button.on'); return b?b.dataset.v:''; }
+  el('f').addEventListener('submit',function(e){
+    e.preventDefault(); el('err').textContent='';
+    var org=el('org').value.trim(), person=el('person').value.trim(), email=el('email').value.trim();
+    if(!org||!person||!email) return el('err').textContent='会社名・店名、ご担当者名、メールアドレスは必須です';
+    if(!el('agree').checked) return el('err').textContent='同意にチェックを入れてください';
+    var btn=el('go'); btn.disabled=true; btn.textContent='送信しています…';
+    var show=[].map.call(document.querySelectorAll('input[name=show]:checked'),function(c){ return c.value; });
+    var body={club:club,club_name:clubName,org:org,person:person,email:email,tel:el('tel').value.trim(),site:el('site').value.trim(),term:val('term'),budget:val('budget'),show:show,message:el('message').value.trim()};
+    fetch('https://api.chibispo.com/api/sponsor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){ return r.json(); }).then(function(j){
+      if(j.error) throw new Error(j.error);
+      el('f').style.display='none'; el('done-mail').textContent=email; el('done').style.display='block'; scrollTo({top:0,behavior:'smooth'});
+    }).catch(function(e){ el('err').textContent=e.message; btn.disabled=false; btn.textContent='この内容で相談する'; });
+  });
+})();
+</script>
+</body>
+</html>

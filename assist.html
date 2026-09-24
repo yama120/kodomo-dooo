@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<title>チビスポアシストのしくみ｜チビスポ</title>
+<meta name="description" content="地域のスポーツクラブを、500円からワンタップで応援できる「チビスポアシスト」のしくみ。お金の分かれ方、お返し、匿名、返金、領収書について。">
+<link rel="canonical" href="https://chibispo.com/assist.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="チビスポ"><meta property="og:title" content="チビスポアシストのしくみ｜チビスポ"><meta property="og:description" content="地域のスポーツクラブを、500円からワンタップで応援できる「チビスポアシスト」のしくみ。お金の分かれ方、お返し、匿名、返金、領収書について。"><meta property="og:url" content="https://chibispo.com/assist.html"><meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>
+.asst{--ink:#2b2b2b;--ink2:#21315b;--sub:#6a7385;--line:#ececec;--bg:#f7f7f8;--sun:#FFB929;--sun-soft:#FFF6E3;--sun-deep:#D98A00;--f:'Zen Kaku Gothic New',system-ui,sans-serif}
+.asst{max-width:720px;margin:0 auto;padding:24px 16px 70px;line-height:1.8}
+.asst *{box-sizing:border-box}
+.asst{max-width:720px;margin:0 auto;padding:28px 16px 80px}
+.asst .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.26em;color:var(--sun-deep);margin:0 0 6px}
+.asst h1{font-size:clamp(22px,5.4vw,30px);font-weight:900;margin:0 0 8px;line-height:1.35}
+.asst h1 em{font-style:normal;color:var(--sun-deep)}
+.asst .lead{color:var(--sub);font-size:14.5px;margin:0 0 24px}
+.asst .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 30px}
+.asst .flow div{background:var(--sun-soft);border-radius:14px;padding:16px 14px}
+.asst .flow b{display:block;font-size:15px;font-weight:900;margin-bottom:4px}
+.asst .flow span{font-size:13px;color:var(--sub);line-height:1.7}
+.asst .flow i{display:block;font-style:normal;font-family:'Anton',sans-serif;font-size:20px;color:var(--sun-deep);margin-bottom:6px}
+@media (max-width:600px){.asst .flow{grid-template-columns:1fr}}
+.asst h2{font-size:16px;font-weight:900;margin:26px 0 6px}
+.asst p{font-size:14.5px;margin:0 0 8px}
+.asst .split{display:flex;justify-content:space-between;gap:10px;background:var(--bg);border-radius:12px;padding:12px 14px;font-size:14px;margin:8px 0 4px}
+.asst .split b{font-weight:900}
+.asst .note{font-size:12.5px;color:var(--sub)}
+.asst a{color:var(--sun-deep);font-weight:900}
+</style>
+</head>
+<body>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=2" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=2" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main><div class="asst">
+  <div class="k">CHIBISPO ASSIST</div>
+  <h1>チビスポアシストの<em>しくみ</em></h1>
+  <p class="lead">練習を見かけた人、卒業生の家族、近所のお店。地域のスポーツクラブを、500円からワンタップで応援できます。</p>
+
+  <div class="flow">
+    <div><i>01</i><b>金額を選ぶ</b><span>¥500・¥1,000・¥3,000、または好きな金額。ひとことも添えられます。</span></div>
+    <div><i>02</i><b>カードで支払う</b><span>決済は Stripe の画面で行います。カード情報はチビスポに残りません。</span></div>
+    <div><i>03</i><b>クラブに届く</b><span>クラブの口座へ直接入金されます。ひとことはクラブのページに掲載されます。</span></div>
+  </div>
+
+  <h2>お金はどう分かれますか</h2>
+  <p>アシスト金は、クラブの受け取り分とチビスポの運営費に、支払いの時点で自動で分かれます。</p>
+  <div class="split"><span>クラブへ</span><b>90%（決済手数料を除く）</b></div>
+  <div class="split"><span>チビスポの運営費</span><b>10%</b></div>
+  <p class="note">例：¥1,000 のアシストの場合、クラブに約 ¥864、チビスポに ¥100、決済手数料が約 ¥36 です。運営費は、クラブのページづくりやサービスの維持に使います。</p>
+
+  <h2>お返しの品はありますか</h2>
+  <p>ありません。純粋な応援として、クラブにそのまま届きます。</p>
+
+  <h2>名前は表示されますか</h2>
+  <p>「ページに名前を表示しない」にチェックを入れると、「アシスター」として掲載されます。ひとことは、チェックの有無にかかわらず掲載されます。</p>
+
+  <h2>返金はできますか</h2>
+  <p>原則としてできません。二重決済など明らかな誤りがあった場合は、<a href="contact.html">お問い合わせ</a>からご連絡ください。</p>
+
+  <h2>領収書は出ますか</h2>
+  <p>決済完了時に Stripe からメールで領収書が届きます。寄付金控除の対象にはなりません。</p>
+
+  <h2>お店・企業として応援したい</h2>
+  <p>クラブのページの「お店・企業のスポンサーになる」からご相談ください。掲載のかたちと金額をご提案し、チビスポとの契約・請求書でのお支払いのうえ、クラブのページにお名前やロゴを掲載します。金額の90%は協賛金としてクラブに届きます。</p>
+</div></main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="club-card.js?v=20261004"></script>
+<script src="site.js?v=20261004"></script>
+<script src="quiz.js?v=20261004"></script>
+<script src="shared.js?v=20261005"></script>
+</body>
+</html>

@@ -257,6 +257,16 @@
     </div>
 
     <!-- プラン -->
+    <!-- チビスポアシスト：受け取り口座（Stripe Connect Express）の登録。受け取り額の10%が運営費 -->
+    <div id="mp-assist" class="mp-card" data-pane="grow" style="border-color:#FFB929;background:#FFF6E3;">
+      <h2 style="margin:0 0 6px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">チビスポアシスト（受け取りの設定）</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:10px;">保護者や地元の方からのアシスト（500円〜）を、クラブの口座で直接受け取れます。登録は Stripe の画面で行い、口座番号はチビスポには保存されません。</p>
+      <div id="mp-assist-status" style="font-size:13px;font-weight:900;margin:0 0 10px;"></div>
+      <label id="mp-assist-agree-wrap" style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:#6a7385;margin:0 0 12px;"><input id="mp-assist-agree" type="checkbox" style="margin-top:4px;"> <span><a href="assist-terms.html" target="_blank" style="color:#D98A00;font-weight:900;">チビスポアシスト利用規約</a>に同意します（受け取り額の10%を運営費としていただきます）</span></label>
+      <button id="mp-assist-connect" class="mp-btn" type="button" style="width:auto;padding:12px 22px;background:#FFB929;color:#21315b;box-shadow:none;">受け取り口座を登録する（Stripe へ）</button>
+      <p class="hint" style="margin:10px 0 0;">登録が終わると、クラブページに「チビスポアシスト」の欄が表示されます。<a href="assist.html" target="_blank">しくみを見る</a></p>
+    </div>
+
     <div id="mp-plan" class="mp-card" data-pane="grow" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
       <div>
         <div style="font-size:12px;font-weight:700;color:#8a93a0;">現在のプラン</div>
@@ -378,6 +388,32 @@
       <p style="margin:0 0 16px;font-size:12px;color:#9aa3ad;">保護者から届いたコメントです（非表示中のものも含めて確認できます）。</p>
       <div id="mp-cmt-list" style="display:flex;flex-direction:column;gap:12px;"></div>
       <div id="mp-cmt-empty" style="display:none;text-align:center;color:#9aa3ad;font-size:13px;padding:20px;">まだコメントはありません。</div>
+    </div>
+
+    <!-- AIが作ったページの下書き（club_drafts）。クラブが承認した項目だけ本番に反映する -->
+    <div id="mp-draft" class="mp-card" data-pane="info" style="display:none;border-color:#FFB929;background:#FFF6E3;">
+      <h2 style="margin:0 0 6px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">ページの下書きが届いています</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:12px;">公式サイトなどをもとに、チビスポがクラブページの下書きを用意しました。内容を確認して、載せてよい項目にチェックを入れてください。反映後もいつでも編集できます。</p>
+      <div id="mp-draft-list" style="display:grid;gap:8px;"></div>
+      <div id="mp-draft-notes" class="hint" style="margin:12px 0 0;display:none;"></div>
+      <div id="mp-draft-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin:12px 0 0;"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+        <button id="mp-draft-apply" class="mp-btn" type="button" style="width:auto;padding:12px 22px;background:#FFB929;color:#21315b;box-shadow:none;">チェックした項目をページに反映する</button>
+        <button id="mp-draft-skip" class="ed-btn" type="button">今回は反映しない</button>
+      </div>
+    </div>
+
+    <!-- Instagram の投稿リンク → クラブページの「写真で見る、ふだんの様子」 -->
+    <div id="mp-ig" class="mp-card" data-pane="info">
+      <h2 style="margin:0 0 6px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:18px;font-weight:900;">Instagramの写真を載せる</h2>
+      <p class="hint" style="margin-top:0;margin-bottom:12px;">投稿の「…」→「リンクをコピー」で取ったURLを貼るだけで、クラブページに写真が並びます（最大6件・写真もリールも可）。写真のアップロードや連携は要りません。</p>
+      <div style="display:flex;gap:8px;">
+        <input id="mp-ig-in" type="url" placeholder="https://www.instagram.com/p/…" style="flex:1;min-width:0;border:1.5px solid #e5e8ec;border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;">
+        <button id="mp-ig-add" class="ed-btn" type="button" style="white-space:nowrap;">追加</button>
+      </div>
+      <div id="mp-ig-list" style="display:grid;gap:8px;margin-top:10px;"></div>
+      <div id="mp-ig-msg" style="display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin:10px 0 0;"></div>
+      <button id="mp-ig-save" class="mp-btn" type="button" style="margin-top:12px;">保存して、クラブページに反映する</button>
     </div>
 
     <!-- クラブ情報の編集 -->
@@ -1119,7 +1155,7 @@
   function selectTeam(teamId){
     var t=null; for(var i=0;i<myTeams.length;i++){ if(myTeams[i].id===teamId){ t=myTeams[i]; break; } }
     if(!t) return;
-    currentTeamId=teamId; team=t;
+    currentTeamId=teamId; team=t; try{ window.__mpTeam=t; document.dispatchEvent(new CustomEvent('mp:team',{detail:t})); }catch(e){}
     try{ localStorage.setItem('chibi_mp_team_'+currentUserId, teamId); }catch(_){ }
     var sel=$('mp-team-select'); if(sel && sel.style.display!=='none') sel.value=teamId;
     window.__ccPlan = effectivePlan(team);
@@ -2108,5 +2144,87 @@
 })();
 </script>
 <script src="shared.js?v=20261005"></script>
+<script>
+/* ===== クラブ情報の充実化・チビスポアシスト（2026-09-24）。本体の IIFE とは別に、mp:team で動く ===== */
+(function(){
+  var API='https://api.chibispo.com';
+  var SB='https://emkpkomrgknzrmxqbrvx.supabase.co', ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+  var db2=supabase.createClient(SB,ANON);
+  function el(x){ return document.getElementById(x); }
+  function es(v){ return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function note(id,ok,text){ var e=el(id); e.style.display='block'; e.style.background=ok?'#eafaf0':'#fdecee'; e.style.color=ok?'#1f8a5b':'#c0314b'; e.textContent=text; }
+  function token(){ return db2.auth.getSession().then(function(r){ var t=r&&r.data&&r.data.session&&r.data.session.access_token; if(!t) throw new Error('no_session'); return t; }); }
+  function api(path,opt){ return token().then(function(t){ opt=opt||{}; opt.headers=Object.assign({'Authorization':'Bearer '+t},opt.body?{'Content-Type':'application/json'}:{},opt.headers||{}); return fetch(API+path,opt); }).then(function(r){ return r.json(); }); }
+  var team=null;
+
+  /* ---- Instagram ---- */
+  var igItems=[];
+  function parseIg(u){ var m=String(u).trim().match(/instagram\.com\/(?:[A-Za-z0-9_.]+\/)?(p|reel|tv)\/([A-Za-z0-9_-]+)/); return m?{kind:m[1]==='tv'?'p':m[1],code:m[2],url:'https://www.instagram.com/'+(m[1]==='tv'?'p':m[1])+'/'+m[2]+'/'}:null; }
+  function drawIg(){
+    el('mp-ig-list').innerHTML=igItems.length?igItems.map(function(p,i){ return '<div style="display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border:1px solid #e5e8ec;border-radius:10px;padding:6px 8px;"><div style="width:56px;height:56px;border-radius:8px;background:#f0f0f0 center/cover no-repeat;'+(p.thumb?'background-image:url('+es(p.thumb)+')':'')+'"></div><div style="font-size:12.5px;color:#6a7385;word-break:break-all;"><b style="display:block;color:#1f2a37;">'+(i+1)+'件目・'+(p.kind==='reel'?'リール':'投稿')+(p.thumb?'':'（保存すると写真を取得）')+'</b>'+es(p.url)+'</div><div style="display:flex;gap:4px;"><button type="button" class="ed-btn" data-a="up" data-i="'+i+'" '+(i?'':'disabled')+' style="padding:6px 10px;">↑</button><button type="button" class="ed-btn" data-a="del" data-i="'+i+'" style="padding:6px 10px;">×</button></div></div>'; }).join(''):'<div class="hint" style="margin:0;">まだ投稿がありません。上の欄にリンクを貼ってください。</div>';
+  }
+  function addIg(){ var vals=el('mp-ig-in').value.split(/\s+/).filter(Boolean); if(!vals.length) return; el('mp-ig-msg').style.display='none';
+    vals.forEach(function(v){ var p=parseIg(v); if(!p) return note('mp-ig-msg',false,'Instagramの投稿リンクではないようです（/p/ か /reel/ を含むURLを貼ってください）');
+      if(igItems.some(function(x){ return x.code===p.code; })) return note('mp-ig-msg',false,'同じ投稿はすでに入っています');
+      if(igItems.length>=6) return note('mp-ig-msg',false,'6件までです。入れ替える場合は、先にどれかを削除してください');
+      igItems.push(p); });
+    el('mp-ig-in').value=''; drawIg(); }
+  el('mp-ig-add').onclick=addIg; el('mp-ig-in').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); addIg(); } }); el('mp-ig-in').addEventListener('paste',function(){ setTimeout(addIg,0); });
+  el('mp-ig-list').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; var i=+b.dataset.i; if(b.dataset.a==='del') igItems.splice(i,1); else if(i>0){ var t=igItems[i-1]; igItems[i-1]=igItems[i]; igItems[i]=t; } drawIg(); };
+  el('mp-ig-save').onclick=function(){ if(!team) return; var b=this; b.disabled=true; b.textContent='保存中…（写真を取得しています）';
+    api('/api/ig-links',{method:'POST',body:JSON.stringify({club:team.id,links:igItems.map(function(p){ return p.url; })})}).then(function(j){
+      if(j.error) throw new Error(j.error); igItems=j.items||[]; drawIg();
+      note('mp-ig-msg',true,'保存しました（'+igItems.length+'件）。'+(j.missing?'写真を取得できなかった投稿が'+j.missing+'件あります（公開設定をご確認ください）。':'クラブページに反映されています。'));
+    }).catch(function(e){ note('mp-ig-msg',false,'保存できませんでした：'+(e.message==='no_session'?'ログインし直してください':e.message)); })
+    .then(function(){ b.disabled=false; b.textContent='保存して、クラブページに反映する'; }); };
+
+  /* ---- AI下書き ---- */
+  var draft=null;
+  var LABEL={tagline:'ひとこと紹介',story:'このクラブが大事にしていること',policies:'大事にしていること（3つ）',features:'ほかのクラブとの違い',points:'おすすめポイント',recommended_for:'こんなお子様におすすめ',staff:'コーチ・スタッフ',courses:'コース',cost_items:'費用の内訳',greeting:'代表からのメッセージ',achievements:'これまでの成績',achievement_photos:'成績の写真',practice_log:'最近のできごと',member_count:'在籍人数',trial_fee:'体験の費用',admission_fee_num:'入会金'};
+  function preview(k,v){ if(v==null) return ''; if(typeof v==='string'||typeof v==='number') return String(v); if(Array.isArray(v)) return v.map(function(x){ return typeof x==='string'?x:(x.title||x.name||x.heading||x.caption||x.body||''); }).filter(Boolean).join(' ／ '); if(typeof v==='object') return v.title||v.body||''; return ''; }
+  function drawDraft(){
+    var d=draft.draft, rows=[];
+    Object.keys(LABEL).forEach(function(k){ var v=d[k]; if(v==null||(Array.isArray(v)&&!v.length)||(typeof v==='object'&&!Array.isArray(v)&&!v.body&&!v.title)) return;
+      rows.push('<label style="display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:#fff;border:1px solid #f0dca8;border-radius:10px;padding:10px 12px;cursor:pointer;"><input type="checkbox" name="mp-draft-f" value="'+k+'" checked style="margin-top:3px;"><span><b style="display:block;font-size:13.5px;">'+es(LABEL[k])+'</b><span style="font-size:12.5px;color:#6a7385;line-height:1.6;display:block;max-height:4.8em;overflow:hidden;">'+es(preview(k,v)).slice(0,220)+'</span></span></label>'); });
+    el('mp-draft-list').innerHTML=rows.join('');
+    var notes=[].concat(d.conflicts||[]).concat(d.questions_for_club||[]);
+    if(notes.length){ el('mp-draft-notes').style.display='block'; el('mp-draft-notes').innerHTML='<b>チビスポからの確認：</b><ul style="margin:6px 0 0;padding-left:18px;">'+notes.map(function(x){ return '<li>'+es(x)+'</li>'; }).join('')+'</ul>反映後、クラブ情報の編集から直せます。'; }
+    el('mp-draft').style.display='block';
+  }
+  function applyDraft(fields){ var b=el('mp-draft-apply'); b.disabled=true; el('mp-draft-skip').disabled=true;
+    api('/api/draft/apply',{method:'POST',body:JSON.stringify({club:team.id,draft_id:draft.id,fields:fields})}).then(function(j){
+      if(j.error) throw new Error(j.error);
+      note('mp-draft-msg',true,fields.length?'クラブページに反映しました（'+fields.length+'項目）。':'今回は反映しませんでした。'); setTimeout(function(){ el('mp-draft').style.display='none'; },2500);
+    }).catch(function(e){ note('mp-draft-msg',false,'反映できませんでした：'+e.message); b.disabled=false; el('mp-draft-skip').disabled=false; }); }
+  el('mp-draft-apply').onclick=function(){ var f=[].map.call(document.querySelectorAll('input[name=mp-draft-f]:checked'),function(c){ return c.value; }); applyDraft(f); };
+  el('mp-draft-skip').onclick=function(){ applyDraft([]); };
+
+  /* ---- チビスポアシスト ---- */
+  function loadAssist(){
+    var q=new URLSearchParams(location.search); var st=el('mp-assist-status');
+    if(q.get('assist')==='done') st.textContent='Stripe の登録画面から戻りました。審査が終わると受け取りが有効になります。';
+    api('/api/assist/status?club='+encodeURIComponent(team.id)).then(function(j){
+      if(j.error) throw new Error(j.error);
+      if(!j.mode){ st.textContent='準備中です（近日中に受け付けを始めます）'; el('mp-assist-connect').disabled=true; el('mp-assist-agree-wrap').style.display='none'; return; }
+      if(j.enabled){ st.textContent='受け取り口座：登録済み（アシストはクラブの口座へ直接分配されます）'; el('mp-assist-agree-wrap').style.display='none'; el('mp-assist-connect').textContent='登録内容を確認・変更する（Stripe へ）'; }
+      else if(j.connected){ st.textContent='受け取り口座：登録の途中、または審査中です'; el('mp-assist-agree-wrap').style.display='none'; el('mp-assist-connect').textContent='登録を続ける（Stripe へ）'; }
+      else st.textContent='受け取り口座：未登録';
+    }).catch(function(e){ st.textContent=e.message==='no_session'?'':'いま状態を確認できません'; });
+  }
+  el('mp-assist-connect').onclick=function(){ if(!team) return; var b=this; var need=el('mp-assist-agree-wrap').style.display!=='none';
+    if(need&&!el('mp-assist-agree').checked){ el('mp-assist-status').textContent='利用規約への同意にチェックを入れてください'; return; }
+    b.disabled=true; b.textContent='Stripe へ移動しています…';
+    api('/api/assist/connect',{method:'POST',body:JSON.stringify({club:team.id,agreed:true})}).then(function(j){ if(j.error) throw new Error(j.error==='not_configured'?'準備中です':j.error); location.href=j.url; })
+    .catch(function(e){ el('mp-assist-status').textContent='進めませんでした：'+e.message; b.disabled=false; b.textContent='受け取り口座を登録する（Stripe へ）'; }); };
+
+  document.addEventListener('mp:team',function(e){
+    team=e.detail; if(!team) return;
+    db2.from('teams').select('ig_photos').eq('id',team.id).then(function(r){ igItems=(r&&r.data&&r.data[0]&&Array.isArray(r.data[0].ig_photos))?r.data[0].ig_photos:[]; drawIg(); },function(){ drawIg(); });
+    api('/api/draft?club='+encodeURIComponent(team.id)).then(function(j){ if(j&&j.draft){ draft=j.draft; drawDraft(); } }).catch(function(){});
+    loadAssist();
+  });
+  if(window.__mpTeam) document.dispatchEvent(new CustomEvent('mp:team',{detail:window.__mpTeam}));
+})();
+</script>
 </body>
 </html>
