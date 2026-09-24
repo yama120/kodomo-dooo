@@ -54,7 +54,7 @@ const CITY = {
   "さいたま市": "saitama", "つくば市": "tsukuba", "ふじみ野市": "fujimino",
   "佐倉市": "sakura", "北区": "kita", "八千代市": "yachiyo", "大田区": "ota",
   "多摩市": "tama", "市川市": "ichikawa", "川越市": "kawagoe", "新宿区": "shinjuku",
-  "春日部市": "kasukabe", "杉並区": "suginami", "松戸市": "matsudo",
+  "春日部市": "kasukabe", "松伏町": "matsubushi", "笛吹市": "fuefuki", "川口市": "kawaguchi", "桜川市": "sakuragawa", "木津川市": "kizugawa", "厚木市": "atsugi", "杉並区": "suginami", "松戸市": "matsudo",
   "武蔵野市": "musashino", "横浜市": "yokohama", "海老名市": "ebina",
   "稲毛区": "inage", "立川市": "tachikawa", "練馬区": "nerima",
   "藤沢市": "fujisawa", "足立区": "adachi", "鶴ヶ島市": "tsurugashima",
@@ -80,7 +80,7 @@ const SPORT = {
   "バトントワーリング": "baton", "チアダンス": "cheer-dance",
   "体育": "physical-education", "ブラジリアン柔術": "bjj", "テコンドー": "taekwondo",
   "運動教室": "exercise-class", "水泳": "swimming", "レスリング": "wrestling",
-  "剣道": "kendo", "キッズ運動スクール": "kids-sports", "体操": "gymnastics",
+  "剣道": "kendo", "柔道": "judo", "ドッジボール": "dodgeball", "キッズ運動スクール": "kids-sports", "体操": "gymnastics",
 };
 
 /* 「南風原町、糸満市」「体操、サッカー」のように、1つの欄に複数入れているクラブがある。

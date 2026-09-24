@@ -359,7 +359,7 @@ body.cd-lock{overflow:hidden}
     </div>
     <div class="ft-r">
       <div class="ft-app">
-        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <img loading="lazy" decoding="async" src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
         <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
         <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
       </div>
@@ -452,7 +452,7 @@ body.cd-lock{overflow:hidden}
     setText('cd-sport',t.sport||'');
     var si=el('cd-sport-icon'); if(si&&t.sport) si.outerHTML=ChibiCard.badge(t.sport);
     var logo=el('cd-logo'); if(logo){
-      if(t.logo_url){ logo.className='clogo'; logo.innerHTML='<img src="'+esc(t.logo_url)+'" alt="" style="object-position:'+esc(t.logo_position||'50% 50%')+'">'; }
+      if(t.logo_url){ logo.className='clogo'; logo.innerHTML='<img decoding="async" src="'+esc(t.logo_url)+'" alt="" style="object-position:'+esc(t.logo_position||'50% 50%')+'">'; }
       else{ /* ロゴ未設定：競技色の丸＋頭文字。法人格などの接頭辞は飛ばして団体名の1文字目を出す */
         var nm=String(t.name||'').replace(/^(一般社団法人|一般財団法人|公益社団法人|公益財団法人|特定非営利活動法人|NPO法人|株式会社|有限会社|合同会社|認定NPO法人)/,'').replace(/^[\s\u3000（(【「『［\[]+/,'');
         var ini=Array.from(nm)[0]||'ク';
@@ -559,7 +559,7 @@ body.cd-lock{overflow:hidden}
       var comps=rc.data.filter(function(c){ if(c.plan_expires_at&&new Date(c.plan_expires_at)<now) return false; return c.online||(c.pref&&c.pref===t.pref); });
       comps.sort(function(a,b){ return (a.online?1:0)-(b.online?1:0) || (b.city===t.city?1:0)-(a.city===t.city?1:0) || ((a.sort_order||0)-(b.sort_order||0)); });
       if(!comps.length) return;
-      el('cd-companies').innerHTML=comps.slice(0,4).map(function(c){ var ini=(c.name||'?').charAt(0); var loc=c.online?'オンラインショップ':esc(c.city||c.pref||''); return '<a class="a" href="'+esc(c.page_url||'#')+'">'+(c.banner_url?'<img class="lg" src="'+esc(c.banner_url)+'" alt="" style="object-fit:cover">':'<div class="lg">'+esc(ini)+'</div>')+'<div class="t">'+esc(c.name)+'<small>'+esc(c.tagline||c.category||'')+(loc?' ・ '+loc:'')+'</small></div></a>'; }).join(''); el('cd-comp-sec').hidden=false;
+      el('cd-companies').innerHTML=comps.slice(0,4).map(function(c){ var ini=(c.name||'?').charAt(0); var loc=c.online?'オンラインショップ':esc(c.city||c.pref||''); return '<a class="a" href="'+esc(c.page_url||'#')+'">'+(c.banner_url?'<img loading="lazy" decoding="async" class="lg" src="'+esc(String(c.banner_url).replace(/^assets\/(\w+-hero)\.png$/,'assets/$1-sm.webp'))+'" alt="" style="object-fit:cover">':'<div class="lg">'+esc(ini)+'</div>')+'<div class="t">'+esc(c.name)+'<small>'+esc(c.tagline||c.category||'')+(loc?' ・ '+loc:'')+'</small></div></a>'; }).join(''); el('cd-comp-sec').hidden=false;
     });
     /* ---- いいね数 ---- */
     db.from('likes').select('team_id').eq('team_id',id).then(function(r){ if(!r.error&&r.data){ var n=el('cd-like-n'); if(n) n.textContent=r.data.length; } });

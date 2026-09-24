@@ -39,7 +39,7 @@
 .sec2 .sub{margin:0 0 26px;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9}
 /* ===== HERO ===== */
 .lp-hero{position:relative;background:#101215;color:#fff;overflow:hidden;margin:0}
-.lp-hero .bg{position:absolute;inset:0;background:url(assets/preview-video/px-3448250.jpg) center/cover;opacity:.32;filter:grayscale(1) contrast(1.1);transform:scale(1.06);animation:heroZoom 12s ease-out forwards}
+.lp-hero .bg{position:absolute;inset:0;background:url(assets/preview-video/px-3448250.webp) center/cover;opacity:.32;filter:grayscale(1) contrast(1.1);transform:scale(1.06);animation:heroZoom 12s ease-out forwards}
 @keyframes heroZoom{to{transform:scale(1)}}
 .lp-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(16,18,21,.92) 0%,rgba(16,18,21,.7) 55%,rgba(16,18,21,.35) 100%)}
 .lp-hero .in{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:54px 20px 44px;display:grid;grid-template-columns:1fr;gap:30px;align-items:center}
@@ -648,7 +648,7 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
     </div>
     <div class="ft-r">
       <div class="ft-app">
-        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <img loading="lazy" decoding="async" src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
         <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
         <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
       </div>
