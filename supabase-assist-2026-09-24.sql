@@ -87,7 +87,14 @@ create policy sponsor_admin_select on public.sponsor_inquiries for select to aut
 create policy sponsor_admin_update on public.sponsor_inquiries for update to authenticated using (is_admin()) with check (is_admin());
 grant select, update on public.sponsor_inquiries to authenticated;
 
--- ==== 6. 確認（実行後に匿名キーで） ====
+-- ==== 6. Worker（service_role）の権限 ====
+-- ★このプロジェクトはテーブルの既定権限を絞ってあるので、create table だけでは Worker から読み書きできない（sb 403）。
+--   新しいテーブルを作ったら必ず service_role に GRANT する（2026-09-24 に実際に踏んだ）
+grant all on public.assists           to service_role;
+grant all on public.club_drafts       to service_role;
+grant all on public.sponsor_inquiries to service_role;
+
+-- ==== 7. 確認（実行後に匿名キーで） ====
 -- curl "$SUPABASE_URL/rest/v1/teams?select=id,tagline,ig_photos,assist_enabled&limit=1" -H "apikey: <anon>"   → 200
 -- curl "$SUPABASE_URL/rest/v1/teams?select=stripe_account_id&limit=1" -H "apikey: <anon>"                     → 401/42501（非公開のまま）
 -- curl "$SUPABASE_URL/rest/v1/assists?select=id&limit=1" -H "apikey: <anon>"                                   → 401/42501
