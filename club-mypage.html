@@ -408,6 +408,7 @@
           <label class="mp-chk"><input type="checkbox" class="f-age" value="未就学" id="f-age-pre">未就学（〜6歳）</label>
           <label class="mp-chk"><input type="checkbox" class="f-age" value="小学生">小学生</label>
           <label class="mp-chk"><input type="checkbox" class="f-age" value="中学生">中学生</label>
+          <label class="mp-chk"><input type="checkbox" class="f-age" value="高校生">高校生</label>
         </div>
         <div id="f-agemin-wrap" style="display:none;margin-top:10px;padding:11px 13px;background:#fff7ed;border-radius:10px;border:1px solid #fed7aa;">
           <div style="font-size:12px;font-weight:700;color:#9a3412;margin-bottom:7px;">未就学の受け入れ開始年齢</div>
@@ -811,7 +812,7 @@
 
   // コース一覧エディタ
   var courseList=[];
-  var AGE_OPTS=['未就学','小学1〜2年生','小学3〜4年生','小学5〜6年生','小学生','中学生','小学生〜中学生','全学年'];
+  var AGE_OPTS=['未就学','小学1〜2年生','小学3〜4年生','小学5〜6年生','小学生','中学生','高校生','小学生〜中学生','中学生〜高校生','全学年'];
   var COURSE_DAYS=['月','火','水','木','金','土','日'];
   var HOURS=(function(){ var a=[]; for(var h=5;h<=22;h++) a.push(h); return a; })();
   var MINS=['00','05','10','15','20','25','30','35','40','45','50','55'];

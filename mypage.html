@@ -259,7 +259,7 @@
       <div class="r" id="rName"><b>お名前</b><span id="vName"></span><a href="#" data-edit="rName">変更</a><div class="ed"><input id="eLast" placeholder="姓"><input id="eFirst" placeholder="名"><button data-save="name">保存</button><button class="cancel" data-cancel="rName">やめる</button></div></div>
       <div class="r"><b>メール</b><span id="vEmail"></span><span></span></div>
       <div class="r" id="rRegion"><b>地域</b><span id="vRegion"></span><a href="#" data-edit="rRegion">変更</a><div class="ed"><select id="ePref"><option value="">都道府県</option></select><select id="eCity" disabled><option value="">市区町村</option></select><button data-save="region">保存</button><button class="cancel" data-cancel="rRegion">やめる</button></div></div>
-      <div class="r" id="rChild"><b>お子さん</b><span id="vChild"></span><a href="#" data-edit="rChild">変更</a><div class="ed"><select id="eGrade"><option value="">学年</option><option>未就学</option><option>年長</option><option>小1〜2</option><option>小3〜4</option><option>小5〜6</option><option>中学生</option></select><select id="eGender"><option value="">性別（任意）</option><option>男の子</option><option>女の子</option></select><button data-save="child">保存</button><button class="cancel" data-cancel="rChild">やめる</button></div></div>
+      <div class="r" id="rChild"><b>お子さん</b><span id="vChild"></span><a href="#" data-edit="rChild">変更</a><div class="ed"><select id="eGrade"><option value="">学年</option><option>未就学</option><option>年長</option><option>小1〜2</option><option>小3〜4</option><option>小5〜6</option><option>中学生</option><option>高校生</option></select><select id="eGender"><option value="">性別（任意）</option><option>男の子</option><option>女の子</option></select><button data-save="child">保存</button><button class="cancel" data-cancel="rChild">やめる</button></div></div>
       <div class="r" id="rPw"><b>パスワード</b><span>••••••••</span><a href="#" data-edit="rPw">変更</a><div class="ed"><input id="ePw1" type="password" placeholder="新しいパスワード（6文字以上）"><input id="ePw2" type="password" placeholder="もう一度"><button data-save="pw">保存</button><button class="cancel" data-cancel="rPw">やめる</button></div></div>
     </div>
     <div class="mp-save-msg" id="mpSaveMsg"></div>
@@ -314,7 +314,7 @@
   document.addEventListener('click',function(e){ var a=e.target.closest('a[data-tab]'); if(a){ e.preventDefault(); show(a.dataset.tab); history.replaceState(null,'','#'+a.dataset.tab); window.scrollTo({top:tabs.getBoundingClientRect().top+scrollY-70,behavior:'smooth'}); } });
   var h=(location.hash||'').replace('#',''); if(/^(home|result|notify|fav|msg|account)$/.test(h)) show(h);
   if(location.search.indexOf('saved=1')>=0) show('result');
-  var GRADES={'未就学':'未就学','年長':'年長','小1〜2':'小1〜2','小3〜4':'小3〜4','小5〜6':'小5〜6','中学生':'中学生'};
+  var GRADES={'未就学':'未就学','年長':'年長','小1〜2':'小1〜2','小3〜4':'小3〜4','小5〜6':'小5〜6','中学生':'中学生','高校生':'高校生'};
 
   /* ---- 診断の結果（localStorage → プロフィールにも保存） ---- */
   var quiz=null; try{ quiz=JSON.parse(localStorage.getItem('chibispo_quiz')||'null'); }catch(e){}
