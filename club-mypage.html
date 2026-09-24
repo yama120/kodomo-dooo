@@ -2207,7 +2207,12 @@
       if(j.error) throw new Error(j.error);
       if(!j.mode){ st.textContent='準備中です（近日中に受け付けを始めます）'; el('mp-assist-connect').disabled=true; el('mp-assist-agree-wrap').style.display='none'; return; }
       if(j.enabled){ st.textContent='受け取り口座：登録済み（アシストはクラブの口座へ直接分配されます）'; el('mp-assist-agree-wrap').style.display='none'; el('mp-assist-connect').textContent='登録内容を確認・変更する（Stripe へ）'; }
-      else if(j.connected){ st.textContent='受け取り口座：登録の途中、または審査中です'; el('mp-assist-agree-wrap').style.display='none'; el('mp-assist-connect').textContent='登録を続ける（Stripe へ）'; }
+      else if(j.connected){ var d=j.detail||{}; var msg='受け取り口座：';
+        if(d.past_due||d.currently_due) msg+='Stripe で追加の情報が必要です（'+((d.past_due||0)+(d.currently_due||0))+'件）。下のボタンから入力を続けてください';
+        else if(d.pending_verification) msg+='Stripe で確認中です（通常は数分〜数日）。終わるとクラブページにアシストの欄が出ます';
+        else if(!d.details_submitted) msg+='登録の途中です。下のボタンから続けてください';
+        else msg+='審査中です（通常は数分〜数日）';
+        st.textContent=msg; el('mp-assist-agree-wrap').style.display='none'; el('mp-assist-connect').textContent='登録を続ける（Stripe へ）'; }
       else st.textContent='受け取り口座：未登録';
     }).catch(function(e){ st.textContent=e.message==='no_session'?'':'いま状態を確認できません'; });
   }
