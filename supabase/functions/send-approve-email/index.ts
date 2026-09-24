@@ -29,6 +29,15 @@ serve(async (req) => {
         <h2>掲載承認のお知らせ</h2>
         <p>${team_name} のチビスポへの掲載が承認されました。</p>
         <p>マイページから情報の編集・確認ができます。</p>
+
+        <div style="margin-top:22px;padding:16px 18px;background:#f8fafc;border-radius:6px;">
+          <p style="margin:0 0 8px;font-weight:bold;">ページの中身は、チビスポが下書きします</p>
+          <p style="margin:0;font-size:14px;color:#475569;line-height:1.7;">
+            公式サイトや Instagram を登録いただいたクラブには、紹介文・コーチ紹介・成績・活動の写真の下書きを作ってマイページに届けます。
+            載せてよい項目にチェックを入れるだけで、クラブページに反映されます（確認いただくまで公開されません）。
+            まだ登録していない場合は、マイページの「連絡先・リンク」から追加できます。
+          </p>
+        </div>
         <p style="margin-top:20px;">
           <a href="${mypage_url}" style="background:#FF8C1A;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:bold;">マイページへ</a>
         </p>

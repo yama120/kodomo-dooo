@@ -81,6 +81,9 @@
     .badge { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
     .badge-pending  { background: #fef3c7; color: #d97706; }
     .badge-approved { background: #dcfce7; color: #16a34a; }
+    .badge-draft    { background: #fef3c7; color: #b45309; }
+    .btn-draft      { background: #fff; color: #b45309; border: 1.5px solid #f3c76b; }
+    .btn-draft:disabled { opacity: .45; cursor: not-allowed; }
     .badge-rejected { background: #fee2e2; color: #dc2626; }
 
     .btn { padding: 7px 14px; border-radius: 7px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; white-space: nowrap; }
@@ -798,10 +801,16 @@ async function teamEmail(id) {
   catch (_) { return null; }
 }
 
+let draftByTeam = {};   // team_id → 最新の club_drafts（AI下書きの状態）
 async function loadTeams() {
   const { data, error } = await db.from('teams').select(TEAM_COLS).order('created_at', { ascending: false });
   if (error) { document.getElementById('teamList').innerHTML = '<div class="empty">データの読み込みに失敗しました。</div>'; return; }
   allTeams = data;
+  try {
+    const dr = await db.from('club_drafts').select('team_id,status,created_at').order('created_at', { ascending: false });
+    draftByTeam = {};
+    (dr.data || []).forEach(d => { if (!draftByTeam[d.team_id]) draftByTeam[d.team_id] = d; });
+  } catch (_) {}
   updateStats();
   renderTab();
 }
@@ -853,6 +862,14 @@ function renderTab() {
     badge.className = `badge badge-${t.status}`;
     badge.textContent = statusLabel(t.status);
     nameRow.appendChild(badge);
+    const d = draftByTeam[t.id];
+    if (d) {
+      const db2 = document.createElement('span');
+      db2.className = 'badge badge-draft';
+      db2.textContent = draftLabel(d.status);
+      nameRow.appendChild(document.createTextNode(' '));
+      nameRow.appendChild(db2);
+    }
 
     const meta = document.createElement('div');
     meta.className = 'team-meta';
@@ -889,6 +906,18 @@ function renderTab() {
       btn.addEventListener('click', () => updateStatus(t.id, 'rejected'));
       actions.appendChild(btn);
     }
+    // AI下書き：公式サイトか Instagram があるクラブに、承認の前でも依頼できる（作成待ち・確認待ちの間は出さない）
+    if (t.status !== 'rejected' && !(d && (d.status === 'requested' || d.status === 'pending'))) {
+      const src = !!(t.website_url || t.instagram);
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-draft';
+      btn.textContent = d ? 'AI下書きを作り直す' : 'AI下書きを作る';
+      btn.disabled = !src;
+      btn.title = src ? '公式サイト・Instagram から下書きを作り、クラブのマイページに届けます' : '公式サイトか Instagram が未登録のクラブは作れません';
+      btn.addEventListener('click', () => requestDraft(t.id, t.name));
+      actions.appendChild(btn);
+    }
+
     const editBtn = document.createElement('button');
     editBtn.className = 'btn btn-edit';
     editBtn.textContent = '編集';
@@ -907,6 +936,22 @@ function renderTab() {
   });
 
   el.appendChild(wrap);
+}
+
+function draftLabel(s) {
+  if (s === 'requested') return '下書き：作成待ち';
+  if (s === 'pending')   return '下書き：クラブ確認待ち';
+  if (s === 'approved')  return '下書き：反映済み';
+  if (s === 'failed')    return '下書き：作れなかった';
+  return '下書き：見送り';
+}
+
+// AI下書きの依頼。手元の runner（30分ごと）が claude -p で作り、クラブのマイページに届く
+async function requestDraft(id, name) {
+  if (!confirm(`${name} の公式サイト・Instagram から、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます\n・クラブが確認するまで公開されません`)) return;
+  const { error } = await db.from('club_drafts').insert({ team_id: id, draft: {}, sources: null, status: 'requested' });
+  if (error) { alert('依頼できませんでした：' + (error.message || '')); return; }
+  await loadTeams();
 }
 
 function statusLabel(s) {
