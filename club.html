@@ -204,13 +204,14 @@ body{overflow-x:clip!important}
 @media (max-width:640px){.d-tiles{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:64%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.d-tiles a{scroll-snap-align:start}}
 .d-h3{font-size:16px;font-weight:900;margin:26px 0 10px}
 .d-log{display:grid;gap:10px}
-.d-log a{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--card);color:inherit;text-decoration:none}
-.d-log a:hover{border-color:var(--accent)}
+.d-log .it{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--card);color:inherit;text-decoration:none}
+.d-log .it.has-img{grid-template-columns:auto 1fr minmax(220px,38%)}
+.d-log a.it:hover{border-color:var(--accent)}
 .d-log time{display:flex;align-items:center;gap:6px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.08em;color:var(--accent);white-space:nowrap;padding-top:2px}
 .d-log b{display:block;font-size:15px;font-weight:900;line-height:1.45}
 .d-log p{margin:4px 0 0;font-size:13px;line-height:1.7;color:var(--sub)}
-.d-log img{width:120px;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) - 6px)}
-@media (max-width:640px){.d-log a{grid-template-columns:auto 1fr}.d-log img{grid-column:1/-1;width:100%}}
+.d-log img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) - 6px)}
+@media (max-width:640px){.d-log .it,.d-log .it.has-img{grid-template-columns:auto 1fr}.d-log img{grid-column:1/-1;aspect-ratio:16/10}}
 .d-greet{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
 .d-greet.nophoto{grid-template-columns:1fr}
 .d-greet img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:calc(var(--r) + 4px);box-shadow:0 10px 30px rgba(0,0,0,.12)}
@@ -648,7 +649,7 @@ body{overflow-x:clip!important}
     if(igs.length||log.length){
       if(handle){ E('d-follow').href=prof; E('d-follow-h').textContent='@'+handle; E('d-follow').hidden=false; }
       E('d-tiles').innerHTML=igs.map(function(p){ return '<a href="'+es(p.url||prof||'#')+'" target="_blank" rel="noopener"><img src="'+es(p.thumb)+'" alt="'+es(t.name+'のInstagram投稿')+'" loading="lazy">'+(p.kind==='reel'?'<span class="pl"></span>':'')+'<span class="ig"><svg viewBox="0 0 24 24">'+ICO.ig+'</svg></span></a>'; }).join('');
-      if(log.length){ E('d-log-h').hidden=false; E('d-log').innerHTML=log.map(function(p){ return '<a href="'+es(p.url||'#')+'" target="_blank" rel="noopener"><time>'+ico('calendar',true)+es(String(p.date||'').replace(/-/g,'.'))+'</time><div><b>'+es(p.title)+'</b><p>'+es(p.body)+'</p></div>'+(p.image?'<img src="'+es(p.image)+'" alt="" loading="lazy">':'')+'</a>'; }).join(''); }
+      if(log.length){ E('d-log-h').hidden=false; E('d-log').innerHTML=log.map(function(p){ var tag=p.url?'a':'div', cls='it'+(p.image?' has-img':''); return '<'+tag+' class="'+cls+'"'+(p.url?' href="'+es(p.url)+'" target="_blank" rel="noopener"':'')+'><time>'+ico('calendar',true)+es(String(p.date||'').replace(/-/g,'.'))+'</time><div><b>'+es(p.title)+'</b>'+(p.body?'<p>'+es(p.body)+'</p>':'')+'</div>'+(p.image?'<img src="'+es(p.image)+'" alt="'+es(p.title)+'" loading="lazy">':'')+'</'+tag+'>'; }).join(''); }
       E('d-log-blk').hidden=false;
     }
     /* 違い・成績 */
