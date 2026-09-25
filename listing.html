@@ -13,12 +13,12 @@
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 <title>クラブを無料で載せる｜チビスポ</title>
-<meta name="description" content="チビスポにクラブを載せる。掲載は無料。地域・種目・こだわりの検索に載り、体験の申込みがそのまま届きます。">
+<meta name="description" content="チビスポにクラブを載せる。掲載は無料。公式サイトがあればページの中身はチビスポが下書きし、体験の申込みと地域の応援（アシスト）がそのまま届きます。">
 <link rel="canonical" href="https://chibispo.com/listing.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
 <meta property="og:title" content="クラブを無料で載せる｜チビスポ">
-<meta property="og:description" content="チビスポにクラブを載せる。掲載は無料。地域・種目・こだわりの検索に載り、体験の申込みがそのまま届きます。">
+<meta property="og:description" content="チビスポにクラブを載せる。掲載は無料。公式サイトがあればページの中身はチビスポが下書きし、体験の申込みと地域の応援（アシスト）がそのまま届きます。">
 <meta property="og:url" content="https://chibispo.com/listing.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
 <meta name="twitter:card" content="summary_large_image">
@@ -341,6 +341,43 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
   .svcta{padding:64px 30px 60px}
   .sbar{display:none}
 }
+/* ===== AI下書き・チビスポアシスト（2026-09-25）。黄 #FFB929 はこの2か所だけ ===== */
+.ad,.as{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
+.ad-mock,.as-mock{max-width:340px;width:100%;margin:0 auto;border:1px solid var(--ink);background:#fff;box-shadow:12px 12px 0 var(--ink);padding:16px 16px 14px;position:relative}
+.ad-mock .tag,.as-mock .tag{position:absolute;right:-8px;top:-12px;background:#FFB929;color:#111;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.18em;padding:6px 10px;transform:rotate(4deg)}
+.ad-mock .k,.as-mock .k{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.22em;color:#D98A00;margin-bottom:6px}
+.ad-mock .h,.as-mock .h{font-family:var(--fh);font-size:15px;font-weight:900;line-height:1.4;margin-bottom:6px}
+.ad-mock .h{padding-left:10px;border-left:4px solid #FFB929}
+.ad-mock .s{font-size:11px;font-weight:700;color:var(--sub);line-height:1.6;margin-bottom:8px}
+.ad-mock .row{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;padding:8px 0;border-top:1px solid var(--line);font-size:11px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(6px);transition:.45s}
+.ad.in .ad-mock .row{opacity:1;transform:none}
+.ad.in .ad-mock .row:nth-of-type(1){transition-delay:.5s}.ad.in .ad-mock .row:nth-of-type(2){transition-delay:.9s}.ad.in .ad-mock .row:nth-of-type(3){transition-delay:1.3s}
+.ad-mock .row i{width:16px;height:16px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;font-weight:900;margin-top:1px}
+.ad-mock .row.on i{background:var(--ink);color:#fff}
+.ad-mock .row b{display:block;font-size:12px}
+.ad-mock .row span{color:var(--sub)}
+.ad-mock .go,.as-mock .go{margin-top:10px;background:var(--accent);color:#fff;font-family:var(--fh);font-size:12.5px;font-weight:900;text-align:center;padding:10px}
+.as-mock .go{background:var(--ink)}
+.as-mock .amt{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.as-mock .amt span{border:1px solid var(--ink);padding:8px 6px;text-align:center;font-family:var(--fh);font-size:13px;font-weight:900;line-height:1.2}
+.as-mock .amt span small{display:block;font-size:9.5px;font-weight:700;color:var(--sub);margin-top:2px}
+.as-mock .amt span.on{background:#FFB929;border-color:#FFB929}
+.as-mock .msg{margin-top:8px;border:1px solid var(--line);padding:8px 10px;font-size:11px;font-weight:700;color:var(--sub);line-height:1.5}
+.as-mock .lst{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;font-weight:700;line-height:1.7}
+.as-mock .lst b{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.04em;margin-right:6px}
+.as-mock .lst span{color:var(--sub);margin-left:4px}
+.ad ol,.as ul{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.ad li,.as li{position:relative;padding:13px 0 13px 34px;border-bottom:1px solid var(--line);font-size:14px;font-weight:900}
+.ad li::before,.as li::before{content:attr(data-n);position:absolute;left:0;top:15px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent)}
+.ad li small,.as li small{display:block;font-size:11.5px;font-weight:700;color:var(--sub);margin-top:2px;line-height:1.7}
+.ad-note{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}
+.ad-note div{border:1px solid var(--line);padding:12px 14px}
+.ad-note b{display:block;font-family:var(--fh);font-size:13px;font-weight:900;margin-bottom:3px}
+.ad-note small{font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.7}
+.as-links{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}
+.as-links a{border:1px solid var(--ink);padding:9px 14px;font-size:12.5px;font-weight:900;color:var(--ink)}
+.as-links a:hover{background:var(--ink);color:var(--bg)}
+@media(min-width:760px){.ad,.as{grid-template-columns:320px 1fr;gap:56px}.ad-note{grid-template-columns:repeat(3,1fr)}}
 </style>
 <link rel="stylesheet" href="quiz.css?v=20261004">
 <!-- GA4 -->
@@ -380,7 +417,7 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
     <div>
       <div class="ey">FOR CLUBS ・ SERVICE 01</div>
       <h1><span>クラブの</span><span><em>空気</em>ごと、</span><span>届ける。</span></h1>
-      <p class="ld">検索・地図・新着・診断・アプリ通知。登録は1〜2分、写真1枚から。まず無料で載せて、もっと見てほしくなったらプランを足せます。</p>
+      <p class="ld">検索・地図・新着・診断・アプリ通知。登録は1〜2分、写真1枚から。公式サイトがあれば、ページの中身はチビスポが下書きします。まず無料で載せて、もっと見てほしくなったらプランを足せます。</p>
       <div class="cta"><a class="b1" href="register.html">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div>
       <div class="stats"><div><b data-cnt="0">0</b><small>YEN / START</small></div><div><b data-cnt="2">0</b><small>MIN TO POST</small></div><div><b data-cnt="5">0</b><small>PLACES SHOWN</small></div></div>
     </div>
@@ -417,7 +454,7 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
   <section class="sec2">
     <div class="ey rv">WHAT YOU CAN POST</div>
     <h2 class="rv d1">クラブページは、<em>この6つ</em>でできています。</h2>
-    <p class="sub rv d2">必須は3つだけ。あとは、あるものから。項目の一覧は右下の「すべて見る」に。</p>
+    <p class="sub rv d2">必須は3つだけ。あとは、あるものから。公式サイトがあれば、紹介文・コーチ紹介・成績は<a href="#ai-draft" style="color:var(--accent);text-decoration:underline">チビスポが下書き</a>します。項目の一覧は右下の「すべて見る」に。</p>
     <div class="anno">
       <div class="shot rv"><img loading="lazy" decoding="async" src="assets/preview-video/svc-clubpage.webp" alt="">
         <span class="dot" style="left:20%;top:14%">1</span><span class="dot" style="left:40%;top:26.5%">2</span><span class="dot" style="left:55%;top:35%">3</span><span class="dot" style="left:36%;top:47.5%">4</span><span class="dot" style="left:90%;top:80%">5</span><span class="dot" style="left:33%;top:90.5%">6</span>
@@ -428,17 +465,43 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
         <div><i>3</i><span><b>月謝・曜日・対象年齢・体験・在籍</b><small>コースごとに登録。表になって出ます</small></span></div>
         <div><i>4</i><span><b>スタイル・雰囲気タグ</b><small>楽しむこと／本格志向／ほめて伸ばす／礼儀・しつけ／アットホーム／少人数で丁寧／真剣に取り組む（最大3）</small></span></div>
         <div><i>5</i><span><b>こんなお子様に・おすすめポイント</b><small>箇条書きで。保護者が判断に使う欄</small></span></div>
-        <div><i>6</i><span><b>紹介文<span class="must">必須</span></b><small>検索カードにも2行出ます。ふだんの言葉で</small></span></div>
+        <div><i>6</i><span><b>紹介文<span class="must">必須</span></b><small>検索カードにも2行出ます。ふだんの言葉で。代表のあいさつ・コーチ紹介・成績は、公式サイトから下書きが届きます</small></span></div>
       </div>
       <details class="more"><summary>登録できる項目を、すべて見る</summary><div class="more-b">
         <div class="cols">
           <div><b>基本</b><span>チーム名<i>必須</i></span><span>種目<i>必須</i></span><span>都道府県・市区町村<i>必須</i></span><span>主な活動場所</span><span>詳細住所（地図のピン）</span><span>ロゴ・写真</span></div>
           <div><b>活動</b><span>対象年齢</span><span>活動曜日・時間</span><span>コース一覧（コース名・対象・曜日・時間・月謝）</span><span>月謝・入会金</span><span>体験入会の受付</span></div>
-          <div><b>らしさ</b><span>紹介文<i>必須</i></span><span>雰囲気タグ（最大3）</span><span>特徴</span><span>おすすめポイント</span><span>こんなお子様におすすめ</span></div>
+          <div><b>らしさ</b><span>紹介文<i>必須</i></span><span>雰囲気タグ（最大3）</span><span>大事にしていること</span><span>ほかのクラブとの違い</span><span>おすすめポイント</span><span>こんなお子様におすすめ</span></div>
+          <div><b>人・実績<i style="background:#FFB929;color:#111">AI下書き</i></b><span>代表からのメッセージ</span><span>コーチ紹介</span><span>大会の成績</span><span>最近のできごと</span><span>Instagram の投稿（写真）</span></div>
           <div><b>連絡先</b><span>連絡先メール（非公開）</span><span>担当者名・電話（任意）</span><span>ウェブサイト URL</span><span>Instagram</span><span>LINE公式 URL</span></div>
         </div>
-        <p>写真は無料プランで1枚、スタンダードで7枚、プロで15枚まで。すべてクラブのマイページから、いつでも更新できます。</p>
+        <p>写真は無料プランで1枚、スタンダードで7枚、プロで15枚まで。すべてクラブのマイページから、いつでも更新できます。「AI下書き」の項目は、公式サイトがあればチビスポが下書きを作り、クラブが確認してから公開されます。</p>
       </div></details></div>
+    </div>
+  </section>
+
+  <section class="sec2" id="ai-draft">
+    <div class="ey rv">NEW ・ AI DRAFT ・ FREE</div>
+    <h2 class="rv d1">公式サイトがあれば、中身は<em>チビスポが下書き</em>します。</h2>
+    <p class="sub rv d2">紹介文・代表からのメッセージ・コーチ紹介・大会の成績。公式サイトを読んで、チビスポが下書きを作ります。クラブは、載せてよい項目にチェックを入れるだけ。無料です。</p>
+    <div class="ad" data-ad>
+      <div class="ad-mock rv"><span class="tag">MY PAGE</span>
+        <div class="k">DRAFT ARRIVED</div><div class="h">ページの下書きが届いています</div><div class="s">公式サイトをもとに、チビスポが下書きを用意しました。載せてよい項目にチェックを入れてください。</div>
+        <div class="row on"><i>✓</i><div><b>紹介文</b><span>「はじめてボールを触る子が半分。学年ごとにコースを分けて…」</span></div></div>
+        <div class="row on"><i>✓</i><div><b>コーチ紹介</b><span>代表 ○○（指導歴12年・元社会人リーグ）ほか3名</span></div></div>
+        <div class="row"><i></i><div><b>大会の成績</b><span>2025 区大会 準優勝 ／ 確認：年度はこれで合っていますか？</span></div></div>
+        <div class="go">チェックした項目をページに反映</div>
+      </div>
+      <ol class="rv d2">
+        <li data-n="01">登録のとき、公式サイトのURLを入れる<small>入力するのは基本の項目だけ。登録後にマイページのボタンからも頼めます</small></li>
+        <li data-n="02">承認のあと、下書きがマイページに届く<small>メールでもお知らせします。クラブが確認するまで公開されません</small></li>
+        <li data-n="03">載せてよい項目にチェックして反映<small>公式サイトと食い違う点や、確かめたい点も一緒に届きます。反映後もいつでも直せます</small></li>
+      </ol>
+    </div>
+    <div class="ad-note rv d3">
+      <div><b>材料は公式サイトだけ</b><small>Instagram は、投稿の写真をページに並べるのに使います。SNSの文章は読みません</small></div>
+      <div><b>登録した内容は上書きしません</b><small>空いている欄だけを埋めます。基本情報は承認の当日に公開されます</small></div>
+      <div><b>公式サイトがなくても大丈夫</b><small>承認後にマイページから、同じ項目を自分で入力できます</small></div>
     </div>
   </section>
 
@@ -447,10 +510,10 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
     <h2 class="rv d1">公開まで、<em>4ステップ</em>。</h2>
     <p class="sub rv d2">運営が内容を確認してから公開します。</p>
     <div class="tl" data-tl><div class="lp-bar"><i></i></div>
-      <div class="lp-st"><span class="dot">01</span><h3>フォームに入力</h3><p>メール・パスワード・チーム情報・写真。</p><span class="t">1–2 MIN</span></div>
+      <div class="lp-st"><span class="dot">01</span><h3>フォームに入力</h3><p>メール・パスワード・チームの基本・写真。公式サイトがあれば、そのURLも。</p><span class="t">1–2 MIN</span></div>
       <div class="lp-st"><span class="dot">02</span><h3>運営が確認</h3><p>実在するクラブか、営業目的でないかを確認。</p><span class="t">1–2 DAYS</span></div>
       <div class="lp-st"><span class="dot">03</span><h3>公開</h3><p>検索・地図・新着に載り、通知が飛びます。</p><span class="t">LIVE</span></div>
-      <div class="lp-st"><span class="dot">04</span><h3>マイページで更新</h3><p>写真の追加・コース変更・体験受付の切替。</p><span class="t">FREE</span></div>
+      <div class="lp-st"><span class="dot">04</span><h3>マイページで更新</h3><p>届いた下書きの反映・写真の追加・コース変更・体験受付の切替。</p><span class="t">FREE</span></div>
     </div>
   </section>
 
@@ -468,6 +531,28 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
         <li data-n="04">♡・コメント<small>保護者の反応がクラブページに付く。返信もできる</small></li>
       </ul>
     </div>
+  </section>
+
+  <section class="sec2" id="assist">
+    <div class="ey rv">NEW ・ CHIBISPO ASSIST</div>
+    <h2 class="rv d1">保護者や地元の方からの<em>応援</em>が、ページから届きます。</h2>
+    <p class="sub rv d2">クラブページに「チビスポアシスト」が付きます。練習を見かけた人、卒業生の家族、近所のお店。500円からワンタップで、クラブを応援できます。手続きなしで、掲載したその日から受け付けます。</p>
+    <div class="as">
+      <div class="as-mock rv"><span class="tag">CLUB PAGE</span>
+        <div class="k">CHIBISPO ASSIST</div><div class="h">わかばFC を応援する</div>
+        <div class="amt"><span>¥500<small>ワンアシスト</small></span><span class="on">¥1,000<small>ナイスアシスト</small></span><span>¥3,000<small>スーパーアシスト</small></span><span>好きな金額<small>でアシスト</small></span></div>
+        <div class="msg">ひとこと：いつも公園で見ています。がんばって！</div>
+        <div class="go">♡ この金額でアシストする</div>
+        <div class="lst"><b>¥1,000</b>はなまま<span>「体験で優しくしてもらいました」</span><br><b>¥3,000</b>アシスター<span>「卒団生の親です」</span></div>
+      </div>
+      <ul class="rv d2">
+        <li data-n="01">アシスト金の90%がクラブへ<small>決済手数料を除いた額の90%。10%はチビスポの運営費です</small></li>
+        <li data-n="02">口座の登録前から受け付け<small>届いた分はチビスポ（Stripe）がお預かり。マイページで受け取り口座を登録すると、まとめて送金されます</small></li>
+        <li data-n="03">お返しの品はいりません<small>純粋な応援として届きます。金額とひとことはページに載り、名前は非表示にもできます</small></li>
+        <li data-n="04">お店・企業のスポンサーも<small>協賛金の90%がクラブへ。ページにお名前やロゴが載ります</small></li>
+      </ul>
+    </div>
+    <p class="as-links rv d3"><a href="assist.html">アシストのしくみ</a><a href="assist-terms.html">クラブ向け利用規約</a><a href="sponsor.html">お店・企業のスポンサー</a></p>
   </section>
 
   <section class="sec2" id="plans">
@@ -539,6 +624,8 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
       <details><summary>本当に無料ですか。</summary><div class="a">掲載・体験申込の受付・メッセージ・更新は無料です。有料になるのは、プランや制作をこちらから申し込んだときだけです。</div></details>
       <details><summary>写真がありません。</summary><div class="a">ロゴだけでも載せられます。練習風景はあとからマイページで追加できます。撮影が必要なら「撮影・動画制作」へ。</div></details>
       <details><summary>プランはいつでも変えられますか。</summary><div class="a">月ごとに変更・解約できます。スタンダードは初回30日無料です。</div></details>
+      <details><summary>AIの下書きは、勝手に公開されますか。</summary><div class="a">されません。届いた下書きは、クラブが載せてよい項目にチェックを入れるまで非公開です。クラブ名・種目・地域・活動日・月謝などの基本情報は、承認の当日に公開されます。下書きの材料は公式サイトだけで、SNSの文章は読みません。</div></details>
+      <details><summary>アシストを受け取るには、何か手続きが必要ですか。</summary><div class="a">受け付けは手続きなしで始まります。受け取るには、マイページで利用規約に同意して、受け取り口座（Stripe）を登録します。登録前に届いた分もチビスポがお預かりし、登録後にまとめて送金します。手数料は運営費10%と決済手数料です。</div></details>
     </div>
   </section>
 
@@ -578,9 +665,9 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
 <script>
 (function(){
  var hm=location.search.match(/hero=([abcde])/);if(hm){document.querySelector('.lp-hero').dataset.hero=hm[1];document.querySelectorAll('#hsw button').forEach(function(b){b.classList.toggle('on',b.dataset.h===hm[1])})}
- if(/noanim=1/.test(location.search)){var st=document.createElement('style');st.textContent='*{transition:none!important;animation:none!important}.ty span,.ty em,.fan img,.pm-ntf,.lp-tag2,.lp-hero h1 span,.ty2 span{opacity:1!important;transform:none!important}.fan2>*{opacity:1!important}.fan .f1{transform:translateX(-50%) rotate(-12deg) translateX(-70px)!important}.fan .f2{transform:translateX(-50%)!important}.fan .f3{transform:translateX(-50%) rotate(12deg) translateX(70px)!important}';document.head.appendChild(st);document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app]').forEach(function(el){el.classList.add('in')});document.querySelectorAll('[data-cnt]').forEach(function(b){b.textContent=b.dataset.cnt});document.querySelectorAll('.lp-hero h1 span').forEach(function(x){x.style.opacity=1;x.style.transform='none'});return}
+ if(/noanim=1/.test(location.search)){var st=document.createElement('style');st.textContent='*{transition:none!important;animation:none!important}.ty span,.ty em,.fan img,.pm-ntf,.lp-tag2,.lp-hero h1 span,.ty2 span{opacity:1!important;transform:none!important}.fan2>*{opacity:1!important}.fan .f1{transform:translateX(-50%) rotate(-12deg) translateX(-70px)!important}.fan .f2{transform:translateX(-50%)!important}.fan .f3{transform:translateX(-50%) rotate(12deg) translateX(70px)!important}';document.head.appendChild(st);document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app],[data-ad]').forEach(function(el){el.classList.add('in')});document.querySelectorAll('[data-cnt]').forEach(function(b){b.textContent=b.dataset.cnt});document.querySelectorAll('.lp-hero h1 span').forEach(function(x){x.style.opacity=1;x.style.transform='none'});return}
  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
- document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app]').forEach(function(el){io.observe(el)});
+ document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app],[data-ad]').forEach(function(el){io.observe(el)});
  /* ヒーロー案の切替（プレビュー専用。本番では切替UIごと消えるので、無ければ何もしない） */
  var hero=document.querySelector('.lp-hero'),hs=document.getElementById('hsw'),m=location.search.match(/hero=([abcd])/);
  function setHero(k){if(hero)hero.dataset.hero=k;if(hs)hs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.h===k)})}

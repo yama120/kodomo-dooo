@@ -36,6 +36,24 @@
 .tagpill{cursor:pointer}
 .seo .row a{cursor:pointer}
 .g-item{cursor:pointer;color:inherit}
+/* ===== お知らせ（2026-09-25）：ヒーロー直下の細い帯。項目は <li> を足すだけ ===== */
+.tp-news{padding:18px 0 22px}
+.tpn{border:1px solid var(--ink);padding:12px 18px 4px;background:var(--card)}
+.tpn-h{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.tpn-h .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.tpn-h .k::after{content:"";display:inline-block;width:18px;height:2px;background:var(--accent);margin-left:10px;vertical-align:middle}
+.tpn-h b{font-family:var(--fh);font-size:13px;font-weight:900}
+.tpn-list{list-style:none;margin:0;padding:0}
+.tpn-list li{border-top:1px solid var(--line)}
+.tpn-list a{display:grid;grid-template-columns:auto auto 1fr auto;gap:6px 12px;align-items:center;padding:11px 0;color:inherit;font-weight:700}
+.tpn-list time{font-family:'Anton',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--sub)}
+.tpn-tag{font-size:10px;font-weight:900;letter-spacing:.04em;padding:2px 7px;border:1px solid var(--accent);color:var(--accent);white-space:nowrap;line-height:1.5}
+.tpn-tag.y{border-color:#D98A00;color:#D98A00}
+.tpn-t{font-size:13px;line-height:1.55}
+.tpn-t .new{display:inline-block;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.14em;padding:1px 6px;margin-right:6px;vertical-align:2px}
+.tpn-a{font-size:11.5px;font-weight:900;color:var(--accent);white-space:nowrap}
+.tpn-list a:hover .tpn-t{text-decoration:underline}
+@media(max-width:759px){.tp-news{padding-top:14px}.tpn{padding:10px 14px 2px}.tpn-list a{grid-template-columns:auto auto 1fr;gap:4px 10px;padding:10px 0}.tpn-t{grid-column:1/-1}.tpn-a{grid-row:1;grid-column:3;justify-self:end}}
 </style>
 <link rel="stylesheet" href="quiz.css?v=20261004">
 <!-- GA4 -->
@@ -96,6 +114,15 @@
     </div>
   </div>
   <div class="scroll-hint">SCROLL</div>
+</section>
+<section class="tp-news" aria-label="お知らせ">
+  <div class="wrap"><div class="tpn">
+    <div class="tpn-h"><span class="k">NEWS</span><b>お知らせ</b></div>
+    <ul class="tpn-list">
+      <li><a href="listing.html#ai-draft"><time datetime="2026-09-25">2026.09.25</time><span class="tpn-tag">クラブ運営者の方へ</span><span class="tpn-t"><span class="new">NEW</span>公式サイトがあれば、クラブページの中身をチビスポが下書きします。登録は基本の項目だけで</span><span class="tpn-a">くわしく ›</span></a></li>
+      <li><a href="assist.html"><time datetime="2026-09-25">2026.09.25</time><span class="tpn-tag y">保護者・地域の方へ</span><span class="tpn-t"><span class="new">NEW</span>「チビスポアシスト」を始めました。地域のクラブを500円からワンタップで応援できます</span><span class="tpn-a">くわしく ›</span></a></li>
+    </ul>
+  </div></div>
 </section>
 <section class="sec sec-dark">
   <div class="wrap">
@@ -224,7 +251,7 @@
 
     <div class="svc-lb2">クラブ・事業者の方へ</div>
     <div class="svc-g">
-      <a class="c" href="listing.html"><img loading="lazy" decoding="async" src="assets/svc-1.webp" alt=""><div class="n">01</div><h3>クラブを載せる</h3><p>掲載は無料です。情報とタグを登録すると、地域・種目・こだわりの検索に載ります。</p><span class="a">詳しく見る ›</span></a>
+      <a class="c" href="listing.html"><img loading="lazy" decoding="async" src="assets/svc-1.webp" alt=""><div class="n">01</div><h3>クラブを載せる</h3><p>掲載は無料。公式サイトがあれば、ページの中身はチビスポが下書きします。保護者や地元の方からの応援（アシスト）も、ページから届きます。</p><span class="a">詳しく見る ›</span></a>
       <a class="c" href="partner.html#s02"><span class="pin">準備中</span><img loading="lazy" decoding="async" src="assets/svc-2.webp" alt=""><div class="n">02</div><h3>撮影・動画制作</h3><p>新入団の募集シーズンに向けて、30秒のクラブ紹介動画をつくります。受付を始めたらお知らせします。</p><span class="a">お知らせを受け取る ›</span></a>
       <a class="c" href="service-sns.html"><img loading="lazy" decoding="async" src="assets/svc-3.webp" alt=""><div class="n">03</div><h3>SNS運用サポート</h3><p>そのクラブに合った投稿の型と頻度を決めて、最初の3本を一緒に出します。買い切り、月額なし。</p><span class="a">詳しく見る ›</span></a>
       <a class="c" href="hp-samples/"><img loading="lazy" decoding="async" src="assets/svc-4.webp" alt=""><div class="n">04</div><h3>ホームページ制作</h3><p>5つのデザインから選ぶ、スマホ前提の公式サイト。チビスポの掲載情報と写真をそのまま流用できます。</p><span class="a">見本を見る ›</span></a>
