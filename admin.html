@@ -956,7 +956,11 @@ async function requestDraft(id, name, btn) {
   catch (e) { res = { error: { message: e && e.message ? e.message : String(e) } }; }
   if (res && res.error) {
     console.warn('requestDraft', res.error);
-    alert('依頼できませんでした：' + (res.error.message || res.error.code || JSON.stringify(res.error)));
+    // 原因の切り分け：いまのログイン（メール）と、DB から見て管理者か
+    let who = '', adm = '';
+    try { const sess = await db.auth.getSession(); who = sess?.data?.session?.user?.email || '（未ログイン）'; } catch (_) {}
+    try { const r = await db.rpc('is_admin'); adm = (r && r.error) ? 'エラー' : String(r?.data); } catch (_) {}
+    alert('依頼できませんでした：' + (res.error.message || res.error.code || JSON.stringify(res.error)) + '\n\nログイン：' + who + '\n管理者判定：' + adm);
     if (btn) { btn.disabled = false; btn.textContent = 'AI下書きを作る'; }
     return;
   }
