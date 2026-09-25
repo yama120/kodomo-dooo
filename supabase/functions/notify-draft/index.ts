@@ -20,8 +20,10 @@ serve(async (req) => {
 
   const H = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` };
   const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-  const [draft] = await (await fetch(`${SB_URL}/rest/v1/club_drafts?team_id=eq.${id}&status=eq.pending&created_at=gte.${since}&select=id&limit=1`, { headers: H })).json();
+  const [draft] = await (await fetch(`${SB_URL}/rest/v1/club_drafts?team_id=eq.${id}&status=eq.pending&created_at=gte.${since}&select=id,applied_fields&limit=1`, { headers: H })).json();
   if (!draft) return json({ error: 'no_pending_draft' }, 404);
+  // 同じ下書きには1通だけ（送った印を applied_fields に置く。承認時に上書きされるので邪魔にならない）
+  if (draft.applied_fields && draft.applied_fields.notified_at) return json({ ok: true, id: null, error: null, already: true });
   const [team] = await (await fetch(`${SB_URL}/rest/v1/teams?id=eq.${id}&select=name,email`, { headers: H })).json();
   if (!team?.email) return json({ error: 'no_email' }, 404);
 
@@ -56,5 +58,6 @@ serve(async (req) => {
     }),
   });
   const data = await res.json();
+  if (res.ok) await fetch(`${SB_URL}/rest/v1/club_drafts?id=eq.${draft.id}`, { method: 'PATCH', headers: { ...H, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify({ applied_fields: { notified_at: new Date().toISOString(), mail_id: data?.id || null } }) }).catch(() => {});
   return json({ ok: res.ok, id: data?.id || null, error: res.ok ? null : (data?.message || 'resend_failed') }, res.ok ? 200 : 502);
 });
