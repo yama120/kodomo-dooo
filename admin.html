@@ -908,12 +908,13 @@ function renderTab() {
     }
     // AI下書き：公式サイトか Instagram があるクラブに、承認の前でも依頼できる（作成待ち・確認待ちの間は出さない）
     if (t.status !== 'rejected' && !(d && (d.status === 'requested' || d.status === 'pending'))) {
-      const src = !!(t.website_url || t.instagram);
+      // 下書きの材料は公式サイトだけ（Instagram はログイン無しでは本文が読めないので、写真タイル専用）
+      const src = !!t.website_url;
       const btn = document.createElement('button');
       btn.className = 'btn btn-draft';
       btn.textContent = d ? 'AI下書きを作り直す' : 'AI下書きを作る';
       btn.disabled = !src;
-      btn.title = src ? '公式サイト・Instagram から下書きを作り、クラブのマイページに届けます' : '公式サイトか Instagram が未登録のクラブは作れません';
+      btn.title = src ? '公式サイトから下書きを作り、クラブのマイページに届けます' : '公式サイトが未登録のクラブは作れません（Instagram だけでは本文を読めません）';
       btn.addEventListener('click', () => requestDraft(t.id, t.name, btn));
       actions.appendChild(btn);
     }
@@ -948,7 +949,7 @@ function draftLabel(s) {
 
 // AI下書きの依頼。手元の runner（30分ごと）が claude -p で作り、クラブのマイページに届く
 async function requestDraft(id, name, btn) {
-  if (!confirm(`${name} の公式サイト・Instagram から、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます（クラブにお知らせメールも届きます）\n・クラブが確認するまで公開されません`)) return;
+  if (!confirm(`${name} の公式サイトから、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます（クラブにお知らせメールも届きます）\n・クラブが確認するまで公開されません`)) return;
   if (btn) { btn.disabled = true; btn.textContent = '依頼しています…'; }
   let res;
   try { res = await db.from('club_drafts').insert({ team_id: id, draft: {}, sources: null, status: 'requested' }); }

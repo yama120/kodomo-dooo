@@ -2374,7 +2374,7 @@
     if(todo.draft) items.push({k:'info',cls:'sun',b:'ページの下書きが届いています',s:'載せてよい項目にチェックを入れるだけで反映できます'});
     if(todo.assistPending) items.push({k:'grow',cls:'sun',b:'受け取り待ちのアシスト '+yen(todo.assistPending),s:'受け取り口座を登録すると送金されます'});
     if(todo.noIg) items.push({k:'info',cls:'',b:'Instagram の写真がまだありません',s:'投稿のリンクを貼るだけで、ページに写真が並びます',sec:'sec-photo'});
-    if(todo.noSource) items.push({k:'info',cls:'',b:'公式サイト・Instagram が未登録です',s:'登録すると、チビスポが下書きを作れます',sec:'sec-contact'});
+    if(todo.noSource) items.push({k:'info',cls:'',b:'公式サイトが未登録です',s:'登録すると、チビスポが下書きを作れます',sec:'sec-contact'});
     var box=el('mp-todo'); if(!items.length){ box.innerHTML=''; box.hidden=true; return; }
     box.hidden=false; box.innerHTML=items.map(function(i){ return '<a href="#" class="'+i.cls+'" data-tab="'+i.k+'"'+(i.sec?' data-sec="'+i.sec+'"':'')+'><span><b>'+es(i.b)+'</b><small>'+es(i.s)+'</small></span><span class="go">→</span></a>'; }).join('');
   }
@@ -2438,7 +2438,7 @@
     var filled={'sec-about':!!(lead||leData.story.length||leData.features.length),'sec-people':!!(g.body||leData.staff.length||(x.achievements||[]).length),'sec-course':!!leData.cost.length,'sec-photo':!!((x.ig_photos||[]).length||x.video_url||leData.log.length),'sec-contact':!!(x.website_url||x.instagram)};
     Object.keys(filled).forEach(function(id){ var d=el(id); if(!d) return; d.classList.toggle('filled',filled[id]); });
     var sc=el('sec-about'); if(sc&&filled['sec-about']) sc.open=true;
-    todo.noSource=!(x.website_url||x.instagram); todo.noIg=!((x.ig_photos||[]).filter(function(p){ return p&&p.thumb; }).length); drawTodo();
+    todo.noSource=!x.website_url; todo.noIg=!((x.ig_photos||[]).filter(function(p){ return p&&p.thumb; }).length); drawTodo();
   }
   function readExtra(){
     var st=leRead('story').filter(function(s){ return s.body; }); var lead=el('x-story-lead').value.trim(); if(lead) st.unshift({heading:null,body:lead});
@@ -2508,7 +2508,7 @@
       var st=el('mp-enrich-status'), btn=el('mp-draft-req');
       if(j.draft){ draft=j.draft; drawDraft(); st.textContent='下書きが届いています。上のカードで確認してください。'; btn.style.display='none'; }
       else if(j.requested_at){ st.textContent='下書きを準備しています（'+String(j.requested_at).slice(0,10).replace(/-/g,'/')+' に依頼）。通常1〜2営業日で、このページに届きます。'; btn.style.display='none'; }
-      else if(!j.has_source){ st.textContent='公式サイトか Instagram の登録が必要です。「06 連絡先・リンク」に入れて保存すると依頼できます。'; btn.disabled=true; btn.style.display=''; }
+      else if(!j.has_source){ st.textContent='公式サイトの登録が必要です。「06 連絡先・リンク」に入れて保存すると依頼できます（Instagram だけでは本文を読めません）。'; btn.disabled=true; btn.style.display=''; }
       else { st.textContent=''; btn.disabled=false; btn.style.display=''; }
     }).catch(function(){});
   }
