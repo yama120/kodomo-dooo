@@ -40,7 +40,8 @@ serve(async (req) => {
         <p style="font-size:14px;color:#475569;line-height:1.8;">
           <strong>ご登録時に書いていただいた内容はそのまま残し、それにプラスする形</strong>で、大事にしていること・コーチ紹介・成績など、まだ空いている項目の案を用意しました。<br>
           マイページで<strong>載せてよい項目にチェックを入れるだけ</strong>で、クラブページに反映されます。<br>
-          <strong>ご確認いただくまで公開されません。</strong>合わない項目は外して大丈夫です。
+          <strong>ご確認いただくまで公開されません。</strong>合わない項目は外して大丈夫です。<br>
+          公式サイトなどから確かめられなかった項目は、推測で埋めずに<strong>空のまま</strong>にしています。必要なものはマイページから追加できます。
         </p>
         <p style="margin-top:20px;">
           <a href="https://chibispo.com/club-mypage.html" style="background:#E43B4D;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:bold;">マイページで確認する</a>
