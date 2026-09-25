@@ -254,6 +254,26 @@ body{overflow-x:clip!important}
 .d-ach li.more{display:none}
 .d-ach.open li.more{display:grid}
 @media (max-width:640px){.d-ach{grid-template-columns:1fr}}
+.d-pts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.d-pts .c{position:relative;background:#fff;border:1px solid var(--line,#ececec);border-radius:var(--r,16px);padding:18px 18px 16px;box-shadow:0 8px 24px rgba(43,43,43,.05);overflow:hidden}
+.d-pts .c::after{content:"";position:absolute;right:-22px;top:-22px;width:78px;height:78px;border-radius:50%;background:#FDECEE}
+.d-pts .n{position:relative;z-index:1;font-family:'Anton',sans-serif;font-size:30px;line-height:1;color:var(--accent,#E43B4D);letter-spacing:.02em}
+.d-pts .t{position:relative;z-index:1;display:block;margin-top:10px;font-size:17px;font-weight:900;line-height:1.5}
+.d-pts .c .st{position:absolute;right:12px;top:12px;width:18px;height:18px;fill:none;stroke:var(--accent,#E43B4D);stroke-width:2;stroke-linejoin:round;opacity:.7}
+@media (max-width:640px){.d-pts{grid-template-columns:1fr 1fr;gap:10px}.d-pts .c{padding:14px 14px 12px}.d-pts .n{font-size:24px}.d-pts .t{font-size:14.5px;margin-top:8px}}
+.d-fees{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.d-fees .f{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--line,#ececec);border-radius:var(--r,16px);padding:14px 16px 12px}
+.d-fees .f.main{border-color:var(--accent,#E43B4D)}
+.d-fees .k{font-size:12.5px;font-weight:900;color:var(--sub,#6a7385)}
+.d-fees .v{font-family:var(--fh,inherit);font-size:22px;font-weight:900;line-height:1.2}
+.d-fees .f.main .v{color:var(--accent,#E43B4D)}
+.d-fees small{font-size:11.5px;font-weight:700;color:var(--sub,#6a7385);line-height:1.4}
+@media (max-width:640px){.d-fees{grid-template-columns:1fr 1fr;gap:10px}.d-fees .v{font-size:19px}}
+.d-cbtns a.ig{background:linear-gradient(45deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%);border-color:transparent;color:#fff;box-shadow:0 8px 22px rgba(221,42,123,.35)}
+.d-cbtns a.ig small{opacity:.9}
+.d-cbtns a.web{background:#2a6fdb;border-color:#2a6fdb;color:#fff;box-shadow:0 8px 22px rgba(42,111,219,.35)}
+.d-cbtns a.line{background:#06c755;border-color:#06c755;color:#fff}
+.d-cbtns a.x{background:#111;border-color:#111;color:#fff}
 .d-more{margin-top:10px;background:none;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-family:var(--fh);font-weight:900;font-size:13px;cursor:pointer;color:var(--ink)}
 .d-connect{position:relative;margin:36px calc(50% - 50vw) 0;padding:64px calc(50vw - 50%) 60px;color:#fff;background:#1a1c22 center/cover no-repeat;overflow:hidden;isolation:isolate}
 .d-connect::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,18,.55),rgba(10,12,18,.72));z-index:-1}
@@ -449,7 +469,7 @@ body{overflow-x:clip!important}
   <div class="blk" id="cd-fees" hidden>
     <h2 data-en="FEES">費用の内訳</h2>
     <div class="sub">月謝のほかにかかるもの。</div>
-    <table class="fee" id="cd-fee-table"></table>
+    <div class="d-fees" id="cd-fee-table"></div>
   </div>
 
   <div class="blk" id="cd-map">
@@ -656,7 +676,7 @@ body{overflow-x:clip!important}
     }
     /* おすすめポイント → チップ。「こんなお子様に」はポイントと重複するので出さない */
     (function(){ var ul=E('cd-points-list'); var items=[].map.call(ul?ul.querySelectorAll('li'):[],function(li){ return li.textContent; }); if(!items.length) return;
-      var d=document.createElement('div'); d.className='d-chips'; d.innerHTML=items.map(function(x){ return '<span>'+ico('check',true)+es(x)+'</span>'; }).join(''); ul.replaceWith(d); })();
+      var d=document.createElement('div'); d.className='d-pts'; d.innerHTML=items.map(function(x,i){ return '<div class="c"><svg class="st" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg><span class="n">'+('0'+(i+1)).slice(-2)+'</span><span class="t">'+es(x)+'</span></div>'; }).join(''); ul.replaceWith(d); })();
     /* 代表挨拶 */
     var G=t.greeting&&typeof t.greeting==='object'?t.greeting:null;
     if(G&&G.body){
@@ -715,10 +735,10 @@ body{overflow-x:clip!important}
       E('d-con-name').textContent=t.name||'このクラブ';
       var web='<path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/><circle cx="12" cy="12" r="9"/>', ln='<path d="M4 11c0-3.9 3.6-7 8-7s8 3.1 8 7-3.6 7-8 7c-.6 0-1.2-.1-1.8-.2L7 20l.6-3.2C5.4 15.6 4 13.4 4 11z"/>', xx='<path d="M4 4l16 16M20 4L4 20"/>';
       var btns=[];
-      if(handle) btns.push('<a class="pri" href="'+es(prof)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ICO.ig+'</svg>Instagramをフォロー <small>@'+es(handle)+'</small></a>');
-      if(t.website_url) btns.push('<a href="'+es(t.website_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+web+'</svg>公式サイトを見る</a>');
-      if(t.line_url) btns.push('<a href="'+es(t.line_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ln+'</svg>LINEで相談する</a>');
-      if(t.twitter) btns.push('<a href="https://x.com/'+es(String(t.twitter).replace(/^@/,''))+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+xx+'</svg>Xをフォロー</a>');
+      if(handle) btns.push('<a class="ig" href="'+es(prof)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ICO.ig+'</svg>Instagramをフォロー <small>@'+es(handle)+'</small></a>');
+      if(t.website_url) btns.push('<a class="web" href="'+es(t.website_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+web+'</svg>公式サイトを見る</a>');
+      if(t.line_url) btns.push('<a class="line" href="'+es(t.line_url)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+ln+'</svg>LINEで相談する</a>');
+      if(t.twitter) btns.push('<a class="x" href="https://x.com/'+es(String(t.twitter).replace(/^@/,''))+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24">'+xx+'</svg>Xをフォロー</a>');
       if(btns.length){ E('d-cbtns').innerHTML=btns.join(''); con.hidden=false; }
     })();
     /* チビスポアシスト：受け取り口座が有効なクラブにだけ出す */
@@ -901,7 +921,7 @@ body{overflow-x:clip!important}
       var rows=[]; if(t.fee_num!=null) rows.push(['月謝',Number(t.fee_num)===0?'無料':yen(t.fee_num),'']);
       if(t.admission_fee_num!=null) rows.push(['入会金',Number(t.admission_fee_num)===0?'なし':yen(t.admission_fee_num),'']);
       items.forEach(function(x){ rows.push([x.name,(x.amount!=null&&x.amount!=='')?(/^[\d,]+$/.test(String(x.amount))?yen(String(x.amount).replace(/,/g,'')):esc(x.amount)):'—',x.note||'']); });
-      el('cd-fee-table').innerHTML=rows.map(function(r){ return '<tr><td>'+esc(r[0])+(r[2]?'<small>'+esc(r[2])+'</small>':'')+'</td><td>'+r[1]+'</td></tr>'; }).join(''); el('cd-fees').hidden=false; })();
+      el('cd-fee-table').innerHTML=rows.map(function(r,i){ return '<div class="f'+(i===0?' main':'')+'"><span class="k">'+esc(r[0])+'</span><span class="v">'+r[1]+'</span>'+(r[2]?'<small>'+esc(r[2])+'</small>':'')+'</div>'; }).join(''); el('cd-fees').hidden=false; })();
     /* ---- 地図 ---- */
     (function(){ var qq=addrFull||area; var at=el('cd-map-addr-text'); if(at&&qq) at.textContent=qq;
       if(t.venue){ setText('cd-venue',t.venue); el('cd-venue-wrap').hidden=false; }
