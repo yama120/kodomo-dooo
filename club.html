@@ -231,6 +231,29 @@ body{overflow-x:clip!important}
 .d-ach li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);transform:translateY(-1px)}
 .d-ach li.more{display:none}
 .d-ach.open li.more{display:flex}
+.d-letter{position:relative;margin-top:6px;background:#FFFDF9;border:1px solid var(--line,#ececec);border-top:5px solid var(--accent,#E43B4D);border-radius:var(--r,16px);padding:30px 34px 26px;box-shadow:0 16px 44px rgba(43,43,43,.09);overflow:hidden}
+.d-letter::before{content:"\201C";position:absolute;left:14px;top:-18px;font-family:'Anton',sans-serif;font-size:150px;line-height:1;color:var(--accent,#E43B4D);opacity:.12;pointer-events:none}
+.d-letter .lt{display:grid;grid-template-columns:1fr;gap:22px;align-items:start}
+.d-letter.hasph .lt{grid-template-columns:180px 1fr}
+.d-letter img.ph{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:calc(var(--r,16px) - 4px);box-shadow:0 10px 26px rgba(0,0,0,.14)}
+.d-letter .ey{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent,#E43B4D);margin:0 0 10px}
+.d-letter p{margin:0;font-size:15.5px;line-height:2.1}
+.d-letter .sign{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:20px;padding-top:14px;border-top:1px dashed var(--line,#ececec)}
+.d-letter .sign .ln{width:34px;height:2px;background:var(--accent,#E43B4D)}
+.d-letter .sign b{font-size:17px;font-weight:900}
+.d-letter .sign span{font-size:12px;font-weight:900;color:var(--accent,#E43B4D);letter-spacing:.04em}
+@media (max-width:640px){.d-letter{padding:24px 20px 20px}.d-letter.hasph .lt{grid-template-columns:1fr}.d-letter img.ph{max-width:200px;aspect-ratio:1/1;border-radius:50%}.d-letter p{font-size:14.5px;line-height:1.95}}
+.d-ach{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.d-ach li{position:relative;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line,#ececec);border-radius:var(--r,16px);padding:14px 16px;font-size:14px;line-height:1.55}
+.d-ach li::before{content:none}
+.d-ach li:first-child{border-color:var(--accent,#E43B4D);box-shadow:0 8px 24px rgba(228,59,77,.10)}
+.d-ach .md{width:46px;height:46px;border-radius:50%;background:#FDECEE;display:flex;align-items:center;justify-content:center;flex:none}
+.d-ach .md svg{width:24px;height:24px;fill:none;stroke:var(--accent,#E43B4D);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.d-ach .yr{display:block;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.1em;color:var(--accent,#E43B4D);margin-bottom:2px}
+.d-ach .tx{display:block;font-weight:700}
+.d-ach li.more{display:none}
+.d-ach.open li.more{display:grid}
+@media (max-width:640px){.d-ach{grid-template-columns:1fr}}
 .d-more{margin-top:10px;background:none;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-family:var(--fh);font-weight:900;font-size:13px;cursor:pointer;color:var(--ink)}
 .d-connect{position:relative;margin:36px calc(50% - 50vw) 0;padding:64px calc(50vw - 50%) 60px;color:#fff;background:#1a1c22 center/cover no-repeat;overflow:hidden;isolation:isolate}
 .d-connect::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,18,.55),rgba(10,12,18,.72));z-index:-1}
@@ -639,7 +662,8 @@ body{overflow-x:clip!important}
     if(G&&G.body){
       E('d-greet-h').textContent=G.title||'代表からのメッセージ';
       var gp=G.photo_url||''; E('d-greet').className='d-greet'+(gp?'':' nophoto');
-      E('d-greet').innerHTML=(gp?'<img src="'+es(gp)+'" alt="'+es(G.name||'代表')+'" loading="lazy">':'')+'<div>'+((G.name||G.role)?'<div class="who"><b>'+es(G.name||'')+'</b><span>'+es(G.role||'')+'</span></div>':'')+'<p class="q">'+es(G.body)+'</p></div>';
+      E('d-greet').className='d-letter'+(gp?' hasph':'');
+      E('d-greet').innerHTML='<div class="lt">'+(gp?'<img class="ph" src="'+es(gp)+'" alt="'+es(G.name||'代表')+'" loading="lazy">':'')+'<div><div class="ey">MESSAGE FROM '+es(t.name)+'</div><p>'+es(G.body)+'</p>'+((G.name||G.role)?'<div class="sign"><span class="ln"></span>'+(G.role?'<span>'+es(G.role)+'</span>':'')+(G.name?'<b>'+es(G.name)+'</b>':'')+'</div>':'')+'</div></div>';
       E('d-greet-blk').hidden=false;
     }
     /* 写真（Instagram の投稿リンクからクラブが登録）＋最近のできごと */
@@ -656,7 +680,7 @@ body{overflow-x:clip!important}
     var ft=arr(t.features); if(ft.length){ E('d-feat').innerHTML=ft.map(function(f){ return '<div>'+ico('spark')+'<div><b>'+es(f.title)+'</b><p>'+es(f.body)+'</p></div></div>'; }).join(''); E('d-feat-blk').hidden=false; }
     var AP=arr(t.achievement_photos).filter(function(a){ return a&&a.photo_url; }); var ach=arr(t.achievements);
     if(AP.length) E('d-achph').innerHTML=AP.map(function(a){ return '<figure><img src="'+es(a.photo_url)+'" alt="'+es(a.caption)+'" loading="lazy"><figcaption>'+es(a.caption)+'</figcaption></figure>'; }).join('');
-    if(ach.length||AP.length){ E('d-ach').innerHTML=ach.map(function(a,i){ return '<li'+(i>=3?' class="more"':'')+'>'+es(a)+'</li>'; }).join(''); E('d-ach-blk').hidden=false;
+    if(ach.length||AP.length){ E('d-ach').innerHTML=ach.map(function(a,i){ var m=String(a).match(/(20\d{2})\s*年?\s*(\d{1,2})?\s*月?/); var yr=m?(m[1]+(m[2]?'.'+('0'+m[2]).slice(-2):'')):''; var tx=String(a).replace(/[（(]\s*20\d{2}年\s*\d{0,2}月?\s*[)）]/,'').trim(); return '<li'+(i>=3?' class="more"':'')+'><span class="md"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v3M9 20h6M10 16h4l1 4H9z"/></svg></span><span>'+(yr?'<span class="yr">'+yr+'</span>':'')+'<span class="tx">'+es(tx||a)+'</span></span></li>'; }).join(''); E('d-ach-blk').hidden=false;
       if(ach.length>3){ var mb=E('d-more'); mb.hidden=false; mb.onclick=function(){ E('d-ach').classList.add('open'); mb.hidden=true; }; } }
     /* 章に分けて背景を交互に。ナビは見ている章を追う */
     var wrap=E('d-story-blk').parentNode;
