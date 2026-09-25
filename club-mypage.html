@@ -95,6 +95,16 @@
   .mp-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:14px 0;font-size:15px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 8px 18px rgba(228,59,77,.22)}
   .mp-btn:disabled{opacity:.6;cursor:wait}
   .mp-group{margin-bottom:16px}
+  /* ---- クラブのスタイル（5段階の点） ---- */
+  .st{display:grid;gap:12px 0;margin-top:4px}
+  .st-row{display:grid;grid-template-columns:6.4em 1fr 6.4em;align-items:center;gap:10px;font-size:11.5px;font-weight:900;color:var(--sub);white-space:nowrap;line-height:1.25}
+  .st-row .l{text-align:right}
+  .st-row.set{color:var(--ink)}
+  .st-dots{position:relative;display:flex;justify-content:space-between;align-items:center;height:26px}
+  .st-dots::before{content:"";position:absolute;left:0;right:0;top:50%;height:3px;transform:translateY(-50%);background:var(--line);border-radius:999px}
+  .st-dots button{position:relative;z-index:1;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:#fff;cursor:pointer;padding:0;font:inherit}
+  .st-dots button.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}
+  @media(min-width:760px){.st{grid-template-columns:1fr 1fr;gap:14px 40px}}
   .ed-btn{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:900;color:var(--ink);cursor:pointer;font-family:inherit}
   .ed-btn:hover{border-color:var(--ink)}
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -609,6 +619,11 @@
             <label class="mp-label">おすすめポイント<span class="opt">（最大5つ）</span><span class="sh">表示：クラブページ「おすすめポイント」</span></label>
             <div id="f-points"></div>
             <div style="display:flex;gap:8px;margin-top:8px;"><input id="f-points-input" class="mp-input" type="text" maxlength="40" placeholder="例）経験豊富なコーチが基礎から指導" style="flex:1;"><button type="button" id="f-points-add" class="ed-btn" style="flex:0 0 auto;">追加</button></div>
+          </div>
+          <div class="mp-group">
+            <label class="mp-label">クラブのスタイル<span class="opt">（任意・5段階）</span><span class="sh">表示：クラブページ「このクラブのスタイル」。選んだ項目だけ出ます。いつでも変えられます</span></label>
+            <div class="st" id="x-style"></div>
+            <div class="sh" style="font-size:11px;font-weight:700;color:var(--sub);margin-top:8px;">あてはまる位置を1つタップ。もう一度タップすると未設定に戻ります</div>
           </div>
           <div class="mp-group" hidden>
             <label class="mp-label">こんなお子様におすすめ</label>
@@ -2419,8 +2434,16 @@
   el('x-greet-photo-del').onclick=function(){ greetPhoto=null; drawGreetPhoto(); };
   function drawGreetPhoto(){ var im=el('x-greet-photo-img'); im.src=greetPhoto||''; im.style.display=greetPhoto?'':'none'; el('x-greet-photo-del').style.display=greetPhoto?'':'none'; el('x-greet-photo-btn').textContent=greetPhoto?'写真を変える':'写真を選ぶ'; }
 
+  /* ---- クラブのスタイル（5段階の点）：club.html の表示と同じ5項目 ---- */
+  var ST_ROWS=[['strict','きびしい','のびのび'],['win','勝ち重視','楽しさ重視'],['select','実力で選ぶ','全員が出る'],['practice','練習が多い','少ない'],['gender','男の子が多い','女の子が多い']];
+  function stBuild(box){ box.innerHTML=ST_ROWS.map(function(r){ return '<div class="st-row" data-k="'+r[0]+'"><span class="l">'+r[1]+'</span><div class="st-dots">'+[1,2,3,4,5].map(function(v){ return '<button type="button" data-v="'+v+'" aria-label="'+r[1]+'〜'+r[2]+' '+v+'/5"></button>'; }).join('')+'</div><span class="r">'+r[2]+'</span></div>'; }).join('');
+    box.addEventListener('click',function(e){ var b=e.target.closest('button[data-v]'); if(!b) return; var row=b.closest('.st-row'), was=b.classList.contains('on'); row.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); }); if(!was) b.classList.add('on'); row.classList.toggle('set',!was); }); }
+  function stRead(box){ var o={}; box.querySelectorAll('.st-row').forEach(function(r){ var b=r.querySelector('button.on'); if(b) o[r.dataset.k]=+b.dataset.v; }); return Object.keys(o).length?o:null; }
+  function stSet(box,s){ s=s&&typeof s==='object'?s:{}; box.querySelectorAll('.st-row').forEach(function(r){ var v=+s[r.dataset.k]; r.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on',+b.dataset.v===v); }); r.classList.toggle('set',v>=1&&v<=5); }); }
+  stBuild(el('x-style'));
+
   /* ---- 新しい欄：読み込みと保存 ---- */
-  var COLS='tagline,story,story_policies,features,greeting,achievements,achievement_photos,practice_log,staff,cost_items,member_count,trial_fee,twitter,video_url,ig_photos,website_url,instagram';
+  var COLS='style,tagline,story,story_policies,features,greeting,achievements,achievement_photos,practice_log,staff,cost_items,member_count,trial_fee,twitter,video_url,ig_photos,website_url,instagram';
   function fillExtra(x){
     extra=x||{};
     el('x-tagline').value=x.tagline||''; el('x-trial-fee').value=x.trial_fee||''; el('x-member-count').value=x.member_count!=null?x.member_count:''; el('x-twitter').value=x.twitter||''; el('x-video').value=x.video_url||'';
@@ -2434,8 +2457,9 @@
     Object.keys(LE).forEach(leDraw);
     var g=x.greeting&&typeof x.greeting==='object'?x.greeting:{}; el('x-greet-name').value=g.name||''; el('x-greet-role').value=g.role||''; el('x-greet-title').value=g.title||''; el('x-greet-body').value=g.body||''; greetPhoto=g.photo_url||null; drawGreetPhoto();
     el('x-achievements').value=(Array.isArray(x.achievements)?x.achievements:[]).join('\n');
+    stSet(el('x-style'),x.style);
     /* 入っている章に印をつけ、開く */
-    var filled={'sec-about':!!(lead||leData.story.length||leData.features.length),'sec-people':!!(g.body||leData.staff.length||(x.achievements||[]).length),'sec-course':!!leData.cost.length,'sec-photo':!!((x.ig_photos||[]).length||x.video_url||leData.log.length),'sec-contact':!!(x.website_url||x.instagram)};
+    var filled={'sec-about':!!(lead||leData.story.length||leData.features.length||stRead(el('x-style'))),'sec-people':!!(g.body||leData.staff.length||(x.achievements||[]).length),'sec-course':!!leData.cost.length,'sec-photo':!!((x.ig_photos||[]).length||x.video_url||leData.log.length),'sec-contact':!!(x.website_url||x.instagram)};
     Object.keys(filled).forEach(function(id){ var d=el(id); if(!d) return; d.classList.toggle('filled',filled[id]); });
     var sc=el('sec-about'); if(sc&&filled['sec-about']) sc.open=true;
     todo.noSource=!x.website_url; todo.noIg=!((x.ig_photos||[]).filter(function(p){ return p&&p.thumb; }).length); drawTodo();
@@ -2443,7 +2467,7 @@
   function readExtra(){
     var st=leRead('story').filter(function(s){ return s.body; }); var lead=el('x-story-lead').value.trim(); if(lead) st.unshift({heading:null,body:lead});
     return {
-      tagline:el('x-tagline').value.trim(), story:st, story_policies:leRead('policies'), features:leRead('features'),
+      tagline:el('x-tagline').value.trim(), story:st, story_policies:leRead('policies'), features:leRead('features'), style:stRead(el('x-style')),
       greeting:{name:el('x-greet-name').value.trim(),role:el('x-greet-role').value.trim(),title:el('x-greet-title').value.trim(),body:el('x-greet-body').value.trim(),photo_url:greetPhoto},
       achievements:el('x-achievements').value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean), achievement_photos:leRead('achph'), staff:leRead('staff'), cost_items:leRead('cost'), practice_log:leRead('log'),
       member_count:el('x-member-count').value===''?null:+el('x-member-count').value, trial_fee:el('x-trial-fee').value.trim(), twitter:el('x-twitter').value.trim(), video_url:el('x-video').value.trim()
