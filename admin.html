@@ -914,7 +914,7 @@ function renderTab() {
       btn.textContent = d ? 'AI下書きを作り直す' : 'AI下書きを作る';
       btn.disabled = !src;
       btn.title = src ? '公式サイト・Instagram から下書きを作り、クラブのマイページに届けます' : '公式サイトか Instagram が未登録のクラブは作れません';
-      btn.addEventListener('click', () => requestDraft(t.id, t.name));
+      btn.addEventListener('click', () => requestDraft(t.id, t.name, btn));
       actions.appendChild(btn);
     }
 
@@ -947,10 +947,19 @@ function draftLabel(s) {
 }
 
 // AI下書きの依頼。手元の runner（30分ごと）が claude -p で作り、クラブのマイページに届く
-async function requestDraft(id, name) {
-  if (!confirm(`${name} の公式サイト・Instagram から、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます\n・クラブが確認するまで公開されません`)) return;
-  const { error } = await db.from('club_drafts').insert({ team_id: id, draft: {}, sources: null, status: 'requested' });
-  if (error) { alert('依頼できませんでした：' + (error.message || '')); return; }
+async function requestDraft(id, name, btn) {
+  if (!confirm(`${name} の公式サイト・Instagram から、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます（クラブにお知らせメールも届きます）\n・クラブが確認するまで公開されません`)) return;
+  if (btn) { btn.disabled = true; btn.textContent = '依頼しています…'; }
+  let res;
+  try { res = await db.from('club_drafts').insert({ team_id: id, draft: {}, sources: null, status: 'requested' }); }
+  catch (e) { res = { error: { message: e && e.message ? e.message : String(e) } }; }
+  if (res && res.error) {
+    console.warn('requestDraft', res.error);
+    alert('依頼できませんでした：' + (res.error.message || res.error.code || JSON.stringify(res.error)));
+    if (btn) { btn.disabled = false; btn.textContent = 'AI下書きを作る'; }
+    return;
+  }
+  alert(`${name} の下書きを依頼しました。30分以内に作られ、クラブのマイページとメールに届きます。`);
   await loadTeams();
 }
 
