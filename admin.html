@@ -82,6 +82,39 @@
     .badge-pending  { background: #fef3c7; color: #d97706; }
     .badge-approved { background: #dcfce7; color: #16a34a; }
     .badge-draft    { background: #fef3c7; color: #b45309; }
+    /* ---- クラブページの中身（新項目）の編集 ---- */
+    .adm-x { border: 1.5px solid var(--border); border-radius: 12px; margin: 6px 0 14px; background: #fff; }
+    .adm-x > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 800; font-size: .9rem; display: flex; align-items: center; gap: 10px; }
+    .adm-x > summary::-webkit-details-marker { display: none; }
+    .adm-x > summary .n { font-family: 'Anton', Impact, sans-serif; color: #E43B4D; font-size: 1.1rem; letter-spacing: .02em; }
+    .adm-x > summary small { font-weight: 500; color: #64748b; font-size: .78rem; margin-left: auto; }
+    .adm-x > summary::after { content: '+'; font-weight: 900; color: #94a3b8; margin-left: 8px; }
+    .adm-x[open] > summary::after { content: '–'; }
+    .adm-x .in { padding: 0 14px 12px; border-top: 1px solid var(--border); }
+    .adm-x .form-group { margin-top: 12px; }
+    .adm-x .form-group textarea { width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .9rem; font-family: inherit; line-height: 1.6; resize: vertical; }
+    .adm-x .hint { font-size: .75rem; color: #64748b; margin-top: 4px; line-height: 1.5; }
+    .xl { display: grid; gap: 8px; }
+    .xl .it { position: relative; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 40px 10px 10px; background: #f8fafc; display: grid; gap: 6px; }
+    .xl .it input, .xl .it textarea { width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 7px; font-size: .86rem; font-family: inherit; background: #fff; }
+    .xl .it textarea { min-height: 60px; line-height: 1.55; resize: vertical; }
+    .xl .it .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .xl .it .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .xl .it .del { position: absolute; right: 8px; top: 8px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: .9rem; line-height: 1; }
+    .xl .add { justify-self: start; padding: 6px 12px; border-radius: 999px; border: 1.5px dashed #cbd5e1; background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; }
+    .xph { display: flex; align-items: center; gap: 8px; }
+    .xph img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; background: #e2e8f0; }
+    .xph .ph0 { width: 56px; height: 56px; border-radius: 8px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: .7rem; }
+    .xph label { padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .78rem; font-weight: 700; cursor: pointer; margin: 0; }
+    .xph label input { display: none; }
+    .xph input[type=url] { flex: 1; }
+    .st-row { display: grid; grid-template-columns: 6.4em 1fr 6.4em; align-items: center; gap: 10px; font-size: .78rem; font-weight: 800; color: #64748b; white-space: nowrap; margin-top: 8px; }
+    .st-row .l { text-align: right; }
+    .st-row.set { color: #0f172a; }
+    .st-dots { position: relative; display: flex; justify-content: space-between; align-items: center; height: 26px; }
+    .st-dots::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%); background: #e2e8f0; border-radius: 999px; }
+    .st-dots button { position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; background: #fff; cursor: pointer; padding: 0; }
+    .st-dots button.on { background: #E43B4D; border-color: #E43B4D; box-shadow: 0 0 0 4px rgba(228,59,77,.22); }
     .btn-draft      { background: #fff; color: #b45309; border: 1.5px solid #f3c76b; }
     .btn-draft:disabled { opacity: .45; cursor: not-allowed; }
     .badge-rejected { background: #fee2e2; color: #dc2626; }
@@ -121,7 +154,7 @@
     /* Edit Modal */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
     .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
+    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 760px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
     @keyframes modalIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .modal-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
     .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
@@ -397,6 +430,42 @@
         <textarea id="editDescription"></textarea>
       </div>
     </div>
+          <!-- ===== クラブページの中身（2026-09-25 の新項目）。クラブのマイページと同じ形で保存する ===== -->
+      <p class="hint" style="font-size:.78rem;color:#64748b;margin:8px 0 6px;">▼ クラブページの中身（マイページと同じ項目）。入力した項目だけがページに出ます。AI下書きはクラブのマイページに届くので、ここには出ません。</p>
+      <details class="adm-x" open><summary><span class="n">01</span>ひとこと・基本<small>ひとこと紹介・体験費・在籍人数・動画</small></summary><div class="in">
+        <div class="form-group"><label>ひとこと紹介（30字まで・クラブ名のすぐ下）</label><input type="text" id="x-tagline" maxlength="120" placeholder="例：一人ひとりの個性を引き出す学童野球チーム"></div>
+        <div class="modal-grid">
+          <div class="form-group"><label>体験の費用</label><input type="text" id="x-trial-fee" placeholder="例：1回500円（空欄＝無料）"></div>
+          <div class="form-group"><label>在籍人数</label><input type="number" id="x-member-count" min="0" placeholder="例：40"></div>
+        </div>
+        <div class="form-group"><label>紹介動画（YouTube URL）</label><input type="url" id="x-video" placeholder="https://www.youtube.com/watch?v=…"></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">02</span>クラブについて<small>大事にしていること・方針・違い・スタイル</small></summary><div class="in">
+        <div class="form-group"><label>大事にしていること：冒頭のひとこと（60字まで）</label><textarea id="x-story-lead" rows="2" placeholder="例：1977年から続く、江戸川区の学童軟式野球チーム。運動が得意な子も苦手な子も、一人ひとりの持ち味を引き出します。"></textarea></div>
+        <div class="form-group"><label>段落（小見出し＋本文80〜130字・5つまで）</label><div class="xl" id="xl-story"></div></div>
+        <div class="form-group"><label>方針（3つまで）</label><div class="xl" id="xl-policies"></div></div>
+        <div class="form-group"><label>ほかのクラブとの違い（4つまで）</label><div class="xl" id="xl-features"></div></div>
+        <div class="form-group"><label>クラブのスタイル（当てはまる行だけ。もう一度押すと消えます）</label><div id="x-style"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">03</span>代表・コーチ・成績<small>代表メッセージ・コーチ紹介・成績と写真</small></summary><div class="in">
+        <div class="form-group"><label>代表からのメッセージ</label>
+          <div class="xl"><div class="it" style="padding-right:10px;">
+            <div class="row2"><input type="text" id="x-greet-name" placeholder="お名前（例：山田 太郎）"><input type="text" id="x-greet-role" placeholder="肩書（例：代表・監督）"></div>
+            <input type="text" id="x-greet-title" placeholder="見出し（例：足の速さより「できた」を増やしたい）">
+            <textarea id="x-greet-body" placeholder="保護者に向けたメッセージ（200〜300字）"></textarea>
+            <div class="xph" data-ph="x-greet-photo"><span class="ph0">写真</span><label>写真を選ぶ<input type="file" accept="image/*"></label><input type="url" id="x-greet-photo" placeholder="または写真のURL"></div>
+          </div></div></div>
+        <div class="form-group"><label>コーチ・スタッフ（4人まで）</label><div class="xl" id="xl-staff"></div></div>
+        <div class="form-group"><label>これまでの成績（1行に1つ）</label><textarea id="x-achievements" rows="4" placeholder="例：2024年 東京23区少年軟式野球大会 高学年の部 優勝&#10;2024年 全日本学童軟式野球大会 出場"></textarea></div>
+        <div class="form-group"><label>成績の写真（3枚まで）</label><div class="xl" id="xl-achph"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">04</span>コース・費用<small>コース一覧・月謝以外にかかる費用</small></summary><div class="in">
+        <div class="form-group"><label>コース（コース名・対象・曜日・時間・月謝）</label><div class="xl" id="xl-courses"></div></div>
+        <div class="form-group"><label>月謝以外の費用（入会金・年会費・保険・ユニフォームなど）</label><div class="xl" id="xl-cost"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">05</span>最近のできごと<small>大会・イベント・活動の記録（3件まで表示）</small></summary><div class="in">
+        <div class="form-group"><div class="xl" id="xl-log"></div><div class="hint">Instagram の写真タイルはクラブのマイページから投稿リンクを貼る仕組みなので、ここでは扱いません。</div></div>
+      </div></details>
     <div class="modal-footer">
       <button class="btn btn-cancel" onclick="closeEditModal()">キャンセル</button>
       <button class="btn btn-save" onclick="saveEdit()">保存する</button>
@@ -1069,6 +1138,7 @@ function openEditModal(id) {
     cb.checked = (t.days || []).includes(cb.value);
   });
 
+  xFill(t);
   document.getElementById('editModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1105,10 +1175,11 @@ async function saveEdit() {
     email: document.getElementById('editEmail').value.trim() || null,
     description: document.getElementById('editDescription').value.trim() || null,
     address: document.getElementById('editAddress').value.trim() || null,
+    ...xRead(),
   };
 
   const { error } = await db.from('teams').update(updates).eq('id', id);
-  if (error) { alert('保存に失敗しました。'); return; }
+  if (error) { console.warn('saveEdit', error); alert('保存に失敗しました：' + (error.message || '')); return; }
 
   allTeams = allTeams.map(t => t.id === id ? { ...t, ...updates } : t);
   closeEditModal();
@@ -1144,6 +1215,123 @@ document.getElementById('editPref').addEventListener('change', function() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.getElementById('loginWrap').style.display !== 'none') login();
 });
+
+/* ===== クラブページの中身（新項目）の編集。JSONの形は Worker の PROFILE / マイページと同じ ===== */
+const XL = {
+  story:    { id: 'xl-story',   max: 5, add: '段落を追加', fields: [['heading','小見出し（例：初めての子は体の動かし方から）'],['body','本文（80〜130字）','ta']] },
+  policies: { id: 'xl-policies',max: 3, add: '方針を追加', fields: [['title','方針（例：個性を引き出す）'],['body','ひとこと（例：得意・不得意に合わせて一人ずつ指導）']] },
+  features: { id: 'xl-features',max: 4, add: '違いを追加', fields: [['title','見出し（例：お茶当番なし）'],['body','説明（例：準備や片付けは子どもたち全員で行います）','ta']] },
+  staff:    { id: 'xl-staff',   max: 4, add: 'コーチを追加', fields: [['name','お名前'],['role','役割（例：監督・コーチ）'],['comment','経歴・資格・指導方針（80字まで）','ta'],['photo_url','','ph']] },
+  achph:    { id: 'xl-achph',   max: 3, add: '写真を追加', fields: [['photo_url','','ph'],['caption','説明（例：2025年 市大会 優勝）']] },
+  courses:  { id: 'xl-courses', max: 6, add: 'コースを追加', fields: [['name','コース名（例：U-9クラス）'],['age','対象（例：小学3〜4年生）'],['day','曜日（例：土・日）'],['time','時間（例：9:00〜11:00）'],['fee','月謝（例：6000）']] },
+  cost:     { id: 'xl-cost',    max: 8, add: '費用を追加', fields: [['name','項目（例：スポーツ保険）'],['amount','金額（例：800円/年）'],['note','補足（任意）']] },
+  log:      { id: 'xl-log',     max: 6, add: 'できごとを追加', fields: [['date','日付（例：2026-09-19）'],['title','タイトル（例：市ジュニア大会）'],['body','本文（任意・120字まで）','ta'],['url','リンク（任意）'],['image','','ph']] },
+};
+const xData = {};
+const xesc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function xlRender(key) {
+  const cfg = XL[key], box = document.getElementById(cfg.id), rows = xData[key] || [];
+  box.innerHTML = rows.map((r, i) => '<div class="it" data-i="' + i + '">' + cfg.fields.map(([f, ph, kind]) => {
+    if (kind === 'ph') return '<div class="xph" data-key="' + key + '" data-i="' + i + '" data-f="' + f + '">' + (r[f] ? '<img src="' + xesc(r[f]) + '" alt="">' : '<span class="ph0">写真</span>') + '<label>写真を選ぶ<input type="file" accept="image/*"></label><input type="url" data-f="' + f + '" value="' + xesc(r[f]) + '" placeholder="または写真のURL"></div>';
+    if (kind === 'ta') return '<textarea data-f="' + f + '" placeholder="' + xesc(ph) + '">' + xesc(r[f]) + '</textarea>';
+    return '<input type="text" data-f="' + f + '" value="' + xesc(r[f]) + '" placeholder="' + xesc(ph) + '">';
+  }).join('') + '<button type="button" class="del" title="削除">×</button></div>').join('')
+  + (rows.length < cfg.max ? '<button type="button" class="add">＋ ' + cfg.add + '</button>' : '');
+}
+function xlBind() {
+  Object.keys(XL).forEach((key) => {
+    const box = document.getElementById(XL[key].id);
+    box.addEventListener('input', (e) => { const it = e.target.closest('.it'); const f = e.target.dataset.f; if (!it || !f) return; xData[key][+it.dataset.i][f] = e.target.value; if (e.target.type === 'url') { const ph = e.target.closest('.xph'); const im = ph.querySelector('img,.ph0'); if (e.target.value) { const img = document.createElement('img'); img.src = e.target.value; im.replaceWith(img); } } });
+    box.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add')) { xData[key].push(Object.fromEntries(XL[key].fields.map(([f]) => [f, '']))); xlRender(key); }
+      else if (e.target.classList.contains('del')) { xData[key].splice(+e.target.closest('.it').dataset.i, 1); xlRender(key); }
+    });
+    box.addEventListener('change', async (e) => {
+      if (e.target.type !== 'file' || !e.target.files[0]) return;
+      const ph = e.target.closest('.xph'); const i = +ph.dataset.i, f = ph.dataset.f;
+      const url = await xUpload(e.target.files[0], key);
+      if (url) { xData[key][i][f] = url; xlRender(key); }
+    });
+  });
+  // 代表の写真
+  document.querySelector('.xph[data-ph="x-greet-photo"]').addEventListener('change', async (e) => {
+    if (e.target.type !== 'file' || !e.target.files[0]) return;
+    const url = await xUpload(e.target.files[0], 'greeting');
+    if (url) { document.getElementById('x-greet-photo').value = url; xGreetThumb(url); }
+  });
+  document.getElementById('x-greet-photo').addEventListener('input', (e) => xGreetThumb(e.target.value));
+  xStyleBuild();
+}
+function xGreetThumb(url) { const ph = document.querySelector('.xph[data-ph="x-greet-photo"]'); const im = ph.querySelector('img,.ph0'); if (url) { const img = document.createElement('img'); img.src = url; im.replaceWith(img); } else { const sp = document.createElement('span'); sp.className = 'ph0'; sp.textContent = '写真'; im.replaceWith(sp); } }
+// 写真：長辺1600pxに縮めて team-photos/admin/<team>/ へ（認証ユーザーは誰でも upload できるバケット）
+async function xUpload(file, kind) {
+  const teamId = document.getElementById('editId').value;
+  try {
+    const bmp = await createImageBitmap(file); const max = 1600; const sc = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * sc); cv.height = Math.round(bmp.height * sc);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.86));
+    const path = 'admin/' + teamId + '/' + kind + '-' + Date.now() + '.jpg';
+    const up = await db.storage.from('team-photos').upload(path, blob, { upsert: true, contentType: 'image/jpeg', cacheControl: '31536000' });
+    if (up.error) throw up.error;
+    return db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
+  } catch (e) { console.warn('xUpload', e); alert('写真を保存できませんでした：' + (e.message || e)); return null; }
+}
+const ST_ROWS = [['strict','きびしい','のびのび'],['win','勝ち重視','楽しさ重視'],['select','実力で選ぶ','全員が出る'],['practice','練習が多い','少ない'],['gender','男の子が多い','女の子が多い']];
+function xStyleBuild() {
+  const box = document.getElementById('x-style');
+  box.innerHTML = ST_ROWS.map((r) => '<div class="st-row" data-k="' + r[0] + '"><span class="l">' + r[1] + '</span><div class="st-dots">' + [1,2,3,4,5].map((v) => '<button type="button" data-v="' + v + '" aria-label="' + r[1] + '〜' + r[2] + ' ' + v + '/5"></button>').join('') + '</div><span class="r">' + r[2] + '</span></div>').join('');
+  box.addEventListener('click', (e) => { const b = e.target.closest('button[data-v]'); if (!b) return; const row = b.closest('.st-row'), was = b.classList.contains('on'); row.querySelectorAll('button').forEach((x) => x.classList.remove('on')); if (!was) b.classList.add('on'); row.classList.toggle('set', !was); });
+}
+function xStyleSet(st) { st = st && typeof st === 'object' ? st : {}; document.querySelectorAll('#x-style .st-row').forEach((r) => { const v = +st[r.dataset.k]; r.querySelectorAll('button').forEach((b) => b.classList.toggle('on', +b.dataset.v === v)); r.classList.toggle('set', v >= 1 && v <= 5); }); }
+function xStyleRead() { const o = {}; document.querySelectorAll('#x-style .st-row').forEach((r) => { const b = r.querySelector('button.on'); if (b) o[r.dataset.k] = +b.dataset.v; }); return Object.keys(o).length ? o : null; }
+const arr = (v) => Array.isArray(v) ? v : [];
+function xFill(t) {
+  document.getElementById('x-tagline').value = t.tagline || '';
+  document.getElementById('x-trial-fee').value = t.trial_fee || '';
+  document.getElementById('x-member-count').value = t.member_count != null ? t.member_count : '';
+  document.getElementById('x-video').value = t.video_url || '';
+  const st = arr(t.story).slice(); const lead = (st[0] && !st[0].heading) ? st.shift().body : '';
+  document.getElementById('x-story-lead').value = lead || '';
+  xData.story = st.map((x) => ({ heading: x.heading || '', body: x.body || '' }));
+  xData.policies = arr(t.story_policies).map((x) => ({ title: x.title || '', body: x.body || '' }));
+  xData.features = arr(t.features).map((x) => ({ title: x.title || '', body: x.body || '' }));
+  xData.staff = arr(t.staff).map((x) => ({ name: x.name || '', role: x.role || '', comment: x.comment || '', photo_url: x.photo_url || '' }));
+  xData.achph = arr(t.achievement_photos).map((x) => ({ photo_url: x.photo_url || '', caption: x.caption || '' }));
+  xData.courses = arr(t.courses).map((x) => ({ name: x.name || '', age: x.age || '', day: x.day || '', time: x.time || '', fee: x.fee == null ? '' : String(x.fee) }));
+  xData.cost = arr(t.cost_items).map((x) => ({ name: x.name || '', amount: x.amount || '', note: x.note || '' }));
+  xData.log = arr(t.practice_log).map((x) => ({ date: x.date || '', title: x.title || '', body: x.body || '', url: x.url || '', image: x.image || '' }));
+  Object.keys(XL).forEach(xlRender);
+  const g = (t.greeting && typeof t.greeting === 'object') ? t.greeting : {};
+  document.getElementById('x-greet-name').value = g.name || ''; document.getElementById('x-greet-role').value = g.role || '';
+  document.getElementById('x-greet-title').value = g.title || ''; document.getElementById('x-greet-body').value = g.body || '';
+  document.getElementById('x-greet-photo').value = g.photo_url || ''; xGreetThumb(g.photo_url || '');
+  document.getElementById('x-achievements').value = arr(t.achievements).join('\n');
+  xStyleSet(t.style);
+}
+function xRead() {
+  const v = (id) => document.getElementById(id).value.trim();
+  const clean = (rows, need) => rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, x]) => [k, String(x || '').trim()]))).filter((r) => r[need]);
+  const lead = v('x-story-lead');
+  const story = (lead ? [{ heading: null, body: lead }] : []).concat(clean(xData.story, 'body').map((x) => ({ heading: x.heading || null, body: x.body })));
+  const g = { title: v('x-greet-title') || null, name: v('x-greet-name') || null, role: v('x-greet-role') || null, body: v('x-greet-body'), photo_url: v('x-greet-photo') || null };
+  const mc = v('x-member-count');
+  return {
+    tagline: v('x-tagline') || null, trial_fee: v('x-trial-fee') || null, member_count: mc === '' ? null : parseInt(mc, 10), video_url: v('x-video') || null,
+    story: story.length ? story : null,
+    story_policies: clean(xData.policies, 'title').length ? clean(xData.policies, 'title') : null,
+    features: clean(xData.features, 'title').length ? clean(xData.features, 'title') : null,
+    style: xStyleRead(),
+    greeting: g.body ? g : null,
+    staff: clean(xData.staff, 'name').map((x) => ({ ...x, role: x.role || null, photo_url: x.photo_url || null })),
+    achievements: v('x-achievements').split('\n').map((s) => s.trim()).filter(Boolean),
+    achievement_photos: clean(xData.achph, 'photo_url'),
+    courses: clean(xData.courses, 'name'),
+    cost_items: clean(xData.cost, 'name').map((x) => ({ ...x, amount: x.amount || null, note: x.note || null })),
+    practice_log: clean(xData.log, 'title').map((x) => ({ ...x, url: x.url || null, image: x.image || null })),
+  };
+}
+xlBind();
 </script>
 </body>
 </html>
