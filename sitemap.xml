@@ -331,6 +331,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/chiba/kashiwa/sport/baseball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/chiba/kashiwa/sport/baton/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -387,6 +392,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/shiroi/sport/soccer/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/sport/baseball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -466,6 +476,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/fukuoka/dazaifu/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/fukuoka/dazaifu/sport/exercise-class/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/fukuoka/iizuka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -512,6 +532,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/fukuoka/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/fukuoka/sport/exercise-class/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1186,6 +1211,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/osaka/minoh/sport/softball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/osaka/osaka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -1257,6 +1287,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/osaka/sport/soccer/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/osaka/sport/softball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1829,6 +1864,24 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=1f5bcbac-80cc-4633-a77d-98614b2c8ec0</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=7fda0e70-9175-4739-a0ec-210946b61aeb</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=8b3a19b3-b307-4422-948d-2ef3776d702f</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=b70b2390-ed53-4418-8747-499e8eca5c8e</loc>

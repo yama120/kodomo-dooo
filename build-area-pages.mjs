@@ -141,12 +141,15 @@ function pageHtml({ url, title, description, h1, lead, list, crumbs, related, in
   if (!s.includes('<base href="/">')) throw new Error(`baseを差し込めませんでした: ${url}`);
 
   // タイトル・説明・canonical・構造化データ
-  s = s.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>\n` +
+  // テンプレート（search.html）の汎用説明文を先に外す（残すと description が2つになる）
+  s = s.replace(/<meta name="description" content="[^"]*">\n?/, '');
+  s = s.replace(/<title>[\s\S]*?<\/title>/,`<title>${esc(title)}</title>\n` +
     `<meta name="description" content="${esc(description)}">\n` +
     `<link rel="canonical" href="${ORIGIN}${url}">\n` +
     jsonLd({ url, crumbs, list, title }));
   s = s.replace(/(<meta property="og:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
   s = s.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${ORIGIN}${url}$2`);
+  s = s.replace(/(<meta property="og:description" content=")[^"]*(">)/, `$1${esc(description)}$2`);
   s = s.replace(/(<meta name="twitter:title" content=")[^"]*(">)/, `$1${esc(title)}$2`);
 
   /* 見出しを地域ごとの内容にする（「検索結果」のままではSEOにならない）。

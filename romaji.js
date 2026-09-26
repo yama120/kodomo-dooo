@@ -38,7 +38,7 @@ const CITY = {
   "堺市": "sakai", "大和市": "yamato", "大府市": "obu", "大阪市": "osaka",
   "奄美市": "amami", "姫路市": "himeji", "小郡市": "ogori", "山口市": "yamaguchi",
   "山陽小野田市": "sanyo-onoda", "岡崎市": "okazaki", "川崎市": "kawasaki",
-  "帯広市": "obihiro", "広島市": "hiroshima", "春日井市": "kasugai", "春日市": "kasuga",
+  "帯広市": "obihiro", "広島市": "hiroshima", "春日井市": "kasugai", "春日市": "kasuga", "太宰府市": "dazaifu",
   "木更津市": "kisarazu", "札幌市": "sapporo", "板橋区": "itabashi", "柏市": "kashiwa",
   "水戸市": "mito", "江戸川区": "edogawa", "池田市": "ikeda", "沖縄市": "okinawa",
   "泉佐野市": "izumisano", "津島市": "tsushima", "清須市": "kiyosu", "渋谷区": "shibuya",
@@ -70,7 +70,7 @@ const CITY = {
 const SPORT = {
   "和太鼓": "wadaiko",
   "サッカー": "soccer", "ダンス": "dance", "ダブルダッチ": "double-dutch",
-  "野球": "baseball", "バレーボール": "volleyball", "空手": "karate",
+  "野球": "baseball", "ソフトボール": "softball", "バレーボール": "volleyball", "空手": "karate",
   "陸上": "athletics", "バスケットボール": "basketball", "テニス": "tennis",
   "スポーツリズムトレーニング": "rhythm-training", "体操教室": "gymnastics-school",
   "マルチスポーツ": "multi", "スポーツ鬼ごっこ": "onigokko",
