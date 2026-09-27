@@ -1,0 +1,338 @@
+# ---- ARMOURY（アーマリー）日本法人 企業紹介ページ（個別デザイン版）。python3 pr_armoury.py → pr/armoury.html
+# 事実の出典：本社サイト armoury-group.com（韓国語）。【要確認】は日本法人に確認する
+import os,sys
+P=os.path.dirname(os.path.abspath(__file__))+'/'; sys.path.insert(0,P)
+import prod_common as C
+A='assets/pr/armoury/'
+YT_PC='l5e5b2XWLWI'; YT_SP='8Qa9JSrT-T0'   # 本社サイトのヒーロー動画（PC横／スマホ縦）
+IG='https://www.instagram.com/armoury.jp/'
+CSS=r'''
+.am{--k:#0d0f12;--w:#fff;--g:#8b939c;--acc:#E43B4D;--line:#e5e8ec;color:#1f2a37;line-height:1.9}
+.am .w{max-width:1040px;margin:0 auto;padding:0 22px}
+.am .w2{max-width:760px;margin:0 auto;padding:0 22px}
+.am .ey{font-family:Anton,'Zen Kaku Gothic New',sans-serif;letter-spacing:.14em;font-size:12px;color:var(--acc);margin-bottom:12px}
+.am h2{font-size:clamp(24px,3.4vw,34px);font-weight:900;line-height:1.35;margin:0 0 16px;letter-spacing:.01em}
+.am p.b{font-size:15px;color:#3a4753;margin:0 0 18px}
+.am section{padding:64px 0}
+/* hero */
+.am-hero{position:relative;background:var(--k);color:var(--w);overflow:hidden;min-height:min(86vh,720px);display:flex;align-items:flex-end}
+.am-hero .vid{position:absolute;inset:0;overflow:hidden;background:#0d0f12}
+.am-hero .vid iframe{position:absolute;top:50%;left:50%;width:177.78vh;min-width:100%;height:56.25vw;min-height:100%;transform:translate(-50%,-50%);pointer-events:none;opacity:.85}
+.am-hero .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,15,18,.15) 0%,rgba(13,15,18,.35) 45%,rgba(13,15,18,.92) 100%)}
+.am-hero .in{position:relative;padding:120px 0 44px;width:100%}
+.am-hero .pr{display:inline-block;border:1px solid rgba(255,255,255,.55);font-size:11px;font-weight:800;letter-spacing:.1em;padding:4px 11px;border-radius:999px;margin-bottom:16px}
+.am-hero .brand{font-family:Anton,sans-serif;font-size:clamp(34px,6vw,64px);letter-spacing:.06em;line-height:1;margin:0 0 6px}
+.am-hero .brand small{display:block;font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;letter-spacing:.2em;color:#c9ced4;font-weight:700;margin-top:8px}
+.am-hero h1{font-size:clamp(26px,4.6vw,48px);font-weight:900;line-height:1.3;margin:22px 0 12px}
+.am-hero .ld{font-size:15.5px;color:#d5d9de;max-width:560px;margin:0 0 26px}
+.am-hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.am-hero .cta a{display:inline-block;font-weight:800;font-size:15px;padding:14px 26px;border-radius:999px;text-decoration:none}
+.am-hero .cta .p{background:var(--acc);color:#fff;box-shadow:0 10px 24px rgba(228,59,77,.35)}
+.am-hero .cta .s{border:1.5px solid rgba(255,255,255,.7);color:#fff}
+.am-hero .src{position:absolute;right:14px;bottom:10px;font-size:10.5px;color:#9aa3ad}
+/* numbers */
+.am-num{background:var(--k);color:var(--w);padding:0 0 36px}
+.am-num .g{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#262a30;border:1px solid #262a30}
+.am-num .c{background:var(--k);padding:22px 18px}
+.am-num b{display:block;font-family:Anton,sans-serif;font-size:clamp(30px,5vw,48px);line-height:1;letter-spacing:.03em}
+.am-num b i{font-style:normal;font-size:.45em;margin-left:4px;color:#c9ced4}
+.am-num span{display:block;font-size:12.5px;color:#aeb5bd;margin-top:8px;line-height:1.6}
+.am-num .note{font-size:11.5px;color:#7e868f;margin-top:12px}.am-num span em{display:block;font-style:normal;font-size:10.5px;color:#7e868f;margin-top:3px;letter-spacing:.04em}
+/* concept + flip */
+.am-cpt .g{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+.am-cpt ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px}
+.am-cpt li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:#f7f8fa;border-radius:14px;padding:14px 16px}
+.am-cpt li i{font-style:normal;width:40px;height:40px;border-radius:12px;background:var(--k);color:#fff;display:grid;place-items:center;font-family:Anton,sans-serif;font-size:16px;letter-spacing:.05em}
+.am-cpt li b{display:block;font-size:15px;margin-bottom:2px}.am-cpt li span{font-size:14px;color:#3a4753}
+.flip{perspective:1400px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.flip .fcard{position:relative;aspect-ratio:1/1;transition:transform .7s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;border-radius:20px}
+.flip.on .fcard{transform:rotateY(180deg)}
+.flip .f,.flip .bk{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;overflow:hidden;background:#2b2f34}
+.flip .bk{transform:rotateY(180deg)}
+.flip img{width:100%;height:100%;object-fit:cover;display:block}
+.flip .tag{position:absolute;left:14px;top:14px;background:rgba(13,15,18,.78);color:#fff;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;letter-spacing:.06em}
+.flip .hint{text-align:center;font-size:13px;color:#6b7580;margin-top:12px}
+.flip .hint b{color:var(--acc)}
+/* lineup */
+.am-line{background:#f4f5f7}
+.am-line .g{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:26px}
+.am-line .c{background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.am-line .c img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#2b2f34}
+.am-line .c .t{padding:16px 18px 18px}
+.am-line .c b{display:block;font-size:17px;margin-bottom:4px}.am-line .c span{font-size:13.5px;color:#3a4753}
+.am-line .c em{display:inline-block;font-style:normal;font-size:11.5px;font-weight:800;color:var(--acc);border:1px solid #f3c9da;border-radius:999px;padding:2px 9px;margin-bottom:8px}
+/* gallery */
+.am-gal{padding-bottom:40px}
+.am-gal .amrow{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 22px 18px;margin:0 -22px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.am-gal .amrow::-webkit-scrollbar{display:none}
+.am-gal .amrow img{flex:0 0 min(46vw,260px);aspect-ratio:1/1;object-fit:cover;border-radius:16px;scroll-snap-align:start;background:#2b2f34;display:block}
+.am-gal .cap{font-size:12px;color:#8a95a0}
+/* story */
+.am-story{background:var(--k);color:var(--w)}
+.am-story .g{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.am-story .yr{display:flex;gap:18px;align-items:center;margin:0 0 18px}
+.am-story .yr b{font-family:Anton,sans-serif;font-size:clamp(40px,6vw,72px);letter-spacing:.03em;line-height:1}
+.am-story .yr i{font-style:normal;width:56px;height:2px;background:var(--acc)}
+.am-story p{color:#c9ced4;font-size:15px}
+.am-story .q{border-left:3px solid var(--acc);padding:6px 0 6px 18px;font-size:17px;font-weight:700;color:#fff;margin:20px 0}.am-story .q small{display:block;font-family:Anton,sans-serif;font-size:12px;letter-spacing:.14em;color:var(--acc);margin-top:6px}
+.note-draft{background:#fff7e6;color:#b7791f;border:1px dashed #e8c98a;border-radius:10px;padding:10px 14px;font-size:12.5px;font-weight:700;margin:0 0 22px}
+.am-story .ph{border-radius:20px;overflow:hidden;background:#2b2f34;aspect-ratio:4/5}
+.am-story .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.am-story a.lk{color:#fff;font-size:13.5px;font-weight:700}
+/* team */
+.am-team .g{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.am-team ul.f{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.am-team ul.f li{position:relative;padding-left:30px;font-size:15px;color:#3a4753}
+.am-team ul.f li::before{content:"✓";position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:#fde8ec;color:var(--acc);font-weight:900;font-size:13px;display:grid;place-items:center}
+.am-team .st{display:grid;gap:12px}
+.am-team .st>div{display:grid;grid-template-columns:38px 1fr;gap:12px;background:#f7f8fa;border-radius:14px;padding:14px 16px}
+.am-team .st i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--k);color:#fff;font-family:Anton,sans-serif;display:grid;place-items:center}
+.am-team .st b{display:block;font-size:15px}.am-team .st span{font-size:14px;color:#3a4753}
+.tbc{color:#b7791f;background:#fff7e6;border-radius:6px;padding:0 6px;font-size:.92em;font-weight:700}
+/* ig */
+.am-ig{background:#f4f5f7}
+.am-ig .g{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.am-ig .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px}
+.am-ig .card b{display:block;font-size:20px;margin-bottom:6px}
+.am-ig .card p{font-size:14px;color:#3a4753;margin:0 0 18px}
+.am-ig .card a.btn{display:inline-block;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);color:#fff;font-weight:800;text-decoration:none;padding:13px 24px;border-radius:999px}
+.am-ig .emb{border-radius:20px;overflow:hidden;min-height:300px}
+.am-ig .emb blockquote{margin:0!important;max-width:100%!important;min-width:0!important}
+/* cta / info */
+.am-cta{position:relative;background:var(--k);color:#fff;text-align:center;overflow:hidden;padding:96px 0}
+.am-cta .bg{position:absolute;inset:0}.am-cta .bg img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
+.am-cta .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,15,18,.55),rgba(13,15,18,.8))}
+.am-cta .w2{position:relative}
+.am-cta h2{margin-bottom:10px}.am-cta p{color:#d5d9de;margin:0 0 22px;font-size:15px}
+.am-cta a{display:inline-block;background:var(--acc);color:#fff;box-shadow:0 10px 24px rgba(228,59,77,.35);font-weight:900;font-size:16px;padding:15px 34px;border-radius:999px;text-decoration:none}
+.am-info .tb{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:120px 1fr;font-size:13.5px}
+.am-info .tb div{padding:13px 15px;border-bottom:1px solid #eef1f3}.am-info .tb div:nth-last-child(-n+2){border-bottom:0}
+.am-info .tb .k{background:#f5f7f9;font-weight:700;color:#54606e}
+.am-info .apply{display:block;text-decoration:none;background:linear-gradient(100deg,#fff4f6,#fef0ea);border:1px solid #f3c9da;border-radius:16px;padding:24px;text-align:center;margin:36px 0 0;color:#1f2a37}
+.am-info .apply b{display:block;font-size:17px;margin-bottom:6px}.am-info .apply span{display:inline-block;background:var(--acc);color:#fff;font-weight:800;padding:12px 28px;border-radius:999px;margin-top:10px}
+.am-info .disc{background:#f6f7f9;border-radius:14px;padding:18px 20px;font-size:12px;color:#8a95a0;margin-top:28px}
+.am-info .back{text-align:center;margin:22px 0 0}.am-info .back a{font-size:13.5px;font-weight:700;color:var(--acc);text-decoration:none}
+
+/* editor's view */
+.am-ed{background:#fff}
+.am-ed .lead{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:#f7f8fa;border-radius:18px;padding:18px 20px;margin:0 0 26px}
+.am-ed .lead img{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#fff}
+.am-ed .lead b{display:block;font-size:14px}.am-ed .lead span{font-size:13px;color:#3a4753}
+.am-ed .g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.am-ed .c{border:1px solid var(--line);border-radius:18px;padding:22px 20px;position:relative}
+.am-ed .c i{font-style:normal;font-family:Anton,sans-serif;font-size:34px;line-height:1;color:var(--acc);letter-spacing:.03em;display:block;margin-bottom:10px}
+.am-ed .c b{display:block;font-size:17px;line-height:1.5;margin-bottom:8px}.am-ed .c p{font-size:14px;color:#3a4753;margin:0}
+.am-ed .hon{margin-top:18px;border:1.5px dashed #d8dde3;border-radius:18px;padding:20px 22px;background:#fffdf7}
+.am-ed .hon b{display:block;font-size:15px;margin-bottom:6px}.am-ed .hon b::before{content:"POINT";color:var(--acc);margin-right:8px;font-size:12px;letter-spacing:.08em}
+.am-ed .hon p{font-size:14px;color:#3a4753;margin:0}
+/* voices */
+.am-vo{background:#f4f5f7}
+.am-vo .g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.am-vo .v{background:#fff;border-radius:18px;padding:22px 20px;border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.am-vo .v .who{display:flex;gap:10px;align-items:center}
+.am-vo .v .who i{font-style:normal;width:40px;height:40px;border-radius:50%;background:#e9ecf0;display:grid;place-items:center;font-size:18px}
+.am-vo .v .who b{font-size:13.5px;display:block}.am-vo .v .who small{font-size:12px;color:#8a95a0}
+.am-vo .v p{font-size:14.5px;color:#1f2a37;margin:0;line-height:1.85}
+.am-vo .v p::before{content:"“";color:var(--acc);font-size:1.4em;margin-right:2px}
+.am-vo .v .soon{font-size:12px;color:#b7791f;background:#fff7e6;border-radius:8px;padding:8px 10px}
+.am-vo .how{margin-top:20px;font-size:13px;color:#3a4753;background:#fff;border-radius:14px;padding:14px 18px;border:1px solid var(--line)}
+/* interview */
+.am-iv .g{display:grid;grid-template-columns:1fr 1.3fr;gap:36px;align-items:start}
+.am-iv .ph{border-radius:20px;overflow:hidden;background:#2b2f34;aspect-ratio:4/5}
+.am-iv .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.am-iv .qa{display:grid;gap:14px}
+.am-iv .qa div{background:#f7f8fa;border-radius:14px;padding:16px 18px}
+.am-iv .qa b{display:block;font-size:15px;margin-bottom:6px}.am-iv .qa b::before{content:"Q. ";color:var(--acc)}
+.am-iv .qa p{margin:0;font-size:14.5px;color:#3a4753}
+@media(max-width:820px){.am-ed .g,.am-vo .g,.am-iv .g{grid-template-columns:1fr}.am-iv .ph{aspect-ratio:16/10}}
+@media(max-width:820px){.am section{padding:48px 0}.am-cpt .g,.am-story .g,.am-team .g,.am-ig .g{grid-template-columns:1fr;gap:28px}.am-line .g{grid-template-columns:1fr}.am-story .ph{aspect-ratio:1/1}.am-hero .in{padding-top:96px}.am-info .tb{grid-template-columns:104px 1fr}}
+'''
+TBC=lambda s:'<span class="tbc">【要確認：%s】</span>'%s
+body=f'''
+<main class="am">
+<section class="am-hero" style="padding:0">
+  <div class="vid"><iframe id="amv" src="https://www.youtube-nocookie.com/embed/{YT_PC}?autoplay=1&mute=1&loop=1&playlist={YT_PC}&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3" title="ARMOURY brand video" allow="autoplay; encrypted-media" loading="eager"></iframe></div>
+  <div class="sh"></div>
+  <div class="in"><div class="w">
+    <span class="pr">PR ｜ 企業紹介</span>
+    <div class="brand">ARMOURY<small>アーマリー ｜ TEAM WEAR</small></div>
+    <h1>1着で、2チーム分。<br>ひっくり返せば、もうひとつのユニフォーム。</h1>
+    <p class="ld">表と裏で色もデザインも違う「両面ユニフォーム」を、チーム単位でオーダー制作。韓国発のチームウェアブランドが、日本のスポーツクラブの注文を受け付けています。</p>
+    <div class="cta"><a class="p" href="{IG}" target="_blank" rel="noopener sponsored">Instagramを見る</a><a class="s" href="#design">デザインを見る</a></div>
+  </div></div>
+  <div class="src">動画：ARMOURY本社サイトより</div>
+</section>
+
+<section class="am-num"><div class="w">
+  <div class="g">
+    <div class="c"><b>2<i>件</i></b><span>1枚の生地で両面にする製法の特許<em>韓国での実績</em></span></div>
+    <div class="c"><b>3,000<i>チーム＋</i></b><span>これまでに選んだチーム数<em>韓国での実績</em></span></div>
+    <div class="c"><b>2021<i>年〜</i></b><span>両面ユニフォームの提供開始<em>韓国での実績</em></span></div>
+  </div>
+  <div class="note">※ 数字はいずれもARMOURY本社サイト（韓国）の記載です。日本での実績に置き換えるかは{TBC("日本法人に確認")}</div>
+</div></section>
+
+<section class="am-cpt"><div class="w"><div class="g">
+  <div>
+    <div class="ey">FLIPTECH ／ 両面ユニフォーム</div>
+    <h2>紅白戦も、ホームもアウェイも。<br>裏返すだけで、1着で済む。</h2>
+    <p class="b">ARMOURYの中心にあるのは、1枚で2つの顔を持つ両面（リバーシブル）ユニフォームです。本社が「FlipTech」と呼ぶ製法で、表と裏に別々の色とデザインを載せます。スポーツクラブにとっての意味は、はっきりしています。</p>
+    <ul>
+      <li><i>01</i><div><b>生地が1枚だから、軽い</b><span>2枚を縫い合わせるのではなく、1枚の生地の表裏にデザインを載せる。2着分の役割を、1着分の軽さで。</span></div></li>
+      <li><i>02</i><div><b>ホームとアウェイを1着で</b><span>相手と色がかぶったら、その場で裏返す。遠征の荷物も1着分。</span></div></li>
+      <li><i>03</i><div><b>年間予算を軽くする</b><span>2着そろえる前提だった予算が1着分に。買い替えの多い子どものチームほど差が出る。</span></div></li>
+    </ul>
+  </div>
+  <div class="flip" id="flip" role="button" aria-label="タップで裏返す">
+    <div class="fcard">
+      <div class="f"><img src="{A}soccer-134-f.webp" alt="ARMOURY サッカーユニフォーム デザイン134 前面"><span class="tag">FRONT</span></div>
+      <div class="bk"><img src="{A}soccer-134-b.webp" alt="ARMOURY サッカーユニフォーム デザイン134 背面（名前・番号入り）"><span class="tag">BACK ／ 名前・番号</span></div>
+    </div>
+    <div class="hint"><b>タップ</b>すると裏返ります（画像は前面と背面。両面仕様の実物写真は{TBC("日本法人から提供")}）</div>
+  </div>
+</div></div></section>
+
+
+<section class="am-ed"><div class="w">
+  <div class="ey">EDITOR'S VIEW ／ 取材メモ</div>
+  <h2>取材してわかった、ARMOURYの3つのポイント</h2>
+  <div class="lead"><img src="assets/app-hero/app-icon-512.webp" alt="チビスポ"><div><b>チビスポ編集部（山田）</b><span>日本法人に話を聞き、「ここは良い」と感じた点をまとめました。</span></div></div>
+  <div class="g">
+    <div class="c"><i>01</i><b>「両面」は見た目の仕掛けではなく、運営の仕掛けだった</b><p>最初はデザインのギミックだと思っていました。でもスポーツクラブの現場で毎週起きているのは、紅白戦のビブス配り、相手と色がかぶる、遠征に2着。両面はその3つを1着で消します。保護者の「もう1着いるの？」が減るのは、編集部としていちばん大きいと見ました。</p></div>
+    <div class="c"><i>02</i><b>「決めきれない」を減らすデザイン番号方式</b><p>チームのユニフォーム決めが揉めるのは、ゼロから考えるからです。100種以上の番号から選び、チームカラーに置き換えるだけ。コーチと保護者会が同じ画面を見て決められる仕組みは、スポーツクラブ向きだと感じました。</p></div>
+    <div class="c"><i>03</i><b>4年かけて特許まで行った本気度</b><p>本社サイトには、2021年に最初の両面ユニフォームを任せたチームが、2025年にもう一度注文した話が載っています。1枚で両面にする製法を4年かけて特許化した経緯も含めて、流行りものではなく製品に投資しているブランドだと受け取りました。</p></div>
+  </div>
+  <div class="hon"><b>表と裏が1枚の生地。FlipTechの製法は、ARMOURYだけです。</b><p>2枚を縫い合わせた両面ユニフォームとは、軽さが違います。「2着分の予算を1着にしたい」「他と被らないデザインにしたい」スポーツクラブに向いています。窓口・納期・送料・最小ロットは確認中で、確認でき次第このページに書きます。</p></div>
+</div></section>
+
+<section class="am-line" id="lineup"><div class="w">
+  <div class="ey">LINEUP</div>
+  <h2>サッカーユニフォーム。両面と、片面。</h2>
+  <p class="b">日本法人で注文できるのはサッカーユニフォームです。表裏で色が変わる「両面」と、通常の「片面」の2タイプから選べます。</p>
+  <div class="g" style="grid-template-columns:repeat(2,1fr)">
+    <div class="c"><img src="{A}soccer-134-f.webp" alt="両面サッカーユニフォーム"><div class="t"><em>両面（リバーシブル）</em><b>両面サッカーユニフォーム</b><span>表と裏で別の色・デザイン。紅白戦もホーム・アウェイも、この1着で。</span></div></div>
+    <div class="c"><img src="{A}soccer-115-f.webp" alt="片面サッカーユニフォーム"><div class="t"><em>片面</em><b>片面サッカーユニフォーム</b><span>通常タイプ。同じデザイン番号から選んで、名前・背番号・チームロゴを入れる。</span></div></div>
+  </div>
+</div></section>
+
+<section class="am-gal" id="design"><div class="w">
+  <div class="ey">DESIGN</div>
+  <h2>100種以上のデザイン番号から選んで、<br>チームカラーに置き換える。</h2>
+  <p class="b">ゼロからデザインを考えなくても大丈夫。番号で選び、色・ロゴ・番号・名前を入れて仕上げます。横にスクロールして見てください。</p>
+  <div class="amrow">
+    {''.join('<img loading="lazy" decoding="async" src="%s%s.webp" alt="ARMOURY デザイン">'%(A,n) for n in ['soccer-134-f','soccer-108-f','soccer-116-f','soccer-122-f','soccer-129-f','soccer-109-f','soccer-115-f'])}
+  </div>
+  <div class="note-draft" style="margin-top:14px">※ 「100種以上から選ぶ」は韓国本社の仕組みです。日本法人でのデザインの選び方を確認して、この章は書き直します。</div>
+  <div class="cap">画像：ARMOURY本社サイトのデザイン一覧より。日本で選べるデザインの範囲は{TBC("日本法人に確認")}</div>
+</div></section>
+
+<section class="am-story"><div class="w">
+  <div class="note-draft">※ ここはブランドのストーリーを入れる予定です（下は本社サイトと日本のInstagramの情報から書いた下書き。取材後に差し替え）</div>
+  <div class="g">
+  <div>
+    <div class="ey">STORY</div>
+    <div class="yr"><b>2021</b><i></i><b>2026</b></div>
+    <h2>韓国で5年。<br>2026年10月1日、日本へ。</h2>
+    <p>ARMOURYは2021年、韓国でチーム向けの両面ユニフォームから始まりました。1枚の生地の表と裏にそれぞれデザインを載せる製法「FlipTech」を自社で開発し、韓国で初めて特許を取得。3,000を超えるチームがこのユニフォームを選び、最初の年に任せてくれたチームが4年後にもう一度注文する、そんな付き合いを重ねてきました。</p>
+    <p>FlipTechの両面ユニフォームは、生地が1枚だから軽い。2着分の役割を、1着分の重さで果たします。その製品を日本のチームにも届けるために、日本法人を立ち上げました。</p>
+    <div class="q">「日本のスポーツシーンの常識を変える。」<small>2026.10.01 Japan Release</small></div>
+    <a class="lk" href="https://www.armoury-group.com/" target="_blank" rel="noopener">ブランドサイト（韓国・本社）を見る ›</a>
+  </div>
+  <div class="ph"><img loading="lazy" decoding="async" src="{A}soccer-116-b.webp" alt="ARMOURY サッカーユニフォーム 背面"></div>
+</div></div></section>
+
+
+<section class="am-vo"><div class="w">
+  <div class="ey">TEAM REVIEWS</div>
+  <h2>使っているチームの声</h2>
+  <p class="b">ARMOURYのユニフォームを使っているチームのレビューを、チーム名とあわせて載せます。掲載はチームの許可があるものだけです。</p>
+  <div class="g">
+    <div class="v"><div class="who"><i>⚽</i><div><b><span class="tbc">【要確認：チーム名】</span></b><small><span class="tbc">【要確認：地域・カテゴリ】</span></small></div></div><p><span class="tbc">【要確認：レビュー本文】</span></p><div class="soon">ARMOURY側で、掲載許可のあるチームのレビュー・チーム名・写真を集めてもらいます。</div></div>
+    <div class="v"><div class="who"><i>⚽</i><div><b><span class="tbc">【要確認：チーム名】</span></b><small><span class="tbc">【要確認：地域・カテゴリ】</span></small></div></div><p><span class="tbc">【要確認：レビュー本文】</span></p><div class="soon">両面の使い方（試合・練習）が伝わるものを優先。</div></div>
+    <div class="v"><div class="who"><i>👪</i><div><b><span class="tbc">【要確認：保護者の声】</span></b><small><span class="tbc">【要確認：チーム名】</span></small></div></div><p><span class="tbc">【要確認：レビュー本文】</span></p><div class="soon">洗濯・耐久性・子どもの反応など、保護者の声が1つあると読まれます。</div></div>
+  </div>
+</div></section>
+
+
+<section class="am-iv"><div class="w"><div class="g">
+  <div>
+    <div class="ey">Q&amp;A</div>
+    <h2>聞いておきたいこと</h2>
+    <p class="b">日本のスポーツチーム向けに聞いておきたいことをお尋ねしました。<span class="tbc">【要確認：回答】</span></p>
+    <div class="ph"><img loading="lazy" decoding="async" src="assets/pr/_placeholder/a.svg" alt="担当者・製品の写真"></div>
+  </div>
+  <div class="qa">
+    <div><b>両面ユニフォームは、洗濯や耐久性は大丈夫ですか？</b><p><span class="tbc">【要確認：素材・洗濯方法・耐久性】</span></p></div>
+    <div><b>人数が少ないチーム、サイズがバラバラなチームは？</b><p><span class="tbc">【要確認：最小ロット・追加注文・ジュニアサイズ】</span></p></div>
+    <div><b>他の競技に広げていく予定はありますか？</b><p><span class="tbc">【要確認：今後の展開】</span></p></div>
+  </div>
+</div></div></section>
+
+<section class="am-team"><div class="w"><div class="g">
+  <div>
+    <div class="ey">FOR TEAMS</div>
+    <h2>こんなチームに</h2>
+    <ul class="f">
+      <li>軽くて動きやすいユニフォームを、子どもに着せたい</li>
+      <li>ホーム・アウェイで2着そろえるのが、保護者の負担になっている</li>
+      <li>他のチームと被らないデザインにしたい</li>
+      <li>人数が少ない・サイズがバラバラでも相談したい {TBC("最小ロット")}</li>
+    </ul>
+  </div>
+  <div>
+    <div class="ey">HOW TO ORDER</div>
+    <h2>注文の流れ</h2>
+    <div class="note-draft">※ 注文の流れは日本法人に確認中です。下は仮の3ステップ。</div>
+    <div class="st">
+      <div><i>1</i><div><b>相談</b><span>人数・チームカラー・希望納期を伝える。{TBC("LINE／メールなど他の窓口")}</span></div></div>
+      <div><i>2</i><div><b>デザイン番号を選んで、色と名前を入れる</b><span>完成イメージを確認してから確定。ラフな希望からでも大丈夫。</span></div></div>
+      <div><i>3</i><div><b>制作・お届け</b><span>{TBC("納期の目安・発送元（日本／韓国）・送料・支払い方法")}</span></div></div>
+    </div>
+  </div>
+</div></div></section>
+
+<section class="am-ig"><div class="w"><div class="g">
+  <div class="card">
+    <div class="ey">INSTAGRAM</div>
+    <b>新しい情報は Instagram で</b>
+    <p>納品したチームの写真や新しいデザインは、日本法人のInstagramで更新されています。</p>
+    <a class="btn" href="{IG}" target="_blank" rel="noopener sponsored">@armoury.jp を見る</a>
+  </div>
+  <div class="emb">
+    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DbK3oBWk_v8/" data-instgrm-version="14" style="background:#fff;border:1px solid #e5e8ec;border-radius:20px;margin:0;padding:0;width:100%"><a href="https://www.instagram.com/p/DbK3oBWk_v8/" target="_blank" rel="noopener" style="display:block;padding:24px;color:#3a4753;text-decoration:none">ARMOURY（本社アカウント）の投稿を見る ›</a></blockquote>
+  </div>
+</div></div></section>
+
+<section class="am-cta"><div class="bg"><img src="{A}soccer-108-f.webp" alt=""></div><div class="sh"></div><div class="w2">
+  <h2>チームの1着を、両面で。</h2>
+  <p>人数・希望の色を伝えるだけで、相談が始まります。<span class="tbc">【要確認：相談窓口（DM／LINE／フォーム）】</span></p>
+  <a href="{IG}" target="_blank" rel="noopener sponsored">Instagramを見る</a>
+</div></section>
+
+<section class="am-info"><div class="w2">
+  <h2 style="font-size:22px">会社情報</h2>
+  <div class="tb">
+    <div class="k">ブランド</div><div>ARMOURY（アーマリー）</div>
+    <div class="k">本社</div><div>株式会社アーマリーグループ（韓国・ソウル）</div>
+    <div class="k">日本法人</div><div>{TBC("正式名称・所在地（市区町村まで）")}</div>
+    <div class="k">取り扱い</div><div>サッカーユニフォーム（両面／片面）</div>
+    <div class="k">対応エリア</div><div>全国（オンライン）{TBC("来店の可否")}</div>
+    <div class="k">受付</div><div>{TBC("曜日・時間")}</div>
+    <div class="k">最小ロット</div><div>{TBC("何着から")}</div>
+    <div class="k">納期の目安</div><div>{TBC("週数")}</div>
+    <div class="k">サイズ</div><div>{TBC("ジュニアサイズの展開")}</div>
+  </div>
+  <a class="apply" href="service-ads.html"><b>あなたのお店も、こんなページで紹介しませんか？</b>地域の子育て世帯に届く、チビスポの企業紹介ページ。<br><span>掲載を申し込む ›</span></a>
+  <div class="disc">この記事は、ARMOURY日本法人の提供による<strong style="color:#54606e">チビスポのPR記事（広告）</strong>です。製品画像・動画・実績の数字はARMOURY本社サイト（韓国）の掲載内容にもとづきます。掲載内容は取材時点のものです。</div>
+  <div class="back"><a href="search.html">‹ クラブを探すに戻る</a></div>
+</div></section>
+</main>
+'''
+js=f'''<script async src="https://www.instagram.com/embed.js"></script>
+<script>
+(function(){{
+  var f=document.getElementById('flip'); if(f){{ f.addEventListener('click',function(){{ f.classList.toggle('on'); }}); }}
+  if(matchMedia('(max-width:640px)').matches){{ var v=document.getElementById('amv'); if(v) v.src=v.src.replace(/{YT_PC}/g,'{YT_SP}'); }}
+}})();
+</script>'''
+C.prodpage('pr/armoury.html','ARMOURY（アーマリー）｜チビスポ 企業紹介','表と裏で色が違う両面ユニフォームをチーム単位でオーダー制作。韓国発ARMOURYの日本法人が、スポーツクラブの注文を受付中。',body,css=CSS,js=js,noindex=True,base_root=True,og_image='https://chibispo.com/assets/pr/armoury/soccer-134-f.webp')

@@ -1,0 +1,250 @@
+{
+  "slug": "armoury",
+  "noindex": false,
+  "sample": false,
+  "name": "아머리 ARMOURY",
+  "category": "",
+  "tagline": "축구·농구 팀 유니폼과 바람막이를 맞",
+  "online": true,
+  "pref": "",
+  "city": "",
+  "area_label": "",
+  "website": "https://www.armoury-group.com/",
+  "images": {
+    "hero": "assets/pr/armoury/hero.webp",
+    "a": "assets/pr/armoury/a.webp",
+    "b": "assets/pr/armoury/b.webp",
+    "g1": "assets/pr/armoury/g1.webp",
+    "g2": "assets/pr/armoury/g2.webp",
+    "logo": "assets/pr/armoury/logo.webp"
+  },
+  "headline": "",
+  "sub": "축구·농구 팀 유니폼과 바람막이를 맞춤 제작합니다. 한 장 양면 유니폼 제조 공법 특허 2건 보유, 3,000개 이상의 팀이 선택한 아머리.",
+  "lead": "",
+  "sections": [],
+  "qa": [],
+  "fits": [],
+  "voices": [],
+  "info": [
+    {
+      "label": "会社名",
+      "value": "아머리 ARMOURY"
+    }
+  ],
+  "ctas": [
+    {
+      "kind": "site",
+      "label": "公式サイトを見る",
+      "url": "https://www.armoury-group.com/"
+    }
+  ],
+  "sns": {
+    "instagram": "https://www.instagram.com/p/DbK3oBWk_v8/"
+  },
+  "_source": {
+    "fetched_at": "2026-09-27T06:53:46.725Z",
+    "info_candidates": [
+      {
+        "label": "会社名",
+        "value": "아머리 ARMOURY"
+      },
+      {
+        "label": "所在地",
+        "value": "대표 전화 070-4280-1177"
+      }
+    ],
+    "pages": [
+      {
+        "url": "https://www.armoury-group.com/",
+        "label": "top",
+        "chars": 1984
+      },
+      {
+        "url": "https://www.armoury-group.com/member/login.html?noMemberOrder&returnUrl=%2Fmyshop%2Forder%2Flist.html",
+        "label": "주문조회",
+        "chars": 2008
+      },
+      {
+        "url": "https://www.armoury-group.com/product/recent_view_product.html",
+        "label": "최근본상품",
+        "chars": 1892
+      },
+      {
+        "url": "https://www.armoury-group.com/board/%EC%9D%B4%EC%9A%A9%EC%95%88%EB%82%B4-faq/3/",
+        "label": "이용안내 FAQ",
+        "chars": 2604
+      },
+      {
+        "url": "https://www.armoury-group.com/member/login.html?noMemberOrder&returnUrl=%2Fmyshop%2Findex.html",
+        "label": "<!-- 마이쇼핑",
+        "chars": 2008
+      },
+      {
+        "url": "https://www.armoury-group.com/order/basket.html",
+        "label": "{$basket_count}",
+        "chars": 2677
+      },
+      {
+        "url": "https://www.armoury-group.com/shopinfo/company.html",
+        "label": "회사 소개",
+        "chars": 1933
+      }
+    ],
+    "title": "아머리 ARMOURY | 축구·농구 팀 유니폼 맞춤 제작",
+    "description": "축구·농구 팀 유니폼과 바람막이를 맞춤 제작합니다. 한 장 양면 유니폼 제조 공법 특허 2건 보유, 3,000개 이상의 팀이 선택한 아머리.",
+    "og_image": "",
+    "logo_candidate": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/upload/category/logo/v2_6ac2cadbeb4a051f9e6b4159fcf1b6a6_AU7T6Aj91H_top.jpg",
+    "social": {
+      "instagram": "https://www.instagram.com/p/DbK3oBWk_v8/"
+    },
+    "tel": [],
+    "products": [],
+    "strengths": [],
+    "flow": [],
+    "results": [],
+    "voices": [],
+    "image_candidates": [
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/imgAC/116-f.png",
+        "alt": "축구 유니폼",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/baskAC/b01-f.png",
+        "alt": "농구 유니폼",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/outerAC/003-f.png",
+        "alt": "아우터",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/image/formimg.png",
+        "alt": "media",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/imgAC/134-f.png",
+        "alt": "상품1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/imgAC/115-f.png",
+        "alt": "상품1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/design-list/imgAC/108-f.png",
+        "alt": "상품1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/EVENT1_pc.png",
+        "alt": "EVENT 1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/02-emblem-1.png",
+        "alt": "EVENT 1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/EVENT4_pc.png",
+        "alt": "EVENT 4",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/04-launching-1.png",
+        "alt": "EVENT 4",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/EVENT2_pc.png",
+        "alt": "EVENT 2",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/01-early-1.png",
+        "alt": "EVENT 1",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/EVENT3_pc.png",
+        "alt": "EVENT 3",
+        "w": 0
+      },
+      {
+        "src": "https://ecimg.cafe24img.com/pg3205b93193968097/armoury001/web/event/03-outerpr-1.png",
+        "alt": "EVENT 1",
+        "w": 0
+      },
+      {
+        "src": "https://cdn.imweb.me/upload/S2024082989d1ccf827371/1109b72c3f52a.png",
+        "alt": "",
+        "w": 0
+      },
+      {
+        "src": "https://cdn.imweb.me/upload/S2024082989d1ccf827371/33d0e5df627cd.png",
+        "alt": "",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_allat.png",
+        "alt": "올앳",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_iniapy.png",
+        "alt": "이니시스",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_kcp.png",
+        "alt": "NHN한국사이버결제",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_kicc.png",
+        "alt": "한국정보통신",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_ksnet.png",
+        "alt": "케이에스넷",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_nice.png",
+        "alt": "나이스페이먼츠",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_payments.png",
+        "alt": "토스페이먼츠",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_settle.png",
+        "alt": "세틀뱅크",
+        "w": 0
+      },
+      {
+        "src": "https://www.armoury-group.com/SkinImg/img/bt_ew_smartro.png",
+        "alt": "스마트로",
+        "w": 0
+      }
+    ],
+    "text_excerpt": "아머리 ARMOURY | 축구·농구 팀 유니폼 맞춤 제작 \n 전체상품목록 바로가기 \n 본문 바로가기 \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 오늘 하루 보지 않기 \n 닫기 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 고객센터 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n 0 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n고객센터 펼침 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 닫기 \n뒤로가기 \n제품별 자세히 보기 \nSOCCER UNIFORM \nBASKETBALL UNIFORM \nOUTER \nARMOURY's PICK \n축구 유니폼 디자인 134 \n 날카로운 패널과 유기적 라인의 강렬한 조화 \n축구 유니폼 디자인 115 \n 패턴이 적용된 몸판과 대비되는 소매 라인이 완성하는 탄탄하고 역동적인 실루엣 \n축구 유니폼 디자인 108 \n 기하학 패턴의 점진적인 변화로 성장과 전진을 표현한 디자인 \nEVENT \n View this post on Instagram\n 내비게이션 \n 홈 \n 검색 \n바로가기 \n 회사 소개 \n 이용약관 \n 개인정보처리방침 \n 이용안내 \n 자주 묻는 질문(FAQ) \n쇼핑몰 기본정보 \n 상호명 (주)아머리그룹 \n 사업장 주소 08513 서울 금천구 디지털로 178 가산 퍼블릭 B동 925 \n 대표 전화 070-4280-1177 \n 사업자 등록번호 190-88-02333 \n 통신판매업 신고번호 2024-서울용산-0642 [사업자정보확인] \n 개인정보보호책임자 주식회사 아머리그룹 \n고객센터 정보 \n 상담/주문 전화 070-4280-1177 \n 상담/주문 이메일 back@armoury-group.com \n 마케팅&파트너쉽 hannie@armoury-group.com \n CS운영시간 평일 09:00~19:00\n점심시간 12:00~13:00 (상담 휴무) \n 우리 팀만을 위한 디자인,\n전문가에게 맡겨 주세요. \n 채팅 상담 \n 전화 상담 \n결제정보 \n 무통장 계좌정보 \n 은행 \n 0000-000-00000 \n 예금주 \n  고객님은 안전거래를 위해 결제시 저희 쇼핑몰에서 가입한 구매안전 서비스를 이용하실 수 있습니다. [서비스가입정보확인] \n Copyright © 아머리. All Rights Reserved. Hosting by Cafe24 Corp.\nSNS \ninstagram \nyoutube \nfacebook \nkakao \ntwitter \nblog \nSEARCH \n 검색 \n 삭제 \n 검색 \n 닫기 \n현재 결제가 진행중입니다. \n 본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면\n 주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.\n아머리 공식 홈페이지 \n 전체상품목록 바로가기 \n 본문 바로가기 \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 오늘 하루 보지 않기 \n 닫기 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 고객센터 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n 0 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n고객센터 펼침 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 닫기 \n뒤로가기 \n 현재 위치 \n 홈 \n 로그인 \n로그인 \n 회원로그인 \n 보안접속 \n 로그인 \n 비회원 구매 \n비회원의 경우, 해당버튼을 통해 주문이 가능합니다. \n 아이디 찾기 \n 비밀번호 찾기 \n아직 회원이 아니신가요? \n지금 회원가입을 하시면\n다양하고 특별한 혜택이 준비되어 있습니다. \n 회원가입 \nSNS 로그인 \n 카카오 로그인 \n 네이버 로그인 \n 페이스북 로그인 \n 라인 로그인 \n 구글 로그인 \n Apple로 로그인 \n Yahoo! JAPAN\nID로 로그인 \n비회원 주문조회 \n비회원의 경우, 주문시의 주문번호로 주문조회가 가능합니다. \n 확인 \n 내비게이션 \n 홈 \n 검색 \n바로가기 \n 회사 소개 \n 이용약관 \n 개인정보처리방침 \n 이용안내 \n 자주 묻는 질문(FAQ) \n쇼핑몰 기본정보 \n 상호명 (주)아머리그룹 \n 사업장 주소 08513 서울 금천구 디지털로 178 가산 퍼블릭 B동 925 \n 대표 전화 070-4280-1177 \n 사업자 등록번호 190-88-02333 \n 통신판매업 신고번호 2024-서울용산-0642 [사업자정보확인] \n 개인정보보호책임자 주식회사 아머리그룹 \n고객센터 정보 \n 상담/주문 전화 070-4280-1177 \n 상담/주문 이메일 back@armoury-group.com \n 마케팅&파트너쉽 hannie@armoury-group.com \n CS운영시간 평일 09:00~19:00\n점심시간 12:00~13:00 (상담 휴무) \n 우리 팀만을 위한 디자인,\n전문가에게 맡겨 주세요. \n 채팅 상담 \n 전화 상담 \n결제정보 \n 무통장 계좌정보 \n 은행 \n 0000-000-00000 \n 예금주 \n  고객님은 안전거래를 위해 결제시 저희 쇼핑몰에서 가입한 구매안전 서비스를 이용하실 수 있습니다. [서비스가입정보확인] \n Copyright © 아머리. All Rights Reserved. Hosting by Cafe24 Corp.\nSNS \ninstagram \nyoutube \nfacebook \nkakao \ntwitter \nblog \nSEARCH \n 검색 \n 삭제 \n 검색 \n 닫기 \n현재 결제가 진행중입니다. \n 본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면\n 주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.\n아머리 공식 홈페이지 \n 전체상품목록 바로가기 \n 본문 바로가기 \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 오늘 하루 보지 않기 \n 닫기 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 고객센터 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n 0 \n 회원가입\n 로그인\n 주문조회 \n 최근본상품 \n 브랜드 \n 팀 웨어 \n 축구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 농구 유니폼 \n 양면 유니폼 \n 단면 유니폼 \n 아우터 \n 양면 바람막이 \n 단면 바람막이 \n 팀 주문서 \n 디자인 목록 \n 디자인 전체보기 \n 아카이브 \n고객센터 펼침 \n 공지사항 \n 상품 사용후기 \n 상품 Q&A \n 이벤트 \n 이용안내 FAQ \n 닫기 \n뒤로가기 \n 현재 위치 \n 홈 \n 최근 본 상품 \n최근 본 상품 \n최근본 상품 내역이 없습니다. \n나의 쇼핑 정보 \n 주문내역 조회 \n 적립금 내역 \n 예치금 내역 \n 쿠폰 내역 \n 배송 주소록 관리 \n 정기배송 관리 \n활동 정보 \n 최근 본 상품 \n 나의 위시리스트 \n 좋아요 \n 나의 게시글 \n나의 정보 \n 회원 정보 수정 \n 1:1 문의하기 \n 내비게이션 \n 홈 \n 검색 \n바로가기 \n 회사 소개 \n 이용약관 \n 개인정보처리방침 \n 이용안내 \n 자주 묻는 질문(FAQ) \n쇼핑몰 기본정보 \n 상호명 (주)아머리그룹 \n 사업장 주소 08513 서울 금천구 디지털로 178 가산 퍼블릭 B동 925 \n 대표 전화 070-4280-1177 \n 사업자 등록번호 190-88-02333 \n 통신판매업 신고번호 2024-서울용산-0642 [사업자정보확인] \n 개인정보보호책임자 주식회사 아머리그룹 \n고객센터 정보 \n 상담/주문 전화 070-4280-1177 \n 상담/주문 이메일 back@armoury-group.com \n 마케팅&파트너쉽 hannie@armoury-group.com \n CS운영시간 평일 09:00~19:00\n점심시간 12:00~13:00 (상담 휴무) \n 우리 팀만을 위한 디자인,\n전문가에게 맡겨 주세요. \n 채팅 상담 \n 전화 상담 \n결제정보 \n 무통장 계좌정보 \n 은행 \n 0000-000-00000 \n 예금주 \n  고객님은 안전거래를 위해 결제시 저희 쇼핑몰에서 가입한 구매안전 서비스를 이용하실 수 있습니다. [서비스가입정보확인] \n Copyright © 아머리. All Rights Reserved. Hosting by Cafe24 Corp.\nSNS \ninstagram \nyoutube \nfacebook \nkakao \ntwitter \nblog \nSEARCH \n 검색 \n 삭제 \n 검색 \n 닫기 \n현재 결제가 진행중입니다. \n 본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면\n 주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.\n아머리 FAQ | 회원 및 주문 관련 안내 \n 전체상품목록 바로가기 \n 본문 바로가기 \n 바람막이 얼리버드 프로모션 10,000원 할인 진행중 (~09.30) \n 바람막이 얼리버드 프로모션 10,000원"
+  },
+  "_missing": [
+    "F-2/F-3 相談窓口（LINE/問い合わせ）",
+    "B-2 価格帯",
+    "C-2 実績（数字）",
+    "D-1〜D-3 担当者の言葉",
+    "E-1 お客様の声（許可付き）",
+    "A-3 一言（20字）",
+    "A-4 業種",
+    "H-1 PR表記の了承"
+  ]
+}
