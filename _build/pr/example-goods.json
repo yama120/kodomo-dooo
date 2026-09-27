@@ -11,12 +11,12 @@
   "area_label": "オンラインショップ（全国対応）",
   "website": "https://example.com/",
   "images": {
-    "hero": "assets/pr/_placeholder/hero.svg",
-    "a": "assets/pr/_placeholder/a.svg",
-    "b": "assets/pr/_placeholder/b.svg",
-    "g1": "assets/pr/_placeholder/g1.svg",
-    "g2": "assets/pr/_placeholder/g2.svg",
-    "logo": "assets/pr/_placeholder/logo.svg"
+    "hero": "assets/pr/placeholder/hero.svg",
+    "a": "assets/pr/placeholder/a.svg",
+    "b": "assets/pr/placeholder/b.svg",
+    "g1": "assets/pr/placeholder/g1.svg",
+    "g2": "assets/pr/placeholder/g2.svg",
+    "logo": "assets/pr/placeholder/logo.svg"
   },
   "headline": "「1枚からでも、チームの一着を。」",
   "sub": "少年団・クラブ専門のユニフォーム・グッズ制作。",
