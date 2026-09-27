@@ -18,6 +18,7 @@ CSS=r'''
 .am-hero{position:relative;background:var(--k);color:var(--w);overflow:hidden;min-height:min(86vh,720px);display:flex;align-items:flex-end}
 .am-hero .vid{position:absolute;inset:0;overflow:hidden;background:#0d0f12}
 .am-hero .vid iframe{position:absolute;top:50%;left:50%;width:177.78vh;min-width:100%;height:56.25vw;min-height:100%;transform:translate(-50%,-50%);pointer-events:none;opacity:.85}
+.am-hero.portrait .vid iframe{width:56.25vh;min-width:100%;height:177.78vw;min-height:100%}
 .am-hero .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,15,18,.15) 0%,rgba(13,15,18,.35) 45%,rgba(13,15,18,.92) 100%)}
 .am-hero .in{position:relative;padding:120px 0 44px;width:100%}
 .am-hero .pr{display:inline-block;border:1px solid rgba(255,255,255,.55);font-size:11px;font-weight:800;letter-spacing:.1em;padding:4px 11px;border-radius:999px;margin-bottom:16px}
@@ -332,7 +333,11 @@ js=f'''<script async src="https://www.instagram.com/embed.js"></script>
 <script>
 (function(){{
   var f=document.getElementById('flip'); if(f){{ f.addEventListener('click',function(){{ f.classList.toggle('on'); }}); }}
-  if(matchMedia('(max-width:640px)').matches){{ var v=document.getElementById('amv'); if(v) v.src=v.src.replace(/{YT_PC}/g,'{YT_SP}'); }}
+  /* 動画の切替：画面が縦長なら縦動画（{YT_SP}）、横長なら横動画（{YT_PC}）。幅ではなく縦横で判定し、回転・リサイズにも追従 */
+  var hero=document.querySelector('.am-hero'), v=document.getElementById('amv'), cur='';
+  function pick(){{ var por=innerHeight>innerWidth; var id=por?'{YT_SP}':'{YT_PC}'; if(id===cur) return; cur=id; hero.classList.toggle('portrait',por);
+    v.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&mute=1&loop=1&playlist='+id+'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3'; }}
+  if(hero&&v){{ pick(); var t; addEventListener('resize',function(){{ clearTimeout(t); t=setTimeout(pick,300); }}); }}
 }})();
 </script>'''
 C.prodpage('pr/armoury.html','ARMOURY（アーマリー）｜チビスポ 企業紹介','表と裏で色が違う両面ユニフォームをチーム単位でオーダー制作。韓国発ARMOURYの日本法人が、スポーツクラブの注文を受付中。',body,css=CSS,js=js,noindex=True,base_root=True,og_image='https://chibispo.com/assets/pr/armoury/soccer-134-f.webp')
