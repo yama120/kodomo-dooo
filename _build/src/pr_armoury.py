@@ -157,7 +157,7 @@ body=f'''
   <div class="in"><div class="w">
     <span class="pr">PR ｜ 企業紹介</span>
     <div class="brand">ARMOURY<small>アーマリー ｜ TEAM WEAR</small></div>
-    <h1>1着で、2チーム分。<br>ひっくり返せば、もうひとつのユニフォーム。</h1>
+    <h1>1着で、2チーム分。<br>表と裏で、2つのユニフォーム。</h1>
     <p class="ld">表と裏で色もデザインも違う「両面ユニフォーム」を、チーム単位でオーダー制作。韓国発のチームウェアブランドが、日本のスポーツクラブの注文を受け付けています。</p>
     <div class="cta"><a class="p" href="{IG}" target="_blank" rel="noopener sponsored">Instagramを見る</a><a class="s" href="#design">デザインを見る</a></div>
   </div></div>
