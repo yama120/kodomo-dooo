@@ -155,7 +155,21 @@ body{overflow-x:clip!important}
 .d-ic.s{width:26px;height:26px}.d-ic.s svg{width:14px;height:14px}
 .d-bgw{position:absolute;left:-4px;top:-14px;z-index:0;font-family:'Anton',sans-serif;font-size:clamp(58px,11vw,118px);line-height:.9;letter-spacing:-.01em;color:color-mix(in srgb,var(--accent) 13%,transparent);-webkit-text-stroke:1px color-mix(in srgb,var(--accent) 22%,transparent);pointer-events:none;user-select:none;white-space:nowrap}
 .d-ch.alt .d-bgw{color:color-mix(in srgb,var(--accent) 11%,transparent)}
-.d-tagline{margin:6px 0 2px;font-size:14.5px;font-weight:700;color:var(--sub);line-height:1.6}
+.d-tagline{position:relative;margin:12px 0 16px;padding:2px 0 2px 16px;font-family:'Zen Old Mincho',serif;font-size:clamp(16.5px,2.2vw,21px);font-weight:900;color:var(--ink);line-height:1.6;letter-spacing:.02em}
+.d-tagline::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:4px;border-radius:2px;background:var(--accent)}
+/* 種目・地域・地図：それぞれ違う形で見分けられるように */
+.chead .cmeta{align-items:center;gap:8px 8px;margin-top:4px}
+.chead .cmeta>span{display:inline-flex;align-items:center}
+#cd-sport-wrap{gap:6px;padding:4px 12px 4px 5px;border-radius:999px;background:#fdedef;color:var(--ink);font-size:12.5px}
+#cd-sport-wrap .sb{margin:0!important;vertical-align:0!important}
+#cd-area{gap:4px;font-size:13px;font-weight:900;color:var(--ink)}
+#cd-area::before{content:"";width:14px;height:14px;flex:none;background:var(--accent);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E") center/contain no-repeat}
+#cd-map-link{font-size:12.5px;font-weight:900;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+#cd-map-link::after{content:" →"}
+/* お気に入り・コメント：数字だけだと何の数か分からないので言葉を添える */
+.chead .cstats{margin-top:12px;gap:18px;font-size:12px}
+.chead .cstats em{font-style:normal;font-weight:700}
+.chead .cstats b{font-size:14px;color:var(--ink)}
 .d-ch{margin:30px calc(50% - 50vw) 0;padding:34px calc(50vw - 50%) 38px}
 .d-ch.alt{background:#f4f5f8}
 .d-ch>*:first-child{margin-top:0!important}
@@ -370,7 +384,7 @@ body{overflow-x:clip!important}
       <h1 id="cd-name">クラブ</h1>
       <p class="d-tagline" id="d-tagline" hidden></p>
       <div class="cmeta"><span id="cd-sport-wrap"><span id="cd-sport-icon"></span><b id="cd-sport"></b></span><span id="cd-area"></span><span id="cd-map-link-wrap" hidden><a id="cd-map-link" href="#" target="_blank" rel="noopener">地図で見る</a></span></div>
-      <div class="cstats"><span class="lk" id="cd-like-top" title="お気に入り"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg><span id="cd-like-n">0</span></span><span id="cd-cmt-top"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg><span id="cd-cmt-n">0</span></span></div>
+      <div class="cstats"><span class="lk" id="cd-like-top" title="お気に入り"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg><em>お気に入り</em><b id="cd-like-n">0</b></span><span id="cd-cmt-top"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg><em>コメント</em><b id="cd-cmt-n">0</b></span></div>
       <div class="clinks" id="cd-links" hidden></div>
     </div>
   </div>
