@@ -110,7 +110,7 @@
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:560px){.g2{grid-template-columns:1fr}}
   /* ---- 折りたたみの章（クラブ情報） ---- */
-  .cm-sec{border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:12px;overflow:hidden}
+  .cm-sec{border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:12px;overflow:hidden;scroll-margin-top:calc(var(--hdh,0px) + 60px)}
   .cm-sec>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 16px}
   .cm-sec>summary::-webkit-details-marker{display:none}
   .cm-sec>summary .no{font-family:'Anton',sans-serif;font-size:18px;color:var(--accent);letter-spacing:.04em;min-width:26px}
@@ -177,6 +177,56 @@
   #mp-upsell{border:1.5px solid #f3c9da!important;background:#fffafc!important}
   .mp-msg{display:none;font-size:13px;font-weight:700;border-radius:10px;padding:11px 13px;margin-bottom:12px}
   .mp-foot{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:8px}
+  /* ===== 登録画面（register.html）と同じ見た目に揃える（2026-10-01） =====
+     角のない黒い枠・黒丸の番号・四角い入力欄・PCではラベルを左に。旧スクリプトの id / class には触らず、上書きだけで寄せる */
+  :root{--bg:#fff}
+  .mp-wrap{max-width:860px}
+  .mp-wrap [style*="border-radius"]:not([style*="50%"]):not([style*="999px"]){border-radius:0!important}
+  .cm-head .k{display:flex;align-items:center;gap:10px}
+  .cm-head .k::before{content:"";width:22px;height:2px;background:var(--accent)}
+  .cm-head h1 #mp-team-select{border:1px solid var(--ink);border-radius:0}
+  .cm-badges span{border-radius:0}
+  .cm-act a,.cm-act button,#mp-team-add{border-radius:0;border-width:1px}
+  .mp-todo a{border-width:1px;border-radius:0}
+  .mp-tabs{background:rgba(255,255,255,.96);border-bottom-color:var(--ink)}
+  .mp-card{border:1px solid var(--ink);border-radius:0;padding:20px 16px}
+  .mp-h2{padding-left:0;border-left:0;font-size:18px}
+  .mp-input{border:1px solid var(--ink);border-radius:0;font-size:13.5px;font-weight:700;padding:10px 12px}
+  select.mp-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:12px;padding-right:30px}
+  .mp-label{font-size:12px}
+  .mp-label .req{background:var(--ink);color:#fff;border-radius:0;font-size:9.5px;letter-spacing:.08em;padding:1px 5px}
+  .mp-chk{position:relative;border:1px solid var(--ink);border-radius:0;font-size:12.5px;padding:8px 11px}
+  .mp-chk input{position:absolute;opacity:0;width:0;height:0}
+  .mp-chk:has(input:checked){background:var(--ink);border-color:var(--ink);color:#fff}
+  .mp-chk:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+  .mp-btn{border-radius:10px;box-shadow:none;padding:15px 0}
+  .ed-btn{border:1px solid var(--ink);border-radius:0}
+  .mp-msg{border-radius:10px}
+  #mp-enrich{border:1.5px dashed var(--accent)}
+  #mp-pending,#mp-paused{border-radius:0}
+  .cm-sec{border:1px solid var(--ink);border-radius:0;margin-bottom:14px}
+  .cm-sec>summary .no{width:30px;height:30px;min-width:30px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;letter-spacing:0;display:flex;align-items:center;justify-content:center}
+  .cm-sec.filled>summary .no{background:var(--ok);color:#fff}
+  .cm-sec>summary b{font-size:16px}
+  .cm-sec>summary .pm{color:var(--accent)}
+  .cm-sec>.bd{padding:4px 16px 16px}
+  .cm-sec>.bd>.g2{display:block}
+  .cm-sec>.bd>.mp-group,.cm-sec>.bd>.g2>.mp-group{margin:0;padding:12px 0;border-bottom:1px solid var(--line)}
+  .cm-sec>.bd>.mp-group:last-child,.cm-sec>.bd>.g2:last-child>.mp-group:last-child{border-bottom:0}
+  .mp-group[hidden]{display:none!important}
+  #mp-info-card{border:0;padding:0;background:none}
+  #mp-info-card .mp-save-bar{margin:10px 0 0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));border-top:0}
+  .cm-sec>.bd .mp-group>button{justify-self:start}
+  .le .row{border:1px solid var(--line);border-radius:0;background:#fff}
+  .le .row .ph img,.ph-one img{border-radius:0}
+  .mp-save-bar{border-radius:0;border-top-color:var(--ink)}
+  .tr-card,.tr-msg,.tr-btn,.as-stats div,.as-list li,#mp-draft-list label{border-radius:0}
+  @media(min-width:900px){
+    .cm-sec>.bd>.mp-group,.cm-sec>.bd>.g2>.mp-group{display:grid;grid-template-columns:170px 1fr;column-gap:16px;align-items:start}
+    .cm-sec>.bd>.mp-group>.mp-label,.cm-sec>.bd>.g2>.mp-group>.mp-label{grid-column:1;grid-row:1/span 12;margin:0;padding-top:10px}
+    .cm-sec>.bd>.mp-group>*:not(.mp-label),.cm-sec>.bd>.g2>.mp-group>*:not(.mp-label){grid-column:2;min-width:0}
+    .cm-sec .st{grid-template-columns:1fr;gap:12px 0}
+  }
 </style>
 <!-- GA4 (auto-managed by install-ga4.mjs) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
@@ -241,7 +291,7 @@
         <span style="font-size:20px;line-height:1.2;">⏳</span>
         <div style="min-width:0;">
           <div style="font-size:14px;font-weight:900;color:#a9781c;">この掲載は現在【承認待ち】です</div>
-          <div style="font-size:12.5px;color:#8a7320;line-height:1.75;margin-top:4px;">運営が内容を確認したのち公開され、「クラブを探す」や地図に表示されます。<br>公開まで少々お待ちください。</div>
+          <div style="font-size:12.5px;color:#8a7320;line-height:1.75;margin-top:4px;">運営が内容を確認したのち公開され、「クラブを探す」や地図に表示されます（最短で当日）。<br><b>確認を待たずに編集できます。</b>ロゴや Instagram の写真を入れておくと、そろった状態で公開されます。</div>
         </div>
       </div>
     </div>
@@ -476,10 +526,10 @@
     <div id="mp-enrich" class="mp-card" data-pane="info">
       <div class="mp-k">PAGE BUILDER</div>
       <h2 class="mp-h2">ページを充実させる</h2>
-      <p class="mp-lead">公式サイトや Instagram があれば、チビスポが読んで下書きを作ります。届いた下書きは、載せてよい項目にチェックを入れるだけで反映できます。</p>
+      <p class="mp-lead">公式サイトがあれば、チビスポが読んで下書きを作ります。届いた下書きは、載せてよい項目にチェックを入れるだけで反映できます。</p>
       <div id="mp-enrich-status" class="hint" style="margin:0 0 10px;"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-        <button id="mp-draft-req" class="ed-btn" type="button">公式サイト・Instagram から下書きを作ってもらう</button>
+        <button id="mp-draft-req" class="ed-btn" type="button">公式サイトから下書きを作ってもらう</button>
         <a href="#" id="mp-enrich-view" class="hint" style="margin:0;" target="_blank" rel="noopener">いまのクラブページを見る →</a>
       </div>
     </div>
@@ -695,14 +745,14 @@
           </div>
           <div class="mp-group" id="mp-ig">
             <label class="mp-label">Instagram の投稿<span class="opt">（6件まで）</span><span class="sh">表示：クラブページ「写真で見る、ふだんの様子」</span></label>
-            <p class="hint" style="margin-top:0;margin-bottom:8px;">投稿の「…」→「リンクをコピー」で取った URL を貼るだけで写真が並びます。アップロードや連携は要りません。</p>
+            <p class="hint" style="margin-top:0;margin-bottom:8px;">投稿の「…」→「リンクをコピー」で取った URL を貼るだけで写真が並びます。貼った時点で保存されるので、ほかの操作は要りません。</p>
             <div style="display:flex;gap:8px;">
               <input id="mp-ig-in" class="mp-input" type="url" placeholder="https://www.instagram.com/p/…" style="flex:1;min-width:0;">
               <button id="mp-ig-add" class="ed-btn" type="button" style="white-space:nowrap;">追加</button>
             </div>
             <div id="mp-ig-list" style="display:grid;gap:8px;margin-top:10px;"></div>
             <div id="mp-ig-msg" class="mp-msg" style="margin:10px 0 0;"></div>
-            <button id="mp-ig-save" class="ed-btn" type="button" style="margin-top:10px;">Instagram の投稿を保存する</button>
+            <button id="mp-ig-save" class="ed-btn" type="button" style="margin-top:10px;display:none;">もう一度保存する</button>
           </div>
           <div class="mp-group"><label class="mp-label">紹介動画<span class="opt">（YouTube の URL）</span><span class="sh">表示：クラブページの最上部（写真の代わりに動画）</span></label><input class="mp-input" id="x-video" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
           <div class="mp-group">
@@ -2388,13 +2438,19 @@
     if(n) items.push({k:'inbox',cls:'hot',b:'未対応の申込・質問が '+n+' 件',s:'保護者が返事を待っています'});
     if(todo.draft) items.push({k:'info',cls:'sun',b:'ページの下書きが届いています',s:'載せてよい項目にチェックを入れるだけで反映できます'});
     if(todo.assistPending) items.push({k:'grow',cls:'sun',b:'受け取り待ちのアシスト '+yen(todo.assistPending),s:'受け取り口座を登録すると送金されます'});
+    if(team&&!team.logo_url) items.push({k:'info',cls:'',b:'ロゴがまだありません',s:'画像を1枚選ぶだけ。検索カードとクラブ名の横に出ます',sec:'sec-basic'});
+    if(todo.noIgId) items.push({k:'info',cls:'',b:'Instagram のアカウントが未登録です',s:'登録すると、クラブページから Instagram へ案内できます',sec:'sec-contact'});
     if(todo.noIg) items.push({k:'info',cls:'',b:'Instagram の写真がまだありません',s:'投稿のリンクを貼るだけで、ページに写真が並びます',sec:'sec-photo'});
     if(todo.noSource) items.push({k:'info',cls:'',b:'公式サイトが未登録です',s:'登録すると、チビスポが下書きを作れます',sec:'sec-contact'});
     var box=el('mp-todo'); if(!items.length){ box.innerHTML=''; box.hidden=true; return; }
     box.hidden=false; box.innerHTML=items.map(function(i){ return '<a href="#" class="'+i.cls+'" data-tab="'+i.k+'"'+(i.sec?' data-sec="'+i.sec+'"':'')+'><span><b>'+es(i.b)+'</b><small>'+es(i.s)+'</small></span><span class="go">→</span></a>'; }).join('');
   }
-  el('mp-todo').addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; e.preventDefault(); goTab(a.dataset.tab); if(a.dataset.sec){ var d=el(a.dataset.sec); if(d){ d.open=true; setTimeout(function(){ d.scrollIntoView({behavior:'smooth',block:'start'}); },250); } } });
+  function openSec(id){ var d=/^sec-[a-z]+$/.test(id)?el(id):null; if(!d) return; goTab('info'); d.open=true; setTimeout(function(){ d.scrollIntoView({behavior:'smooth',block:'start'}); },250); }
+  el('mp-todo').addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; e.preventDefault(); if(a.dataset.sec) openSec(a.dataset.sec); else goTab(a.dataset.tab); });
+  /* URLで章を指定できるようにする（例：club-mypage.html?tab=info&sec=sec-photo）。登録の完了画面から「ロゴ」「Instagram」の欄へ直接着くのに使う */
+  var wantSec=''; try{ wantSec=new URLSearchParams(location.search).get('sec')||''; }catch(_){}
   var badgeObs=new MutationObserver(drawTodo); var bd=el('mp-tab-badge'); if(bd) badgeObs.observe(bd,{attributes:true,childList:true,characterData:true,subtree:true});
+  var lgp=el('mp-logo-preview'); if(lgp) new MutationObserver(drawTodo).observe(lgp,{childList:true});
 
   /* ---- 写真の縮小＋アップロード（team-photos/<user>/x-…） ---- */
   function shrink(file){ return new Promise(function(res){ var img=new Image(); var u=URL.createObjectURL(file); img.onload=function(){ var max=1600, w=img.width, h=img.height, s=Math.min(1,max/Math.max(w,h)); var c=document.createElement('canvas'); c.width=Math.round(w*s); c.height=Math.round(h*s); c.getContext('2d').drawImage(img,0,0,c.width,c.height); c.toBlob(function(b){ URL.revokeObjectURL(u); res(b||file); },'image/jpeg',.86); }; img.onerror=function(){ res(file); }; img.src=u; }); }
@@ -2462,7 +2518,8 @@
     var filled={'sec-about':!!(lead||leData.story.length||leData.features.length||stRead(el('x-style'))),'sec-people':!!(g.body||leData.staff.length||(x.achievements||[]).length),'sec-course':!!leData.cost.length,'sec-photo':!!((x.ig_photos||[]).length||x.video_url||leData.log.length),'sec-contact':!!(x.website_url||x.instagram)};
     Object.keys(filled).forEach(function(id){ var d=el(id); if(!d) return; d.classList.toggle('filled',filled[id]); });
     var sc=el('sec-about'); if(sc&&filled['sec-about']) sc.open=true;
-    todo.noSource=!x.website_url; todo.noIg=!((x.ig_photos||[]).filter(function(p){ return p&&p.thumb; }).length); drawTodo();
+    todo.noSource=!x.website_url; todo.noIgId=!x.instagram; todo.noIg=!((x.ig_photos||[]).filter(function(p){ return p&&p.thumb; }).length); drawTodo();
+    if(wantSec){ var ws=wantSec; wantSec=''; openSec(ws); }
   }
   function readExtra(){
     var st=leRead('story').filter(function(s){ return s.body; }); var lead=el('x-story-lead').value.trim(); if(lead) st.unshift({heading:null,body:lead});
@@ -2486,22 +2543,26 @@
   var igItems=[];
   function parseIg(u){ var m=String(u).trim().match(/instagram\.com\/(?:[A-Za-z0-9_.]+\/)?(p|reel|tv)\/([A-Za-z0-9_-]+)/); return m?{kind:m[1]==='tv'?'p':m[1],code:m[2],url:'https://www.instagram.com/'+(m[1]==='tv'?'p':m[1])+'/'+m[2]+'/'}:null; }
   function drawIg(){
-    el('mp-ig-list').innerHTML=igItems.length?igItems.map(function(p,i){ return '<div style="display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border:1px solid #ececec;border-radius:10px;padding:6px 8px;"><div style="width:56px;height:56px;border-radius:8px;background:#f0f0f0 center/cover no-repeat;'+(p.thumb?'background-image:url('+es(p.thumb)+')':'')+'"></div><div style="font-size:12.5px;color:#6a7385;word-break:break-all;"><b style="display:block;color:#2b2b2b;">'+(i+1)+'件目・'+(p.kind==='reel'?'リール':'投稿')+(p.thumb?'':'（保存すると写真を取得）')+'</b>'+es(p.url)+'</div><div style="display:flex;gap:4px;"><button type="button" class="ed-btn" data-a="up" data-i="'+i+'" '+(i?'':'disabled')+' style="padding:6px 10px;">↑</button><button type="button" class="ed-btn" data-a="del" data-i="'+i+'" style="padding:6px 10px;">×</button></div></div>'; }).join(''):'<div class="hint" style="margin:0;">まだ投稿がありません。上の欄にリンクを貼ってください。</div>';
+    el('mp-ig-list').innerHTML=igItems.length?igItems.map(function(p,i){ return '<div style="display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border:1px solid #ececec;border-radius:10px;padding:6px 8px;"><div style="width:56px;height:56px;border-radius:8px;background:#f0f0f0 center/cover no-repeat;'+(p.thumb?'background-image:url('+es(p.thumb)+')':'')+'"></div><div style="font-size:12.5px;color:#6a7385;word-break:break-all;"><b style="display:block;color:#2b2b2b;">'+(i+1)+'件目・'+(p.kind==='reel'?'リール':'投稿')+(p.thumb?'':'（写真を取得しています）')+'</b>'+es(p.url)+'</div><div style="display:flex;gap:4px;"><button type="button" class="ed-btn" data-a="up" data-i="'+i+'" '+(i?'':'disabled')+' style="padding:6px 10px;">↑</button><button type="button" class="ed-btn" data-a="del" data-i="'+i+'" style="padding:6px 10px;">×</button></div></div>'; }).join(''):'<div class="hint" style="margin:0;">まだ投稿がありません。上の欄にリンクを貼ってください。</div>';
   }
-  function addIg(){ var vals=el('mp-ig-in').value.split(/\s+/).filter(Boolean); if(!vals.length) return; hide('mp-ig-msg');
+  function addIg(){ var vals=el('mp-ig-in').value.split(/\s+/).filter(Boolean); if(!vals.length) return; hide('mp-ig-msg'); var added=0;
     vals.forEach(function(v){ var p=parseIg(v); if(!p) return note('mp-ig-msg',false,'Instagramの投稿リンクではないようです（/p/ か /reel/ を含むURLを貼ってください）');
       if(igItems.some(function(x){ return x.code===p.code; })) return note('mp-ig-msg',false,'同じ投稿はすでに入っています');
       if(igItems.length>=6) return note('mp-ig-msg',false,'6件までです。入れ替える場合は、先にどれかを削除してください');
-      igItems.push(p); });
-    el('mp-ig-in').value=''; drawIg(); }
+      igItems.push(p); added++; });
+    el('mp-ig-in').value=''; drawIg(); if(added) saveIg(); }
   el('mp-ig-add').onclick=addIg; el('mp-ig-in').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); addIg(); } }); el('mp-ig-in').addEventListener('paste',function(){ setTimeout(addIg,0); });
-  el('mp-ig-list').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; var i=+b.dataset.i; if(b.dataset.a==='del') igItems.splice(i,1); else if(i>0){ var t=igItems[i-1]; igItems[i-1]=igItems[i]; igItems[i]=t; } drawIg(); };
-  el('mp-ig-save').onclick=function(){ if(!team) return; var b=this; b.disabled=true; b.textContent='保存中…（写真を取得しています）';
+  el('mp-ig-list').onclick=function(e){ var b=e.target.closest('button'); if(!b) return; var i=+b.dataset.i; if(b.dataset.a==='del') igItems.splice(i,1); else if(i>0){ var t=igItems[i-1]; igItems[i-1]=igItems[i]; igItems[i]=t; } drawIg(); saveIg(); };
+  /* 貼った時点・消した時点・並べ替えた時点でそのまま保存する（別の保存ボタンを押させない。2026-10-01）。
+     保存中に次の操作が来たら、終わってからもう一度送る。失敗したときだけ「もう一度保存する」を出す */
+  var igBusy=false, igAgain=false;
+  function saveIg(){ if(!team) return; if(igBusy){ igAgain=true; return; } igBusy=true; el('mp-ig-save').style.display='none'; note('mp-ig-msg',true,'保存中…（写真を取得しています）');
     api('/api/ig-links',{method:'POST',body:JSON.stringify({club:team.id,links:igItems.map(function(p){ return p.url; })})}).then(function(j){
-      if(j.error) throw new Error(j.error); igItems=j.items||[]; drawIg(); todo.noIg=!igItems.filter(function(p){ return p.thumb; }).length; drawTodo();
-      note('mp-ig-msg',true,'保存しました（'+igItems.length+'件）。'+(j.missing?'写真を取得できなかった投稿が'+j.missing+'件あります（公開設定をご確認ください）。':'クラブページに反映されています。'));
-    }).catch(function(e){ note('mp-ig-msg',false,'保存できませんでした：'+(e.message==='no_session'?'ログインし直してください':e.message)); })
-    .then(function(){ b.disabled=false; b.textContent='Instagram の投稿を保存する'; }); };
+      if(j.error) throw new Error(j.error); if(!igAgain){ igItems=j.items||[]; drawIg(); } todo.noIg=!(j.items||[]).filter(function(p){ return p.thumb; }).length; drawTodo();
+      note('mp-ig-msg',true,'保存しました（'+(j.items||[]).length+'件）。'+(j.missing?'写真を取得できなかった投稿が'+j.missing+'件あります（公開設定をご確認ください）。':'クラブページに反映されています。'));
+    }).catch(function(e){ note('mp-ig-msg',false,'保存できませんでした：'+(e.message==='no_session'?'ログインし直してください':e.message)); el('mp-ig-save').style.display=''; })
+    .then(function(){ igBusy=false; if(igAgain){ igAgain=false; saveIg(); } }); }
+  el('mp-ig-save').onclick=saveIg;
 
   /* ---- AI下書き：依頼と承認 ---- */
   var draft=null;
@@ -2537,8 +2598,8 @@
     }).catch(function(){});
   }
   el('mp-draft-req').onclick=function(){ if(!team) return; var b=this; b.disabled=true; b.textContent='依頼しています…';
-    api('/api/draft/request',{method:'POST',body:JSON.stringify({club:team.id})}).then(function(j){ if(j.error) throw new Error(j.error==='no_source'?'公式サイトか Instagram を登録してください':j.error); b.textContent='公式サイト・Instagram から下書きを作ってもらう'; loadEnrich(); })
-    .catch(function(e){ b.disabled=false; b.textContent='公式サイト・Instagram から下書きを作ってもらう'; el('mp-enrich-status').textContent='依頼できませんでした：'+e.message; }); };
+    api('/api/draft/request',{method:'POST',body:JSON.stringify({club:team.id})}).then(function(j){ if(j.error) throw new Error(j.error==='no_source'?'公式サイトを登録してください':j.error); b.textContent='公式サイトから下書きを作ってもらう'; loadEnrich(); })
+    .catch(function(e){ b.disabled=false; b.textContent='公式サイトから下書きを作ってもらう'; el('mp-enrich-status').textContent='依頼できませんでした：'+e.message; }); };
 
   /* ---- チビスポアシスト：受け取りのまとめ・口座の状態 ---- */
   function loadAssist(){
