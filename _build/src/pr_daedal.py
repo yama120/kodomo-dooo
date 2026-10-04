@@ -125,7 +125,7 @@ body=f'''
     <span class="pr">PR ｜ 企業紹介</span>
     <p class="brand">DAEDAL.<small>ダイダル ｜ BASEBALL GEAR</small></p>
     <h1>道具の値段で、<br>野球を諦めさせない。</h1>
-    <p class="ld">高校2年生が立ち上げた野球ブランド。デザインを自由に決められるユニフォームから、オーダーグラブ、バッティンググローブ、打者用防具まで。</p>
+    <p class="ld">デザインを自由に決められるユニフォームから、オーダーグラブ、バッティンググローブ、打者用防具まで。</p>
     <div class="cta"><a class="p" href="{LINE}" target="_blank" rel="noopener sponsored">公式LINEで相談</a><a class="s" href="#uniform">ユニフォームを見る</a></div>
   </div></div>
 </section>
