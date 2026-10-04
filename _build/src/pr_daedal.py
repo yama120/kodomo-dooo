@@ -255,7 +255,7 @@ body=f'''
 
 <section class="dd-cta"><div class="bg"><img src="{A}p-uniform-team.webp" alt=""></div><div class="sh"></div><div class="w2">
   <h2>チームの一式を、DAEDAL.で。</h2>
-  <p>ユニフォームもグラブも、まずは公式LINEから。{TBC("チビスポ経由の特典（クーポンコードなど）")}</p>
+  <p>ユニフォームもグラブも、まずは公式LINEから。</p>
   <a href="{LINE}" target="_blank" rel="noopener sponsored" style="background:#06c755">公式LINEで相談</a>
 </div></section>
 
