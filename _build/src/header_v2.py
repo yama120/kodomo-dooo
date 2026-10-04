@@ -74,7 +74,7 @@ I={
  'club':'<svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg>',
 }
 
-PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.webp?v=2',logow='assets/logo-wide.webp?v=2')
+PREVIEW_LINKS=dict(home='video-hero-preview.html',search='search-preview.html',map='map-preview.html',about='about-preview.html',partner='partner-preview.html',fav='mypage-preview.html?tab=fav',clubmy='club-mypage-preview.html',login='login-preview.html',mypage='mypage-preview.html',listing='service-listing-preview.html',magazine='magazine-preview.html',faq='faq.html',contact='contact-preview.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.webp?v=3',logow='assets/logo-wide.webp?v=3')
 import json as _json
 def sheet_html(L):
     return ('<div class="sh-bd" id="shBd"></div>'
