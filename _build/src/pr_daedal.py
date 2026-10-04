@@ -15,6 +15,8 @@ CSS=r'''
 .dd section{padding:64px 0}
 .dd .ey{font-family:Anton,sans-serif;letter-spacing:.16em;font-size:12px;color:var(--pk);margin-bottom:12px}
 .dd h2{font-size:clamp(24px,3.4vw,34px);font-weight:900;line-height:1.4;margin:0 0 16px}
+.dd h2,.dd-hero h1{text-wrap:balance;word-break:auto-phrase}
+.dd-about h2{font-size:clamp(21px,2.9vw,30px)}
 .dd p.b{font-size:15px;color:var(--sub);margin:0 0 18px}
 .tbc{color:#b7791f;background:#fff7e6;border-radius:6px;padding:0 6px;font-size:.92em;font-weight:700}
 .ask{border:2px dashed #e8b64a;background:#fffaf0;border-radius:16px;padding:16px 20px;margin:20px 0 0}
@@ -187,7 +189,7 @@ body=f'''
     <div class="c"><div class="im"><img src="{A}belt.webp" alt="ベルト"></div><div class="t"><em>¥1,990</em><b>DAEDAL CORE BELT</b><span>シルバー・ゴールド・ホワイト・グリーン・パープル・オレンジなど、カラー展開の多いベルト。</span></div></div>
     <div class="c"><div class="im"><img src="{A}sunglass.webp" alt="感動サングラス"></div><div class="t"><em>¥2,480</em><b>感動サングラス</b><span>UV99%カット・UV400。軽量で長時間の試合にも。野球・ソフトボールのほかアウトドアにも。</span></div></div>
     <div class="c"><div class="im"><img src="{A}poncho.webp" alt="冷！感動ポンチョ"></div><div class="t"><em>¥1,290</em><b>冷！感動ポンチョ（夏季限定）</b><span>ひんやりサラサラ。夏の練習・観戦に。</span></div></div>
-    <div class="c"><div class="im"><img src="{A}p-glove-mint.webp" alt="オーダーグラブ" style="object-position:center 58%"></div><div class="t"><em>硬式 ¥36,300〜／軟式 ¥27,500〜</em><b>オーダーグラブ</b><span>公式LINEからシミュレーションして注文。通常の納期は30日ほど。</span></div></div>
+    <div class="c"><div class="im"><img src="{A}p-glove-mint-card.webp" alt="オーダーグラブ"></div><div class="t"><em>硬式 ¥36,300〜／軟式 ¥27,500〜</em><b>オーダーグラブ</b><span>公式LINEからシミュレーションして注文。通常の納期は30日ほど。</span></div></div>
   </div>
 </div></section>
 
