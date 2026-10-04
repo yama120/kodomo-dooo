@@ -97,7 +97,8 @@ CSS=r'''
 .mk-fl .st i{font-style:normal;font-family:Anton,sans-serif;font-size:26px;color:var(--bl);display:block;line-height:1;margin-bottom:8px}
 .mk-fl .st b{display:block;font-size:15px;margin-bottom:4px}.mk-fl .st span{font-size:13.5px;color:var(--sub)}
 .mk-lc .g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.mk-lc .c{border:1px solid var(--line);border-radius:18px;padding:22px 20px}.mk-lc .c b{display:block;font-size:16px;margin-bottom:6px}.mk-lc .c p{font-size:14px;color:var(--sub);margin:0 0 8px}
+.mk-lc .c{border:1px solid var(--line);border-radius:18px;padding:22px 20px}.mk-lc .c i{font-style:normal;font-family:Anton,sans-serif;font-size:30px;line-height:1;color:var(--bl);display:block;margin-bottom:10px}.mk-lc .nt{font-size:13px;color:#6b7280;margin:18px 0 0}
+.mk-lc .c b{display:block;font-size:16px;margin-bottom:6px}.mk-lc .c p{font-size:14px;color:var(--sub);margin:0 0 8px}
 .mk-lc .ex{display:grid;gap:6px;margin:10px 0}.mk-lc .ex span{background:var(--ye);border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:800}.mk-lc .c small{font-size:12px;color:#8a95a0}
 @media(max-width:820px){.mk-lc .g{grid-template-columns:1fr}}
 /* qa */
@@ -239,12 +240,13 @@ body=f'''
 <section class="mk-lc" id="license"><div class="w">
   <div class="ey">LICENSE</div>
   <h2>在庫を持たずに、チームのグッズを売る</h2>
-  <p class="b">チームに代わって、注文の受付からお客様への発送まで makkiedrops design が行うライセンス契約。完全受注生産なので、チームで在庫を抱える必要がありません。</p>
+  <p class="b">チームに代わって、注文の受付からお客様への発送まで makkiedrops design が行う「ライセンス契約」という仕組みがあります。予算の少ないクラブでも、グッズを始められます。</p>
   <div class="g">
-    <div class="c"><b>仕組み</b><p>オンラインショップにチームの商品を掲載し、注文を受けてから製作・発送。商品が1点売れるごとに、あらかじめ決めた金額がチームに支払われます。</p><div class="ex"><span>例｜販売価格 1,000円 → チームへ 200円</span><span>例｜販売価格 1,500円 → チームへ 400円</span></div><small>支払い額は商品によって異なります。相談時に案内されます。</small></div>
-    <div class="c"><b>対応している商品</b><p>ユニフォームキーホルダー／3Dキーホルダー／ピンバッジ／タオル</p><b style="margin-top:14px">支払いの時期</b><p>チームへの支払い額の累計が10,000円以上になると、翌月末に指定口座へ振込。満たない場合は繰り越し、半年を目安に精算されます。</p></div>
-    <div class="c"><b>知っておきたいこと</b><p>チームのイベントなどで直接販売する分は、チームでの買い取りになります。</p><p>3年間、商品の売上がない場合は契約終了となります。</p></div>
+    <div class="c"><i>1</i><b>注文も発送も任せられる</b><p>オンラインショップにチームの商品を掲載。注文の受付から製作、発送まで makkiedrops design が行います。</p></div>
+    <div class="c"><i>2</i><b>在庫を持たなくていい</b><p>注文を受けてから作る完全受注生産。チームが先に買い取って在庫を抱える必要がありません。</p></div>
+    <div class="c"><i>3</i><b>売れた分がチームに入る</b><p>商品が1点売れるごとに、あらかじめ決めた金額がチームに支払われます。</p><div class="ex"><span>例｜販売価格 1,000円 → チームへ 200円</span></div></div>
   </div>
+  <p class="nt">対応商品：ユニフォームキーホルダー／3Dキーホルダー／ピンバッジ／タオル。上の金額は一例です。支払い額や条件は商品によって異なり、相談のときに案内されます。</p>
 </div></section>
 
 <section class="mk-qa"><div class="w2">
