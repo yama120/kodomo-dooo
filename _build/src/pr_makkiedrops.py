@@ -119,7 +119,7 @@ CSS=r'''
 .mk-info .back{text-align:center;margin:22px 0 0}.mk-info .back a{font-size:13.5px;font-weight:700;color:#E43B4D;text-decoration:none}
 @media(max-width:820px){.mk-gd .facts{grid-template-columns:1fr}.mk section{padding:48px 0}.mk-feat .g,.mk-sv .g,.mk-ed .g,.mk-vo .g{grid-template-columns:1fr}.mk-about .g{grid-template-columns:1fr;gap:24px}.mk-about .ph{max-width:260px}.mk-fl .st{grid-template-columns:1fr 1fr}.mk-gd .g{grid-template-columns:1fr 1fr}.mk-info .tb{grid-template-columns:104px 1fr}}
 '''
-works=[('w-narax','NARA-X様｜ポスター'),('w-buddhers-logo','奈良グレートブッダーズ様｜グッズ'),('w-buddhers-uni','奈良グレートブッダーズ様｜ユニフォームキーホルダー'),('w-lasolbona-kh','LA SOL BONA（フットサルチーム）様｜ユニフォームキーホルダー'),('w-trail','大江山トレイルラン教室様｜ロゴ'),('w-oeyama-flyer','大江山トレイルラン教室様｜チラシ'),('w-oeyama-medal','大江山トレイルラン教室様｜メダル'),('w-tsunagu','京都北山わくわくランニングフェスタ様｜ロゴ')]
+works=[('w-narax','NARA-X様｜ポスター'),('w-lasolbona-kh','LA SOL BONA（フットサルチーム）様｜ユニフォームキーホルダー'),('w-trail','大江山トレイルラン教室様｜ロゴ'),('w-oeyama-flyer','大江山トレイルラン教室様｜チラシ'),('w-oeyama-medal','大江山トレイルラン教室様｜メダル'),('w-tsunagu','京都北山わくわくランニングフェスタ様｜ロゴ')]
 body=f'''
 <main class="mk">
 <div class="mk-legend">確認用の草案です。内容はご確認のうえ修正できます。</div>
@@ -163,7 +163,7 @@ body=f'''
     <div><b>お届けまで</b><span>注文から通常2週間〜1か月。注文が集中する時期は1か月半ほど。</span></div>
     <div><b>卒団式に間に合わせるなら</b><span>3月中旬の卒団式なら、1月中旬までに相談。12月中の注文だと余裕があります。</span></div>
   </div>
-  <div class="cp"><div><small>チビスポ読者の特典</small><b>チビスポはじめましてクーポン</b><span>オンラインショップで使えます。デザイン制作の依頼も「チビスポを見た」と伝えると対応してもらえます。</span></div><code>{COUPON}</code></div>
+  <div class="cp"><div><small>チビスポ読者の特典</small><b>チビスポはじめましてクーポン｜10% OFF</b><span>オンラインショップで10%引きになります。デザイン制作の依頼も「チビスポを見た」と伝えると対応してもらえます。</span></div><code>{COUPON}</code></div>
 </div></section>
 
 <section class="mk-wk" id="works"><div class="w">
@@ -260,7 +260,7 @@ body=f'''
 
 <section class="mk-cta"><div class="bg"><img src="{A}w-narax-set.webp" alt=""></div><div class="sh"></div><div class="w2">
   <h2>チームのデザイン、まとめて相談。</h2>
-  <p>見積もりは無料。作りたいものが決まっていなくても大丈夫です。<br>オンラインショップでは「チビスポはじめましてクーポン」<b style="color:var(--ye);letter-spacing:.06em"> {COUPON} </b>が使えます。</p>
+  <p>見積もりは無料。作りたいものが決まっていなくても大丈夫です。<br>オンラインショップでは「チビスポはじめましてクーポン」<b style="color:var(--ye);letter-spacing:.06em"> {COUPON} </b>で10% OFFになります。</p>
   <div class="bt"><a href="{CONTACT}" target="_blank" rel="noopener sponsored">無料で見積もりを相談</a><a class="s" href="{SHOP}" target="_blank" rel="noopener sponsored">オンラインショップ</a></div>
 </div></section>
 
