@@ -61,6 +61,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/pr/makkiedrops.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/legal.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
@@ -1864,6 +1869,54 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=53ba82f9-72b7-4a13-91d7-66236a1950ce</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=20f9e417-3d2b-4f09-aa94-bc6b6247c8c3</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=c02e8dde-87a0-429c-b347-8c7f31812e2c</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=459136a5-fbc7-46bb-90ce-f1efba5beae0</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=79e2a567-5209-4562-8d56-25392900433b</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=2d11ad9f-584a-49e0-a982-01d4f567cc2c</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=21ddea60-3cb8-44a2-81fc-4afd05d738f4</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=04b19a74-4bef-4758-a134-ca7c8d8c232a</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=1f5bcbac-80cc-4633-a77d-98614b2c8ec0</loc>
