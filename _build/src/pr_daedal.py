@@ -92,6 +92,13 @@ CSS=r'''
 .dd-vo .g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .dd-vo .v{background:#fff;border-radius:18px;padding:22px 20px;border:1px solid var(--line)}
 .dd-vo .v b{display:block;font-size:14px;margin-bottom:8px}.dd-vo .v p{margin:0;font-size:14.5px;color:#111}
+.dd-vo .g2{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;align-items:center}
+.dd-vo .ph{border-radius:20px;overflow:hidden;aspect-ratio:3/2;background:#eee}.dd-vo .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.dd-vo .v2{background:#fff;border-radius:18px;padding:26px 28px;border:1px solid var(--line)}
+.dd-vo .v2 .q{font-size:17px;line-height:1.9;margin:0 0 16px;color:#111}.dd-vo .v2 .q::before{content:"“";color:var(--pk);font-size:1.6em;line-height:0;margin-right:4px}
+.dd-vo .who b{display:block;font-size:15px}.dd-vo .who span{display:block;font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.7}
+.dd-vo .nt{font-size:12px;color:#8a95a0;margin:16px 0 0}
+@media(max-width:820px){.dd-vo .g2{grid-template-columns:1fr}}
 /* qa */
 .dd-qa .g{display:grid;grid-template-columns:1fr 1.3fr;gap:36px;align-items:start}
 .dd-qa .ph{border-radius:20px;overflow:hidden;background:#eee;aspect-ratio:4/3}.dd-qa .ph img{width:100%;height:100%;object-fit:cover;display:block}
@@ -227,8 +234,15 @@ body=f'''
 
 <section class="dd-vo"><div class="w">
   <div class="ey">PLAYERS' VOICE</div>
-  <h2>使っている選手・チームの声</h2>
-  <p class="b">DAEDAL.を使っている選手・チームのレビューを、近日掲載します。</p>
+  <h2>使っている選手の声</h2>
+  <div class="g2">
+    <div class="ph"><img loading="lazy" src="{A}p-pitcher-blueglove.webp" alt="DAEDAL.のグラブで投げる青田将志投手"></div>
+    <div class="v2">
+      <p class="q">「DAEDALのグローブを提供して頂いて使わせてもらっています。少し小さめに作られてて扱いやすく、軽量で投げやすくて、他のブランドにも負けない使いやすいグローブです。」</p>
+      <div class="who"><b>青田 将志 投手</b><span>成立学園 → 東洋学園大 → 福井ネクサスエレファンツ → 千葉スカイセイラーズ → 大分Bリングス → ショウワコーポレーション</span></div>
+    </div>
+  </div>
+  <p class="nt">DAEDAL.を通じて届いたレビューを、ご本人の了承のもと掲載しています。</p>
 </div></section>
 
 <section class="dd-qa"><div class="w"><div class="g">
@@ -236,7 +250,7 @@ body=f'''
     <div class="ey">Q&amp;A</div>
     <h2>聞いておきたいこと</h2>
     <p class="b">スポーツクラブ・選手向けに聞いておきたいことをお尋ねしました。</p>
-    <div class="ph"><img loading="lazy" src="{A}p-pitcher-blueglove.webp" alt="DAEDAL.のグラブを使う選手"></div>
+    <div class="ph"><img loading="lazy" src="{A}p-batter-stars.webp" alt="DAEDAL.のバッティンググローブと防具を使う選手" style="object-position:center 30%"></div>
   </div>
   <div class="qa">
     <div><b>子ども・ジュニア向けのサイズはありますか？</b><p>ユニフォーム類は取り扱いがあります。バッティンググローブはリストガード付きのため、Sサイズは小学校高学年以上であれば使えます。</p></div>
