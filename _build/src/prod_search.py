@@ -529,7 +529,7 @@ js=r'''<script>
     function compCard(c){
       var ini=(c.name||'?').charAt(0);
       var loc=c.online?'全国対応':esc(c.city||c.pref||'');
-      return '<a class="a" href="'+esc(c.page_url||'#')+'">'+(c.banner_url?'<img class="lg" src="'+esc(c.banner_url)+'" alt="" style="object-fit:cover">':'<div class="lg">'+esc(ini)+'</div>')+'<div class="t">'+esc(c.name)+'<small>'+esc(c.tagline||c.category||'')+(loc?' ・ '+loc:'')+'</small></div></a>';
+      return '<a class="a" href="'+esc(c.page_url||'#')+'">'+(c.banner_url?'<img class="lg" src="'+esc(c.banner_url)+'" alt="" style="object-fit:cover">':'<div class="lg">'+esc(ini)+'</div>')+'<div class="t">'+esc(c.name)+'<small>'+esc(c.tagline||c.category||'')+(loc?'<span style="display:block">'+loc+'</span>':'')+'</small></div></a>';
     }
     db.from('companies').select('*').eq('status','active').then(function(rc){
       if(rc.error||!rc.data||!rc.data.length) return;
