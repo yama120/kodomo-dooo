@@ -123,7 +123,6 @@ CSS=r'''
 works=[('w-narax','NARA-X様｜ポスター'),('w-lasolbona-kh','LA SOL BONA（フットサルチーム）様｜ユニフォームキーホルダー'),('w-trail','大江山トレイルラン教室様｜ロゴ'),('w-oeyama-flyer','大江山トレイルラン教室様｜チラシ'),('w-oeyama-medal','大江山トレイルラン教室様｜メダル'),('w-tsunagu','京都北山わくわくランニングフェスタ様｜ロゴ')]
 body=f'''
 <main class="mk">
-<div class="mk-legend">確認用の草案です。内容はご確認のうえ修正できます。</div>
 
 <section class="mk-hero">
   <div class="bg"><img src="{A}hero-bg.webp" alt=""></div><div class="sh"></div>
@@ -192,7 +191,6 @@ body=f'''
 <section class="mk-ed"><div class="w">
   <div class="ey">EDITOR'S VIEW ／ 取材メモ</div>
   <h2>取材してわかった、makkiedrops design の3つのポイント</h2>
-  <div class="note-draft">※ 下書きです。サンプルが届いたら、実物を見たうえで書き直します。</div>
   <div class="g">
     <div class="c"><i>01</i><b>選手だった人が作っている</b><p>代表は大学まで体操競技の選手で、いまもJリーグやBリーグの運営ボランティアに立っています。ユニフォームや競技の雰囲気を一から説明しなくても伝わる相手に頼めるのは、クラブ運営者にとって時間の節約になります。</p></div>
     <div class="c"><i>02</i><b>プロチームと同じ作り手に、地域のクラブが頼める</b><p>Vリーグのチームのホームゲームポスターや、実業団の陸上チームのポスターを手がけてきた事務所です。その同じ手で、地域のクラブの部員募集ポスターや卒団記念のグッズも作ってもらえます。</p></div>
@@ -283,4 +281,4 @@ body=f'''
 </div></section>
 </main>
 '''
-C.prodpage('pr/makkiedrops.html','makkiedrops design（マッキードロップスデザイン）｜チビスポ 企業紹介','スポーツ専門のデザイン事務所。ロゴ・部員募集ポスター・卒団記念グッズまで、スポーツクラブのデザインをまとめて相談できます。',body,css=CSS,noindex=True,base_root=True,og_image='https://chibispo.com/assets/pr/makkiedrops/g-uniform-keyholder.webp')
+C.prodpage('pr/makkiedrops.html','makkiedrops design（マッキードロップスデザイン）｜チビスポ 企業紹介','スポーツ専門のデザイン事務所。ロゴ・部員募集ポスター・卒団記念グッズまで、スポーツクラブのデザインをまとめて相談できます。',body,css=CSS,noindex=False,base_root=True,og_image='https://chibispo.com/assets/pr/makkiedrops/g-uniform-keyholder.webp')
