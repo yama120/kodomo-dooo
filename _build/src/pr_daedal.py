@@ -257,7 +257,7 @@ body=f'''
     <div class="ey">Q&amp;A</div>
     <h2>聞いておきたいこと</h2>
     <p class="b">スポーツクラブ・選手向けに聞いておきたいことをお尋ねしました。</p>
-    <div class="ph"><img loading="lazy" src="{A}p-batter-stars.webp" alt="DAEDAL.のバッティンググローブと防具を使う選手" style="object-position:center 30%"></div>
+    <div class="ph" style="background:#f6f6f8"><img loading="lazy" src="{A}glove-aqua-2.webp" alt="DAEDAL. バッティンググローブ（手のひら側）" style="object-fit:contain;padding:18px"></div>
   </div>
   <div class="qa">
     <div><b>子ども・ジュニア向けのサイズはありますか？</b><p>ユニフォーム類は取り扱いがあります。バッティンググローブはリストガード付きのため、Sサイズは小学校高学年以上であれば使えます。</p></div>
