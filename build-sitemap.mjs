@@ -27,7 +27,8 @@ const STATIC = [
   ["/partner.html", 0.4, "monthly"],
   ["/service-ads.html", 0.4, "monthly"],
   ["/service-sns.html", 0.4, "monthly"],
-  ["/pr/makkiedrops.html", 0.5, "monthly"],   // 企業紹介ページ（公開済みのものだけ載せる）
+  ["/pr/makkiedrops.html", 0.5, "monthly"],
+  ["/pr/daedal.html", 0.5, "monthly"],   // 企業紹介ページ（公開済みのものだけ載せる）
   ["/legal.html", 0.2, "yearly"],
   ["/trial.html", 0.5, "monthly"],
 ];

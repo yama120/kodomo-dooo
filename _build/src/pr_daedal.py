@@ -138,7 +138,6 @@ CSS=r'''
 '''
 body=f'''
 <main class="dd">
-<div class="dd-legend">確認用の草案です。【要確認】は確認待ちの箇所です。</div>
 
 <section class="dd-hero">
   <div class="bg"><img src="{A}p-uniform-team.webp" alt="DAEDAL.のユニフォームを着た選手たち"></div><div class="sh"></div>
@@ -177,7 +176,7 @@ body=f'''
     <p class="b">DAEDAL.がいちばん推しているのがユニフォームです。入団のときの負担を軽くしたい、というブランドの出発点がそのまま形になっています。</p>
     <ul>
       <li><i>01</i><div><b>デザインは自由</b><span>色も柄もロゴも、チームの希望から作れる。</span></div></li>
-      <li><i>02</i><div><b>価格を抑える</b><span class="pl">キャップ＋昇華ユニフォームシャツ <b>¥6,990</b><br>キャップ <b>¥2,990</b>／昇華ユニフォームシャツ <b>¥4,990</b><br><small>※刺繍対応やパンツは要相談</small></span></div></li>
+      <li><i>02</i><div><b>価格を抑える</b><span class="pl">キャップ＋昇華ユニフォームシャツ <b>¥6,990</b><br>キャップ <b>¥2,990</b>／昇華ユニフォームシャツ <b>¥4,990</b><br><small>価格は税込。刺繍対応やパンツは要相談</small></span></div></li>
       <li><i>03</i><div><b>納期は最短20日</b><span>新チームの立ち上げや、追加の入団にも間に合わせやすい。</span></div></li>
     </ul>
     <p class="b" style="margin-top:16px;font-size:13.5px">子ども・ジュニア向けのサイズも取り扱いがあります。チームでのまとめ注文は大歓迎とのことです。</p>
@@ -236,7 +235,6 @@ body=f'''
 <section class="dd-ed"><div class="w">
   <div class="ey">EDITOR'S VIEW ／ 取材メモ</div>
   <h2>取材してわかった、DAEDAL.の3つのポイント</h2>
-  <div class="note-draft">※ 下書きです。サンプルが届いたら、実物を見たうえで書き直します。</div>
   <div class="g">
     <div class="c"><i>01</i><b>「値段で諦める選手を減らしたい」から始まっている</b><p>高校2年生が、自分のチームで入団を諦める仲間を見て立ち上げたブランドです。売りたい商品が先にあったのではなく、困りごとが先にあった。ユニフォームをいちばんに推している理由が、成り立ちと一致しています。</p></div>
     <div class="c"><i>02</i><b>「色で選べる」が、そのまま個性になる</b><p>グローブ・防具・ベルトまで配色の選択肢が多く、Designers create のような独自柄もある。チームカラーに合わせたい選手にも、人と被りたくない選手にも向いています。</p></div>
@@ -282,7 +280,7 @@ body=f'''
   <div class="ey">SHOP</div>
   <h2>購入・相談</h2>
   <div class="shops">
-    <a class="card2 shop" href="{SHOP}" target="_blank" rel="noopener sponsored"><b>公式ショップ（STORES）</b><span>グローブ・防具・ベルトなど｜¥10,000以上で送料無料</span></a>
+    <a class="card2 shop" href="{SHOP}" target="_blank" rel="noopener sponsored"><b>公式ショップ（STORES）</b><span>グローブ・防具・ベルトなど</span></a>
     <a class="card2 shop" href="{SHOP2}" target="_blank" rel="noopener sponsored"><b>公式ショップ（BASE）</b><span>daedalonline.base.shop</span></a>
   </div>
   <div class="sns">
@@ -308,7 +306,6 @@ body=f'''
     <div class="k">相談窓口</div><div>公式LINE</div>
     <div class="k">支払い方法</div><div>クレジットカード・コンビニ決済・銀行振込・PayPay ほか</div>
     <div class="k">発送</div><div>注文から10日以内（防具など納期の記載がある商品を除く）</div>
-    <div class="k">送料</div><div>¥10,000以上の購入で無料</div>
   </div>
   <a class="apply" href="service-ads.html"><b>あなたのお店も、こんなページで紹介しませんか？</b>地域の子育て世帯に届く、チビスポの企業紹介ページ。<br><span>掲載を申し込む ›</span></a>
   <div class="disc">この記事は、DAEDAL.の提供による<strong style="color:#555">チビスポのPR記事（広告）</strong>です。内容は DAEDAL. からの回答と公式ショップの掲載内容（2026年10月時点）にもとづきます。最新情報は公式ショップをご確認ください。</div>
@@ -316,4 +313,4 @@ body=f'''
 </div></section>
 </main>
 '''
-C.prodpage('pr/daedal.html','DAEDAL.（ディーデル）｜チビスポ 企業紹介','高校2年生が立ち上げた野球ブランドDAEDAL.。デザイン自由のユニフォーム、オーダーグラブ、バッティンググローブ、打者用防具。',body,css=CSS,noindex=True,base_root=True,og_image='https://chibispo.com/assets/pr/daedal/p-uniform-team.webp')
+C.prodpage('pr/daedal.html','DAEDAL.（ディーデル）｜チビスポ 企業紹介','高校2年生が立ち上げた野球ブランドDAEDAL.。デザイン自由のユニフォーム、オーダーグラブ、バッティンググローブ、打者用防具。',body,css=CSS,noindex=False,base_root=True,og_image='https://chibispo.com/assets/pr/daedal/p-uniform-team.webp')
