@@ -256,7 +256,7 @@ body=f'''
     <div class="ph tall"><img loading="lazy" src="{A}p-batter-stars.webp" alt="DAEDAL.のバッティンググローブと防具で打つ佐藤仁選手"></div>
     <div class="v2">
       <p class="q">「DAEDALのバッティングアーマー、バッティンググローブを提供して頂いて使用しています。唯一無二のフィット感とデザイン性を両立したアイテムたち。他のブランドには無い、野球が楽しくなる道具です。」</p>
-      <div class="who"><b>佐藤 仁 選手</b><span>西日本短大附属 → 北九州下関フェニックス</span></div>
+      <div class="who"><b>佐藤 仁 選手</b><span>西日本短大附属 → 駒澤大（中退） → 北九州下関フェニックス</span></div>
     </div>
   </div>
   <p class="nt">DAEDAL.を通じて届いたレビューを、ご本人の了承のもと掲載しています。</p>
