@@ -92,11 +92,17 @@
     if(isAddMode){ var s2=await db.auth.getSession(); userId=s2&&s2.data&&s2.data.session?s2.data.session.user.id:null; if(!userId) return back('ログインセッションが切れています。再度ログインしてください。'); }
     else { var au=await db.auth.signUp({email:$('authEmail').value.trim(),password:$('authPassword').value,options:{data:{role:'club'}}}); if(au.error) return back('アカウント作成に失敗しました：'+(au.error.message||'')); userId=au.data&&au.data.user?au.data.user.id:null; }
     var addr1=$('address1').value.trim()||null;
-    var ins=await db.from('teams').insert({ name:name, sport:sport, pref:prefSel.value, city:city, age_groups:ages, age_min:ageMin, female_instructor:!!document.querySelector('input[name="feature"][value="女性指導者あり"]:checked'), girls_welcome:!!document.querySelector('input[name="feature"][value="女の子歓迎"]:checked'),
+    var referral=(document.querySelector('input[name="referral"]:checked')||{}).value||null; var referralDetail=($('referralDetail')?$('referralDetail').value.trim():'')||null;
+    var ins=await db.from('teams').insert({ referral_source:referral, referral_detail:referralDetail, name:name, sport:sport, pref:prefSel.value, city:city, age_groups:ages, age_min:ageMin, female_instructor:!!document.querySelector('input[name="feature"][value="女性指導者あり"]:checked'), girls_welcome:!!document.querySelector('input[name="feature"][value="女の子歓迎"]:checked'),
       days:days, fee_num:feeNum, fee:'月'+feeNum.toLocaleString()+'円', trial:trialEl.value==='true', trial_fee:$('trialFee').value.trim()||null, admission_fee_num:admNum,
       instagram:instagram||null, email:email||null, twitter:twitter||null, website_url:websiteUrl||null, line_url:lineUrl||null,
       address:addr1, address1:addr1, postal_code:($('postal').value||'').replace(/[^0-9]/g,'')||null, venue:$('venue').value.trim()||null,
       description:ta.value.trim()||null, status:'pending', user_id:userId||null });
+    if(ins.error&&/referral/.test(String(ins.error.message||ins.error.details||''))){ console.warn('referral column missing, retry without',ins.error); var raw=ins; ins=await db.from('teams').insert({ name:name, sport:sport, pref:prefSel.value, city:city, age_groups:ages, age_min:ageMin, female_instructor:!!document.querySelector('input[name="feature"][value="女性指導者あり"]:checked'), girls_welcome:!!document.querySelector('input[name="feature"][value="女の子歓迎"]:checked'),
+      days:days, fee_num:feeNum, fee:'月'+feeNum.toLocaleString()+'円', trial:trialEl.value==='true', trial_fee:$('trialFee').value.trim()||null, admission_fee_num:admNum,
+      instagram:instagram||null, email:email||null, twitter:twitter||null, website_url:websiteUrl||null, line_url:lineUrl||null,
+      address:addr1, address1:addr1, postal_code:($('postal').value||'').replace(/[^0-9]/g,'')||null, venue:$('venue').value.trim()||null,
+      description:ta.value.trim()||null, status:'pending', user_id:userId||null }); }
     if(ins.error){ console.warn(ins.error); return back('送信に失敗しました。もう一度お試しください。'); }
     var teamId=null;
     try{ var tr=await db.from('teams').select('id').eq('user_id',userId).order('created_at',{ascending:false}); teamId=tr.data&&tr.data[0]?tr.data[0].id:null;

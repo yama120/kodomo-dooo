@@ -863,7 +863,7 @@ async function adminUpdateTrialStatus(id, status) {
    ログインしただけの保護者アカウントで全クラブの連絡先を集められたため。
    運営が連絡先を要るときは team_email() で1件ずつ取る。
    ここを select('*') に戻すと管理画面が丸ごと開かなくなる */
-const TEAM_COLS = 'id,created_at,name,sport,pref,city,age_groups,days,fee_num,fee,trial,instagram,description,status,user_id,website_url,twitter,photo_url,age_min,female_instructor,girls_welcome,address,line_url,plan,photos,plan_expires_at,venue,admission_fee_num,points,recommended_for,courses,logo_url,logo_position,moods,photo_positions';
+const TEAM_COLS = 'id,created_at,name,sport,pref,city,age_groups,days,fee_num,fee,trial,instagram,description,status,user_id,website_url,twitter,photo_url,age_min,female_instructor,girls_welcome,address,line_url,plan,photos,plan_expires_at,venue,admission_fee_num,points,recommended_for,courses,logo_url,logo_position,moods,photo_positions,referral_source,referral_detail';
 
 async function teamEmail(id) {
   try { const r = await db.rpc('team_email', { team: id }); return typeof r?.data === 'string' ? r.data : null; }
@@ -1110,6 +1110,9 @@ function openEditModal(id) {
   citySelect.value = t.city;
   document.getElementById('editFeeNum').value = t.fee_num;
   document.getElementById('editTrial').value = String(t.trial);
+  (function(){ var el=document.getElementById('editReferral'); if(!el){ el=document.createElement('p'); el.id='editReferral'; el.style.cssText='margin:6px 0 10px;font-size:12px;color:#556'; var anchor=document.getElementById('editInstagram'); if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(el, anchor); }
+    var map={threads:'Threads',instagram:'Instagram',search:'検索',referral:'知人・他のクラブ',outreach:'チビスポからの連絡',other:'その他'};
+    el.textContent='流入経路：'+(map[t.referral_source]||t.referral_source||'未回答')+(t.referral_detail?('（'+t.referral_detail+'）'):''); })();
   document.getElementById('editInstagram').value = t.instagram || '';
   document.getElementById('editTwitter').value = t.twitter || '';
   document.getElementById('editWebsiteUrl').value = t.website_url || '';
