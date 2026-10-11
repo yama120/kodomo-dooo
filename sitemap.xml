@@ -51,6 +51,11 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/sponsors.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/service-ads.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
@@ -1874,6 +1879,18 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=2437a1fa-c0d0-4fb2-b4ed-751a90557694</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=4155a2cf-bdfa-49bc-84a7-42a5145800ca</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=53ba82f9-72b7-4a13-91d7-66236a1950ce</loc>

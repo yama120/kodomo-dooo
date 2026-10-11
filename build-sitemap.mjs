@@ -25,6 +25,7 @@ const STATIC = [
   ["/faq.html", 0.5, "monthly"],
   ["/contact.html", 0.4, "yearly"],
   ["/partner.html", 0.4, "monthly"],
+  ["/sponsors.html", 0.4, "monthly"],   // チビスポ本体のスポンサー募集（2026-10-11）
   ["/service-ads.html", 0.4, "monthly"],
   ["/service-sns.html", 0.4, "monthly"],
   ["/pr/makkiedrops.html", 0.5, "monthly"],
