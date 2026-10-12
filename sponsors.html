@@ -20,81 +20,55 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Anton&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css?v=20261004">
 <style>
-/* sponsors.html ＝ チビスポ本体のスポンサー募集（2026-10-11）。クラブ個別のスポンサー相談は sponsor.html（別ページ） */
-.asst{--ink:#2b2b2b;--ink2:#21315b;--sub:#6a7385;--line:#ececec;--bg:#f7f7f8;--card:#fff;--accent:#E43B4D;--sun:#FFB929;--sun-soft:#FFF6E3;--sun-deep:#D98A00;--r:14px;--f:'Zen Kaku Gothic New',system-ui,sans-serif}
-.asst{max-width:760px;margin:0 auto;padding:24px 16px 70px;line-height:1.8}
-.asst *{box-sizing:border-box}
-.asst .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.26em;color:var(--sun-deep);margin:0 0 6px}
-.asst h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;margin:0 0 10px;line-height:1.35;letter-spacing:-.01em}
-.asst h1 em{font-style:normal;color:var(--sun-deep)}
-.asst .lead{color:var(--sub);font-size:14.5px;margin:0 0 22px}
-.asst .sp-hero{position:relative;border-radius:18px;overflow:hidden;margin:0 0 22px;aspect-ratio:16/8;background:#eee}
-.asst .sp-hero img{width:100%;height:100%;object-fit:cover;display:block}
-.asst .sp-hero .tag{position:absolute;left:14px;bottom:12px;background:rgba(255,255,255,.92);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:900;color:var(--ink2)}
-.asst .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 28px}
-.asst .stats div{background:var(--sun-soft);border-radius:12px;padding:12px 10px;text-align:center}
-.asst .stats b{display:block;font-family:'Anton',sans-serif;font-size:26px;color:var(--ink2);line-height:1.1}
-.asst .stats b small{font-family:var(--f);font-size:12px;font-weight:900;margin-left:2px}
-.asst .stats span{display:block;font-size:11.5px;color:var(--sub);font-weight:700;margin-top:4px}
-.asst section{margin:0 0 30px}
-.asst h2{font-size:clamp(18px,4.4vw,22px);font-weight:900;margin:0 0 12px;line-height:1.4}
-.asst h2 em{font-style:normal;color:var(--sun-deep)}
-.asst .sub{color:var(--sub);font-size:13.5px;margin:-4px 0 14px}
-.asst .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media (max-width:620px){.asst .cards{grid-template-columns:1fr}}
-.asst .cards div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 14px}
-.asst .cards i{display:block;font-style:normal;font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--sun-deep);margin-bottom:4px}
-.asst .cards b{display:block;font-size:14.5px;margin-bottom:4px;line-height:1.5}
-.asst .cards p{margin:0;font-size:13px;color:var(--sub);line-height:1.7}
-.asst .give{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.asst .give li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
-.asst .give li svg{flex:none;width:22px;height:22px;margin-top:3px}
-.asst .give b{display:block;font-size:14.5px}
-.asst .give small{display:block;font-size:12.5px;color:var(--sub);line-height:1.6}
-.asst .honest{background:var(--sun-soft);border-radius:12px;padding:14px 16px;font-size:13.5px;margin-top:12px;line-height:1.75}
-.asst .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 6px}
-.asst .steps div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 10px;font-size:12.5px;line-height:1.6;color:var(--sub)}
-.asst .steps i{display:block;font-style:normal;font-family:'Anton',sans-serif;font-size:16px;color:var(--sun-deep);margin-bottom:2px}
-.asst .steps b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
-@media (max-width:600px){.asst .steps{grid-template-columns:1fr 1fr}}
-.asst .card{flex:none;max-width:none;width:100%;cursor:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;margin-bottom:14px}
-.asst .card h3{font-size:15px;font-weight:900;margin:0 0 12px}
-.asst label{display:block;font-size:13px;font-weight:900;margin:14px 0 6px}
-.asst label i{font-style:normal;background:var(--accent);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:1px}
-.asst input,.asst textarea,.asst select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;background:#fff}
-.asst input:focus,.asst textarea:focus,.asst select:focus{outline:none;border-color:var(--sun-deep)}
-.asst .opts{display:flex;flex-wrap:wrap;gap:8px}
-.asst .opts button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:var(--f);font-weight:900;font-size:13.5px;cursor:pointer;color:var(--ink)}
-.asst .opts button.on{border-color:var(--sun-deep);background:var(--sun);color:var(--ink2)}
-.asst .split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:560px){.asst .split{grid-template-columns:1fr}}
-.asst .chk{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13.5px;font-weight:700}
-.asst .chk label{display:flex;align-items:center;gap:6px;margin:0;font-weight:700}
-.asst .chk input{width:auto}
-.asst .note{font-size:12.5px;color:var(--sub);margin:8px 0 0;line-height:1.7}
-.asst .agree{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:16px;color:var(--sub)}
-.asst .agree input{width:auto;margin-top:4px}
-.asst .go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:16px;background:var(--sun);color:var(--ink2);border:0;border-radius:14px;padding:16px;font-family:var(--f);font-weight:900;font-size:16px;box-shadow:0 10px 24px rgba(255,185,41,.45);cursor:pointer}
-.asst .go:disabled{opacity:.55;cursor:wait}
-.asst .err{font-size:13px;color:var(--accent);margin:10px 0 0;min-height:1em}
-.asst .done{display:none;text-align:center;padding:30px 10px}
-.asst .done h3{font-size:22px;margin:0 0 8px}
-.asst .done p{color:var(--sub);margin:0 0 18px}
-.asst .done a{color:var(--sun-deep);font-weight:900}
-.asst .back{font-size:13px;color:var(--sub);text-decoration:none}
-.asst .faq details{border-bottom:1px solid var(--line);padding:4px 0}
-.asst .faq summary{cursor:pointer;font-weight:900;font-size:14.5px;padding:10px 0;list-style:none;position:relative;padding-right:28px}
-.asst .faq summary::-webkit-details-marker{display:none}
-.asst .faq summary::after{content:"+";position:absolute;right:4px;top:8px;font-family:'Anton',sans-serif;font-size:18px;color:var(--sun-deep)}
-.asst .faq details[open] summary::after{content:"−"}
-.asst .faq .a{font-size:13.5px;color:var(--sub);padding:0 0 12px;line-height:1.75}
-.asst .faq .a a{color:var(--sun-deep);font-weight:900}
-.asst .spn{border:2px dashed #e6d7b3;border-radius:var(--r);padding:22px 16px;text-align:center;color:var(--sub);font-size:13.5px;background:#fffdf7}
-.asst .spn b{display:block;color:var(--ink2);font-size:15px;margin-bottom:4px}
-.asst .ctaw{text-align:center;margin:8px 0 0}
-.asst .ctaw a{display:inline-block;background:var(--sun);color:var(--ink2);border-radius:14px;padding:14px 26px;font-weight:900;font-size:15px;text-decoration:none;box-shadow:0 10px 24px rgba(255,185,41,.45)}
-.asst .alt{font-size:13px;color:var(--sub);margin-top:10px}
-.asst .alt a{color:var(--sun-deep);font-weight:900}
+/* sponsors.html ＝ チビスポ本体のスポンサー募集（2026-10-12 作り直し・800〜1,100字・CTA1本）。
+   クラブ個別のスポンサー相談は sponsor.html（別ページ）。
+   ★クラス名はすべて sp- 接頭辞（site.css の .hero/.card 等と衝突させない） */
+.sp{--ink:#2b2b2b;--ink2:#21315b;--sub:#6a7385;--line:#ececec;--accent:#E43B4D;--sun:#FFB929;--sun-soft:#FFF6E3;--sun-deep:#D98A00;--r:14px;--f:'Zen Kaku Gothic New',system-ui,sans-serif;max-width:680px;margin:0 auto;padding:24px 16px 70px;line-height:1.85}
+.sp *{box-sizing:border-box}
+.sp .sp-back{font-size:13px;color:var(--sub);text-decoration:none}
+.sp .sp-k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.26em;color:var(--sun-deep);margin:14px 0 6px}
+.sp h1{font-size:clamp(23px,5.6vw,31px);font-weight:900;margin:0 0 12px;line-height:1.35;letter-spacing:-.01em}
+.sp h1 em{font-style:normal;color:var(--sun-deep)}
+.sp .sp-lead{font-size:15px;margin:0 0 18px}
+.sp .sp-lead b{color:var(--ink2)}
+.sp .sp-cta{display:inline-block;background:var(--sun);color:var(--ink2);border-radius:14px;padding:14px 26px;font-weight:900;font-size:15px;text-decoration:none;box-shadow:0 10px 24px rgba(255,185,41,.4)}
+.sp .sp-num{display:flex;align-items:baseline;gap:8px;background:var(--sun-soft);border-radius:12px;padding:12px 16px;margin:24px 0 28px;font-size:13.5px;color:var(--sub);font-weight:700}
+.sp .sp-num b{font-family:'Anton',sans-serif;font-size:30px;color:var(--ink2);line-height:1}
+.sp .sp-num small{font-size:12px;font-weight:900;color:var(--ink2);margin-left:2px;white-space:nowrap}
+.sp .sp-num span{flex:1 1 auto;min-width:0}
+.sp h2{font-size:clamp(18px,4.4vw,21px);font-weight:900;margin:0 0 12px;line-height:1.4}
+.sp h2 em{font-style:normal;color:var(--sun-deep)}
+.sp section{margin:0 0 28px}
+.sp .sp-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sp .sp-list li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.sp .sp-list i{flex:none;font-style:normal;font-family:'Anton',sans-serif;font-size:15px;color:var(--sun-deep);margin-top:3px;letter-spacing:.06em}
+.sp .sp-list b{display:block;font-size:14.5px}
+.sp .sp-list small{display:block;font-size:12.5px;color:var(--sub);line-height:1.65}
+.sp .sp-price{background:var(--sun-soft);border-radius:12px;padding:14px 16px;font-size:14px;margin:0}
+.sp .sp-price b{color:var(--ink2)}
+.sp .sp-form{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;margin:0 0 14px}
+.sp .sp-form h3{font-size:16px;font-weight:900;margin:0 0 6px}
+.sp .sp-form .sp-sub{font-size:12.5px;color:var(--sub);margin:0 0 6px}
+.sp label{display:block;font-size:13px;font-weight:900;margin:14px 0 6px}
+.sp label i{font-style:normal;background:var(--accent);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:1px}
+.sp input,.sp textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;font-size:14px;background:#fff}
+.sp input:focus,.sp textarea:focus{outline:none;border-color:var(--sun-deep)}
+.sp .sp-opts{display:flex;flex-wrap:wrap;gap:8px}
+.sp .sp-opts button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:var(--f);font-weight:900;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.sp .sp-opts button.on{border-color:var(--sun-deep);background:var(--sun);color:var(--ink2)}
+.sp .sp-split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.sp .sp-split{grid-template-columns:1fr}}
+.sp .sp-agree{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:16px;color:var(--sub)}
+.sp .sp-agree input{width:auto;margin-top:4px}
+.sp .sp-go{display:block;width:100%;margin-top:16px;background:var(--sun);color:var(--ink2);border:0;border-radius:14px;padding:16px;font-family:var(--f);font-weight:900;font-size:16px;box-shadow:0 10px 24px rgba(255,185,41,.45);cursor:pointer}
+.sp .sp-go:disabled{opacity:.55;cursor:wait}
+.sp .sp-err{font-size:13px;color:var(--accent);margin:10px 0 0;min-height:1em}
+.sp .sp-done{display:none;text-align:center;padding:30px 10px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.sp .sp-done h3{font-size:22px;margin:0 0 8px}
+.sp .sp-done p{color:var(--sub);margin:0 0 18px}
+.sp .sp-done a{color:var(--sun-deep);font-weight:900}
+.sp .sp-foot{font-size:12.5px;color:var(--sub);margin:18px 0 0;line-height:1.7}
+.sp .sp-foot a{color:var(--sun-deep);font-weight:900}
 </style>
 </head>
 <body>
@@ -117,132 +91,60 @@
     </div>
   </div>
 </header>
-<main><div class="asst">
-  <a class="back" href="partner.html">← クラブ・事業者の方へ に戻る</a>
-  <div class="k" style="margin-top:14px">CHIBISPO SPONSOR ／ FOR LOCAL BUSINESS</div>
+<main><div class="sp">
+  <a class="sp-back" href="partner.html">← クラブ・事業者の方へ に戻る</a>
+  <div class="sp-k">CHIBISPO SPONSOR ／ FOR LOCAL BUSINESS</div>
   <h1>地域の子どものスポーツを、<em>企業として支える</em></h1>
-  <p class="lead">チビスポは、子どものスポーツクラブを地域・種目・雰囲気から探せるサイトです。クラブの掲載も、保護者の体験申込みも無料。理学療法士1人で運営を続けています。この場所を無料のまま続けていくために、支えてくださる企業・お店を募集します。</p>
+  <p class="sp-lead">チビスポは、子どものスポーツクラブを地域・種目・雰囲気から探せるサイトです。クラブの掲載も、保護者の体験申込みも無料で、<b>理学療法士1人</b>が運営しています。この場所を無料のまま続けるために、支えてくださる企業・お店を募集しています。</p>
+  <a class="sp-cta" href="#f">スポンサーについて相談する</a>
 
-  <div class="sp-hero"><img src="assets/about-hero.webp" alt="" width="1800" height="1013" loading="eager" decoding="async"></div>
-
-  <div class="stats">
-    <div><b id="n-clubs">—<small>クラブ</small></b><span>いま載っているクラブ</span></div>
-    <div><b>¥0</b><span>クラブの掲載料</span></div>
-    <div><b>¥0</b><span>保護者の体験申込み</span></div>
-  </div>
+  <div class="sp-num"><b id="n-clubs">—</b><small>クラブ</small><span>が、いま載っています（承認済みの実数）</span></div>
 
   <section>
-    <div class="k">WHERE IT GOES</div>
-    <h2>スポンサー費は、<em>この3つ</em>に使います</h2>
-    <p class="sub">クラブから掲載料を取らない代わりに、かかっているものです。</p>
-    <div class="cards">
-      <div><i>01</i><b>サイトとアプリの維持</b><p>サーバー・ドメイン・App Store・地図と検索のしくみ。毎月かかる固定費です。</p></div>
-      <div><i>02</i><b>クラブの取材と紹介ページ</b><p>写真の整理、聞き取り、紹介文の下書き。「書く時間がない」クラブの分を、こちらで形にしています。</p></div>
-      <div><i>03</i><b>保護者への発信</b><p>Instagram・Threadsで、地域のクラブを保護者に届ける投稿づくり。クラブが自分で宣伝しなくても見つかるように。</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="k">WHAT YOU GET</div>
+    <div class="sp-k" style="margin-top:0">WHAT YOU GET</div>
     <h2>スポンサーに<em>ご用意するもの</em></h2>
-    <ul class="give">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="#D98A00" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/></svg><div><b>このページとトップページに、社名・ロゴ・リンクを掲載</b><small>「チビスポを支えている企業」として、サイトの中に名前が残ります。</small></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="#D98A00" stroke-width="2" stroke-linecap="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h8"/></svg><div><b>オンライン取材30分で、企業の紹介ページを1本</b><small>お店や会社の考えを、チビスポが文章にして1年間掲載します。写真はお手持ちのもので構いません。</small></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="#D98A00" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg><div><b>Instagram・Threadsで、スポンサーとしてご紹介</b><small>チビスポの公式アカウントから、ご紹介の投稿を出します。</small></div></li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="#D98A00" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 12c0 4.5-7 9-7 9z"/></svg><div><b>希望があれば、地元のクラブへの協賛もあわせて設計</b><small>「サイトだけでなく、近所のクラブも応援したい」という場合は、クラブへの協賛を一緒に組みます。</small></div></li>
+    <ul class="sp-list">
+      <li><i>01</i><div><b>トップページとこのページに、社名・ロゴ・リンク</b><small>「チビスポを支えている企業」として、サイトの中に名前が残ります。</small></div></li>
+      <li><i>02</i><div><b>オンライン取材30分で、紹介ページを1本（1年掲載）</b><small>お店や会社の考えをチビスポが文章にします。写真はお手持ちのもので構いません。</small></div></li>
+      <li><i>03</i><div><b>Instagram・Threadsでご紹介</b><small>チビスポの公式アカウントから、スポンサーとして投稿します。</small></div></li>
     </ul>
-    <p class="honest">閲覧数を売り物にはしていません。地域の子どものスポーツを支えている企業として、名前が残る場所をつくる。そういう考え方のスポンサーです。</p>
   </section>
 
   <section>
-    <div class="k">HOW TO SUPPORT</div>
-    <h2>応援のかたちは<em>3つ</em></h2>
-    <p class="sub">金額は決めつけていません。ご予算をうかがって、できることを提案します。</p>
-    <div class="cards">
-      <div><i>YEAR</i><b>年間スポンサー</b><p>1年単位で支えていただくかたち。掲載と紹介ページはこちらが基本です。</p></div>
-      <div><i>ONCE</i><b>単発スポンサー</b><p>新年度の募集シーズンや、大会の時期など。期間を決めて応援していただくかたち。</p></div>
-      <div><i>GOODS</i><b>物品・サービスでの支援</b><p>撮影機材、ボールや用具、会場、印刷など。お金ではなく、得意なことで支えていただくかたち。</p></div>
-    </div>
+    <div class="sp-k">PRICE</div>
+    <h2>金額は、<em>ご予算を聞いてから</em>決めます</h2>
+    <p class="sp-price">いまは金額を固定していません。目安は<b>年5万円前後</b>（チビスポの企業向けプラン「地域の広告掲載」と同じ水準）ですが、それより小さい金額や、物品・サービスでの支援もご相談ください。お支払いは請求書での銀行振込で、領収書も発行します。</p>
   </section>
 
-  <section>
-    <div class="k">STEPS</div>
-    <h2>相談から掲載までは<em>4ステップ</em></h2>
-    <div class="steps">
-      <div><i>01</i><b>相談を送る</b>下のフォームから。2〜3分で終わります</div>
-      <div><i>02</i><b>チビスポからご連絡</b>2営業日以内に、できることと掲載のかたちをご提案</div>
-      <div><i>03</i><b>契約・お支払い</b>チビスポと契約し、請求書で銀行振込</div>
-      <div><i>04</i><b>掲載開始</b>このページとトップページに掲載。紹介ページの取材日を決めます</div>
-    </div>
-  </section>
-
-  <form id="f" class="card" autocomplete="on">
-    <h3>お店・企業の情報</h3>
-    <div class="split">
+  <form id="f" class="sp-form" autocomplete="on">
+    <h3>相談する</h3>
+    <p class="sp-sub">2営業日以内に、チビスポからメールでご連絡します。送信しただけで契約にはなりません。</p>
+    <div class="sp-split">
       <div><label>会社名・店名<i>必須</i></label><input id="org" type="text" placeholder="例：〇〇整骨院" required></div>
       <div><label>ご担当者名<i>必須</i></label><input id="person" type="text" placeholder="例：山田 太郎" required></div>
     </div>
-    <div class="split">
-      <div><label>メールアドレス<i>必須</i></label><input id="email" type="email" placeholder="you@example.com" required></div>
-      <div><label>電話番号（任意）</label><input id="tel" type="tel" placeholder="03-0000-0000"></div>
-    </div>
-    <label>ウェブサイト・SNS（任意）</label><input id="site" type="url" placeholder="https://">
-
-    <h3 style="margin-top:22px">ご希望</h3>
-    <label>応援のかたち</label>
-    <div class="opts" id="term">
-      <button type="button" data-v="年間スポンサー" class="on">年間スポンサー</button>
-      <button type="button" data-v="単発スポンサー">単発スポンサー</button>
-      <button type="button" data-v="物品・サービスでの支援">物品・サービスでの支援</button>
-      <button type="button" data-v="まずは相談したい">まずは相談したい</button>
-    </div>
+    <label>メールアドレス<i>必須</i></label><input id="email" type="email" placeholder="you@example.com" required>
     <label>ご予算の目安</label>
-    <div class="opts" id="budget">
+    <div class="sp-opts" id="budget">
       <button type="button" data-v="〜1万円">〜1万円</button>
-      <button type="button" data-v="〜3万円" class="on">〜3万円</button>
-      <button type="button" data-v="〜10万円">〜10万円</button>
-      <button type="button" data-v="10万円以上">10万円以上</button>
+      <button type="button" data-v="〜3万円">〜3万円</button>
+      <button type="button" data-v="〜5万円" class="on">〜5万円</button>
+      <button type="button" data-v="5万円以上">5万円以上</button>
+      <button type="button" data-v="物品・サービス">物品・サービス</button>
       <button type="button" data-v="未定">未定</button>
     </div>
-    <label>掲載の希望（複数可）</label>
-    <div class="chk">
-      <label><input type="checkbox" name="show" value="名前の掲載" checked> 名前の掲載</label>
-      <label><input type="checkbox" name="show" value="ロゴの掲載"> ロゴの掲載</label>
-      <label><input type="checkbox" name="show" value="サイトへのリンク"> サイトへのリンク</label>
-      <label><input type="checkbox" name="show" value="紹介ページ"> 紹介ページ</label>
-      <label><input type="checkbox" name="show" value="SNSでの紹介"> SNSでの紹介</label>
-      <label><input type="checkbox" name="show" value="地元クラブへの協賛"> 地元クラブへの協賛</label>
-    </div>
-    <label>ご要望・メッセージ（任意）</label><textarea id="message" rows="4" maxlength="600" placeholder="例：地域の子どもたちの活躍を応援したいです。まず年間でどのくらいの金額から相談できますか"></textarea>
-    <p class="note">スポンサー契約はチビスポ（屋号 MOYORI）と結び、チビスポから請求書をお送りします。領収書・請求書は発行します。このフォームは相談の受付で、送信しただけで契約にはなりません。</p>
-    <label class="agree"><input id="agree" type="checkbox"> 入力内容がチビスポから相談の連絡に使われることに同意します</label>
-    <div class="err" id="err"></div>
-    <button class="go" id="go" type="submit">この内容で相談する</button>
+    <label>ひとこと（任意）</label><textarea id="message" rows="3" maxlength="600" placeholder="例：地域の子どもを応援したいです。ロゴ掲載のほかに何ができますか"></textarea>
+    <label class="sp-agree"><input id="agree" type="checkbox"> 入力内容がチビスポから相談の連絡に使われることに同意します</label>
+    <div class="sp-err" id="err"></div>
+    <button class="sp-go" id="go" type="submit">この内容で相談する</button>
   </form>
-  <div class="done card" id="done">
+  <div class="sp-done" id="done">
     <h3>ご相談を受け付けました</h3>
     <p>2営業日以内に、チビスポから<span id="done-mail"></span>宛にご連絡します。</p>
     <a href="index.html">トップページに戻る →</a>
   </div>
 
-  <section style="margin-top:30px">
-    <div class="k">SPONSORS</div>
-    <h2>チビスポを<em>支えている企業</em></h2>
-    <div class="spn" id="sponsor-list"><b>最初のスポンサーを募集しています</b>ここに、社名・ロゴ・リンクが並びます。</div>
-  </section>
-
-  <section class="faq">
-    <div class="k">FAQ</div>
-    <h2>よくある質問</h2>
-    <details><summary>どんな団体が運営していますか。</summary><div class="a">個人事業（屋号 MOYORI）です。運営者は理学療法士で、子どもの体の動きに向き合ってきた立場からチビスポを始めました。くわしくは<a href="about.html">チビスポとは</a>に書いています。</div></details>
-    <details><summary>いくらから相談できますか。</summary><div class="a">金額の下限は決めていません。フォームの「ご予算の目安」を選んでいただければ、その範囲でできることを提案します。物品やサービスでの支援も歓迎です。</div></details>
-    <details><summary>「地域の広告掲載」との違いは何ですか。</summary><div class="a"><a href="service-ads.html">地域の広告掲載</a>は、クラブを探している保護者に、地域のお店として出るための枠です。スポンサーは、チビスポという場所そのものを支えていただくかたちで、掲載場所もトップページとこのページになります。両方を組み合わせることもできます。</div></details>
-    <details><summary>特定のクラブを応援したいのですが。</summary><div class="a">クラブ単位のスポンサーは、<a href="sponsor.html">クラブのスポンサーになる</a>のページからご相談ください。個人の方は、<a href="assist.html">チビスポアシスト</a>で500円から応援できます。</div></details>
-    <details><summary>途中でやめられますか。</summary><div class="a">年間スポンサーは1年単位です。自動では更新しないので、期間が終わる前にこちらから続けるかどうかをおうかがいします。</div></details>
-    <details><summary>請求書・領収書はもらえますか。</summary><div class="a">発行します。お支払いは銀行振込で、契約時に請求書をお送りします。</div></details>
-  </section>
-
-  <div class="ctaw"><a href="#f">スポンサーについて相談する</a><p class="alt">クラブ運営者の方へ：練習場所の近くに、子どものスポーツを応援してくれそうなお店があれば、このページを渡していただけると助かります。</p></div>
+  <p class="sp-foot">特定のクラブを応援したい企業の方は<a href="sponsor.html">クラブのスポンサーになる</a>へ。個人の方は<a href="assist.html">チビスポアシスト</a>で500円から応援できます。契約の相手はチビスポ（屋号 MOYORI）です。</p>
 </div></main>
 <footer class="site-ft">
   <div class="wrap ft">
@@ -275,10 +177,9 @@
   var SB='https://emkpkomrgknzrmxqbrvx.supabase.co',ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
   function el(x){ return document.getElementById(x); }
   /* 掲載クラブ数（承認済み）を実データから。取れなければ「—」のまま */
-  fetch(SB+'/rest/v1/teams?select=id&status=eq.approved',{headers:{apikey:ANON}}).then(function(r){ return r.ok?r.json():null; }).then(function(a){ if(a&&a.length){ el('n-clubs').innerHTML=a.length+'<small>クラブ</small>'; } }).catch(function(){});
-  function pick(id){ var box=el(id); box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(box.children,function(c){ c.classList.toggle('on',c===b); }); }); }
-  pick('term'); pick('budget');
-  function val(id){ var b=el(id).querySelector('button.on'); return b?b.dataset.v:''; }
+  fetch(SB+'/rest/v1/teams?select=id&status=eq.approved',{headers:{apikey:ANON}}).then(function(r){ return r.ok?r.json():null; }).then(function(a){ if(a&&a.length){ el('n-clubs').textContent=a.length; } }).catch(function(){});
+  var box=el('budget'); box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(box.children,function(c){ c.classList.toggle('on',c===b); }); });
+  function budget(){ var b=box.querySelector('button.on'); return b?b.dataset.v:''; }
   el('f').addEventListener('submit',function(e){
     e.preventDefault(); el('err').textContent='';
     var org=el('org').value.trim(), person=el('person').value.trim(), email=el('email').value.trim();
@@ -286,11 +187,10 @@
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return el('err').textContent='メールアドレスの形式を確認してください';
     if(!el('agree').checked) return el('err').textContent='同意にチェックを入れてください';
     var btn=el('go'); btn.disabled=true; btn.textContent='送信しています…';
-    var show=[].map.call(document.querySelectorAll('input[name=show]:checked'),function(c){ return c.value; });
-    var msg=[el('message').value.trim()||'（メッセージなし）','掲載の希望：'+(show.join('・')||'なし'),'サイト・SNS：'+(el('site').value.trim()||'-'),'送信元：sponsors.html（チビスポ本体のスポンサー）'].join('\n');
+    var msg=[el('message').value.trim()||'（ひとことなし）','送信元：sponsors.html（チビスポ本体のスポンサー）'].join('\n');
     /* 既存の問い合わせメール関数（contact.html と同じ送信先）。管理者宛の固定送信で、DB には書かない */
     fetch(SB+'/functions/v1/notify-inquiry',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON},
-      body:JSON.stringify({type:'inquiry',kind:'sponsor',topic:'チビスポのスポンサー',who:'biz',org:org,name:person,email:email,phone:el('tel').value.trim()||null,plan:val('term')+'／予算：'+val('budget'),message:msg})
+      body:JSON.stringify({type:'inquiry',kind:'sponsor',topic:'チビスポのスポンサー',who:'biz',org:org,name:person,email:email,phone:null,plan:'予算：'+budget(),message:msg})
     }).then(function(r){ if(!r.ok) throw new Error('送信できませんでした。時間をおいてもう一度お試しください'); return r.text(); }).then(function(){
       el('f').style.display='none'; el('done-mail').textContent=email; el('done').style.display='block'; scrollTo({top:0,behavior:'smooth'});
     }).catch(function(e){ el('err').textContent=e.message; btn.disabled=false; btn.textContent='この内容で相談する'; });
