@@ -95,7 +95,7 @@ club=(
  f('都合のいい時間帯',inp('例：平日 20時以降、土曜午前',k='time'),opt=True))
 biz=(
  '<div class="ct-note">地域の広告掲載の内容と料金は <a href="service-ads-preview.html">広告掲載のページ</a> にまとめています。申込もそのページからできます。</div>'+
- f('相談したいこと',chips(['広告掲載について','掲載枠の空き（地域）','取材・記事について','請求書・支払い','その他'],on='広告掲載について'),req=True)+
+ f('相談したいこと',chips(['広告掲載について','スポンサーについて','掲載枠の空き（地域）','取材・記事について','請求書・支払い','その他'],on='広告掲載について'),req=True)+
  f('お店・会社名',inp('例：みどり整骨院',k='org'),req=True)+f('業種と地域','<div class="ct-row">'+inp('例：整骨院',k='industry')+inp('例：世田谷区',k='area')+'</div>',req=True,hint='同業は市区町村ごとに少数に限定しているので、先に空きを確認します')+
  common_tail+f('内容','<textarea class="ct-in" data-k="message" placeholder="例：クラブに通う子の保護者に、けがの相談先として知ってもらいたい。"></textarea>',req=True)+
  f('相談の形',chips(['メールで返信','オンライン','電話'],on='メールで返信',k='how')))
@@ -112,13 +112,13 @@ ct_body='''
 <main><div class="wrap">
   <div class="note">【相談する（お問い合わせ）v2（2026-09-12）】本番 contact.html は info@chibispo.com への mailto だけ。新デザインでは<b>相手別のフォーム</b>に：上で「クラブ運営者／地域のお店・企業／保護者／その他・取材」を選ぶと項目が変わる（`?who=club|biz|parent|other`）。クラブ＝相談したいこと（掲載・SNS・HP・撮影（準備中）・プラン・修正）＋相談の形（メール／オンライン30分無料／電話）＋都合のいい時間帯。お店＝業種と地域（枠の空き確認）。保護者＝クラブへの申込はクラブページから、と最初に案内してから運営向けの相談内容。右＝返信の目安・担当・よくある質問・ほかの窓口。送信先＝<b>inquiries</b>（kind=consult／plan=「相手 / 相談したいこと」／org=クラブ名・店名／message=内容＋相談の形＋時間帯＋業種・地域）＋ info@chibispo.com への通知メール。★プレビューでも本当に送る：Supabase REST に POST → 表が無い・失敗のときは端末（localStorage `chibispo_inquiries`）に保存して、完了画面に<b>送った内容</b>を表示（選んだチップが入っているかここで確認できる）。`?done=1` で完了画面。各LPの「相談する」「まず相談する」はここへ。</div>
 
-  <div class="ct-head"><div class="ey">CONTACT ・ FREE</div><h1>決めるのは、<em>話してから</em>で大丈夫です。</h1><p>何が必要か分からない状態でも構いません。いまの状況をうかがってから、必要なものだけ提案します。相談は無料です。</p></div>
+  <div class="ct-head"><div class="ey">CONTACT ・ FREE</div><h1>お問い合わせ</h1><p>相手を選んで、相談したいことを送ってください。相談は無料です。</p></div>
 
   <div class="ct-lay">
   <div>
     <div class="ct-who" id="ctWho">
       <button data-who="club" class="on">クラブ運営者<small>掲載・SNS・HP・プラン</small></button>
-      <button data-who="biz">地域のお店・企業<small>広告掲載・取材</small></button>
+      <button data-who="biz">地域のお店・企業<small>広告掲載・スポンサー・取材</small></button>
       <button data-who="parent">保護者<small>使い方・情報の間違い</small></button>
       <button data-who="other">その他・取材<small>提携・自治体・採用</small></button>
     </div>
