@@ -56,15 +56,16 @@
 .sp .sp-flow li+li::before{transform:translateX(-50%)}
 .sp .sp-flow .sp-who{display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--sun-deep)}
 .sp .sp-flow b{display:block;font-size:15px;color:var(--ink2);margin:2px 0}
-.sp .sp-flow small{display:block;font-size:12px;color:var(--sub);line-height:1.6}
+.sp .sp-flow small{display:block;font-size:12.5px;color:var(--sub);line-height:1.65}
+.sp .sp-flow b,.sp .sp-flow small{word-break:keep-all;overflow-wrap:anywhere}
 .sp .sp-flow li.sp-you{background:var(--sun-soft);border-color:#f1dca6}
 .sp .sp-flow li.sp-mid{background:#fff}
-.sp .sp-flow li.sp-mid small{text-align:left;display:grid;gap:2px;margin-top:6px}
+.sp .sp-flow li.sp-mid small{text-align:left;display:grid;gap:3px;margin-top:6px;justify-content:center}
 .sp .sp-flow li.sp-mid small span::before{content:"・"}
 .sp .sp-ret{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border:1.5px dashed var(--sun-deep);border-radius:12px;font-size:13px;color:var(--ink)}
 .sp .sp-ret i{flex:none;font-style:normal;font-family:'Anton',sans-serif;color:var(--sun-deep);font-size:16px;line-height:1.3}
 @media (min-width:640px){
-  .sp .sp-flow{grid-template-columns:repeat(4,1fr);gap:0 26px;align-items:stretch}
+  .sp .sp-flow{grid-template-columns:repeat(4,1fr);gap:0 26px;align-items:stretch;width:min(860px,calc(100vw - 32px));margin-left:calc((100% - min(860px,calc(100vw - 32px)))/2)}
   .sp .sp-flow li+li{margin-top:0}
   .sp .sp-flow li+li::before{left:-26px;top:50%;width:26px;height:2px;transform:translateY(-50%)}
   .sp .sp-flow li+li::after{left:-10px;top:50%;transform:translateY(-50%) rotate(-45deg)}
@@ -139,10 +140,10 @@
     <div class="sp-k">WHERE IT GOES</div>
     <h2>スポンサー費が<em>何に還元されるか</em></h2>
     <ol class="sp-flow">
-      <li class="sp-you"><span class="sp-who">SPONSOR</span><b>あなたの会社・お店</b><small>スポンサー費</small></li>
-      <li class="sp-mid"><span class="sp-who">CHIBISPO</span><b>チビスポ</b><small><span>サイトとアプリの維持</span><span>クラブの取材と紹介ページ</span><span>保護者への発信</span></small></li>
-      <li><span class="sp-who">CLUBS</span><b>地域のクラブ</b><small>掲載も体験申込みの受付も、無料のまま続く</small></li>
-      <li><span class="sp-who">KIDS</span><b>保護者と子ども</b><small>近所で、合うクラブと出会える</small></li>
+      <li class="sp-you"><span class="sp-who">SPONSOR</span><b>あなたの<br>会社・お店</b><small>スポンサー費</small></li>
+      <li class="sp-mid"><span class="sp-who">CHIBISPO</span><b>チビスポ</b><small><span>サイト・アプリの維持</span><span>クラブの取材・<br>紹介ページ</span><span>保護者への発信</span></small></li>
+      <li><span class="sp-who">CLUBS</span><b>地域のクラブ</b><small>掲載も体験申込みも<br>無料のまま続く</small></li>
+      <li><span class="sp-who">KIDS</span><b>保護者と子ども</b><small>近所で合うクラブと<br>出会える</small></li>
     </ol>
   </section>
 
