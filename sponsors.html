@@ -44,6 +44,31 @@
 .sp .sp-list i{flex:none;font-style:normal;font-family:'Anton',sans-serif;font-size:15px;color:var(--sun-deep);margin-top:3px;letter-spacing:.06em}
 .sp .sp-list b{display:block;font-size:14.5px}
 .sp .sp-list small{display:block;font-size:12.5px;color:var(--sub);line-height:1.65}
+.sp .sp-why{border-left:4px solid var(--sun);padding:4px 0 4px 16px;margin:0}
+.sp .sp-why p{margin:0 0 10px;font-size:14.5px}
+.sp .sp-why p:last-child{margin:0}
+.sp .sp-why .sp-sig{font-size:12.5px;color:var(--sub);font-weight:700}
+.sp .sp-flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:0}
+.sp .sp-flow li{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-align:center}
+.sp .sp-flow li+li{margin-top:26px}
+.sp .sp-flow li+li::before{content:"";position:absolute;left:50%;top:-26px;width:2px;height:26px;background:var(--sun-deep)}
+.sp .sp-flow li+li::after{content:"";position:absolute;left:50%;top:-8px;width:8px;height:8px;border-right:2px solid var(--sun-deep);border-bottom:2px solid var(--sun-deep);transform:translateX(-50%) rotate(45deg)}
+.sp .sp-flow li+li::before{transform:translateX(-50%)}
+.sp .sp-flow .sp-who{display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--sun-deep)}
+.sp .sp-flow b{display:block;font-size:15px;color:var(--ink2);margin:2px 0}
+.sp .sp-flow small{display:block;font-size:12px;color:var(--sub);line-height:1.6}
+.sp .sp-flow li.sp-you{background:var(--sun-soft);border-color:#f1dca6}
+.sp .sp-flow li.sp-mid{background:#fff}
+.sp .sp-flow li.sp-mid small{text-align:left;display:grid;gap:2px;margin-top:6px}
+.sp .sp-flow li.sp-mid small span::before{content:"・"}
+.sp .sp-ret{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border:1.5px dashed var(--sun-deep);border-radius:12px;font-size:13px;color:var(--ink)}
+.sp .sp-ret i{flex:none;font-style:normal;font-family:'Anton',sans-serif;color:var(--sun-deep);font-size:16px;line-height:1.3}
+@media (min-width:640px){
+  .sp .sp-flow{grid-template-columns:repeat(4,1fr);gap:0 26px;align-items:stretch}
+  .sp .sp-flow li+li{margin-top:0}
+  .sp .sp-flow li+li::before{left:-26px;top:50%;width:26px;height:2px;transform:translateY(-50%)}
+  .sp .sp-flow li+li::after{left:-10px;top:50%;transform:translateY(-50%) rotate(-45deg)}
+}
 .sp .sp-price{background:var(--sun-soft);border-radius:12px;padding:14px 16px;font-size:14px;margin:0}
 .sp .sp-price b{color:var(--ink2)}
 .sp .sp-form{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;margin:0 0 14px}
@@ -101,6 +126,29 @@
   <div class="sp-num"><b id="n-clubs">—</b><small>クラブ</small><span>が、いま載っています（承認済みの実数）</span></div>
 
   <section>
+    <div class="sp-k" style="margin-top:0">WHY</div>
+    <h2>どんな思いで<em>やっているか</em></h2>
+    <div class="sp-why">
+      <p>理学療法士として、子どもの体の動きを毎日見てきました。どの時期にどんな運動と出会うかは、その子の体にも気持ちにも長く残ります。</p>
+      <p>ところが、近所にいいクラブがあっても、探している保護者には届いていません。クラブ側も伝え方に困っています。その「もったいなさ」をなくしたくて、チビスポを1人で始めました。</p>
+      <p>クラブからお金を取ると、小さなクラブほど載せられなくなります。だから掲載は無料のまま、運営費は地域の企業と一緒に支える形にしたいと考えています。</p>
+      <p class="sp-sig">チビスポ 運営者（理学療法士／山田）</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sp-k">WHERE IT GOES</div>
+    <h2>スポンサー費が<em>何に還元されるか</em></h2>
+    <ol class="sp-flow">
+      <li class="sp-you"><span class="sp-who">SPONSOR</span><b>あなたの会社・お店</b><small>スポンサー費</small></li>
+      <li class="sp-mid"><span class="sp-who">CHIBISPO</span><b>チビスポ</b><small><span>サイトとアプリの維持</span><span>クラブの取材と紹介ページ</span><span>保護者への発信</span></small></li>
+      <li><span class="sp-who">CLUBS</span><b>地域のクラブ</b><small>掲載も体験申込みの受付も、無料のまま続く</small></li>
+      <li><span class="sp-who">KIDS</span><b>保護者と子ども</b><small>近所で、合うクラブと出会える</small></li>
+    </ol>
+    <p class="sp-ret"><i>⟲</i><span>そして、スポンサーには「地域の子どものスポーツを支えている会社」として、トップページ・このページ・紹介ページ・SNSで名前が戻ってきます。</span></p>
+  </section>
+
+  <section>
     <div class="sp-k" style="margin-top:0">WHAT YOU GET</div>
     <h2>スポンサーに<em>ご用意するもの</em></h2>
     <ul class="sp-list">
@@ -113,7 +161,7 @@
   <section>
     <div class="sp-k">PRICE</div>
     <h2>金額は、<em>ご予算を聞いてから</em>決めます</h2>
-    <p class="sp-price">いまは金額を固定していません。フォームで<b>ご予算の目安</b>を選んでいただき、その範囲でできることをご提案します。物品・サービスでの支援もご相談ください。お支払いは請求書での銀行振込で、領収書も発行します。</p>
+    <p class="sp-price">フォームで<b>ご予算の目安</b>を選んでいただき、その範囲でできることをご提案します。物品・サービスでの支援もご相談ください。お支払いは請求書での銀行振込で、領収書も発行します。</p>
   </section>
 
   <form id="f" class="sp-form" autocomplete="on">
