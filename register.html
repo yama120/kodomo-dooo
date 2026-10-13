@@ -147,7 +147,7 @@ body.done .rg-lay,body.done .rg-steps{display:none}body.done .rg-done{display:bl
 /* ---- 本番の補い ---- */
 [hidden]{display:none!important}
 .rg-msg{margin:0 0 14px;padding:11px 14px;border-radius:calc(var(--r) - 4px);font-size:13px;font-weight:800;line-height:1.7}
-.rg-msg.err{background:#fff0f2;color:#b3232e}.rg-msg.ok{background:#eafaf0;color:#1f8a5b}
+.rg-msg.err{background:#fff0f2;color:#b3232e}.rg-msg a{color:inherit;text-decoration:underline}.rg-msg.ok{background:#eafaf0;color:#1f8a5b}
 select.rg-in{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:12px;padding-right:30px}
 .rg-chk{cursor:pointer}
 .rg-chk input{position:absolute;opacity:0;width:0;height:0}
@@ -334,6 +334,13 @@ select.rg-in{appearance:none;-webkit-appearance:none;background-image:url("data:
   var msg=$('rg-msg');
   function err(t){ msg.hidden=false; msg.className='rg-msg err'; msg.textContent=t; msg.scrollIntoView({behavior:'smooth',block:'center'}); }
   function clearErr(){ msg.hidden=true; }
+  /* signUp のエラーを日本語に。登録済みのメールはログインへ誘導（login.html の errText と同じ判定） */
+  function authErr(e){ var t=String((e&&(e.message||e.error_description||e.msg))||'');
+    if(/already registered|already been registered|User already/i.test(t)){ msg.hidden=false; msg.className='rg-msg err'; msg.innerHTML='このメールアドレスは登録済みです。以前に登録したクラブは、ログインするとマイページで編集できます。<br><a href="login.html?next=club-mypage.html">ログインする ›</a>　パスワードが分からないときは、ログイン画面の「パスワードを忘れた方」から設定し直せます。'; msg.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+    if(/password/i.test(t)&&/(at least|weak|should|characters|pwned|leaked)/i.test(t)) return err('このパスワードは使えません。英字と数字をまぜた、推測されにくいパスワードにしてください。');
+    if(/invalid/i.test(t)&&/email/i.test(t)) return err('アカウントのメールアドレスの形式が正しくありません。入力内容をご確認ください。');
+    if(/rate limit|too many|security purposes/i.test(t)) return err('短い時間に何度も送信されたため、一時的に受け付けを止めています。数分おいてからもう一度お試しください。');
+    err('アカウントを作成できませんでした。時間をおいてもう一度お試しください。解決しない場合はお問い合わせからご連絡ください。'+(t?'（'+t+'）':'')); }
   /* ---- 送信 ---- */
   $('rg-form').addEventListener('submit',async function(e){
     e.preventDefault(); clearErr();
@@ -358,7 +365,7 @@ select.rg-in{appearance:none;-webkit-appearance:none;background-image:url("data:
     function back(t){ btn.disabled=false; btn.textContent=label; err(t); }
     var userId=null;
     if(isAddMode){ var s2=await db.auth.getSession(); userId=s2&&s2.data&&s2.data.session?s2.data.session.user.id:null; if(!userId) return back('ログインセッションが切れています。再度ログインしてください。'); }
-    else { var au=await db.auth.signUp({email:$('authEmail').value.trim(),password:$('authPassword').value,options:{data:{role:'club'}}}); if(au.error) return back('アカウント作成に失敗しました：'+(au.error.message||'')); userId=au.data&&au.data.user?au.data.user.id:null; }
+    else { var au=await db.auth.signUp({email:$('authEmail').value.trim(),password:$('authPassword').value,options:{data:{role:'club'}}}); if(au.error){ btn.disabled=false; btn.textContent=label; return authErr(au.error); } userId=au.data&&au.data.user?au.data.user.id:null; }
     var addr1=$('address1').value.trim()||null;
     var referral=(document.querySelector('input[name="referral"]:checked')||{}).value||null; var referralDetail=($('referralDetail')?$('referralDetail').value.trim():'')||null;
     var payload={ referral_source:referral, referral_detail:referralDetail, name:name, sport:sport, pref:prefSel.value, city:city, age_groups:ages, age_min:ageMin, female_instructor:!!document.querySelector('input[name="feature"][value="女性指導者あり"]:checked'), girls_welcome:!!document.querySelector('input[name="feature"][value="女の子歓迎"]:checked'),
