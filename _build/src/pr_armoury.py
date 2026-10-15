@@ -285,7 +285,7 @@ body=f'''
     <h2>注文の流れ</h2>
     <div class="note-draft">※ 注文の流れは日本法人に確認中です。下は仮の3ステップ。</div>
     <div class="st">
-      <div><i>1</i><div><b>相談</b><span>人数・チームカラー・希望納期を伝える。{TBC("LINE／メールなど他の窓口")}</span></div></div>
+      <div><i>1</i><div><b>相談</b><span>公式サイトのお問い合わせから、人数・チームカラー・希望納期を伝える。注文は専用の注文ページから。</span></div></div>
       <div><i>2</i><div><b>デザイン番号を選んで、色と名前を入れる</b><span>完成イメージを確認してから確定。ラフな希望からでも大丈夫。</span></div></div>
       <div><i>3</i><div><b>制作・お届け</b><span>{TBC("納期の目安・発送元（日本／韓国）・送料・支払い方法")}</span></div></div>
     </div>
@@ -306,7 +306,7 @@ body=f'''
 
 <section class="am-cta"><div class="bg"><img src="{A}soccer-108-f.webp" alt=""></div><div class="sh"></div><div class="w2">
   <h2>チームの1着を、両面で。</h2>
-  <p>人数・希望の色を伝えるだけで、相談が始まります。<span class="tbc">【要確認：相談窓口（DM／LINE／フォーム）】</span></p>
+  <p>人数・希望の色を伝えるだけで、相談が始まります。公式サイトのお問い合わせ（平日10:00〜19:00）から。{TBC("公式サイト・注文ページのURL")}</p>
   <a href="{IG}" target="_blank" rel="noopener sponsored">Instagramを見る</a>
 </div></section>
 
@@ -315,10 +315,12 @@ body=f'''
   <div class="tb">
     <div class="k">ブランド</div><div>ARMOURY（アーマリー）</div>
     <div class="k">本社</div><div>株式会社アーマリーグループ（韓国・ソウル）</div>
-    <div class="k">日本法人</div><div>{TBC("正式名称・所在地（市区町村まで）")}</div>
+    <div class="k">日本法人</div><div>ARMOURY JAPAN株式会社</div>
+    <div class="k">所在地</div><div>東京都渋谷区神宮前五丁目51番8号 ラ・ポルト青山 2F</div>
     <div class="k">取り扱い</div><div>サッカーユニフォーム（両面／片面）</div>
     <div class="k">対応エリア</div><div>全国（オンライン）{TBC("来店の可否")}</div>
-    <div class="k">受付</div><div>{TBC("曜日・時間")}</div>
+    <div class="k">受付時間</div><div>平日 10:00〜19:00</div>
+    <div class="k">お問い合わせ</div><div>公式サイトのお問い合わせから。ご注文は注文ページから {TBC("公式サイト・注文ページのURL")}</div>
     <div class="k">最小ロット</div><div>{TBC("何着から")}</div>
     <div class="k">納期の目安</div><div>{TBC("週数")}</div>
     <div class="k">サイズ</div><div>{TBC("ジュニアサイズの展開")}</div>
