@@ -116,6 +116,17 @@ NEW_INIT='''  /* ---------- ボトムシート（ハンバーガー） ---------
   }
   function ensureChrome() {
     var head = document.head;
+    /* chrome.css は非同期で届くので、届くまでロゴが原寸（700px）で一瞬出る。サイズだけ先に同期で当てる */
+    /* ★2026-10-17：ハンバーガーのシート（#sheet）も同じ理由で、chrome.css が届くまで素のまま本文の下に並び、
+       届いた瞬間に position:fixed＋translateY(110%) へ .38s で滑り落ちる（「余計なページが出て下に消える」）。
+       最初から画面外に置いておく。:where() で優先度0にして chrome.css の本来の指定が勝つようにする */
+    if (!document.getElementById('cc-logo-critical')) {
+      var c = document.createElement('style'); c.id = 'cc-logo-critical';
+      c.textContent = ':where(.site-hd .logo img){width:auto;height:44px}:where(.site-hd .logo .lg-s,.site-hd .logo-tg){display:none}@media(max-width:759px){:where(.site-hd .logo .lg-w){display:none}:where(.site-hd .logo .lg-s){display:block;height:25px}:where(.site-hd .logo-tg){display:block;font-size:8.5px;line-height:1;white-space:nowrap}}'
+        + ':where(.sheet){position:fixed;left:0;right:0;bottom:0;transform:translateY(110%);transition:none}:where(.sh-bd){position:fixed;inset:0;opacity:0;pointer-events:none}'
+        + ':where(.site-hd .hd-ic svg){width:20px;height:20px;fill:none;stroke:currentColor}:where(.site-hd .hd){display:flex;align-items:center}:where(.site-hd .hd-nav,.site-hd .hd-r){display:flex;align-items:center;gap:12px}';
+      head.appendChild(c);
+    }
     if (!document.querySelector('link[href^="site.css"]') && !document.getElementById('cc-chrome-css')) {
       var l = document.createElement('link'); l.id = 'cc-chrome-css'; l.rel = 'stylesheet'; l.href = 'chrome.css?v=' + CHROME_V; head.appendChild(l);
     }
