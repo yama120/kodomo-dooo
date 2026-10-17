@@ -1,4 +1,4 @@
-# まだ作り直していない旧ページに、新デザインの書体と色だけ当てる（構造・JSは無改変）。
+# まだ作り直していない旧ページ（dashboard/）に、新デザインの書体と色だけ当てる（構造・JSは無改変）。
 # ヘッダー・フッターは shared.js v2 が付ける。役目を終えたページはリダイレクトに。
 import os,re,sys
 P=os.path.dirname(os.path.abspath(__file__))+'/'; sys.path.insert(0,P)
@@ -29,11 +29,9 @@ def redirect(fname,to,title):
           '<link rel="canonical" href="https://chibispo.com/%s"><meta http-equiv="refresh" content="0;url=%s"><script>location.replace("%s")</script></head>'
           '<body><p style="font-family:sans-serif;padding:24px">移動しました： <a href="%s">%s</a></p></body></html>')%(title,to,to,to,to,title)
     open(D+fname,'w',encoding='utf-8').write(html); print('redirect',fname,'→',to)
-for f in ['faq.html','legal.html','account-delete.html','reset-password.html','category-royal.html','category-personal.html','category-outdoor.html','category-minor.html','pr-sample.html','pr-sample-cafe.html','pr-sample-design.html','pr-sample-sports.html','trial.html','join-club.html']:
-    if os.path.exists(D+f): reskin(f)
-import glob
-for f in sorted(glob.glob(D+'sport-*.html')): reskin(os.path.basename(f))
-reskin('club-mypage.html',keep_green=True); reskin('admin.html',keep_green=True); reskin('dashboard/index.html',keep_green=True); reskin('dashboard/guide.html',keep_green=True)
+# 2026-10-17：faq / legal / account-delete / reset-password / category-* / sport-* / pr-sample* / trial / join-club / club-mypage / admin / map は
+# prodpage 生成（prod_map.py・prod_sports.py・prod_faq.py …、原稿は _build/src/legacy/）に移ったので、ここでは触らない
+reskin('dashboard/index.html',keep_green=True); reskin('dashboard/guide.html',keep_green=True)
 redirect('recruit-pr.html','service-ads.html','地域の広告掲載｜チビスポ')
 redirect('join.html','listing.html','クラブを載せる｜チビスポ')
 redirect('team-lp.html','listing.html','クラブを載せる｜チビスポ')

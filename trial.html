@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>体験申し込み・お問い合わせ | チビスポ</title>
-<!-- OGP / SNS共有カード -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="チビスポ">
-<meta property="og:title" content="体験申し込み・お問い合わせ | チビスポ">
-<meta property="og:url" content="https://chibispo.com/trial.html">
-<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="体験申し込み・お問い合わせ | チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --orange: #ff8c1a;
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<title>体験申し込み・お問い合わせ | チビスポ</title>
+<meta name="description" content="クラブへの体験申し込みと質問はこちらから。希望日・お子さまの情報・保護者の連絡先を送ると、クラブから直接連絡が届きます。">
+<link rel="canonical" href="https://chibispo.com/trial.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="体験申し込み・お問い合わせ | チビスポ">
+<meta property="og:description" content="クラブへの体験申し込みと質問はこちらから。希望日・お子さまの情報・保護者の連絡先を送ると、クラブから直接連絡が届きます。">
+<meta property="og:url" content="https://chibispo.com/trial.html">
+<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>.tr-pg{background:var(--bg);color:var(--text);line-height:1.6}
+.tr-pg .tr-top{margin:0 0 18px}
+.tr-pg .tr-top a{font-size:12.5px;font-weight:700;color:var(--muted)}
+.tr-pg .tr-top h1{font-family:var(--fh);font-size:clamp(22px,5.4vw,30px);font-weight:900;line-height:1.3;margin:6px 0 0}
+.tr-pg *,.tr-pg *::before,.tr-pg *::after{box-sizing: border-box; margin: 0; padding: 0;}
+.tr-pg{--orange: #ff8c1a;
       --orange-dark: #e6720a;
       --orange-light: #fff4e6;
       --bg: #fff7ed;
@@ -35,87 +39,116 @@
       --border: #fed7aa;
       --radius: 14px;
       --shadow: 0 1px 3px rgba(0,0,0,.06), 0 6px 20px rgba(255,140,26,.08);
-      --primary: #E43B4D;
-    }
-    body { font-family: 'Zen Kaku Gothic New', 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-    header { background: var(--orange); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 16px; }
-    header a { color: #fff; text-decoration: none; font-size: .9rem; opacity: .9; font-weight: 700; }
-    header a:hover { opacity: 1; }
-    header h1 { font-size: 1.1rem; font-weight: 800; }
-    .container { max-width: 680px; margin: 28px auto; padding: 0 16px 80px; }
-    .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px; }
-    .team-info { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-    .team-info-emoji { width: 56px; height: 56px; border-radius: 50%; background: var(--orange-light); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
-    .team-info-text h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
-    .team-info-sub { font-size: .85rem; color: var(--muted); }
-    .info-row { display: flex; gap: 14px; flex-wrap: wrap; padding: 14px 0; }
-    .info-pill { background: var(--orange-light); color: var(--orange-dark); padding: 6px 12px; border-radius: 16px; font-size: .82rem; font-weight: 700; }
-    .info-note { font-size: .8rem; color: var(--muted); padding: 12px; background: #fef9f0; border-left: 3px solid var(--orange); border-radius: 6px; margin: 8px 0 4px; }
-    h2.section-title { font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: var(--text); border-left: 4px solid var(--orange); padding-left: 10px; }
-    .form-group { margin-bottom: 18px; }
-    label { display: block; font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-    .required { color: #E43B4D; margin-left: 4px; font-weight: 700; }
-    input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-      width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: .95rem; font-family: inherit; background: #fff; transition: border-color .15s;
-    }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--orange); }
-    textarea { resize: vertical; min-height: 80px; }
-    .form-hint { font-size: .78rem; color: var(--muted); margin-top: 4px; }
-    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-    .radio-item { display: flex; align-items: center; padding: 10px 16px; border: 1.5px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all .15s; font-size: .9rem; }
-    .radio-item:hover { border-color: var(--orange); }
-    .radio-item input { margin-right: 6px; }
-    .radio-item input:checked + span { color: var(--orange-dark); font-weight: 700; }
-    .radio-item:has(input:checked) { border-color: var(--orange); background: var(--orange-light); }
-    .btn-submit { display: block; width: 100%; margin-top: 24px; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: opacity .15s; font-family: inherit; }
-    .btn-submit:hover:not(:disabled) { opacity: .9; }
-    .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
-    .err-msg { color: #E43B4D; font-size: .85rem; margin-top: 6px; }
-    .success-card { text-align: center; padding: 40px 28px; }
-    .success-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--orange-dark); }
-    .success-card p { color: var(--muted); margin-bottom: 18px; }
-    .success-emoji { font-size: 48px; margin-bottom: 14px; }
-    .btn-back { display: inline-block; padding: 12px 28px; background: var(--orange); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 800; }
-    .loading { text-align: center; padding: 40px; color: var(--muted); }
-    .mode-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
-    .mode-tab { flex: 1; padding: 14px 12px; border-radius: 12px; border: 2px solid var(--border); background: #fff; font-size: .95rem; font-weight: 800; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; }
-    .mode-tab:hover { border-color: var(--orange); color: var(--orange-dark); }
-    .mode-tab.active { background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 4px 14px rgba(255, 107, 0, .25); }
-    .mode-tab-desc { font-size: .72rem; font-weight: 600; margin-top: 4px; opacity: .8; }
-    .inquiry-only-note { background: #eff6ff; border-left: 3px solid #3b82f6; padding: 12px; border-radius: 6px; font-size: .85rem; color: #1e40af; margin-bottom: 18px; }
-    footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 24px 16px; font-size: .82rem; }
-    footer a { color: #94a3b8; }
-    @media (max-width: 480px) {
-      .container { padding: 0 12px 60px; }
-      .card { padding: 20px 16px; }
-      .team-info-emoji { width: 48px; height: 48px; font-size: 24px; }
-      header { padding: 12px 14px; gap: 10px; }
-      header h1 { font-size: .95rem; }
-      header a { font-size: .8rem; white-space: nowrap; }
-      .mode-tab { padding: 12px 8px; font-size: .85rem; }
-      .mode-tab-desc { font-size: .68rem; }
-    }
-  </style>
-<!-- reskin v2 -->
-<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
+      --primary: #E43B4D;}
+.tr-pg .container{max-width: 680px; margin: 28px auto; padding: 0 16px 80px;}
+.tr-pg .tr-card{background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 20px;}
+.tr-pg .team-info{display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px;}
+.tr-pg .team-info-emoji{width: 56px; height: 56px; border-radius: 50%; background: var(--orange-light); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0;}
+.tr-pg .team-info-text h2{font-size: 1.1rem; font-weight: 800; margin-bottom: 4px;}
+.tr-pg .team-info-sub{font-size: .85rem; color: var(--muted);}
+.tr-pg .info-row{display: flex; gap: 14px; flex-wrap: wrap; padding: 14px 0;}
+.tr-pg .info-pill{background: var(--orange-light); color: var(--orange-dark); padding: 6px 12px; border-radius: 16px; font-size: .82rem; font-weight: 700;}
+.tr-pg .info-note{font-size: .8rem; color: var(--muted); padding: 12px; background: #fef9f0; border-left: 3px solid var(--orange); border-radius: 6px; margin: 8px 0 4px;}
+.tr-pg h2.section-title{font-size: 1rem; font-weight: 800; margin-bottom: 16px; color: var(--text); border-left: 4px solid var(--orange); padding-left: 10px;}
+.tr-pg .form-group{margin-bottom: 18px;}
+.tr-pg label{display: block; font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: var(--text);}
+.tr-pg .required{color: #E43B4D; margin-left: 4px; font-weight: 700;}
+.tr-pg input[type="text"],.tr-pg input[type="email"],.tr-pg input[type="number"],.tr-pg input[type="date"],.tr-pg select,.tr-pg textarea{width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: .95rem; font-family: inherit; background: #fff; transition: border-color .15s;}
+.tr-pg input:focus,.tr-pg select:focus,.tr-pg textarea:focus{outline: none; border-color: var(--orange);}
+.tr-pg textarea{resize: vertical; min-height: 80px;}
+.tr-pg .form-hint{font-size: .78rem; color: var(--muted); margin-top: 4px;}
+.tr-pg .radio-group{display: flex; gap: 10px; flex-wrap: wrap;}
+.tr-pg .radio-item{display: flex; align-items: center; padding: 10px 16px; border: 1.5px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all .15s; font-size: .9rem;}
+.tr-pg .radio-item:hover{border-color: var(--orange);}
+.tr-pg .radio-item input{margin-right: 6px;}
+.tr-pg .radio-item input:checked + span{color: var(--orange-dark); font-weight: 700;}
+.tr-pg .radio-item:has(input:checked){border-color: var(--orange); background: var(--orange-light);}
+.tr-pg .btn-submit{display: block; width: 100%; margin-top: 24px; padding: 16px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 1.05rem; font-weight: 800; cursor: pointer; transition: opacity .15s; font-family: inherit;}
+.tr-pg .btn-submit:hover:not(:disabled){opacity: .9;}
+.tr-pg .btn-submit:disabled{opacity: .5; cursor: not-allowed;}
+.tr-pg .err-msg{color: #E43B4D; font-size: .85rem; margin-top: 6px;}
+.tr-pg .success-card{text-align: center; padding: 40px 28px;}
+.tr-pg .success-card h2{font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; color: var(--orange-dark);}
+.tr-pg .success-card p{color: var(--muted); margin-bottom: 18px;}
+.tr-pg .success-emoji{font-size: 48px; margin-bottom: 14px;}
+.tr-pg .btn-back{display: inline-block; padding: 12px 28px; background: var(--orange); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 800;}
+.tr-pg .loading{text-align: center; padding: 40px; color: var(--muted);}
+.tr-pg .mode-tabs{display: flex; gap: 8px; margin-bottom: 18px;}
+.tr-pg .mode-tab{flex: 1; padding: 14px 12px; border-radius: 12px; border: 2px solid var(--border); background: #fff; font-size: .95rem; font-weight: 800; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center;}
+.tr-pg .mode-tab:hover{border-color: var(--orange); color: var(--orange-dark);}
+.tr-pg .mode-tab.active{background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 4px 14px rgba(255, 107, 0, .25);}
+.tr-pg .mode-tab-desc{font-size: .72rem; font-weight: 600; margin-top: 4px; opacity: .8;}
+.tr-pg .inquiry-only-note{background: #eff6ff; border-left: 3px solid #3b82f6; padding: 12px; border-radius: 6px; font-size: .85rem; color: #1e40af; margin-bottom: 18px;}
+@media (max-width: 480px){
+.tr-pg .container{padding: 0 12px 60px;}
+.tr-pg .tr-card{padding: 20px 16px;}
+.tr-pg .team-info-emoji{width: 48px; height: 48px; font-size: 24px;}
+.tr-pg .mode-tab{padding: 12px 8px; font-size: .85rem;}
+.tr-pg .mode-tab-desc{font-size: .68rem;}
+}</style>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5ZBBNYC37Y');
+</script>
 </head>
 <body>
-
-<header>
-  <a href="/">← トップへ戻る</a>
-  <h1>体験申し込み・お問い合わせ</h1>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=3" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=3" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
 </header>
-
+<main class="tr-pg">
 <div class="container">
+  <div class="tr-top"><a href="index.html">‹ トップへ戻る</a><h1>体験申し込み・お問い合わせ</h1></div>
   <div id="root">
     <div class="loading">読み込み中...</div>
   </div>
 </div>
 
-<footer>
-  © 2026 チビスポ｜運営：MOYORI｜<a href="legal.html">プライバシーポリシー・利用規約</a>
-</footer>
 
+</main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a><a href="sponsors.html">スポンサー募集</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="shared.js?v=20261004"></script>
 <script>
 const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
@@ -149,7 +182,7 @@ async function fetchTeam(teamId) {
 
 function renderError(msg) {
   document.getElementById('root').innerHTML = `
-    <div class="card">
+    <div class="tr-card">
       <h2 class="section-title">エラー</h2>
       <p style="color:#E43B4D;margin-bottom:20px;">${msg}</p>
       <a class="btn-back" href="/">トップへ戻る</a>
@@ -162,7 +195,7 @@ function renderForm(team) {
   const trialNote = team.trial ? '体験OK' : '要相談';
 
   document.getElementById('root').innerHTML = `
-    <div class="card">
+    <div class="tr-card">
       <div class="team-info">
         <div class="team-info-emoji">${getEmoji(team.sport)}</div>
         <div class="team-info-text">
@@ -180,7 +213,7 @@ function renderForm(team) {
       </div>
     </div>
 
-    <form id="trialForm" class="card">
+    <form id="trialForm" class="tr-card">
       <div class="mode-tabs">
         <button type="button" class="mode-tab active" id="modeTrial" onclick="setMode('trial')">
           🎉 体験申し込み
@@ -438,7 +471,7 @@ function renderSuccess(team, isTrial) {
     ? `${team.name}から数日以内にご連絡が入ります。<br />しばらくお待ちください。`
     : `${team.name}から数日以内にご返信が入ります。<br />しばらくお待ちください。`;
   document.getElementById('root').innerHTML = `
-    <div class="card success-card">
+    <div class="tr-card success-card">
       <div class="success-emoji">${isTrial ? '🎉' : '💬'}</div>
       <h2>${title}</h2>
       <p>${desc}</p>
@@ -462,6 +495,5 @@ function renderSuccess(team, isTrial) {
   }
 })();
 </script>
-
 </body>
 </html>

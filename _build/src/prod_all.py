@@ -14,7 +14,11 @@ run('top_hero.py',{'HL':HL})
 # 2) 共通部品
 for f in ['prod_common.py','prod_shared.py']: run(f)
 # 3) 各ページ
-for f in ['prod_index.py','prod_search.py','prod_club.py','prod_static.py','prod_login.py','prod_mypage.py','prod_register.py','prod_magazine.py','prod_quiz.py','prod_404.py','prod_map.py','prod_reskin.py']: run(f)
+for f in ['prod_index.py','prod_search.py','prod_club.py','prod_static.py','prod_login.py','prod_mypage.py','prod_register.py','prod_magazine.py','prod_quiz.py','prod_404.py']: run(f)
+# 3b) 旧世代ページ（2026-10-17 に prodpage へ載せ替え。原稿は _build/src/legacy/、共通部品は prod_legacy.py）
+for f in ['prod_map.py','prod_sports.py','prod_faq.py','prod_legal.py','prod_trial.py','prod_account_delete.py','prod_reset_password.py','prod_join_club.py','prod_club_mypage.py','prod_admin.py','prod_pr_sample.py']: run(f)
+# 3c) まだ載せ替えていない旧ページ（dashboard/）の書体・色当てとリダイレクト
+run('prod_reskin.py')
 # 4) 地域ページとサイトマップ
 for cmd in [['node','build-area-pages.mjs'],['node','build-sitemap.mjs']]:
     r=subprocess.run(cmd,capture_output=True,text=True,cwd=D); print(('OK ' if r.returncode==0 else 'NG ')+cmd[1], r.stdout.strip().splitlines()[-1][:80] if r.stdout.strip() else '')

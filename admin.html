@@ -1,206 +1,208 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>管理画面 | チビスポ</title>
-<!-- OGP / SNS共有カード -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="チビスポ">
-<meta property="og:title" content="管理画面 | チビスポ">
-<meta property="og:url" content="https://chibispo.com/admin.html">
-<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="管理画面 | チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <script src="supabase-lite.js?v=20260731"></script>
-  <script src="cities.js?v=20260731b"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #E43B4D; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<title>管理画面 | チビスポ</title>
+<meta name="description" content="チビスポの管理画面（運営者用）。">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="管理画面 | チビスポ">
+<meta property="og:description" content="チビスポの管理画面（運営者用）。">
+<meta property="og:url" content="https://chibispo.com/admin.html">
+<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>.adm-pg{background:#f8fafc;color:#1e293b}
+.adm-pg *,.adm-pg *::before,.adm-pg *::after{box-sizing: border-box; margin: 0; padding: 0;}
+.adm-pg{--primary: #E43B4D; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
       --border: #e2e8f0; --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
-    }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Zen Kaku Gothic New', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-    /* ===== LOGIN ===== */
-    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .login-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; width: 100%; max-width: 380px; }
-    .login-card h1 { font-size: 1.2rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
-    .login-card p { font-size: .85rem; color: var(--muted); text-align: center; margin-bottom: 28px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; transition: border-color .15s; }
-    .form-group input:focus { border-color: var(--primary); }
-    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity .15s; }
-    .login-btn:hover { opacity: .9; }
-    .login-btn:disabled { opacity: .5; cursor: not-allowed; }
-    .login-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: .85rem; margin-bottom: 16px; display: none; }
-
-    /* ===== DASHBOARD ===== */
-    #dashboard { display: none; }
-    header { background: var(--primary); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
-    header h1 { font-size: 1.1rem; font-weight: 800; }
-    .header-right { display: flex; align-items: center; gap: 12px; }
-    .header-right a { color: #fff; font-size: .85rem; opacity: .85; text-decoration: none; }
-    .header-right a:hover { opacity: 1; }
-    .logout-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: .85rem; cursor: pointer; }
-    .logout-btn:hover { background: rgba(255,255,255,.3); }
-
-    .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
-
-    /* Stats */
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-    .stat-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; text-align: center; }
-    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
-    .stat-label { font-size: .8rem; color: var(--muted); margin-top: 2px; }
-
-    /* Tabs */
-    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
-    .tab-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-size: .88rem; cursor: pointer; color: var(--muted); font-weight: 600; transition: all .15s; }
-    .tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-
-    /* Team list */
-    .team-list { display: flex; flex-direction: column; gap: 12px; }
-    .team-item { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-    .team-info { flex: 1; min-width: 0; }
-    .team-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-    .team-meta { font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
-    .team-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
-
-    .badge { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
-    .badge-pending  { background: #fef3c7; color: #d97706; }
-    .badge-approved { background: #dcfce7; color: #16a34a; }
-    .badge-draft    { background: #fef3c7; color: #b45309; }
-    /* ---- クラブページの中身（新項目）の編集 ---- */
-    .adm-x { border: 1.5px solid var(--border); border-radius: 12px; margin: 6px 0 14px; background: #fff; }
-    .adm-x > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 800; font-size: .9rem; display: flex; align-items: center; gap: 10px; }
-    .adm-x > summary::-webkit-details-marker { display: none; }
-    .adm-x > summary .n { font-family: 'Anton', Impact, sans-serif; color: #E43B4D; font-size: 1.1rem; letter-spacing: .02em; }
-    .adm-x > summary small { font-weight: 500; color: #64748b; font-size: .78rem; margin-left: auto; }
-    .adm-x > summary::after { content: '+'; font-weight: 900; color: #94a3b8; margin-left: 8px; }
-    .adm-x[open] > summary::after { content: '–'; }
-    .adm-x .in { padding: 0 14px 12px; border-top: 1px solid var(--border); }
-    .adm-x .form-group { margin-top: 12px; }
-    .adm-x .form-group textarea { width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .9rem; font-family: inherit; line-height: 1.6; resize: vertical; }
-    .adm-x .hint { font-size: .75rem; color: #64748b; margin-top: 4px; line-height: 1.5; }
-    .xl { display: grid; gap: 8px; }
-    .xl .it { position: relative; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 40px 10px 10px; background: #f8fafc; display: grid; gap: 6px; }
-    .xl .it input, .xl .it textarea { width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 7px; font-size: .86rem; font-family: inherit; background: #fff; }
-    .xl .it textarea { min-height: 60px; line-height: 1.55; resize: vertical; }
-    .xl .it .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .xl .it .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-    .xl .it .del { position: absolute; right: 8px; top: 8px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: .9rem; line-height: 1; }
-    .xl .add { justify-self: start; padding: 6px 12px; border-radius: 999px; border: 1.5px dashed #cbd5e1; background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; }
-    .xph { display: flex; align-items: center; gap: 8px; }
-    .xph img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; background: #e2e8f0; }
-    .xph .ph0 { width: 56px; height: 56px; border-radius: 8px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: .7rem; }
-    .xph label { padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .78rem; font-weight: 700; cursor: pointer; margin: 0; }
-    .xph label input { display: none; }
-    .xph input[type=url] { flex: 1; }
-    .st-row { display: grid; grid-template-columns: 6.4em 1fr 6.4em; align-items: center; gap: 10px; font-size: .78rem; font-weight: 800; color: #64748b; white-space: nowrap; margin-top: 8px; }
-    .st-row .l { text-align: right; }
-    .st-row.set { color: #0f172a; }
-    .st-dots { position: relative; display: flex; justify-content: space-between; align-items: center; height: 26px; }
-    .st-dots::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%); background: #e2e8f0; border-radius: 999px; }
-    .st-dots button { position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; background: #fff; cursor: pointer; padding: 0; }
-    .st-dots button.on { background: #E43B4D; border-color: #E43B4D; box-shadow: 0 0 0 4px rgba(228,59,77,.22); }
-    .btn-draft      { background: #fff; color: #b45309; border: 1.5px solid #f3c76b; }
-    .btn-draft:disabled { opacity: .45; cursor: not-allowed; }
-    .badge-rejected { background: #fee2e2; color: #dc2626; }
-
-    .btn { padding: 7px 14px; border-radius: 7px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; white-space: nowrap; }
-    .btn:hover { opacity: .85; }
-    .btn-approve  { background: #22c55e; color: #fff; }
-    .btn-reject   { background: #E43B4D; color: #fff; }
-    .btn-edit     { background: var(--primary); color: #fff; }
-    .btn-delete   { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
-
-    .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .9rem; }
-
-    /* 体験申込み */
-    .section-title { font-size: 1.1rem; font-weight: 800; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px; }
-    .trial-list { display: flex; flex-direction: column; gap: 10px; }
-    .trial-row { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 14px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
-    .trial-row.new { border-left: 4px solid #f97316; }
-    .trial-row-main { flex: 1; min-width: 200px; }
-    .trial-row-team { font-weight: 800; font-size: .95rem; margin-bottom: 4px; }
-    .trial-row-meta { font-size: .78rem; color: var(--muted); }
-    .trial-row-parent { font-size: .85rem; margin-top: 4px; }
-    .trial-row-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-    .trial-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
-    .trial-badge.new { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
-    .trial-badge.contacted { background: #dbeafe; color: #1e40af; }
-    .trial-badge.done { background: #dcfce7; color: #16a34a; }
-    .trial-type-tag { font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-right: 6px; }
-    .trial-type-tag.trial { background: #ffedd5; color: #c2410c; }
-    .trial-type-tag.inquiry { background: #e0e7ff; color: #4338ca; }
-    .trial-rank-item { display: flex; justify-content: space-between; padding: 8px 14px; background: #fff; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 6px; font-size: .88rem; }
-
-    /* Loading */
-    .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Edit Modal */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 760px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
-    @keyframes modalIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .modal-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
-    .modal-close { background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: .9rem; }
-    .modal-close:hover { background: var(--border); }
-    .modal-body { padding: 20px 24px 24px; }
-    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .modal .form-group { margin-bottom: 14px; }
-    .modal .form-group label { font-size: .82rem; }
-    .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: .9rem; padding: 8px 12px; }
-    .modal .form-group textarea { min-height: 80px; }
-    .checkbox-group { display: flex; flex-wrap: wrap; gap: 6px; }
-    .checkbox-item { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; font-size: .82rem; transition: all .15s; }
-    .checkbox-item input { width: auto; padding: 0; border: none; }
-    .checkbox-item:has(input:checked) { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
-    .modal-footer { padding: 0 24px 20px; display: flex; gap: 10px; }
-    .modal-footer .btn { flex: 1; padding: 10px; font-size: .9rem; }
-    .btn-save { background: var(--primary); color: #fff; }
-    .btn-cancel { background: #f1f5f9; color: var(--text); }
-
-    @media (max-width: 600px) {
-      .stats { grid-template-columns: 1fr 1fr; }
-      .team-item { flex-direction: column; }
-      .team-actions { width: 100%; }
-      .modal-grid { grid-template-columns: 1fr; }
-      header { padding: 12px 14px; gap: 8px; }
-      header h1 { font-size: .95rem; }
-      .header-right { gap: 8px; flex-shrink: 0; }
-      .header-right a { font-size: .75rem; }
-      .logout-btn { padding: 5px 10px; font-size: .75rem; }
-      .container { padding: 16px 12px 40px; }
-      .tab-bar { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .tab-btn { white-space: nowrap; flex-shrink: 0; }
-      .section-title { font-size: 1rem; }
-      .trial-row { flex-direction: column; }
-      .trial-row-actions { width: 100%; justify-content: flex-start; }
-    }
-    @media (max-width: 360px) {
-      .stats { grid-template-columns: 1fr; }
-    }
-  </style>
-<!-- reskin v2 -->
-<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);}
+.adm-pg .login-wrap{min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 16px;}
+.adm-pg .login-card{background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; width: 100%; max-width: 380px;}
+.adm-pg .login-card h1{font-size: 1.2rem; font-weight: 800; text-align: center; margin-bottom: 8px;}
+.adm-pg .login-card p{font-size: .85rem; color: var(--muted); text-align: center; margin-bottom: 28px;}
+.adm-pg .form-group{margin-bottom: 16px;}
+.adm-pg .form-group label{display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px;}
+.adm-pg .form-group input{width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; transition: border-color .15s;}
+.adm-pg .form-group input:focus{border-color: var(--primary);}
+.adm-pg .login-btn{width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity .15s;}
+.adm-pg .login-btn:hover{opacity: .9;}
+.adm-pg .login-btn:disabled{opacity: .5; cursor: not-allowed;}
+.adm-pg .login-error{background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: .85rem; margin-bottom: 16px; display: none;}
+.adm-pg #dashboard{display: none;}
+.adm-pg header{background: var(--primary); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;}
+.adm-pg header h1{font-size: 1.1rem; font-weight: 800;}
+.adm-pg .header-right{display: flex; align-items: center; gap: 12px;}
+.adm-pg .header-right a{color: #fff; font-size: .85rem; opacity: .85; text-decoration: none;}
+.adm-pg .header-right a:hover{opacity: 1;}
+.adm-pg .logout-btn{background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: .85rem; cursor: pointer;}
+.adm-pg .logout-btn:hover{background: rgba(255,255,255,.3);}
+.adm-pg .container{max-width: 960px; margin: 0 auto; padding: 24px 16px 60px;}
+.adm-pg .stats{display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;}
+.adm-pg .stat-card{background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; text-align: center;}
+.adm-pg .stat-num{font-size: 1.8rem; font-weight: 800; color: var(--primary);}
+.adm-pg .stat-label{font-size: .8rem; color: var(--muted); margin-top: 2px;}
+.adm-pg .tab-bar{display: flex; gap: 4px; margin-bottom: 16px;}
+.adm-pg .tab-btn{padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-size: .88rem; cursor: pointer; color: var(--muted); font-weight: 600; transition: all .15s;}
+.adm-pg .tab-btn.active{background: var(--primary); border-color: var(--primary); color: #fff;}
+.adm-pg .team-list{display: flex; flex-direction: column; gap: 12px;}
+.adm-pg .team-item{background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;}
+.adm-pg .team-info{flex: 1; min-width: 0;}
+.adm-pg .team-name{font-weight: 700; font-size: 1rem; margin-bottom: 4px;}
+.adm-pg .team-meta{font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px;}
+.adm-pg .team-actions{display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end;}
+.adm-pg .badge{font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px;}
+.adm-pg .badge-pending{background: #fef3c7; color: #d97706;}
+.adm-pg .badge-approved{background: #dcfce7; color: #16a34a;}
+.adm-pg .badge-draft{background: #fef3c7; color: #b45309;}
+.adm-pg .adm-x{border: 1.5px solid var(--border); border-radius: 12px; margin: 6px 0 14px; background: #fff;}
+.adm-pg .adm-x > summary{list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 800; font-size: .9rem; display: flex; align-items: center; gap: 10px;}
+.adm-pg .adm-x > summary::-webkit-details-marker{display: none;}
+.adm-pg .adm-x > summary .n{font-family: 'Anton', Impact, sans-serif; color: #E43B4D; font-size: 1.1rem; letter-spacing: .02em;}
+.adm-pg .adm-x > summary small{font-weight: 500; color: #64748b; font-size: .78rem; margin-left: auto;}
+.adm-pg .adm-x > summary::after{content: '+'; font-weight: 900; color: #94a3b8; margin-left: 8px;}
+.adm-pg .adm-x[open] > summary::after{content: '–';}
+.adm-pg .adm-x .in{padding: 0 14px 12px; border-top: 1px solid var(--border);}
+.adm-pg .adm-x .form-group{margin-top: 12px;}
+.adm-pg .adm-x .form-group textarea{width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .9rem; font-family: inherit; line-height: 1.6; resize: vertical;}
+.adm-pg .adm-x .hint{font-size: .75rem; color: #64748b; margin-top: 4px; line-height: 1.5;}
+.adm-pg .xl{display: grid; gap: 8px;}
+.adm-pg .xl .it{position: relative; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 40px 10px 10px; background: #f8fafc; display: grid; gap: 6px;}
+.adm-pg .xl .it input,.adm-pg .xl .it textarea{width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 7px; font-size: .86rem; font-family: inherit; background: #fff;}
+.adm-pg .xl .it textarea{min-height: 60px; line-height: 1.55; resize: vertical;}
+.adm-pg .xl .it .row2{display: grid; grid-template-columns: 1fr 1fr; gap: 6px;}
+.adm-pg .xl .it .row3{display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;}
+.adm-pg .xl .it .del{position: absolute; right: 8px; top: 8px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: .9rem; line-height: 1;}
+.adm-pg .xl .add{justify-self: start; padding: 6px 12px; border-radius: 999px; border: 1.5px dashed #cbd5e1; background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer;}
+.adm-pg .xph{display: flex; align-items: center; gap: 8px;}
+.adm-pg .xph img{width: 56px; height: 56px; object-fit: cover; border-radius: 8px; background: #e2e8f0;}
+.adm-pg .xph .ph0{width: 56px; height: 56px; border-radius: 8px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: .7rem;}
+.adm-pg .xph label{padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .78rem; font-weight: 700; cursor: pointer; margin: 0;}
+.adm-pg .xph label input{display: none;}
+.adm-pg .xph input[type=url]{flex: 1;}
+.adm-pg .st-row{display: grid; grid-template-columns: 6.4em 1fr 6.4em; align-items: center; gap: 10px; font-size: .78rem; font-weight: 800; color: #64748b; white-space: nowrap; margin-top: 8px;}
+.adm-pg .st-row .l{text-align: right;}
+.adm-pg .st-row.set{color: #0f172a;}
+.adm-pg .st-dots{position: relative; display: flex; justify-content: space-between; align-items: center; height: 26px;}
+.adm-pg .st-dots::before{content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%); background: #e2e8f0; border-radius: 999px;}
+.adm-pg .st-dots button{position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; background: #fff; cursor: pointer; padding: 0;}
+.adm-pg .st-dots button.on{background: #E43B4D; border-color: #E43B4D; box-shadow: 0 0 0 4px rgba(228,59,77,.22);}
+.adm-pg .btn-draft{background: #fff; color: #b45309; border: 1.5px solid #f3c76b;}
+.adm-pg .btn-draft:disabled{opacity: .45; cursor: not-allowed;}
+.adm-pg .badge-rejected{background: #fee2e2; color: #dc2626;}
+.adm-pg .adm-btn{padding: 7px 14px; border-radius: 7px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; white-space: nowrap;}
+.adm-pg .adm-btn:hover{opacity: .85;}
+.adm-pg .btn-approve{background: #22c55e; color: #fff;}
+.adm-pg .btn-reject{background: #E43B4D; color: #fff;}
+.adm-pg .btn-edit{background: var(--primary); color: #fff;}
+.adm-pg .btn-delete{background: #f1f5f9; color: var(--text); border: 1px solid var(--border);}
+.adm-pg .empty{text-align: center; padding: 40px; color: var(--muted); font-size: .9rem;}
+.adm-pg .section-title{font-size: 1.1rem; font-weight: 800; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px;}
+.adm-pg .trial-list{display: flex; flex-direction: column; gap: 10px;}
+.adm-pg .trial-row{background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 14px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap;}
+.adm-pg .trial-row.new{border-left: 4px solid #f97316;}
+.adm-pg .trial-row-main{flex: 1; min-width: 200px;}
+.adm-pg .trial-row-team{font-weight: 800; font-size: .95rem; margin-bottom: 4px;}
+.adm-pg .trial-row-meta{font-size: .78rem; color: var(--muted);}
+.adm-pg .trial-row-parent{font-size: .85rem; margin-top: 4px;}
+.adm-pg .trial-row-actions{display: flex; gap: 6px; align-items: center; flex-wrap: wrap;}
+.adm-pg .trial-badge{font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 12px;}
+.adm-pg .trial-badge.new{background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa;}
+.adm-pg .trial-badge.contacted{background: #dbeafe; color: #1e40af;}
+.adm-pg .trial-badge.done{background: #dcfce7; color: #16a34a;}
+.adm-pg .trial-type-tag{font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-right: 6px;}
+.adm-pg .trial-type-tag.trial{background: #ffedd5; color: #c2410c;}
+.adm-pg .trial-type-tag.inquiry{background: #e0e7ff; color: #4338ca;}
+.adm-pg .trial-rank-item{display: flex; justify-content: space-between; padding: 8px 14px; background: #fff; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 6px; font-size: .88rem;}
+.adm-pg .spinner{width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto;}
+@keyframes spin{ to { transform: rotate(360deg); } }
+.adm-pg .modal-overlay{display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px;}
+.adm-pg .modal-overlay.open{display: flex;}
+.adm-pg .modal{background: #fff; border-radius: 16px; width: 100%; max-width: 760px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease;}
+@keyframes modalIn{ from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.adm-pg .modal-header{padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center;}
+.adm-pg .modal-header h2{font-size: 1.1rem; font-weight: 800;}
+.adm-pg .modal-close{background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: .9rem;}
+.adm-pg .modal-close:hover{background: var(--border);}
+.adm-pg .modal-body{padding: 20px 24px 24px;}
+.adm-pg .modal-grid{display: grid; grid-template-columns: 1fr 1fr; gap: 12px;}
+.adm-pg .modal .form-group{margin-bottom: 14px;}
+.adm-pg .modal .form-group label{font-size: .82rem;}
+.adm-pg .modal .form-group input,.adm-pg .modal .form-group select,.adm-pg .modal .form-group textarea{font-size: .9rem; padding: 8px 12px;}
+.adm-pg .modal .form-group textarea{min-height: 80px;}
+.adm-pg .checkbox-group{display: flex; flex-wrap: wrap; gap: 6px;}
+.adm-pg .checkbox-item{display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; font-size: .82rem; transition: all .15s;}
+.adm-pg .checkbox-item input{width: auto; padding: 0; border: none;}
+.adm-pg .checkbox-item:has(input:checked){border-color: var(--primary); background: #eff6ff; color: var(--primary);}
+.adm-pg .modal-footer{padding: 0 24px 20px; display: flex; gap: 10px;}
+.adm-pg .modal-footer .adm-btn{flex: 1; padding: 10px; font-size: .9rem;}
+.adm-pg .btn-save{background: var(--primary); color: #fff;}
+.adm-pg .btn-cancel{background: #f1f5f9; color: var(--text);}
+@media (max-width: 600px){
+.adm-pg .stats{grid-template-columns: 1fr 1fr;}
+.adm-pg .team-item{flex-direction: column;}
+.adm-pg .team-actions{width: 100%;}
+.adm-pg .modal-grid{grid-template-columns: 1fr;}
+.adm-pg header{padding: 12px 14px; gap: 8px;}
+.adm-pg header h1{font-size: .95rem;}
+.adm-pg .header-right{gap: 8px; flex-shrink: 0;}
+.adm-pg .header-right a{font-size: .75rem;}
+.adm-pg .logout-btn{padding: 5px 10px; font-size: .75rem;}
+.adm-pg .container{padding: 16px 12px 40px;}
+.adm-pg .tab-bar{overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px;}
+.adm-pg .tab-btn{white-space: nowrap; flex-shrink: 0;}
+.adm-pg .section-title{font-size: 1rem;}
+.adm-pg .trial-row{flex-direction: column;}
+.adm-pg .trial-row-actions{width: 100%; justify-content: flex-start;}
+}
+@media (max-width: 360px){
+.adm-pg .stats{grid-template-columns: 1fr;}
+}</style>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<script src="cities.js?v=20260731b"></script>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5ZBBNYC37Y');
+</script>
 </head>
 <body>
-
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=3" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=3" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main class="adm-pg">
 <!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
@@ -467,12 +469,36 @@
         <div class="form-group"><div class="xl" id="xl-log"></div><div class="hint">Instagram の写真タイルはクラブのマイページから投稿リンクを貼る仕組みなので、ここでは扱いません。</div></div>
       </div></details>
     <div class="modal-footer">
-      <button class="btn btn-cancel" onclick="closeEditModal()">キャンセル</button>
-      <button class="btn btn-save" onclick="saveEdit()">保存する</button>
+      <button class="adm-btn btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="adm-btn btn-save" onclick="saveEdit()">保存する</button>
     </div>
   </div>
 </div>
-
+</main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a><a href="sponsors.html">スポンサー募集</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="supabase-lite.js?v=20260731"></script>
+<script src="shared.js?v=20261004"></script>
 <script>
 const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
@@ -608,14 +634,14 @@ function renderInboxTab() {
   const box = document.getElementById('inboxList');
   if (currentInboxTab === 'waitlist') {
     if (!allWaitlist.length) { box.innerHTML = '<div class="empty">お知らせ登録はまだありません。</div>'; return; }
-    box.innerHTML = allWaitlist.map(w => `<div class="card" style="border-left:4px solid #d7dbe0;">
+    box.innerHTML = allWaitlist.map(w => `<div class="adm-card" style="border-left:4px solid #d7dbe0;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
         <b style="color:#E43B4D;">${escapeHtml(w.topic || '')}</b>
         <span>${new Date(w.created_at).toLocaleString('ja-JP')}</span>
         ${w.source ? `<span>${escapeHtml(w.source)}</span>` : ''}
       </div>
       <div style="margin-top:6px;font-size:14px;font-weight:700;"><a href="mailto:${escapeHtml(w.email)}">${escapeHtml(w.email)}</a></div>
-      <div style="margin-top:10px;"><button class="btn" style="background:#8a93a0;" onclick="deleteWaitlist('${w.id}')">削除</button></div>
+      <div style="margin-top:10px;"><button class="adm-btn" style="background:#8a93a0;" onclick="deleteWaitlist('${w.id}')">削除</button></div>
     </div>`).join('');
     return;
   }
@@ -623,7 +649,7 @@ function renderInboxTab() {
   if (!rows.length) { box.innerHTML = '<div class="empty">該当するお問い合わせはありません。</div>'; return; }
   box.innerHTML = rows.map(r => {
     const st = r.status || 'new';
-    return `<div class="card" style="border-left:4px solid ${st === 'new' ? '#E43B4D' : '#d7dbe0'};">
+    return `<div class="adm-card" style="border-left:4px solid ${st === 'new' ? '#E43B4D' : '#d7dbe0'};">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
         <b style="color:#E43B4D;">${escapeHtml(r.plan || r.kind || '')}</b>
         <span>${new Date(r.created_at).toLocaleString('ja-JP')}</span>
@@ -635,9 +661,9 @@ function renderInboxTab() {
       </div>
       <div style="background:#f7f8fa;border-radius:8px;padding:11px 13px;margin-top:9px;font-size:13.5px;line-height:1.8;">${escapeHtml(r.message || '').replace(/\n/g, '<br>')}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
-        ${st !== 'doing' ? `<button class="btn" style="background:#2a6fdb;" onclick="setInquiryStatus('${r.id}','doing')">対応中にする</button>` : ''}
-        ${st !== 'done' ? `<button class="btn" style="background:#1f8a5b;" onclick="setInquiryStatus('${r.id}','done')">完了にする</button>` : ''}
-        ${st !== 'new' ? `<button class="btn" style="background:#8a93a0;" onclick="setInquiryStatus('${r.id}','new')">未対応に戻す</button>` : ''}
+        ${st !== 'doing' ? `<button class="adm-btn" style="background:#2a6fdb;" onclick="setInquiryStatus('${r.id}','doing')">対応中にする</button>` : ''}
+        ${st !== 'done' ? `<button class="adm-btn" style="background:#1f8a5b;" onclick="setInquiryStatus('${r.id}','done')">完了にする</button>` : ''}
+        ${st !== 'new' ? `<button class="adm-btn" style="background:#8a93a0;" onclick="setInquiryStatus('${r.id}','new')">未対応に戻す</button>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -707,7 +733,7 @@ function renderReportTab() {
     const hidden = c && c.status !== 'visible';
     const body = c ? escapeHtml(c.body || '').replace(/\n/g, '<br>') : '<span style="color:#c33">※コメントは削除済みです</span>';
     const when = new Date(r.created_at).toLocaleString('ja-JP');
-    return `<div class="card" style="border-left:4px solid ${r.status === 'pending' ? '#E43B4D' : '#d7dbe0'};">
+    return `<div class="adm-card" style="border-left:4px solid ${r.status === 'pending' ? '#E43B4D' : '#d7dbe0'};">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
         <b style="color:#E43B4D;">${REPORT_REASON[r.reason] || escapeHtml(r.reason)}</b>
         <span>${escapeHtml(r.teamName)}</span>
@@ -721,12 +747,12 @@ function renderReportTab() {
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
         ${c ? (hidden
-          ? `<button class="btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', true)">表示に戻す</button>`
-          : `<button class="btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', false)">コメントを非表示にする</button>`) : ''}
+          ? `<button class="adm-btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', true)">表示に戻す</button>`
+          : `<button class="adm-btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', false)">コメントを非表示にする</button>`) : ''}
         ${r.status === 'pending' ? `
-          <button class="btn" onclick="setReportStatus('${r.id}','reviewed')">対応済みにする</button>
-          <button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','dismissed')">問題なし</button>
-        ` : `<button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','pending')">未対応に戻す</button>`}
+          <button class="adm-btn" onclick="setReportStatus('${r.id}','reviewed')">対応済みにする</button>
+          <button class="adm-btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','dismissed')">問題なし</button>
+        ` : `<button class="adm-btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','pending')">未対応に戻す</button>`}
       </div>
     </div>`;
   }).join('');
@@ -818,8 +844,8 @@ function renderTrialTab() {
         </div>
         <div class="trial-row-actions">
           <span class="trial-badge ${r.status}">${statusLabel(r.status)}</span>
-          ${r.status === 'new' ? `<button class="btn btn-edit" onclick="adminUpdateTrialStatus('${r.id}', 'contacted')">対応中</button>` : ''}
-          ${r.status !== 'done' ? `<button class="btn btn-approve" onclick="adminUpdateTrialStatus('${r.id}', 'done')">完了</button>` : ''}
+          ${r.status === 'new' ? `<button class="adm-btn btn-edit" onclick="adminUpdateTrialStatus('${r.id}', 'contacted')">対応中</button>` : ''}
+          ${r.status !== 'done' ? `<button class="adm-btn btn-approve" onclick="adminUpdateTrialStatus('${r.id}', 'done')">完了</button>` : ''}
         </div>
       </div>
     `;
@@ -963,14 +989,14 @@ function renderTab() {
 
     if (t.status !== 'approved') {
       const btn = document.createElement('button');
-      btn.className = 'btn btn-approve';
+      btn.className = 'adm-btn btn-approve';
       btn.textContent = '承認';
       btn.addEventListener('click', () => updateStatus(t.id, 'approved'));
       actions.appendChild(btn);
     }
     if (t.status !== 'rejected') {
       const btn = document.createElement('button');
-      btn.className = 'btn btn-reject';
+      btn.className = 'adm-btn btn-reject';
       btn.textContent = '却下';
       btn.addEventListener('click', () => updateStatus(t.id, 'rejected'));
       actions.appendChild(btn);
@@ -980,7 +1006,7 @@ function renderTab() {
       // 下書きの材料は公式サイトだけ（Instagram はログイン無しでは本文が読めないので、写真タイル専用）
       const src = !!t.website_url;
       const btn = document.createElement('button');
-      btn.className = 'btn btn-draft';
+      btn.className = 'adm-btn btn-draft';
       btn.textContent = d ? 'AI下書きを作り直す' : 'AI下書きを作る';
       btn.disabled = !src;
       btn.title = src ? '公式サイトから下書きを作り、クラブのマイページに届けます' : '公式サイトが未登録のクラブは作れません（Instagram だけでは本文を読めません）';
@@ -989,13 +1015,13 @@ function renderTab() {
     }
 
     const editBtn = document.createElement('button');
-    editBtn.className = 'btn btn-edit';
+    editBtn.className = 'adm-btn btn-edit';
     editBtn.textContent = '編集';
     editBtn.addEventListener('click', () => openEditModal(t.id));
     actions.appendChild(editBtn);
 
     const delBtn = document.createElement('button');
-    delBtn.className = 'btn btn-delete';
+    delBtn.className = 'adm-btn btn-delete';
     delBtn.textContent = '削除';
     delBtn.addEventListener('click', () => deleteTeam(t.id, t.name));
     actions.appendChild(delBtn);

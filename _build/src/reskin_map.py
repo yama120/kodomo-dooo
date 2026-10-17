@@ -1,3 +1,5 @@
+# ★2026-10-17 以降は使っていない：map.html は prod_map.py が _build/src/legacy/map.html から直接生成する。
+#   このスクリプトは当時の機械リスキン（map.html → map-preview.html）の記録として残す
 import re,os
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
 s=open(D+'map.html',encoding='utf-8').read()

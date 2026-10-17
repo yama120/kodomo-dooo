@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -11,39 +12,38 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="チビスポ">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>空手｜チビスポ</title>
-<!-- OGP / SNS共有カード -->
+<meta name="description" content="突き・蹴り・型を通じて心身を鍛える武道。「礼に始まり礼に終わる」礼儀を大切にします。技だけでなく、自分に打ち勝つ精神力や集中力が育ちます。">
+<link rel="canonical" href="https://chibispo.com/sport-karate.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
 <meta property="og:title" content="空手｜チビスポ">
+<meta property="og:description" content="突き・蹴り・型を通じて心身を鍛える武道。「礼に始まり礼に終わる」礼儀を大切にします。技だけでなく、自分に打ち勝つ精神力や集中力が育ちます。">
 <meta property="og:url" content="https://chibispo.com/sport-karate.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="空手｜チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
-<style>
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{font-family:'Zen Kaku Gothic New',sans-serif;color:#1f2a37;background:#f6f7f9;-webkit-font-smoothing:antialiased;}
-  a{color:inherit;}
-  .sp-wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
-  .sp-narrow{max-width:760px;margin:0 auto;padding:0 20px;}
-  .sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .sp-card{transition:transform .2s ease, box-shadow .2s ease;}
-  .sp-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(20,28,38,.16);}
-  .sp-power{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  .sp-h2{font-family:'Zen Kaku Gothic New',sans-serif;font-size:22px;font-weight:900;margin:0 0 14px;display:flex;align-items:center;gap:10px;}
-  @media (max-width:820px){ .sp-grid{grid-template-columns:repeat(2,1fr);} .sp-power{grid-template-columns:1fr;} }
-  @media (max-width:520px){ .sp-grid{grid-template-columns:1fr;} }
-</style>
-<!-- GA4 (auto-managed by install-ga4.mjs) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>.sp-pg{background:#f6f7f9;color:#1f2a37}
+.sp-pg *{box-sizing:border-box;}
+.sp-pg a{color:inherit;}
+.sp-wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+.sp-narrow{max-width:760px;margin:0 auto;padding:0 20px;}
+.sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.sp-card{transition:transform .2s ease, box-shadow .2s ease;}
+.sp-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(20,28,38,.16);}
+.sp-power{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.sp-h2{font-family:'Zen Kaku Gothic New',sans-serif;font-size:22px;font-weight:900;margin:0 0 14px;display:flex;align-items:center;gap:10px;}
+@media (max-width:820px){
+.sp-grid{grid-template-columns:repeat(2,1fr);}
+.sp-power{grid-template-columns:1fr;}
+}
+@media (max-width:520px){
+.sp-grid{grid-template-columns:1fr;}
+}</style>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -51,12 +51,28 @@
   gtag('js', new Date());
   gtag('config', 'G-5ZBBNYC37Y');
 </script>
-<!-- /GA4 -->
-<!-- reskin v2 -->
-<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
 </head>
 <body>
-
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=3" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=3" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main class="sp-pg">
 <!-- HERO（背景に種目画像を透過配置） -->
 <section style="position:relative;overflow:hidden;color:#fff;background:#1f2a37;">
   <img src="assets/sports/karate.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
@@ -68,7 +84,7 @@
       <a href="category-personal.html" style="text-decoration:none;color:#fff;opacity:.94;">個人スポーツ</a><span>›</span>
       <span>空手</span>
     </div>
-    <div style="font-family:'Pacifico',cursive;font-size:21px;opacity:.96;text-shadow:0 2px 8px rgba(0,0,0,.32);">Karate</div>
+    <div style="font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.96;text-shadow:0 2px 8px rgba(0,0,0,.32);">Karate</div>
     <h1 style="margin:7px 0 0;font-family:'Zen Kaku Gothic New',sans-serif;font-size:34px;font-weight:900;text-shadow:0 2px 14px rgba(0,0,0,.38);">空手</h1>
     <p style="margin:16px 0 0;font-size:15px;line-height:1.95;max-width:600px;text-shadow:0 1px 10px rgba(0,0,0,.4);">突き・蹴り・型を通じて心身を鍛える武道。「礼に始まり礼に終わる」礼儀を大切にします。技だけでなく、自分に打ち勝つ精神力や集中力が育ちます。</p>
   </div>
@@ -223,6 +239,30 @@
 </section>
 
 <div style="height:48px;"></div>
-<script src="shared.js?v=20261005"></script>
+</main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a><a href="sponsors.html">スポンサー募集</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="shared.js?v=20261004"></script>
+
 </body>
 </html>

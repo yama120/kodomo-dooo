@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>管理画面 | チビスポ</title>
+<!-- OGP / SNS共有カード -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="管理画面 | チビスポ">
+<meta property="og:url" content="https://chibispo.com/admin.html">
+<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="管理画面 | チビスポ">
+<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <script src="supabase-lite.js?v=20260731"></script>
+  <script src="cities.js?v=20260731b"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #E43B4D; --bg: #f8fafc; --text: #1e293b; --muted: #64748b;
+      --border: #e2e8f0; --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Zen Kaku Gothic New', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ===== LOGIN ===== */
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .login-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; width: 100%; max-width: 380px; }
+    .login-card h1 { font-size: 1.2rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .login-card p { font-size: .85rem; color: var(--muted); text-align: center; margin-bottom: 28px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; transition: border-color .15s; }
+    .form-group input:focus { border-color: var(--primary); }
+    .login-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity .15s; }
+    .login-btn:hover { opacity: .9; }
+    .login-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .login-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: .85rem; margin-bottom: 16px; display: none; }
+
+    /* ===== DASHBOARD ===== */
+    #dashboard { display: none; }
+    header { background: var(--primary); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.1rem; font-weight: 800; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-right a { color: #fff; font-size: .85rem; opacity: .85; text-decoration: none; }
+    .header-right a:hover { opacity: 1; }
+    .logout-btn { background: rgba(255,255,255,.2); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: .85rem; cursor: pointer; }
+    .logout-btn:hover { background: rgba(255,255,255,.3); }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; text-align: center; }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+    .stat-label { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
+    .tab-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: #fff; font-size: .88rem; cursor: pointer; color: var(--muted); font-weight: 600; transition: all .15s; }
+    .tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* Team list */
+    .team-list { display: flex; flex-direction: column; gap: 12px; }
+    .team-item { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .team-info { flex: 1; min-width: 0; }
+    .team-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .team-meta { font-size: .82rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
+    .team-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+    .badge { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+    .badge-pending  { background: #fef3c7; color: #d97706; }
+    .badge-approved { background: #dcfce7; color: #16a34a; }
+    .badge-draft    { background: #fef3c7; color: #b45309; }
+    /* ---- クラブページの中身（新項目）の編集 ---- */
+    .adm-x { border: 1.5px solid var(--border); border-radius: 12px; margin: 6px 0 14px; background: #fff; }
+    .adm-x > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 800; font-size: .9rem; display: flex; align-items: center; gap: 10px; }
+    .adm-x > summary::-webkit-details-marker { display: none; }
+    .adm-x > summary .n { font-family: 'Anton', Impact, sans-serif; color: #E43B4D; font-size: 1.1rem; letter-spacing: .02em; }
+    .adm-x > summary small { font-weight: 500; color: #64748b; font-size: .78rem; margin-left: auto; }
+    .adm-x > summary::after { content: '+'; font-weight: 900; color: #94a3b8; margin-left: 8px; }
+    .adm-x[open] > summary::after { content: '–'; }
+    .adm-x .in { padding: 0 14px 12px; border-top: 1px solid var(--border); }
+    .adm-x .form-group { margin-top: 12px; }
+    .adm-x .form-group textarea { width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .9rem; font-family: inherit; line-height: 1.6; resize: vertical; }
+    .adm-x .hint { font-size: .75rem; color: #64748b; margin-top: 4px; line-height: 1.5; }
+    .xl { display: grid; gap: 8px; }
+    .xl .it { position: relative; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 40px 10px 10px; background: #f8fafc; display: grid; gap: 6px; }
+    .xl .it input, .xl .it textarea { width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 7px; font-size: .86rem; font-family: inherit; background: #fff; }
+    .xl .it textarea { min-height: 60px; line-height: 1.55; resize: vertical; }
+    .xl .it .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .xl .it .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .xl .it .del { position: absolute; right: 8px; top: 8px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: .9rem; line-height: 1; }
+    .xl .add { justify-self: start; padding: 6px 12px; border-radius: 999px; border: 1.5px dashed #cbd5e1; background: #fff; font-size: .82rem; font-weight: 700; cursor: pointer; }
+    .xph { display: flex; align-items: center; gap: 8px; }
+    .xph img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; background: #e2e8f0; }
+    .xph .ph0 { width: 56px; height: 56px; border-radius: 8px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: .7rem; }
+    .xph label { padding: 6px 10px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .78rem; font-weight: 700; cursor: pointer; margin: 0; }
+    .xph label input { display: none; }
+    .xph input[type=url] { flex: 1; }
+    .st-row { display: grid; grid-template-columns: 6.4em 1fr 6.4em; align-items: center; gap: 10px; font-size: .78rem; font-weight: 800; color: #64748b; white-space: nowrap; margin-top: 8px; }
+    .st-row .l { text-align: right; }
+    .st-row.set { color: #0f172a; }
+    .st-dots { position: relative; display: flex; justify-content: space-between; align-items: center; height: 26px; }
+    .st-dots::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%); background: #e2e8f0; border-radius: 999px; }
+    .st-dots button { position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cbd5e1; background: #fff; cursor: pointer; padding: 0; }
+    .st-dots button.on { background: #E43B4D; border-color: #E43B4D; box-shadow: 0 0 0 4px rgba(228,59,77,.22); }
+    .btn-draft      { background: #fff; color: #b45309; border: 1.5px solid #f3c76b; }
+    .btn-draft:disabled { opacity: .45; cursor: not-allowed; }
+    .badge-rejected { background: #fee2e2; color: #dc2626; }
+
+    .btn { padding: 7px 14px; border-radius: 7px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; white-space: nowrap; }
+    .btn:hover { opacity: .85; }
+    .btn-approve  { background: #22c55e; color: #fff; }
+    .btn-reject   { background: #E43B4D; color: #fff; }
+    .btn-edit     { background: var(--primary); color: #fff; }
+    .btn-delete   { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+
+    .empty { text-align: center; padding: 40px; color: var(--muted); font-size: .9rem; }
+
+    /* 体験申込み */
+    .section-title { font-size: 1.1rem; font-weight: 800; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 8px; }
+    .trial-list { display: flex; flex-direction: column; gap: 10px; }
+    .trial-row { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 14px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+    .trial-row.new { border-left: 4px solid #f97316; }
+    .trial-row-main { flex: 1; min-width: 200px; }
+    .trial-row-team { font-weight: 800; font-size: .95rem; margin-bottom: 4px; }
+    .trial-row-meta { font-size: .78rem; color: var(--muted); }
+    .trial-row-parent { font-size: .85rem; margin-top: 4px; }
+    .trial-row-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .trial-badge { font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+    .trial-badge.new { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .trial-badge.contacted { background: #dbeafe; color: #1e40af; }
+    .trial-badge.done { background: #dcfce7; color: #16a34a; }
+    .trial-type-tag { font-size: .72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px; margin-right: 6px; }
+    .trial-type-tag.trial { background: #ffedd5; color: #c2410c; }
+    .trial-type-tag.inquiry { background: #e0e7ff; color: #4338ca; }
+    .trial-rank-item { display: flex; justify-content: space-between; padding: 8px 14px; background: #fff; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 6px; font-size: .88rem; }
+
+    /* Loading */
+    .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin: 40px auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Edit Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 760px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25); animation: modalIn .2s ease; }
+    @keyframes modalIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { font-size: 1.1rem; font-weight: 800; }
+    .modal-close { background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: .9rem; }
+    .modal-close:hover { background: var(--border); }
+    .modal-body { padding: 20px 24px 24px; }
+    .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal .form-group { margin-bottom: 14px; }
+    .modal .form-group label { font-size: .82rem; }
+    .modal .form-group input, .modal .form-group select, .modal .form-group textarea { font-size: .9rem; padding: 8px 12px; }
+    .modal .form-group textarea { min-height: 80px; }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .checkbox-item { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; font-size: .82rem; transition: all .15s; }
+    .checkbox-item input { width: auto; padding: 0; border: none; }
+    .checkbox-item:has(input:checked) { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+    .modal-footer { padding: 0 24px 20px; display: flex; gap: 10px; }
+    .modal-footer .btn { flex: 1; padding: 10px; font-size: .9rem; }
+    .btn-save { background: var(--primary); color: #fff; }
+    .btn-cancel { background: #f1f5f9; color: var(--text); }
+
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .team-item { flex-direction: column; }
+      .team-actions { width: 100%; }
+      .modal-grid { grid-template-columns: 1fr; }
+      header { padding: 12px 14px; gap: 8px; }
+      header h1 { font-size: .95rem; }
+      .header-right { gap: 8px; flex-shrink: 0; }
+      .header-right a { font-size: .75rem; }
+      .logout-btn { padding: 5px 10px; font-size: .75rem; }
+      .container { padding: 16px 12px 40px; }
+      .tab-bar { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+      .tab-btn { white-space: nowrap; flex-shrink: 0; }
+      .section-title { font-size: 1rem; }
+      .trial-row { flex-direction: column; }
+      .trial-row-actions { width: 100%; justify-content: flex-start; }
+    }
+    @media (max-width: 360px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+<!-- reskin v2 -->
+<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <h1>🔐 管理者ログイン</h1>
+    <p>スポーツクラブ検索 管理画面</p>
+    <div class="login-error" id="loginError"></div>
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="loginEmail" placeholder="admin@example.com" />
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" />
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="login()">ログイン</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <h1>チビスポ 管理画面</h1>
+    <div class="header-right">
+      <a href="/" target="_blank">サイトを見る →</a>
+      <button class="logout-btn" onclick="logout()">ログアウト</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statPending">-</div><div class="stat-label">承認待ち</div></div>
+      <div class="stat-card"><div class="stat-num" id="statApproved">-</div><div class="stat-label">公開中</div></div>
+      <div class="stat-card"><div class="stat-num" id="statPaused">-</div><div class="stat-label">募集停止中</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRejected">-</div><div class="stat-label">却下</div></div>
+    </div>
+
+    <div class="section-title">📩 体験申込み</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statTrialTotal">-</div><div class="stat-label">累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTrialMonth">-</div><div class="stat-label">今月</div></div>
+      <div class="stat-card"><div class="stat-num" id="statTrialNew">-</div><div class="stat-label">未対応</div></div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" id="trialTab-all" onclick="setTrialTab('all')">すべて</button>
+      <button class="tab-btn" id="trialTab-new" onclick="setTrialTab('new')">未対応</button>
+      <button class="tab-btn" id="trialTab-contacted" onclick="setTrialTab('contacted')">対応中</button>
+      <button class="tab-btn" id="trialTab-done" onclick="setTrialTab('done')">完了</button>
+      <button class="tab-btn" id="trialTab-trial_only" onclick="setTrialTab('trial_only')">🎉 体験のみ</button>
+      <button class="tab-btn" id="trialTab-inquiry_only" onclick="setTrialTab('inquiry_only')">💬 質問のみ</button>
+    </div>
+    <div id="trialList"><div class="empty">読み込み中...</div></div>
+
+    <div class="section-title">🏆 クラブ別申込みランキング</div>
+    <div id="trialRanking"><div class="empty">読み込み中...</div></div>
+
+    <!-- 通報の確認。App Storeの審査（ガイドライン1.2）は、通報を受け付けるだけでなく
+         迅速に対応できることを求めるので、ここから非表示にできるようにする -->
+    <div class="section-title" style="margin-top:40px;">🚨 コメントの通報</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statRepPending">-</div><div class="stat-label">未対応</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRepTotal">-</div><div class="stat-label">累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRepHidden">-</div><div class="stat-label">非表示にした数</div></div>
+    </div>
+    <div class="tab-bar" id="reportTabs">
+      <button class="tab-btn active" data-rep-tab="pending" onclick="setReportTab('pending')">未対応</button>
+      <button class="tab-btn" data-rep-tab="reviewed" onclick="setReportTab('reviewed')">対応済み</button>
+      <button class="tab-btn" data-rep-tab="dismissed" onclick="setReportTab('dismissed')">問題なし</button>
+      <button class="tab-btn" data-rep-tab="all" onclick="setReportTab('all')">すべて</button>
+    </div>
+    <div id="reportList"><div class="empty">読み込み中...</div></div>
+
+    <div class="section-title" style="margin-top:40px;">📨 お問い合わせ・お知らせ登録</div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num" id="statInqNew">-</div><div class="stat-label">未対応</div></div>
+      <div class="stat-card"><div class="stat-num" id="statInqTotal">-</div><div class="stat-label">問い合わせ累計</div></div>
+      <div class="stat-card"><div class="stat-num" id="statWait">-</div><div class="stat-label">お知らせ登録</div></div>
+    </div>
+    <div class="tab-bar" id="inboxTabs">
+      <button class="tab-btn active" data-inbox-tab="new" onclick="setInboxTab('new')">未対応</button>
+      <button class="tab-btn" data-inbox-tab="doing" onclick="setInboxTab('doing')">対応中</button>
+      <button class="tab-btn" data-inbox-tab="done" onclick="setInboxTab('done')">完了</button>
+      <button class="tab-btn" data-inbox-tab="all" onclick="setInboxTab('all')">すべて</button>
+      <button class="tab-btn" data-inbox-tab="waitlist" onclick="setInboxTab('waitlist')">お知らせ登録</button>
+    </div>
+    <div id="inboxList"><div class="empty">読み込み中...</div></div>
+
+    <div class="section-title" style="margin-top:40px;">📋 チーム管理</div>
+
+    <div class="tab-bar" id="teamTabs">
+      <button class="tab-btn active" data-team-tab="pending" onclick="setTab('pending')">承認待ち</button>
+      <button class="tab-btn" data-team-tab="approved" onclick="setTab('approved')">公開中</button>
+      <button class="tab-btn" data-team-tab="paused" onclick="setTab('paused')">募集停止中</button>
+      <button class="tab-btn" data-team-tab="rejected" onclick="setTab('rejected')">却下</button>
+    </div>
+
+    <div id="teamList"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>チーム情報を編集</h2>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId" />
+      <div class="modal-grid">
+        <div class="form-group">
+          <label>チーム名</label>
+          <input type="text" id="editName" />
+        </div>
+        <div class="form-group">
+          <label>種目</label>
+          <select id="editSport" onchange="toggleEditSportOther(this)">
+            <option>野球</option><option>サッカー</option><option>バスケットボール</option>
+            <option>水泳</option><option>テニス</option><option>バレーボール</option>
+            <option>バドミントン</option><option>柔道</option><option>剣道</option>
+            <option>空手</option><option>合気道</option><option>レスリング</option>
+            <option>ダンス</option><option>チアダンス</option><option>チアリーディング</option><option>新体操</option>
+            <option>陸上</option><option>マラソン</option><option>トライアスロン</option>
+            <option>ラグビー</option><option>アメフト</option><option>ホッケー</option>
+            <option>ゴルフ</option><option>乗馬</option><option>マルチスポーツ</option><option>その他</option>
+          </select>
+          <input type="text" id="editSportOther" placeholder="種目を入力してください" style="display:none;margin-top:8px;" />
+        </div>
+        <div class="form-group">
+          <label>都道府県</label>
+          <select id="editPref">
+            <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option>
+            <option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option>
+            <option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option>
+            <option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option>
+            <option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+            <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+            <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option>
+            <option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option>
+            <option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option>
+            <option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option>
+            <option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option>
+            <option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>市区町村</label>
+          <select id="editCity">
+            <option value="">都道府県を先に選択</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>月謝（数字のみ）</label>
+          <input type="number" id="editFeeNum" min="0" />
+        </div>
+        <div class="form-group">
+          <label>体験入会</label>
+          <select id="editTrial">
+            <option value="true">体験OK</option>
+            <option value="false">要相談</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>対象年齢</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="未就学" id="editAgePreschool" />未就学</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="小学生" />小学生</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="中学生" />中学生</label>
+          <label class="checkbox-item"><input type="checkbox" name="editAge" value="高校生" />高校生</label>
+        </div>
+      </div>
+      <div class="form-group" id="editAgeMinWrap" style="display:none;">
+        <label>年齢下限（未就学選択時）</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="3歳〜" />3歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="4歳〜" />4歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="5歳〜" />5歳〜</label>
+          <label class="checkbox-item"><input type="radio" name="editAgeMin" value="6歳〜" />6歳〜</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>こだわり条件</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editFeature" value="female_instructor" />女性指導者がいる</label>
+          <label class="checkbox-item"><input type="checkbox" name="editFeature" value="girls_welcome" />女の子歓迎</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>活動曜日</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="月" />月</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="火" />火</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="水" />水</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="木" />木</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="金" />金</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="土" />土</label>
+          <label class="checkbox-item"><input type="checkbox" name="editDay" value="日" />日</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Instagram</label>
+        <input type="text" id="editInstagram" placeholder="@なし" />
+      </div>
+      <div class="form-group">
+        <label>X（Twitter）</label>
+        <input type="text" id="editTwitter" placeholder="@なし" />
+      </div>
+      <div class="form-group">
+        <label>ウェブサイト URL</label>
+        <input type="url" id="editWebsiteUrl" placeholder="https://example.com" />
+      </div>
+      <div class="form-group">
+        <label>LINE公式アカウント URL</label>
+        <input type="url" id="editLineUrl" placeholder="https://lin.ee/xxxxx" />
+      </div>
+      <div class="form-group">
+        <label>メール</label>
+        <input type="email" id="editEmail" />
+      </div>
+      <div class="form-group">
+        <label>丁目・番地以降 <span style="font-weight:400;color:#64748b;">任意</span></label>
+        <input type="text" id="editAddress" placeholder="例：〇〇町1-2-3 チビスポ球場" />
+      </div>
+      <div class="form-group">
+        <label>紹介文</label>
+        <textarea id="editDescription"></textarea>
+      </div>
+    </div>
+          <!-- ===== クラブページの中身（2026-09-25 の新項目）。クラブのマイページと同じ形で保存する ===== -->
+      <p class="hint" style="font-size:.78rem;color:#64748b;margin:8px 0 6px;">▼ クラブページの中身（マイページと同じ項目）。入力した項目だけがページに出ます。AI下書きはクラブのマイページに届くので、ここには出ません。</p>
+      <details class="adm-x" open><summary><span class="n">01</span>ひとこと・基本<small>ひとこと紹介・体験費・在籍人数・動画</small></summary><div class="in">
+        <div class="form-group"><label>ひとこと紹介（30字まで・クラブ名のすぐ下）</label><input type="text" id="x-tagline" maxlength="120" placeholder="例：一人ひとりの個性を引き出す学童野球チーム"></div>
+        <div class="modal-grid">
+          <div class="form-group"><label>体験の費用</label><input type="text" id="x-trial-fee" placeholder="例：1回500円（空欄＝無料）"></div>
+          <div class="form-group"><label>在籍人数</label><input type="number" id="x-member-count" min="0" placeholder="例：40"></div>
+        </div>
+        <div class="form-group"><label>紹介動画（YouTube URL）</label><input type="url" id="x-video" placeholder="https://www.youtube.com/watch?v=…"></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">02</span>クラブについて<small>大事にしていること・方針・違い・スタイル</small></summary><div class="in">
+        <div class="form-group"><label>大事にしていること：冒頭のひとこと（60字まで）</label><textarea id="x-story-lead" rows="2" placeholder="例：1977年から続く、江戸川区の学童軟式野球チーム。運動が得意な子も苦手な子も、一人ひとりの持ち味を引き出します。"></textarea></div>
+        <div class="form-group"><label>段落（小見出し＋本文80〜130字・5つまで）</label><div class="xl" id="xl-story"></div></div>
+        <div class="form-group"><label>方針（3つまで）</label><div class="xl" id="xl-policies"></div></div>
+        <div class="form-group"><label>ほかのクラブとの違い（4つまで）</label><div class="xl" id="xl-features"></div></div>
+        <div class="form-group"><label>クラブのスタイル（当てはまる行だけ。もう一度押すと消えます）</label><div id="x-style"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">03</span>代表・コーチ・成績<small>代表メッセージ・コーチ紹介・成績と写真</small></summary><div class="in">
+        <div class="form-group"><label>代表からのメッセージ</label>
+          <div class="xl"><div class="it" style="padding-right:10px;">
+            <div class="row2"><input type="text" id="x-greet-name" placeholder="お名前（例：山田 太郎）"><input type="text" id="x-greet-role" placeholder="肩書（例：代表・監督）"></div>
+            <input type="text" id="x-greet-title" placeholder="見出し（例：足の速さより「できた」を増やしたい）">
+            <textarea id="x-greet-body" placeholder="保護者に向けたメッセージ（200〜300字）"></textarea>
+            <div class="xph" data-ph="x-greet-photo"><span class="ph0">写真</span><label>写真を選ぶ<input type="file" accept="image/*"></label><input type="url" id="x-greet-photo" placeholder="または写真のURL"></div>
+          </div></div></div>
+        <div class="form-group"><label>コーチ・スタッフ（4人まで）</label><div class="xl" id="xl-staff"></div></div>
+        <div class="form-group"><label>これまでの成績（1行に1つ）</label><textarea id="x-achievements" rows="4" placeholder="例：2024年 東京23区少年軟式野球大会 高学年の部 優勝&#10;2024年 全日本学童軟式野球大会 出場"></textarea></div>
+        <div class="form-group"><label>成績の写真（3枚まで）</label><div class="xl" id="xl-achph"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">04</span>コース・費用<small>コース一覧・月謝以外にかかる費用</small></summary><div class="in">
+        <div class="form-group"><label>コース（コース名・対象・曜日・時間・月謝）</label><div class="xl" id="xl-courses"></div></div>
+        <div class="form-group"><label>月謝以外の費用（入会金・年会費・保険・ユニフォームなど）</label><div class="xl" id="xl-cost"></div></div>
+      </div></details>
+      <details class="adm-x"><summary><span class="n">05</span>最近のできごと<small>大会・イベント・活動の記録（3件まで表示）</small></summary><div class="in">
+        <div class="form-group"><div class="xl" id="xl-log"></div><div class="hint">Instagram の写真タイルはクラブのマイページから投稿リンクを貼る仕組みなので、ここでは扱いません。</div></div>
+      </div></details>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn btn-save" onclick="saveEdit()">保存する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVta3Brb21yZ2tuenJteHFicnZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Nzg0MTYsImV4cCI6MjA5MjU1NDQxNn0.YmtVc_0le-EDjGzv1PJHet0ShnhfFZLIYT587FzcJHQ';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const FUNCTIONS_URL = 'https://emkpkomrgknzrmxqbrvx.supabase.co/functions/v1';
+
+let currentTab = 'pending';
+let allTeams = [];
+
+// ===== AUTH =====
+async function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+  const errorEl = document.getElementById('loginError');
+  errorEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'ログイン中...';
+
+  const { data: authData, error } = await db.auth.signInWithPassword({ email, password });
+  if (error) {
+    errorEl.textContent = 'メールアドレスまたはパスワードが正しくありません。';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+    return;
+  }
+  // 管理者チェック
+  const { data: adminRow } = await db.from('admins').select('id').eq('user_id', authData.user.id).maybeSingle();
+  if (!adminRow) {
+    await db.auth.signOut();
+    errorEl.textContent = '管理者権限がありません。';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ログイン';
+    return;
+  }
+  showDashboard();
+}
+
+async function logout() {
+  await db.auth.signOut();
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginPassword').value = '';
+}
+
+// 初期セッションチェック
+let initialized = false;
+db.auth.getSession().then(async ({ data: { session } }) => {
+  initialized = true;
+  if (session) {
+    const { data: adminRow } = await db.from('admins').select('id').eq('user_id', session.user.id).maybeSingle();
+    if (adminRow) { showDashboard(); } else { await db.auth.signOut(); }
+  }
+});
+
+db.auth.onAuthStateChange((event, session) => {
+  if (!initialized) return;
+  if (event === 'SIGNED_IN') { showDashboard(); }
+  if (event === 'SIGNED_OUT') { logout(); }
+});
+
+function toggleEditSportOther(sel) {
+  const other = document.getElementById('editSportOther');
+  if (sel.value === 'その他') {
+    other.style.display = 'block';
+  } else {
+    other.style.display = 'none';
+    other.value = '';
+  }
+}
+
+function showDashboard() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadTeams();
+  loadTrialRequests();
+  loadReports();
+  loadInbox();
+}
+
+let allTrialRequests = [];
+let currentTrialTab = 'all';
+
+// HTMLエスケープ（既存の escaped は関数内のローカル定義なので、ここで用意する）
+function escapeHtml(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===================== コメントの通報 =====================
+   通報（comment_reports）は溜まる仕組みだけあって、確認する場所が無かった。
+   App Store の審査（ガイドライン1.2）は、通報を受け付けるだけでなく
+   迅速に対応できることを求めるので、ここで非表示にできるようにする。
+   権限は sql/moderation-admin.sql（is_admin() のポリシー）で付与している。 */
+let allReports = [];      // 通報 ＋ 対象コメント ＋ クラブ名 を突き合わせたもの
+let currentRepTab = 'pending';
+
+const REPORT_REASON = {
+  inappropriate: '不適切な内容', spam: 'スパム・宣伝',
+  privacy: '個人情報', harassment: '誹謗中傷', other: 'その他'
+};
+
+/* ===== お問い合わせ（inquiries）とお知らせ登録（waitlist） ===== */
+let allInquiries = [], allWaitlist = [], currentInboxTab = 'new';
+const INQ_STATUS = { new: '未対応', doing: '対応中', done: '完了' };
+
+async function loadInbox() {
+  const box = document.getElementById('inboxList');
+  const [inq, wait] = await Promise.all([
+    db.from('inquiries').select('*').order('created_at', { ascending: false }),
+    db.from('waitlist').select('*').order('created_at', { ascending: false })
+  ]);
+  if (inq.error) {
+    box.innerHTML = '<div class="empty">お問い合わせの読み込みに失敗しました。管理者アカウントでログインしているか確認してください。</div>';
+    return;
+  }
+  allInquiries = inq.data || [];
+  allWaitlist = (wait && wait.data) || [];
+  document.getElementById('statInqNew').textContent = allInquiries.filter(r => (r.status || 'new') === 'new').length;
+  document.getElementById('statInqTotal').textContent = allInquiries.length;
+  document.getElementById('statWait').textContent = allWaitlist.length;
+  renderInboxTab();
+}
+
+function setInboxTab(tab) {
+  currentInboxTab = tab;
+  document.querySelectorAll('#inboxTabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.inboxTab === tab));
+  renderInboxTab();
+}
+
+function renderInboxTab() {
+  const box = document.getElementById('inboxList');
+  if (currentInboxTab === 'waitlist') {
+    if (!allWaitlist.length) { box.innerHTML = '<div class="empty">お知らせ登録はまだありません。</div>'; return; }
+    box.innerHTML = allWaitlist.map(w => `<div class="card" style="border-left:4px solid #d7dbe0;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#E43B4D;">${escapeHtml(w.topic || '')}</b>
+        <span>${new Date(w.created_at).toLocaleString('ja-JP')}</span>
+        ${w.source ? `<span>${escapeHtml(w.source)}</span>` : ''}
+      </div>
+      <div style="margin-top:6px;font-size:14px;font-weight:700;"><a href="mailto:${escapeHtml(w.email)}">${escapeHtml(w.email)}</a></div>
+      <div style="margin-top:10px;"><button class="btn" style="background:#8a93a0;" onclick="deleteWaitlist('${w.id}')">削除</button></div>
+    </div>`).join('');
+    return;
+  }
+  const rows = currentInboxTab === 'all' ? allInquiries : allInquiries.filter(r => (r.status || 'new') === currentInboxTab);
+  if (!rows.length) { box.innerHTML = '<div class="empty">該当するお問い合わせはありません。</div>'; return; }
+  box.innerHTML = rows.map(r => {
+    const st = r.status || 'new';
+    return `<div class="card" style="border-left:4px solid ${st === 'new' ? '#E43B4D' : '#d7dbe0'};">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#E43B4D;">${escapeHtml(r.plan || r.kind || '')}</b>
+        <span>${new Date(r.created_at).toLocaleString('ja-JP')}</span>
+        <span style="background:#f1f3f5;border-radius:4px;padding:2px 7px;font-weight:800;">${INQ_STATUS[st] || escapeHtml(st)}</span>
+      </div>
+      <div style="margin-top:6px;font-size:14px;font-weight:700;">${escapeHtml(r.org || '')}${r.org && r.name ? ' ・ ' : ''}${escapeHtml(r.name || '')}</div>
+      <div style="font-size:12.5px;color:#54606e;margin-top:2px;">
+        <a href="mailto:${escapeHtml(r.email)}">${escapeHtml(r.email)}</a>${r.phone ? ' ・ ' + escapeHtml(r.phone) : ''}
+      </div>
+      <div style="background:#f7f8fa;border-radius:8px;padding:11px 13px;margin-top:9px;font-size:13.5px;line-height:1.8;">${escapeHtml(r.message || '').replace(/\n/g, '<br>')}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
+        ${st !== 'doing' ? `<button class="btn" style="background:#2a6fdb;" onclick="setInquiryStatus('${r.id}','doing')">対応中にする</button>` : ''}
+        ${st !== 'done' ? `<button class="btn" style="background:#1f8a5b;" onclick="setInquiryStatus('${r.id}','done')">完了にする</button>` : ''}
+        ${st !== 'new' ? `<button class="btn" style="background:#8a93a0;" onclick="setInquiryStatus('${r.id}','new')">未対応に戻す</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setInquiryStatus(id, status) {
+  const { error } = await db.from('inquiries').update({ status: status }).eq('id', id);
+  if (error) { alert('更新に失敗しました'); return; }
+  await loadInbox();
+}
+
+async function deleteWaitlist(id) {
+  if (!confirm('この登録を削除します。よろしいですか？')) return;
+  const { error } = await db.from('waitlist').delete().eq('id', id);
+  if (error) { alert('削除に失敗しました'); return; }
+  await loadInbox();
+}
+
+async function loadReports() {
+  const box = document.getElementById('reportList');
+  const { data: reps, error } = await db.from('comment_reports')
+    .select('*').order('created_at', { ascending: false });
+  if (error) {
+    box.innerHTML = '<div class="empty">通報の読み込みに失敗しました。sql/moderation-admin.sql を実行してください。</div>';
+    return;
+  }
+  const list = reps || [];
+  // コメント本文とクラブ名は別テーブル。supabase-lite は結合できないので個別に引いて突き合わせる
+  const cids = [...new Set(list.map(r => r.comment_id).filter(Boolean))];
+  const comments = {};
+  for (const id of cids) {
+    const { data } = await db.from('comments').select('*').eq('id', id);
+    if (data && data[0]) comments[id] = data[0];
+  }
+  const tids = [...new Set(list.map(r => r.team_id).filter(Boolean))];
+  const teams = {};
+  for (const id of tids) {
+    const { data } = await db.from('teams').select('id,name').eq('id', id);
+    if (data && data[0]) teams[id] = data[0].name;
+  }
+  allReports = list.map(r => ({ ...r, comment: comments[r.comment_id] || null, teamName: teams[r.team_id] || '' }));
+  updateReportStats();
+  renderReportTab();
+}
+
+function updateReportStats() {
+  document.getElementById('statRepPending').textContent = allReports.filter(r => r.status === 'pending').length;
+  document.getElementById('statRepTotal').textContent = allReports.length;
+  document.getElementById('statRepHidden').textContent =
+    allReports.filter(r => r.comment && r.comment.status !== 'visible').length;
+}
+
+function setReportTab(tab) {
+  currentRepTab = tab;
+  document.querySelectorAll('#reportTabs .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.repTab === tab);
+  });
+  renderReportTab();
+}
+
+function renderReportTab() {
+  const box = document.getElementById('reportList');
+  const rows = currentRepTab === 'all' ? allReports : allReports.filter(r => r.status === currentRepTab);
+  if (!rows.length) { box.innerHTML = '<div class="empty">該当する通報はありません。</div>'; return; }
+  box.innerHTML = rows.map(r => {
+    const c = r.comment;
+    const hidden = c && c.status !== 'visible';
+    const body = c ? escapeHtml(c.body || '').replace(/\n/g, '<br>') : '<span style="color:#c33">※コメントは削除済みです</span>';
+    const when = new Date(r.created_at).toLocaleString('ja-JP');
+    return `<div class="card" style="border-left:4px solid ${r.status === 'pending' ? '#E43B4D' : '#d7dbe0'};">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:#7b8492;">
+        <b style="color:#E43B4D;">${REPORT_REASON[r.reason] || escapeHtml(r.reason)}</b>
+        <span>${escapeHtml(r.teamName)}</span>
+        <span>${when}</span>
+        ${hidden ? '<span style="background:#fde7eb;color:#d33b57;border-radius:4px;padding:2px 7px;font-weight:800;">非表示中</span>' : ''}
+      </div>
+      ${r.detail ? `<div style="font-size:12.5px;color:#54606e;margin-top:6px;">通報者のコメント：${escapeHtml(r.detail)}</div>` : ''}
+      <div style="background:#f7f8fa;border-radius:8px;padding:11px 13px;margin-top:9px;font-size:13.5px;line-height:1.8;">
+        ${c && c.nickname ? `<div style="font-weight:800;font-size:12px;color:#8a93a0;">${escapeHtml(c.nickname)}</div>` : ''}
+        ${body}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;">
+        ${c ? (hidden
+          ? `<button class="btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', true)">表示に戻す</button>`
+          : `<button class="btn" style="background:#E43B4D;" onclick="setCommentVisible('${r.comment_id}', false)">コメントを非表示にする</button>`) : ''}
+        ${r.status === 'pending' ? `
+          <button class="btn" onclick="setReportStatus('${r.id}','reviewed')">対応済みにする</button>
+          <button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','dismissed')">問題なし</button>
+        ` : `<button class="btn" style="background:#8a93a0;" onclick="setReportStatus('${r.id}','pending')">未対応に戻す</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setCommentVisible(commentId, visible) {
+  const { error } = await db.from('comments').update({ status: visible ? 'visible' : 'hidden' }).eq('id', commentId);
+  if (error) { alert('変更に失敗しました：' + error.message); return; }
+  await loadReports();
+}
+
+async function setReportStatus(reportId, status) {
+  const { error } = await db.from('comment_reports').update({ status }).eq('id', reportId);
+  if (error) { alert('変更に失敗しました：' + error.message); return; }
+  await loadReports();
+}
+
+async function loadTrialRequests() {
+  const { data, error } = await db.from('trial_requests').select('*').order('created_at', { ascending: false });
+  if (error) {
+    document.getElementById('trialList').innerHTML = '<div class="empty">体験申込みの読み込みに失敗しました。</div>';
+    return;
+  }
+  allTrialRequests = data || [];
+  updateTrialStats();
+  renderTrialTab();
+  renderTrialRanking();
+}
+
+function updateTrialStats() {
+  const trialOnly = allTrialRequests.filter(r => (r.type || 'trial') === 'trial');
+  const total = trialOnly.length;
+  const newCount = trialOnly.filter(r => r.status === 'new').length;
+  const now = new Date();
+  const thisMonth = trialOnly.filter(r => {
+    const d = new Date(r.created_at);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).length;
+  document.getElementById('statTrialTotal').textContent = total;
+  document.getElementById('statTrialMonth').textContent = thisMonth;
+  document.getElementById('statTrialNew').textContent = newCount;
+}
+
+function setTrialTab(tab) {
+  currentTrialTab = tab;
+  ['all','new','contacted','done','trial_only','inquiry_only'].forEach(t => {
+    const el = document.getElementById('trialTab-' + t);
+    if (el) el.classList.toggle('active', t === tab);
+  });
+  renderTrialTab();
+}
+
+function renderTrialTab() {
+  let list = allTrialRequests;
+  if (currentTrialTab === 'trial_only') {
+    list = allTrialRequests.filter(r => (r.type || 'trial') === 'trial');
+  } else if (currentTrialTab === 'inquiry_only') {
+    list = allTrialRequests.filter(r => r.type === 'inquiry');
+  } else if (currentTrialTab !== 'all') {
+    list = allTrialRequests.filter(r => r.status === currentTrialTab);
+  }
+  const container = document.getElementById('trialList');
+  if (list.length === 0) {
+    container.innerHTML = '<div class="empty">該当する申込みはありません。</div>';
+    return;
+  }
+  const teamMap = Object.fromEntries(allTeams.map(t => [t.id, t]));
+  const statusLabel = (s) => ({ new: '未対応', contacted: '対応中', done: '完了' }[s] || '未対応');
+  const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  container.innerHTML = '<div class="trial-list">' + list.map(r => {
+    const team = teamMap[r.team_id];
+    const teamName = team ? team.name : '（削除済みチーム）';
+    const isTrial = (r.type || 'trial') === 'trial';
+    const typeLabel = isTrial ? '🎉 体験' : '💬 質問';
+    const dateStr = new Date(r.created_at).toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const childInfo = isTrial
+      ? `<div class="trial-row-meta">${dateStr}｜${escaped(r.experience_level || '')}｜${r.child_age || '—'}歳・${escaped(r.child_grade || '')}</div>
+         <div class="trial-row-parent">お子さま：${escaped(r.child_name || '—')}${r.child_name_kana ? `（${escaped(r.child_name_kana)}）` : ''}</div>`
+      : `<div class="trial-row-meta">${dateStr}｜質問のみ</div>`;
+    const messagePreview = r.message ? `<div class="trial-row-parent" style="margin-top:4px;color:#475569;">💬 ${escaped(r.message.length > 80 ? r.message.substring(0, 80) + '...' : r.message)}</div>` : '';
+    return `
+      <div class="trial-row ${r.status === 'new' ? 'new' : ''}">
+        <div class="trial-row-main">
+          <div class="trial-row-team"><span class="trial-type-tag ${isTrial ? 'trial' : 'inquiry'}">${typeLabel}</span>${escaped(teamName)}</div>
+          ${childInfo}
+          <div class="trial-row-parent">保護者：${escaped(r.parent_name)}（<a href="mailto:${escaped(r.parent_email)}">${escaped(r.parent_email)}</a>）</div>
+          ${messagePreview}
+        </div>
+        <div class="trial-row-actions">
+          <span class="trial-badge ${r.status}">${statusLabel(r.status)}</span>
+          ${r.status === 'new' ? `<button class="btn btn-edit" onclick="adminUpdateTrialStatus('${r.id}', 'contacted')">対応中</button>` : ''}
+          ${r.status !== 'done' ? `<button class="btn btn-approve" onclick="adminUpdateTrialStatus('${r.id}', 'done')">完了</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('') + '</div>';
+}
+
+function renderTrialRanking() {
+  const teamMap = Object.fromEntries(allTeams.map(t => [t.id, t]));
+  const counts = {};
+  allTrialRequests.forEach(r => {
+    counts[r.team_id] = (counts[r.team_id] || 0) + 1;
+  });
+  const ranked = Object.entries(counts)
+    .map(([id, count]) => ({ team: teamMap[id], count }))
+    .filter(x => x.team)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const container = document.getElementById('trialRanking');
+  if (ranked.length === 0) {
+    container.innerHTML = '<div class="empty">まだ申込みデータがありません。</div>';
+    return;
+  }
+  const escaped = (s) => (s || '').replace(/[<>"']/g, c => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  container.innerHTML = ranked.map((x, i) => `
+    <div class="trial-rank-item">
+      <span>${i + 1}位　${escaped(x.team.name)}</span>
+      <strong>${x.count}件</strong>
+    </div>
+  `).join('');
+}
+
+async function adminUpdateTrialStatus(id, status) {
+  const { error } = await db.from('trial_requests').update({ status }).eq('id', id);
+  if (error) { alert('更新に失敗しました。'); return; }
+  loadTrialRequests();
+}
+
+// ===== DATA =====
+/* email と stripe_customer_id は authenticated からも読めない。
+   ログインしただけの保護者アカウントで全クラブの連絡先を集められたため。
+   運営が連絡先を要るときは team_email() で1件ずつ取る。
+   ここを select('*') に戻すと管理画面が丸ごと開かなくなる */
+const TEAM_COLS = 'id,created_at,name,sport,pref,city,age_groups,days,fee_num,fee,trial,instagram,description,status,user_id,website_url,twitter,photo_url,age_min,female_instructor,girls_welcome,address,line_url,plan,photos,plan_expires_at,venue,admission_fee_num,points,recommended_for,courses,logo_url,logo_position,moods,photo_positions,referral_source,referral_detail';
+
+async function teamEmail(id) {
+  try { const r = await db.rpc('team_email', { team: id }); return typeof r?.data === 'string' ? r.data : null; }
+  catch (_) { return null; }
+}
+
+let draftByTeam = {};   // team_id → 最新の club_drafts（AI下書きの状態）
+async function loadTeams() {
+  const { data, error } = await db.from('teams').select(TEAM_COLS).order('created_at', { ascending: false });
+  if (error) { document.getElementById('teamList').innerHTML = '<div class="empty">データの読み込みに失敗しました。</div>'; return; }
+  allTeams = data;
+  try {
+    const dr = await db.from('club_drafts').select('team_id,status,created_at').order('created_at', { ascending: false });
+    draftByTeam = {};
+    (dr.data || []).forEach(d => { if (!draftByTeam[d.team_id]) draftByTeam[d.team_id] = d; });
+  } catch (_) {}
+  updateStats();
+  renderTab();
+}
+
+function updateStats() {
+  document.getElementById('statPending').textContent  = allTeams.filter(t => t.status === 'pending').length;
+  document.getElementById('statApproved').textContent = allTeams.filter(t => t.status === 'approved').length;
+  document.getElementById('statPaused').textContent   = allTeams.filter(t => t.status === 'paused').length;
+  document.getElementById('statRejected').textContent = allTeams.filter(t => t.status === 'rejected').length;
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  // .tab-btn は体験申込みのタブバーにもあるので、チーム管理のタブだけを対象にする
+  // （以前は全 .tab-btn を添字で突き合わせていて、体験申込み側が光っていた）
+  document.querySelectorAll('#teamTabs .tab-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.teamTab === tab);
+  });
+  renderTab();
+}
+
+function renderTab() {
+  const list = allTeams.filter(t => t.status === currentTab);
+  const el = document.getElementById('teamList');
+  el.innerHTML = '';
+  if (list.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = '該当するチームはありません。';
+    el.appendChild(empty);
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'team-list';
+
+  list.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'team-item';
+
+    // info
+    const info = document.createElement('div');
+    info.className = 'team-info';
+
+    const nameRow = document.createElement('div');
+    nameRow.className = 'team-name';
+    nameRow.textContent = t.name + ' ';
+    const badge = document.createElement('span');
+    badge.className = `badge badge-${t.status}`;
+    badge.textContent = statusLabel(t.status);
+    nameRow.appendChild(badge);
+    const d = draftByTeam[t.id];
+    if (d) {
+      const db2 = document.createElement('span');
+      db2.className = 'badge badge-draft';
+      db2.textContent = draftLabel(d.status);
+      nameRow.appendChild(document.createTextNode(' '));
+      nameRow.appendChild(db2);
+    }
+
+    const meta = document.createElement('div');
+    meta.className = 'team-meta';
+    [
+      `📍 ${t.pref} ${t.city}`,
+      t.sport,
+      (t.age_groups||[]).join('・'),
+      t.fee,
+      `申請：${new Date(t.created_at).toLocaleDateString('ja-JP')}`
+    ].forEach(text => {
+      const span = document.createElement('span');
+      span.textContent = text;
+      meta.appendChild(span);
+    });
+
+    info.appendChild(nameRow);
+    info.appendChild(meta);
+
+    // actions
+    const actions = document.createElement('div');
+    actions.className = 'team-actions';
+
+    if (t.status !== 'approved') {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-approve';
+      btn.textContent = '承認';
+      btn.addEventListener('click', () => updateStatus(t.id, 'approved'));
+      actions.appendChild(btn);
+    }
+    if (t.status !== 'rejected') {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-reject';
+      btn.textContent = '却下';
+      btn.addEventListener('click', () => updateStatus(t.id, 'rejected'));
+      actions.appendChild(btn);
+    }
+    // AI下書き：公式サイトか Instagram があるクラブに、承認の前でも依頼できる（作成待ち・確認待ちの間は出さない）
+    if (t.status !== 'rejected' && !(d && (d.status === 'requested' || d.status === 'pending'))) {
+      // 下書きの材料は公式サイトだけ（Instagram はログイン無しでは本文が読めないので、写真タイル専用）
+      const src = !!t.website_url;
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-draft';
+      btn.textContent = d ? 'AI下書きを作り直す' : 'AI下書きを作る';
+      btn.disabled = !src;
+      btn.title = src ? '公式サイトから下書きを作り、クラブのマイページに届けます' : '公式サイトが未登録のクラブは作れません（Instagram だけでは本文を読めません）';
+      btn.addEventListener('click', () => requestDraft(t.id, t.name, btn));
+      actions.appendChild(btn);
+    }
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'btn btn-edit';
+    editBtn.textContent = '編集';
+    editBtn.addEventListener('click', () => openEditModal(t.id));
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn btn-delete';
+    delBtn.textContent = '削除';
+    delBtn.addEventListener('click', () => deleteTeam(t.id, t.name));
+    actions.appendChild(delBtn);
+
+    item.appendChild(info);
+    item.appendChild(actions);
+    wrap.appendChild(item);
+  });
+
+  el.appendChild(wrap);
+}
+
+function draftLabel(s) {
+  if (s === 'requested') return '下書き：作成待ち';
+  if (s === 'pending')   return '下書き：クラブ確認待ち';
+  if (s === 'approved')  return '下書き：反映済み';
+  if (s === 'failed')    return '下書き：作れなかった';
+  return '下書き：見送り';
+}
+
+// AI下書きの依頼。手元の runner（30分ごと）が claude -p で作り、クラブのマイページに届く
+async function requestDraft(id, name, btn) {
+  if (!confirm(`${name} の公式サイトから、ページの下書きを作りますか？\n\n・30分以内に自動で作られ、クラブのマイページに届きます（クラブにお知らせメールも届きます）\n・クラブが確認するまで公開されません`)) return;
+  if (btn) { btn.disabled = true; btn.textContent = '依頼しています…'; }
+  let res;
+  try { res = await db.from('club_drafts').insert({ team_id: id, draft: {}, sources: null, status: 'requested' }); }
+  catch (e) { res = { error: { message: e && e.message ? e.message : String(e) } }; }
+  if (res && res.error) {
+    console.warn('requestDraft', res.error);
+    // 原因の切り分け：いまのログイン（メール）と、DB から見て管理者か
+    let who = '', adm = '';
+    try { const sess = await db.auth.getSession(); who = sess?.data?.session?.user?.email || '（未ログイン）'; } catch (_) {}
+    try { const r = await db.rpc('is_admin'); adm = (r && r.error) ? 'エラー' : String(r?.data); } catch (_) {}
+    alert('依頼できませんでした：' + (res.error.message || res.error.code || JSON.stringify(res.error)) + '\n\nログイン：' + who + '\n管理者判定：' + adm);
+    if (btn) { btn.disabled = false; btn.textContent = 'AI下書きを作る'; }
+    return;
+  }
+  alert(`${name} の下書きを依頼しました。30分以内に作られ、クラブのマイページとメールに届きます。`);
+  await loadTeams();
+}
+
+function statusLabel(s) {
+  // paused はクラブ自身がマイページで止めた状態。却下と混同しない
+  if (s === 'pending') return '承認待ち';
+  if (s === 'approved') return '公開中';
+  if (s === 'paused') return '募集停止中（クラブ設定）';
+  return '却下';
+}
+
+async function updateStatus(id, status) {
+  const { error } = await db.from('teams').update({ status }).eq('id', id);
+  if (error) { alert('更新に失敗しました。'); return; }
+
+  // 承認時にチームへメール通知（宛先は teams から読めないので関数で取る）
+  if (status === 'approved') {
+    const team = allTeams.find(t => t.id === id);
+    const to = await teamEmail(id);
+    if (team && to) {
+      fetch(`${FUNCTIONS_URL}/send-approve-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to_email: to,
+          team_name: team.name,
+          mypage_url: 'https://chibispo.com/club-mypage.html',
+        }),
+      }).catch(() => {});
+    }
+  }
+
+  allTeams = allTeams.map(t => t.id === id ? { ...t, status } : t);
+  updateStats();
+  renderTab();
+}
+
+async function deleteTeam(id, name) {
+  if (!confirm(`「${name}」を削除しますか？この操作は元に戻せません。`)) return;
+  const { error } = await db.from('teams').delete().eq('id', id);
+  if (error) { alert('削除に失敗しました。'); return; }
+  allTeams = allTeams.filter(t => t.id !== id);
+  updateStats();
+  renderTab();
+}
+
+// ===== EDIT MODAL =====
+function openEditModal(id) {
+  const t = allTeams.find(t => t.id === id);
+  if (!t) return;
+  document.getElementById('editId').value = t.id;
+  document.getElementById('editName').value = t.name;
+  // 種目：標準リストにあるならそのまま、なければ「その他」+ 自由入力欄に表示
+  const sportSelect = document.getElementById('editSport');
+  const sportOther = document.getElementById('editSportOther');
+  const standardSports = Array.from(sportSelect.options).map(o => o.value);
+  if (standardSports.includes(t.sport)) {
+    sportSelect.value = t.sport;
+    sportOther.style.display = 'none';
+    sportOther.value = '';
+  } else {
+    sportSelect.value = 'その他';
+    sportOther.style.display = 'block';
+    sportOther.value = t.sport || '';
+  }
+  document.getElementById('editPref').value = t.pref;
+
+  // 市区町村を都道府県に合わせて初期化
+  const citySelect = document.getElementById('editCity');
+  const cities = CITIES[t.pref] || [];
+  citySelect.innerHTML = cities.length
+    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
+    : '<option value="">選択してください</option>';
+  citySelect.value = t.city;
+  document.getElementById('editFeeNum').value = t.fee_num;
+  document.getElementById('editTrial').value = String(t.trial);
+  (function(){ var el=document.getElementById('editReferral'); if(!el){ el=document.createElement('p'); el.id='editReferral'; el.style.cssText='margin:6px 0 10px;font-size:12px;color:#556'; var anchor=document.getElementById('editInstagram'); if(anchor&&anchor.parentNode) anchor.parentNode.insertBefore(el, anchor); }
+    var map={threads:'Threads',instagram:'Instagram',search:'検索',referral:'知人・他のクラブ',outreach:'チビスポからの連絡',other:'その他'};
+    el.textContent='流入経路：'+(map[t.referral_source]||t.referral_source||'未回答')+(t.referral_detail?('（'+t.referral_detail+'）'):''); })();
+  document.getElementById('editInstagram').value = t.instagram || '';
+  document.getElementById('editTwitter').value = t.twitter || '';
+  document.getElementById('editWebsiteUrl').value = t.website_url || '';
+  document.getElementById('editLineUrl').value = t.line_url || '';
+  /* 連絡先は teams から読めないので関数で取り直す。
+     取れるまでに保存されると空で上書きしてしまうため、その間は伏せておく */
+  const ee = document.getElementById('editEmail');
+  ee.value = ''; ee.disabled = true; ee.placeholder = '読み込み中…';
+  teamEmail(t.id).then(v => { if (v) ee.value = v; }).then(() => { ee.disabled = false; ee.placeholder = ''; });
+  document.getElementById('editDescription').value = t.description || '';
+  document.getElementById('editAddress').value = t.address || '';
+
+  document.querySelectorAll('input[name="editAge"]').forEach(cb => {
+    cb.checked = (t.age_groups || []).includes(cb.value);
+  });
+  const hasPreschool = (t.age_groups || []).includes('未就学');
+  document.getElementById('editAgeMinWrap').style.display = hasPreschool ? 'block' : 'none';
+  document.querySelectorAll('input[name="editAgeMin"]').forEach(r => {
+    r.checked = r.value === t.age_min;
+  });
+  document.querySelectorAll('input[name="editFeature"]').forEach(cb => {
+    if (cb.value === 'female_instructor') cb.checked = !!t.female_instructor;
+    if (cb.value === 'girls_welcome') cb.checked = !!t.girls_welcome;
+  });
+  document.querySelectorAll('input[name="editDay"]').forEach(cb => {
+    cb.checked = (t.days || []).includes(cb.value);
+  });
+
+  xFill(t);
+  document.getElementById('editModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function saveEdit() {
+  const id = document.getElementById('editId').value;
+  const feeNum = parseInt(document.getElementById('editFeeNum').value) || 0;
+  const ages = [...document.querySelectorAll('input[name="editAge"]:checked')].map(el => el.value);
+  const days = [...document.querySelectorAll('input[name="editDay"]:checked')].map(el => el.value);
+  const ageMin = document.querySelector('input[name="editAgeMin"]:checked')?.value || null;
+  const features = [...document.querySelectorAll('input[name="editFeature"]:checked')].map(el => el.value);
+
+  const sportSelectVal = document.getElementById('editSport').value;
+  const sportOtherVal = document.getElementById('editSportOther').value.trim();
+  const finalSport = (sportSelectVal === 'その他' && sportOtherVal) ? sportOtherVal : sportSelectVal;
+
+  const updates = {
+    name: document.getElementById('editName').value.trim(),
+    sport: finalSport,
+    pref: document.getElementById('editPref').value,
+    city: document.getElementById('editCity').value.trim(),
+    fee_num: feeNum,
+    fee: `月${feeNum.toLocaleString()}円`,
+    trial: document.getElementById('editTrial').value === 'true',
+    age_groups: ages,
+    age_min: ageMin,
+    female_instructor: features.includes('female_instructor'),
+    girls_welcome: features.includes('girls_welcome'),
+    days: days,
+    instagram: document.getElementById('editInstagram').value.trim().replace(/^@/, '') || null,
+    twitter: document.getElementById('editTwitter').value.trim().replace(/^@/, '') || null,
+    website_url: document.getElementById('editWebsiteUrl').value.trim() || null,
+    line_url: document.getElementById('editLineUrl').value.trim() || null,
+    email: document.getElementById('editEmail').value.trim() || null,
+    description: document.getElementById('editDescription').value.trim() || null,
+    address: document.getElementById('editAddress').value.trim() || null,
+    ...xRead(),
+  };
+
+  const { error } = await db.from('teams').update(updates).eq('id', id);
+  if (error) { console.warn('saveEdit', error); alert('保存に失敗しました：' + (error.message || '')); return; }
+
+  allTeams = allTeams.map(t => t.id === id ? { ...t, ...updates } : t);
+  closeEditModal();
+  renderTab();
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('editModal')) closeEditModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEditModal(); });
+
+// 未就学チェック時にage_min表示切り替え
+document.getElementById('editAgePreschool').addEventListener('change', function() {
+  const wrap = document.getElementById('editAgeMinWrap');
+  wrap.style.display = this.checked ? 'block' : 'none';
+  if (!this.checked) document.querySelectorAll('input[name="editAgeMin"]').forEach(r => r.checked = false);
+});
+
+// 編集モーダル内の都道府県→市区町村連動
+document.getElementById('editPref').addEventListener('change', function() {
+  const citySelect = document.getElementById('editCity');
+  const cities = CITIES[this.value] || [];
+  citySelect.innerHTML = cities.length
+    ? '<option value="">選択してください</option>' + cities.map(c => `<option>${c}</option>`).join('')
+    : '<option value="">選択してください</option>';
+});
+
+// Enter key for login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginWrap').style.display !== 'none') login();
+});
+
+/* ===== クラブページの中身（新項目）の編集。JSONの形は Worker の PROFILE / マイページと同じ ===== */
+const XL = {
+  story:    { id: 'xl-story',   max: 5, add: '段落を追加', fields: [['heading','小見出し（例：初めての子は体の動かし方から）'],['body','本文（80〜130字）','ta']] },
+  policies: { id: 'xl-policies',max: 3, add: '方針を追加', fields: [['title','方針（例：個性を引き出す）'],['body','ひとこと（例：得意・不得意に合わせて一人ずつ指導）']] },
+  features: { id: 'xl-features',max: 4, add: '違いを追加', fields: [['title','見出し（例：お茶当番なし）'],['body','説明（例：準備や片付けは子どもたち全員で行います）','ta']] },
+  staff:    { id: 'xl-staff',   max: 4, add: 'コーチを追加', fields: [['name','お名前'],['role','役割（例：監督・コーチ）'],['comment','経歴・資格・指導方針（80字まで）','ta'],['photo_url','','ph']] },
+  achph:    { id: 'xl-achph',   max: 3, add: '写真を追加', fields: [['photo_url','','ph'],['caption','説明（例：2025年 市大会 優勝）']] },
+  courses:  { id: 'xl-courses', max: 6, add: 'コースを追加', fields: [['name','コース名（例：U-9クラス）'],['age','対象（例：小学3〜4年生）'],['day','曜日（例：土・日）'],['time','時間（例：9:00〜11:00）'],['fee','月謝（例：6000）']] },
+  cost:     { id: 'xl-cost',    max: 8, add: '費用を追加', fields: [['name','項目（例：スポーツ保険）'],['amount','金額（例：800円/年）'],['note','補足（任意）']] },
+  log:      { id: 'xl-log',     max: 6, add: 'できごとを追加', fields: [['date','日付（例：2026-09-19）'],['title','タイトル（例：市ジュニア大会）'],['body','本文（任意・120字まで）','ta'],['url','リンク（任意）'],['image','','ph']] },
+};
+const xData = {};
+const xesc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function xlRender(key) {
+  const cfg = XL[key], box = document.getElementById(cfg.id), rows = xData[key] || [];
+  box.innerHTML = rows.map((r, i) => '<div class="it" data-i="' + i + '">' + cfg.fields.map(([f, ph, kind]) => {
+    if (kind === 'ph') return '<div class="xph" data-key="' + key + '" data-i="' + i + '" data-f="' + f + '">' + (r[f] ? '<img src="' + xesc(r[f]) + '" alt="">' : '<span class="ph0">写真</span>') + '<label>写真を選ぶ<input type="file" accept="image/*"></label><input type="url" data-f="' + f + '" value="' + xesc(r[f]) + '" placeholder="または写真のURL"></div>';
+    if (kind === 'ta') return '<textarea data-f="' + f + '" placeholder="' + xesc(ph) + '">' + xesc(r[f]) + '</textarea>';
+    return '<input type="text" data-f="' + f + '" value="' + xesc(r[f]) + '" placeholder="' + xesc(ph) + '">';
+  }).join('') + '<button type="button" class="del" title="削除">×</button></div>').join('')
+  + (rows.length < cfg.max ? '<button type="button" class="add">＋ ' + cfg.add + '</button>' : '');
+}
+function xlBind() {
+  Object.keys(XL).forEach((key) => {
+    const box = document.getElementById(XL[key].id);
+    box.addEventListener('input', (e) => { const it = e.target.closest('.it'); const f = e.target.dataset.f; if (!it || !f) return; xData[key][+it.dataset.i][f] = e.target.value; if (e.target.type === 'url') { const ph = e.target.closest('.xph'); const im = ph.querySelector('img,.ph0'); if (e.target.value) { const img = document.createElement('img'); img.src = e.target.value; im.replaceWith(img); } } });
+    box.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add')) { xData[key].push(Object.fromEntries(XL[key].fields.map(([f]) => [f, '']))); xlRender(key); }
+      else if (e.target.classList.contains('del')) { xData[key].splice(+e.target.closest('.it').dataset.i, 1); xlRender(key); }
+    });
+    box.addEventListener('change', async (e) => {
+      if (e.target.type !== 'file' || !e.target.files[0]) return;
+      const ph = e.target.closest('.xph'); const i = +ph.dataset.i, f = ph.dataset.f;
+      const url = await xUpload(e.target.files[0], key);
+      if (url) { xData[key][i][f] = url; xlRender(key); }
+    });
+  });
+  // 代表の写真
+  document.querySelector('.xph[data-ph="x-greet-photo"]').addEventListener('change', async (e) => {
+    if (e.target.type !== 'file' || !e.target.files[0]) return;
+    const url = await xUpload(e.target.files[0], 'greeting');
+    if (url) { document.getElementById('x-greet-photo').value = url; xGreetThumb(url); }
+  });
+  document.getElementById('x-greet-photo').addEventListener('input', (e) => xGreetThumb(e.target.value));
+  xStyleBuild();
+}
+function xGreetThumb(url) { const ph = document.querySelector('.xph[data-ph="x-greet-photo"]'); const im = ph.querySelector('img,.ph0'); if (url) { const img = document.createElement('img'); img.src = url; im.replaceWith(img); } else { const sp = document.createElement('span'); sp.className = 'ph0'; sp.textContent = '写真'; im.replaceWith(sp); } }
+// 写真：長辺1600pxに縮めて team-photos/admin/<team>/ へ（認証ユーザーは誰でも upload できるバケット）
+async function xUpload(file, kind) {
+  const teamId = document.getElementById('editId').value;
+  try {
+    const bmp = await createImageBitmap(file); const max = 1600; const sc = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * sc); cv.height = Math.round(bmp.height * sc);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', 0.86));
+    const path = 'admin/' + teamId + '/' + kind + '-' + Date.now() + '.jpg';
+    const up = await db.storage.from('team-photos').upload(path, blob, { upsert: true, contentType: 'image/jpeg', cacheControl: '31536000' });
+    if (up.error) throw up.error;
+    return db.storage.from('team-photos').getPublicUrl(path).data.publicUrl;
+  } catch (e) { console.warn('xUpload', e); alert('写真を保存できませんでした：' + (e.message || e)); return null; }
+}
+const ST_ROWS = [['strict','きびしい','のびのび'],['win','勝ち重視','楽しさ重視'],['select','実力で選ぶ','全員が出る'],['practice','練習が多い','少ない'],['gender','男の子が多い','女の子が多い']];
+function xStyleBuild() {
+  const box = document.getElementById('x-style');
+  box.innerHTML = ST_ROWS.map((r) => '<div class="st-row" data-k="' + r[0] + '"><span class="l">' + r[1] + '</span><div class="st-dots">' + [1,2,3,4,5].map((v) => '<button type="button" data-v="' + v + '" aria-label="' + r[1] + '〜' + r[2] + ' ' + v + '/5"></button>').join('') + '</div><span class="r">' + r[2] + '</span></div>').join('');
+  box.addEventListener('click', (e) => { const b = e.target.closest('button[data-v]'); if (!b) return; const row = b.closest('.st-row'), was = b.classList.contains('on'); row.querySelectorAll('button').forEach((x) => x.classList.remove('on')); if (!was) b.classList.add('on'); row.classList.toggle('set', !was); });
+}
+function xStyleSet(st) { st = st && typeof st === 'object' ? st : {}; document.querySelectorAll('#x-style .st-row').forEach((r) => { const v = +st[r.dataset.k]; r.querySelectorAll('button').forEach((b) => b.classList.toggle('on', +b.dataset.v === v)); r.classList.toggle('set', v >= 1 && v <= 5); }); }
+function xStyleRead() { const o = {}; document.querySelectorAll('#x-style .st-row').forEach((r) => { const b = r.querySelector('button.on'); if (b) o[r.dataset.k] = +b.dataset.v; }); return Object.keys(o).length ? o : null; }
+const arr = (v) => Array.isArray(v) ? v : [];
+function xFill(t) {
+  document.getElementById('x-tagline').value = t.tagline || '';
+  document.getElementById('x-trial-fee').value = t.trial_fee || '';
+  document.getElementById('x-member-count').value = t.member_count != null ? t.member_count : '';
+  document.getElementById('x-video').value = t.video_url || '';
+  const st = arr(t.story).slice(); const lead = (st[0] && !st[0].heading) ? st.shift().body : '';
+  document.getElementById('x-story-lead').value = lead || '';
+  xData.story = st.map((x) => ({ heading: x.heading || '', body: x.body || '' }));
+  xData.policies = arr(t.story_policies).map((x) => ({ title: x.title || '', body: x.body || '' }));
+  xData.features = arr(t.features).map((x) => ({ title: x.title || '', body: x.body || '' }));
+  xData.staff = arr(t.staff).map((x) => ({ name: x.name || '', role: x.role || '', comment: x.comment || '', photo_url: x.photo_url || '' }));
+  xData.achph = arr(t.achievement_photos).map((x) => ({ photo_url: x.photo_url || '', caption: x.caption || '' }));
+  xData.courses = arr(t.courses).map((x) => ({ name: x.name || '', age: x.age || '', day: x.day || '', time: x.time || '', fee: x.fee == null ? '' : String(x.fee) }));
+  xData.cost = arr(t.cost_items).map((x) => ({ name: x.name || '', amount: x.amount || '', note: x.note || '' }));
+  xData.log = arr(t.practice_log).map((x) => ({ date: x.date || '', title: x.title || '', body: x.body || '', url: x.url || '', image: x.image || '' }));
+  Object.keys(XL).forEach(xlRender);
+  const g = (t.greeting && typeof t.greeting === 'object') ? t.greeting : {};
+  document.getElementById('x-greet-name').value = g.name || ''; document.getElementById('x-greet-role').value = g.role || '';
+  document.getElementById('x-greet-title').value = g.title || ''; document.getElementById('x-greet-body').value = g.body || '';
+  document.getElementById('x-greet-photo').value = g.photo_url || ''; xGreetThumb(g.photo_url || '');
+  document.getElementById('x-achievements').value = arr(t.achievements).join('\n');
+  xStyleSet(t.style);
+}
+function xRead() {
+  const v = (id) => document.getElementById(id).value.trim();
+  const clean = (rows, need) => rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, x]) => [k, String(x || '').trim()]))).filter((r) => r[need]);
+  const lead = v('x-story-lead');
+  const story = (lead ? [{ heading: null, body: lead }] : []).concat(clean(xData.story, 'body').map((x) => ({ heading: x.heading || null, body: x.body })));
+  const g = { title: v('x-greet-title') || null, name: v('x-greet-name') || null, role: v('x-greet-role') || null, body: v('x-greet-body'), photo_url: v('x-greet-photo') || null };
+  const mc = v('x-member-count');
+  return {
+    tagline: v('x-tagline') || null, trial_fee: v('x-trial-fee') || null, member_count: mc === '' ? null : parseInt(mc, 10), video_url: v('x-video') || null,
+    story: story.length ? story : null,
+    story_policies: clean(xData.policies, 'title').length ? clean(xData.policies, 'title') : null,
+    features: clean(xData.features, 'title').length ? clean(xData.features, 'title') : null,
+    style: xStyleRead(),
+    greeting: g.body ? g : null,
+    staff: clean(xData.staff, 'name').map((x) => ({ ...x, role: x.role || null, photo_url: x.photo_url || null })),
+    achievements: v('x-achievements').split('\n').map((s) => s.trim()).filter(Boolean),
+    achievement_photos: clean(xData.achph, 'photo_url'),
+    courses: clean(xData.courses, 'name'),
+    cost_items: clean(xData.cost, 'name').map((x) => ({ ...x, amount: x.amount || null, note: x.note || null })),
+    practice_log: clean(xData.log, 'title').map((x) => ({ ...x, url: x.url || null, image: x.image || null })),
+  };
+}
+xlBind();
+</script>
+</body>
+</html>

@@ -1,75 +1,94 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5ZBBNYC37Y');</script>
-  <meta charset="UTF-8" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>クラブに参加する | チビスポ</title>
-  <meta name="robots" content="noindex,nofollow">
-<!-- OGP / SNS共有カード -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<title>クラブに参加する | チビスポ</title>
+<meta name="description" content="クラブのスタッフ招待を受けて、チビスポのクラブ管理ページに参加します。">
+<meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
 <meta property="og:title" content="クラブに参加する | チビスポ">
+<meta property="og:description" content="クラブのスタッフ招待を受けて、チビスポのクラブ管理ページに参加します。">
 <meta property="og:url" content="https://chibispo.com/join-club.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="クラブに参加する | チビスポ">
-<meta name="twitter:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
-  <script src="supabase-lite.js?v=20260731"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --primary: #E43B4D; --brand: #E43B4D; --bg: #f5f7f9; --text: #1f2430; --muted: #8a93a0; --border: #e6e9ed; --radius: 18px; --shadow: 0 4px 18px rgba(20,28,38,.06); }
-    body { font-family: 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 26px 26px; width: 100%; max-width: 400px; }
-    .brand { display: flex; flex-direction: column; align-items: center; margin-bottom: 18px; }
-    .brand svg { width: 56px; height: 56px; }
-    .brand span { font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 900; font-size: 22px; color: var(--brand); margin-top: 6px; letter-spacing: .02em; }
-    h1 { font-size: 1rem; font-weight: 800; text-align: center; margin-bottom: 6px; }
-    p.lead { font-size: .88rem; color: var(--muted); margin-bottom: 20px; text-align: center; line-height: 1.8; }
-    .club { background:#fdedef; border:1px solid #f6ccd4; border-radius:12px; padding:13px 15px; margin-bottom:18px; text-align:center; }
-    .club .name { font-size: 15px; font-weight: 900; color:#21315b; }
-    .club .role { font-size: 12px; color:#8a5a66; margin-top:3px; }
-    .form-group { margin-bottom: 16px; text-align: left; }
-    .form-group label { display: block; font-size: 12.5px; font-weight: 700; color: #3a4452; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 12px 13px; border: 1px solid var(--border); border-radius: 9px; font-size: .95rem; font-family: inherit; outline: none; transition: border-color .15s; }
-    .form-group input:focus { border-color: var(--primary); }
-    .btn { width: 100%; padding: 14px 0; background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: .95rem; font-weight: 800; font-family: inherit; cursor: pointer; }
-    .btn:hover { opacity: .9; }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-ghost { background:#fff; color:#3a4452; border:1px solid var(--border); margin-top:9px; }
-    .alert { padding: 12px 16px; border-radius: 10px; font-size: .88rem; margin-bottom: 16px; text-align: left; line-height:1.8; }
-    .alert-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .alert-error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-    .note { font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:14px; text-align:center; }
-
-    /* 参加前：何ができるようになるのか */
-    .can { border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:18px; text-align:left; background:#fbfcfd; }
-    .can-t { font-size:13px; font-weight:800; color:var(--text); margin-bottom:8px; line-height:1.6; }
-    .can-l { margin:0; padding-left:1.15em; font-size:12.5px; color:#4a5560; line-height:1.95; }
-    .can-n { font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:9px; }
-
-    /* 参加後：次回のログイン方法 */
-    .next { border:1px solid #b9d2f0; background:#eef4fc; border-radius:12px; padding:14px 16px; margin-bottom:14px; text-align:left; }
-    .next-t { font-size:13px; font-weight:800; color:#2a5fa8; margin-bottom:8px; }
-    .next-l { margin:0; padding-left:1.25em; font-size:12.5px; color:#3d6ba8; line-height:1.95; }
-    .next-n { font-size:11.5px; color:#4a6d99; line-height:1.8; margin-top:9px; }
-  </style>
-<!-- reskin v2 -->
-<style>body{font-family:'Zen Kaku Gothic New',system-ui,sans-serif!important;color:#2b2b2b}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>.jc-pg{background:#f5f7f9;color:#1f2430;padding:40px 16px 70px;display:flex;justify-content:center}
+.jc-pg *,.jc-pg *::before,.jc-pg *::after{box-sizing: border-box; margin: 0; padding: 0;}
+.jc-pg{--primary: #E43B4D; --brand: #E43B4D; --bg: #f5f7f9; --text: #1f2430; --muted: #8a93a0; --border: #e6e9ed; --radius: 18px; --shadow: 0 4px 18px rgba(20,28,38,.06);}
+.jc-pg .jc-card{background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 26px 26px; width: 100%; max-width: 400px;}
+.jc-pg .brand{display: flex; flex-direction: column; align-items: center; margin-bottom: 18px;}
+.jc-pg .brand svg{width: 56px; height: 56px;}
+.jc-pg .brand span{font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 900; font-size: 22px; color: var(--brand); margin-top: 6px; letter-spacing: .02em;}
+.jc-pg h1{font-size: 1rem; font-weight: 800; text-align: center; margin-bottom: 6px;}
+.jc-pg p.lead{font-size: .88rem; color: var(--muted); margin-bottom: 20px; text-align: center; line-height: 1.8;}
+.jc-pg .club{background:#fdedef; border:1px solid #f6ccd4; border-radius:12px; padding:13px 15px; margin-bottom:18px; text-align:center;}
+.jc-pg .club .name{font-size: 15px; font-weight: 900; color:#21315b;}
+.jc-pg .club .role{font-size: 12px; color:#8a5a66; margin-top:3px;}
+.jc-pg .form-group{margin-bottom: 16px; text-align: left;}
+.jc-pg .form-group label{display: block; font-size: 12.5px; font-weight: 700; color: #3a4452; margin-bottom: 6px;}
+.jc-pg .form-group input{width: 100%; padding: 12px 13px; border: 1px solid var(--border); border-radius: 9px; font-size: .95rem; font-family: inherit; outline: none; transition: border-color .15s;}
+.jc-pg .form-group input:focus{border-color: var(--primary);}
+.jc-pg .jc-btn{width: 100%; padding: 14px 0; background: var(--brand); color: #fff; border: none; border-radius: 10px; font-size: .95rem; font-weight: 800; font-family: inherit; cursor: pointer;}
+.jc-pg .jc-btn:hover{opacity: .9;}
+.jc-pg .jc-btn:disabled{opacity: .5; cursor: not-allowed;}
+.jc-pg .jc-btn-ghost{background:#fff; color:#3a4452; border:1px solid var(--border); margin-top:9px;}
+.jc-pg .alert{padding: 12px 16px; border-radius: 10px; font-size: .88rem; margin-bottom: 16px; text-align: left; line-height:1.8;}
+.jc-pg .alert-success{background: #dcfce7; color: #15803d; border: 1px solid #86efac;}
+.jc-pg .alert-error{background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5;}
+.jc-pg .note{font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:14px; text-align:center;}
+.jc-pg .can{border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:18px; text-align:left; background:#fbfcfd;}
+.jc-pg .can-t{font-size:13px; font-weight:800; color:var(--text); margin-bottom:8px; line-height:1.6;}
+.jc-pg .can-l{margin:0; padding-left:1.15em; font-size:12.5px; color:#4a5560; line-height:1.95;}
+.jc-pg .can-n{font-size:11.5px; color:var(--muted); line-height:1.8; margin-top:9px;}
+.jc-pg .next{border:1px solid #b9d2f0; background:#eef4fc; border-radius:12px; padding:14px 16px; margin-bottom:14px; text-align:left;}
+.jc-pg .next-t{font-size:13px; font-weight:800; color:#2a5fa8; margin-bottom:8px;}
+.jc-pg .next-l{margin:0; padding-left:1.25em; font-size:12.5px; color:#3d6ba8; line-height:1.95;}
+.jc-pg .next-n{font-size:11.5px; color:#4a6d99; line-height:1.8; margin-top:9px;}</style>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&display=swap" rel="stylesheet">
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5ZBBNYC37Y');
+</script>
 </head>
 <body>
-<div class="card">
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=3" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=3" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main class="jc-pg">
+<div class="jc-card">
   <div class="brand" role="img" aria-label="チビスポ">
     <svg viewBox="0 0 88 92" fill="none" aria-hidden="true">
       <path fill="#EF5D71" d="M10.5 66.8C5.3 53 8.3 39.8 16.3 29.8C23.4 20.8 34 15.8 45.2 16.1C47.8 12.9 50.7 9.8 54.8 7.4C54.5 11.4 53.8 14.7 52.5 17.8C59.1 16.2 66 16 72.6 17C69.8 21.1 67 24.4 63.6 27.4C69 27 74.1 27.1 79.2 27.9C75.5 32.7 71.7 36.6 67.3 40.4C70.9 46 72.5 52.7 71.5 59C70.8 63.3 69.1 67.3 66.4 70.8C60.6 78.4 50.8 82.8 39.7 82.8C28.1 82.8 17 77.8 10.5 66.8Z" />
@@ -121,8 +140,8 @@
       <label>パスワード（確認）</label>
       <input type="password" id="pw2" placeholder="もう一度入力" autocomplete="new-password">
     </div>
-    <button class="btn" id="signupBtn">この内容で参加する</button>
-    <button class="btn btn-ghost" id="toLoginBtn">すでにアカウントがある</button>
+    <button class="jc-btn" id="signupBtn">この内容で参加する</button>
+    <button class="jc-btn jc-btn-ghost" id="toLoginBtn">すでにアカウントがある</button>
   </div>
 
   <!-- 既存アカウントでログインして参加 -->
@@ -135,8 +154,8 @@
       <label>パスワード</label>
       <input type="password" id="loginPw" placeholder="パスワード" autocomplete="current-password">
     </div>
-    <button class="btn" id="loginBtn">ログインして参加する</button>
-    <button class="btn btn-ghost" id="toSignupBtn">パスワードを新しく決める</button>
+    <button class="jc-btn" id="loginBtn">ログインして参加する</button>
+    <button class="jc-btn jc-btn-ghost" id="toSignupBtn">パスワードを新しく決める</button>
   </div>
 
   <!-- 別のアカウントでログイン中のとき。誰でログインしているかを見せ、切り替え手段を出す -->
@@ -146,8 +165,8 @@
       この招待は <strong id="inviteEmail"></strong> 宛です。
     </div>
     <p class="lead" style="margin-bottom:16px;">招待されたアドレスで参加する必要があります。下のボタンでログアウトすると、そのまま参加の手続きに進めます。</p>
-    <button class="btn" id="logoutBtn">ログアウトして招待を受ける</button>
-    <a class="btn btn-ghost" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;line-height:1.2;">このまま自分のマイページへ戻る</a>
+    <button class="jc-btn" id="logoutBtn">ログアウトして招待を受ける</button>
+    <a class="jc-btn jc-btn-ghost" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;line-height:1.2;">このまま自分のマイページへ戻る</a>
   </div>
 
   <div id="doneArea" style="display:none;">
@@ -161,12 +180,36 @@
       </ol>
       <p class="next-n">保護者向けの「マイページ」とは入口が違います。上のボタンをブックマークしておくと確実です。</p>
     </div>
-    <a class="btn" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;">クラブのマイページを開く</a>
+    <a class="jc-btn" href="club-mypage.html" style="display:block;text-align:center;text-decoration:none;">クラブのマイページを開く</a>
   </div>
 
   <p class="note">招待リンクは発行から7日間有効です。<br>心当たりのない招待は、そのまま閉じてください。</p>
 </div>
-
+</main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a><a href="sponsors.html">スポンサー募集</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="supabase-lite.js?v=20260731"></script>
+<script src="shared.js?v=20261004"></script>
 <script>
 /* クラブスタッフの招待受け口。
    招待メールのリンク（?token=...）から来て、パスワードを決めるか
