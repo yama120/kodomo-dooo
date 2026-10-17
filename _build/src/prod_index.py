@@ -66,6 +66,7 @@ sp=re.sub(r'<div class="chips">.*?</div>\n  </div>\n</section>','<div class="chi
 S['sports']=sp
 # ---- 3問診断 ----
 S['quiz']=S['quiz'].replace('href="shindan-preview.html" data-quiz','href="search.html" data-quiz')
+S['quiz']=S['quiz'].replace('<div class="eyebrow">QUIZ</div>','<div class="sec-lb"><span class="k">QUIZ</span><b>診断</b></div>')   # 巨大文字をやめて小ラベルに（2026-10-17）
 # ---- テーマから探す（写真のマーキーは実クラブの写真で） ----
 th=S['themes']
 th=re.sub(r'<div class="mq-t">.*?</div>\n    </div>','<div class="mq-t" id="tp-themes"></div>\n    </div>',th,flags=re.S)
@@ -109,6 +110,22 @@ v=re.sub(r'<div class="c"><img src="assets/preview-video/wm-kidsrun-1.jpg" alt="
 for a_,b_ in [('service-listing-preview.html','listing.html'),('partner-preview.html#s02','partner.html#s02'),('service-sns-preview.html','service-sns.html'),('service-ads-preview.html','service-ads.html'),('partner-preview.html#apply','contact.html?who=club')]:
     v=v.replace('href="%s"'%a_,'href="%s"'%b_)
 S['svc']=v
+# ---- 企業紹介（/pr/ と同じ COMPANIES から。会社の追加・非表示は pr_index.py 側で） ----
+import pr_index
+def _prcard(c):
+    e=C.esc
+    return ('<a class="tpr-card" href="pr/%s.html">'
+            '<img loading="lazy" decoding="async" src="%s" alt="%s" style="object-position:%s">'
+            '<span class="tpr-pr">PR</span>'
+            '<div class="tpr-cap"><div class="tpr-ey">%s</div><div class="tpr-brand">%s</div><div class="tpr-cat">%s ｜ %s</div><p>%s</p><span class="tpr-go">紹介ページを読む ›</span></div>'
+            '</a>')%(c['slug'],e(c['img']),e(c['name']),e(c.get('pos','50% 50%')),e(c['ey']),e(c['name']),e(c['cat']),e(c['place']),e(c['lead']))
+_pr=[c for c in pr_index.COMPANIES if c.get('listed',True)]
+S['pr']=('<section class="sec" id="tp-pr">\n  <div class="wrap">\n'
+  '    <div class="sec-lb"><span class="k">PARTNERS</span><b>企業紹介</b></div>\n'
+  '    <div class="sec-h"><h2>子どもの<em>スポーツ</em>を支える会社<span class="pr-lb">PR</span></h2><a class="more" href="pr/">掲載企業をすべて見る ›</a></div>\n'
+  '    <div class="sec-sub">ユニフォーム、野球用品、ロゴやグッズのデザイン。編集部が取材して書いた企業紹介です。</div>\n'
+  '    <div class="tpr">\n'+'\n'.join('      '+_prcard(c) for c in _pr)+'\n    </div>\n'
+  '    <div class="ads-more">この枠に掲載する事業者の方は <a href="service-ads.html">掲載のご案内</a> へ。</div>\n  </div>\n</section>') if _pr else ''
 # ---- クラブ向けCTA（動画は準備中） ----
 c=S['cta'].replace('<a href="#">新入団募集シーズンパックを見る</a>','<a href="partner.html#s02">準備中・お知らせを受け取る ›</a>')
 S['cta']=c
@@ -132,8 +149,8 @@ S['seo']='''<section class="sec sec-alt seo">
 #   moments … まだ材料が無い
 #   themes  … 「テーマから探す」。特集を組むまで非表示（2026-09-13・ユーザー指示）
 HIDDEN={'moments','themes'}
-ALL=['hero','reels','picks','new','sports','quiz','themes','beg','feat','app','svc','cta','seo']
-order=[k for k in ALL if k not in HIDDEN]
+ALL=['hero','reels','picks','new','sports','quiz','themes','beg','feat','app','pr','svc','cta','seo']
+order=[k for k in ALL if k not in HIDDEN and S.get(k)]
 print('非表示のセクション:',sorted(HIDDEN))
 BODY='<main>\n'+'\n'.join(S[k] for k in order)+'\n</main>'
 assert 'preview' not in BODY.replace('assets/preview-video','') , [m for m in re.findall(r'[a-z-]*preview[a-z-]*\.html',BODY)]
@@ -148,6 +165,36 @@ CSS='''
 .tagpill{cursor:pointer}
 .seo .row a{cursor:pointer}
 .g-item{cursor:pointer;color:inherit}
+/* ===== 節のラベル（2026-10-17）：巨大な輪郭文字の代わりに「英字 —— 日本語」の小ラベル。.eyebrow を使わないので site.js の巨大文字は出ない ===== */
+.sec-lb{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sec-lb .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.sec-lb .k::after{content:"";display:inline-block;width:18px;height:2px;background:var(--accent);margin-left:10px;vertical-align:middle}
+.sec-lb b{font-family:var(--fh);font-size:13px;font-weight:900}
+/* ===== 企業紹介（2026-10-17）：/pr/ の掲載企業を写真帯で。会社の追加・非表示は _build/src/pr_index.py の COMPANIES ===== */
+.tpr{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:2px 20px 14px;margin:0 -20px;scrollbar-width:none}
+.tpr::-webkit-scrollbar{display:none}
+.tpr::after{content:"";flex:0 0 8px}
+.tpr-card{position:relative;flex:0 0 78%;max-width:360px;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:#000;scroll-snap-align:start;color:#fff;display:block}
+.tpr-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.tpr-card:hover img{transform:scale(1.04)}
+.tpr-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 22%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.9))}
+.tpr-pr{position:absolute;left:10px;top:10px;z-index:2;background:rgba(255,255,255,.92);color:#111;font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.12em;padding:4px 8px;border-radius:3px}
+.tpr-cap{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:14px 14px 16px}
+.tpr-ey{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--accent)}
+.tpr-brand{font-family:var(--fh);font-size:20px;font-weight:900;line-height:1.25;margin-top:4px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.tpr-cat{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.75);margin-top:3px}
+.tpr-cap p{margin:8px 0 0;font-size:11.5px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.88);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tpr-go{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:900;color:#fff;border-bottom:1.5px solid var(--accent);padding-bottom:1px}
+@media(min-width:760px){
+  .tpr{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;overflow:visible;margin:0;padding:0}
+  .tpr::after{display:none}
+  .tpr-card{flex:none;max-width:none;aspect-ratio:16/10}
+  .tpr-card::after{background:linear-gradient(90deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.55) 48%,rgba(0,0,0,0) 100%)}
+  .tpr-cap{right:30%;padding:22px 22px 24px}
+  .tpr-brand{font-size:24px}
+  .tpr-cap p{font-size:12.5px;-webkit-line-clamp:3}
+}
+@media(prefers-reduced-motion:reduce){.tpr-card img{transition:none}}
 '''
 JS=r'''<script>
 (function(){
