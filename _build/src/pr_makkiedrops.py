@@ -277,7 +277,7 @@ body=f'''
   </div>
   <a class="apply" href="service-ads.html"><b>あなたのお店も、こんなページで紹介しませんか？</b>地域の子育て世帯に届く、チビスポの企業紹介ページ。<br><span>掲載を申し込む ›</span></a>
   <div class="disc">この記事は、makkiedrops design の提供による<strong style="color:#555">チビスポのPR記事（広告）</strong>です。料金・内容は makkiedrops design からの回答と公式サイトの掲載内容（2026年10月時点）にもとづきます。最新情報は公式サイトをご確認ください。</div>
-  <div class="back"><a href="search.html">‹ クラブを探すに戻る</a></div>
+  <div class="back"><a href="pr/">‹ 企業紹介の一覧へ</a><a href="search.html" style="margin-left:22px">クラブを探す ›</a></div>
 </div></section>
 </main>
 '''

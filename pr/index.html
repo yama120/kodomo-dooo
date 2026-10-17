@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="チビスポ">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+<base href="/">
+<title>企業紹介｜チビスポ ― 子どものスポーツを支える会社</title>
+<meta name="description" content="ユニフォーム、野球用品、ロゴやグッズのデザイン。チビスポ編集部が取材して書いた企業紹介ページの一覧です。クラブの運営者にも、道具を揃える保護者にも。">
+<link rel="canonical" href="https://chibispo.com/pr/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="チビスポ">
+<meta property="og:title" content="企業紹介｜チビスポ ― 子どものスポーツを支える会社">
+<meta property="og:description" content="ユニフォーム、野球用品、ロゴやグッズのデザイン。チビスポ編集部が取材して書いた企業紹介ページの一覧です。クラブの運営者にも、道具を揃える保護者にも。">
+<meta property="og:url" content="https://chibispo.com/pr/">
+<meta property="og:image" content="https://chibispo.com/assets/pr/daedal/p-uniform-team.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>
+.prl{--ink:#2b2b2b;--sub:#6a7385;--line:#ececec;--acc:#E43B4D;--k:#101216;--f:'Zen Kaku Gothic New',system-ui,sans-serif;color:var(--ink);line-height:1.85}
+.prl *{box-sizing:border-box}
+.prl .prl-w{max-width:1180px;margin:0 auto;padding:0 20px}
+/* 見出し帯（マガジン一覧と同じ輪郭文字） */
+.prl-head{padding:28px 0 0}
+.prl-head .prl-big{font-family:'Anton',sans-serif;font-size:clamp(54px,16vw,150px);line-height:.9;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1.5px var(--ink);margin-bottom:14px}
+.prl-head .prl-k{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--acc);margin-bottom:8px}
+.prl-head .prl-k::before{content:"";width:22px;height:2px;background:var(--acc)}
+.prl-head .prl-k i{font-style:normal;display:inline-block;font-size:9.5px;letter-spacing:.12em;color:var(--sub);border:1px solid var(--line);padding:2px 6px;border-radius:3px;line-height:1.4}
+.prl-head h1{font-family:var(--f);margin:0;font-size:clamp(22px,5.4vw,38px);font-weight:900;letter-spacing:-.01em;line-height:1.3}
+.prl-head h1 em{font-style:normal;color:var(--acc)}
+.prl-head .prl-ld{margin-top:10px;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9;max-width:720px}
+.prl-cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-top:18px;padding:14px 0 4px;border-top:2px solid var(--ink)}
+.prl-cats::-webkit-scrollbar{display:none}
+.prl-cats button{flex:none;font-family:var(--f);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;padding:8px 13px;font-size:12.5px;font-weight:900;cursor:pointer;white-space:nowrap}
+.prl-cats button.on{background:var(--ink);color:#fff}
+.prl-cats button small{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.08em;font-weight:400;opacity:.7}
+/* 一覧：1社＝1見開き */
+.prl-list{display:grid;gap:34px;margin-top:22px;counter-reset:c}
+.prl-c{counter-increment:c;display:block;color:inherit;text-decoration:none;border-top:1px solid var(--line);padding-top:18px}
+.prl-c[hidden]{display:none}
+.prl-c .prl-ph{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:var(--k)}
+.prl-c .prl-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .6s ease,transform .8s ease}
+.prl-c .prl-ph img.b{opacity:0}
+.prl-c .prl-no{position:absolute;right:14px;top:10px;z-index:2;font-family:'Anton',sans-serif;font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.8)}
+.prl-c .prl-no::before{content:counter(c,decimal-leading-zero)}
+.prl-c .prl-pr{position:absolute;left:12px;top:12px;z-index:2;background:rgba(0,0,0,.72);color:#fff;font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.12em;padding:4px 8px;border-radius:3px}
+.prl-c .prl-flip{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);color:var(--k);font-size:10.5px;font-weight:900;letter-spacing:.06em;padding:5px 9px;border-radius:999px}
+.prl-c .prl-flip i{font-style:normal;width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.prl-c .prl-t{padding:14px 2px 0}
+.prl-c .prl-ey{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--acc)}
+.prl-c .prl-ey small{font-family:var(--f);font-size:11px;font-weight:700;letter-spacing:0;color:var(--sub)}
+.prl-c .prl-brand{margin:8px 0 2px;font-family:'Anton',sans-serif;font-size:clamp(26px,6.6vw,40px);letter-spacing:.03em;line-height:1;color:var(--ink)}
+.prl-c .prl-brand small{display:block;font-family:var(--f);font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--sub);margin-top:6px}
+.prl-c h2{font-family:var(--f);margin:12px 0 8px;font-size:clamp(17px,4.6vw,24px);font-weight:900;line-height:1.5;letter-spacing:-.01em}
+.prl-c .prl-lead{margin:0;font-size:13.5px;font-weight:700;color:var(--sub);line-height:1.85}
+.prl-c .prl-pts{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px}
+.prl-c .prl-pts li{position:relative;padding-left:30px;font-size:13.5px;font-weight:700;line-height:1.6}
+.prl-c .prl-pts li::before{content:counter(p,decimal-leading-zero);counter-increment:p;position:absolute;left:0;top:3px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--acc)}
+.prl-c .prl-pts{counter-reset:p}
+.prl-c .prl-pts .prl-ptk{display:block;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.24em;color:var(--sub);padding-left:0;margin-bottom:2px}
+.prl-c .prl-pts .prl-ptk::before{content:none}
+.prl-c .prl-go{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13.5px;font-weight:900;color:var(--ink);border-bottom:2px solid var(--acc);padding-bottom:3px}
+.prl-c .prl-go::after{content:"›";color:var(--acc);font-size:18px;line-height:1}
+/* 下：募集 */
+.prl-cta{margin:56px 0 0;border:1px solid var(--ink);padding:24px 20px 22px;position:relative;overflow:hidden;background:#fff}
+.prl-cta .prl-bigk{position:absolute;right:-6px;top:-18px;font-family:'Anton',sans-serif;font-size:clamp(64px,18vw,140px);line-height:1;color:transparent;-webkit-text-stroke:1px var(--line);pointer-events:none;user-select:none}
+.prl-cta .prl-k{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--acc);margin-bottom:8px}
+.prl-cta .prl-k::before{content:"";width:22px;height:2px;background:var(--acc)}
+.prl-cta h2{font-family:var(--f);margin:0 0 8px;font-size:clamp(19px,4.8vw,26px);font-weight:900;line-height:1.4;position:relative}
+.prl-cta h2 em{font-style:normal;color:var(--acc)}
+.prl-cta p{margin:0 0 16px;font-size:13.5px;font-weight:700;color:var(--sub);line-height:1.85;position:relative;max-width:560px}
+.prl-cta .prl-btn{display:inline-block;background:var(--acc);color:#fff;font-weight:900;font-size:14.5px;padding:13px 26px;border-radius:999px;text-decoration:none;box-shadow:0 10px 24px rgba(228,59,77,.3);position:relative}
+.prl-disc{margin:22px 0 0;font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.8}
+.prl-back{text-align:center;margin:26px 0 60px;font-size:13px;font-weight:700}
+.prl-back a{color:var(--sub);text-decoration:none;margin:0 10px}
+.prl-back a:hover{color:var(--acc)}
+/* 動き：ARMOURY の表⇄裏（hover できる端末は hover、できない端末はゆっくり自動） */
+@media(hover:hover){
+  .prl-c:hover .prl-ph img.f{transform:scale(1.03)}
+  .prl-c.has2:hover .prl-ph img.f{opacity:0}
+  .prl-c.has2:hover .prl-ph img.b{opacity:1}
+}
+@media(hover:none){
+  .prl-c.has2 .prl-ph img.b{animation:prlflip 7s ease-in-out infinite}
+}
+@keyframes prlflip{0%,42%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.prl-c.has2 .prl-ph img.b{animation:none}}
+/* デスクトップ：写真と文章を左右に。番号で左右を入れ替える */
+@media(min-width:760px){
+  .prl-head{padding-top:38px}
+  .prl-head h1 br{display:none}
+  .prl-list{gap:0;margin-top:28px}
+  .prl-c{display:grid;grid-template-columns:1.05fr 1fr;gap:0 44px;align-items:center;padding:34px 0;border-top:1px solid var(--line)}
+  .prl-c:nth-child(even) .prl-ph{order:2}
+  .prl-c .prl-ph{aspect-ratio:4/3;border-radius:18px}
+  .prl-c .prl-no{font-size:64px;right:22px;top:16px}
+  .prl-c .prl-t{padding:0}
+  .prl-c .prl-pts li{font-size:14px}
+  .prl-cta{padding:34px 36px 32px}
+}
+</style>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5ZBBNYC37Y');
+</script>
+</head>
+<body>
+<header class="site-hd">
+  <div class="wrap hd">
+    <a class="logo" href="index.html"><img class="lg-w" src="assets/logo-wide.webp?v=3" alt="チビスポ｜地域スポーツを、もっと身近に。" width="700" height="220"><img class="lg-s" src="assets/logo-sm.webp?v=3" alt="チビスポ" width="336" height="96"><span class="logo-tg">地域スポーツを、もっと身近に。</span></a>
+    <nav class="hd-nav">
+      <a href="search.html">クラブを探す</a>
+      <a href="map.html">地図から探す</a>
+      <a href="about.html">チビスポとは</a>
+      <a href="partner.html">クラブ・事業者の方へ</a>
+    </nav>
+    <div class="hd-r">
+      <a class="hd-ic" href="mypage.html#fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg><span>お気に入り</span></a>
+      <a class="hd-ic hd-out" href="club-mypage.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg><span>クラブログイン</span></a>
+      <a class="hd-ic hd-out" href="login.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><span>ログイン</span></a>
+      <a class="hd-ic hd-in" href="mypage.html"><span class="hd-av">M</span><span>マイページ</span></a>
+      <a class="hd-cta" href="listing.html">クラブを載せる</a>
+      <button class="hd-burger" type="button" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<main class="prl">
+<section class="prl-head"><div class="prl-w">
+  <div class="prl-big">PARTNERS</div>
+  <div class="prl-k">CHIBISPO ・ COMPANIES <i>PR</i></div>
+  <h1>チームの「ほしい」に、<br><em>応えてくれる</em>会社。</h1>
+  <p class="prl-ld">ユニフォーム、野球用品、ロゴやグッズのデザイン。チビスポ編集部が取材して書いた企業紹介ページを、1か所に集めました。クラブの運営者にも、道具を揃える保護者にも。</p>
+  <div class="prl-cats" id="prlCats"><button type="button" class="on" data-cat="">すべて</button><button type="button" data-cat="野球用品">野球用品</button><button type="button" data-cat="デザイン・グッズ">デザイン・グッズ</button></div>
+</div></section>
+<div class="prl-w">
+  <div class="prl-list" id="prlList">
+<a class="prl-c" href="pr/daedal.html" data-cat="野球用品">
+<div class="prl-ph"><span class="prl-pr">PR</span><span class="prl-no"></span>
+<img class="f" loading="lazy" decoding="async" src="assets/pr/daedal/p-uniform-team.webp" alt="DAEDAL." style="object-position:50% 50%">
+</div>
+<div class="prl-t">
+<div class="prl-ey">BASEBALL GEAR<small>千葉県柏市 ／ 全国（オンライン）</small></div>
+<div class="prl-brand">DAEDAL.<small>ディーデル ｜ 野球用品</small></div>
+<h2>道具の値段で、<br>野球を諦めさせない。</h2>
+<p class="prl-lead">デザインを自由に決められるユニフォームから、オーダーグラブ、バッティンググローブ、打者用防具まで。高校2年生が立ち上げた野球ブランド。</p>
+<ul class="prl-pts"><li class="prl-ptk">取材してわかった3つのポイント</li><li>「値段で諦める選手を減らしたい」から始まっている</li><li>「色で選べる」が、そのまま個性になる</li><li>ユニフォームからグラブまで、チームで揃えられる</li></ul>
+<span class="prl-go">紹介ページを読む</span>
+</div></a>
+<a class="prl-c" href="pr/makkiedrops.html" data-cat="デザイン・グッズ">
+<div class="prl-ph"><span class="prl-pr">PR</span><span class="prl-no"></span>
+<img class="f" loading="lazy" decoding="async" src="assets/pr/makkiedrops/g-handball.webp" alt="makkiedrops design" style="object-position:50% 55%">
+</div>
+<div class="prl-t">
+<div class="prl-ey">DESIGN &amp; GOODS<small>奈良県生駒市 ／ 全国対応</small></div>
+<div class="prl-brand">makkiedrops design<small>マッキードロップスデザイン ｜ デザイン・グッズ</small></div>
+<h2>スポーツの現場を知るデザイナーが、<br>チームの「ほしい」を形にする。</h2>
+<p class="prl-lead">ロゴ、部員募集のポスターやチラシ、卒団記念のグッズまで。奈良・生駒のスポーツ専門デザイン事務所。全国から依頼できます。</p>
+<ul class="prl-pts"><li class="prl-ptk">取材してわかった3つのポイント</li><li>選手だった人が作っている</li><li>プロチームと同じ作り手に、地域のクラブが頼める</li><li>デザインからグッズの現物まで1か所で</li></ul>
+<span class="prl-go">紹介ページを読む</span>
+</div></a>
+  </div>
+  <section class="prl-cta">
+    <div class="prl-bigk">LOCAL AD</div>
+    <div class="prl-k">FOR LOCAL BUSINESS</div>
+    <h2>あなたの会社も、<em>こんなページ</em>で紹介しませんか。</h2>
+    <p>地域の子育て世帯と、クラブの運営者に届く企業紹介ページ。取材はオンライン、写真は会社からのご提供で。制作から1年間の掲載まで込みです。</p>
+    <a class="prl-btn" href="service-ads.html">掲載について見る ›</a>
+  </section>
+  <p class="prl-disc">このページで紹介している企業のページは、各社の提供によるチビスポのPR記事（広告）です。掲載内容は取材時点のものです。最新情報は各社の公式サイト等をご確認ください。</p>
+  <div class="prl-back"><a href="search.html">‹ クラブを探す</a><a href="partner.html">クラブ・事業者の方へ ›</a></div>
+</div>
+</main>
+<footer class="site-ft">
+  <div class="wrap ft">
+    <div class="ft-l">
+      <div class="ft-logo">チビ<span>スポ</span></div>
+      <p>チビスポは、地域・種目・雰囲気から、お子さまに合うスポーツクラブが見つかるサービスです。地図で近くから探せて、体験の申込みもそのまま。</p>
+      <div class="ft-sns">
+        <a href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">Instagram</a><a href="https://www.threads.com/@chibi_spo" target="_blank" rel="noopener">Threads</a>
+      </div>
+    </div>
+    <div class="ft-r">
+      <div class="ft-app">
+        <img src="assets/app-hero/app-icon-512.webp" alt="チビスポ">
+        <div class="tx">アプリなら新着の<br>クラブ情報が早く届く！</div>
+        <a class="btn" href="https://apps.apple.com/jp/app/id6797169414" target="_blank" rel="noopener" data-app-store-cta>アプリを開く</a>
+      </div>
+      <div class="ft-links">
+        <a href="about.html">チビスポとは</a><a href="faq.html">よくある質問</a><a href="legal.html#terms">利用規約</a><a href="legal.html#privacy">プライバシーポリシー</a><a href="contact.html">お問い合わせ</a><a href="partner.html">クラブ・事業者の方へ</a><a href="plans.html">料金プラン</a><a href="sponsors.html">スポンサー募集</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
+</footer>
+<script src="shared.js?v=20261004"></script>
+<script>
+(function(){
+  var cats=document.getElementById('prlCats'), list=document.getElementById('prlList'); if(!cats||!list) return;
+  cats.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    cats.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on',x===b); });
+    var k=b.getAttribute('data-cat')||'';
+    list.querySelectorAll('.prl-c').forEach(function(c){ c.hidden=!!(k && c.getAttribute('data-cat')!==k); });
+  });
+})();
+</script>
+</body>
+</html>

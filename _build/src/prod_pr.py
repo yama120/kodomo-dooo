@@ -102,7 +102,7 @@ def build(d):
     a('<div class="pra-ctas">'+''.join('<a class="pra-%s" href="%s" target="_blank" rel="noopener sponsored">%s</a>'%(esc(x.get('kind','')),esc(x['url']),esc(x['label'])) for x in ctas)+'</div>')
     a('<a class="pra-apply" href="service-ads.html"><b>あなたのお店も、こんな記事で紹介しませんか？</b><p>地域の子育て世帯に届く、チビスポの企業紹介ページ。<br>取材・制作はおまかせください。</p><span>掲載を申し込む ›</span></a>')
     a('<div class="pra-disc">この記事は、%sの提供による<strong style="color:#54606e">チビスポのPR記事（広告）</strong>です。掲載内容は取材時点のものです。最新情報は各社の公式サイト等をご確認ください。</div>'%esc(name))
-    a('<div class="pra-back"><a href="search.html">‹ クラブを探すに戻る</a></div>')
+    a('<div class="pra-back"><a href="pr/">‹ 企業紹介の一覧へ</a><a href="search.html" style="margin-left:22px">クラブを探す ›</a></div>')
     a('</div></section></main>')
     body='\n'.join(o)
     fname=d.get('out') or 'pr/%s.html'%slug

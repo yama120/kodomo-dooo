@@ -129,7 +129,7 @@ body='''<div id="sr-veil"><i></i></div>
 <section class="sec pr" id="sr-comp-sec" hidden>
   <div class="wrap">
     <div class="eyebrow">LOCAL PARTNERS</div>
-    <div class="sec-h"><h2>地域の<em>おすすめ</em>企業<span class="pr-lb">PR</span></h2><span class="more">子育て世帯に向けて</span></div>
+    <div class="sec-h"><h2>地域の<em>おすすめ</em>企業<span class="pr-lb">PR</span></h2><a class="more" href="pr/">掲載企業をすべて見る ›</a></div>
     <div class="ads" id="sr-companies"></div>
     <div class="ads-more">この枠に掲載する事業者の方は <a href="service-ads.html">掲載のご案内</a> へ。</div>
   </div>
