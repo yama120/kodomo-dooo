@@ -11,7 +11,7 @@ FONT_SUB={"'Zen Maru Gothic'":"'Zen Kaku Gothic New'","'Noto Sans JP'":"'Zen Kak
 def reskin(fname,keep_green=False,extra_css=''):
     s=open(D+fname,encoding='utf-8').read()
     if '<!-- reskin v2 -->' in s:   # 済みでも版番号だけ追従させる（共通CSS/JSの更新を確実に届ける）
-        s2=re.sub(r'shared\.js\?v=\d+','shared.js?v='+C.V,s)
+        s2=re.sub(r'shared\.js\?v=\d+','shared.js?v='+C.SV,s)
         if s2!=s: open(D+fname,'w',encoding='utf-8').write(s2); print('bump',fname)
         return
     head_end=s.index('</head>')
@@ -20,7 +20,7 @@ def reskin(fname,keep_green=False,extra_css=''):
     if keep_green:   # 「成功」の意味で使っている緑だけ戻す（ボタンや枠の緑はブランド色なので赤に）
         for a,b in [("ok?'#E43B4D':'#c0314b'","ok?'#1f8a5b':'#c0314b'"),("'#E43B4D':'#c0314b'","'#1f8a5b':'#c0314b'"),("st.style.color='#E43B4D'","st.style.color='#1f8a5b'"),("solid #bfe6cf;color:#E43B4D","solid #bfe6cf;color:#1f8a5b"),("#16a34a","#16a34a")]:
             s=s.replace(a,b)
-    s=s.replace('shared.js?v=20260731b','shared.js?v='+C.V)
+    s=s.replace('shared.js?v=20260731b','shared.js?v='+C.SV)
     css='<!-- reskin v2 -->\n<style>body{font-family:\'Zen Kaku Gothic New\',system-ui,sans-serif!important;color:#2b2b2b}'+extra_css+'</style>\n'
     i=s.index('</head>'); s=s[:i]+css+s[i:]
     open(D+fname,'w',encoding='utf-8').write(s); print('reskin',fname)

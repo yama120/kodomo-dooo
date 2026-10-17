@@ -38,6 +38,17 @@ h=re.sub(r'<div class="sb-tab">(<svg.*?</svg>)こだわり</div>',r'<a class="sb
 h=h.replace('href="shindan-preview.html" data-quiz','href="search.html" data-quiz').replace('href="service-listing-preview.html"','href="listing.html"')
 h=h.replace('<img src="assets/preview-video/jp-soccer-dribble.jpg" alt="">','<img src="assets/preview-video/jp-soccer-dribble.jpg" alt="" fetchpriority="high">')
 S['hero']=h
+# ---- お知らせ（2026-09-25）：ヒーロー直下の細い帯。項目は <li> を足すだけ（新しいものを上に・古いものは消す）。タグの色は .tpn-tag（青）/ .tpn-tag.y（橙） ----
+S['news']='''<section class="tp-news" aria-label="お知らせ">
+  <div class="wrap"><div class="tpn">
+    <div class="tpn-h"><span class="k">NEWS</span><b>お知らせ</b></div>
+    <ul class="tpn-list">
+      <li><a href="sponsors.html"><time datetime="2026-10-11">2026.10.11</time><span class="tpn-tag y">お店・企業の方へ</span><span class="tpn-t"><span class="new">NEW</span>チビスポのスポンサーを募集しています。</span><span class="tpn-a">くわしく ›</span></a></li>
+      <li><a href="listing.html#ai-draft"><time datetime="2026-09-25">2026.09.25</time><span class="tpn-tag">クラブ運営者の方へ</span><span class="tpn-t">公式サイトがあれば、クラブページの中身をチビスポが下書きします。登録は基本の項目だけで</span><span class="tpn-a">くわしく ›</span></a></li>
+      <li><a href="assist.html"><time datetime="2026-09-25">2026.09.25</time><span class="tpn-tag y">保護者・地域の方へ</span><span class="tpn-t">「チビスポアシスト」を始めました。地域のクラブを500円からワンタップで応援できます</span><span class="tpn-a">くわしく ›</span></a></li>
+    </ul>
+  </div></div>
+</section>'''
 # ---- 30秒でわかるクラブ（仮：動画はまだ無いので写真で） ----
 r=S['reels']
 r=re.sub(r'<div class="rail">.*?</div>\n  </div>\n</section>','<div class="rail" id="tp-reels"></div>\n  </div>\n</section>',r,flags=re.S)
@@ -88,7 +99,7 @@ S['feat']='''<section class="sec sec-alt">
     <div class="sec-h"><h2><em>特徴</em>から探す</h2></div>
     <div class="sec-sub">気になるところだけで、絞れます。</div>
     <div class="tagrow"><div class="lb">対象</div><div class="tagwrap">
-      <a class="tagpill" href="search.html?age=未就学">未就学から</a><a class="tagpill" href="search.html?age=小学生">小学生</a><a class="tagpill" href="search.html?age=中学生">中学生</a><a class="tagpill" href="search.html?girls=1">女の子歓迎</a></div></div>
+      <a class="tagpill" href="search.html?age=未就学">未就学から</a><a class="tagpill" href="search.html?age=小学生">小学生</a><a class="tagpill" href="search.html?age=中学生">中学生</a><a class="tagpill" href="search.html?age=高校生">高校生</a><a class="tagpill" href="search.html?girls=1">女の子歓迎</a></div></div>
     <div class="tagrow"><div class="lb">活動</div><div class="tagwrap">
       <a class="tagpill" href="search.html?doyo=1">土日に活動</a><a class="tagpill" href="search.html?heijitsu=1">平日に活動</a></div></div>
     <div class="tagrow"><div class="lb">費用・体験</div><div class="tagwrap">
@@ -109,6 +120,11 @@ v=re.sub(r'<div class="c"><img src="assets/preview-video/wm-kidsrun-1.jpg" alt="
          r'<a class="c" href="magazine-4.html"><img src="assets/preview-video/wm-kidsrun-1.jpg" alt=""><div class="b"><h3>クラブの選び方</h3>\1<span class="a">詳しく見る ›</span></div></a>',v,flags=re.S)
 for a_,b_ in [('service-listing-preview.html','listing.html'),('partner-preview.html#s02','partner.html#s02'),('service-sns-preview.html','service-sns.html'),('service-ads-preview.html','service-ads.html'),('partner-preview.html#apply','contact.html?who=club')]:
     v=v.replace('href="%s"'%a_,'href="%s"'%b_)
+# 無料掲載カード 01 の文言（66bb5e30：AI下書き・アシストを足した版。プレビューの文は古いまま）
+_old='掲載は無料です。情報とタグを登録すると、地域・種目・こだわりの検索に載ります。'
+_new='掲載は無料。公式サイトがあれば、ページの中身はチビスポが下書きします。保護者や地元の方からの応援（アシスト）も、ページから届きます。'
+assert _old in v, '無料掲載カード01の元文がプレビューに無い（video-hero-preview.html が変わった）'
+v=v.replace(_old,_new)
 S['svc']=v
 # ---- 企業紹介（/pr/ と同じ COMPANIES から。会社の追加・非表示は pr_index.py 側で） ----
 import pr_index
@@ -149,7 +165,7 @@ S['seo']='''<section class="sec sec-alt seo">
 #   moments … まだ材料が無い
 #   themes  … 「テーマから探す」。特集を組むまで非表示（2026-09-13・ユーザー指示）
 HIDDEN={'moments','themes'}
-ALL=['hero','reels','picks','new','sports','quiz','themes','beg','feat','app','pr','svc','cta','seo']
+ALL=['hero','news','reels','picks','new','sports','quiz','themes','beg','feat','app','pr','svc','cta','seo']
 order=[k for k in ALL if k not in HIDDEN and S.get(k)]
 print('非表示のセクション:',sorted(HIDDEN))
 BODY='<main>\n'+'\n'.join(S[k] for k in order)+'\n</main>'
@@ -165,6 +181,24 @@ CSS='''
 .tagpill{cursor:pointer}
 .seo .row a{cursor:pointer}
 .g-item{cursor:pointer;color:inherit}
+/* ===== お知らせ（2026-09-25）：ヒーロー直下の細い帯。項目は <li> を足すだけ ===== */
+.tp-news{padding:18px 0 22px}
+.tpn{border:1px solid var(--ink);padding:12px 18px 4px;background:var(--card)}
+.tpn-h{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.tpn-h .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.tpn-h .k::after{content:"";display:inline-block;width:18px;height:2px;background:var(--accent);margin-left:10px;vertical-align:middle}
+.tpn-h b{font-family:var(--fh);font-size:13px;font-weight:900}
+.tpn-list{list-style:none;margin:0;padding:0}
+.tpn-list li{border-top:1px solid var(--line)}
+.tpn-list a{display:grid;grid-template-columns:auto auto 1fr auto;gap:6px 12px;align-items:center;padding:11px 0;color:inherit;font-weight:700}
+.tpn-list time{font-family:'Anton',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--sub)}
+.tpn-tag{font-size:10px;font-weight:900;letter-spacing:.04em;padding:2px 7px;border:1px solid var(--accent);color:var(--accent);white-space:nowrap;line-height:1.5}
+.tpn-tag.y{border-color:#D98A00;color:#D98A00}
+.tpn-t{font-size:13px;line-height:1.55}
+.tpn-t .new{display:inline-block;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.14em;padding:1px 6px;margin-right:6px;vertical-align:2px}
+.tpn-a{font-size:11.5px;font-weight:900;color:var(--accent);white-space:nowrap}
+.tpn-list a:hover .tpn-t{text-decoration:underline}
+@media(max-width:759px){.tp-news{padding-top:14px}.tpn{padding:10px 14px 2px}.tpn-list a{grid-template-columns:auto auto 1fr;gap:4px 10px;padding:10px 0}.tpn-t{grid-column:1/-1}.tpn-a{grid-row:1;grid-column:3;justify-self:end}}
 /* ===== 節のラベル（2026-10-17）：巨大な輪郭文字の代わりに「英字 —— 日本語」の小ラベル。.eyebrow を使わないので site.js の巨大文字は出ない ===== */
 .sec-lb{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .sec-lb .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent)}
@@ -262,6 +296,29 @@ JS=r'''<script>
   }).catch(function(){});
 })();
 </script>'''.replace('__ANON__',ANON)
-C.prodpage('index.html','チビスポ｜地域×スポーツ｜子どものクラブ・習い事を見つける',
+# ---- 構造化データ（Organization + WebSite）。SNS を増やしたら sameAs に足す ----
+LD={"@context":"https://schema.org","@graph":[
+  {"@type":"Organization","@id":"https://chibispo.com/#org","name":"チビスポ","alternateName":["chibispo","CHIBISPO"],"url":"https://chibispo.com/",
+   "logo":{"@type":"ImageObject","url":"https://chibispo.com/assets/logo.png","width":1117,"height":268},
+   "sameAs":["https://www.instagram.com/chibi_spo","https://www.threads.com/@chibi_spo","https://www.tiktok.com/@chibispo","https://apps.apple.com/jp/app/id6797169414"]},
+  {"@type":"WebSite","@id":"https://chibispo.com/#website","name":"チビスポ","alternateName":["chibispo","CHIBISPO"],"url":"https://chibispo.com/","inLanguage":"ja",
+   "description":"地域の子どもスポーツ・習い事クラブを探せるメディア。地域×種目×雰囲気で探せて、体験申込もそのまま。","publisher":{"@id":"https://chibispo.com/#org"}}]}
+html=C.prodpage('index.html','チビスポ｜地域×スポーツ｜子どものクラブ・習い事を見つける',
  'チビスポは、地域の子どもスポーツ・習い事クラブを探せるメディア。地域×種目×雰囲気でぴったりのクラブが見つかり、地図から探せて、体験申込もそのまま。',
- BODY,css=CSS,js=JS,supabase=False,scripts=('club-card.js?v='+C.V,'cities.js?v=20260731b','site.js?v='+C.V,'quiz.js?v='+C.V),head='<link rel="stylesheet" href="quiz.css?v='+C.V+'">\n')
+ BODY,css=CSS,js=JS,supabase=False,scripts=('club-card.js?v='+C.V,'cities.js?v=20260731b','site.js?v='+C.V,'quiz.js?v='+C.V),head='<link rel="stylesheet" href="quiz.css?v='+C.V+'">\n',jsonld=LD)
+
+# ---- 画像の軽量化（c235522c）：ヘッダーより後ろの <img> に loading="lazy" decoding="async" を付け、.jpg/.png は同名の .webp があればそれに差し替える ----
+#      既に loading= があるもの（記事カード・JS の雛形）と fetchpriority="high"（ヒーロー）はそのまま。ヘッダーのロゴも対象外
+def optimg(html):
+    head,sep,rest=html.partition('</header>')
+    def webp(m):
+        w=m.group(1)+'.webp'
+        return 'src="'+w+'"' if os.path.exists(D+w) else m.group(0)
+    def fix(m):
+        tag=m.group(0)
+        if 'loading=' not in tag and 'fetchpriority=' not in tag: tag=tag.replace('<img ','<img loading="lazy" decoding="async" ',1)
+        return re.sub(r'src="(assets/[^"]+)\.(?:jpg|png)"',webp,tag)
+    return head+sep+re.sub(r'<img [^>]*>',fix,rest)
+html=optimg(html)
+open(D+'index.html','w',encoding='utf-8').write(html)
+print('画像:',len(re.findall(r'<img ',html)),'枚 / lazy:',html.count('loading="lazy"'),'/ jpg・png 残り:',len(re.findall(r'src="assets/[^"]+\.(?:jpg|png)"',html)))

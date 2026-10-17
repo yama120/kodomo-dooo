@@ -96,7 +96,7 @@ def rename_html(t,rename):
     return t
 def check(name,html_,must_have=(),must_not=()):
     """生成物の確認。must_not は本文側だけを見る（共通フッターの class="btn" などを拾わないよう、ヘッダー／フッターは外す）"""
-    inner=html_.replace(C.HEADER_HTML,'').replace(C.FOOTER_HTML,'').replace(C.SHEET_HTML,'')
+    inner=html_.replace(C.HEADER_HTML,'').replace(C.FOOTER_HTML,'').replace(C.SHEET_HTML,'').replace('<script src="shared.js?v='+C.SV+'"></script>','')   # prodpage が付ける shared.js も外す（旧ページ側の取り残しだけを見る）
     for x in must_have:
         if x not in html_: print('  !! 無い:',name,x)
     for x in must_not:

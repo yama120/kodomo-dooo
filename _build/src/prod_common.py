@@ -7,7 +7,8 @@ P=os.path.dirname(os.path.abspath(__file__))+'/'
 sys.path.insert(0,P)
 import header_v2 as H
 D=os.path.expanduser('~/kodomo-dooo-deploy/')
-V='20261004'   # キャッシュ破り（site.css / chrome.css / shared.js / club-card.js）
+V='20261004'   # キャッシュ破り（site.css / chrome.css / club-card.js）
+SV='20261005'  # shared.js だけのキャッシュ破り（0076b60c で全ページを手で上げた分。V とは別に回す）
 LINKS=dict(home='index.html',search='search.html',map='map.html',about='about.html',partner='partner.html',fav='mypage.html#fav',clubmy='club-mypage.html',login='login.html',mypage='mypage.html',listing='listing.html',magazine='magazine.html',faq='faq.html',contact='contact.html',terms='legal.html#terms',privacy='legal.html#privacy',logo='assets/logo-sm.webp?v=3',logow='assets/logo-wide.webp?v=3')
 
 top=open(D+'video-hero-preview.html',encoding='utf-8').read()
@@ -104,11 +105,12 @@ GA='''<!-- GA4 -->
 </script>
 '''
 def esc(s): return (s or '').replace('&','&amp;').replace('"','&quot;').replace('<','&lt;')
-def prodpage(fname,title,desc,body,css='',js='',head='',supabase=False,noindex=False,base_root=False,og_image='https://chibispo.com/assets/ogp.jpg?v=2',canonical=None,bodyclass='',scripts=()):
+def prodpage(fname,title,desc,body,css='',js='',head='',supabase=False,noindex=False,base_root=False,og_image='https://chibispo.com/assets/ogp.jpg?v=2',canonical=None,bodyclass='',scripts=(),jsonld=None):
     url='https://chibispo.com/'+('' if fname=='index.html' else fname)
     html=('<!DOCTYPE html>\n<html lang="ja">\n<head>\n'+HEAD_COMMON+('<base href="/">\n' if base_root else '')
       +'<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(desc)+'">\n'
       +('<meta name="robots" content="noindex,nofollow">\n' if noindex else '<link rel="canonical" href="'+(canonical or url)+'">\n')
+      +('<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False,separators=(',',':'))+'</script>\n' if jsonld else '')   # 構造化データ（dict を渡す）
       +'<meta property="og:type" content="website">\n<meta property="og:site_name" content="チビスポ">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(desc)+'">\n<meta property="og:url" content="'+(canonical or url)+'">\n<meta property="og:image" content="'+og_image+'">\n<meta name="twitter:card" content="summary_large_image">\n'
       +'<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="'+FONT_URL+'" rel="stylesheet">\n'
       +'<link rel="stylesheet" href="site.css?v='+V+'">\n'
@@ -116,7 +118,7 @@ def prodpage(fname,title,desc,body,css='',js='',head='',supabase=False,noindex=F
       +'<body'+(' class="'+bodyclass+'"' if bodyclass else '')+'>\n'+HEADER_HTML+'\n'+body+'\n'+FOOTER_HTML+'\n'
       +('<script src="supabase-lite.js?v=20260731"></script>\n' if supabase else '')
       +''.join('<script src="%s"></script>\n'%s for s in scripts)
-      +'<script src="shared.js?v='+V+'"></script>\n'+js+'\n</body>\n</html>')
+      +'<script src="shared.js?v='+SV+'"></script>\n'+js+'\n</body>\n</html>')
     open(D+fname,'w',encoding='utf-8').write(html)
     o=len(re.findall(r'<div\b',html)); c=len(re.findall(r'</div>',html))
     miss=[m for m in set(re.findall(r'src="(assets/[^"?]+)',html)) if not os.path.exists(D+m)]
