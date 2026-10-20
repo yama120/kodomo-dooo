@@ -54,7 +54,7 @@ const CITY = {
   "さいたま市": "saitama", "つくば市": "tsukuba", "ふじみ野市": "fujimino",
   "佐倉市": "sakura", "北区": "kita", "八千代市": "yachiyo", "大田区": "ota",
   "多摩市": "tama", "市川市": "ichikawa", "川越市": "kawagoe", "新宿区": "shinjuku",
-  "春日部市": "kasukabe", "松伏町": "matsubushi", "笛吹市": "fuefuki", "川口市": "kawaguchi", "桜川市": "sakuragawa", "木津川市": "kizugawa", "厚木市": "atsugi", "杉並区": "suginami", "松戸市": "matsudo",
+  "春日部市": "kasukabe", "草加市": "soka", "四街道市": "yotsukaido", "四街道": "yotsukaido", "浦安市": "urayasu", "浦安": "urayasu", "古河市": "koga", "生駒郡斑鳩町": "ikaruga", "斑鳩町": "ikaruga", "小田原市": "odawara", "浜松市": "hamamatsu", "浜松市中央区": "hamamatsu-chuo", "松伏町": "matsubushi", "笛吹市": "fuefuki", "川口市": "kawaguchi", "桜川市": "sakuragawa", "木津川市": "kizugawa", "厚木市": "atsugi", "杉並区": "suginami", "松戸市": "matsudo",
   "武蔵野市": "musashino", "横浜市": "yokohama", "海老名市": "ebina",
   "稲毛区": "inage", "立川市": "tachikawa", "練馬区": "nerima",
   "藤沢市": "fujisawa", "足立区": "adachi", "鶴ヶ島市": "tsurugashima",
@@ -70,7 +70,7 @@ const CITY = {
 const SPORT = {
   "和太鼓": "wadaiko",
   "サッカー": "soccer", "ダンス": "dance", "ダブルダッチ": "double-dutch",
-  "野球": "baseball", "ソフトボール": "softball", "バレーボール": "volleyball", "空手": "karate",
+  "野球": "baseball", "ソフトボール": "softball", "バドミントン": "badminton", "ソフトテニス": "soft-tennis", "バレーボール": "volleyball", "空手": "karate",
   "陸上": "athletics", "バスケットボール": "basketball", "テニス": "tennis",
   "スポーツリズムトレーニング": "rhythm-training", "体操教室": "gymnastics-school",
   "マルチスポーツ": "multi", "スポーツ鬼ごっこ": "onigokko",

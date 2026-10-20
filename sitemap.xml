@@ -66,11 +66,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chibispo.com/pr/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://chibispo.com/pr/makkiedrops.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -107,6 +102,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/aichi/inazawa/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/aichi/inazawa/sport/soccer/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -291,6 +291,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/chiba/chiba/sport/baton/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/chiba/chiba/sport/dance/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -339,6 +344,11 @@
     <loc>https://chibispo.com/clubs/chiba/inzai/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/inzai/sport/baton/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/inzai/sport/soccer/</loc>
@@ -446,12 +456,32 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/chiba/urayasu/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/urayasu/sport/baton/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/chiba/yachiyo/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/chiba/yachiyo/sport/dance/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/yotsukaido/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/chiba/yotsukaido/sport/baton/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -736,6 +766,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/ibaraki/koga/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/ibaraki/koga/sport/badminton/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/ibaraki/koga/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/ibaraki/mito/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -752,6 +797,16 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/ibaraki/sakuragawa/sport/dodgeball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/ibaraki/sport/badminton/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/ibaraki/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -891,6 +946,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/kanagawa/odawara/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/odawara/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/kanagawa/sagamihara/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -902,6 +967,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/kanagawa/sport/baseball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/kanagawa/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1086,9 +1156,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/nara/ikaruga/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/nara/ikaruga/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/nara/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/nara/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/nara/sport/dance/</loc>
@@ -1311,6 +1396,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/osaka/sport/soft-tennis/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/osaka/sport/softball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -1322,6 +1412,11 @@
   </url>
   <url>
     <loc>https://chibispo.com/clubs/osaka/takatsuki/sport/soccer/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/osaka/takatsuki/sport/soft-tennis/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1411,6 +1506,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/saitama/soka/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/saitama/soka/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/saitama/sport/basketball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -1466,12 +1571,27 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chibispo.com/clubs/shizuoka/hamamatsu-chuo/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/shizuoka/hamamatsu-chuo/sport/volleyball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chibispo.com/clubs/shizuoka/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/shizuoka/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/shizuoka/sport/volleyball/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1549,6 +1669,11 @@
     <loc>https://chibispo.com/clubs/tokyo/katsushika/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/clubs/tokyo/katsushika/sport/basketball/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/clubs/tokyo/katsushika/sport/swimming/</loc>
@@ -1884,6 +2009,12 @@
     <loc>https://chibispo.com/magazine-7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chibispo.com/club.html?id=0ede4dda-efee-4bb4-b9aa-0559ae871299</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chibispo.com/club.html?id=2437a1fa-c0d0-4fb2-b4ed-751a90557694</loc>
