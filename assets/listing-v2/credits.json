@@ -1,0 +1,178 @@
+[
+ {
+  "slug": "tresaja-gk",
+  "name": "トレサージャGKスクール松戸校・船橋校",
+  "sport": "サッカー",
+  "city": "松戸市",
+  "id": "ce2d3c26-921a-4b46-894c-919ca51410d7",
+  "size": [
+   900,
+   653
+  ]
+ },
+ {
+  "slug": "dazaifu-onigokko",
+  "name": "太宰府市スポーツ鬼ごっこクラブ",
+  "sport": "運動教室",
+  "city": "太宰府市",
+  "id": "8b3a19b3-b307-4422-948d-2ef3776d702f",
+  "size": [
+   900,
+   675
+  ]
+ },
+ {
+  "slug": "grow-doubledutch",
+  "name": "ダブルダッチスクール GROW UP！",
+  "sport": "ダブルダッチ",
+  "city": "西宮市",
+  "id": "0938277c-2ba7-4b6a-b767-2f2ff493772e",
+  "size": [
+   900,
+   566
+  ]
+ },
+ {
+  "slug": "fukui-karate",
+  "name": "全日本空手道連盟和道会福井県本部　技道塾",
+  "sport": "空手",
+  "city": "福井市",
+  "id": "ca592493-8308-4fca-a7f4-6966c315e61d",
+  "size": [
+   900,
+   506
+  ]
+ },
+ {
+  "slug": "star-sapporo",
+  "name": "STARアカデミー札幌白石",
+  "sport": "スポーツリズムトレーニング",
+  "city": "札幌市",
+  "id": "59a3ff3c-c32e-46cf-890c-98f90122e548",
+  "size": [
+   900,
+   600
+  ]
+ },
+ {
+  "slug": "jasper-doubledutch",
+  "name": "JASPERダブルダッチスクール(都島校）",
+  "sport": "ダブルダッチ",
+  "city": "大阪市",
+  "id": "9fe7b022-d066-49b9-b95e-ff0f3cecc0f9",
+  "size": [
+   800,
+   600
+  ]
+ },
+ {
+  "slug": "coolrunnings",
+  "name": "COOLRUNNINGS 陸上スクール",
+  "sport": "陸上",
+  "city": "小郡市",
+  "id": "18f17db3-06f8-4f34-8204-2c0fa89e149f",
+  "size": [
+   800,
+   600
+  ]
+ },
+ {
+  "slug": "fukuyama-redarrows",
+  "name": "福山レッドアローズ",
+  "sport": "フラッグフットボール",
+  "city": "福山市",
+  "id": "bf4a9f3a-9fb7-415b-9ebf-51cd36489bc0",
+  "size": [
+   800,
+   600
+  ]
+ },
+ {
+  "slug": "bloom-dance",
+  "name": "Bloom Dance Circle",
+  "sport": "ダンス",
+  "city": "川崎市",
+  "id": "459136a5-fbc7-46bb-90ce-f1efba5beae0",
+  "size": [
+   900,
+   600
+  ]
+ },
+ {
+  "slug": "kairon-kendo",
+  "name": "KAIRON武導スクール",
+  "sport": "剣道",
+  "city": "姫路市",
+  "id": "d37c4d9c-c55f-47f1-9f66-558f15d9ee48",
+  "size": [
+   900,
+   1024
+  ]
+ },
+ {
+  "slug": "bjj-sapporo",
+  "name": "ブラジリアン柔術　手稲キッズクラブ",
+  "sport": "ブラジリアン柔術",
+  "city": "札幌市",
+  "id": "139fb35a-f9f3-4d67-a582-d4f26df39ef5",
+  "size": [
+   800,
+   600
+  ]
+ },
+ {
+  "slug": "dream-baton",
+  "name": "Dream Baton Twirlers",
+  "sport": "バトントワーリング",
+  "city": "柏市",
+  "id": "b2f8fb5d-c8a8-4ecb-9238-435680417eb0",
+  "size": [
+   800,
+   600
+  ]
+ },
+ {
+  "slug": "kbbc-badminton",
+  "name": "スポーツクラブKBBC inCLOWDERkoga",
+  "sport": "バドミントン",
+  "city": "古河市",
+  "id": "21ddea60-3cb8-44a2-81fc-4afd05d738f4",
+  "size": [
+   900,
+   677
+  ]
+ },
+ {
+  "slug": "orca-gym",
+  "name": "株式会社スポーツクラブ・オルカ",
+  "sport": "体操",
+  "city": "北名古屋市",
+  "id": "a9c071fb-7e12-467e-82f3-4b550149914b",
+  "size": [
+   900,
+   651
+  ]
+ },
+ {
+  "slug": "kidsball-nagakute",
+  "name": "キッズボールスポーツ教室（長久手市スポーツ教室）",
+  "sport": "マルチスポーツ",
+  "city": "長久手市",
+  "id": "d82b9837-d829-4725-853f-40bb18896334",
+  "size": [
+   900,
+   608
+  ]
+ },
+ {
+  "slug": "minoo-redstars",
+  "name": "箕面船場レッドスターズ",
+  "sport": "ソフトボール",
+  "city": "箕面市",
+  "id": "7fda0e70-9175-4739-a0ec-210946b61aeb",
+  "size": [
+   900,
+   1361
+  ]
+ }
+]

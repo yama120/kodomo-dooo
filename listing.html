@@ -6,388 +6,299 @@
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ffffff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="チビスポ">
-<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
-<title>クラブを無料で載せる｜チビスポ</title>
-<meta name="description" content="チビスポにクラブを載せる。掲載は無料。公式サイトがあればページの中身はチビスポが下書きし、体験の申込みと地域の応援（アシスト）がそのまま届きます。">
+<meta name="theme-color" content="#101216">
+<title>クラブを載せる｜地域のクラブを、近くの子供たちへ｜チビスポ</title>
+<meta name="description" content="チビスポにクラブを載せると、地域と種目でクラブを探す保護者に、検索・地図・Instagram・アプリ通知で届きます。掲載は無料、登録は1〜2分、写真1枚から。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Anton&family=Kaushan+Script&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://chibispo.com/listing.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="チビスポ">
-<meta property="og:title" content="クラブを無料で載せる｜チビスポ">
-<meta property="og:description" content="チビスポにクラブを載せる。掲載は無料。公式サイトがあればページの中身はチビスポが下書きし、体験の申込みと地域の応援（アシスト）がそのまま届きます。">
+<meta property="og:title" content="クラブを載せる｜地域のクラブを、近くの子供たちへ｜チビスポ">
+<meta property="og:description" content="チビスポにクラブを載せると、地域と種目でクラブを探す保護者に、検索・地図・Instagram・アプリ通知で届きます。掲載は無料、登録は1〜2分、写真1枚から。">
 <meta property="og:url" content="https://chibispo.com/listing.html">
 <meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Old+Mincho:wght@600;900&family=Anton&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css?v=20261004">
+<link rel="preload" as="image" href="assets/listing-v2/hero-501st-sp.webp" media="(max-width:699px)">
+<link rel="preload" as="image" href="assets/listing-v2/hero-501st.webp" media="(min-width:700px)">
 <style>
-/* ===== 共通の動き ===== */
-.rv{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;transform:none}
-.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}.rv.d5{transition-delay:.4s}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}}
-.ey{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:10px}
-.ey::before{content:"";width:22px;height:2px;background:var(--accent)}
-.sec2{padding:56px 0 0}
-.sec2 h2{font-family:var(--fh);margin:0 0 8px;font-size:clamp(23px,5.6vw,36px);font-weight:900;line-height:1.25;letter-spacing:-.015em}
-.sec2 h2 em{font-style:normal;color:var(--accent)}
-.sec2 .sub{margin:0 0 26px;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9}
-/* ===== HERO ===== */
-.lp-hero{position:relative;background:#101215;color:#fff;overflow:hidden;margin:0}
-.lp-hero .bg{position:absolute;inset:0;background:url(assets/preview-video/px-3448250.webp) center/cover;opacity:.32;filter:grayscale(1) contrast(1.1);transform:scale(1.06);animation:heroZoom 12s ease-out forwards}
-@keyframes heroZoom{to{transform:scale(1)}}
-.lp-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(16,18,21,.92) 0%,rgba(16,18,21,.7) 55%,rgba(16,18,21,.35) 100%)}
-.lp-hero .in{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:54px 20px 44px;display:grid;grid-template-columns:1fr;gap:30px;align-items:center}
-.lp-hero .ey{color:var(--accent)}
-.lp-hero h1{font-family:var(--fh);margin:0 0 14px;font-size:clamp(30px,7.6vw,58px);font-weight:900;line-height:1.15;letter-spacing:-.015em}
-.lp-hero h1 em{font-style:normal;color:var(--accent)}
-.lp-hero h1 span{display:inline-block;opacity:0;transform:translateY(18px);animation:up .7s cubic-bezier(.2,.7,.2,1) forwards}
-.lp-hero h1 span:nth-child(2){animation-delay:.12s}.lp-hero h1 span:nth-child(3){animation-delay:.24s}
-@keyframes up{to{opacity:1;transform:none}}
-.lp-hero .ld{font-size:14px;font-weight:700;color:rgba(255,255,255,.78);line-height:1.9;max-width:520px;margin:0 0 20px}
-.lp-hero .cta{display:flex;gap:10px;flex-wrap:wrap}
-.lp-hero .b1{background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:16px 28px;box-shadow:0 8px 24px rgba(232,69,95,.35)}
-.lp-hero .b2{border:1.5px solid rgba(255,255,255,.75);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:15px 24px}
-.lp-hero .stats{display:flex;gap:26px;margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.22)}
-.lp-hero .stats div{font-family:'Anton',sans-serif;letter-spacing:.06em}
-.lp-hero .stats b{display:block;font-size:34px;font-weight:400;line-height:1;color:#fff}
-.lp-hero .stats small{font-size:10.5px;letter-spacing:.22em;color:rgba(255,255,255,.6)}
-.lp-hero .card-wrap{position:relative;max-width:300px;margin:0 auto}
-.lp-hero .card-wrap .nc{box-shadow:0 30px 60px rgba(0,0,0,.5);transform:rotate(-2deg);animation:floaty 5s ease-in-out infinite}
-@keyframes floaty{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-8px)}}
-.lp-hero .card-wrap .lp-tag{position:absolute;right:-10px;top:-12px;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;padding:8px 12px;transform:rotate(6deg);box-shadow:0 8px 20px rgba(0,0,0,.4)}
-.lp-hero .card-wrap .lp-tag2{position:absolute;left:-14px;bottom:26px;background:#fff;color:#111;font-size:11.5px;font-weight:900;padding:8px 12px;box-shadow:0 8px 20px rgba(0,0,0,.4);transform:rotate(-4deg);opacity:0;animation:up .6s .9s forwards}
-/* ---- ヒーロー右側の4案（data-hero で切替・既定 B） ---- */
-.hv{display:none}
-.lp-hero[data-hero="a"] .hv-a,.lp-hero[data-hero="b"] .hv-b,.lp-hero[data-hero="c"] .hv-c,.lp-hero[data-hero="d"] .hv-d,.lp-hero[data-hero="e"] .hv-e{display:block}
-.hv-cap{margin-top:16px;text-align:center;font-size:11.5px;font-weight:900;letter-spacing:.04em;color:rgba(255,255,255,.65)}
-.lp-hero .lp-tag2{bottom:-14px;left:auto;right:-10px}
-/* B：スマホ */
-.pm{position:relative;width:230px;margin:0 auto;border:8px solid #1b1d21;border-radius:34px;background:#000;box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.12);overflow:hidden;aspect-ratio:9/18.4}
-.pm::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:84px;height:22px;background:#1b1d21;border-radius:0 0 14px 14px;z-index:3}
-.pm-scr{position:absolute;inset:0;overflow:hidden;background:#f2f0eb}
-.pm-scr img{width:100%;display:block;animation:pmScroll 9s ease-in-out infinite alternate}
-@keyframes pmScroll{0%,18%{transform:translateY(0)}82%,100%{transform:translateY(calc(-100% + 420px))}}
-.pm-ntf{position:absolute;left:10px;right:10px;top:30px;z-index:4;background:rgba(20,22,26,.92);color:#fff;font-size:10.5px;font-weight:700;line-height:1.45;padding:9px 11px;border-radius:12px;backdrop-filter:blur(6px);opacity:0;transform:translateY(-10px);animation:up .6s 1.4s forwards}
-.pm-ntf b{display:block;font-size:10px;color:var(--accent);letter-spacing:.06em;margin-bottom:2px}
-/* C：文字 */
-.ty{display:grid;justify-items:end;line-height:.86;font-family:'Anton',sans-serif;letter-spacing:-.01em}
-.ty span{font-size:clamp(64px,10vw,150px);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.55);opacity:0;transform:translateY(20px);animation:up .8s .2s forwards}
-.ty span:nth-child(2){animation-delay:.4s}
-.ty em{font-style:normal;font-size:clamp(40px,6vw,86px);color:var(--accent);margin-top:10px;opacity:0;transform:translateY(20px);animation:up .8s .7s forwards}
-/* D：3画面を扇に */
-.fan{position:relative;height:420px;max-width:420px;margin:0 auto}
-.fan img{position:absolute;left:50%;top:0;width:200px;border-radius:14px;box-shadow:0 26px 50px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.14);transform-origin:50% 120%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.fan .f1{transform:translateX(-50%) rotate(-12deg) translateX(-70px);z-index:1;opacity:0;animation:fanIn .8s .1s forwards}
-.fan .f2{transform:translateX(-50%) rotate(0deg);z-index:2;opacity:0;animation:fanIn .8s .3s forwards}
-.fan .f3{transform:translateX(-50%) rotate(12deg) translateX(70px);z-index:3;opacity:0;animation:fanIn .8s .5s forwards}
-@keyframes fanIn{to{opacity:1}}
-.fan:hover .f1{transform:translateX(-50%) rotate(-18deg) translateX(-110px)}
-.fan:hover .f3{transform:translateX(-50%) rotate(18deg) translateX(110px)}
-/* E：文字＋3画面 */
-.hv-e{position:relative;height:470px;width:100%;max-width:520px;justify-self:center}
-.ty2{position:absolute;right:0;top:-6px;display:grid;justify-items:end;line-height:.86;font-family:'Anton',sans-serif;letter-spacing:-.01em;pointer-events:none}
-.ty2 span{font-size:clamp(64px,9vw,132px);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.42);opacity:0;transform:translateY(20px);animation:up .8s .15s forwards}
-.ty2 span:nth-child(2){animation-delay:.35s}
-.fan2{position:absolute;left:50%;bottom:34px;width:186px;height:362px;margin-left:-93px}
-.fan2>*{position:absolute;inset:0;width:100%;height:100%;max-width:none;border-radius:16px;overflow:hidden;box-shadow:0 26px 50px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.14);transform-origin:50% 115%;transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:0;animation:fanIn .7s forwards;background:#f2f0eb}
-.fan2>img{object-fit:cover;object-position:top;display:block}
-.fan2 .g3 img{object-position:center 30%}
-.fan2 .g3 img{width:100%;height:100%;object-fit:cover;display:block}
-.hv-e .hv-cap{position:absolute;left:0;right:0;bottom:0;margin:0}
-.fan2 .g1{transform:rotate(-11deg) translateX(-128px) translateY(10px);z-index:1;animation-delay:.5s}
-.fan2 .g2{transform:rotate(0deg) translateY(-6px);z-index:2;animation-delay:.7s}
-.fan2 .g3{transform:rotate(11deg) translateX(128px) translateY(10px);z-index:3;animation-delay:.9s}
-.fan2:hover .g1{transform:rotate(-17deg) translateX(-168px) translateY(10px)}
-.fan2:hover .g3{transform:rotate(17deg) translateX(168px) translateY(10px)}
-.fan2 .g3 .ov{position:absolute;left:0;right:0;bottom:0;padding:70px 14px 16px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));color:#fff}
-.fan2 .g3 .k{font-family:'Anton',sans-serif;font-size:9.5px;letter-spacing:.22em;color:var(--accent);margin-bottom:6px}
-.fan2 .g3 .h{font-family:var(--fh);font-size:15px;font-weight:900;line-height:1.4;margin-bottom:6px}
-.fan2 .g3 .m{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.75)}
-.fan2 .g3 .pl{position:absolute;left:12px;top:12px;background:var(--accent);color:#fff;font-size:10.5px;font-weight:900;padding:5px 8px}
-.fan2 .g3 .hl{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.92);color:#111;font-size:10.5px;font-weight:900;padding:5px 8px}
-@media(max-width:759px){.hv-e{height:400px}.fan2{width:150px;height:292px;margin-left:-75px}.fan2 .g1{transform:rotate(-11deg) translateX(-100px) translateY(10px)}.fan2 .g3{transform:rotate(11deg) translateX(100px) translateY(10px)}.ty2 span{font-size:64px}}
-/* 切替バー（プレビュー専用） */
-.hsw{position:fixed;left:14px;bottom:14px;z-index:70;display:flex;gap:4px;align-items:center;background:var(--card);border:1px solid var(--ink);padding:6px 8px;font-size:11px;font-weight:900}
-.hsw span{font-family:'Anton',sans-serif;letter-spacing:.2em;color:var(--accent);margin-right:4px}
-.hsw button{border:1px solid var(--line);background:transparent;color:var(--ink);font-family:var(--f);font-size:11px;font-weight:900;padding:5px 8px;cursor:pointer}
-.hsw button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-@media(max-width:759px){.hsw{top:auto;bottom:70px;left:10px;right:10px;justify-content:center}.fan{height:340px}.fan img{width:160px}.pm{width:200px}}
-/* ===== 5か所に載る：図解 ===== */
-.wire{display:grid;grid-template-columns:1fr;gap:0;align-items:stretch}
-.wire .src{background:var(--ink);color:var(--bg);padding:22px 20px;position:relative}
-.wire .src .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:8px}
-.wire .src h3{font-family:var(--fh);margin:0 0 6px;font-size:20px;font-weight:900}
-.wire .src p{margin:0;font-size:12px;font-weight:700;color:color-mix(in srgb,var(--bg) 70%,transparent);line-height:1.7}
-.wire .ln{position:relative;height:38px}
-.wire .ln::before{content:"";position:absolute;left:50%;top:0;width:2px;height:0;background:var(--accent);transition:height .8s ease .2s}
-.wire.in .ln::before{height:100%}
-.wire .ln::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;background:var(--accent);transform:translateX(-50%) rotate(45deg);opacity:0;transition:opacity .2s 1s}
-.wire.in .ln::after{opacity:1}
-.wire .dst{display:grid;grid-template-columns:1fr;border:1px solid var(--ink)}
-.wire .dst a{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--ink);opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .5s,background .15s}
-.wire.in .dst a{opacity:1;transform:none}
-.wire .dst a:nth-child(1){transition-delay:.9s}.wire .dst a:nth-child(2){transition-delay:1.05s}.wire .dst a:nth-child(3){transition-delay:1.2s}.wire .dst a:nth-child(4){transition-delay:1.35s}.wire .dst a:nth-child(5){transition-delay:1.5s}
-.wire .dst a:last-child{border-bottom:0}
-.wire .dst a:hover{background:color-mix(in srgb,var(--ink) 5%,var(--bg))}
-.wire .dst svg{width:32px;height:32px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.wire .dst b{display:block;font-family:var(--fh);font-size:14.5px;font-weight:900}
-.wire .dst small{font-size:11.5px;font-weight:700;color:var(--sub)}
-/* ===== 登録できる内容：実画面に番号 ===== */
-.anno{display:grid;grid-template-columns:1fr;gap:22px;align-items:start}
-.anno .shot{position:relative;border:1px solid var(--ink);overflow:hidden;background:#fff}
-.anno .shot img{width:100%;display:block}
-.anno .dot{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px rgba(232,69,95,.25);cursor:default}
-.anno .dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:ping 2.2s ease-out infinite}
-.anno .dot:nth-child(3)::after{animation-delay:.4s}.anno .dot:nth-child(4)::after{animation-delay:.8s}.anno .dot:nth-child(5)::after{animation-delay:1.2s}.anno .dot:nth-child(6)::after{animation-delay:1.6s}.anno .dot:nth-child(7)::after{animation-delay:2s}
-@keyframes ping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
-.anno .lp-lg{border-top:2px solid var(--ink)}
-.anno .lp-lg div{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.anno .lp-lg i{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-style:normal;font-family:'Anton',sans-serif;font-size:11px;display:flex;align-items:center;justify-content:center}
-.anno .lp-lg b{display:block;font-family:var(--fh);font-size:14px;font-weight:900}
-.anno .lp-lg small{font-size:11.5px;font-weight:700;color:var(--sub)}
-.anno .lp-lg .must{display:inline-block;font-size:9.5px;letter-spacing:.08em;color:var(--bg);background:var(--ink);padding:1px 6px;margin-left:6px;vertical-align:2px}
-/* ===== 流れ：タイムライン ===== */
-.tl{position:relative;display:grid;grid-template-columns:1fr;gap:18px;padding-top:0}
-.tl .lp-bar{display:none}
-.tl .lp-st{position:relative;padding:0 0 0 46px}
-.tl .lp-st .dot{position:absolute;left:0;top:2px;width:30px;height:30px;border:2px solid var(--ink);background:var(--bg);font-family:'Anton',sans-serif;font-size:12px;display:flex;align-items:center;justify-content:center}
-.tl.in .lp-st .dot{background:var(--ink);color:var(--bg)}
-.tl .lp-st h3{font-family:var(--fh);margin:4px 0 4px;font-size:16px;font-weight:900}
-.tl .lp-st p{margin:0;font-size:12.5px;font-weight:700;color:var(--sub);line-height:1.8}
-.tl .lp-st .t{font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.18em;color:var(--accent);margin-top:6px;display:block}
-/* ===== 申込のあと：スマホのモック ===== */
-.lp-app{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
-.lp-phone{width:250px;margin:0 auto;border:3px solid var(--ink);border-radius:32px;padding:14px 12px 18px;background:#fff;box-shadow:12px 12px 0 var(--ink);position:relative}
-.lp-phone::before{content:"";display:block;width:80px;height:6px;border-radius:999px;background:var(--ink);margin:0 auto 12px}
-.lp-phone .ntf{background:#111;color:#fff;padding:10px 12px;border-radius:12px;font-size:11px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(-8px);transition:.5s .3s}
-.lp-app.in .lp-phone .ntf{opacity:1;transform:none}
-.lp-phone .ntf b{display:block;font-size:11.5px}
-.lp-phone .chat{margin-top:12px;display:grid;gap:8px}
-.lp-phone .bb{max-width:86%;padding:9px 11px;border-radius:14px;font-size:11px;font-weight:700;line-height:1.55;opacity:0;transform:translateY(8px);transition:.45s}
-.lp-app.in .lp-phone .bb{opacity:1;transform:none}
-.lp-phone .bb.l{background:#f0f0ee;color:#111;border-bottom-left-radius:4px;justify-self:start}
-.lp-phone .bb.r{background:var(--accent);color:#fff;border-bottom-right-radius:4px;justify-self:end}
-.lp-app.in .lp-phone .bb:nth-child(1){transition-delay:.9s}.lp-app.in .lp-phone .bb:nth-child(2){transition-delay:1.5s}.lp-app.in .lp-phone .bb:nth-child(3){transition-delay:2.1s}
-.lp-app ul{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
-.lp-app li{position:relative;padding:13px 0 13px 34px;border-bottom:1px solid var(--line);font-size:14px;font-weight:900}
-.lp-app li::before{content:attr(data-n);position:absolute;left:0;top:15px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent)}
-.lp-app li small{display:block;font-size:11.5px;font-weight:700;color:var(--sub);margin-top:2px}
-/* ===== プラン ===== */
-.plans{display:grid;grid-template-columns:1fr;gap:14px;align-items:stretch}
-.pl{position:relative;border:1px solid var(--ink);background:var(--card);padding:22px 20px 20px;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.pl:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--ink)}
-body[data-skin="bright"] .pl,body[data-skin="stadium"] .pl{border-radius:var(--r)}
-.pl.hot{border:2px solid var(--accent);box-shadow:8px 8px 0 var(--accent)}
-.pl.hot:hover{box-shadow:12px 12px 0 var(--accent)}
-.pl .lp-pin{position:absolute;left:16px;top:-12px;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.18em;padding:5px 10px}
-.pl .n{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--sub);margin-bottom:6px}
-.pl h3{font-family:var(--fh);margin:0 0 6px;font-size:22px;font-weight:900}
-.pl .pr{font-family:'Anton',sans-serif;font-size:36px;line-height:1;letter-spacing:.02em;margin:6px 0 2px}
-.pl .pr small{font-family:var(--f);font-size:12px;font-weight:700;color:var(--sub);letter-spacing:0;margin-left:4px}
-.pl .for{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:14px;line-height:1.7}
-.pl ul{list-style:none;margin:0 0 16px;padding:12px 0 0;border-top:1px solid var(--line);flex:1;display:grid;gap:7px}
-.pl li{position:relative;padding-left:20px;font-size:12.5px;font-weight:700;line-height:1.6}
-.pl li::before{content:"";position:absolute;left:0;top:8px;width:10px;height:6px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
-.pl li.dim{color:var(--sub)}
-.pl li.dim::before{border-color:var(--line)}
-.pl .lp-go{display:block;text-align:center;font-family:var(--fh);font-weight:900;font-size:14px;padding:13px;border:1.5px solid var(--ink);color:var(--ink)}
-.pl.hot .lp-go{background:var(--accent);border-color:var(--accent);color:#fff}
-.pl .tr{margin-top:8px;text-align:center;font-size:11px;font-weight:900;color:var(--accent)}
-.pl-note{margin-top:14px;font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.8}
-.cmp{width:100%;border-collapse:collapse;margin-top:26px;font-size:12.5px;font-weight:700}
-.cmp th,.cmp td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center}
-.cmp th{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--sub);border-bottom:2px solid var(--ink)}
-.cmp td:first-child,.cmp th:first-child{text-align:left}
-.cmp td b{color:var(--accent);font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.06em}
-.cmp td.no{color:var(--line)}
-.cmp .hot{background:color-mix(in srgb,var(--accent) 6%,transparent)}
-.prod{margin-top:26px;display:grid;grid-template-columns:1fr;gap:10px}
-.prod a{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border:1px solid var(--ink);padding:12px 14px;font-size:13px;font-weight:900}
-.prod a .n{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.16em;color:var(--accent)}
-.prod a small{font-weight:700;color:var(--sub);font-size:11.5px}
-.prod a i{font-style:normal;color:var(--accent)}
-/* ===== プランを詳しく見る ===== */
-.pdl{display:grid;grid-template-columns:1fr;gap:14px}
-.pd{display:flex;flex-direction:column;gap:10px;border:2px solid var(--accent);background:var(--card);padding:22px 20px 20px;color:inherit;transition:transform .2s,box-shadow .2s}
-.pd:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--accent)}
-.pd.pro{background:#101215;color:#fff;border-color:#101215}
-.pd.pro:hover{box-shadow:8px 8px 0 var(--ink)}
-.pd .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--accent)}
-.pd h3{font-family:var(--fh);margin:0;font-size:20px;font-weight:900;line-height:1.35}
-.pd ul{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:grid;gap:6px;flex:1}
-.pd.pro ul{border-top-color:rgba(255,255,255,.2)}
-.pd li{position:relative;padding-left:18px;font-size:12.5px;font-weight:700;line-height:1.6}
-.pd li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
-.pd .go{margin-top:6px;font-family:var(--fh);font-weight:900;font-size:14px;color:var(--accent)}
-.pd.pro .go{color:#fff}
-@media(min-width:760px){.pdl{grid-template-columns:1fr 1fr;gap:20px}}
-/* 凡例（追従）と「すべて見る」 */
-.lp-lgw{position:relative}
-.more{margin-top:14px;border:1px solid var(--ink)}
-.more summary{list-style:none;cursor:pointer;padding:12px 14px;font-size:13px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
-.more summary::-webkit-details-marker{display:none}
-.more summary::after{content:"+";font-family:'Anton',sans-serif;font-size:16px;color:var(--accent)}
-.more[open] summary::after{content:"–"}
-.more-b{padding:0 14px 14px;border-top:1px solid var(--line)}
-.more-b .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;padding-top:12px}
-.more-b .cols div{display:grid;gap:4px;align-content:start}
-.more-b .cols b{font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.2em;color:var(--accent);margin-bottom:2px}
-.more-b .cols span{font-size:12px;font-weight:700;line-height:1.5}
-.more-b .cols span i{font-style:normal;font-size:9px;letter-spacing:.08em;color:var(--bg);background:var(--ink);padding:1px 5px;margin-left:5px;vertical-align:1px}
-.more-b p{margin:12px 0 0;font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.8}
-.pl .tr a{text-decoration:underline;text-underline-offset:3px}
-/* さらに広報するために */
-.boost{display:grid;grid-template-columns:1fr;gap:16px}
-.bo{position:relative;border:1px solid var(--ink);background:var(--card);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.bo:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--ink)}
-.bo.hot{border:2px solid var(--accent);box-shadow:8px 8px 0 var(--accent)}
-.bo.hot:hover{box-shadow:12px 12px 0 var(--accent)}
-body[data-skin="bright"] .bo,body[data-skin="stadium"] .bo{border-radius:var(--r);overflow:hidden}
-.bo .lp-pin{position:absolute;left:14px;top:-12px;z-index:2;background:var(--accent);color:#fff;font-family:'Anton',sans-serif;font-size:10.5px;letter-spacing:.18em;padding:5px 10px}
-.bo .im{position:relative;aspect-ratio:16/9;overflow:hidden}
-.bo .im img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-.bo:hover .im img{transform:scale(1.04)}
-.bo .im .pl2{position:absolute;right:10px;bottom:10px;background:var(--accent);color:#fff;font-size:11px;font-weight:900;padding:5px 9px}
-.bo .b{padding:16px 16px 16px;display:flex;flex-direction:column;flex:1}
-.bo .n{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--accent);margin-bottom:6px}
-.bo h3{font-family:var(--fh);margin:0 0 6px;font-size:19px;font-weight:900}
-.bo p{margin:0 0 10px;font-size:12.5px;font-weight:700;color:var(--sub);line-height:1.8}
-.bo details{border-top:1px solid var(--line);margin-bottom:12px}
-.bo summary{list-style:none;cursor:pointer;padding:10px 0;font-size:12.5px;font-weight:900;display:flex;justify-content:space-between}
-.bo summary::-webkit-details-marker{display:none}
-.bo summary::after{content:"+";font-family:'Anton',sans-serif;color:var(--accent)}
-.bo details[open] summary::after{content:"–"}
-.bo ul{list-style:none;margin:0;padding:0 0 8px}
-.bo li{position:relative;padding:4px 0 4px 16px;font-size:12px;font-weight:700;line-height:1.6}
-.bo li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;background:var(--accent);transform:rotate(45deg)}
-.bo .lp-go{margin-top:auto;display:block;text-align:center;font-family:var(--fh);font-weight:900;font-size:14px;padding:13px;border:1.5px solid var(--ink);color:var(--ink)}
-.bo.hot .lp-go{background:var(--accent);border-color:var(--accent);color:#fff}
-/* 準備中マスク（撮影・動画制作） */
-.bo.soon-on .lp-pin{z-index:5}
-.soon{position:absolute;inset:0;z-index:4;border-radius:inherit;overflow:hidden;background:rgba(13,13,13,.86);backdrop-filter:blur(2px);color:#fff;display:flex;align-items:center;justify-content:center;padding:26px 22px}
-.soon-in{width:100%;max-width:340px;text-align:left}
-.soon .k{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.24em;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:10px}
-.soon .k::before{content:"";width:22px;height:2px;background:var(--accent)}
-.soon .t{font-family:var(--fh);font-size:22px;font-weight:900;line-height:1.35;margin-bottom:10px}
-.soon p{margin:0 0 16px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.72);line-height:1.8}
-.soon-f{display:grid;gap:8px}
-.soon-f input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.7);color:#fff;font-family:var(--f);font-size:14px;font-weight:700;padding:10px 0;border-radius:0}
-.soon-f input::placeholder{color:rgba(255,255,255,.4)}
-.soon-f button{background:var(--accent);color:#fff;border:0;font-family:var(--fh);font-weight:900;font-size:14px;padding:14px;cursor:pointer;letter-spacing:.04em;box-shadow:0 8px 24px rgba(232,69,95,.35)}
-.soon-ok{border:1px solid var(--accent);padding:12px 14px;font-size:13px;font-weight:900;line-height:1.6}
-.soon-nt{margin-top:10px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.5)}
-body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
-@media(min-width:760px){.soon .t{font-size:24px}}
-/* ===== FAQ / CTA / 追従 ===== */
-.faq{border-top:2px solid var(--ink)}
-.faq details{border-bottom:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:baseline;padding:14px 0;font-size:14px;font-weight:900}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::before{content:"Q";font-family:'Anton',sans-serif;font-size:13px;color:var(--accent)}
-.faq summary::after{content:"+";font-family:'Anton',sans-serif;font-size:16px;color:var(--sub)}
-.faq details[open] summary::after{content:"–"}
-.faq .a{padding:0 0 16px 26px;font-size:13px;font-weight:700;color:var(--sub);line-height:1.9}
-.svcta{margin:56px -20px 0;background:#101215;color:#fff;padding:48px 20px 44px;text-align:center;position:relative;overflow:hidden}
-.svcta .big{position:absolute;left:0;right:0;top:-10px;font-family:'Anton',sans-serif;font-size:clamp(70px,18vw,200px);line-height:.9;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.12);white-space:nowrap;text-align:center;pointer-events:none}
-.svcta .in{position:relative}
-.svcta .ey{justify-content:center}
-.svcta h2{font-family:var(--fh);margin:0 0 8px;font-size:clamp(24px,6vw,40px);font-weight:900;line-height:1.25;color:#fff}
-.svcta p{margin:0 0 20px;font-size:13px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.9}
-.svcta .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.svcta .b1{background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:16px 30px}
-.svcta .b2{border:1.5px solid rgba(255,255,255,.8);color:#fff;font-family:var(--fh);font-weight:900;font-size:15px;padding:15px 24px}
-.svnav{display:flex;gap:16px;flex-wrap:wrap;margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;font-weight:900}
-.svnav a{text-decoration:underline;text-underline-offset:4px}
-.svnav .cur{color:var(--accent)}
-.sbar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;align-items:center;transform:translateY(110%);transition:transform .3s}
-.sbar.on{transform:none}
-.sbar .t{flex:1;min-width:0;font-size:12px;font-weight:900;line-height:1.4}
-.sbar .t small{display:block;font-size:10.5px;color:var(--sub);font-weight:700}
-.sbar .lp-go{flex:none;background:var(--accent);color:#fff;font-family:var(--fh);font-weight:900;font-size:13.5px;padding:12px 18px}
-@media(min-width:760px){
-  .lp-hero .in{grid-template-columns:1.15fr 1fr;padding:70px 20px 64px;gap:40px}
-  .lp-hero .card-wrap{margin:0 0 0 auto}
-  .wire{grid-template-columns:260px 90px 1fr;align-items:center}
-  .wire .ln{height:auto;align-self:stretch}
-  .wire .ln::before{left:0;top:50%;height:2px;width:0;transition:width .8s ease .2s}
-  .wire.in .ln::before{width:100%;height:2px}
-  .wire .ln::after{left:auto;right:-4px;top:50%;bottom:auto;transform:translateY(-50%) rotate(45deg)}
-  .wire .dst{grid-template-columns:1fr 1fr 1fr}
-  .wire .dst a{border-right:1px solid var(--ink);padding:18px 16px;grid-template-columns:1fr;gap:8px}
-  .wire .dst a:nth-child(3n){border-right:0}
-  .wire .dst a:nth-last-child(-n+2){border-bottom:0}
-  .wire .dst a:nth-child(4){border-right:1px solid var(--ink)}
-  .anno{grid-template-columns:1.25fr 1fr;gap:40px}
-  .lp-lgw{position:sticky;top:80px}
-  .boost{grid-template-columns:repeat(3,1fr);gap:20px;padding-top:12px}
-  .bo.hot{transform:translateY(-8px)}.bo.hot:hover{transform:translateY(-12px)}
-  .tl{grid-template-columns:repeat(4,1fr);gap:0 22px;padding-top:26px}
-  .tl .lp-bar{display:block;position:absolute;left:15px;right:15px;top:26px;height:2px;background:var(--line)}
-  .tl .lp-bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent);transition:width 1.4s ease .2s}
-  .tl.in .lp-bar i{width:100%}
-  .tl .lp-st{padding:0}
-  .tl .lp-st .dot{position:relative;top:-40px;margin-bottom:-26px}
-  .lp-app{grid-template-columns:320px 1fr;gap:56px}
-  .plans{grid-template-columns:repeat(3,1fr);gap:20px;padding-top:12px}
-  .pl.hot{transform:translateY(-8px)}
-  .pl.hot:hover{transform:translateY(-12px)}
-  .prod{grid-template-columns:repeat(3,1fr)}
-  .svcta{padding:64px 30px 60px}
-  .sbar{display:none}
+/* =========================================================
+   listing-v2  — クラブ向け掲載LP（2026-10-22 公開。--prod なしで生成するとプレビュー版）
+   接頭辞 lx-（site.css の短いクラス名と衝突させない）
+   色：黒 #101216 / 白 / 墨 #2b2b2b / 赤 #E43B4D
+   書体：Zen Kaku Gothic New 900 ＋ Anton（英字ラベル）＋ Kaushan Script（飾り1か所）
+   ========================================================= */
+:root{--lx-red:#E43B4D;--lx-ink:#101216;--lx-sumi:#2b2b2b;--lx-gray:#6b6f76;--lx-line:#e6e7ea;--lx-paper:#f6f6f7}
+.lx *{box-sizing:border-box}
+.lx{font-family:var(--f);color:var(--lx-sumi);overflow-x:clip}
+.lx img{display:block;max-width:100%;height:auto}
+.lx a{color:inherit;text-decoration:none}
+.lx .wrap{max-width:1180px;margin:0 auto;padding:0 20px;position:relative}
+.lx-rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.lx-rv.in{opacity:1;transform:none}
+.lx-rv.d1{transition-delay:.08s}.lx-rv.d2{transition-delay:.16s}.lx-rv.d3{transition-delay:.24s}.lx-rv.d4{transition-delay:.32s}
+@media(prefers-reduced-motion:reduce){.lx-rv{opacity:1!important;transform:none!important;transition:none!important}}
+
+/* ---- 共通パーツ ---- */
+.lx-ey{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--lx-red);margin:0 0 12px}
+.lx-ey::before{content:"";width:26px;height:2px;background:var(--lx-red);flex:none}
+.lx-ey small{font-family:var(--fh);font-weight:900;letter-spacing:.08em;font-size:11px;color:var(--lx-gray)}
+.lx h2{font-family:var(--fh);font-weight:900;font-size:clamp(26px,6.2vw,42px);line-height:1.22;letter-spacing:-.02em;margin:0 0 14px;color:var(--lx-ink)}
+.lx h2 em{font-style:normal;color:var(--lx-red)}
+.lx h3{font-family:var(--fh);font-weight:900;margin:0;color:var(--lx-ink)}
+.lx-lead{font-size:15px;line-height:1.95;font-weight:700;color:var(--lx-sumi);margin:0;max-width:640px}
+.lx-sec{padding:72px 0}
+.lx-sec-dark{background:var(--lx-ink);color:#fff}
+.lx-sec-dark h2,.lx-sec-dark h3{color:#fff}
+.lx-sec-dark .lx-lead{color:rgba(255,255,255,.86)}
+.lx-sec-dark .lx-ey small{color:rgba(255,255,255,.6)}
+.lx-sec-paper{background:var(--lx-paper)}
+.lx-hd{margin-bottom:34px}
+/* ステッカー文字（IG表紙・PVと同じ：赤・斜体・白フチ・固い影）暗い背景で使う */
+.lx h1 em,.lx-sec-dark h2 em{font-style:normal;color:var(--lx-red)}
+/* 英字の巨大アウトライン（Anton・赤の輪郭線） */
+.lx-anton{font-family:'Anton',sans-serif;line-height:.86;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px rgba(228,59,77,.85);user-select:none;pointer-events:none}
+/* ボタン */
+.lx-btns{display:flex;flex-wrap:wrap;gap:10px}
+.lx .lx-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 26px;border-radius:999px;background:var(--lx-red);color:#fff;font-family:var(--fh);font-weight:900;font-size:16px;letter-spacing:.02em;box-shadow:0 10px 28px rgba(228,59,77,.32);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.lx-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(228,59,77,.4)}
+.lx-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.lx .lx-btn-w{background:#fff;color:var(--lx-ink);box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.lx-btn-w:hover{box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.lx .lx-btn-ol{background:transparent;color:var(--lx-ink);box-shadow:none;border:2px solid var(--lx-ink)}
+.lx .lx-btn-ol:hover{box-shadow:none;background:var(--lx-ink);color:#fff}
+.lx .lx-sec-dark .lx-btn-ol{color:#fff;border-color:#fff}.lx .lx-sec-dark .lx-btn-ol:hover{background:#fff;color:var(--lx-ink)}
+.lx-br-sp{display:inline}@media(min-width:700px){.lx-br-sp{display:none}}
+.lx-note{font-size:12px;line-height:1.8;color:var(--lx-gray);font-weight:700}
+.lx-sec-dark .lx-note{color:rgba(255,255,255,.58)}
+/* スマホ枠 */
+.lx-phone{position:relative;border-radius:34px;background:var(--lx-ink);padding:7px;box-shadow:0 24px 50px rgba(16,18,22,.28)}
+.lx-phone::before{content:"";position:absolute;left:50%;top:7px;transform:translateX(-50%);width:34%;height:22px;background:var(--lx-ink);border-radius:0 0 14px 14px;z-index:2}
+.lx-phone > .lx-scr{position:relative;aspect-ratio:390/844;border-radius:28px;overflow:hidden;background:#fff}
+.lx-phone > .lx-scr img{width:100%;height:100%;object-fit:cover;object-position:top}
+/* 横スクロールのレール（スマホ） */
+.lx-rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,340px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;padding:4px 20px 28px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.lx-rail::-webkit-scrollbar{display:none}
+.lx-rail > *{scroll-snap-align:start}
+.lx-rail-hint{display:flex;align-items:center;gap:8px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--lx-gray);margin:-14px 0 0}
+.lx-rail-hint::after{content:"";width:40px;height:1px;background:currentColor}
+@media(min-width:900px){.lx-rail-hint{display:none}}
+
+/* =============== HERO =============== */
+.lx-hero{position:relative;background:var(--lx-ink);color:#fff;overflow:hidden;isolation:isolate}
+.lx-hero-ph{position:absolute;inset:0;z-index:-2}
+.lx-hero-ph img{width:100%;height:100%;object-fit:cover;object-position:62% 28%;transform:scale(1.04);animation:lx-kb 14s ease-out forwards}
+@keyframes lx-kb{to{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.lx-hero-ph img{animation:none;transform:none}}
+.lx-hero-sh{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(16,18,22,.18) 0%,rgba(16,18,22,.2) 32%,rgba(16,18,22,.86) 66%,#101216 100%)}
+.lx-hero-anton{position:absolute;right:-6px;top:18px;font-size:clamp(64px,19vw,180px);text-align:right;opacity:.75}
+.lx-hero-in{padding:min(44vh,360px) 20px 28px;max-width:1180px;margin:0 auto;position:relative}
+.lx-hero .lx-ey{color:#fff}.lx-hero .lx-ey::before{background:#fff}
+.lx-hero .lx-ey b{background:var(--lx-red);color:#fff;font-family:var(--fh);font-size:11px;letter-spacing:.1em;padding:3px 8px;transform:skewX(-10deg);display:inline-block}
+.lx-hero h1{font-family:var(--fh);font-weight:900;font-size:clamp(34px,9.4vw,68px);line-height:1.16;letter-spacing:-.025em;margin:0 0 18px;text-shadow:0 2px 24px rgba(0,0,0,.4)}
+.lx-hero .lx-lead{color:rgba(255,255,255,.92);font-size:15.5px;max-width:560px;margin-bottom:24px;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+.lx-hero .lx-lead b{color:#fff}
+.lx-facts{list-style:none;margin:30px 0 0;padding:22px 0 0;border-top:1px solid rgba(255,255,255,.22);display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lx-facts li{display:flex;flex-direction:column;gap:4px}
+.lx-facts b{font-family:'Anton',sans-serif;font-size:clamp(30px,8vw,46px);line-height:1;letter-spacing:.01em;color:#fff}
+.lx-facts b small{font-family:var(--fh);font-size:.42em;font-weight:900;margin-left:2px;vertical-align:baseline}
+.lx-facts span{font-size:11px;font-weight:900;letter-spacing:.06em;color:rgba(255,255,255,.72)}
+.lx-credit{margin-top:22px;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.55)}
+.lx-play{position:absolute;right:14px;top:clamp(150px,26vh,250px);font-family:'Kaushan Script',cursive;font-size:clamp(26px,7vw,44px);color:#fff;transform:rotate(-8deg);text-shadow:0 2px 14px rgba(0,0,0,.5);opacity:.95;pointer-events:none}
+.lx-play i{display:block;position:absolute;width:12px;height:12px;background:#ffd36b;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);top:-10px;right:-14px;filter:drop-shadow(0 0 6px #ffd36b)}
+@media(min-width:700px){
+  .lx-hero-in{padding:120px 20px 44px;min-height:min(88vh,780px);display:flex;flex-direction:column;justify-content:flex-end}
+  .lx-hero-ph img{object-position:center 30%}
+  .lx-hero-sh{background:linear-gradient(90deg,rgba(16,18,22,.82) 0%,rgba(16,18,22,.55) 48%,rgba(16,18,22,.1) 100%),linear-gradient(180deg,rgba(16,18,22,0) 50%,#101216 100%)}
+  .lx-hero h1{max-width:900px}
+  .lx-facts{grid-template-columns:repeat(3,160px);gap:28px;border-top:0;padding-top:0;margin-top:40px}
+  .lx-hero-anton{right:40px;top:40px;opacity:.9}
+  .lx-play{right:48px;top:auto;bottom:200px}
 }
-/* ===== AI下書き・チビスポアシスト（2026-09-25）。黄 #FFB929 はこの2か所だけ ===== */
-.ad,.as{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
-.ad-mock,.as-mock{max-width:340px;width:100%;margin:0 auto;border:1px solid var(--ink);background:#fff;box-shadow:12px 12px 0 var(--ink);padding:16px 16px 14px;position:relative}
-.ad-mock .tag,.as-mock .tag{position:absolute;right:-8px;top:-12px;background:#FFB929;color:#111;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.18em;padding:6px 10px;transform:rotate(4deg)}
-.ad-mock .k,.as-mock .k{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.22em;color:#D98A00;margin-bottom:6px}
-.ad-mock .h,.as-mock .h{font-family:var(--fh);font-size:15px;font-weight:900;line-height:1.4;margin-bottom:6px}
-.ad-mock .h{padding-left:10px;border-left:4px solid #FFB929}
-.ad-mock .s{font-size:11px;font-weight:700;color:var(--sub);line-height:1.6;margin-bottom:8px}
-.ad-mock .row{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;padding:8px 0;border-top:1px solid var(--line);font-size:11px;font-weight:700;line-height:1.5;opacity:0;transform:translateY(6px);transition:.45s}
-.ad.in .ad-mock .row{opacity:1;transform:none}
-.ad.in .ad-mock .row:nth-of-type(1){transition-delay:.5s}.ad.in .ad-mock .row:nth-of-type(2){transition-delay:.9s}.ad.in .ad-mock .row:nth-of-type(3){transition-delay:1.3s}
-.ad-mock .row i{width:16px;height:16px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;font-weight:900;margin-top:1px}
-.ad-mock .row.on i{background:var(--ink);color:#fff}
-.ad-mock .row b{display:block;font-size:12px}
-.ad-mock .row span{color:var(--sub)}
-.ad-mock .go,.as-mock .go{margin-top:10px;background:var(--accent);color:#fff;font-family:var(--fh);font-size:12.5px;font-weight:900;text-align:center;padding:10px}
-.as-mock .go{background:var(--ink)}
-.as-mock .amt{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.as-mock .amt span{border:1px solid var(--ink);padding:8px 6px;text-align:center;font-family:var(--fh);font-size:13px;font-weight:900;line-height:1.2}
-.as-mock .amt span small{display:block;font-size:9.5px;font-weight:700;color:var(--sub);margin-top:2px}
-.as-mock .amt span.on{background:#FFB929;border-color:#FFB929}
-.as-mock .msg{margin-top:8px;border:1px solid var(--line);padding:8px 10px;font-size:11px;font-weight:700;color:var(--sub);line-height:1.5}
-.as-mock .lst{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;font-weight:700;line-height:1.7}
-.as-mock .lst b{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.04em;margin-right:6px}
-.as-mock .lst span{color:var(--sub);margin-left:4px}
-.ad ol,.as ul{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
-.ad li,.as li{position:relative;padding:13px 0 13px 34px;border-bottom:1px solid var(--line);font-size:14px;font-weight:900}
-.ad li::before,.as li::before{content:attr(data-n);position:absolute;left:0;top:15px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent)}
-.ad li small,.as li small{display:block;font-size:11.5px;font-weight:700;color:var(--sub);margin-top:2px;line-height:1.7}
-.ad-note{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}
-.ad-note div{border:1px solid var(--line);padding:12px 14px}
-.ad-note b{display:block;font-family:var(--fh);font-size:13px;font-weight:900;margin-bottom:3px}
-.ad-note small{font-size:11.5px;font-weight:700;color:var(--sub);line-height:1.7}
-.as-links{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}
-.as-links a{border:1px solid var(--ink);padding:9px 14px;font-size:12.5px;font-weight:900;color:var(--ink)}
-.as-links a:hover{background:var(--ink);color:var(--bg)}
-@media(min-width:760px){.ad,.as{grid-template-columns:320px 1fr;gap:56px}.ad-note{grid-template-columns:repeat(3,1fr)}}
+
+/* =============== REACH（届く場所） =============== */
+.lx-reach{position:relative}
+.lx-reach-bg{position:absolute;left:-20px;top:-10px;font-size:clamp(80px,26vw,260px);opacity:.14;z-index:0;-webkit-text-stroke-color:var(--lx-red)}
+.lx-reach .wrap{z-index:1}
+.lx-ri{display:flex;flex-direction:column;gap:16px}
+.lx-ri .lx-rn{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.2em;color:var(--lx-red);display:flex;align-items:center;gap:8px}
+.lx-ri .lx-rn::after{content:"";flex:1;height:1px;background:var(--lx-line)}
+.lx-ri h3{font-size:21px;line-height:1.35;letter-spacing:-.01em}
+.lx-ri p{margin:0;font-size:13.5px;line-height:1.9;font-weight:700;color:var(--lx-sumi)}
+.lx-ri .lx-phone{margin-top:auto}
+.lx-ri .lx-tag{align-self:flex-start;background:var(--lx-ink);color:#fff;font-family:var(--fh);font-size:11px;font-weight:900;letter-spacing:.08em;padding:4px 10px;transform:skewX(-10deg)}
+.lx-ri .lx-tag span{display:inline-block;transform:skewX(10deg)}
+/* アプリ通知のイメージ（本物の通知画面ではなく図解） */
+.lx-ntf{aspect-ratio:390/844;border-radius:28px;background:linear-gradient(160deg,#2a2f3a,#101216);padding:70px 14px 0;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.lx-ntf .lx-time{font-family:'Anton',sans-serif;font-size:64px;color:#fff;text-align:center;line-height:1;letter-spacing:.02em;opacity:.95}
+.lx-ntf .lx-date{font-size:12px;font-weight:900;color:rgba(255,255,255,.7);text-align:center;margin-bottom:14px}
+.lx-ntf .lx-card{background:rgba(255,255,255,.96);border-radius:16px;padding:11px 12px;color:var(--lx-ink);display:flex;gap:10px;align-items:flex-start;box-shadow:0 10px 30px rgba(0,0,0,.3);transform:translateY(16px);opacity:0;transition:transform .7s cubic-bezier(.2,.7,.2,1) .25s,opacity .7s .25s}
+.in .lx-ntf .lx-card{transform:none;opacity:1}
+.lx-ntf .lx-card + .lx-card{transition-delay:.55s}
+.lx-ntf .lx-card img{width:30px;height:30px;border-radius:8px;flex:none}
+.lx-ntf .lx-card b{display:block;font-size:12px;margin-bottom:2px}
+.lx-ntf .lx-card span{display:block;font-size:11.5px;line-height:1.5;font-weight:700;color:var(--lx-sumi)}
+.lx-ntf .lx-card i{font-style:normal;font-size:10px;color:var(--lx-gray);position:absolute;right:12px;top:11px}
+.lx-ntf .lx-card{position:relative}
+@media(min-width:900px){
+  .lx-rail.lx-rail-reach{grid-auto-flow:row;grid-template-columns:repeat(5,1fr);grid-auto-columns:auto;overflow:visible;margin:0;padding:0;gap:22px}
+}
+@media(min-width:900px) and (max-width:1100px){.lx-rail.lx-rail-reach{grid-template-columns:repeat(3,1fr)}}
+
+/* =============== INSTAGRAM =============== */
+.lx-ig{position:relative;overflow:hidden}
+.lx-ig-bg{position:absolute;left:50%;top:-12px;transform:translateX(-50%);font-size:clamp(90px,22vw,230px);white-space:nowrap;opacity:.35;-webkit-text-stroke-color:rgba(228,59,77,.9)}
+.lx-ig .wrap{z-index:1}
+.lx-igi{margin:0;display:flex;flex-direction:column;gap:10px}
+.lx-igi img{border-radius:10px;aspect-ratio:4/5;object-fit:cover;width:100%;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.lx-igi figcaption b{display:block;font-size:13px;font-weight:900;color:#fff}
+.lx-igi figcaption i{display:block;font-style:normal;font-size:11px;font-weight:700;color:rgba(255,255,255,.6);margin-top:2px}
+.lx-ig-pts{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:12px}
+.lx-ig-pts li{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.8;font-weight:700;color:rgba(255,255,255,.88)}
+.lx-ig-pts li b{flex:none;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--lx-red);padding-top:4px;min-width:84px}
+.lx-ig-real{display:inline-flex;align-items:center;gap:8px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:#fff;border:1px solid rgba(255,255,255,.35);padding:6px 12px;border-radius:999px;margin-bottom:18px}
+.lx-ig-real::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lx-red);box-shadow:0 0 0 4px rgba(228,59,77,.3)}
+@media(min-width:900px){
+  .lx-rail.lx-rail-ig{grid-auto-flow:row;grid-template-columns:repeat(7,1fr);overflow:visible;margin:0;padding:0;gap:14px}
+  .lx-ig-pts{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+}
+
+/* =============== INQUIRY（申込が届く） =============== */
+.lx-inq-g{display:grid;gap:34px}
+.lx-inq-g .lx-scr{aspect-ratio:390/720}
+.lx-chat{height:100%;border-radius:28px;background:#f1f2f4;padding:16px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden;position:relative}
+.lx-chat .lx-ch-hd{display:flex;align-items:center;gap:10px;padding:4px 2px 10px;border-bottom:1px solid #dcdfe4;margin-bottom:4px}
+.lx-chat .lx-ch-hd img{width:34px;height:34px;border-radius:10px}
+.lx-chat .lx-ch-hd b{font-size:13px;color:var(--lx-ink)}
+.lx-chat .lx-ch-hd span{display:block;font-size:10.5px;font-weight:700;color:var(--lx-gray)}
+.lx-chat .lx-sys{background:#fff;border:1.5px solid var(--lx-red);border-radius:14px;padding:10px 12px;font-size:12px;line-height:1.6;font-weight:700;color:var(--lx-ink)}
+.lx-chat .lx-sys b{display:block;color:var(--lx-red);font-size:10.5px;letter-spacing:.08em;margin-bottom:3px;font-family:'Anton',sans-serif}
+.lx-chat .lx-bb{max-width:84%;padding:9px 12px;border-radius:16px;font-size:12.5px;line-height:1.6;font-weight:700;background:#fff;color:var(--lx-ink);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.lx-chat .lx-bb.me{align-self:flex-end;background:var(--lx-ink);color:#fff}
+.lx-chat > *{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s}
+.in .lx-chat > *{opacity:1;transform:none}
+.in .lx-chat > :nth-child(2){transition-delay:.15s}.in .lx-chat > :nth-child(3){transition-delay:.4s}.in .lx-chat > :nth-child(4){transition-delay:.7s}.in .lx-chat > :nth-child(5){transition-delay:1s}.in .lx-chat > :nth-child(6){transition-delay:1.1s}
+.lx-chat .lx-ch-in{margin-top:auto;display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;color:#9aa0a8;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.lx-chat .lx-ch-in i{margin-left:auto;width:26px;height:26px;border-radius:50%;background:var(--lx-red);flex:none}
+.lx-pts{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.lx-pts li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:16px 0;border-top:1px solid var(--lx-line)}
+.lx-pts li:last-child{border-bottom:1px solid var(--lx-line)}
+.lx-pts .lx-ic{width:44px;height:44px;border-radius:12px;background:var(--lx-paper);display:grid;place-items:center}
+.lx-pts .lx-ic svg{width:22px;height:22px;fill:none;stroke:var(--lx-red);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.lx-pts b{display:block;font-size:15px;font-weight:900;color:var(--lx-ink);margin-bottom:3px}
+.lx-pts span{font-size:13px;line-height:1.75;font-weight:700;color:var(--lx-sumi)}
+@media(min-width:900px){.lx-inq-g{grid-template-columns:380px 1fr;gap:70px;align-items:center}.lx-pts{gap:0}}
+
+/* =============== WALL（いっしょに載っているクラブ） =============== */
+.lx-wall{columns:2;column-gap:10px;margin-top:8px}
+.lx-wi{display:block;break-inside:avoid;margin:0 0 10px;position:relative;border-radius:8px;overflow:hidden;background:#ddd}
+.lx-wi img{width:100%;transition:transform .5s}
+.lx-wi:hover img{transform:scale(1.03)}
+.lx-wc{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 9px;background:linear-gradient(180deg,rgba(16,18,22,0),rgba(16,18,22,.78));color:#fff}
+.lx-wc b{display:block;font-size:11.5px;font-weight:900;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lx-wc i{display:block;font-style:normal;font-size:9.5px;font-weight:700;opacity:.8;margin-top:1px}
+.lx-wall-ft{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:18px}
+@media(min-width:700px){.lx-wall{columns:3}}
+@media(min-width:1000px){.lx-wall{columns:4;column-gap:12px}.lx-wi{margin-bottom:12px}.lx-wc b{font-size:12.5px}.lx-wc i{font-size:10.5px}}
+
+/* =============== EASY（載せるのは1〜2分） =============== */
+.lx-easy{position:relative;overflow:hidden}
+.lx-easy-bg{position:absolute;right:-10px;bottom:-20px;font-size:clamp(90px,24vw,240px);opacity:.3;-webkit-text-stroke-color:rgba(228,59,77,.8);text-align:right}
+.lx-easy .wrap{z-index:1}
+.lx-big3{display:grid;gap:14px;margin:30px 0 40px}
+.lx-big3 li{list-style:none;border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:20px 18px;background:rgba(255,255,255,.04)}
+.lx-big3 b{display:block;font-family:'Anton',sans-serif;font-size:40px;line-height:1;letter-spacing:.01em;color:#fff;margin-bottom:8px}
+.lx-big3 b small{font-family:var(--fh);font-size:15px;font-weight:900;margin-left:4px}
+.lx-big3 b em{font-style:normal;color:var(--lx-red)}
+.lx-big3 span{display:block;font-size:13px;line-height:1.75;font-weight:700;color:rgba(255,255,255,.8)}
+.lx-big3 ul,.lx-big3{padding:0;margin-left:0}
+.lx-steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:lxs}
+.lx-steps li{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:start;padding:18px 0;border-top:1px solid rgba(255,255,255,.16)}
+.lx-steps li:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
+.lx-steps .lx-sn{font-family:'Anton',sans-serif;font-size:30px;line-height:1;color:var(--lx-red)}
+.lx-steps b{display:block;font-size:16px;font-weight:900;color:#fff;margin-bottom:3px}
+.lx-steps span{font-size:13px;line-height:1.75;font-weight:700;color:rgba(255,255,255,.75)}
+.lx-steps .lx-st{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.6);padding-top:8px;white-space:nowrap}
+@media(min-width:900px){.lx-big3{grid-template-columns:repeat(3,1fr);gap:18px}.lx-steps{grid-template-columns:repeat(4,1fr);gap:22px}.lx-steps li{grid-template-columns:1fr;border:0!important;border-top:2px solid rgba(255,255,255,.2)!important;padding-top:16px}.lx-steps .lx-st{padding-top:0}}
+
+/* =============== ASSIST（応援）：実画面＋アシストの金色を差し色に =============== */
+.lx-as{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#fff6dc 100%)}
+.lx-as-bg{position:absolute;right:-8px;top:-6px;font-size:clamp(90px,24vw,240px);opacity:.35;-webkit-text-stroke-color:#f0b429}
+.lx-as .wrap{z-index:1}
+.lx-as .lx-ey{color:#c98a00}.lx-as .lx-ey::before{background:#f0b429}
+.lx-as h2 em{color:#c98a00}
+.lx-as-g{display:grid;gap:36px}
+.lx-as-pts{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.lx-as-pts li{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:start;padding:16px 0;border-top:1px solid rgba(201,138,0,.25)}
+.lx-as-pts li:last-child{border-bottom:1px solid rgba(201,138,0,.25)}
+.lx-as-pts b{font-family:'Anton',sans-serif;font-size:34px;line-height:1;color:var(--lx-ink);letter-spacing:.01em;padding-top:2px}
+.lx-as-pts b small{font-family:var(--fh);font-size:12px;font-weight:900;margin-left:3px;color:#c98a00}
+.lx-as-pts span{font-size:13px;line-height:1.8;font-weight:700;color:var(--lx-sumi)}
+.lx-as-pts strong{display:block;font-size:14.5px;font-weight:900;color:var(--lx-ink);margin-bottom:2px}
+.lx-as-vis{position:relative;max-width:360px;margin:0 auto;padding:0 0 30px}
+.lx-as-card{border-radius:22px;overflow:hidden;box-shadow:0 28px 60px rgba(201,138,0,.28),0 4px 14px rgba(16,18,22,.08);transform:rotate(-1.5deg)}
+.lx-as-card img{width:100%}
+.lx-as-msg{position:absolute;background:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 14px 34px rgba(16,18,22,.16);display:grid;grid-template-columns:auto auto;gap:2px 8px;align-items:baseline;max-width:230px}
+.lx-as-msg b{font-family:'Anton',sans-serif;font-size:18px;color:#c98a00;letter-spacing:.01em}
+.lx-as-msg i{font-style:normal;font-size:10.5px;font-weight:900;color:var(--lx-gray)}
+.lx-as-msg span{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--lx-ink);line-height:1.5}
+.lx-as-msg1{right:-8px;top:44%;transform:rotate(2deg)}
+.lx-as-msg2{left:-10px;bottom:22%;transform:rotate(-2deg)}
+.lx-as-vis .lx-tag{position:absolute;left:50%;bottom:0;transform:translateX(-50%) skewX(-10deg);background:var(--lx-ink);color:#fff;font-size:11px;font-weight:900;letter-spacing:.06em;padding:5px 12px;white-space:nowrap}
+.lx-as-vis .lx-tag span{display:inline-block;transform:skewX(10deg)}
+@media(min-width:900px){.lx-as-g{grid-template-columns:1fr 420px;gap:80px;align-items:center}.lx-as-vis{max-width:none;margin:0}.lx-as-msg1{right:-40px}.lx-as-msg2{left:-50px}}
+
+/* =============== PLANS =============== */
+.lx-plans{display:grid;gap:14px;margin-top:8px}
+.lx-pl{background:#fff;border:1px solid var(--lx-line);border-radius:16px;padding:24px 20px;position:relative;display:flex;flex-direction:column;gap:12px}
+.lx-pl.on{border:2px solid var(--lx-ink);box-shadow:0 18px 40px rgba(16,18,22,.1)}
+.lx-pl .lx-pop{position:absolute;right:16px;top:-12px;background:var(--lx-red);color:#fff;font-family:var(--fh);font-size:11px;font-weight:900;letter-spacing:.08em;padding:5px 10px;transform:skewX(-10deg)}
+.lx-pl .lx-pn{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--lx-red)}
+.lx-pl h3{font-size:22px}
+.lx-pl .lx-pr{font-family:'Anton',sans-serif;font-size:36px;line-height:1;color:var(--lx-ink);letter-spacing:.01em}
+.lx-pl .lx-pr small{font-family:var(--fh);font-size:13px;font-weight:900;color:var(--lx-gray);margin-left:4px}
+.lx-pl .lx-pd{font-size:13px;font-weight:900;color:var(--lx-sumi)}
+.lx-pl ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.lx-pl li{position:relative;padding-left:20px;font-size:13px;line-height:1.7;font-weight:700}
+.lx-pl li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:6px;border-left:2.2px solid var(--lx-red);border-bottom:2.2px solid var(--lx-red);transform:rotate(-45deg)}
+.lx-pl .lx-btn{margin-top:auto;width:100%}
+.lx-pl .lx-sub{font-size:11.5px;color:var(--lx-gray);font-weight:700;text-align:center}
+@media(min-width:900px){.lx-plans{grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}}
+
+/* =============== FAQ =============== */
+.lx-faq{max-width:820px}
+.lx-faq details{border-top:1px solid var(--lx-line)}
+.lx-faq details:last-child{border-bottom:1px solid var(--lx-line)}
+.lx-faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:34px 1fr 24px;gap:10px;align-items:center;padding:18px 0;font-size:15px;font-weight:900;color:var(--lx-ink)}
+.lx-faq summary::-webkit-details-marker{display:none}
+.lx-faq summary .q{font-family:'Anton',sans-serif;color:var(--lx-red);font-size:18px}
+.lx-faq summary .pm{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--lx-ink);position:relative}
+.lx-faq summary .pm::before,.lx-faq summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--lx-ink);transform:translate(-50%,-50%)}
+.lx-faq summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .2s}
+.lx-faq details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.lx-faq .a{padding:0 0 20px 44px;font-size:13.5px;line-height:1.9;font-weight:700;color:var(--lx-sumi)}
+
+/* =============== FINAL CTA =============== */
+.lx-final{position:relative;overflow:hidden;text-align:center;padding:84px 0 96px}
+.lx-final-bg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:clamp(110px,30vw,330px);opacity:.12;white-space:nowrap}
+.lx-final .wrap{z-index:1}
+.lx-final h2{font-size:clamp(28px,7vw,52px)}
+.lx-final .lx-lead{margin:0 auto 28px}
+.lx-final .lx-btns{justify-content:center}
+.lx-final .lx-alt{margin-top:22px;font-size:13px;font-weight:900}
+.lx-final .lx-alt a{color:var(--lx-red);text-decoration:underline;text-underline-offset:4px}
+
+/* =============== 追従バー（スマホ） =============== */
+.lx-sbar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--lx-line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:12px;align-items:center;transform:translateY(110%);transition:transform .3s}
+.lx-sbar.on{transform:none}
+.lx-sbar .t{flex:1;min-width:0;font-size:12px;font-weight:900;line-height:1.4;color:var(--lx-ink)}
+.lx-sbar .t small{display:block;font-size:10.5px;color:var(--lx-gray)}
+.lx-sbar .lx-btn{min-height:46px;padding:0 20px;font-size:14px}
+@media(min-width:900px){.lx-sbar{display:none}}
+.lx-pv-badge{position:fixed;left:12px;bottom:12px;z-index:90;background:var(--lx-ink);color:#fff;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.2em;padding:6px 10px;border-radius:6px;opacity:.9;display:flex;gap:12px;align-items:center}
+@media(max-width:899px){.lx-pv-badge{bottom:auto;top:70px}}
 </style>
-<link rel="stylesheet" href="quiz.css?v=20261004">
-<!-- GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZBBNYC37Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-5ZBBNYC37Y');
-</script>
 </head>
 <body>
 <header class="site-hd">
@@ -410,231 +321,300 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
   </div>
 </header>
 
-<main><div class="wrap">
-  </div>
-<section class="lp-hero" data-hero="e"><div class="bg"></div>
-  <div class="in">
-    <div>
-      <div class="ey">FOR CLUBS ・ SERVICE 01</div>
-      <h1><span>クラブの</span><span><em>空気</em>ごと、</span><span>届ける。</span></h1>
-      <p class="ld">検索・地図・新着・診断・アプリ通知。登録は1〜2分、写真1枚から。公式サイトがあれば、ページの中身はチビスポが下書きします。まず無料で載せて、もっと見てほしくなったらプランを足せます。</p>
-      <div class="cta"><a class="b1" href="register.html">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div>
-      <div class="stats"><div><b data-cnt="0">0</b><small>YEN / START</small></div><div><b data-cnt="2">0</b><small>MIN TO POST</small></div><div><b data-cnt="5">0</b><small>PLACES SHOWN</small></div></div>
+<main class="lx">
+
+<!-- ===== HERO ===== -->
+<section class="lx-hero" id="lx-top">
+  <div class="lx-hero-ph"><picture>
+    <source media="(min-width:700px)" srcset="assets/listing-v2/hero-501st.webp">
+    <img src="assets/listing-v2/hero-501st-sp.webp" width="900" height="600" alt="501st Basketball Club の試合。ジャンプボールを競る子どもたち" fetchpriority="high">
+  </picture></div>
+  <div class="lx-hero-sh"></div>
+  <div class="lx-anton lx-hero-anton" aria-hidden="true">GET<br>LISTED</div>
+  <div class="lx-play" aria-hidden="true">Play Together.<i></i></div>
+  <div class="lx-hero-in">
+    <div class="lx-ey">FOR CLUBS <b>掲載のご案内</b> <small>無料</small></div>
+    <h1>地域のクラブを、<br><em>近くの子供たち</em>へ</h1>
+    <p class="lx-lead">チビスポは、保護者が<b>地域と種目</b>でスポーツクラブを探すサイトです。載せると、検索・地図・Instagram・アプリ通知で、近くでクラブを探している子供と保護者に届きます。<b>掲載は無料。登録は1〜2分、写真1枚から。</b></p>
+    <div class="lx-btns">
+      <a class="lx-btn" href="register.html" data-cta="listing-hero">無料で載せる<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="lx-btn lx-btn-w" href="#lx-reach">どこに届くか見る</a>
     </div>
-    <div class="hv hv-a"><div class="card-wrap"><span class="lp-tag">NEW CLUB</span><div class="nc"><div class="nc-img"><img src="assets/preview-video/jp-soccer-run.webp" alt=""><span class="nc-new">新着</span><span class="nc-fav"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg></span><span class="nc-vid">▶ 動画</span></div><div class="nc-b"><div class="nc-top"><span class="sb" style="background:#6BAAEF"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polygon points="12,8 15,10.2 13.8,13.8 10.2,13.8 9,10.2"/></svg></span><span class="sp">サッカー</span></div><div class="nc-name">わかばFC</div><div class="nc-area"><svg class="pin" viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>世田谷区</div><div class="nc-desc">はじめてボールを触る子が半分。学年ごとにコースを分けて、体格差で怖い思いをさせません。</div><div class="nc-meta">小学1〜6年 ・ 週2（土日） ・ 月謝5,000円</div><div class="nc-tags"><span>体験OK</span><span>女の子歓迎</span></div><div class="nc-foot"><span class="lk"><svg viewBox="0 0 24 24"><path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.38 2 4.3 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.3 22 7.38c0 3.78-3.4 6.86-8.55 11.61L12 20.3z"/></svg>24</span><span class="cm"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5z"/></svg>6</span></div></div></div><span class="lp-tag2">♡ 24 ・ 体験申込 3件</span></div></div>
-    <div class="hv hv-b"><div class="pm"><div class="pm-scr"><img src="assets/preview-video/svc-shot-club.webp" alt=""></div><div class="pm-ntf"><b>チビスポ</b>体験申込が届きました：はなまま さん（小2）</div></div><div class="hv-cap">保護者のスマホで、クラブページはこう見えます</div></div>
-    <div class="hv hv-c"><div class="ty"><span>GET</span><span>LISTED</span><em>FREE</em></div><div class="hv-cap">写真1枚と紹介文から。今日から載せられます</div></div>
-    <div class="hv hv-e"><div class="ty2"><span>GET</span><span>LISTED</span></div>
-      <div class="fan2"><img class="g1" src="assets/preview-video/svc-shot-search.webp" alt=""><img class="g2" src="assets/preview-video/svc-shot-map.webp" alt="">
-        <div class="g3"><img src="assets/preview-video/jp-soccer-shoot.webp" alt=""><div class="ov"><div class="k">EDITORS PICK</div><div class="h">全員が勝ちに<br>こだわるチームづくり</div><div class="m">わかばFC ・ 世田谷区</div></div><span class="pl">▶ 0:30</span><span class="hl">♡ 24</span></div>
-      </div>
-      <div class="hv-cap">検索・地図・クラブページ。登録すると、この全部に載ります</div></div>
-    <div class="hv hv-d"><div class="fan"><img class="f1" src="assets/preview-video/svc-shot-search.webp" alt=""><img class="f2" src="assets/preview-video/svc-shot-map.webp" alt=""><img class="f3" src="assets/preview-video/svc-shot-club.webp" alt=""></div><div class="hv-cap">検索・地図・クラブページ。登録すると、この全部に載ります</div></div>
+    <ul class="lx-facts">
+      <li><b>¥0</b><span>掲載・申込の受付・更新</span></li>
+      <li><b>1<small>〜</small>2<small>分</small></b><span>登録にかかる時間</span></li>
+      <li><b>1<small>枚</small></b><span>写真はこれだけで</span></li>
+    </ul>
+    <div class="lx-credit">PHOTO — 501st Basketball Club（埼玉県草加市）</div>
   </div>
 </section>
-<div class="wrap">
 
-  <section class="sec2">
-    <div class="ey rv">WHERE YOU APPEAR</div>
-    <h2 class="rv d1">登録すると、<em>5つの場所</em>に載ります。</h2>
-    <p class="sub rv d2">追加の手続きはありません。</p>
-    <div class="wire" data-wire>
-      <div class="src"><div class="k">YOUR CLUB</div><h3>クラブを登録</h3><p>写真1枚と紹介文。マイページからいつでも更新。</p></div>
-      <div class="ln"></div>
-      <div class="dst">
-        <a href="search.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg><span><b>検索結果</b><small>地域×種目×こだわり</small></span></a>
-        <a href="map.html"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>地図</b><small>現在地から近い順</small></span></a>
-        <a href="index.html"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M9 10v9"/></svg><span><b>トップの新着</b><small>公開直後に並ぶ</small></span></a>
-        <a href="search.html" data-quiz><svg viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1.1 1 1.6h5c.1-.5.4-1.1 1-1.6A6 6 0 0 0 12 3z"/></svg><span><b>診断の結果</b><small>合う保護者に提案</small></span></a>
-        <a href="mypage.html"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg><span><b>アプリ通知</b><small>条件を保存した人に届く</small></span></a>
-      </div>
+<!-- ===== REACH：届く場所 ===== -->
+<section class="lx-sec lx-reach" id="lx-reach">
+  <div class="lx-anton lx-reach-bg" aria-hidden="true">REACH</div>
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">WHERE FAMILIES FIND YOU <small>届く場所</small></div>
+      <h2>探している保護者の、<br><em>目の前</em>に出る</h2>
+      <p class="lx-lead">「近くで、この種目のクラブを」と探している保護者に、載せたその日から届きます。載る場所は5つ。追加の手続きはありません。</p>
     </div>
-  </section>
+    <div class="lx-rail lx-rail-reach">
+      <article class="lx-ri lx-rv">
+        <div class="lx-rn">01</div>
+        <h3>検索結果に、写真つきで並ぶ</h3>
+        <p>地域×種目×こだわりで絞った一覧に、写真・紹介文・体験OKのタグつきで出ます。</p>
+        <div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-search.webp" width="780" height="1688" alt="チビスポの検索結果画面（埼玉県のスポーツクラブ）"></div></div>
+        <div class="lx-tag"><span>実際の画面</span></div>
+      </article>
+      <article class="lx-ri lx-rv d1">
+        <div class="lx-rn">02</div>
+        <h3>地図で、近くの保護者に見つかる</h3>
+        <p>いまいる場所から探す保護者に、クラブがピンになって出ます。活動場所の住所がそのまま案内になります。</p>
+        <div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-map.webp" width="860" height="1864" alt="チビスポの地図画面。クラブがピンで表示される"></div></div>
+        <div class="lx-tag"><span>実際の画面</span></div>
+      </article>
+      <article class="lx-ri lx-rv d2">
+        <div class="lx-rn">03</div>
+        <h3>クラブページが、ホームページの代わりに</h3>
+        <p>紹介文・コーチ・月謝・活動日・体験申込まで1ページに。チラシやInstagramのプロフィールに、このURLを置けます。</p>
+        <div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-club.webp" width="780" height="1688" alt="チビスポのクラブページ（501st Basketball Club）"></div></div>
+        <div class="lx-tag"><span>実際の画面</span></div>
+      </article>
+      <article class="lx-ri lx-rv d3">
+        <div class="lx-rn">04</div>
+        <h3>トップページの「新着」に載る</h3>
+        <p>公開直後は、トップの「新しく載ったクラブ」に並びます。保護者がいちばん目にする場所です。</p>
+        <div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-top-new.webp" width="780" height="1688" alt="チビスポのトップページ「新しく載ったクラブ」"></div></div>
+        <div class="lx-tag"><span>実際の画面</span></div>
+      </article>
+      <article class="lx-ri lx-rv d4">
+        <div class="lx-rn">05</div>
+        <h3>条件を保存した保護者に、アプリで通知</h3>
+        <p>地域と種目を保存している保護者には、公開のタイミングでアプリから知らせます。探すのをやめた人にも届きます。</p>
+        <div class="lx-phone"><div class="lx-scr"><div class="lx-ntf">
+          <div class="lx-time">9:41</div><div class="lx-date">10月24日 土曜日</div>
+          <div class="lx-card"><img src="assets/app-hero/app-icon-512.webp" alt=""><div><b>チビスポ</b><span>埼玉県草加市に、バスケットボールのクラブが新しく載りました</span></div><i>いま</i></div>
+          <div class="lx-card"><img src="assets/app-hero/app-icon-512.webp" alt=""><div><b>チビスポ</b><span>保存した条件「小学生・土日・体験OK」に合うクラブが1件あります</span></div><i>1分前</i></div>
+        </div></div></div>
+        <div class="lx-tag"><span>イメージ</span></div>
+      </article>
+    </div>
+    <div class="lx-rail-hint">SWIPE</div>
+  </div>
+</section>
 
-  <section class="sec2">
-    <div class="ey rv">WHAT YOU CAN POST</div>
-    <h2 class="rv d1">クラブページは、<em>この6つ</em>でできています。</h2>
-    <p class="sub rv d2">必須は3つだけ。あとは、あるものから。公式サイトがあれば、紹介文・コーチ紹介・成績は<a href="#ai-draft" style="color:var(--accent);text-decoration:underline">チビスポが下書き</a>します。項目の一覧は右下の「すべて見る」に。</p>
-    <div class="anno">
-      <div class="shot rv"><img loading="lazy" decoding="async" src="assets/preview-video/svc-clubpage.webp" alt="">
-        <span class="dot" style="left:20%;top:14%">1</span><span class="dot" style="left:40%;top:26.5%">2</span><span class="dot" style="left:55%;top:35%">3</span><span class="dot" style="left:36%;top:47.5%">4</span><span class="dot" style="left:90%;top:80%">5</span><span class="dot" style="left:33%;top:90.5%">6</span>
-      </div>
-      <div class="lp-lgw rv d2"><div class="lp-lg">
-        <div><i>1</i><span><b>写真・ロゴ・動画</b><small>写真がなければロゴだけでも。動画は「撮影・動画制作」で</small></span></div>
-        <div><i>2</i><span><b>クラブ名・種目・地域<span class="must">必須</span></b><small>詳細住所は地図のピンに</small></span></div>
-        <div><i>3</i><span><b>月謝・曜日・対象年齢・体験・在籍</b><small>コースごとに登録。表になって出ます</small></span></div>
-        <div><i>4</i><span><b>スタイル・雰囲気タグ</b><small>楽しむこと／本格志向／ほめて伸ばす／礼儀・しつけ／アットホーム／少人数で丁寧／真剣に取り組む（最大3）</small></span></div>
-        <div><i>5</i><span><b>こんなお子様に・おすすめポイント</b><small>箇条書きで。保護者が判断に使う欄</small></span></div>
-        <div><i>6</i><span><b>紹介文<span class="must">必須</span></b><small>検索カードにも2行出ます。ふだんの言葉で。代表のあいさつ・コーチ紹介・成績は、公式サイトから下書きが届きます</small></span></div>
-      </div>
-      <details class="more"><summary>登録できる項目を、すべて見る</summary><div class="more-b">
-        <div class="cols">
-          <div><b>基本</b><span>チーム名<i>必須</i></span><span>種目<i>必須</i></span><span>都道府県・市区町村<i>必須</i></span><span>主な活動場所</span><span>詳細住所（地図のピン）</span><span>ロゴ・写真</span></div>
-          <div><b>活動</b><span>対象年齢</span><span>活動曜日・時間</span><span>コース一覧（コース名・対象・曜日・時間・月謝）</span><span>月謝・入会金</span><span>体験入会の受付</span></div>
-          <div><b>らしさ</b><span>紹介文<i>必須</i></span><span>雰囲気タグ（最大3）</span><span>大事にしていること</span><span>ほかのクラブとの違い</span><span>おすすめポイント</span><span>こんなお子様におすすめ</span></div>
-          <div><b>人・実績<i style="background:#FFB929;color:#111">AI下書き</i></b><span>代表からのメッセージ</span><span>コーチ紹介</span><span>大会の成績</span><span>最近のできごと</span><span>Instagram の投稿（写真）</span></div>
-          <div><b>連絡先</b><span>連絡先メール（非公開）</span><span>担当者名・電話（任意）</span><span>ウェブサイト URL</span><span>Instagram</span><span>LINE公式 URL</span></div>
+<!-- ===== INSTAGRAM ===== -->
+<section class="lx-sec lx-sec-dark lx-ig" id="lx-ig">
+  <div class="lx-anton lx-ig-bg" aria-hidden="true">INSTAGRAM</div>
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">INSTAGRAM <small>公式アカウントで紹介</small></div>
+      <h2>チビスポのInstagramで、<br><em>クラブを紹介</em></h2>
+      <p class="lx-lead">掲載クラブの中から、編集部がマガジン風の投稿にして紹介します。共同投稿にすると、クラブのフォロワーとチビスポのフォロワー、両方のフィードに同時に出ます。</p>
+    </div>
+    <div class="lx-ig-real lx-rv">実際の投稿より</div>
+    <div class="lx-rail lx-rail-ig">
+      <figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-0.webp" width="640" height="800" alt="Instagram投稿：501st Basketball Club"><figcaption><b>501st Basketball Club</b><i>埼玉県草加市 ・ バスケットボール</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-6.webp" width="640" height="800" alt="Instagram投稿：SKY FORCE DANCE STUDIO"><figcaption><b>SKY FORCE DANCE STUDIO</b><i>埼玉県入間市 ・ ダンス</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-3.webp" width="640" height="800" alt="Instagram投稿：トレサージャGKスクール"><figcaption><b>トレサージャGKスクール</b><i>千葉県松戸市・船橋市 ・ サッカー</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-4.webp" width="640" height="800" alt="Instagram投稿：Dream Baton Twirlers"><figcaption><b>Dream Baton Twirlers</b><i>千葉県柏市 ・ バトントワーリング</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-2.webp" width="640" height="800" alt="Instagram投稿：松伏サンズ"><figcaption><b>松伏サンズ</b><i>埼玉県松伏町 ・ バスケットボール</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-1.webp" width="640" height="800" alt="Instagram投稿：キッズボールスポーツ教室"><figcaption><b>キッズボールスポーツ教室</b><i>愛知県長久手市 ・ マルチスポーツ</i></figcaption></figure><figure class="lx-igi lx-rv"><img loading="lazy" decoding="async" src="assets/listing-v2/ig-5.webp" width="640" height="800" alt="Instagram投稿：白井冨士FC"><figcaption><b>白井冨士FC</b><i>千葉県白井市 ・ サッカー</i></figcaption></figure>
+    </div>
+    <div class="lx-rail-hint" style="color:rgba(255,255,255,.6)">SWIPE</div>
+    <ul class="lx-ig-pts">
+      <li class="lx-rv"><b>PHOTO</b><span>使うのは、クラブが登録した実際の写真。撮り直しはいりません。</span></li>
+      <li class="lx-rv d1"><b>CO-POST</b><span>共同投稿を承認するだけで、クラブのアカウントにも同じ投稿が並びます。</span></li>
+      <li class="lx-rv d2"><b>EDITOR</b><span>紹介するクラブは編集部が順に選びます。写真と紹介文がそろっているクラブから。</span></li>
+    </ul>
+    <div class="lx-btns lx-rv" style="margin-top:30px"><a class="lx-btn lx-btn-ol" href="https://www.instagram.com/chibi_spo" target="_blank" rel="noopener">@chibi_spo を見る</a></div>
+  </div>
+</section>
+
+<!-- ===== INQUIRY：申込が届く ===== -->
+<section class="lx-sec" id="lx-inq">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">AFTER LISTING <small>掲載のあと</small></div>
+      <h2>体験の申込が、<em>そのまま</em>届く</h2>
+      <p class="lx-lead">保護者がクラブページから申し込むと、名前・学年・希望日がアプリに届きます。日程や持ち物のやりとりもアプリの中で。練習中で電話に出られない時間でも、申込は残ります。</p>
+    </div>
+    <div class="lx-inq-g">
+      <div class="lx-phone lx-rv"><div class="lx-scr"><div class="lx-chat">
+        <div class="lx-ch-hd"><img src="assets/app-hero/app-icon-512.webp" alt=""><div><b>はなまま さん</b><span>体験申込 ・ 小2 ・ 10/25（土）10:00</span></div></div>
+        <div class="lx-sys"><b>TRIAL REQUEST</b>体験申込が届きました：はなまま さん（小2）・希望日 10/25（土）10:00</div>
+        <div class="lx-bb">はじめまして。土曜の体験、まだ空いていますか？</div>
+        <div class="lx-bb me">空いています。動きやすい服と水筒だけお持ちください。</div>
+        <div class="lx-bb">ありがとうございます、伺います！</div>
+        <div class="lx-ch-in"><span>メッセージを入力</span><i></i></div>
+      </div></div></div>
+      <ul class="lx-pts">
+        <li class="lx-rv"><span class="lx-ic"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><div><b>通知</b><span>保護者の名前・学年・希望日が、そのまま届きます。</span></div></li>
+        <li class="lx-rv d1"><span class="lx-ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><b>メッセージ</b><span>日程も持ち物もアプリで。相手のメールアドレスを見ることなく、やりとりできます。</span></div></li>
+        <li class="lx-rv d2"><span class="lx-ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><b>スタッフ全員に通知</b><span>コーチを人数制限なく登録できます。代表が練習中でも、誰かが返せます。</span></div></li>
+        <li class="lx-rv d3"><span class="lx-ic"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg></span><div><b>♡・コメント</b><span>保護者の反応がクラブページに付きます。返信もできます。</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WALL：いっしょに載っているクラブ ===== -->
+<section class="lx-sec lx-sec-paper" id="lx-wall">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">CLUBS ON CHIBISPO <small>いっしょに載っているクラブ</small></div>
+      <h2>サッカーも、剣道も、<br>ダブルダッチも</h2>
+      <p class="lx-lead">北海道から九州まで、地域のクラブが写真と紹介文で載っています。種目のメジャー・マイナーは関係ありません。「近くで探している家族」がいる種目なら、載せる意味があります。</p>
+    </div>
+    <div class="lx-wall">
+      <a class="lx-wi lx-rv" href="club.html?id=ce2d3c26-921a-4b46-894c-919ca51410d7"><img loading="lazy" decoding="async" src="assets/listing-v2/club-tresaja-gk.webp" width="900" height="653" alt="トレサージャGKスクール（サッカー・松戸市）"><span class="lx-wc"><b>トレサージャGKスクール</b><i>サッカー ・ 松戸市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=d37c4d9c-c55f-47f1-9f66-558f15d9ee48"><img loading="lazy" decoding="async" src="assets/listing-v2/club-kairon-kendo.webp" width="900" height="1024" alt="KAIRON武導スクール（剣道・姫路市）"><span class="lx-wc"><b>KAIRON武導スクール</b><i>剣道 ・ 姫路市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=0938277c-2ba7-4b6a-b767-2f2ff493772e"><img loading="lazy" decoding="async" src="assets/listing-v2/club-grow-doubledutch.webp" width="900" height="566" alt="ダブルダッチスクール GROW UP！（ダブルダッチ・西宮市）"><span class="lx-wc"><b>ダブルダッチスクール GROW UP！</b><i>ダブルダッチ ・ 西宮市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=59a3ff3c-c32e-46cf-890c-98f90122e548"><img loading="lazy" decoding="async" src="assets/listing-v2/club-star-sapporo.webp" width="900" height="600" alt="STARアカデミー札幌白石（スポーツリズムトレーニング・札幌市）"><span class="lx-wc"><b>STARアカデミー札幌白石</b><i>スポーツリズムトレーニング ・ 札幌市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=7fda0e70-9175-4739-a0ec-210946b61aeb"><img loading="lazy" decoding="async" src="assets/listing-v2/club-minoo-redstars.webp" width="900" height="1361" alt="箕面船場レッドスターズ（ソフトボール・箕面市）"><span class="lx-wc"><b>箕面船場レッドスターズ</b><i>ソフトボール ・ 箕面市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=ca592493-8308-4fca-a7f4-6966c315e61d"><img loading="lazy" decoding="async" src="assets/listing-v2/club-fukui-karate.webp" width="900" height="506" alt="和道会福井県本部 技道塾（空手・福井市）"><span class="lx-wc"><b>和道会福井県本部 技道塾</b><i>空手 ・ 福井市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=459136a5-fbc7-46bb-90ce-f1efba5beae0"><img loading="lazy" decoding="async" src="assets/listing-v2/club-bloom-dance.webp" width="900" height="600" alt="Bloom Dance Circle（ダンス・川崎市）"><span class="lx-wc"><b>Bloom Dance Circle</b><i>ダンス ・ 川崎市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=18f17db3-06f8-4f34-8204-2c0fa89e149f"><img loading="lazy" decoding="async" src="assets/listing-v2/club-coolrunnings.webp" width="800" height="600" alt="COOLRUNNINGS 陸上スクール（陸上・小郡市）"><span class="lx-wc"><b>COOLRUNNINGS 陸上スクール</b><i>陸上 ・ 小郡市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=9fe7b022-d066-49b9-b95e-ff0f3cecc0f9"><img loading="lazy" decoding="async" src="assets/listing-v2/club-jasper-doubledutch.webp" width="800" height="600" alt="JASPERダブルダッチスクール（ダブルダッチ・大阪市）"><span class="lx-wc"><b>JASPERダブルダッチスクール</b><i>ダブルダッチ ・ 大阪市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=b2f8fb5d-c8a8-4ecb-9238-435680417eb0"><img loading="lazy" decoding="async" src="assets/listing-v2/club-dream-baton.webp" width="800" height="600" alt="Dream Baton Twirlers（バトントワーリング・柏市）"><span class="lx-wc"><b>Dream Baton Twirlers</b><i>バトントワーリング ・ 柏市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=bf4a9f3a-9fb7-415b-9ebf-51cd36489bc0"><img loading="lazy" decoding="async" src="assets/listing-v2/club-fukuyama-redarrows.webp" width="800" height="600" alt="福山レッドアローズ（フラッグフットボール・福山市）"><span class="lx-wc"><b>福山レッドアローズ</b><i>フラッグフットボール ・ 福山市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=21ddea60-3cb8-44a2-81fc-4afd05d738f4"><img loading="lazy" decoding="async" src="assets/listing-v2/club-kbbc-badminton.webp" width="900" height="677" alt="スポーツクラブKBBC（バドミントン・古河市）"><span class="lx-wc"><b>スポーツクラブKBBC</b><i>バドミントン ・ 古河市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=8b3a19b3-b307-4422-948d-2ef3776d702f"><img loading="lazy" decoding="async" src="assets/listing-v2/club-dazaifu-onigokko.webp" width="900" height="675" alt="太宰府市スポーツ鬼ごっこクラブ（運動教室・太宰府市）"><span class="lx-wc"><b>太宰府市スポーツ鬼ごっこクラブ</b><i>運動教室 ・ 太宰府市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=139fb35a-f9f3-4d67-a582-d4f26df39ef5"><img loading="lazy" decoding="async" src="assets/listing-v2/club-bjj-sapporo.webp" width="800" height="600" alt="ブラジリアン柔術 手稲キッズクラブ（ブラジリアン柔術・札幌市）"><span class="lx-wc"><b>ブラジリアン柔術 手稲キッズクラブ</b><i>ブラジリアン柔術 ・ 札幌市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=a9c071fb-7e12-467e-82f3-4b550149914b"><img loading="lazy" decoding="async" src="assets/listing-v2/club-orca-gym.webp" width="900" height="651" alt="スポーツクラブ・オルカ（体操・北名古屋市）"><span class="lx-wc"><b>スポーツクラブ・オルカ</b><i>体操 ・ 北名古屋市</i></span></a>
+<a class="lx-wi lx-rv" href="club.html?id=d82b9837-d829-4725-853f-40bb18896334"><img loading="lazy" decoding="async" src="assets/listing-v2/club-kidsball-nagakute.webp" width="900" height="608" alt="キッズボールスポーツ教室（マルチスポーツ・長久手市）"><span class="lx-wc"><b>キッズボールスポーツ教室</b><i>マルチスポーツ ・ 長久手市</i></span></a>
+
+    </div>
+    <div class="lx-wall-ft lx-rv">
+      <div class="lx-note">写真はすべて、掲載中のクラブがチビスポに登録した実際の写真です。写真をタップするとクラブページが開きます。</div>
+      <a class="lx-btn lx-btn-ol" href="search.html">掲載クラブを探す</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EASY：載せるのは1〜2分 ===== -->
+<section class="lx-sec lx-sec-dark lx-easy" id="lx-easy">
+  <div class="lx-anton lx-easy-bg" aria-hidden="true">EASY</div>
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">HOW TO LIST <small>載せ方</small></div>
+      <h2>載せるのは、<em>1〜2分</em></h2>
+      <p class="lx-lead">フォームに基本の項目を入れるだけ。写真は1枚あれば足ります。公式サイトがあるクラブは、紹介文・コーチ紹介・成績をチビスポが下書きします。</p>
+    </div>
+    <ul class="lx-big3">
+      <li class="lx-rv"><b>1<small>枚</small></b><span>写真はこれだけで載せられます。なければロゴだけでも。練習風景はあとからマイページで足せます。</span></li>
+      <li class="lx-rv d1"><b><em>AI</em><small>下書き</small></b><span>公式サイトのURLを入れると、紹介文・コーチ紹介・大会の成績の下書きが届きます。載せてよい項目にチェックするだけ。公開前に必ずクラブが確認します。</span></li>
+      <li class="lx-rv d2"><b>24<small>時間</small></b><span>マイページから、いつでも更新できます。コースの変更・写真の追加・体験受付の切り替えも、その場で反映。</span></li>
+    </ul>
+    <ol class="lx-steps">
+      <li class="lx-rv"><div class="lx-sn">01</div><div><b>フォームに入力</b><span>メール・パスワード・クラブの基本・写真。公式サイトがあれば、そのURLも。</span></div><div class="lx-st">1–2 MIN</div></li>
+      <li class="lx-rv d1"><div class="lx-sn">02</div><div><b>運営が確認</b><span>実在するクラブか、営業目的でないかを確認します。</span></div><div class="lx-st">1–2 DAYS</div></li>
+      <li class="lx-rv d2"><div class="lx-sn">03</div><div><b>公開</b><span>検索・地図・新着に載り、条件を保存した保護者に通知が飛びます。</span></div><div class="lx-st">LIVE</div></li>
+      <li class="lx-rv d3"><div class="lx-sn">04</div><div><b>マイページで育てる</b><span>届いた下書きの反映・写真の追加・体験受付の切り替え。</span></div><div class="lx-st">FREE</div></li>
+    </ol>
+    <div class="lx-btns lx-rv" style="margin-top:34px"><a class="lx-btn" href="register.html" data-cta="listing-easy">無料で載せる<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ===== ASSIST ===== -->
+<section class="lx-sec lx-as" id="lx-assist">
+  <div class="lx-anton lx-as-bg" aria-hidden="true">ASSIST</div>
+  <div class="wrap">
+    <div class="lx-as-g">
+      <div class="lx-as-tx">
+        <div class="lx-hd lx-rv" style="margin-bottom:22px">
+          <div class="lx-ey">CHIBISPO ASSIST <small>地域からの応援</small></div>
+          <h2>500円から、<br><em>応援</em>が届く</h2>
+          <p class="lx-lead">クラブページに「チビスポアシスト」が付きます。練習を見かけた人、卒業生の家族、近所のお店が、ワンタップでクラブを応援できます。手続きなしで、掲載したその日から受け付けます。</p>
         </div>
-        <p>写真は無料プランで1枚、スタンダードで7枚、プロで15枚まで。すべてクラブのマイページから、いつでも更新できます。「AI下書き」の項目は、公式サイトがあればチビスポが下書きを作り、クラブが確認してから公開されます。</p>
-      </div></details></div>
-    </div>
-  </section>
-
-  <section class="sec2" id="ai-draft">
-    <div class="ey rv">NEW ・ AI DRAFT ・ FREE</div>
-    <h2 class="rv d1">公式サイトがあれば、中身は<em>チビスポが下書き</em>します。</h2>
-    <p class="sub rv d2">紹介文・代表からのメッセージ・コーチ紹介・大会の成績。公式サイトを読んで、チビスポが下書きを作ります。クラブは、載せてよい項目にチェックを入れるだけ。無料です。</p>
-    <div class="ad" data-ad>
-      <div class="ad-mock rv"><span class="tag">MY PAGE</span>
-        <div class="k">DRAFT ARRIVED</div><div class="h">ページの下書きが届いています</div><div class="s">公式サイトをもとに、チビスポが下書きを用意しました。載せてよい項目にチェックを入れてください。</div>
-        <div class="row on"><i>✓</i><div><b>紹介文</b><span>「はじめてボールを触る子が半分。学年ごとにコースを分けて…」</span></div></div>
-        <div class="row on"><i>✓</i><div><b>コーチ紹介</b><span>代表 ○○（指導歴12年・元社会人リーグ）ほか3名</span></div></div>
-        <div class="row"><i></i><div><b>大会の成績</b><span>2025 区大会 準優勝 ／ 確認：年度はこれで合っていますか？</span></div></div>
-        <div class="go">チェックした項目をページに反映</div>
+        <ul class="lx-as-pts">
+          <li class="lx-rv"><b>90<small>%</small></b><span><strong>アシスト金の90%がクラブへ</strong>決済手数料を除いた額の90%。10%はチビスポの運営費です。</span></li>
+          <li class="lx-rv d1"><b>0<small>手続き</small></b><span><strong>口座の登録前から受け付け</strong>届いた分はチビスポ（Stripe）がお預かり。マイページで口座を登録すると、まとめて送金されます。</span></li>
+          <li class="lx-rv d2"><b>¥500<small>〜</small></b><span><strong>お返しの品はいりません</strong>金額とひとことがページに載り、名前は非表示にもできます。お店・企業のスポンサーも同じ窓口から。</span></li>
+        </ul>
+        <div class="lx-btns lx-rv" style="margin-top:26px"><a class="lx-btn lx-btn-ol" href="assist.html">アシストのしくみ</a><a class="lx-btn lx-btn-ol" href="sponsors.html">お店・企業のスポンサー</a></div>
       </div>
-      <ol class="rv d2">
-        <li data-n="01">登録のとき、公式サイトのURLを入れる<small>入力するのは基本の項目だけ。登録後にマイページのボタンからも頼めます</small></li>
-        <li data-n="02">承認のあと、下書きがマイページに届く<small>メールでもお知らせします。クラブが確認するまで公開されません</small></li>
-        <li data-n="03">載せてよい項目にチェックして反映<small>公式サイトと食い違う点や、確かめたい点も一緒に届きます。反映後もいつでも直せます</small></li>
-      </ol>
-    </div>
-    <div class="ad-note rv d3">
-      <div><b>材料は公式サイトだけ</b><small>Instagram は、投稿の写真をページに並べるのに使います。SNSの文章は読みません</small></div>
-      <div><b>登録した内容は上書きしません</b><small>空いている欄だけを埋めます。基本情報は承認の当日に公開されます</small></div>
-      <div><b>公式サイトがなくても大丈夫</b><small>承認後にマイページから、同じ項目を自分で入力できます</small></div>
-    </div>
-  </section>
-
-  <section class="sec2">
-    <div class="ey rv">FLOW</div>
-    <h2 class="rv d1">公開まで、<em>4ステップ</em>。</h2>
-    <p class="sub rv d2">運営が内容を確認してから公開します。</p>
-    <div class="tl" data-tl><div class="lp-bar"><i></i></div>
-      <div class="lp-st"><span class="dot">01</span><h3>フォームに入力</h3><p>メール・パスワード・チームの基本・写真。公式サイトがあれば、そのURLも。</p><span class="t">1–2 MIN</span></div>
-      <div class="lp-st"><span class="dot">02</span><h3>運営が確認</h3><p>実在するクラブか、営業目的でないかを確認。</p><span class="t">1–2 DAYS</span></div>
-      <div class="lp-st"><span class="dot">03</span><h3>公開</h3><p>検索・地図・新着に載り、通知が飛びます。</p><span class="t">LIVE</span></div>
-      <div class="lp-st"><span class="dot">04</span><h3>マイページで更新</h3><p>届いた下書きの反映・写真の追加・コース変更・体験受付の切替。</p><span class="t">FREE</span></div>
-    </div>
-  </section>
-
-  <section class="sec2">
-    <div class="ey rv">AFTER LISTING</div>
-    <h2 class="rv d1">申込が来たら、<em>アプリで完結</em>。</h2>
-    <p class="sub rv d2">電話がつながらない、メールが埋もれる、がなくなります。</p>
-    <div class="lp-app" data-app>
-      <div class="lp-phone rv"><div class="ntf"><b>チビスポ ・ いま</b>体験申込が届きました：はなまま さん（小2）9/14（土）10:00</div>
-        <div class="chat"><div class="bb l">はじめまして。土曜の体験、まだ空いていますか？</div><div class="bb r">空いています。動きやすい服と水筒だけお持ちください。</div><div class="bb l">ありがとうございます、伺います！</div></div></div>
-      <ul class="rv d2">
-        <li data-n="01">通知<small>保護者名・学年・希望日がそのまま届く</small></li>
-        <li data-n="02">メッセージ<small>日程も持ち物もアプリで。相手のメールは表示されない</small></li>
-        <li data-n="03">スタッフ登録<small>人数制限なし。コーチ全員に通知を回せる</small></li>
-        <li data-n="04">♡・コメント<small>保護者の反応がクラブページに付く。返信もできる</small></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="sec2" id="assist">
-    <div class="ey rv">NEW ・ CHIBISPO ASSIST</div>
-    <h2 class="rv d1">保護者や地元の方からの<em>応援</em>が、ページから届きます。</h2>
-    <p class="sub rv d2">クラブページに「チビスポアシスト」が付きます。練習を見かけた人、卒業生の家族、近所のお店。500円からワンタップで、クラブを応援できます。手続きなしで、掲載したその日から受け付けます。</p>
-    <div class="as">
-      <div class="as-mock rv"><span class="tag">CLUB PAGE</span>
-        <div class="k">CHIBISPO ASSIST</div><div class="h">わかばFC を応援する</div>
-        <div class="amt"><span>¥500<small>ワンアシスト</small></span><span class="on">¥1,000<small>ナイスアシスト</small></span><span>¥3,000<small>スーパーアシスト</small></span><span>好きな金額<small>でアシスト</small></span></div>
-        <div class="msg">ひとこと：いつも公園で見ています。がんばって！</div>
-        <div class="go">♡ この金額でアシストする</div>
-        <div class="lst"><b>¥1,000</b>はなまま<span>「体験で優しくしてもらいました」</span><br><b>¥3,000</b>アシスター<span>「卒団生の親です」</span></div>
+      <div class="lx-as-vis lx-rv d1">
+        <div class="lx-as-card"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-assist.webp" width="800" height="1300" alt="クラブページのチビスポアシスト（箕面船場レッドスターズ）実際の画面"></div>
+        <div class="lx-as-msg lx-as-msg1"><b>¥1,000</b><i>ナイスアシスト</i><span>「いつも公園で見ています。がんばって！」</span></div>
+        <div class="lx-as-msg lx-as-msg2"><b>¥3,000</b><i>スーパーアシスト</i><span>「卒団生の親です」</span></div>
+        <div class="lx-tag"><span>実際の画面 — 箕面船場レッドスターズ</span></div>
       </div>
-      <ul class="rv d2">
-        <li data-n="01">アシスト金の90%がクラブへ<small>決済手数料を除いた額の90%。10%はチビスポの運営費です</small></li>
-        <li data-n="02">口座の登録前から受け付け<small>届いた分はチビスポ（Stripe）がお預かり。マイページで受け取り口座を登録すると、まとめて送金されます</small></li>
-        <li data-n="03">お返しの品はいりません<small>純粋な応援として届きます。金額とひとことはページに載り、名前は非表示にもできます</small></li>
-        <li data-n="04">お店・企業のスポンサーも<small>協賛金の90%がクラブへ。ページにお名前やロゴが載ります</small></li>
-      </ul>
     </div>
-    <p class="as-links rv d3"><a href="assist.html">アシストのしくみ</a><a href="assist-terms.html">クラブ向け利用規約</a><a href="sponsor.html">お店・企業のスポンサー</a></p>
-  </section>
+  </div>
+</section>
 
-  <section class="sec2" id="plans">
-    <div class="ey rv">PLANS</div>
-    <h2 class="rv d1">まず無料。<em>もっと見てほしい</em>ときに、足す。</h2>
-    <p class="sub rv d2">有料プランは無料掲載への追加です。初回30日は無料で試せます。表示の金額がそのままお支払い額です。</p>
-    <div class="plans">
-      <div class="pl rv"><div class="n">FREE</div><h3>フリー</h3><div class="pr">¥0<small>/月</small></div><div class="for">まずは載せてみたいクラブに。</div>
-        <ul><li>クラブページ・検索・地図に掲載</li><li>写真1枚・コース・体験申込</li><li>保護者とメッセージ</li><li>クラブ運営アプリ（通知・返信）</li><li>スタッフ登録・情報更新は無制限</li></ul>
-        <a class="lp-go" data-plan-go href="register.html">無料で申し込む</a></div>
-      <div class="pl hot rv d1"><span class="lp-pin">人気 NO.1</span><div class="n">STANDARD</div><h3>スタンダード</h3><div class="pr">¥3,000<small>/月</small></div><div class="for">募集シーズンに、見つけてもらいやすく。</div>
+<!-- ===== PLANS ===== -->
+<section class="lx-sec lx-sec-paper" id="lx-plans">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">PLANS <small>料金</small></div>
+      <h2>まず無料。<br>もっと見てほしいときに、<br class="lx-br-sp"><em>足す</em></h2>
+      <p class="lx-lead">有料プランは無料掲載への追加です。初回30日は無料で試せて、月ごとに変更・解約できます。表示の金額がそのままお支払い額です。</p>
+    </div>
+    <div class="lx-plans">
+      <div class="lx-pl lx-rv">
+        <div class="lx-pn">FREE</div><h3>フリー</h3>
+        <div class="lx-pr">¥0<small>/月</small></div>
+        <div class="lx-pd">まずは載せてみたいクラブに。</div>
+        <ul><li>クラブページ・検索・地図・新着・アプリ通知に掲載</li><li>写真1枚・コース・体験申込</li><li>保護者とメッセージ</li><li>クラブ運営アプリ（通知・返信）</li><li>スタッフ登録・情報更新は無制限</li><li>チビスポアシスト（応援の受付）</li></ul>
+        <a class="lx-btn lx-btn-ol" href="register.html" data-cta="listing-plan-free">無料で申し込む</a>
+      </div>
+      <div class="lx-pl on lx-rv d1">
+        <div class="lx-pop">人気 NO.1</div>
+        <div class="lx-pn">STANDARD</div><h3>スタンダード</h3>
+        <div class="lx-pr">¥3,000<small>/月</small></div>
+        <div class="lx-pd">募集シーズンに、見つけてもらいやすく。</div>
         <ul><li>フリーのすべて</li><li>写真を7枚まで</li><li>地域で絞った検索で、先頭に大きく表示</li><li>検索ページの「おすすめクラブ」枠に掲載</li><li>トップの「編集部おすすめ」で先頭</li></ul>
-        <a class="lp-go" data-plan-go="pr" href="register.html?plan=pr">30日無料で試す</a><div class="tr"><a data-plan-go="pr-y" href="register.html?plan=pr-y">年額 ¥30,000（2ヶ月分お得）で申し込む ›</a></div></div>
-      <div class="pl rv d2"><div class="n">PRO</div><h3>プロ</h3><div class="pr">¥10,000<small>/月</small></div><div class="for">広報の効果まで見たいクラブに。</div>
+        <a class="lx-btn" href="register.html?plan=pr" data-plan-go data-cta="listing-plan-standard">30日無料で試す</a>
+        <div class="lx-sub">年額 ¥30,000（2ヶ月分お得）もあります</div>
+      </div>
+      <div class="lx-pl lx-rv d2">
+        <div class="lx-pn">PRO</div><h3>プロ</h3>
+        <div class="lx-pr">¥10,000<small>/月</small></div>
+        <div class="lx-pd">広報の効果まで見たいクラブに。</div>
         <ul><li>スタンダードのすべて</li><li>写真を15枚まで</li><li>クラブ分析（閲覧数・申込・入会が1画面）</li><li>QR・SNS連携で「どこから来たか」がわかる</li><li>保護者アンケート（QR配布・自動集計）</li><li>公式SNSで月1回紹介</li></ul>
-        <a class="lp-go" data-plan-go="pr-plus" href="register.html?plan=pr-plus">プロで申し込む</a><div class="tr" style="color:var(--sub)"><a data-plan-go="pr-plus-y" href="register.html?plan=pr-plus-y" style="color:inherit">年額 ¥100,000（2ヶ月分お得）で申し込む ›</a></div></div>
+        <a class="lx-btn lx-btn-ol" href="register.html?plan=pr-plus" data-plan-go data-cta="listing-plan-pro">プロで申し込む</a>
+        <div class="lx-sub">年額 ¥100,000（2ヶ月分お得）もあります</div>
+      </div>
     </div>
-    <table class="cmp rv">
-      <tr><th>&nbsp;</th><th>FREE</th><th class="hot">STANDARD</th><th>PRO</th></tr>
-      <tr><td>写真の枚数</td><td><b>1</b></td><td class="hot"><b>7</b></td><td><b>15</b></td></tr>
-      <tr><td>検索で上位表示</td><td class="no">—</td><td class="hot">✓</td><td>✓</td></tr>
-      <tr><td>「編集部おすすめ」枠</td><td class="no">—</td><td class="hot">✓</td><td>✓</td></tr>
-      <tr><td>保護者アンケート</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
-      <tr><td>SNS連携・公式SNSで紹介</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
-      <tr><td>クラブ分析（閲覧数・申込・QR・SNS）</td><td class="no">—</td><td class="hot no">—</td><td>✓</td></tr>
-    </table>
-    <div class="pl-note">プランを使わなくても、検索・地図・新着・診断・アプリ通知への掲載は変わりません。</div>
-  </section>
+    <p class="lx-note lx-rv" style="margin-top:18px">プランを使わなくても、検索・地図・新着・アプリ通知への掲載は変わりません。見え方の違いは <a href="plans.html" style="color:var(--lx-red);text-decoration:underline;text-underline-offset:3px">料金プランのページ</a> で実際の画面つきで説明しています。</p>
+  </div>
+</section>
 
-  <section class="sec2" id="plan-detail">
-    <div class="ey rv">SEE THE SCREENS</div>
-    <h2 class="rv d1">有料プランで、<em>見え方</em>はこう変わる。</h2>
-    <p class="sub rv d2">スタンダードとプロで何が起きるかを、実際のチビスポの画面で説明するページを用意しました。</p>
-    <div class="pdl">
-      <a class="pd rv" href="plans.html#standard"><div class="k">STANDARD ・ ¥3,000/月</div><h3>地域で探されたとき、最初に出る。</h3><ul><li>地域で絞った検索で、先頭に大きなカード</li><li>ほかの地域の検索でも「おすすめクラブ」に</li><li>写真が7枚まで</li></ul><span class="go">スタンダードを詳しく見る ›</span></a>
-      <a class="pd pro rv d1" href="plans.html#pro"><div class="k">PRO ・ ¥10,000/月</div><h3>見られた数から、効いた広報まで見える。</h3><ul><li>閲覧数・体験申込・入会が1画面</li><li>QR・SNS連携で「どこから来たか」</li><li>保護者アンケートを配るだけで集計</li></ul><span class="go">プロを詳しく見る ›</span></a>
+<!-- ===== FAQ ===== -->
+<section class="lx-sec" id="lx-faq">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">FAQ <small>よくある質問</small></div>
+      <h2>載せる前に、よく聞かれること</h2>
     </div>
-  </section>
-
-  <section class="sec2" id="service">
-    <div class="ey rv">BOOST</div>
-    <h2 class="rv d1">さらに広報するために、<em>つくる</em>。</h2>
-    <p class="sub rv d2">掲載とプランは「見つけてもらう」ため。ここから先は「選ばれる」ための制作です。見積りは無料、金額は個別にご案内します。</p>
-    <div class="boost">
-      <div class="bo hot rv soon-on"><span class="lp-pin">MAIN</span>
-        <div class="soon"><div class="soon-in"><div class="k">COMING SOON</div><div class="t">撮影・動画制作は、<br>準備中です。</div><p>いま1本目の見本をつくっています。募集を始めるときに、メールでお知らせします。</p>
-          <form class="soon-f" data-topic="video" onsubmit="return false"><input type="email" placeholder="you@example.com" required><button type="submit">お知らせを受け取る</button></form>
-          <div class="soon-ok" hidden>受け付けました。準備ができたらお知らせします。</div>
-          <div class="soon-nt">お知らせ以外には使いません。いつでも解除できます。</div></div></div>
-        <div class="im"><img loading="lazy" decoding="async" src="assets/preview-video/px-3448250.webp" alt=""><span class="pl2">▶ 0:30</span></div>
-        <div class="b"><div class="n">02 ・ VIDEO</div><h3>撮影・動画制作</h3><p>新入団の募集シーズンに向けて、30秒のクラブ紹介動画。クラブページのいちばん上に載り、SNSでもそのまま使えます。</p>
-        <details><summary>できること</summary><ul><li>練習を半日撮影（コーチの声かけ・子どもの表情）</li><li>30秒の紹介動画1本＋写真の切り出し</li><li>クラブページ・Instagram・LINE用に書き出し</li><li>募集シーズンに合わせた年1回の「シーズンパック」</li></ul></details>
-        <a class="lp-go" href="#">動画の見本を見る ›</a></div></div>
-      <div class="bo rv d1"><div class="im"><img src="assets/svc-3.webp" alt="" loading="lazy" decoding="async"></div>
-        <div class="b"><div class="n">03 ・ SNS</div><h3>SNS運用サポート</h3><p>InstagramやThreadsの投稿を、代行または伴走。撮影した素材をそのまま活かせます。</p>
-        <details><summary>できること</summary><ul><li>月の投稿本数と型を決める</li><li>素材の整理と投稿文の下書き</li><li>伴走は月1回の相談、代行は投稿まで</li></ul></details>
-        <a class="lp-go" href="service-sns.html">詳しく見る ›</a></div></div>
-      <div class="bo rv d2"><div class="im"><img src="assets/svc-4.webp" alt="" loading="lazy" decoding="async"></div>
-        <div class="b"><div class="n">04 ・ WEBSITE</div><h3>ホームページ制作</h3><p>クラブの公式サイトを1ページで。チビスポの掲載情報と同じ内容から作るので、二重管理になりません。</p>
-        <details><summary>できること</summary><ul><li>1ページ構成（スケジュール・コーチ・料金・体験）</li><li>体験申込はチビスポのフォームにつなぐ</li><li>年1回の情報更新</li></ul></details>
-        <a class="lp-go" href="hp-samples/">見本サイトを見る ›</a></div></div>
+    <div class="lx-faq lx-rv">
+      <details><summary><span class="q">Q</span>本当に無料ですか<span class="pm"></span></summary><div class="a">掲載・体験申込の受付・メッセージ・更新は無料です。有料になるのは、プランや制作をこちらから申し込んだときだけです。</div></details>
+      <details><summary><span class="q">Q</span>写真がありません<span class="pm"></span></summary><div class="a">ロゴだけでも載せられます。練習風景はあとからマイページで追加できます。</div></details>
+      <details><summary><span class="q">Q</span>Instagramでは必ず紹介されますか<span class="pm"></span></summary><div class="a">紹介するクラブは編集部が順に選びます。写真と紹介文がそろっていて、雰囲気が伝わるクラブから紹介しています。載せた写真と紹介文が、そのまま紹介の材料になります。</div></details>
+      <details><summary><span class="q">Q</span>AIの下書きは、勝手に公開されますか<span class="pm"></span></summary><div class="a">されません。届いた下書きは、クラブが載せてよい項目にチェックを入れるまで非公開です。クラブ名・種目・地域・活動日・月謝などの基本情報は、承認の当日に公開されます。下書きの材料は公式サイトだけで、SNSの文章は読みません。</div></details>
+      <details><summary><span class="q">Q</span>プランはいつでも変えられますか<span class="pm"></span></summary><div class="a">月ごとに変更・解約できます。スタンダードは初回30日無料です。</div></details>
+      <details><summary><span class="q">Q</span>保護者から直接、電話が来ますか<span class="pm"></span></summary><div class="a">申込とメッセージはアプリに届きます。電話番号は任意の項目で、載せなければ表示されません。</div></details>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="sec2">
-    <div class="ey rv">FAQ</div>
-    <h2 class="rv d1">よくある質問</h2>
-    <div class="faq rv d2">
-      <details><summary>本当に無料ですか。</summary><div class="a">掲載・体験申込の受付・メッセージ・更新は無料です。有料になるのは、プランや制作をこちらから申し込んだときだけです。</div></details>
-      <details><summary>写真がありません。</summary><div class="a">ロゴだけでも載せられます。練習風景はあとからマイページで追加できます。撮影が必要なら「撮影・動画制作」へ。</div></details>
-      <details><summary>プランはいつでも変えられますか。</summary><div class="a">月ごとに変更・解約できます。スタンダードは初回30日無料です。</div></details>
-      <details><summary>AIの下書きは、勝手に公開されますか。</summary><div class="a">されません。届いた下書きは、クラブが載せてよい項目にチェックを入れるまで非公開です。クラブ名・種目・地域・活動日・月謝などの基本情報は、承認の当日に公開されます。下書きの材料は公式サイトだけで、SNSの文章は読みません。</div></details>
-      <details><summary>アシストを受け取るには、何か手続きが必要ですか。</summary><div class="a">受け付けは手続きなしで始まります。受け取るには、マイページで利用規約に同意して、受け取り口座（Stripe）を登録します。登録前に届いた分もチビスポがお預かりし、登録後にまとめて送金します。手数料は運営費10%と決済手数料です。</div></details>
+<!-- ===== FINAL CTA ===== -->
+<section class="lx-final">
+  <div class="lx-anton lx-final-bg" aria-hidden="true">GET LISTED</div>
+  <div class="wrap">
+    <div class="lx-rv">
+      <div class="lx-ey" style="justify-content:center">GET LISTED <small>まずは無料で</small></div>
+      <h2>まず、無料で<em>載せて</em>みる</h2>
+      <p class="lx-lead" style="text-align:center">写真1枚と紹介文があれば、今日から。迷ったら、登録の前に相談もできます。</p>
+      <div class="lx-btns">
+        <a class="lx-btn" href="register.html" data-cta="listing-final">無料で載せる<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="lx-btn lx-btn-ol" href="plans.html">プランの見え方を見る</a>
+      </div>
+      <div class="lx-alt">登録の前に相談したい方は <a href="contact.html">お問い合わせ</a> から</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="svcta"><div class="big">GET LISTED</div><div class="in"><div class="ey">GET LISTED</div><h2>まず、無料で載せてみてください。</h2><p>写真1枚と紹介文があれば、今日から。迷ったら登録の前に相談もできます。</p><div class="row"><a class="b1" href="register.html">無料で掲載する</a><a class="b2" href="#plans">プランを見る</a></div></div></div>
-  <div class="svnav"><span class="cur">01 クラブを載せる</span><a href="#">02 撮影・動画制作</a><a href="service-sns.html">03 SNS運用サポート</a><a href="hp-samples/">04 ホームページ制作</a><a href="service-ads.html">05 地域の広告掲載</a></div>
-  <div style="height:40px"></div>
-</div>
-<div class="sbar" id="sbar"><div class="t">クラブを無料で載せる<small>1〜2分・写真1枚から</small></div><a class="lp-go" href="register.html">無料で掲載する</a></div>
 </main>
+
+<div class="lx-sbar" id="lx-sbar"><div class="t">クラブを無料で載せる<small>1〜2分・写真1枚から</small></div><a class="lx-btn" href="register.html" data-cta="listing-sbar">無料で載せる</a></div>
 
 <footer class="site-ft">
   <div class="wrap ft">
@@ -658,31 +638,19 @@ body[data-skin="stadium"] .soon{background:rgba(0,0,0,.88)}
   </div>
   <div class="wrap ft-note">© 2026 Chibispo All Rights Reserved.</div>
 </footer>
-<script src="club-card.js?v=20261004"></script>
 <script src="site.js?v=20261004"></script>
-<script src="quiz.js?v=20261004"></script>
 <script src="shared.js?v=20261005"></script>
 <script>
 (function(){
- var hm=location.search.match(/hero=([abcde])/);if(hm){document.querySelector('.lp-hero').dataset.hero=hm[1];document.querySelectorAll('#hsw button').forEach(function(b){b.classList.toggle('on',b.dataset.h===hm[1])})}
- if(/noanim=1/.test(location.search)){var st=document.createElement('style');st.textContent='*{transition:none!important;animation:none!important}.ty span,.ty em,.fan img,.pm-ntf,.lp-tag2,.lp-hero h1 span,.ty2 span{opacity:1!important;transform:none!important}.fan2>*{opacity:1!important}.fan .f1{transform:translateX(-50%) rotate(-12deg) translateX(-70px)!important}.fan .f2{transform:translateX(-50%)!important}.fan .f3{transform:translateX(-50%) rotate(12deg) translateX(70px)!important}';document.head.appendChild(st);document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app],[data-ad]').forEach(function(el){el.classList.add('in')});document.querySelectorAll('[data-cnt]').forEach(function(b){b.textContent=b.dataset.cnt});document.querySelectorAll('.lp-hero h1 span').forEach(function(x){x.style.opacity=1;x.style.transform='none'});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
- document.querySelectorAll('.rv,[data-wire],[data-tl],[data-app],[data-ad]').forEach(function(el){io.observe(el)});
- /* ヒーロー案の切替（プレビュー専用。本番では切替UIごと消えるので、無ければ何もしない） */
- var hero=document.querySelector('.lp-hero'),hs=document.getElementById('hsw'),m=location.search.match(/hero=([abcd])/);
- function setHero(k){if(hero)hero.dataset.hero=k;if(hs)hs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.h===k)})}
- if(m)setHero(m[1]);
- if(hs)hs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)setHero(b.dataset.h)});
- /* 準備中：お知らせ登録（プレビューは端末内に保存） */
- /* 「お知らせを受け取る」の保存は shared.js に集約（waitlist テーブルへ） */
- /* 数字のカウント */
- document.querySelectorAll('[data-cnt]').forEach(function(b){var to=+b.dataset.cnt,t0=null;function f(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/900);b.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)}setTimeout(function(){requestAnimationFrame(f)},400)});
- /* ログイン中のクラブ運営者が有料プランを押したら、新規登録ではなくマイページのプラン選択へ（二重登録を防ぐ） */
- if(window.ChibiAuth&&ChibiAuth.ready&&ChibiAuth.ready()){ ChibiAuth.getProfile().then(function(p){ if(!p||p.role!=='club') return;
-   document.querySelectorAll('[data-plan-go]').forEach(function(a){ a.href='club-mypage.html#mp-upsell'; }); }).catch(function(){}); }
- /* スマホ追従バー：ヒーローを過ぎたら */
- var sb=document.getElementById('sbar'),hero=document.querySelector('.lp-hero');
- if(sb&&hero)new IntersectionObserver(function(e){sb.classList.toggle('on',!e[0].isIntersecting&&e[0].boundingClientRect.top<0)},{threshold:0}).observe(hero);
+  var els=document.querySelectorAll('.lx-rv');
+  if(/noanim=1/.test(location.search)||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});els.forEach(function(e){io.observe(e)});}
+  var sb=document.getElementById('lx-sbar'),hero=document.querySelector('.lx-hero'),fin=document.querySelector('.lx-final');
+  if(sb&&hero){var heroOut=false,finIn=false;function upd(){sb.classList.toggle('on',heroOut&&!finIn)}
+    new IntersectionObserver(function(e){heroOut=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;upd()},{threshold:0}).observe(hero);
+    if(fin)new IntersectionObserver(function(e){finIn=e[0].isIntersecting;upd()},{threshold:.2}).observe(fin);}
+  /* ログイン中のクラブ運営者が有料プランを押したら、新規登録ではなくマイページのプラン選択へ */
+  if(window.ChibiAuth&&ChibiAuth.ready&&ChibiAuth.ready()){ChibiAuth.getProfile().then(function(p){if(!p||p.role!=='club')return;document.querySelectorAll('[data-plan-go]').forEach(function(a){a.href='club-mypage.html#mp-upsell'})}).catch(function(){})}
 })();
 </script>
 </body>
