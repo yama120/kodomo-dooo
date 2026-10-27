@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#101216">
+<title>クラブ・事業者の方へ｜地域のクラブと、地域のお店を、近くの家族へ｜チビスポ（プレビュー）</title>
+<meta name="description" content="チビスポは、保護者が地域と種目でスポーツクラブを探すサイトです。クラブは無料で載せられます。お店・企業は、探している最中の家族に地域の広告として届きます。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=20261004">
+<style>
+/* =========================================================
+   partner-v2 — クラブ・事業者の総合入口（振り分け＋概要・2026-10-27 公開。--prod なしで生成するとプレビュー版）
+   接頭辞 lx-（掲載LPと共通の部品）/ px-（このページ固有）
+   ========================================================= */
+:root{--lx-red:#E43B4D;--lx-ink:#101216;--lx-sumi:#2b2b2b;--lx-gray:#6b6f76;--lx-line:#e6e7ea;--lx-paper:#f6f6f7}
+.lx *{box-sizing:border-box}
+.lx{font-family:var(--f);color:var(--lx-sumi);overflow-x:clip}
+.lx img{display:block;max-width:100%;height:auto}
+.lx a{color:inherit;text-decoration:none}
+.lx .wrap{max-width:1180px;margin:0 auto;padding:0 20px;position:relative}
+.lx-rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.lx-rv.in{opacity:1;transform:none}
+.lx-rv.d1{transition-delay:.08s}.lx-rv.d2{transition-delay:.16s}.lx-rv.d3{transition-delay:.24s}.lx-rv.d4{transition-delay:.32s}
+@media(prefers-reduced-motion:reduce){.lx-rv{opacity:1!important;transform:none!important;transition:none!important}}
+.lx-ey{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--lx-red);margin:0 0 12px}
+.lx-ey::before{content:"";width:26px;height:2px;background:var(--lx-red);flex:none}
+.lx-ey small{font-family:var(--fh);font-weight:900;letter-spacing:.08em;font-size:11px;color:var(--lx-gray)}
+.lx h1 em,.lx h2 em{font-style:normal;color:var(--lx-red)}
+.lx h2{font-family:var(--fh);font-weight:900;font-size:clamp(26px,6.2vw,42px);line-height:1.22;letter-spacing:-.02em;margin:0 0 14px;color:var(--lx-ink)}
+.lx h3{font-family:var(--fh);font-weight:900;margin:0;color:var(--lx-ink)}
+.lx-lead{font-size:15px;line-height:1.95;font-weight:700;color:var(--lx-sumi);margin:0;max-width:640px}
+.lx-sec{padding:72px 0}
+.lx-sec-dark{background:var(--lx-ink);color:#fff}
+.lx-sec-dark h2,.lx-sec-dark h3{color:#fff}
+.lx-sec-dark .lx-lead{color:rgba(255,255,255,.86)}
+.lx-sec-dark .lx-ey small{color:rgba(255,255,255,.6)}
+.lx-sec-paper{background:var(--lx-paper)}
+.lx-hd{margin-bottom:34px}
+.lx-anton{font-family:'Anton',sans-serif;line-height:.86;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px rgba(228,59,77,.85);user-select:none;pointer-events:none}
+.lx-btns{display:flex;flex-wrap:wrap;gap:10px}
+.lx .lx-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 26px;border-radius:999px;background:var(--lx-red);color:#fff;font-family:var(--fh);font-weight:900;font-size:16px;letter-spacing:.02em;box-shadow:0 10px 28px rgba(228,59,77,.32);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.lx .lx-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(228,59,77,.4)}
+.lx .lx-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.lx .lx-btn-w{background:#fff;color:var(--lx-ink);box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.lx .lx-btn-ol{background:transparent;color:var(--lx-ink);box-shadow:none;border:2px solid var(--lx-ink)}
+.lx .lx-btn-ol:hover{box-shadow:none;background:var(--lx-ink);color:#fff}
+.lx .lx-sec-dark .lx-btn-ol,.lx .px-hero .lx-btn-ol{color:#fff;border-color:#fff}.lx .lx-sec-dark .lx-btn-ol:hover,.lx .px-hero .lx-btn-ol:hover{background:#fff;color:var(--lx-ink)}
+.lx-note{font-size:12px;line-height:1.8;color:var(--lx-gray);font-weight:700}
+.lx-sec-dark .lx-note{color:rgba(255,255,255,.58)}
+.lx-tag{display:inline-block;background:var(--lx-ink);color:#fff;font-family:var(--fh);font-size:11px;font-weight:900;letter-spacing:.08em;padding:4px 10px;transform:skewX(-10deg)}
+.lx-tag span{display:inline-block;transform:skewX(10deg)}
+.lx-phone{position:relative;border-radius:34px;background:var(--lx-ink);padding:7px;box-shadow:0 24px 50px rgba(16,18,22,.28)}
+.lx-phone::before{content:"";position:absolute;left:50%;top:7px;transform:translateX(-50%);width:34%;height:22px;background:var(--lx-ink);border-radius:0 0 14px 14px;z-index:2}
+.lx-phone > .lx-scr{position:relative;aspect-ratio:390/844;border-radius:28px;overflow:hidden;background:#fff}
+.lx-phone > .lx-scr img{width:100%;height:100%;object-fit:cover;object-position:top}
+.lx-rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,340px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;padding:4px 20px 28px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.lx-rail::-webkit-scrollbar{display:none}
+.lx-rail > *{scroll-snap-align:start}
+.lx-rail-hint{display:flex;align-items:center;gap:8px;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--lx-gray);margin:-14px 0 0}
+.lx-rail-hint::after{content:"";width:40px;height:1px;background:currentColor}
+@media(min-width:900px){.lx-rail-hint{display:none}}
+
+/* ===== サービス索引（5本）：ヒーロー直下 ===== */
+.px-index{background:#fff;border:1px solid var(--lx-line);border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(16,18,22,.12)}
+.px-index-hd{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--lx-line)}
+.px-index-hd b{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.22em;color:var(--lx-ink)}
+.px-index-hd span{font-size:11px;font-weight:900;color:var(--lx-gray)}
+.px-index a{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:14px 18px;border-top:1px solid var(--lx-line);transition:background .2s}
+.px-index a:first-of-type{border-top:0}
+.px-index a:hover{background:var(--lx-paper)}
+.px-index .n{font-family:'Anton',sans-serif;font-size:16px;color:var(--lx-red);letter-spacing:.04em}
+.px-index .t{font-size:15px;font-weight:900;color:var(--lx-ink);line-height:1.3}
+.px-index .t small{display:block;font-size:11.5px;font-weight:700;color:var(--lx-gray);margin-top:2px}
+.px-index .p{font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.03em;color:var(--lx-ink);white-space:nowrap;text-align:right}
+.px-index .p small{font-family:var(--fh);font-size:10.5px;font-weight:900;color:var(--lx-gray);display:block;letter-spacing:0}
+.px-index .p.free{color:var(--lx-red)}
+.px-index .p.soon{background:var(--lx-ink);color:#fff;font-family:var(--fh);font-size:11px;font-weight:900;padding:4px 9px;letter-spacing:.06em}
+.px-index .p.ask{border:1.5px solid var(--lx-ink);color:var(--lx-ink);font-family:var(--fh);font-size:11px;font-weight:900;padding:3px 9px;letter-spacing:.06em}
+.px-index .who{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--lx-gray);padding:8px 18px 4px;background:var(--lx-paper)}
+.px-indexsec{padding:0 0 64px;margin-top:-28px;position:relative;z-index:2}
+@media(min-width:900px){.px-indexsec{margin-top:-60px}.px-indexsec .px-index{max-width:760px;margin:0 auto}.px-index a{padding:16px 24px}}
+
+/* ===== HERO 共通 ===== */
+.px-hero{position:relative;background:var(--lx-ink);color:#fff;overflow:hidden;isolation:isolate}
+.px-hero h1{font-family:var(--fh);font-weight:900;font-size:clamp(31px,8.4vw,64px);line-height:1.18;letter-spacing:-.025em;margin:0 0 16px;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.px-hero .lx-ey{color:#fff}.px-hero .lx-ey::before{background:#fff}
+.px-hero .lx-lead{color:rgba(255,255,255,.9);font-size:15px;max-width:560px;margin-bottom:22px;text-shadow:0 1px 12px rgba(0,0,0,.45)}
+.px-hero .lx-lead b{color:#fff}
+.px-doors{display:grid;gap:10px}
+.px-doors a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:14px 18px;border-radius:14px;background:rgba(255,255,255,.96);color:var(--lx-ink);box-shadow:0 12px 30px rgba(0,0,0,.25);transition:transform .2s}
+.px-doors a:hover{transform:translateY(-2px)}
+.px-doors b{display:block;font-size:16px;font-weight:900}
+.px-doors small{display:block;font-size:11.5px;font-weight:700;color:var(--lx-gray);margin-top:2px}
+.px-doors i{width:34px;height:34px;border-radius:50%;background:var(--lx-red);display:grid;place-items:center}
+.px-doors i::after{content:"";width:9px;height:9px;border-right:2.4px solid #fff;border-bottom:2.4px solid #fff;transform:rotate(-45deg);margin-left:-3px}
+.px-doors a.biz i{background:var(--lx-ink)}
+.lx-credit{margin-top:18px;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.55)}
+@media(min-width:900px){.px-doors{grid-template-columns:repeat(2,minmax(0,300px))}}
+
+/* --- ヒーロー：実在クラブの写真1枚（掲載LPと同じ系統） --- */
+.px-ha{position:relative}
+.px-ha .ph{position:absolute;inset:0;z-index:-2}
+.px-ha .ph img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.px-ha .sh{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(16,18,22,.15) 0%,rgba(16,18,22,.25) 30%,rgba(16,18,22,.88) 64%,#101216 100%)}
+.px-ha .in{padding:min(42vh,340px) 20px 104px;max-width:1180px;margin:0 auto}
+.px-ha .big{position:absolute;right:-6px;top:16px;font-size:clamp(60px,18vw,170px);text-align:right;opacity:.75}
+@media(min-width:900px){.px-ha .in{padding:110px 20px 110px;min-height:min(82vh,720px);display:flex;flex-direction:column;justify-content:flex-end}.px-ha .ph img{object-position:center 30%}.px-ha .sh{background:linear-gradient(90deg,rgba(16,18,22,.86) 0%,rgba(16,18,22,.55) 50%,rgba(16,18,22,.1) 100%),linear-gradient(180deg,rgba(16,18,22,0) 55%,#101216 100%)}.px-ha .big{right:40px;top:40px;opacity:.9}}
+
+/* ===== 保護者はこう探す（実画面3つ） ===== */
+.px-how .lx-ri{display:flex;flex-direction:column;gap:12px}
+.px-how .lx-rn{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.2em;color:var(--lx-red);display:flex;align-items:center;gap:8px}
+.px-how .lx-rn::after{content:"";flex:1;height:1px;background:var(--lx-line)}
+.px-how h3{font-size:19px;line-height:1.35}
+.px-how p{margin:0;font-size:13.5px;line-height:1.85;font-weight:700}
+.px-how .lx-phone{margin-top:auto}
+.px-how .igs{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:space-between}
+.px-how .igs img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;box-shadow:0 12px 30px rgba(16,18,22,.18)}
+@media(min-width:900px){.lx-rail.px-rail3{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);overflow:visible;margin:0;padding:0;gap:28px}}
+
+/* ===== サービスカード（クラブ向け4・お店向け1） ===== */
+.px-cards{display:grid;gap:16px}
+.px-card{background:#fff;border:1px solid var(--lx-line);border-radius:18px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.px-card .vis{position:relative;background:var(--lx-paper);aspect-ratio:16/9;overflow:hidden}
+.px-card .vis img{width:100%;height:100%;object-fit:cover}
+.px-card .vis .lx-tag{position:absolute;left:12px;bottom:12px}
+.px-card .vis .grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px;height:100%}
+.px-card .vis .grid4 img{border-radius:6px;aspect-ratio:16/10;object-fit:cover}
+.px-card .vis .grid4 img:nth-child(n+4){display:none}
+.px-card .vis .igrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 12px;height:100%}
+.px-card .vis .igrow img{border-radius:6px;object-fit:cover;object-position:top;height:100%}
+.px-card .vis .soon{height:100%;display:grid;place-items:center;background:linear-gradient(135deg,#1b1e26,#101216);color:#fff;text-align:center;padding:20px}
+.px-card .vis .soon b{display:block;font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--lx-red)}
+.px-card .vis .soon span{font-size:12px;font-weight:700;color:rgba(255,255,255,.8)}
+.px-card .bd{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px}
+.px-card .no{display:flex;align-items:center;gap:10px;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--lx-red)}
+.px-card .no .pr{margin-left:auto;font-size:14px;letter-spacing:.03em;color:var(--lx-ink)}
+.px-card .no .pr small{font-family:var(--fh);font-weight:900;font-size:10.5px;color:var(--lx-gray);margin-left:4px;letter-spacing:0}
+.px-card .no .pr.free{color:var(--lx-red)}
+.px-card h3{font-size:20px;line-height:1.3}
+.px-card p{margin:0;font-size:13.5px;line-height:1.8;font-weight:700}
+.px-card ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.px-card li{position:relative;padding-left:18px;font-size:12.5px;line-height:1.65;font-weight:700;color:var(--lx-sumi)}
+.px-card li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:5px;border-left:2px solid var(--lx-red);border-bottom:2px solid var(--lx-red);transform:rotate(-45deg)}
+.px-card .fit{font-size:12px;font-weight:700;color:var(--lx-gray);line-height:1.7}
+.px-card .fit b{color:var(--lx-ink)}
+.px-card .ft{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-top:6px}
+.px-card .go{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:900;color:var(--lx-ink);border-bottom:2px solid var(--lx-red);padding-bottom:2px}
+.px-card.main{border:2px solid var(--lx-ink);box-shadow:0 18px 40px rgba(16,18,22,.1)}
+@media(min-width:900px){.px-cards{grid-template-columns:repeat(2,1fr);gap:22px}.px-cards.one{grid-template-columns:1fr}.px-card.wide{grid-template-columns:1.1fr 1fr;grid-template-rows:none}.px-card.wide .vis{aspect-ratio:auto;min-height:320px}.px-card .bd{padding:24px 26px 26px}}
+
+/* ===== スポンサーカードの図 ===== */
+.px-sp{position:relative;height:100%;min-height:200px;background:linear-gradient(135deg,#1b1e26,#101216);color:#fff;padding:18px 16px 64px;overflow:hidden}
+.px-sp-big{position:absolute;right:-6px;bottom:-8px;font-family:'Anton',sans-serif;font-size:56px;opacity:.7;line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(228,59,77,.8);letter-spacing:.02em}
+.px-sp ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;position:relative}
+.px-sp li{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:start;font-size:12.5px;line-height:1.55;font-weight:900;color:#fff;padding-left:0}
+.px-sp li::before{display:none}
+.px-sp li b{font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--lx-red);padding-top:2px}
+@media(min-width:900px){.px-sp{padding:26px 24px 50px}.px-sp li{font-size:13.5px}.px-sp-big{font-size:96px}}
+/* ===== 企業紹介の実例 ===== */
+.px-pr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.px-pr a{display:block;border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--lx-line)}
+.px-pr img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.px-pr b{display:block;font-size:12px;font-weight:900;color:var(--lx-ink);padding:8px 10px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.px-pr small{display:block;font-size:10.5px;font-weight:700;color:var(--lx-gray);padding:0 10px 9px}
+
+/* ===== どれから始めるか（3問） ===== */
+.px-q{display:grid;gap:12px;max-width:820px}
+.px-q .row{display:grid;grid-template-columns:1fr;gap:8px;background:#fff;border:1px solid var(--lx-line);border-radius:14px;padding:16px}
+.px-q .q{display:flex;gap:10px;align-items:flex-start;font-size:15px;font-weight:900;color:var(--lx-ink)}
+.px-q .q b{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--lx-red);padding-top:3px;min-width:28px}
+.px-q .ans{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding-left:38px}
+.px-q .ans span{font-size:12px;font-weight:900;color:var(--lx-gray);white-space:nowrap}
+.px-q .ans a{display:flex;align-items:center;gap:10px;background:var(--lx-ink);color:#fff;border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:900}
+.px-q .ans a i{font-family:'Anton',sans-serif;font-style:normal;font-size:13px;letter-spacing:.1em;color:var(--lx-red)}
+.px-q .ans a small{font-weight:700;color:rgba(255,255,255,.7);font-size:11px;margin-left:auto;white-space:nowrap}
+.px-q .yes{padding-left:38px;font-size:12px;font-weight:700;color:var(--lx-gray)}
+.px-q .row.biz{border-left:5px solid var(--lx-ink)}
+@media(min-width:900px){.px-q .row{grid-template-columns:1fr 1fr;align-items:center}.px-q .ans,.px-q .yes{padding-left:0}}
+
+/* ===== 相談 ===== */
+.px-talk{display:grid;gap:18px;background:var(--lx-ink);color:#fff;border-radius:20px;padding:26px 22px}
+.px-talk h3{font-size:22px;line-height:1.3;color:#fff}
+.px-talk p{margin:0;font-size:13.5px;line-height:1.85;font-weight:700;color:rgba(255,255,255,.85)}
+.px-talk .st{display:grid;gap:10px}
+.px-talk .st div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;font-size:13px;font-weight:700;color:rgba(255,255,255,.85);padding:10px 0;border-top:1px solid rgba(255,255,255,.16)}
+.px-talk .st b{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.14em;color:var(--lx-red)}
+@media(min-width:900px){.px-talk{grid-template-columns:1.1fr .9fr;gap:50px;padding:44px 48px;align-items:center}}
+
+/* ===== FAQ ===== */
+.lx-faq{max-width:820px}
+.lx-faq details{border-top:1px solid var(--lx-line)}
+.lx-faq details:last-child{border-bottom:1px solid var(--lx-line)}
+.lx-faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:34px 1fr 24px;gap:10px;align-items:center;padding:18px 0;font-size:15px;font-weight:900;color:var(--lx-ink)}
+.lx-faq summary::-webkit-details-marker{display:none}
+.lx-faq summary .q{font-family:'Anton',sans-serif;color:var(--lx-red);font-size:18px}
+.lx-faq summary .pm{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--lx-ink);position:relative}
+.lx-faq summary .pm::before,.lx-faq summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--lx-ink);transform:translate(-50%,-50%)}
+.lx-faq summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .2s}
+.lx-faq details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.lx-faq .a{padding:0 0 20px 44px;font-size:13.5px;line-height:1.9;font-weight:700;color:var(--lx-sumi)}
+
+/* ===== 最後のCTA・追従バー・プレビュー ===== */
+.lx-final{position:relative;overflow:hidden;text-align:center;padding:84px 0 96px}
+.lx-final-bg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:clamp(110px,30vw,330px);opacity:.12;white-space:nowrap}
+.lx-final .wrap{z-index:1}
+.lx-final h2{font-size:clamp(28px,7vw,52px)}
+.lx-final .lx-lead{margin:0 auto 28px}
+.lx-final .lx-btns{justify-content:center}
+.lx-sbar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--lx-line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:12px;align-items:center;transform:translateY(110%);transition:transform .3s}
+.lx-sbar.on{transform:none}
+.lx-sbar .t{flex:1;min-width:0;font-size:12px;font-weight:900;line-height:1.4;color:var(--lx-ink)}
+.lx-sbar .t small{display:block;font-size:10.5px;color:var(--lx-gray)}
+.lx-sbar .lx-btn{min-height:46px;padding:0 20px;font-size:14px}
+@media(min-width:900px){.lx-sbar{display:none}}
+.lx-pv-badge{position:fixed;left:12px;bottom:12px;z-index:90;background:var(--lx-ink);color:#fff;font-family:'Anton',sans-serif;font-size:10px;letter-spacing:.2em;padding:6px 10px;border-radius:6px;opacity:.9;display:flex;gap:12px;align-items:center}
+@media(max-width:899px){.lx-pv-badge{bottom:auto;top:70px}}
+</style>
+</head>
+<body>
+{{HEADER}}
+
+<main class="lx">
+
+<!-- ===== HERO ===== -->
+<section class="px-hero" id="px-top">
+
+  <div class="px-ha">
+    <div class="ph"><picture><source media="(min-width:700px)" srcset="assets/partner-v2/hero-star.webp"><img src="assets/partner-v2/hero-star-sp.webp" width="900" height="600" alt="STARアカデミー札幌白石の練習。ハードルを跳ぶ子どもたち" fetchpriority="high"></picture></div>
+    <div class="sh"></div>
+    <div class="lx-anton big" aria-hidden="true">FOR<br>CLUBS</div>
+    <div class="in">
+      <div class="lx-ey">FOR CLUBS & LOCAL BUSINESS <small>クラブ・事業者の方へ</small></div>
+      <h1>地域のクラブと、<br>地域のお店を、<br><em>近くの家族</em>へ</h1>
+      <p class="lx-lead">チビスポは、保護者が<b>地域と種目</b>でスポーツクラブを探すサイトです。クラブは無料で載せられます。お店・企業は、探している最中の家族に、地域の広告として出ます。必要なところだけ、手伝います。</p>
+      <div class="px-doors">
+        <a href="#px-clubs"><span><b>クラブ・スポ少の方</b><small>無料で載せる／動画・SNS・ホームページ</small></span><i></i></a>
+        <a class="biz" href="#px-biz"><span><b>お店・企業の方</b><small>地域の広告掲載／スポンサー</small></span><i></i></a>
+      </div>
+      <div class="lx-credit">PHOTO — STARアカデミー札幌白石（北海道札幌市）</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== サービス索引（A・Bのとき） ===== -->
+<section class="px-indexsec lx-sec-dark" aria-label="サービス一覧">
+  <div class="wrap">
+    <div class="px-index lx-rv">
+      <div class="px-index-hd"><b>SERVICES</b><span>必要なところだけ</span></div>
+      <div class="who">FOR CLUBS ・ クラブ・スポ少の方</div>
+      <a href="listing.html"><span class="n">01</span><span class="t">クラブを載せる<small>検索・地図・新着・Instagram・アプリ通知</small></span><span class="p free">FREE</span></a>
+      <a href="#px-video"><span class="n">02</span><span class="t">撮影・動画制作<small>30秒のクラブ紹介動画</small></span><span class="p soon">準備中</span></a>
+      <a href="service-sns.html"><span class="n">03</span><span class="t">SNS運用サポート<small>見学につながる投稿の型</small></span><span class="p">¥40,000<small>税抜・買い切り</small></span></a>
+      <a href="hp-samples/"><span class="n">04</span><span class="t">ホームページ制作<small>スマホ前提の公式サイト・5タイプ</small></span><span class="p">¥40,000<small>税抜＋運用 年¥20,000</small></span></a>
+      <div class="who">FOR LOCAL BUSINESS ・ お店・企業の方</div>
+      <a href="service-ads.html"><span class="n">05</span><span class="t">地域の広告掲載<small>取材・記事制作・1年間の掲載込み</small></span><span class="p">¥50,000<small>税抜・年額</small></span></a>
+      <a href="sponsors.html"><span class="n">06</span><span class="t">チビスポのスポンサー<small>掲載を無料のまま続けるための支援。社名掲載・紹介ページ・SNS紹介</small></span><span class="p ask">相談制</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 保護者はこう探している ===== -->
+<section class="lx-sec px-how" id="px-how">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">HOW PARENTS SEARCH <small>保護者はこう探す</small></div>
+      <h2>保護者は、地域と種目で探して、<br><em>雰囲気</em>で決める</h2>
+      <p class="lx-lead">検索・地図で近くのクラブを見つけ、クラブページで写真とコーチの言葉を読み、そのまま体験を申し込みます。クラブもお店も、この流れの中に出ます。</p>
+    </div>
+    <div class="lx-rail px-rail3">
+      <article class="lx-ri lx-rv"><div class="lx-rn">01</div><h3>地域と種目で探す</h3><p>「埼玉県のサッカー」のように絞った一覧に、写真つきのカードで並びます。地図からも探せます。</p><div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-search.webp" width="780" height="1688" alt="チビスポの検索結果（実際の画面）"></div></div><span class="lx-tag" style="align-self:flex-start"><span>実際の画面</span></span></article>
+      <article class="lx-ri lx-rv d1"><div class="lx-rn">02</div><h3>クラブページで雰囲気を見る</h3><p>紹介文・コーチ・月謝・活動日・写真。「うちの子に合いそうか」をここで判断して、体験を申し込みます。</p><div class="lx-phone"><div class="lx-scr"><img loading="lazy" decoding="async" src="assets/listing-v2/screen-club.webp" width="780" height="1688" alt="チビスポのクラブページ（実際の画面）"></div></div><span class="lx-tag" style="align-self:flex-start"><span>実際の画面</span></span></article>
+      <article class="lx-ri lx-rv d2"><div class="lx-rn">03</div><h3>Instagramでも、クラブに出会う</h3><p>チビスポの公式アカウントが、掲載クラブをマガジン風に紹介します。共同投稿で、クラブのフォロワーの外へ。</p><div class="igs"><img loading="lazy" src="assets/listing-v2/ig-2.webp" alt="Instagram投稿：松伏サンズ"><img loading="lazy" src="assets/listing-v2/ig-4.webp" alt="Instagram投稿：Dream Baton Twirlers"><img loading="lazy" src="assets/listing-v2/ig-5.webp" alt="Instagram投稿：白井冨士FC"><img loading="lazy" src="assets/listing-v2/ig-1.webp" alt="Instagram投稿：キッズボールスポーツ教室"><img loading="lazy" src="assets/listing-v2/ig-3.webp" alt="Instagram投稿：トレサージャGKスクール"><img loading="lazy" src="assets/listing-v2/ig-6.webp" alt="Instagram投稿：SKY FORCE DANCE STUDIO"></div><span class="lx-tag" style="align-self:flex-start"><span>実際の投稿</span></span></article>
+    </div>
+    <div class="lx-rail-hint">SWIPE</div>
+  </div>
+</section>
+
+<!-- ===== FOR CLUBS ===== -->
+<section class="lx-sec lx-sec-paper" id="px-clubs">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">FOR CLUBS <small>クラブ・スポ少の方</small></div>
+      <h2>載せるのは無料、<br>伝わる形は<em>必要なときに</em></h2>
+      <p class="lx-lead">01だけで、検索・地図・Instagram・アプリ通知に出ます。02〜04は、手元に成果物が残るものだけを有料にしています。</p>
+    </div>
+    <div class="px-cards">
+      <article class="px-card main lx-rv">
+        <div class="vis"><img loading="lazy" src="assets/listing-v2/club-tresaja-gk.webp" width="900" height="653" alt="トレサージャGKスクール（掲載クラブ）"><span class="lx-tag"><span>掲載中のクラブの写真</span></span></div>
+        <div class="bd">
+          <div class="no">01 ・ LISTING<span class="pr free">FREE</span></div>
+          <h3>クラブを載せる</h3>
+          <p>写真1枚と紹介文から、1〜2分で。検索・地図・新着・Instagram・アプリ通知に出て、体験申込はアプリに届きます。</p>
+          <ul><li>公式サイトがあれば、紹介文・コーチ紹介・成績をチビスポが下書き</li><li>保護者とのやりとりはアプリで。スタッフ登録は人数制限なし</li><li>500円からの応援（チビスポアシスト）も、載せたその日から</li></ul>
+          <div class="fit"><b>こんなクラブに</b>　まだ載せていない／少年団・スポ少／写真が少ない</div>
+          <div class="ft"><a class="lx-btn" href="listing.html" style="min-height:48px;padding:0 22px;font-size:14.5px">無料で載せる</a><a class="go" href="plans.html">有料プランの見え方 ›</a></div>
+        </div>
+      </article>
+      <article class="px-card lx-rv d1" id="px-video">
+        <div class="vis"><div class="soon"><div><b>COMING SOON</b><span>1本目の見本を制作中。受付を始めるときにお知らせします</span></div></div></div>
+        <div class="bd">
+          <div class="no">02 ・ VIDEO<span class="pr" style="font-family:var(--fh);font-size:12px">準備中</span></div>
+          <h3>撮影・動画制作</h3>
+          <p>練習に伺って半日撮影。30秒のクラブ紹介動画と写真の切り出しを、クラブページ・Instagram・LINE用に書き出します。</p>
+          <ul><li>コーチの声かけ・子どもの表情を撮る</li><li>募集シーズンに合わせた年1回のシーズンパック</li></ul>
+          <div class="fit"><b>こんなクラブに</b>　写真では雰囲気が伝わらない／募集シーズン前</div>
+          <div class="ft"><a class="go" href="contact.html">受付開始の連絡を受け取る ›</a></div>
+        </div>
+      </article>
+      <article class="px-card lx-rv d2">
+        <div class="vis"><div class="igrow"><img loading="lazy" src="assets/listing-v2/ig-0.webp" alt="Instagram投稿：501st Basketball Club"><img loading="lazy" src="assets/listing-v2/ig-3.webp" alt="Instagram投稿：トレサージャGKスクール"><img loading="lazy" src="assets/listing-v2/ig-6.webp" alt="Instagram投稿：SKY FORCE DANCE STUDIO"></div><span class="lx-tag"><span>チビスポの実際の投稿</span></span></div>
+        <div class="bd">
+          <div class="no">03 ・ SNS<span class="pr">¥40,000<small>税抜・買い切り</small></span></div>
+          <h3>SNS運用サポート</h3>
+          <p>投稿を代わりにやるサービスではありません。そのクラブに合った投稿の型と頻度を決めて、最初の3本を一緒に出すところまで。あとは自分たちで回せます。</p>
+          <ul><li>アカウント診断と、クラブ専用の投稿の型</li><li>リール・ストーリーズ・カルーセルの役割と頻度</li><li>写真の編集と、チビスポで使っているAIプロンプト</li></ul>
+          <div class="fit"><b>こんなクラブに</b>　投稿が続かない／何を出せばいいか分からない／担当が替わる</div>
+          <div class="ft"><a class="go" href="service-sns.html">詳しく見る ›</a></div>
+        </div>
+      </article>
+      <article class="px-card lx-rv d3">
+        <div class="vis"><div class="grid4"><img loading="lazy" src="hp-samples/thumbs/t2-soccer.webp" alt="見本：FC ARCO（スポーツ）"><img loading="lazy" src="hp-samples/thumbs/t4-warm.webp" alt="見本：ひなた体操クラブ（あたたかい）"><img loading="lazy" src="hp-samples/thumbs/t5-pop.webp" alt="見本：POP! KIDS STUDIO（ポップ）"></div><span class="lx-tag"><span>見本サイト・5タイプ</span></span></div>
+        <div class="bd">
+          <div class="no">04 ・ WEBSITE<span class="pr">¥40,000<small>税抜＋運用 年¥20,000</small></span></div>
+          <h3>ホームページ制作</h3>
+          <p>クラブ名で検索されたときに出る、スマホ前提の公式サイトを1ページで。チビスポの掲載情報と写真をそのまま使うので、原稿づくりの負担がありません。</p>
+          <ul><li>ストリート・スポーツ・あたたかい・凛と・ポップの5タイプから選ぶ</li><li>活動日・月謝・体験申込フォームまで1ページに</li><li>更新はこちらで。年1回の見直し込み</li></ul>
+          <div class="fit"><b>こんなクラブに</b>　SNSだけで運営している／古いサイトを作り直したい</div>
+          <div class="ft"><a class="go" href="hp-samples/">5タイプの見本を見る ›</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOR LOCAL BUSINESS ===== -->
+<section class="lx-sec" id="px-biz">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">FOR LOCAL BUSINESS <small>お店・企業の方</small></div>
+      <h2>地域のお店として<em>出る</em>、<br>チビスポを<em>支える</em></h2>
+      <p class="lx-lead">お店・企業にできることは2つ。クラブを探している最中の家族に「地域のおすすめ」として出る広告掲載と、掲載を無料のまま続けるためのスポンサーです。どちらも、まず相談から。</p>
+    </div>
+    <div class="px-cards">
+      <article class="px-card lx-rv">
+        <div class="vis"><img loading="lazy" src="assets/pr/daedal/p-dugout.webp" width="960" height="635" alt="DAEDAL. の企業紹介ページより"><span class="lx-tag"><span>企業紹介ページより — DAEDAL.</span></span></div>
+        <div class="bd">
+          <div class="no">05 ・ LOCAL AD<span class="pr">¥50,000<small>税抜・年額</small></span></div>
+          <h3>地域の広告掲載</h3>
+          <p>オンライン取材30分で紹介記事を作り、1年間掲載します。写真はお店からのご提供で。月額も成果報酬もありません。</p>
+          <ul><li>検索結果とクラブページの「地域のおすすめ企業」枠</li><li>紹介記事は企業紹介ページとして残り、SNSでも共有できます</li><li>同業は市区町村ごとに少数に限定</li></ul>
+          <div class="fit"><b>こんなお店に</b>　整骨院・接骨院／スポーツ用品店／歯科・小児科／学習塾</div>
+          <div class="ft"><a class="lx-btn lx-btn-ol" href="service-ads.html" style="min-height:48px;padding:0 22px;font-size:14.5px">広告掲載を見る</a><a class="go" href="pr/">企業紹介の例 ›</a></div>
+        </div>
+      </article>
+      <article class="px-card lx-rv d1">
+        <div class="vis"><div class="px-sp"><div class="px-sp-big" aria-hidden="true">SPONSOR</div><ul><li><b>01</b>トップページとスポンサーページに<br>社名・ロゴ・リンク</li><li><b>02</b>オンライン取材30分で<br>紹介ページを1本（1年掲載）</li><li><b>03</b>Instagram・Threadsで<br>スポンサーとして紹介</li></ul></div><span class="lx-tag"><span>チビスポ全体を支える</span></span></div>
+        <div class="bd">
+          <div class="no">06 ・ SPONSOR<span class="pr" style="font-family:var(--fh);font-size:12px">相談制<small>ご予算から</small></span></div>
+          <h3>チビスポのスポンサー</h3>
+          <p>クラブの掲載も体験申込も無料のまま続けるために、地域の企業・お店に支えてもらう形です。金額はご予算の目安を聞いてから、その範囲でできることを提案します。物品・サービスでの支援も相談できます。</p>
+          <ul><li>「チビスポを支えている企業」として、サイトの中に名前が残る</li><li>紹介ページは1年掲載。写真はお手持ちのもので</li><li>請求書での銀行振込。領収書も発行</li></ul>
+          <div class="fit"><b>こんな企業に</b>　地域の子どものスポーツを応援したい／特定のクラブでなく、場所そのものを支えたい</div>
+          <div class="ft"><a class="lx-btn" href="sponsors.html" style="min-height:48px;padding:0 22px;font-size:14.5px">スポンサーについて相談する</a><a class="go" href="sponsor.html">特定のクラブを応援する ›</a></div>
+        </div>
+      </article>
+    </div>
+    <div class="lx-rv d1" style="margin-top:22px">
+      <div class="lx-note" style="margin-bottom:10px">実際の企業紹介ページ</div>
+      <div class="px-pr">
+        <a href="pr/armoury.html"><img loading="lazy" src="assets/pr/armoury/soccer-134-f.webp" alt="ARMOURY"><b>ARMOURY</b><small>ユニフォーム</small></a>
+        <a href="pr/daedal.html"><img loading="lazy" src="assets/pr/daedal/p-uniform-team.webp" alt="DAEDAL."><b>DAEDAL.</b><small>野球用品</small></a>
+        <a href="pr/makkiedrops.html"><img loading="lazy" src="assets/pr/makkiedrops/g-uniform-keyholder.webp" alt="makkiedrops design"><b>makkiedrops design</b><small>記念グッズ</small></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== どれから始めるか ===== -->
+<section class="lx-sec lx-sec-paper" id="px-start">
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">START HERE <small>どれから始めるか</small></div>
+      <h2>いまの状況から、<em>行き先</em>を選ぶ</h2>
+      <p class="lx-lead">上から順に。必要のないものは提案しません。</p>
+    </div>
+    <div class="px-q">
+      <div class="row lx-rv"><div class="q"><b>Q1</b>チビスポに載せていますか</div><div class="ans"><span>いいえ →</span><a href="listing.html"><i>01</i>クラブを載せる<small>無料・1〜2分</small></a></div></div>
+      <div class="row lx-rv d1"><div class="q"><b>Q2</b>SNSで、クラブの良さが伝わっていますか</div><div class="ans"><span>いいえ →</span><a href="service-sns.html"><i>03</i>SNS運用サポート<small>¥40,000 買い切り</small></a></div></div>
+      <div class="row lx-rv d2"><div class="q"><b>Q3</b>クラブの公式サイトはありますか</div><div class="ans"><span>ない →</span><a href="hp-samples/"><i>04</i>ホームページ制作<small>¥40,000＋年¥20,000</small></a></div></div>
+      <div class="row lx-rv d3"><div class="yes">すべて「はい」なら、いまの形で続けて大丈夫です。困ったら相談から。</div></div>
+      <div class="row biz lx-rv d4"><div class="q"><b>お店</b>地域の子育て世帯に、お店を知ってほしい</div><div class="ans"><span>こちら →</span><a href="service-ads.html"><i>05</i>地域の広告掲載<small>¥50,000／年</small></a></div></div>
+      <div class="row biz lx-rv d4"><div class="q"><b>企業</b>地域の子どものスポーツを、会社として支えたい</div><div class="ans"><span>こちら →</span><a href="sponsors.html"><i>06</i>チビスポのスポンサー<small>相談制</small></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 相談 ===== -->
+<section class="lx-sec" id="px-talk" style="padding-top:56px">
+  <div class="wrap">
+    <div class="px-talk lx-rv">
+      <div>
+        <div class="lx-ey">HOW TO START <small>相談から</small></div>
+        <h3>決めるのは、話してからで大丈夫です</h3>
+        <p style="margin-top:10px">何が必要か分からない状態でも構いません。いまの状況をうかがってから、必要なものだけ提案します。掲載はその日から、制作は納品まで2週間が目安です。</p>
+        <div class="lx-btns" style="margin-top:18px"><a class="lx-btn" href="contact.html">相談する（無料）</a></div>
+      </div>
+      <div class="st">
+        <div><b>STEP 01</b><span>相談する — フォームから。オンラインで30分、いまの状況を聞きます</span></div>
+        <div><b>STEP 02</b><span>順路を決める — 載せるだけで足りるのか、動画やSNSが要るのか</span></div>
+        <div><b>STEP 03</b><span>始める — 掲載はその日から。制作は2週間が目安</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="lx-sec lx-sec-paper" id="px-faq">
+  <div class="wrap">
+    <div class="lx-hd lx-rv"><div class="lx-ey">FAQ <small>よくある質問</small></div><h2>よく聞かれること</h2></div>
+    <div class="lx-faq lx-rv">
+      <details><summary><span class="q">Q</span>本当に無料ですか<span class="pm"></span></summary><div class="a">掲載・体験申込の受付・メッセージ・更新は無料です。有料なのは、撮影・SNS・ホームページのように手元に成果物が残るものと、お店向けの広告掲載だけです。</div></details>
+      <details><summary><span class="q">Q</span>少年団（ボランティア運営）でも載せられますか<span class="pm"></span></summary><div class="a">載せられます。掲載クラブの多くが少年団・スポ少です。年度予算がなくても、掲載だけなら費用はかかりません。</div></details>
+      <details><summary><span class="q">Q</span>写真や動画がありません<span class="pm"></span></summary><div class="a">写真1枚と紹介文があれば載せられます。スマホの写真1枚で構いません。枚数を増やしたい場合はスタンダード（7枚）・プロ（15枚）があります。</div></details>
+      <details><summary><span class="q">Q</span>どれを頼めばいいか分かりません<span class="pm"></span></summary><div class="a">「いまの状況から、行き先を選ぶ」で当てはまるものを選ぶか、相談フォームから送ってください。必要のないものは提案しません。</div></details>
+      <details><summary><span class="q">Q</span>広告掲載とスポンサーは何が違いますか<span class="pm"></span></summary><div class="a">広告掲載は、クラブを探している家族に「地域のおすすめ」としてお店が出るもので、年額¥50,000（税抜）です。スポンサーは、掲載を無料のまま続けるためにチビスポ全体を支えてもらう形で、金額はご予算を聞いてから決めます。特定のクラブを応援したい場合は、各クラブページの「クラブのスポンサー」からできます。</div></details>
+      <details><summary><span class="q">Q</span>広告はどんな業種が載っていますか<span class="pm"></span></summary><div class="a">整骨院・接骨院、スポーツ用品店、歯科・小児科、学習塾など、子育て世帯が使うお店が中心です。市区町村ごとに同業は少数に限定しています。</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 最後のCTA ===== -->
+<section class="lx-final">
+  <div class="lx-anton lx-final-bg" aria-hidden="true">FOR CLUBS</div>
+  <div class="wrap"><div class="lx-rv">
+    <div class="lx-ey" style="justify-content:center">GET STARTED <small>まずは無料で</small></div>
+    <h2>まず、無料で<em>載せて</em>みる</h2>
+    <p class="lx-lead" style="text-align:center">登録は1〜2分。載せてから、必要なものを決めれば大丈夫です。相談だけでも構いません。</p>
+    <div class="lx-btns"><a class="lx-btn" href="listing.html">無料で載せる<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="lx-btn lx-btn-ol" href="contact.html">相談する</a></div>
+  </div></div>
+</section>
+
+</main>
+
+<div class="lx-sbar" id="lx-sbar"><div class="t">クラブを無料で載せる<small>1〜2分・写真1枚から</small></div><a class="lx-btn" href="listing.html">無料で載せる</a></div>
+<div class="lx-pv-badge"><span>PREVIEW ・ 本番未反映</span></div>
+
+{{FOOTER}}
+<script src="site.js?v=20261004"></script>
+<script src="shared.js?v=20261005"></script>
+<script>
+(function(){
+  var els=document.querySelectorAll('.lx-rv');
+  if(/noanim=1/.test(location.search)||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});els.forEach(function(e){io.observe(e)});}
+  var sb=document.getElementById('lx-sbar'),hero=document.querySelector('.px-hero'),fin=document.querySelector('.lx-final');
+  if(sb&&hero){var heroOut=false,finIn=false;function upd(){sb.classList.toggle('on',heroOut&&!finIn)}
+    new IntersectionObserver(function(e){heroOut=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;upd()},{threshold:0}).observe(hero);
+    if(fin)new IntersectionObserver(function(e){finIn=e[0].isIntersecting;upd()},{threshold:.2}).observe(fin);}
+})();
+</script>
+</body>
+</html>
