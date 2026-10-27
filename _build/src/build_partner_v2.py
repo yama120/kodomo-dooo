@@ -12,7 +12,7 @@ if PROD:
     if 'id="lx-hsw"' in tpl: raise SystemExit('切替UIが残っている。ヒーローを1案に固定してから --prod')
     tpl=re.sub(r'<meta name="robots"[^>]*>\n?','',tpl); tpl=re.sub(r'<div class="lx-pv-badge">.*?</div>\n?','',tpl,flags=re.S); tpl=tpl.replace('（プレビュー）</title>','</title>')
     og=('<link rel="canonical" href="https://chibispo.com/partner.html">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="チビスポ">\n'
-        '<meta property="og:title" content="クラブ・事業者の方へ｜地域のクラブと、地域のお店を、近くの家族へ｜チビスポ">\n'
+        '<meta property="og:title" content="クラブ・事業者の方へ｜地域のクラブと、地域のお店を、もっと身近に｜チビスポ">\n'
         '<meta property="og:description" content="チビスポは、保護者が地域と種目でスポーツクラブを探すサイトです。クラブは無料で載せられます。お店・企業は、探している最中の家族に地域の広告として届きます。">\n'
         '<meta property="og:url" content="https://chibispo.com/partner.html">\n<meta property="og:image" content="https://chibispo.com/assets/ogp.jpg?v=2">\n<meta name="twitter:card" content="summary_large_image">\n')
     tpl=tpl.replace('<link rel="stylesheet" href="site.css?v=20261004">',og+'<link rel="stylesheet" href="site.css?v=20261004">',1)
