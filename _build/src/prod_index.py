@@ -260,8 +260,12 @@ JS=r'''<script>
       /* 有料プラン（プロ→スタンダード）を先頭に。残りは写真と紹介文がそろっているクラブ */
       var paid=(window.ChibiCard&&ChibiPlan)?ChibiPlan.sort(uniq.filter(ChibiCard.isPaid)):[];
       var rest=uniq.filter(function(t){ return paid.indexOf(t)<0 && (t.description||'').length>=20; }).slice(5,13);
-      var pool=paid.concat(rest).slice(0,8);
-      if(pool.length<8) pool=pool.concat(uniq.filter(function(t){ return pool.indexOf(t)<0; })).slice(0,8);
+      /* 期限付きの先頭固定（until を過ぎたら自動で外れる） */
+      var PIN=[{id:'74eccec1-34e3-49e6-a854-18d423c2990d',until:'2026-11-11T00:00:00+09:00'}]; /* 豊里スポーツ少年団 2026-10-28〜2週間 */
+      var now=Date.now(), pinned=PIN.filter(function(p){ return now<Date.parse(p.until); }).map(function(p){ return teams.filter(function(t){ return t.id===p.id && t.photo_url; })[0]; }).filter(Boolean);
+      function notPinned(t){ return !pinned.some(function(x){ return x.id===t.id; }); }
+      var pool=pinned.concat(paid.filter(notPinned), rest.filter(notPinned)).slice(0,8);
+      if(pool.length<8) pool=pool.concat(uniq.filter(function(t){ return pool.indexOf(t)<0 && notPinned(t); })).slice(0,8);
       picks.innerHTML=pool.map(function(t){
         var days=Array.isArray(t.days)?t.days.length:0;
         var m=[t.sport, days?'週'+days:'', t.trial?'体験OK':(t.girls_welcome?'女の子歓迎':'')].filter(Boolean).join(' / ');
