@@ -161,14 +161,32 @@
 .px-card.main{border:2px solid var(--lx-ink);box-shadow:0 18px 40px rgba(16,18,22,.1)}
 @media(min-width:900px){.px-cards{grid-template-columns:repeat(2,1fr);gap:22px}.px-cards.one{grid-template-columns:1fr}.px-card.wide{grid-template-columns:1.1fr 1fr;grid-template-rows:none}.px-card.wide .vis{aspect-ratio:auto;min-height:320px}.px-card .bd{padding:24px 26px 26px}}
 
-/* ===== スポンサーカードの図 ===== */
-.px-sp{position:relative;height:100%;min-height:200px;background:linear-gradient(135deg,#1b1e26,#101216);color:#fff;padding:18px 16px 64px;overflow:hidden}
-.px-sp-big{position:absolute;right:-6px;bottom:-8px;font-family:'Anton',sans-serif;font-size:56px;opacity:.7;line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(228,59,77,.8);letter-spacing:.02em}
-.px-sp ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;position:relative}
-.px-sp li{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:start;font-size:12.5px;line-height:1.55;font-weight:900;color:#fff;padding-left:0}
-.px-sp li::before{display:none}
-.px-sp li b{font-family:'Anton',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--lx-red);padding-top:2px}
-@media(min-width:900px){.px-sp{padding:26px 24px 50px}.px-sp li{font-size:13.5px}.px-sp-big{font-size:96px}}
+/* ===== スポンサーの節 ===== */
+.px-spon{position:relative;overflow:hidden}
+.px-spon-bg{position:absolute;right:-10px;top:-8px;font-size:clamp(90px,24vw,240px);opacity:.3;-webkit-text-stroke-color:rgba(228,59,77,.8)}
+.px-spon .wrap{z-index:1}
+.px-spon-g{display:grid;gap:26px}
+.px-spon-get{list-style:none;margin:0;padding:0;display:grid}
+.px-spon-get li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;padding:18px 0;border-top:1px solid rgba(255,255,255,.16)}
+.px-spon-get li:last-child{border-bottom:1px solid rgba(255,255,255,.16)}
+.px-spon-get b{font-family:'Anton',sans-serif;font-size:26px;line-height:1;color:var(--lx-red)}
+.px-spon-get strong{display:block;font-size:16px;font-weight:900;color:#fff;margin-bottom:4px}
+.px-spon-get span{font-size:13px;line-height:1.8;font-weight:700;color:rgba(255,255,255,.78)}
+.px-spon-box{background:#fff;color:var(--lx-ink);border-radius:18px;padding:22px 20px;display:grid;gap:14px}
+.px-spon-pr span{display:block;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--lx-red)}
+.px-spon-pr b{display:block;font-size:30px;font-weight:900;line-height:1.1;margin:4px 0}
+.px-spon-pr small{display:block;font-size:12px;font-weight:700;color:var(--lx-gray);line-height:1.7}
+.px-spon-bud{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.px-spon-bud li{border:1.5px solid var(--lx-ink);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:900}
+.px-spon-box p{margin:0;font-size:12px;line-height:1.75;font-weight:700;color:var(--lx-gray)}
+.px-spon-alt{font-size:12px;line-height:1.75;font-weight:700;color:var(--lx-gray)}
+.px-spon-alt a{color:var(--lx-red);text-decoration:underline;text-underline-offset:3px}
+.px-spon-flow{display:grid;grid-template-columns:1fr;gap:8px;margin-top:34px;padding-top:24px;border-top:1px solid rgba(255,255,255,.16)}
+.px-spon-flow div{display:grid;gap:2px}
+.px-spon-flow i{font-style:normal;font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--lx-red)}
+.px-spon-flow span{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.8)}
+.px-spon-flow em{display:none}
+@media(min-width:900px){.px-spon-g{grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}.px-spon-box{padding:28px 30px}.px-spon-flow{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:16px;align-items:center}.px-spon-flow em{display:block;font-style:normal;font-family:'Anton',sans-serif;font-size:22px;color:rgba(255,255,255,.4)}}
 /* ===== 企業紹介の実例 ===== */
 .px-pr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .px-pr a{display:block;border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--lx-line)}
@@ -369,11 +387,11 @@
   <div class="wrap">
     <div class="lx-hd lx-rv">
       <div class="lx-ey">FOR LOCAL BUSINESS <small>お店・企業の方</small></div>
-      <h2>地域のお店として<em>出る</em>、<br>チビスポを<em>支える</em></h2>
-      <p class="lx-lead">お店・企業にできることは2つ。クラブを探している最中の家族に「地域のおすすめ」として出る広告掲載と、掲載を無料のまま続けるためのスポンサーです。どちらも、まず相談から。</p>
+      <h2>クラブを探している最中の家族に、<br><em>地域のお店</em>として出る</h2>
+      <p class="lx-lead">整骨院・スポーツ用品店・歯科・学習塾。子育て世帯が使うお店が、検索結果とクラブページの「地域のおすすめ」枠に出ます。市区町村ごとに同業は少数です。</p>
     </div>
-    <div class="px-cards">
-      <article class="px-card lx-rv">
+    <div class="px-cards one">
+      <article class="px-card wide lx-rv">
         <div class="vis"><img loading="lazy" src="assets/pr/daedal/p-dugout.webp" width="960" height="635" alt="DAEDAL. の企業紹介ページより"><span class="lx-tag"><span>企業紹介ページより — DAEDAL.</span></span></div>
         <div class="bd">
           <div class="no">05 ・ LOCAL AD<span class="pr">¥50,000<small>税抜・年額</small></span></div>
@@ -384,16 +402,7 @@
           <div class="ft"><a class="lx-btn lx-btn-ol" href="service-ads.html" style="min-height:48px;padding:0 22px;font-size:14.5px">広告掲載を見る</a><a class="go" href="pr/">企業紹介の例 ›</a></div>
         </div>
       </article>
-      <article class="px-card lx-rv d1">
-        <div class="vis"><div class="px-sp"><div class="px-sp-big" aria-hidden="true">SPONSOR</div><ul><li><b>01</b>トップページとスポンサーページに<br>社名・ロゴ・リンク</li><li><b>02</b>オンライン取材30分で<br>紹介ページを1本（1年掲載）</li><li><b>03</b>Instagram・Threadsで<br>スポンサーとして紹介</li></ul></div><span class="lx-tag"><span>チビスポ全体を支える</span></span></div>
-        <div class="bd">
-          <div class="no">06 ・ SPONSOR<span class="pr" style="font-family:var(--fh);font-size:12px">相談制<small>ご予算から</small></span></div>
-          <h3>チビスポのスポンサー</h3>
-          <p>クラブの掲載も体験申込も無料のまま続けるために、地域の企業・お店に支えてもらう形です。金額はご予算の目安を聞いてから、その範囲でできることを提案します。物品・サービスでの支援も相談できます。</p>
-          <ul><li>「チビスポを支えている企業」として、サイトの中に名前が残る</li><li>紹介ページは1年掲載。写真はお手持ちのもので</li><li>請求書での銀行振込。領収書も発行</li></ul>
-          <div class="fit"><b>こんな企業に</b>　地域の子どものスポーツを応援したい／特定のクラブでなく、場所そのものを支えたい</div>
-          <div class="ft"><a class="lx-btn" href="sponsors.html" style="min-height:48px;padding:0 22px;font-size:14.5px">スポンサーについて相談する</a><a class="go" href="sponsor.html">特定のクラブを応援する ›</a></div>
-        </div>
+    </div>
       </article>
     </div>
     <div class="lx-rv d1" style="margin-top:22px">
@@ -403,6 +412,38 @@
         <a href="pr/daedal.html"><img loading="lazy" src="assets/pr/daedal/p-uniform-team.webp" alt="DAEDAL."><b>DAEDAL.</b><small>野球用品</small></a>
         <a href="pr/makkiedrops.html"><img loading="lazy" src="assets/pr/makkiedrops/g-uniform-keyholder.webp" alt="makkiedrops design"><b>makkiedrops design</b><small>記念グッズ</small></a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPONSOR：チビスポのスポンサー ===== -->
+<section class="lx-sec lx-sec-dark px-spon" id="px-sponsor">
+  <div class="lx-anton px-spon-bg" aria-hidden="true">SPONSOR</div>
+  <div class="wrap">
+    <div class="lx-hd lx-rv">
+      <div class="lx-ey">SPONSOR <small>チビスポのスポンサー</small></div>
+      <h2>地域の子どものスポーツを、<br><em>企業として支える</em></h2>
+      <p class="lx-lead">クラブの掲載も体験申込も無料のまま続けるために、地域の企業・お店に支えてもらう形です。特定のクラブではなく、クラブと保護者が出会う場所そのものを支えます。</p>
+    </div>
+    <div class="px-spon-g">
+      <ol class="px-spon-get">
+        <li class="lx-rv"><b>01</b><div><strong>サイトの中に、名前が残る</strong><span>トップページとスポンサーページに、社名・ロゴ・リンクを「チビスポを支えている企業」として掲載します。</span></div></li>
+        <li class="lx-rv d1"><b>02</b><div><strong>紹介ページを1本（1年掲載）</strong><span>オンライン取材30分で、お店や会社の考えをチビスポが文章にします。写真はお手持ちのもので構いません。</span></div></li>
+        <li class="lx-rv d2"><b>03</b><div><strong>Instagram・Threadsで紹介</strong><span>チビスポの公式アカウントから、スポンサーとして投稿します。</span></div></li>
+      </ol>
+      <div class="px-spon-box lx-rv d1">
+        <div class="px-spon-pr"><span>PRICE</span><b>相談制</b><small>ご予算の目安を聞いてから、その範囲でできることを提案します</small></div>
+        <ul class="px-spon-bud"><li>〜1万円</li><li>〜3万円</li><li>〜5万円</li><li>5万円以上</li><li>物品・サービス</li></ul>
+        <p>お支払いは請求書での銀行振込。領収書も発行します。送信しただけで契約にはなりません。</p>
+        <a class="lx-btn" href="sponsors.html">スポンサーについて相談する<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <div class="px-spon-alt">特定のクラブを応援したい企業の方は <a href="sponsor.html">クラブのスポンサー</a> へ。個人の方は <a href="assist.html">チビスポアシスト</a>（500円から）で。</div>
+      </div>
+    </div>
+    <div class="px-spon-flow lx-rv d2">
+      <div><i>SPONSOR</i><span>あなたの会社・お店</span></div><em>›</em>
+      <div><i>CHIBISPO</i><span>サイト・アプリの維持、クラブの取材・紹介</span></div><em>›</em>
+      <div><i>CLUBS</i><span>掲載も体験申込も、無料のまま</span></div><em>›</em>
+      <div><i>KIDS</i><span>近所で、合うクラブと出会える</span></div>
     </div>
   </div>
 </section>
