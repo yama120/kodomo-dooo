@@ -393,11 +393,11 @@ hub_body='''
           <div class="tile"><img src="%(A)sad-sports.jpg" alt=""><span class="ad">AD</span><b>スポーツ用品店</b><small>スパイク・ユニフォーム</small></div>
         </div></div></div>
         <div class="bd"><div class="num">05</div>
-          <div class="k">FOR LOCAL BUSINESS</div>
+          <div class="k">FOR SPORTS BUSINESS</div>
           <h3>地域の<em>広告掲載</em></h3>
           <p class="ld">クラブを探している最中の保護者に、地域のお店として出ます。検索結果とクラブページの「地域のおすすめ企業」枠。取材はオンライン、写真はお店からのご提供で。</p>
           <ul><li>市区町村ごとの枠。同業は少数に限定</li><li>オンライン取材30分で紹介文を作成</li><li>年額1本。月額・成果報酬なし</li></ul>
-          <div class="who"><b>こんなお店に</b>整骨院・接骨院／スポーツ用品店／歯科・小児科／学習塾</div>
+          <div class="who"><b>こんな事業に</b>スポーツ用品店／整骨院・接骨院／スポーツスクール／体育施設／大会・イベント運営</div>
           <div class="row"><div class="pr">¥50,000<small>税抜・年額</small></div><a class="go" href="service-ads-preview.html">詳しく見る ›</a></div>
         </div>
       </article>
@@ -413,7 +413,7 @@ hub_body='''
       <div><div class="n">STEP 02</div><b>順路を決める</b><small>載せるだけで足りるのか、動画やSNSが要るのか。必要のないものは提案しません。</small><em>NO PRESSURE</em></div>
       <div><div class="n">STEP 03</div><b>始める</b><small>掲載はその日から。制作は納品まで2週間が目安です。</small><em>SAME DAY LISTING</em></div>
     </div>
-    <div class="biz rv"><div class="tx"><div class="k">FOR LOCAL BUSINESS</div><b>地域のお店・企業の方は、広告掲載のページへ。</b><p>整骨院・スポーツ用品店・歯科・塾など、子育て世帯が使うお店の枠です。市区町村ごとに少数枠。</p></div><a href="service-ads-preview.html">広告掲載を見る ›</a></div>
+    <div class="biz rv"><div class="tx"><div class="k">FOR SPORTS BUSINESS</div><b>地域のお店・企業の方は、広告掲載のページへ。</b><p>スポーツ用品店・整骨院・スポーツスクールなど、子どものスポーツに関わる事業の枠です。市区町村ごとに少数枠。</p></div><a href="service-ads-preview.html">広告掲載を見る ›</a></div>
   </section>
 
   <section class="sec2" id="faq">
@@ -424,7 +424,7 @@ hub_body='''
       <details><summary>少年団（ボランティア運営）でも載せられますか。</summary><div class="a">載せられます。掲載クラブの多くが少年団・スポ少です。年度予算がなくても、掲載だけなら費用はかかりません。</div></details>
       <details><summary>写真や動画がありません。</summary><div class="a">写真1枚と紹介文があれば載せられます。写真のあるクラブのほうが体験申込は明らかに多いので、スマホの写真1枚で構わないので載せることをおすすめしています。枚数を増やしたい場合はスタンダード（7枚）・プロ（15枚）があります。</div></details>
       <details><summary>どれを頼めばいいか分かりません。</summary><div class="a">「いまの状況から、始める。」で当てはまるものを選ぶか、相談フォームから送ってください。必要のないものは提案しません。</div></details>
-      <details><summary>広告はどんな業種が載っていますか。</summary><div class="a">整骨院・接骨院、スポーツ用品店、歯科・小児科、学習塾など、子育て世帯が使うお店が中心です。市区町村ごとに同業は少数に限定しています。</div></details>
+      <details><summary>広告はどんな業種が載せられますか。</summary><div class="a">スポーツ用品店、整骨院・接骨院、スポーツスクール、体育施設、大会・イベント運営など、子どものスポーツに関わる事業が対象です。市区町村ごとに同業は少数に限定しています。</div></details>
     </div>
   </section>
 

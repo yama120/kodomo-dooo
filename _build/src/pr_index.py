@@ -157,7 +157,7 @@ def build():
   </div>
   <section class="prl-cta">
     <div class="prl-bigk">LOCAL AD</div>
-    <div class="prl-k">FOR LOCAL BUSINESS</div>
+    <div class="prl-k">FOR SPORTS BUSINESS</div>
     <h2>あなたの会社も、<em>こんなページ</em>で紹介しませんか。</h2>
     <p>地域の子育て世帯と、クラブの運営者に届く企業紹介ページ。取材はオンライン、写真は会社からのご提供で。制作から1年間の掲載まで込みです。</p>
     <a class="prl-btn" href="service-ads.html">掲載について見る ›</a>

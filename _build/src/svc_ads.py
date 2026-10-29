@@ -254,7 +254,7 @@ ad_body='''
   <div class="in">
     <div class="ty3" aria-hidden="true"><span>LOCAL</span><span>AD</span></div>
     <div class="cp">
-      <div class="ey">FOR LOCAL BUSINESS ・ SERVICE 05</div>
+      <div class="ey">FOR SPORTS BUSINESS ・ SERVICE 05</div>
       <h1><span>子育て世帯に、</span><span><em>いちばん近い</em></span><span>広告枠。</span></h1>
       <p class="ld">子どものクラブを探している保護者が見るページに、あなたのお店。取材記事つきで、その地域の家庭にだけ出ます。取材はオンライン30分、写真をお送りいただくだけです。</p>
       <div class="price-tag"><b>¥50,000</b><small>/年（税抜）・オンライン取材と記事制作込み</small><em>≈ ¥4,200 / MONTH</em></div>
@@ -267,7 +267,7 @@ ad_body='''
         <div class="ug">
           <div class="tile you"><div class="lg"><img src="assets/preview-video/ad-seikotsu.jpg" alt=""></div><div class="t">さくら整骨院<small>スポーツ外傷・子ども割引</small></div><span class="ring"></span><span class="tag">あなたのお店</span></div>
           <div class="tile"><div class="lg"><img src="assets/preview-video/ad-sports.jpg" alt=""></div><div class="t">経堂スポーツ用品<small>ジュニア用品・名入れ無料</small></div></div>
-          <div class="tile"><div class="lg"><img src="assets/preview-video/ad-shika.jpg" alt=""></div><div class="t">みどり歯科<small>マウスガード作成</small></div></div>
+          <div class="tile"><div class="lg"><img src="assets/preview-video/ad-seikotsu.jpg" alt=""></div><div class="t">みどりスポーツ整体<small>成長期のケガとケア</small></div></div>
           <div class="tile"><div class="lg"><img src="assets/preview-video/ad-uniform.jpg" alt=""></div><div class="t">デザインボックス<small>チームのユニフォーム制作</small></div></div>
         </div>
         <div class="uf">この枠に掲載する事業者の方は <u>掲載のご案内</u> へ。</div>
@@ -286,10 +286,10 @@ ad_body='''
     <div class="who rv d2">
       <div class="w"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8h14M7 21h10"/><path d="M8 8v6a4 4 0 0 0 8 0V8"/></svg><b>整骨院・整体・接骨院</b><small>成長期のケガとケア。「練習のあと膝が痛い」の相談先に</small></div>
       <div class="w"><svg viewBox="0 0 24 24"><path d="M3 15l4-6 5 3 4-7 5 5v5H3z"/><path d="M3 15v3h18v-3"/></svg><b>スポーツ用品店</b><small>シューズ・ウェアの買い替えは年2回。名入れ・ジュニアサイズで</small></div>
-      <div class="w"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><b>学習塾・習い事</b><small>同じ子育て世帯に、文武両道の提案を</small></div>
-      <div class="w"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0v7H5z"/><path d="M9 19v2M15 19v2M12 5V3"/></svg><b>飲食・栄養・カフェ</b><small>「食事で体をつくる」と、練習帰りの一杯</small></div>
-      <div class="w"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 7.5-8 8-4.5-.5-8-3-8-8V7z"/><path d="M12 8v8M8 12h8"/></svg><b>クリニック・薬局・歯科</b><small>マウスガード、健診、スポーツ歯科。安心の担当医として</small></div>
-      <div class="w"><svg viewBox="0 0 24 24"><path d="M4 10l8-6 8 6v10H4z"/><path d="M10 20v-6h4v6"/></svg><b>地域の店舗・サービス</b><small>写真館・ユニフォーム制作・送迎・保険など、近隣のファミリーに</small></div>
+      <div class="w"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><b>スポーツスクール・教室</b><small>体操・水泳・ダンスなど、次に始める習い事の候補に</small></div>
+      <div class="w"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0v7H5z"/><path d="M9 19v2M15 19v2M12 5V3"/></svg><b>体育施設・スポーツジム</b><small>体育館・プール・練習場。練習場所を探すチームと家族に</small></div>
+      <div class="w"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 5-3.5 7.5-8 8-4.5-.5-8-3-8-8V7z"/><path d="M12 8v8M8 12h8"/></svg><b>大会・イベント運営</b><small>地域の大会や体験会の参加募集を、出場する家族へ</small></div>
+      <div class="w"><svg viewBox="0 0 24 24"><path d="M4 10l8-6 8 6v10H4z"/><path d="M10 20v-6h4v6"/></svg><b>チーム活動を支えるサービス</b><small>ユニフォーム制作・写真撮影・スポーツ保険など</small></div>
     </div>
   </section>
 
@@ -299,7 +299,7 @@ ad_body='''
     <p class="sub rv d2">クラブを探す動線の途中に、お店が置かれます。</p>
     <div class="flow4" data-tl>
       <div class="nd"><span class="no">01</span><div class="vis v1"><div class="mp"><div class="mh">MY PAGE</div><div class="mr"><i></i><div><small>あなたの地域</small><b>東京都 世田谷区</b></div><span>変更</span></div><div class="mqq">診断・検索でも地域を選びます</div></div></div><b>保護者が地域を登録</b><small>マイページで「世田谷区」。診断や検索でも地域を選ぶ</small></div>
-      <div class="nd hot"><span class="no">02</span><div class="vis v2"><div class="ub"><div class="ubt">地域のおすすめ企業 <i>PR</i></div><div class="ubg"><div class="you"><span><img src="assets/preview-video/ad-seikotsu.jpg" alt=""></span>さくら整骨院</div><div><span><img src="assets/preview-video/ad-sports.jpg" alt=""></span>経堂スポーツ用品</div><div><span><img src="assets/preview-video/ad-shika.jpg" alt=""></span>みどり歯科</div><div><span><img src="assets/preview-video/ad-uniform.jpg" alt=""></span>デザインボックス</div></div></div></div><b>同じ地域のお店だけ表示</b><small>検索結果・クラブ詳細・地図の下の枠に、ロゴ＋一言</small></div>
+      <div class="nd hot"><span class="no">02</span><div class="vis v2"><div class="ub"><div class="ubt">地域のおすすめ企業 <i>PR</i></div><div class="ubg"><div class="you"><span><img src="assets/preview-video/ad-seikotsu.jpg" alt=""></span>さくら整骨院</div><div><span><img src="assets/preview-video/ad-sports.jpg" alt=""></span>経堂スポーツ用品</div><div><span></span>キッズ体操教室</div><div><span><img src="assets/preview-video/ad-uniform.jpg" alt=""></span>デザインボックス</div></div></div></div><b>同じ地域のお店だけ表示</b><small>検索結果・クラブ詳細・地図の下の枠に、ロゴ＋一言</small></div>
       <div class="nd"><span class="no">03</span><div class="vis v3"><img src="assets/preview-video/svc-shot-pr.png" alt=""></div><b>取材記事ページへ</b><small>想い・こだわり・Q&amp;A・お悩み・店舗情報。検索にも載る</small></div>
       <div class="nd"><span class="no">04</span><div class="vis v4"><div class="bt"><div class="bh">さくら整骨院<small>名古屋市中区 ・ 平日 9:00〜20:00</small></div><div class="bb"><span class="c1">公式サイト</span><span class="c2">LINEで予約</span><span class="c3">電話する</span></div></div></div><b>電話・LINE・公式サイトへ</b><small>記事の下に予約導線。保護者はそのまま連絡できる</small></div>
     </div>
@@ -373,7 +373,7 @@ ad_body='''
         <div><label>ご担当者名<i>必須</i></label><input placeholder="例）山田 太郎"></div>
         <div><label>メールアドレス<i>必須</i></label><input placeholder="you@example.com"></div>
         <div><label>電話番号</label><input placeholder="任意"></div>
-        <div><label>業種</label><select><option>整骨院・整体</option><option>スポーツ用品店</option><option>学習塾・習い事</option><option>飲食・栄養</option><option>クリニック・薬局</option><option>その他</option></select></div>
+        <div><label>業種</label><select><option>整骨院・整体</option><option>スポーツ用品店</option><option>スポーツスクール・教室</option><option>体育施設・ジム</option><option>大会・イベント運営</option><option>その他</option></select></div>
         <div><label>ご希望</label><select><option>未定・相談したい</option><option>企業紹介プラン（¥50,000/年・制作＋掲載込み）</option><option>記事掲載（スポット・要相談）</option><option>現地取材・撮影も相談したい</option></select></div>
       </div>
       <label>ご質問・ご要望</label><textarea placeholder="掲載したい地域、お店の特徴、気になることなど"></textarea>
