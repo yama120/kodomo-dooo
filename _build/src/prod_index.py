@@ -304,7 +304,7 @@ JS=r'''<script>
 LD={"@context":"https://schema.org","@graph":[
   {"@type":"Organization","@id":"https://chibispo.com/#org","name":"チビスポ","alternateName":["chibispo","CHIBISPO"],"url":"https://chibispo.com/",
    "logo":{"@type":"ImageObject","url":"https://chibispo.com/assets/logo.png","width":1117,"height":268},
-   "sameAs":["https://www.instagram.com/chibi_spo","https://www.threads.com/@chibi_spo","https://www.tiktok.com/@chibispo","https://apps.apple.com/jp/app/id6797169414"]},
+   "sameAs":["https://www.instagram.com/chibi_spo","https://www.threads.com/@chibi_spo","https://www.facebook.com/profile.php?id=61595587867293","https://www.tiktok.com/@chibispo","https://apps.apple.com/jp/app/id6797169414"]},
   {"@type":"WebSite","@id":"https://chibispo.com/#website","name":"チビスポ","alternateName":["chibispo","CHIBISPO"],"url":"https://chibispo.com/","inLanguage":"ja",
    "description":"地域の子どもスポーツ・習い事クラブを探せるメディア。地域×種目×雰囲気で探せて、体験申込もそのまま。","publisher":{"@id":"https://chibispo.com/#org"}}]}
 html=C.prodpage('index.html','チビスポ｜地域×スポーツ｜子どものクラブ・習い事を見つける',
