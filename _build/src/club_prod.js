@@ -31,7 +31,27 @@
   db.from('teams').select(COLS).eq('id',id).eq('status','approved').single().then(function(res){
     if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); veilOff(); document.title='クラブが見つかりません｜チビスポ'; setText('cd-name','このクラブは見つかりませんでした'); return; }
     var t=res.data; window._cdTeam=t;
-    if(/^https?:\/\//i.test(String(t.trial_form_url||'').trim())){ var cn=document.querySelector('.cta-note'); if(cn) cn.textContent='クラブの申込みフォームが開きます。申込みはクラブに直接届きます。'; }
+    /* 連絡の窓口：クラブが選んだもの（contact_channels）をボタンにする。未設定はチビスポの申込みフォームだけ */
+    window._cdContactSetup=function(t){
+      function ok(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u)?u:''; }
+      function es(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+      var sel=(Array.isArray(t.contact_channels)&&t.contact_channels.length)?t.contact_channels:['chibispo'];
+      var ig=String(t.instagram||'').replace(/^@/,'').trim();
+      var DEF={form:[ok(t.trial_form_url),'申込みフォームから申し込む'],website:[ok(t.website_url),'公式サイトから問い合わせる'],instagram:[ig?'https://www.instagram.com/'+encodeURIComponent(ig)+'/':'','Instagramで連絡する'],line:[ok(t.line_url),'LINEで相談する']};
+      var ext=[]; ['form','website','instagram','line'].forEach(function(k){ if(sel.indexOf(k)>=0&&DEF[k][0]) ext.push({k:k,url:DEF[k][0],label:DEF[k][1]}); });
+      var cc={hasChibi:sel.indexOf('chibispo')>=0||!ext.length,ext:ext}; window._cdContact=cc;
+      function track(ch,where){ try{ if(window.gtag) gtag('event','contact_channel_click',{team_id:t.id,team_name:t.name||'',channel:ch,button:where}); }catch(_){} }
+      window._cdContactTrack=track;
+      var box=document.getElementById('cd-channels');
+      if(box&&ext.length){ box.innerHTML=ext.map(function(x){ return '<a class="cdw-b cdw-'+x.k+'" data-ch="'+x.k+'" href="'+es(x.url)+'" target="_blank" rel="noopener">'+es(x.label)+'</a>'; }).join(''); box.hidden=false;
+        if(!box._b){ box._b=1; box.addEventListener('click',function(e){ var a=e.target.closest('a[data-ch]'); if(a) window._cdContactTrack(a.getAttribute('data-ch'),'section'); }); } }
+      else if(box){ box.hidden=true; box.innerHTML=''; }
+      var main=document.getElementById('cd-trial-open'); if(main) main.hidden=!cc.hasChibi;
+      var s2=document.getElementById('cd-cta2-s'); if(s2&&!cc.hasChibi) s2.textContent='クラブの窓口が開きます。連絡はクラブに直接届きます。';
+      var cn=document.querySelector('.cta-note'), ca=document.querySelector('.cta-ask');
+      if(!cc.hasChibi){ if(cn) cn.textContent=ext.length===1?'クラブの窓口が開きます。連絡はクラブに直接届きます。':'連絡の方法を選べます。連絡はクラブに直接届きます。'; if(ca) ca.hidden=true; }
+      else if(ext.length){ if(cn) cn.textContent='チビスポからの申込みのほか、クラブの窓口も選べます。'; }
+    }; window._cdContactSetup(t);
     favData.name=t.name||''; favData.area=[t.pref,t.city].filter(Boolean).join(' '); favData.img=t.photo_url||''; renderFav();
     var paid=window.ChibiCard&&ChibiCard.isPaid(t);
     var area=[t.pref,t.city].filter(Boolean).join(' ');
@@ -170,17 +190,19 @@
   (function(){
     var TEAM_ID=id, exp='';
     var openBtns=[el('cd-trial-open'),el('cd-trial-open-top'),el('cd-trial-open-sticky')].filter(Boolean);
-    function extForm(tm){ var u=tm&&tm.trial_form_url?String(tm.trial_form_url).trim():''; return /^https?:\/\//i.test(u)?u:''; }
     if(!el('cd-trial-modal')||!openBtns.length) return;
     function show(o){ modal('cd-trial-modal',o); if(o){ el('cd-trial-form').style.display='block'; el('cd-trial-done').style.display='none'; } }
     function loadMe(){ var A=window.ChibiAuth; if(!A||!A.ready()) return Promise.resolve(null); var d=A.client(); if(!d) return Promise.resolve(null);
       return d.auth.getSession().then(function(r){ var ses=r&&r.data&&r.data.session; if(!ses) return null; window._cdMyToken=ses.access_token; window._cdMyUid=ses.user&&ses.user.id; window._cdMyEmail=ses.user&&ses.user.email; return ses; }).catch(function(){ return null; }); }
     openBtns.forEach(function(btn){ btn.addEventListener('click',function(e){ e.preventDefault();
       var tm=window._cdTeam||{};
-      /* クラブが自前の申込みフォームを設定しているとき（Webのみ）：数えてからそのフォームを開く */
-      var ext=extForm(tm);
-      if(ext){ try{ if(window.gtag) gtag('event','trial_external_click',{team_id:TEAM_ID,team_name:tm.name||'',link_url:ext,button:btn.id}); }catch(_){}
-        window.open(ext,'_blank','noopener'); return; } el('cd-trial-team').textContent=tm.name?tm.name+' への体験申込みです。':'';
+      /* 窓口の振り分け（Webのみ）：上と追従のボタンは、クラブの窓口が1つだけならそこへ、複数あれば窓口の一覧へ送る */
+      var cc=window._cdContact||{hasChibi:true,ext:[]};
+      if(btn.id!=='cd-trial-open'){
+        if(!cc.hasChibi&&cc.ext.length===1){ if(window._cdContactTrack) window._cdContactTrack(cc.ext[0].k,btn.id); window.open(cc.ext[0].url,'_blank','noopener'); return; }
+        if(cc.ext.length){ var sec=el('cta2'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+      }
+      el('cd-trial-team').textContent=tm.name?tm.name+' への体験申込みです。':'';
       loadMe().then(function(ses){ if(!ses){ alert('体験申込にはログインが必要です。クラブとのやり取りをお届けするために、会員登録（無料）をお願いします。'); location.href='/login.html?next='+encodeURIComponent(location.pathname+location.search); return; } var w=el('tr-email-wrap'); if(w) w.style.display='none'; show(true); });
     }); });
     el('cd-trial-close').addEventListener('click',function(){ show(false); });

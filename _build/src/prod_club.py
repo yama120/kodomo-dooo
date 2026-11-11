@@ -9,6 +9,10 @@ CSS=v2+'''
 /* ---- 本番の補い ---- */
 .spec{background:transparent;border:0;gap:8px;padding:0}
 .spec>div{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.cdw-ch{display:grid;gap:10px;margin:12px auto 0;max-width:420px}
+.cdw-ch[hidden]{display:none}
+.cdw-b{display:flex;align-items:center;justify-content:center;min-height:50px;padding:12px 16px;border:1.5px solid var(--ink);border-radius:999px;background:var(--card,#fff);color:var(--ink);font-family:var(--fh);font-weight:900;font-size:14.5px;text-decoration:none;line-height:1.4;text-align:center}
+.cdw-b:hover{background:var(--ink);color:var(--bg,#fff)}
 #cd-veil{position:fixed;inset:0;background:var(--bg);z-index:50;display:flex;align-items:center;justify-content:center;transition:opacity .25s}
 #cd-veil i{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:cdspin .8s linear infinite}
 @keyframes cdspin{to{transform:rotate(360deg)}}
@@ -174,9 +178,10 @@ BODY='''<div id="cd-veil"><i></i></div>
   </div>
 
   <div class="cta2" id="cta2">
-    <div class="t">ここまで読んで、気になったら。</div>
+    <div class="t">体験申し込み・質問はこちらから</div>
     <a class="go" id="cd-trial-open" href="#">体験申込をする（無料）</a>
-    <div class="s">見学だけでも大丈夫です。日程はクラブと直接やりとりできます。</div>
+    <div class="cdw-ch" id="cd-channels" hidden></div>
+    <div class="s" id="cd-cta2-s">見学だけでも大丈夫です。日程はクラブと直接やりとりできます。</div>
   </div>
 </div>
 

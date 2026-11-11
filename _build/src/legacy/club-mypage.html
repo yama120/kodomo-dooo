@@ -772,11 +772,12 @@
             <div class="mp-group"><label class="mp-label">公式サイト URL</label><input class="mp-input" id="f-web" type="url" placeholder="https://example.com"></div>
             <div class="mp-group"><label class="mp-label">Instagram<span class="opt">（@なし）</span></label><input class="mp-input" id="f-ig" type="text" placeholder="team_name"></div>
           </div>
-          <div class="mp-group"><label class="mp-label">体験申込みフォームの URL<span class="opt">（任意）</span><span class="sh">クラブでお使いの申込みフォームがある場合だけ入れてください</span></label><input class="mp-input" id="f-trial-form" type="url" placeholder="https://forms.gle/xxxxx"><p class="hint">入れると、Webのクラブページの「体験申込」ボタンがこのフォームを開きます。空欄のときは、チビスポの申込みフォームで受け付けて、通知がメールに届きます。アプリではチビスポ内の申込みのままです。</p></div>
+          <div class="mp-group"><label class="mp-label">体験申込みフォームの URL<span class="opt">（任意）</span><span class="sh">クラブでお使いの申込みフォームがある場合だけ入れてください</span></label><input class="mp-input" id="f-trial-form" type="url" placeholder="https://forms.gle/xxxxx"><p class="hint">下の「保護者からの連絡を受ける窓口」で「クラブの申込みフォーム」にチェックを入れると、クラブページにボタンが出ます。</p></div>
           <div class="g2">
             <div class="mp-group"><label class="mp-label">LINE公式 URL</label><input class="mp-input" id="f-line" type="url" placeholder="https://lin.ee/xxxxx"></div>
             <div class="mp-group"><label class="mp-label">X<span class="opt">（@なし）</span></label><input class="mp-input" id="x-twitter" type="text" placeholder="team_name"></div>
           </div>
+          <div class="mp-group" id="mp-channels"><label class="mp-label">保護者からの連絡を受ける窓口<span class="sh">表示：クラブページ「体験申し込み・質問はこちらから」</span></label><p class="hint" style="margin-top:0;margin-bottom:10px;">チェックを入れた窓口が、クラブページにボタンで並びます。URL などは上の欄に入れてください。アプリではチビスポの申込みフォームで受け付けます。</p><div style="display:grid;gap:8px;"><label class="mp-chk"><input type="checkbox" class="f-ch" value="chibispo" checked>チビスポの申込みフォーム（通知が連絡先メールに届きます）</label><label class="mp-chk"><input type="checkbox" class="f-ch" value="form">クラブの申込みフォーム</label><label class="mp-chk"><input type="checkbox" class="f-ch" value="website">公式サイト</label><label class="mp-chk"><input type="checkbox" class="f-ch" value="instagram">Instagram</label><label class="mp-chk"><input type="checkbox" class="f-ch" value="line">LINE公式</label></div></div>
         </div>
       </details>
 
@@ -1219,8 +1220,8 @@
     $('f-female').checked=!!t.female_instructor; $('f-girls').checked=!!t.girls_welcome;
     $('f-ig').value=t.instagram||''; $('f-web').value=t.website_url||''; $('f-line').value=t.line_url||'';
     /* 体験申込みフォームURL：列が無い環境でもページを壊さないよう、別に読む */
-    trialFormOk=false; $('f-trial-form').value='';
-    db.from('teams').select('trial_form_url').eq('id',t.id).then(function(r){ if(r&&!r.error&&r.data&&r.data[0]){ trialFormOk=true; $('f-trial-form').value=r.data[0].trial_form_url||''; } });
+    trialFormOk=false; $('f-trial-form').value=''; setChannels(null);
+    db.from('teams').select('trial_form_url,contact_channels').eq('id',t.id).then(function(r){ if(r&&!r.error&&r.data&&r.data[0]){ trialFormOk=true; $('f-trial-form').value=r.data[0].trial_form_url||''; setChannels(r.data[0].contact_channels); } });
 
     // プラン
     var ep=effectivePlan(t);
@@ -2258,6 +2259,7 @@
   $('f-age-pre').addEventListener('change',updateAgeMin);
 
   var trialFormOk=false;
+  function setChannels(v){ var on=(Array.isArray(v)&&v.length)?v:['chibispo']; document.querySelectorAll('.f-ch').forEach(function(c){ c.checked=on.indexOf(c.value)>=0; }); }
   $('mp-save').addEventListener('click',function(){
     if(!team){ return; }
     var emailVal=$('f-email').value.trim();
@@ -2271,6 +2273,12 @@
     var agemin=($('f-age-pre').checked && aminEl)?aminEl.value:null;
     var trialForm=$('f-trial-form').value.trim();
     if(trialForm && !/^https?:\/\/\S+$/i.test(trialForm)){ msg($('mp-save-msg'),false,'体験申込みフォームの URL は https:// から入れてください。'); $('f-trial-form').focus(); return; }
+    var channels=[]; document.querySelectorAll('.f-ch:checked').forEach(function(c){ channels.push(c.value); });
+    if(trialFormOk){
+      if(!channels.length){ msg($('mp-save-msg'),false,'保護者からの連絡を受ける窓口を、1つ以上選んでください。'); window.scrollTo({top:0,behavior:'smooth'}); return; }
+      var need={form:['f-trial-form','体験申込みフォームの URL'],website:['f-web','公式サイト URL'],instagram:['f-ig','Instagram'],line:['f-line','LINE公式 URL']};
+      for(var ci=0;ci<channels.length;ci++){ var nd=need[channels[ci]]; if(nd&&!$(nd[0]).value.trim()){ msg($('mp-save-msg'),false,'窓口に選んだ「'+nd[1]+'」が空です。入力するか、チェックを外してください。'); $(nd[0]).focus(); window.scrollTo({top:0,behavior:'smooth'}); return; } }
+    }
     var updates={
       name:$('f-name').value.trim(), sport:$('f-sport').value.trim(),
       pref:$('f-pref').value||null, city:$('f-city').value.trim()||null,
@@ -2292,7 +2300,7 @@
       instagram:$('f-ig').value.trim().replace(/^@/,'')||null,
       website_url:$('f-web').value.trim()||null, line_url:$('f-line').value.trim()||null
     };
-    if(trialFormOk) updates.trial_form_url=trialForm||null;
+    if(trialFormOk){ updates.trial_form_url=trialForm||null; updates.contact_channels=channels; }
     $('mp-save').disabled=true; $('mp-save').textContent='保存中...';
     db.from('teams').update(updates).eq('id',team.id).then(function(res){
       $('mp-save').disabled=false; $('mp-save').textContent='保存する';
