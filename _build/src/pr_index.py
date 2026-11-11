@@ -10,12 +10,12 @@ D=C.D
 esc=lambda s:H.escape(str(s or ''),quote=True)
 
 COMPANIES=[
-  dict(slug='armoury', listed=False,   # ★2026-10-17 ユーザー決定：本番の一覧にはまだ載せない
-       name='ARMOURY', kana='アーマリー', ey='TEAM UNIFORM', cat='ユニフォーム',
+  dict(slug='armoury', listed=True,   # 2026-11-11 公開（ユーザー指示）。読みは「アーモリー」（先方確認）
+       name='ARMOURY', kana='アーモリー', ey='TEAM UNIFORM', cat='ユニフォーム',
        img='assets/pr/armoury/soccer-134-f.webp', img2='assets/pr/armoury/soccer-134-b.webp', pos='50% 12%',
        h='1着で、2チーム分。<br>表と裏で、2つのユニフォーム。',
-       lead='表と裏で色もデザインも違う「両面ユニフォーム」を、チーム単位でオーダー制作。韓国発のチームウェアブランドの日本法人が、スポーツクラブの注文を受け付けています。',
-       pts=['「両面」は見た目の仕掛けではなく、運営の仕掛け','「決めきれない」を減らすデザイン番号方式','4年かけて特許まで行った本気度'],
+       lead='表と裏で色もデザインも違う「両面ユニフォーム」を、チーム単位でオーダー制作。3,000以上のチームが選んだ韓国発のチームウェアブランドの、日本公式オンラインストアがオープンしました。',
+       pts=['「両面」は見た目の仕掛けではなく、運営の仕掛け','「決めきれない」を減らすデザイン番号方式','1枚の生地で両面。XLサイズで約166gの軽さ'],
        place='東京都渋谷区 ／ 全国（オンライン）', note='表と裏'),
   dict(slug='daedal', listed=True,
        name='DAEDAL.', kana='ディーデル', ey='BASEBALL GEAR', cat='野球用品',
