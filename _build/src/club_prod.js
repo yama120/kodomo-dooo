@@ -31,6 +31,7 @@
   db.from('teams').select(COLS).eq('id',id).eq('status','approved').single().then(function(res){
     if(res.error||!res.data){ console.warn('[chibispo] クラブ取得失敗',res&&res.error); veilOff(); document.title='クラブが見つかりません｜チビスポ'; setText('cd-name','このクラブは見つかりませんでした'); return; }
     var t=res.data; window._cdTeam=t;
+    if(/^https?:\/\//i.test(String(t.trial_form_url||'').trim())){ var cn=document.querySelector('.cta-note'); if(cn) cn.textContent='クラブの申込みフォームが開きます。申込みはクラブに直接届きます。'; }
     favData.name=t.name||''; favData.area=[t.pref,t.city].filter(Boolean).join(' '); favData.img=t.photo_url||''; renderFav();
     var paid=window.ChibiCard&&ChibiCard.isPaid(t);
     var area=[t.pref,t.city].filter(Boolean).join(' ');
@@ -169,12 +170,17 @@
   (function(){
     var TEAM_ID=id, exp='';
     var openBtns=[el('cd-trial-open'),el('cd-trial-open-top'),el('cd-trial-open-sticky')].filter(Boolean);
+    function extForm(tm){ var u=tm&&tm.trial_form_url?String(tm.trial_form_url).trim():''; return /^https?:\/\//i.test(u)?u:''; }
     if(!el('cd-trial-modal')||!openBtns.length) return;
     function show(o){ modal('cd-trial-modal',o); if(o){ el('cd-trial-form').style.display='block'; el('cd-trial-done').style.display='none'; } }
     function loadMe(){ var A=window.ChibiAuth; if(!A||!A.ready()) return Promise.resolve(null); var d=A.client(); if(!d) return Promise.resolve(null);
       return d.auth.getSession().then(function(r){ var ses=r&&r.data&&r.data.session; if(!ses) return null; window._cdMyToken=ses.access_token; window._cdMyUid=ses.user&&ses.user.id; window._cdMyEmail=ses.user&&ses.user.email; return ses; }).catch(function(){ return null; }); }
     openBtns.forEach(function(btn){ btn.addEventListener('click',function(e){ e.preventDefault();
-      var tm=window._cdTeam||{}; el('cd-trial-team').textContent=tm.name?tm.name+' への体験申込みです。':'';
+      var tm=window._cdTeam||{};
+      /* クラブが自前の申込みフォームを設定しているとき（Webのみ）：数えてからそのフォームを開く */
+      var ext=extForm(tm);
+      if(ext){ try{ if(window.gtag) gtag('event','trial_external_click',{team_id:TEAM_ID,team_name:tm.name||'',link_url:ext,button:btn.id}); }catch(_){}
+        window.open(ext,'_blank','noopener'); return; } el('cd-trial-team').textContent=tm.name?tm.name+' への体験申込みです。':'';
       loadMe().then(function(ses){ if(!ses){ alert('体験申込にはログインが必要です。クラブとのやり取りをお届けするために、会員登録（無料）をお願いします。'); location.href='/login.html?next='+encodeURIComponent(location.pathname+location.search); return; } var w=el('tr-email-wrap'); if(w) w.style.display='none'; show(true); });
     }); });
     el('cd-trial-close').addEventListener('click',function(){ show(false); });

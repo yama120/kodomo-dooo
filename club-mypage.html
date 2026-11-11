@@ -775,6 +775,7 @@ body[data-mp-pane="inbox"] [data-pane]:not([data-pane="inbox"]),body[data-mp-pan
             <div class="mp-group"><label class="mp-label">公式サイト URL</label><input class="mp-input" id="f-web" type="url" placeholder="https://example.com"></div>
             <div class="mp-group"><label class="mp-label">Instagram<span class="opt">（@なし）</span></label><input class="mp-input" id="f-ig" type="text" placeholder="team_name"></div>
           </div>
+          <div class="mp-group"><label class="mp-label">体験申込みフォームの URL<span class="opt">（任意）</span><span class="sh">クラブでお使いの申込みフォームがある場合だけ入れてください</span></label><input class="mp-input" id="f-trial-form" type="url" placeholder="https://forms.gle/xxxxx"><p class="hint">入れると、Webのクラブページの「体験申込」ボタンがこのフォームを開きます。空欄のときは、チビスポの申込みフォームで受け付けて、通知がメールに届きます。アプリではチビスポ内の申込みのままです。</p></div>
           <div class="g2">
             <div class="mp-group"><label class="mp-label">LINE公式 URL</label><input class="mp-input" id="f-line" type="url" placeholder="https://lin.ee/xxxxx"></div>
             <div class="mp-group"><label class="mp-label">X<span class="opt">（@なし）</span></label><input class="mp-input" id="x-twitter" type="text" placeholder="team_name"></div>
@@ -1243,6 +1244,9 @@ body[data-mp-pane="inbox"] [data-pane]:not([data-pane="inbox"]),body[data-mp-pan
     document.querySelectorAll('input[name="f-trial"]').forEach(function(r){ r.checked=(String(t.trial)===r.value); });
     $('f-female').checked=!!t.female_instructor; $('f-girls').checked=!!t.girls_welcome;
     $('f-ig').value=t.instagram||''; $('f-web').value=t.website_url||''; $('f-line').value=t.line_url||'';
+    /* 体験申込みフォームURL：列が無い環境でもページを壊さないよう、別に読む */
+    trialFormOk=false; $('f-trial-form').value='';
+    db.from('teams').select('trial_form_url').eq('id',t.id).then(function(r){ if(r&&!r.error&&r.data&&r.data[0]){ trialFormOk=true; $('f-trial-form').value=r.data[0].trial_form_url||''; } });
 
     // プラン
     var ep=effectivePlan(t);
@@ -2279,6 +2283,7 @@ body[data-mp-pane="inbox"] [data-pane]:not([data-pane="inbox"]),body[data-mp-pan
 
   $('f-age-pre').addEventListener('change',updateAgeMin);
 
+  var trialFormOk=false;
   $('mp-save').addEventListener('click',function(){
     if(!team){ return; }
     var emailVal=$('f-email').value.trim();
@@ -2290,6 +2295,8 @@ body[data-mp-pane="inbox"] [data-pane]:not([data-pane="inbox"]),body[data-mp-pan
     var ages=[]; document.querySelectorAll('.f-age:checked').forEach(function(c){ ages.push(c.value); });
     var aminEl=document.querySelector('input[name="f-agemin"]:checked');
     var agemin=($('f-age-pre').checked && aminEl)?aminEl.value:null;
+    var trialForm=$('f-trial-form').value.trim();
+    if(trialForm && !/^https?:\/\/\S+$/i.test(trialForm)){ msg($('mp-save-msg'),false,'体験申込みフォームの URL は https:// から入れてください。'); $('f-trial-form').focus(); return; }
     var updates={
       name:$('f-name').value.trim(), sport:$('f-sport').value.trim(),
       pref:$('f-pref').value||null, city:$('f-city').value.trim()||null,
@@ -2311,6 +2318,7 @@ body[data-mp-pane="inbox"] [data-pane]:not([data-pane="inbox"]),body[data-mp-pan
       instagram:$('f-ig').value.trim().replace(/^@/,'')||null,
       website_url:$('f-web').value.trim()||null, line_url:$('f-line').value.trim()||null
     };
+    if(trialFormOk) updates.trial_form_url=trialForm||null;
     $('mp-save').disabled=true; $('mp-save').textContent='保存中...';
     db.from('teams').update(updates).eq('id',team.id).then(function(res){
       $('mp-save').disabled=false; $('mp-save').textContent='保存する';
