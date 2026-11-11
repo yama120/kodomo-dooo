@@ -59,7 +59,7 @@
   /* ---- 追加モード（ログイン中に別チームを追加） ---- */
   var isAddMode=false;
   (async function(){ if(q.get('add')!=='true') return; var s=await db.auth.getSession(); var ses=s&&s.data?s.data.session:null; if(!ses){ location.href='club-mypage.html'; return; }
-    isAddMode=true; $('authCard').hidden=true; $('rg-hero-title').textContent='別のクラブを追加'; $('rg-hero-sub').textContent='ログイン中のアカウントに、別のクラブを追加できます。';
+    isAddMode=true; $('authCard').hidden=true; $('rg-hero-title').textContent='クラブ・会場を追加'; $('rg-hero-sub').textContent='同じアカウントで、別のクラブや会場のページを追加できます。';
     try{ var t=await db.from('teams').select('id').eq('user_id',ses.user.id).order('created_at',{ascending:false}); if(t.data&&t.data[0]){ var em=await db.rpc('team_email',{team:t.data[0].id}); if(typeof em.data==='string'&&em.data&&!$('email').value) $('email').value=em.data; } }catch(_){}
   })();
   function dataURLtoBlob(d){ var parts=d.split(','), mime=(parts[0].match(/:(.*?);/)||[])[1]||'image/jpeg'; var bin=atob(parts[1]), n=bin.length, u8=new Uint8Array(n); while(n--) u8[n]=bin.charCodeAt(n); return new Blob([u8],{type:mime}); }
@@ -114,6 +114,6 @@
     $('rg-form').hidden=true; document.body.classList.add('done'); window.scrollTo({top:0,behavior:'smooth'});
     var paid=STRIPE_LINKS[planKey];
     if(paid&&planKey!=='free'){ var payUrl=paid+(teamId?('?client_reference_id='+encodeURIComponent(teamId)):''); $('rg-success-title').textContent='登録を受け付けました'; $('rg-success-msg').innerHTML='続けてお支払い手続きに進みます…<br>自動で移動しない場合は下のボタンを押してください。'; $('rg-done-next').hidden=true; var sb=$('rg-success-btn'); sb.textContent='お支払いに進む ›'; sb.href=payUrl; setTimeout(function(){ location.href=payUrl; },1600); return; }
-    if(isAddMode){ $('rg-success-title').textContent='クラブを追加しました'; $('rg-success-msg').innerHTML='運営の承認後に掲載されます。<br>マイページからクラブを切り替えて確認できます。'; }
+    if(isAddMode){ $('rg-success-title').textContent='追加しました'; $('rg-success-msg').innerHTML='運営の承認後に掲載されます。<br>マイページから切り替えて確認できます。'; }
   });
 })();
